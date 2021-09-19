@@ -1,0 +1,317 @@
+.rien {
+    color: #1e1e2f;
+    color: #3a3f51;
+    color: #248afd;
+    color: #e7940b;
+    color: #ff4747;
+    color: #71c016;
+    color: #b1b1b5;
+    color: #f5a623;
+}
+
+* {
+    box-sizing: border-box;
+    color: white;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+.container-backend {
+    width: 100%;
+    min-height: 1080px;
+    display: grid;
+    grid-template-columns: 250px calc(100% - 250px);
+    background-color: #1e1e2f;
+    margin: 0;
+    padding: 0;
+    border: solid 2px rgb(0, 255, 85);
+}
+
+.content-wrapper {
+    width: 100%;
+    // border: solid 2px rgb(226, 0, 0);
+}
+
+.card {
+    padding: 30px;
+    // border: solid 2px blue;
+}
+
+.card-title {
+    font-size: 16px;
+}
+
+.btn {
+    width: 120px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    border: solid whitesmoke 1px;
+    border-radius: 2px;
+    background-color: transparent;
+    font-size: 16px;
+    transition: ease-in-out .15s;
+}
+
+.btn:hover {
+    background-color: whitesmoke;
+    font-weight: bold;
+}
+
+.btn a {
+    text-decoration: none;
+}
+
+button.btn_ajouter {
+    width: 180px;
+    text-align: center;
+    transition: ease-in-out .25s;
+}
+
+button.btn_ajouter:hover a{
+    color: black;
+}
+
+button.btn_ajouter:hover {
+    background-color: whitesmoke;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 7px;
+    background-color: #3a3f51;;
+    // border: dashed 2px rgb(255, 255, 255);
+}
+
+.table .tr_thead {
+    height: 80px;
+}
+
+.table  tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+
+.table tr, .table td {
+    height: 130px;
+    // border: solid 2px rgb(255, 255, 255);
+}
+
+table td img {
+    height: 100px;
+    // border: solid 2px rgb(255, 255, 255);
+}
+
+.table tr {
+    padding: 20px;
+    border-bottom: solid 1px rgba($color: whitesmoke, $alpha: .3);
+}
+
+.table .td_id {
+    text-align: center;
+}
+
+// .table td {
+//     // display: flex;
+//     // justify-content: center;
+//     // align-items: center;
+// }
+
+.table .td_buton {
+    height: 130px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.table .btn_img {
+    border-color: #71c016;
+}
+
+.table .btn_img:hover {
+    background-color: #71c016;
+    color: whitesmoke;
+}
+
+.table .btn_edit {
+    border-color: #248afd;
+}
+
+.table .btn_edit:hover {
+    background-color: #248afd;
+    color: whitesmoke;
+}
+
+.table .btn_delete {
+    border-color: #ff4747;
+}
+
+.table .btn_delete:hover {
+    background-color: #ff4747;
+    color: whitesmoke;
+}
+
+
+///////// FORM CREATE & EDIT //////////
+
+.wrapper-form {
+    margin-top: 50px;
+    width: 80%;
+    overflow: auto;
+    padding: 50px;
+    border: #e0e0e0 dashed 1px;
+    border-radius: 5px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    background-color: #3a3f51;
+    // border: solid red 1px;
+}
+
+.wrapper-form h4 {
+    font-size: 20px;
+}
+
+.wrapper-form form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    // border: solid rgb(0, 255, 98) 1px;
+}
+
+.wrapper-form label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 5px;
+    margin-bottom: 15px;
+    margin-top: 20px;
+    color: whitesmoke;
+    width: auto;
+    // border: solid red 1px; 
+}
+
+.wrapper-form input,
+.wrapper-form select {
+    margin: 0;
+    padding-left: 10px;
+    width: 100%;
+    height: 55px;
+    border: #e1e1e1 solid 1px;
+    border-radius: 5px;
+}
+
+.wrapper-form input[type=submit] { 
+    height: 45px;
+    width: 150px;
+    margin-top: 50px;
+    border-radius: 5px;
+    background-color: rgb(65, 133, 221);
+    color: white;
+    font-size: 16px;
+    // font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.alert {
+    margin-top: 10px;
+    color: red;
+}
+
+.wrapper-form p {
+    margin: 0;
+    padding: 0;
+}
+
+ /////// aside menu  ////////////////////////////////
+.navAdmin {
+    border-right: solid 1px #e9e9e9;
+    height: 100vh;
+    width: 100%;
+    padding: 0;
+    overflow: scroll;
+    border: solid 5px rgb(255, 0, 157);
+}
+
+.navAdmin ul {
+    width: 250px;
+    list-style-type: none;
+    padding: 0;
+    border: solid 5px lime;
+}
+
+.navAdmin li {
+    height: 70px;
+    width: 100%;
+    border-bottom: solid 1px rgba(235, 235, 235, 0.3);
+    padding: 0 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.activeAdmin {
+    background-color: #f7f7f7;
+    color: #292b2c;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.navAdmin a {
+    color: black;
+    text-decoration: none;
+    font-size: 16px;
+    letter-spacing: 1px;
+}
+
+.navAdmin .fas, .navAdmin .far {
+    margin-right: 15px;
+    background-color: rgba(255, 255, 255, 0.719);
+}
+
+
+//////// SIDE MENU ACCORDEON ///////
+// .accordion {
+//     background-color: #eee;
+//     color: #444;
+//     cursor: pointer;
+//     padding: 18px;
+//     width: 100%;
+//     border: none;
+//     text-align: left;
+//     outline: none;
+//     font-size: 15px;
+//     transition: 0.4s;
+//   }
+  
+//   .active, .accordion:hover {
+//     background-color: #ccc;
+//   }
+  
+//   .accordion:after {
+//     content: '\002B';
+//     color: #777;
+//     font-weight: bold;
+//     float: right;
+//     margin-left: 5px;
+//   }
+  
+//   .active:after {
+//     content: "\2212";
+//   }
+  
+//   .panel {
+//     padding: 0 18px;
+//     background-color: white;
+//     max-height: 0;
+//     overflow: hidden;
+//     transition: max-height 0.2s ease-out;
+//   }
+

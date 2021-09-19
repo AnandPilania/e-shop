@@ -1,0 +1,204 @@
+#detailsProduct {
+    border: dashed 3px yellow;
+}
+
+.detailsProduct {
+    border: solid 3px red;
+}
+
+.button_addDetail {
+    width: 200px;
+    height: 40px;
+    display: block;
+}
+.list_div {
+    width: 25%;
+    margin-right: 5%;
+}
+
+.main_div {
+    display: flex;
+    flex-wrap: wrap;
+    // border: solid limegreen 5px;
+}
+
+.new_detail_div {
+    display: flex;
+    flex-wrap: wrap;
+    width: 70%;
+    margin-left: auto;
+    // border: dashed red 1px;
+}
+
+.detail {
+    display: flex;
+    order: 1;
+    margin-right: 7px;
+    margin-bottom: 6px;
+    width: auto;
+    height: 30px;
+    background-color: rgb(177, 177, 177);
+    border-radius: 15px;
+}
+
+.span_detail {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: black;
+    border-radius: 15px;
+    height: 30px;
+    padding: 4px 0 4px 15px;
+    background-color: rgb(177, 177, 177);
+}
+
+.button_detail {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    border-radius: 0 15px 15px 0;
+    height: 30px;
+    width: 30px;
+    margin-left: 10px;
+    background-color: rgb(168, 139, 139);
+}
+
+.input_detail {
+    order: 2;
+    margin-top: 40px;
+    border: solid yellow 1px;
+    width: 100%;
+}
+
+// DRAG AND DROP IMAGE FILES
+// ---------------------------
+
+#drop-region {
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 0 35px rgba(0, 0, 0, 0.05);
+    width: 400px;
+    padding: 60px 40px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+#drop-region:hover {
+    box-shadow: 0 0 45px rgba(0, 0, 0, 0.1);
+}
+
+#image-preview {
+    margin-top: 20px;
+}
+#image-preview .image-view {
+    display: inline-block;
+    position: relative;
+    margin-right: 13px;
+    margin-bottom: 13px;
+}
+#image-preview .image-view img {
+    max-width: 100px;
+    max-height: 100px;
+}
+#image-preview .overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.highlighted {
+    background-color:grey;
+}
+
+
+// DRAG AND DROP IMAGE FILES DANS edit_images
+// ---------------------------
+
+#drop-region-edit {
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 0 35px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    padding: 60px 40px;
+    text-align: center;
+    transition: 0.3s;
+}
+#drop-region-edit:hover {
+    box-shadow: 0 0 45px rgba(0, 0, 0, 0.1);
+}
+
+#image-preview-edit {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    // border: lime solid 5px;
+}
+#image-preview-edit .image-view-edit {
+    width: 250px;
+    display: inline-block;
+    position: relative;
+    margin-right: 13px;
+    margin-bottom: 13px;
+    padding: 5px;
+    background-color: rgb(231, 231, 231);
+    // border: blue solid 2px;
+}
+
+#image-preview-edit .image-view-edit img {
+    width: 100%;
+    height: auto;
+    // border: red solid 3px;
+}
+
+#image-preview-edit .overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.highlighted {
+    background-color:grey;
+}
+
+.editButton,
+.deleteButton {
+    border: none;
+    margin-top: 15px;
+    width: 100%;
+    height: 30px;
+    background-color: rgb(103, 163, 253);
+    color: white;
+    cursor: pointer;
+}
+
+.editButton a,
+.deleteButton a {
+    text-decoration: none;
+    color: white;
+}
+
+.addButton {
+    border: none;
+    margin-top: 15px;
+    margin-bottom: 40px;
+    width: 250px;
+    height: 50px;
+    background-color: rgb(103, 163, 253);
+    color: white;
+    cursor: pointer;
+}
+
+.addButton:hover {
+    font-weight: bolder;
+}

@@ -1,0 +1,131 @@
+:root {
+  --hauteur-menu: 60px;
+  --hauteur-sous-menu: 200px;
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+  font-family: Montserrat, sans-serif;
+}
+
+.nav-frontend {
+  width: 100%;
+  font-size: 18px;
+  position: sticky;
+  top: 0;
+  line-height: 18px;
+  background-color: white;
+}
+
+.nav-frontend > ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: var(--hauteur-menu);
+  position: relative;
+  padding: calc((var(--hauteur-menu) - 18px) / 2) 10%;
+}
+
+.nav-frontend ul {
+  list-style-type: none;
+}
+
+.nav-frontend > ul > li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: white;
+  height: var(--hauteur-menu);
+  width: auto;
+  padding: 0 10px;
+}
+
+.nav-frontend > ul > li:hover > a {
+  color: #2169EC;
+}
+
+.nav-frontend li a {
+  text-decoration: none;
+  color: black;
+}
+
+.sous-menu {
+  margin-top: var(--hauteur-menu);
+  padding-left: 15%;
+  width: 100vw;
+  text-align: left;
+  overflow: hidden;
+  max-height: 0;
+  border-radius: 2px;
+  background-color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  height: var(--hauteur-sous-menu);
+}
+
+.sous-menu-align {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  height: var(--hauteur-sous-menu);
+  flex: 0;
+  padding-bottom: 25px;
+  padding-top: 25px;
+}
+
+.menu-deroulant {
+  height: 100%;
+}
+
+.menu-deroulant:hover + .sous-menu, .sous-menu:hover {
+  -webkit-animation: apparitionSousMenu 1s forwards;
+          animation: apparitionSousMenu 1s forwards;
+}
+
+@-webkit-keyframes apparitionSousMenu {
+  0% {
+    border-top: 1px solid #2169EC;
+  }
+  100% {
+    max-height: 50em;
+    border-top: 1px solid #2169EC;
+  }
+}
+
+@keyframes apparitionSousMenu {
+  0% {
+    border-top: 1px solid #2169EC;
+  }
+  100% {
+    max-height: 50em;
+    border-top: 1px solid #2169EC;
+  }
+}
+.sous-menu > .sous-menu-align > li:hover {
+  background-color: rgba(33, 105, 236, 0.3);
+}
+
+.sous-menu > .sous-menu-align > li {
+  width: 200px;
+}
+
+.sous-menu > .sous-menu-align > li > a {
+  align-items: center;
+  display: flex;
+  min-height: 40px;
+  height: auto;
+  padding-right: 30px;
+  width: 100%;
+}
+
+.sous-menu > .sous-menu-align > li:hover > a {
+  color: white;
+}
