@@ -162,7 +162,24 @@
                 </script>
 
             </div>
+        </div> 
+        <div class="technical_sheet">
+            <h2>{!! $product->product_sheet->text !!}</h2>
         </div>
+
+        <div class="promo_wrapper">
+            <p>ca + ca + ca</p>
+        </div>
+
+        <div class="temoignages">
+
+        </div>
+
+        <div class="lesClientAyantAcheté">
+            <p>LES CLIENTS AYANT ACHETÉ CET ARTICLE ONT ÉGALEMENT ACHETÉ</p>
+        </div>
+
+
     </div>
 
 @endsection

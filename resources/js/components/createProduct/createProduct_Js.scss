@@ -1,3 +1,5 @@
+
+// Détails ////////////////////////////////////
 #detailsProduct {
     border: dashed 3px yellow;
 }
@@ -201,4 +203,10 @@
 
 .addButton:hover {
     font-weight: bolder;
+}
+
+// CKEditor //////////////////////////////
+
+.ckEditor p{
+    color: red;;
 }

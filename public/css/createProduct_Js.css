@@ -197,3 +197,7 @@
 .addButton:hover {
   font-weight: bolder;
 }
+
+.ckEditor p {
+  color: red;
+}

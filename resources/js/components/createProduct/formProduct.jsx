@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './createProduct_Js.scss';
 import ContainerDetail from './containerDetail';
 import SelectCollections from '../selectInProduct/selectCollections';
-import SelectTaxes from '../selectInProduct/______selectTaxes';
 import axios from "axios";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';

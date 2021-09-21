@@ -11,7 +11,7 @@
 }
 
 .product_sheet {
-  width: 70%;
+  width: 60%;
   height: 560px;
   display: flex;
   flex-direction: row;
@@ -238,4 +238,9 @@
 .nbArticles_input:hover {
   cursor: pointer;
   background-color: #e2e2e2;
+}
+
+.technical_sheet {
+  width: 60%;
+  margin-bottom: 200px;
 }

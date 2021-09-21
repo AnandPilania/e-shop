@@ -12,7 +12,7 @@
 }
 
 .product_sheet {
-    width: 70%;
+    width: 60%;
     height: 560px;
     display: flex;
     flex-direction: row;
@@ -113,7 +113,7 @@
 .arrow:hover {
     transform: scale(1.2);
     opacity: 0.6;
-}
+} 
 
 ///// text sheet ////////////////
 .text_product {
@@ -244,5 +244,11 @@
     background-color: rgb(226, 226, 226);
 }
 
-///////////////////////////////////
+////////// technical_sheet /////////////////////////
+
+.technical_sheet {
+    width: 60%;
+    // border: solid navy 1px;
+    margin-bottom: 200px;
+}
 
