@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 .container_sheet {
   width: 100%;
   min-height: 1080px;
@@ -25,7 +29,6 @@
 
 .image_product {
   position: relative;
-  box-sizing: border-box;
   width: 55%;
   height: 100%;
   padding: 20px 0;
@@ -189,7 +192,7 @@
   margin: 20px 20px 5px 0;
 }
 
-#addToCart {
+.addToCart {
   width: 220px;
   height: 35px;
   text-align: center;
@@ -199,6 +202,12 @@
   background-color: crimson;
   color: white;
   border: none;
+  transition: ease-out 0.1s;
+}
+
+.addToCart:hover {
+  background-color: #b4082b;
+  cursor: pointer;
 }
 
 .wrapper_quantity {
@@ -232,7 +241,6 @@
   border: none;
   border-top: 1px;
   border-bottom: 1px;
-  border-color: #f04242;
 }
 
 .nbArticles_input:hover {
@@ -242,5 +250,66 @@
 
 .technical_sheet {
   width: 60%;
-  margin-bottom: 200px;
+  border: solid #dfdfdf 1px;
+  padding: 20px;
+  margin: 50px 0 0 0;
+}
+
+.technical_sheet p {
+  margin: 10px 0;
+}
+
+.technical_sheet ul {
+  margin: 10px 0;
+  margin-left: 20px;
+}
+
+.promo_wrapper {
+  width: 60%;
+  border: solid #dfdfdf 1px;
+  padding: 20px;
+  margin: 50px 0;
+}
+
+.promo_wrapper h2 {
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+  margin: 20px 0;
+}
+
+.promo {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.image_promo {
+  height: 150px;
+  width: auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.image_promo img {
+  height: 100%;
+  width: auto;
+  margin: 0 20px;
+}
+
+.priceAndAddCart {
+  margin-left: 40px;
+}
+
+.priceAndAddCart h5 {
+  margin-bottom: 20px;
+}
+
+.checkbox_promo {
+  margin-bottom: 10px;
+  margin-right: 5px;
 }

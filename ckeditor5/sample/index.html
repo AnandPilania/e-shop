@@ -90,6 +90,13 @@
 								<strong>the culture</strong> of languages varies substantially and the language a person speaks is an essential element of daily life.
 							</p>
 						</div>
+						<div class="sidebar"></div>
+					</div>
+					<div class="revision-viewer-container">
+						<div class="editor-container">
+							<div class="revision-viewer-editor"></div>
+							<div class="revision-viewer-sidebar"></div>
+						</div>
 					</div>
 				</div></div>
 			</div>
@@ -104,7 +111,33 @@
 			</p>
 		</footer>
 		<script src="../build/ckeditor.js"></script>
-		<script>ClassicEditor
+		<script>
+			const watchdog = new CKSource.EditorWatchdog();
+			
+			window.watchdog = watchdog;
+			
+			watchdog.setCreator( ( element, config ) => {
+				return CKSource.Editor
+					.create( element, config )
+					.then( editor => {
+						
+						
+						
+			
+						return editor;
+					} )
+			} );
+			
+			watchdog.setDestructor( editor => {
+				
+				
+			
+				return editor.destroy();
+			} );
+			
+			watchdog.on( 'error', handleError );
+			
+			watchdog
 				.create( document.querySelector( '.editor' ), {
 					
 				toolbar: {
@@ -113,13 +146,6 @@
 						'|',
 						'bold',
 						'italic',
-						'fontColor',
-						'fontFamily',
-						'fontSize',
-						'fontBackgroundColor',
-						'findAndReplace',
-						'alignment',
-						'pageBreak',
 						'link',
 						'bulletedList',
 						'numberedList',
@@ -133,16 +159,28 @@
 						'mediaEmbed',
 						'undo',
 						'redo',
-						'CKFinder',
+						'alignment',
 						'code',
+						'codeBlock',
+						'exportPdf',
+						'exportWord',
+						'findAndReplace',
+						'fontBackgroundColor',
+						'fontColor',
+						'fontFamily',
+						'fontSize',
+						'highlight',
 						'horizontalLine',
 						'htmlEmbed',
-						'exportPdf'
+						'pageBreak',
+						'todoList',
+						'underline'
 					]
 				},
 				language: 'fr',
 				image: {
 					toolbar: [
+						'comment',
 						'imageTextAlternative',
 						'imageStyle:inline',
 						'imageStyle:block',
@@ -154,27 +192,38 @@
 					contentToolbar: [
 						'tableColumn',
 						'tableRow',
-						'mergeTableCells'
+						'mergeTableCells',
+						'tableCellProperties',
+						'tableProperties'
+					],
+					tableToolbar: [
+						'comment'
 					]
 				},
 					licenseKey: '',
-					
-					
-					
+					sidebar: {
+				container: document.querySelector( '.sidebar' )
+			},
+					wproofreader: {
+				serviceId: window.prompt( 'Provide serviceId for WProofreader plugin:' ),
+				srcUrl: 'https://svc.webspellchecker.net/spellcheck31/wscbundle/wscbundle.js'
+			},
+					revisionHistory: {
+					editorContainer: document.querySelector( '.editor-container' ),
+					viewerContainer: document.querySelector( '.revision-viewer-container' ),
+					viewerEditorElement: document.querySelector( '.revision-viewer-editor' ),
+					viewerSidebarContainer: document.querySelector( '.revision-viewer-sidebar' )
+			},
 				} )
-				.then( editor => {
-					window.editor = editor;
+				.catch( handleError );
 			
-					
-					
-					
-				} )
-				.catch( error => {
-					console.error( 'Oops, something went wrong!' );
-					console.error( 'Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:' );
-					console.warn( 'Build id: uefowo9m2rgt-2a42szdtgldt' );
-					console.error( error );
-				} );
+			function handleError( error ) {
+				console.error( 'Oops, something went wrong!' );
+				console.error( 'Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:' );
+				console.warn( 'Build id: 6cx7n1o0o245-r3d29e2gvl80' );
+				console.error( error );
+			}
+			
 		</script>
 	</body>
 </html>

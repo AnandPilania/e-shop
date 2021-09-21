@@ -8,7 +8,7 @@
 <div id="editFormProduct"></div>
 
 <script>
-    var productId = "{{ $id }}"
+    var productId = "{{ $id }}";
 
 </script>
 

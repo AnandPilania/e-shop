@@ -10,21 +10,23 @@
                 <div id="slide-wrapper">
                     <div class="arrow-wrapper">
                         <img id="arrowTop" class="arrow" src="{{ asset('images/used/arrowUp.png') }}"
-                            style="display: none">
+                            style="display: none" alt="flèche vers le haut">
                     </div>
 
                     <div id="slider">
                         @foreach ($product->images_products as $image)
-                            <img class="thumbnail" src="{{ asset($image->path) }}">
+                            <img class="thumbnail" src="{{ asset($image->path) }}" alt="{{ $image->alt }}">
                         @endforeach
                     </div>
 
                     <div class="arrow-wrapper">
-                        <img id="arrowBottom" class="arrow" src="{{ asset('images/used/arrowDown.png') }}">
+                        <img id="arrowBottom" class="arrow" src="{{ asset('images/used/arrowDown.png') }}"
+                            alt="flèche vers le bas">
                     </div>
                 </div>
 
-                <img id=featured src="{{ asset($product->images_products[0]->path) }}" class="active">
+                <img id=featured src="{{ asset($product->images_products[0]->path) }}"
+                    alt="{{ $product->images_products[0]->alt }}" class="active">
 
             </div>
 
@@ -92,92 +94,201 @@
 
                 <div class="wrapper_details">
                     @foreach ($tabDetails as $key => $value)
-                    {{-- referme la div quand on change de type de détails --}}
-                    @if ($value != $lastValue && !$loop->first)
-                         </div>
-                    @endif
-                    {{-- nom du détail --}}
-                    @if ($value != $lastValue)
-                        <div class="block_detail">
-                            <h4 id="nomDetail">{{ $lastValue = $value }}</h4>
-                         @endif
-                    {{-- valeur du détail --}}
-                    @if ($value == $lastValue)
-                        <input type="radio" class="details radio_item" value="{{ $key }}"
-                            name="{{ $value }}" id="{{ $key }}" required>
-                        <label class="label_item" for="{{ $key }}"> {{ $key }}</label>
-                    @endif
-                    {{-- referme la div quand on change de type de détails --}}
-                    @if ($loop->last)
-                        </div>
-                    @endif
-                    @endforeach
+                        {{-- referme la div quand on change de type de détails --}}
+                        @if ($value != $lastValue && !$loop->first)
                 </div>
-
-
-
-                <span id="quantityBuy">Quantité</span>
-                <form action="" class="nbArticles">
-                    @csrf
-                    <div class="wrapper_quantity">
-                        <button class="btn-quantity" onclick="dec_NbArticle(event)"
-                            aria-label="Augmenter la quantité de l'article de un">-</button>
-
-                        <input type="text" maxlength="3" onkeypress="return event.charCode >= 48 && event.charCode <= 57"
-                            value="1" id="quantity" name="quantity" class="nbArticles_input">
-
-                        <button onclick="inc_NbArticle(event)"
-                            aria-label="Réduire la quantité de l'article de un">+</button>
-                    </div>
-                    <button id="addToCart">Ajouter au panier</button>
-                </form>
-
-                {{-- gestion input quantity --}}
-                <script>
-                    // ajoute 1 à la quantité
-                    const inc_NbArticle = (e) => {
-                        e.preventDefault();
-                        if (document.getElementById('quantity').value < 999) {
-                            document.getElementById('quantity').value++;
-                        }
-                    };
-
-                    // enlève 1 de la quantité
-                    const dec_NbArticle = (e) => {
-                        e.preventDefault();
-                        if (document.getElementById('quantity').value > 1) {
-                            document.getElementById('quantity').value--;
-                        }
-                    };
-
-                    // empèche le paste sur l'input quantité de produit
-                    var inputQuantity = document.getElementById('quantity');
-                    inputQuantity.addEventListener('paste', e => e.preventDefault());
-
-                    // met à 1 la quantité si elle est == à '' ou == à 0
-                    window.addEventListener('click', e => {
-                        if (document.getElementById('quantity').value == '' || document.getElementById('quantity').value == 0)
-                            document.getElementById('quantity').value = 1
-                    });
-                </script>
-
+                @endif
+                {{-- nom du détail --}}
+                @if ($value != $lastValue)
+                    <div class="block_detail">
+                        <h4 id="nomDetail">{{ $lastValue = $value }}</h4>
+                @endif
+                {{-- valeur du détail --}}
+                @if ($value == $lastValue)
+                    <input type="radio" class="details radio_item" value="{{ $key }}" name="{{ $value }}"
+                        id="{{ $key }}" required>
+                    <label class="label_item" for="{{ $key }}"> {{ $key }}</label>
+                @endif
+                {{-- referme la div quand on change de type de détails --}}
+                @if ($loop->last)
             </div>
-        </div> 
-        <div class="technical_sheet">
-            <h2>{!! $product->product_sheet->text !!}</h2>
+            @endif
+            @endforeach
         </div>
 
-        <div class="promo_wrapper">
-            <p>ca + ca + ca</p>
+
+
+        <span id="quantityBuy">Quantité</span>
+        <form action="" class="nbArticles">
+            @csrf
+            <div class="wrapper_quantity">
+                <button class="btn-quantity" onclick="dec_NbArticle(event)"
+                    aria-label="Augmenter la quantité de l'article de un">-</button>
+
+                <input type="text" maxlength="3" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="1"
+                    id="quantity" name="quantity" class="nbArticles_input">
+
+                <button onclick="inc_NbArticle(event)" aria-label="Réduire la quantité de l'article de un">+</button>
+            </div>
+            <button class="addToCart">Ajouter au panier</button>
+        </form>
+
+        {{-- gestion input quantity --}}
+        <script>
+            // ajoute 1 à la quantité
+            const inc_NbArticle = (e) => {
+                e.preventDefault();
+                if (document.getElementById('quantity').value < 999) {
+                    document.getElementById('quantity').value++;
+                }
+            };
+
+            // enlève 1 de la quantité
+            const dec_NbArticle = (e) => {
+                e.preventDefault();
+                if (document.getElementById('quantity').value > 1) {
+                    document.getElementById('quantity').value--;
+                }
+            };
+
+            // empèche le paste sur l'input quantité de produit
+            var inputQuantity = document.getElementById('quantity');
+            inputQuantity.addEventListener('paste', e => e.preventDefault());
+
+            // met à 1 la quantité si elle est == à '' ou == à 0
+            window.addEventListener('click', e => {
+                if (document.getElementById('quantity').value == '' || document.getElementById('quantity').value == 0)
+                    document.getElementById('quantity').value = 1
+            });
+        </script>
+
+    </div>
+    </div>
+    <div class="technical_sheet">
+        {!! $product->product_sheet->text !!}
+    </div>
+
+    <div class="promo_wrapper">
+        <h2>PROMO LIMITÉE : 20% OFFERTS SUR CE PACK</h2>
+
+        <div class="promo">
+            <div class="image_promo">
+                <img id="imagePromo1" src="{{ asset($product->images_products[0]->path) }}"
+                    alt="{{ $product->images_products[0]->alt }}">
+
+                <span id="promoSpanPlus1">+1</span>
+
+                <img id="imagePromo2" src="{{ asset($promos['promo1']->images_products[0]->path) }}"
+                    alt="{{ $promos['promo1']->images_products[0]->alt }}">
+
+                <span id="promoSpanPlus2">+2</span>
+
+                <img id="imagePromo3" src="{{ asset($promos['promo2']->images_products[0]->path) }}"
+                    alt="{{ $promos['promo2']->images_products[0]->alt }}">
+            </div>
+
+            <div class="priceAndAddCart">
+                <h5>Prix : </h5>
+                <button class="addToCart">Ajouter au panier</button>
+            </div>
         </div>
 
-        <div class="temoignages">
+        <div class="promo_checkbox">
+            <input type="checkbox" id="checkboxPromo1" name="checkboxPromo1" value="{{ $product->id }}"
+                class="checkbox_promo" checked>
+            <label for="checkboxPromo1" id="labelPromo1"> {{ $product->name }} {{ $product->price }}</label><br>
+
+            <input type="checkbox" id="checkboxPromo2" name="checkboxPromo2" value="{{ $promos['promo1']->id }}"
+                class="checkbox_promo" checked>
+            <label for="checkboxPromo2" id="labelPromo2"> {{ $promos['promo1']->name }}
+                {{ $promos['promo1']->price }}</label><br>
+
+            <input type="checkbox" id="checkboxPromo3" name="checkboxPromo3" value="{{ $promos['promo2']->id }}"
+                class="checkbox_promo" checked>
+            <label for="checkboxPromo3" id="labelPromo3"> {{ $promos['promo2']->name }}
+                {{ $promos['promo2']->price }}</label><br>
 
         </div>
+    </div>
 
-        <div class="lesClientAyantAcheté">
-            <p>LES CLIENTS AYANT ACHETÉ CET ARTICLE ONT ÉGALEMENT ACHETÉ</p>
-        </div>
+    {{-- Gestion des checkbox de PROMO --}}
+    <script>
+        var packagePrice = [];
+
+
+        document.getElementById('checkboxPromo1').addEventListener('change', function() {
+            if (this.checked) {
+                document.getElementById('imagePromo1').style
+                    .display = "block";
+                document.getElementById('labelPromo1').style.opacity = "1";
+            } else {
+                document.getElementById('imagePromo1').style
+                    .display = "none";
+                document.getElementById('labelPromo1').style.opacity = "0.5";
+            }
+        });
+
+        document.getElementById('checkboxPromo2').addEventListener('change', function() {
+            if (this.checked) {
+                document.getElementById('imagePromo2').style
+                    .display = "block";
+                document.getElementById('labelPromo2').style.opacity = "1";
+
+                if (document.getElementById('checkboxPromo1').checked) {
+                    document.getElementById('promoSpanPlus1').style
+                        .display = "block";
+                } else {
+                    document.getElementById('promoSpanPlus1').style
+                        .display = "none";
+                }
+
+            } else {
+                document.getElementById('imagePromo2').style
+                    .display = "none";
+                document.getElementById('labelPromo2').style.opacity = "0.5";
+                document.getElementById('promoSpanPlus1').style
+                    .display = "none";
+            }
+        });
+
+        document.getElementById('checkboxPromo3').addEventListener('change', function() {
+            if (this.checked) {
+                document.getElementById('imagePromo3').style
+                    .display = "block";
+                document.getElementById('labelPromo3').style.opacity = "1";
+
+                if (document.getElementById('checkboxPromo1').checked) {
+                    document.getElementById('promoSpanPlus2').style
+                        .display = "block";
+                } 
+                if (document.getElementById('checkboxPromo2').checked) {
+                    document.getElementById('promoSpanPlus2').style
+                        .display = "block";
+                }
+                if (!document.getElementById('checkboxPromo1').checked && 
+                !document.getElementById('checkboxPromo2').checked) {
+                    document.getElementById('promoSpanPlus2').style
+                        .display = "none";
+                }
+
+            } else {
+                document.getElementById('imagePromo3').style
+                    .display = "none";
+                document.getElementById('labelPromo3').style.opacity = "0.5";
+                document.getElementById('promoSpanPlus2').style
+                    .display = "none";
+            }
+        });
+    </script>
+
+    <div class="temoignages">
+        <h2>Témoignage</h2>
+
+    </div>
+
+    <div class="lesClientAyantAcheté">
+        <p>LES CLIENTS AYANT ACHETÉ CET ARTICLE ONT ÉGALEMENT ACHETÉ</p>
+    </div>
 
 
     </div>

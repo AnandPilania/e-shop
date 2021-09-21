@@ -184,6 +184,10 @@
     cursor: pointer;
 }
 
+.deleteButton {
+    background-color: rgb(189, 0, 0);
+}
+
 .editButton a,
 .deleteButton a {
     text-decoration: none;
@@ -207,6 +211,6 @@
 
 // CKEditor //////////////////////////////
 
-.ckEditor p{
-    color: red;;
+* {
+    color: black;
 }

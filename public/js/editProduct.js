@@ -24566,6 +24566,31 @@ var EditProduct = function EditProduct() {
     setTechnicalSheet(sheet);
   };
 
+  var editorConfiguration = {
+    toolbar: [// { name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
+    // { name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
+    // { name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
+    // { name: 'forms', groups: [ 'forms' ] },
+    // '/',
+    // { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+    // { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
+    // { name: 'links', groups: [ 'links' ] },
+    // { name: 'insert', groups: [ 'insert' ] },
+    // '/',
+    {
+      name: 'styles',
+      groups: ['styles']
+    }, {
+      name: 'colors',
+      groups: ['colors']
+    }, {
+      name: 'tools',
+      groups: ['tools']
+    }, {
+      name: 'others',
+      groups: ['others']
+    }]
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
     className: "createProduct",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h4", {
@@ -24626,7 +24651,8 @@ var EditProduct = function EditProduct() {
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h6", {
           children: "Fiche technique"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_ckeditor_ckeditor5_react__WEBPACK_IMPORTED_MODULE_5__.CKEditor, {
-          editor: (_ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_6___default()),
+          editor: (_ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_6___default()) // config={ editorConfiguration }
+          ,
           data: sheet,
           onReady: function onReady(editor) {// You can store the "editor" and use when it is needed.
             // console.log('Editor is ready to use!', editor);
