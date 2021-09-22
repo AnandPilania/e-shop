@@ -15,10 +15,10 @@
         @csrf
         <label for="tva_rate">Taux de TVA</label>
         <input id="tva_rate" name="tva_rate" type="text">
-        <input class="btn" type="submit" value="Envoyer">
         @error('tva_rate')
         <div class="alert">{{ $message }}</div>
         @enderror
+        <input class="btn" type="submit" value="Envoyer">
     </form>
 </div>
 @endsection

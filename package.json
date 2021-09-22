@@ -34,6 +34,7 @@
         "@ckeditor/ckeditor5-react": "^3.0.2",
         "@emotion/react": "^11.4.1",
         "@emotion/styled": "^11.3.0",
+        "@fortawesome/fontawesome-free": "^5.15.4",
         "@material-ui/core": "^5.0.0-beta.4",
         "@material-ui/icons": "^4.11.2",
         "@material-ui/styled-engine-sc": "^5.0.0-beta.1",

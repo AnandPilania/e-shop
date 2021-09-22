@@ -1,4 +1,11 @@
 
+$fa-font-path:        "../webfonts";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+
+
 * {
     box-sizing: border-box;
 }
@@ -315,11 +322,41 @@
     margin-left: 40px;
 }
 
-.priceAndAddCart h5 {
+#textPrixPromo {
     margin-bottom: 20px;
+    font-size: 16px;
 }
 
 .checkbox_promo {
     margin-bottom: 10px;
     margin-right: 5px;
 }
+
+// .priceAndAddCart {
+//     font-size: 20px;
+// }
+
+#finalPrice {
+    color: green;
+    font-size: 16px;
+}
+
+#previousPrice {
+    text-decoration: line-through;
+    color: rgb(190, 23, 23);
+    font-size: 16px;
+  }
+
+
+  ////////// REVIEWS ////////////////
+  .reviews_wrapper {
+    width: 60%;
+    border: solid rgb(223, 223, 223) 1px;
+    padding: 20px;
+    margin: 50px 0;
+  }
+
+  .reviews_wrapper .fas {
+      font-size: 14px;
+      color: #f8ce0b;
+  }

@@ -2,11 +2,11 @@
 
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductSheetController;
 use App\Http\Controllers\TaxeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\JumbosController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BanniereController;
@@ -15,6 +15,7 @@ use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FrontEndController;
 use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\ProductSheetController;
 use App\Http\Controllers\ProductDetailController;
 use App\Http\Controllers\Type_detail_productController;
 
@@ -52,6 +53,7 @@ Route::resource('/collections', CollectionController::class);
 Route::resource('/type_detail_products', Type_detail_productController::class);
 Route::resource('/jumbos', JumbosController::class);
 Route::resource('/bannieres', BanniereController::class);
+Route::resource('/reviews', ReviewController::class);
 
 // cette route remplace Route::resource('/collections INDEX car j'ai besoin de l'URL collections pour le front end pour le SEO
 Route::get('/collectionsBackEnd', [CollectionController::class, 'collectionsBackEnd']);

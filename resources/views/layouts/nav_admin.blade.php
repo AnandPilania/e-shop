@@ -61,6 +61,12 @@
         Taxes
       </li>
     </a>
+    <a href="/reviews">
+      <li class="{{ 'reviews' == request()->path() ? 'activeAdmin' : '' }}">
+        <i class="fas fa-chart-line"></i>
+        Rewiews
+      </li>
+    </a>
     <a href="/">
       <li class="{{ '/' == request()->path() ? 'activeAdmin' : '' }}">
         <i class="fas fa-home"></i>
