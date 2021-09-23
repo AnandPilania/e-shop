@@ -180,7 +180,7 @@
 
         <div class="priceAndAddCart">
             <h5><span id="textPrixPromo">Prix : </span><span id="finalPrice"></span> &nbsp; &nbsp; <span id="previousPrice"></span> </h5>
-            <button class="addToCart" id="addToCartPromo" >Ajouter au panier</button>
+            <button class="addToCart" id="addToCartPromo">Ajouter au panier</button>
         </div>
     </div>
 
@@ -234,8 +234,8 @@
 
         }
 
-         // si au moins une des checkbox est checked alors on affiche les prix et le bouton ajout panier
-         if (document.getElementById('checkboxPromo1').checked ||
+        // si au moins une des checkbox est checked alors on affiche les prix et le bouton ajout panier
+        if (document.getElementById('checkboxPromo1').checked ||
             document.getElementById('checkboxPromo2').checked ||
             document.getElementById('checkboxPromo3').checked) {
 
@@ -358,12 +358,119 @@
 
 <div class="reviews_wrapper">
     <h2>Commentaires client</h2>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
-    <i class="fas fa-star"></i>
+    <!-- Trigger/Open The Modal -->
+    <button id="reviewBtn">Écrire un avis</button>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Modal Header</h2>
+            </div>
+            <div class="modal-body">
+                <button class="scoreButtons" id="modal-button-score5" onclick="setScore(5, this.id)"><i class="fas fa-star"></i> <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i> <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i> &nbsp; &nbsp; Parfait !
+                </button>
+                <button class="scoreButtons" id="modal-button-score4" onclick="setScore(4, this.id)"><i class="fas fa-star"></i> <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i> <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i> &nbsp; &nbsp; J'aime
+                </button>
+                <button class="scoreButtons" id="modal-button-score3" onclick="setScore(3, this.id)"><i class="fas fa-star"></i> <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i> <i class="far fa-star"></i>
+                    <i class="far fa-star"></i> &nbsp; &nbsp; Assez bien
+                </button>
+                <button class="scoreButtons" id="modal-button-score2" onclick="setScore(2, this.id)"><i class="fas fa-star"></i> <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i> <i class="far fa-star"></i>
+                    <i class="far fa-star"></i> &nbsp; &nbsp; Je n'ai pas aimé
+                </button>
+                <button class="scoreButtons" id="modal-button-score1" onclick="setScore(1, this.id)"><i class="fas fa-star"></i> <i class="far fa-star"></i>
+                    <i class="far fa-star"></i> <i class="far fa-star"></i>
+                    <i class="far fa-star"></i> &nbsp; &nbsp; Je déteste
+                </button>
+
+                <div id="divTextReview">
+                    <label for="textReview">Nous en dire plus !</label>
+                    <textarea name="textReview" id="textReview" placeholder="Partagez votre expérience"></textarea>
+                </div>
+
+                <div id="fileReview"></div>
+
+                <script>
+                    // open file selector when clicked on the drop region
+                    var fakeInput = document.createElement("input");
+                    fakeInput.type = "file";
+                    fakeInput.accept = "image/*";
+                    fakeInput.multiple = true;
+
+                    var getFileReview = document.getElementById('fileReview'); 
+                    getFileReview.innerText = "Ajouter des photos";
+                    
+                    // open files exploratore when click on dropRegion
+                    getFileReview.addEventListener('click', function() {
+                        fakeInput.click();
+                    });
+
+                    fakeInput.addEventListener("change", function() {
+                        var reviewFiles = fakeInput.files;
+                        // handleFiles(files);
+                    });
+                </script>
+
+            </div>
+            <div class="modal-footer">
+                <h3>Modal Footer</h3>
+            </div>
+        </div>
+
+    </div>
+
 </div>
+
+<!-- Gestion modal -->
+<script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("reviewBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal 
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    // gestion score
+    function setScore(scoreValue, scoreId) {
+
+        var score = scoreValue;
+
+        document.querySelectorAll('.scoreButtons').forEach(function(currentValue) {
+            currentValue.style.backgroundColor = "#ffffff";
+        })
+
+        document.getElementById(scoreId).style.backgroundColor = "rgb(224, 224, 224)";
+    }
+</script>
+
 
 <div class="lesClientAyantAcheté">
     <p>LES CLIENTS AYANT ACHETÉ CET ARTICLE ONT ÉGALEMENT ACHETÉ</p>
