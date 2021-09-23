@@ -1,6 +1,7 @@
 <?php
 
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaxeController;
 use App\Http\Controllers\AdminController;
@@ -83,6 +84,12 @@ Route::post('/bestSeller', [ProductController::class, 'bestSeller']);
 // renvoi la fiche du produit
 Route::get('/collections/{collection}/{productId}', [ProductSheetController::class, 'productSheet']);
 
+
+
+Route::get('/logout', function () {
+    Auth::logout();
+    return redirect('/');
+});
 
 //breeze----------------------------
 // Route::get('/', function () {

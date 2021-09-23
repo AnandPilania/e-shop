@@ -356,6 +356,7 @@
     });
 </script>
 
+<!-- REVIEWS -->
 <div class="reviews_wrapper">
     <h2>Commentaires client</h2>
     <!-- Trigger/Open The Modal -->
@@ -370,8 +371,18 @@
                 <span class="close">&times;</span>
                 <h2>Modal Header</h2>
             </div>
-            <div class="modal-body">
-                <button class="scoreButtons" id="modal-button-score5" onclick="setScore(5, this.id)"><i class="fas fa-star"></i> <i class="fas fa-star"></i>
+
+            <div class="sliderReviews">
+
+                <a href="#slide-1">1</a>
+                <a href="#slide-2">2</a>
+                <a href="#slide-3">3</a>
+                <a href="#slide-4">4</a>
+                <a href="#slide-5">5</a>
+
+                <div class="reviewsSlides">
+                    <div id="slide-1">
+                    <button class="scoreButtons" id="modal-button-score5" onclick="setScore(5, this.id)"><i class="fas fa-star"></i> <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i> <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i> &nbsp; &nbsp; Parfait !
                 </button>
@@ -391,13 +402,71 @@
                     <i class="far fa-star"></i> <i class="far fa-star"></i>
                     <i class="far fa-star"></i> &nbsp; &nbsp; Je déteste
                 </button>
-
-                <div id="divTextReview">
+                    </div>
+                    <div id="slide-2">
+                    <div id="divTextReview">
                     <label for="textReview">Nous en dire plus !</label>
                     <textarea name="textReview" id="textReview" placeholder="Partagez votre expérience"></textarea>
                 </div>
 
                 <div id="fileReview"></div>
+                <ul id="nameFileReview"></ul>
+                    </div>
+                    <div id="slide-3">
+                        3
+                    </div>
+                    <div id="slide-4">
+                        4
+                    </div>
+                    <div id="slide-5">
+                        5
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <!-- <button class="scoreButtons" id="modal-button-score5" onclick="setScore(5, this.id)"><i class="fas fa-star"></i> <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i> <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i> &nbsp; &nbsp; Parfait !
+                </button>
+                <button class="scoreButtons" id="modal-button-score4" onclick="setScore(4, this.id)"><i class="fas fa-star"></i> <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i> <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i> &nbsp; &nbsp; J'aime
+                </button>
+                <button class="scoreButtons" id="modal-button-score3" onclick="setScore(3, this.id)"><i class="fas fa-star"></i> <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i> <i class="far fa-star"></i>
+                    <i class="far fa-star"></i> &nbsp; &nbsp; Assez bien
+                </button>
+                <button class="scoreButtons" id="modal-button-score2" onclick="setScore(2, this.id)"><i class="fas fa-star"></i> <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i> <i class="far fa-star"></i>
+                    <i class="far fa-star"></i> &nbsp; &nbsp; Je n'ai pas aimé
+                </button>
+                <button class="scoreButtons" id="modal-button-score1" onclick="setScore(1, this.id)"><i class="fas fa-star"></i> <i class="far fa-star"></i>
+                    <i class="far fa-star"></i> <i class="far fa-star"></i>
+                    <i class="far fa-star"></i> &nbsp; &nbsp; Je déteste
+                </button> -->
+
+                <!-- <div id="divTextReview">
+                    <label for="textReview">Nous en dire plus !</label>
+                    <textarea name="textReview" id="textReview" placeholder="Partagez votre expérience"></textarea>
+                </div>
+
+                <div id="fileReview"></div>
+                <ul id="nameFileReview"></ul> -->
+                @guest
+                <label for="firstNameReview">Prénom*</label>
+                <input type="text" id="firstNameReview">
+                <label for="lastNameReveiw">Nom</label>
+                <input type="text" id="lastNameReveiw">
+                <label for="emailReveiw">Email*</label>
+                <input type="text" id="emailReveiw">
+                @endguest
+
+                @auth
+                <h1>ok ok</h1>
+                @endauth
+
+
 
                 <script>
                     // open file selector when clicked on the drop region
@@ -406,9 +475,9 @@
                     fakeInput.accept = "image/*";
                     fakeInput.multiple = true;
 
-                    var getFileReview = document.getElementById('fileReview'); 
+                    var getFileReview = document.getElementById('fileReview');
                     getFileReview.innerText = "Ajouter des photos";
-                    
+
                     // open files exploratore when click on dropRegion
                     getFileReview.addEventListener('click', function() {
                         fakeInput.click();
@@ -416,6 +485,17 @@
 
                     fakeInput.addEventListener("change", function() {
                         var reviewFiles = fakeInput.files;
+
+                        Array.from(reviewFiles).forEach(file => {
+                            var li_FileReview = document.createElement("li");
+                            li_FileReview.innerText = file.name;
+                            var wrapper = document.getElementById("nameFileReview");
+                            wrapper.appendChild(li_FileReview);
+                        });
+
+
+
+                        console.log(reviewFiles[0].name)
                         // handleFiles(files);
                     });
                 </script>

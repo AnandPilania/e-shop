@@ -531,4 +531,127 @@ $fa-font-path: "../webfonts";
     align-items: center;
 }
 
+#nameFileReview {
+    margin-right: auto;
+    margin-left: 5%;
+}
 
+
+//////////  slider modal reviews  ///////////
+* {
+    box-sizing: border-box;
+  }
+  
+  .sliderReviews {
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+  }
+  
+  .reviewsSlides {
+    display: flex;
+    
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    
+    
+    
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    
+    /*
+    scroll-snap-points-x: repeat(300px);
+    scroll-snap-type: mandatory;
+    */
+  }
+  .reviewsSlides::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  .reviewsSlides::-webkit-scrollbar-thumb {
+    background: black;
+    border-radius: 10px;
+  }
+  .reviewsSlides::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .reviewsSlides > div {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    width: 100%;
+    height: auto;
+    margin-right: 50px;
+    border-radius: 10px;
+    background: rgb(196, 194, 194);
+    transform-origin: center center;
+    transform: scale(1);
+    transition: transform 0.5s;
+    position: relative;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 100px;
+  }
+  .reviewsSlides > div:target {
+  /*   transform: scale(0.8); */
+  }
+  .author-info {
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 0.75rem;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    margin: 0;
+  }
+  .author-info a {
+    color: white;
+  }
+  .sliderReviews > a {
+    display: inline-flex;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: white;
+    text-decoration: none;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin: 0 0 0.5rem 0;
+    position: relative;
+  }
+  .sliderReviews > a:active {
+    top: 1px;
+  }
+  .sliderReviews > a:focus {
+    background: #000;
+  }
+  
+//   /* Don't need button navigation */
+//   @supports (scroll-snap-type) {
+//     .slider > a {
+//       display: none;
+//     }
+//   }
+  
+//   html, body {
+//     height: 100%;
+//     overflow: hidden;
+//   }
+//   body {
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     // background: linear-gradient(to bottom, #74ABE2, #5563DE);
+//     // font-family: 'Ropa Sans', sans-serif;
+//   }
+
+#slide-1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 2px 16px;
+}
