@@ -91,6 +91,18 @@ Route::get('/logout', function () {
     return redirect('/');
 });
 
+Route::get('/vie-privee', function () {
+    return View('legale.viePrivee');
+});
+
+Route::get('/cookies', function () {
+    return View('legale.cookies');
+});
+
+Route::get('/conditionsUtilisation', function () {
+    return View('legale.conditionsUtilisation');
+});
+
 //breeze----------------------------
 // Route::get('/', function () {
 //     return view('welcome');

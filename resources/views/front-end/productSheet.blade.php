@@ -369,140 +369,114 @@
         <div class="modal-content">
             <div class="modal-header">
                 <span class="close">&times;</span>
-                <h2>Modal Header</h2>
             </div>
 
             <div class="sliderReviews">
 
-                <a href="#slide-1">1</a>
-                <a href="#slide-2">2</a>
-                <a href="#slide-3">3</a>
-                <a href="#slide-4">4</a>
-                <a href="#slide-5">5</a>
+                <a id="a-slide-1" href="#slide-1"></a>
+                <a id="a-slide-2" href="#slide-2"></a>
+                <a id="a-slide-3" href="#slide-3"></a>
 
-                <div class="reviewsSlides">
+                <div id="barrePageReview-1"></div>
+                <div id="barrePageReview-2"></div>
+                <div id="barrePageReview-3"></div>
+
+                <div class="reviewsSlides modal-body">
                     <div id="slide-1">
-                    <button class="scoreButtons" id="modal-button-score5" onclick="setScore(5, this.id)"><i class="fas fa-star"></i> <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i> <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i> &nbsp; &nbsp; Parfait !
-                </button>
-                <button class="scoreButtons" id="modal-button-score4" onclick="setScore(4, this.id)"><i class="fas fa-star"></i> <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i> <i class="fas fa-star"></i>
-                    <i class="far fa-star"></i> &nbsp; &nbsp; J'aime
-                </button>
-                <button class="scoreButtons" id="modal-button-score3" onclick="setScore(3, this.id)"><i class="fas fa-star"></i> <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i> <i class="far fa-star"></i>
-                    <i class="far fa-star"></i> &nbsp; &nbsp; Assez bien
-                </button>
-                <button class="scoreButtons" id="modal-button-score2" onclick="setScore(2, this.id)"><i class="fas fa-star"></i> <i class="fas fa-star"></i>
-                    <i class="far fa-star"></i> <i class="far fa-star"></i>
-                    <i class="far fa-star"></i> &nbsp; &nbsp; Je n'ai pas aimé
-                </button>
-                <button class="scoreButtons" id="modal-button-score1" onclick="setScore(1, this.id)"><i class="fas fa-star"></i> <i class="far fa-star"></i>
-                    <i class="far fa-star"></i> <i class="far fa-star"></i>
-                    <i class="far fa-star"></i> &nbsp; &nbsp; Je déteste
-                </button>
+                        <button class="scoreButtons" id="modal-button-score5" onclick="setScore(5, this.id)"><i class="fas fa-star"></i> <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i> <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i> &nbsp; &nbsp; Parfait !
+                        </button>
+                        <button class="scoreButtons" id="modal-button-score4" onclick="setScore(4, this.id)"><i class="fas fa-star"></i> <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i> <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i> &nbsp; &nbsp; J'aime
+                        </button>
+                        <button class="scoreButtons" id="modal-button-score3" onclick="setScore(3, this.id)"><i class="fas fa-star"></i> <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i> <i class="far fa-star"></i>
+                            <i class="far fa-star"></i> &nbsp; &nbsp; Assez bien
+                        </button>
+                        <button class="scoreButtons" id="modal-button-score2" onclick="setScore(2, this.id)"><i class="fas fa-star"></i> <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i> <i class="far fa-star"></i>
+                            <i class="far fa-star"></i> &nbsp; &nbsp; Je n'ai pas aimé
+                        </button>
+                        <button class="scoreButtons" id="modal-button-score1" onclick="setScore(1, this.id)"><i class="fas fa-star"></i> <i class="far fa-star"></i>
+                            <i class="far fa-star"></i> <i class="far fa-star"></i>
+                            <i class="far fa-star"></i> &nbsp; &nbsp; Je déteste
+                        </button>
                     </div>
                     <div id="slide-2">
-                    <div id="divTextReview">
-                    <label for="textReview">Nous en dire plus !</label>
-                    <textarea name="textReview" id="textReview" placeholder="Partagez votre expérience"></textarea>
-                </div>
+                        <div id="divTextReview">
+                            <label for="textReview">Nous en dire plus !</label>
+                            <textarea name="textReview" id="textReview" placeholder="Partagez votre expérience"></textarea>
+                            <h5 id="warningReview">Veuillez écrire un commentaire</h5>
+                        </div>
 
-                <div id="fileReview"></div>
-                <ul id="nameFileReview"></ul>
+                        <div class="block-FileReview-BtnNext">
+                            <div id="fileReview"></div>
+                            @guest
+                            <button id="btn-review-next" onclick="isEmptyReview()">Suivant &nbsp; <i class="fas fa-arrow-right"></i></i></button>
+                            @endguest
+                        </div>
+
+                        <ul id="nameFileReview"></ul>
+
+                        <div class="arrowPrevious">
+                            <i id="reply1" class="fas fa-reply"></i>
+                        </div>
                     </div>
                     <div id="slide-3">
-                        3
-                    </div>
-                    <div id="slide-4">
-                        4
-                    </div>
-                    <div id="slide-5">
-                        5
+                        @guest
+                        <input type="text" id="emailReveiw" placeholder="Email*">
+                        <h5 id="warningEmailReview">Veuillez introduire une adresse email valide</h5>
+                        <p>Par la présente, j'accepte les <a href="/conditionsUtilisation">Conditions générales d'utilisation</a> et la <a href="/vie-privee">Politique de Confidentialité</a> du site ainsi que l'affichage et le partage en ligne de mon avis</p>
+                        <butoon id="btn-accept-CGU" onclick="isValidEmailReview()">Poster mon avis</butoon>
+                        @endguest
+
+                        @auth
+                        <h1>ok ok</h1>
+                        @endauth
+                        <div class="arrowPrevious">
+                            <i id="reply2" class="fas fa-reply"></i>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="modal-body">
-                <!-- <button class="scoreButtons" id="modal-button-score5" onclick="setScore(5, this.id)"><i class="fas fa-star"></i> <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i> <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i> &nbsp; &nbsp; Parfait !
-                </button>
-                <button class="scoreButtons" id="modal-button-score4" onclick="setScore(4, this.id)"><i class="fas fa-star"></i> <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i> <i class="fas fa-star"></i>
-                    <i class="far fa-star"></i> &nbsp; &nbsp; J'aime
-                </button>
-                <button class="scoreButtons" id="modal-button-score3" onclick="setScore(3, this.id)"><i class="fas fa-star"></i> <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i> <i class="far fa-star"></i>
-                    <i class="far fa-star"></i> &nbsp; &nbsp; Assez bien
-                </button>
-                <button class="scoreButtons" id="modal-button-score2" onclick="setScore(2, this.id)"><i class="fas fa-star"></i> <i class="fas fa-star"></i>
-                    <i class="far fa-star"></i> <i class="far fa-star"></i>
-                    <i class="far fa-star"></i> &nbsp; &nbsp; Je n'ai pas aimé
-                </button>
-                <button class="scoreButtons" id="modal-button-score1" onclick="setScore(1, this.id)"><i class="fas fa-star"></i> <i class="far fa-star"></i>
-                    <i class="far fa-star"></i> <i class="far fa-star"></i>
-                    <i class="far fa-star"></i> &nbsp; &nbsp; Je déteste
-                </button> -->
 
-                <!-- <div id="divTextReview">
-                    <label for="textReview">Nous en dire plus !</label>
-                    <textarea name="textReview" id="textReview" placeholder="Partagez votre expérience"></textarea>
-                </div>
+            <script>
+                // open file selector when clicked on the drop region
+                var fakeInput = document.createElement("input");
+                fakeInput.type = "file";
+                fakeInput.accept = "image/*";
+                fakeInput.multiple = true;
 
-                <div id="fileReview"></div>
-                <ul id="nameFileReview"></ul> -->
-                @guest
-                <label for="firstNameReview">Prénom*</label>
-                <input type="text" id="firstNameReview">
-                <label for="lastNameReveiw">Nom</label>
-                <input type="text" id="lastNameReveiw">
-                <label for="emailReveiw">Email*</label>
-                <input type="text" id="emailReveiw">
-                @endguest
+                var getFileReview = document.getElementById('fileReview');
+                getFileReview.innerText = "Ajouter des photos";
 
-                @auth
-                <h1>ok ok</h1>
-                @endauth
+                // open files exploratore when click on dropRegion
+                getFileReview.addEventListener('click', function() {
+                    fakeInput.click();
+                });
 
+                fakeInput.addEventListener("change", function() {
+                    var reviewFiles = fakeInput.files;
 
-
-                <script>
-                    // open file selector when clicked on the drop region
-                    var fakeInput = document.createElement("input");
-                    fakeInput.type = "file";
-                    fakeInput.accept = "image/*";
-                    fakeInput.multiple = true;
-
-                    var getFileReview = document.getElementById('fileReview');
-                    getFileReview.innerText = "Ajouter des photos";
-
-                    // open files exploratore when click on dropRegion
-                    getFileReview.addEventListener('click', function() {
-                        fakeInput.click();
+                    Array.from(reviewFiles).forEach(file => {
+                        var li_FileReview = document.createElement("li");
+                        li_FileReview.innerText = file.name;
+                        var wrapper = document.getElementById("nameFileReview");
+                        wrapper.appendChild(li_FileReview);
                     });
 
-                    fakeInput.addEventListener("change", function() {
-                        var reviewFiles = fakeInput.files;
-
-                        Array.from(reviewFiles).forEach(file => {
-                            var li_FileReview = document.createElement("li");
-                            li_FileReview.innerText = file.name;
-                            var wrapper = document.getElementById("nameFileReview");
-                            wrapper.appendChild(li_FileReview);
-                        });
 
 
+                    console.log(reviewFiles[0].name)
+                    // handleFiles(files);
+                });
+            </script>
 
-                        console.log(reviewFiles[0].name)
-                        // handleFiles(files);
-                    });
-                </script>
 
-            </div>
             <div class="modal-footer">
-                <h3>Modal Footer</h3>
             </div>
         </div>
 
@@ -543,13 +517,48 @@
 
         var score = scoreValue;
 
+        // met les background de tous les boutons de score en blanc 
         document.querySelectorAll('.scoreButtons').forEach(function(currentValue) {
             currentValue.style.backgroundColor = "#ffffff";
         })
 
-        document.getElementById(scoreId).style.backgroundColor = "rgb(224, 224, 224)";
+        // donne un autre couleur ou bouton séléctionné
+        document.getElementById(scoreId).style.backgroundColor = "rgb(112, 149, 250)";
+
+        // passe au slide suivant quand on clique sur un bouton pour attribuer des étoiles
+        document.getElementById('a-slide-2').click();
+
+        // reviens au slide précédent 
+        document.getElementById('reply1').addEventListener('click', function() {
+            document.getElementById('a-slide-1').click();
+        });
+
+        document.getElementById('reply2').addEventListener('click', function() {
+            document.getElementById('a-slide-2').click();
+        });
+    }
+
+    // affiche warning si on a pas écrit de commentaire sinon passe au slide suivant
+    function isEmptyReview() {
+        if (document.getElementById("textReview").value == "") {
+            document.getElementById("warningReview").style.display = "block";
+        } else {
+            document.getElementById('a-slide-3').click();
+        }
+    }
+
+    // affiche warning si on a pas écrit son mail sinon envoi les données via axios
+    function isValidEmailReview() {
+        var email =document.getElementById("emailReveiw").value;
+        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if (email.match(mailformat)) {
+            document.getElementById("warningEmailReview").style.display = "none";
+        } else {
+            document.getElementById("warningEmailReview").style.display = "block";
+        }
     }
 </script>
+
 
 
 <div class="lesClientAyantAcheté">

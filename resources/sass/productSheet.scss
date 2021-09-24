@@ -446,16 +446,18 @@ $fa-font-path: "../webfonts";
 }
 
 .modal-header {
+    width: 100%;
+    height: 10px;
     padding: 2px 16px;
-    background-color: #5cb85c;
+    background-color: rgb(112, 149, 250);
     color: white;
 }
 
 .modal-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
+    // display: flex;
+    // flex-direction: row;
+    // justify-content: flex-start;
+    // align-items: center;
     padding: 2px 16px;
 }
 
@@ -474,12 +476,8 @@ $fa-font-path: "../webfonts";
 }
 
 .modal-body button:hover {
-    background-color: rgb(224, 224, 224);
+    background-color: rgb(112, 149, 250);
     cursor: pointer;
-}
-
-.modal-body button:first-child {
-    margin-top: 40px;
 }
 
 #divTextReview {
@@ -505,12 +503,29 @@ $fa-font-path: "../webfonts";
     height: 200px;
     margin: 20px 0 10px 0;
     font-size: 1rem;
+    border-color: rgb(221, 221, 221);
+}
+
+#warningReview {
+    display: none;
+    color: red;
+    font-size: 16px;
 }
 
 .modal-footer {
+    width: 100%;
+    height: 10px;
     padding: 2px 16px;
-    background-color: #5cb85c;
+    background-color: rgb(112, 149, 250);
     color: white;
+}
+
+.block-FileReview-BtnNext {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 #fileReview {
@@ -529,6 +544,12 @@ $fa-font-path: "../webfonts";
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: ease-in-out .2s;
+}
+
+#fileReview:hover {
+    cursor: pointer;
+    border: solid 2px rgb(112, 149, 250);
 }
 
 #nameFileReview {
@@ -536,81 +557,52 @@ $fa-font-path: "../webfonts";
     margin-left: 5%;
 }
 
+#nameFileReview {
+    text-align: left;
+}
+
+#nameFileReview li {
+    font-size: 14px;
+}
+
+#btn-review-next {
+    width: 170px;
+    height: 50px;
+    text-align: center;
+    padding: 0 20px;
+    margin: 0 auto 15px 5%;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(112, 149, 250);
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    transition: ease-in-out 0.2s;
+}
+
+#btn-review-next:hover {
+    background-color: rgb(51, 69, 170);
+    cursor: pointer;
+}
 
 //////////  slider modal reviews  ///////////
 * {
     box-sizing: border-box;
-  }
-  
-  .sliderReviews {
+}
+
+.sliderReviews {
     width: 100%;
     text-align: center;
     overflow: hidden;
-  }
-  
-  .reviewsSlides {
-    display: flex;
-    
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    
-    
-    
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    
-    /*
-    scroll-snap-points-x: repeat(300px);
-    scroll-snap-type: mandatory;
-    */
-  }
-  .reviewsSlides::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-  }
-  .reviewsSlides::-webkit-scrollbar-thumb {
-    background: black;
-    border-radius: 10px;
-  }
-  .reviewsSlides::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  .reviewsSlides > div {
-    scroll-snap-align: start;
-    flex-shrink: 0;
-    width: 100%;
-    height: auto;
-    margin-right: 50px;
-    border-radius: 10px;
-    background: rgb(196, 194, 194);
-    transform-origin: center center;
-    transform: scale(1);
-    transition: transform 0.5s;
-    position: relative;
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 100px;
-  }
-  .reviewsSlides > div:target {
-  /*   transform: scale(0.8); */
-  }
-  .author-info {
-    background: rgba(0, 0, 0, 0.75);
-    color: white;
-    padding: 0.75rem;
-    text-align: center;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    margin: 0;
-  }
-  .author-info a {
-    color: white;
-  }
-  .sliderReviews > a {
+}
+
+#a-slide-1,
+#a-slide-2,
+#a-slide-3 {
+    display: none;
+}
+
+.sliderReviews > a {
     display: inline-flex;
     width: 1.5rem;
     height: 1.5rem;
@@ -618,40 +610,167 @@ $fa-font-path: "../webfonts";
     text-decoration: none;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
     margin: 0 0 0.5rem 0;
     position: relative;
-  }
-  .sliderReviews > a:active {
-    top: 1px;
-  }
-  .sliderReviews > a:focus {
-    background: #000;
-  }
-  
-//   /* Don't need button navigation */
-//   @supports (scroll-snap-type) {
-//     .slider > a {
-//       display: none;
-//     }
-//   }
-  
-//   html, body {
-//     height: 100%;
-//     overflow: hidden;
-//   }
-//   body {
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//     // background: linear-gradient(to bottom, #74ABE2, #5563DE);
-//     // font-family: 'Ropa Sans', sans-serif;
-//   }
+}
 
-#slide-1 {
+#barrePageReview-1,
+#barrePageReview-2,
+#barrePageReview-3 {
+    width: 30px;
+    height: 10px;
+    display: inline-flex;
+    background: white;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0 0.5rem 0;
+    position: relative;
+    border: solid 1px rgb(112, 149, 250);
+}
+
+#barrePageReview-1 {
+    background: rgb(112, 149, 250);
+}
+
+.reviewsSlides {
+    display: flex;
+
+    overflow-x: hidden;
+    scroll-snap-type: x mandatory;
+
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+
+    /*
+    scroll-snap-points-x: repeat(300px);
+    scroll-snap-type: mandatory;
+    */
+}
+// .reviewsSlides::-webkit-scrollbar {
+//     width: 10px;
+//     height: 10px;
+// }
+// .reviewsSlides::-webkit-scrollbar-thumb {
+//     background: black;
+//     border-radius: 10px;
+// }
+// .reviewsSlides::-webkit-scrollbar-track {
+//     background: transparent;
+// }
+
+.reviewsSlides > div {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    width: 100%;
+    height: auto;
+    margin-right: 50px;
+    border-radius: 10px;
+    background: rgb(255, 255, 255);
+    transform-origin: center center;
+    transform: scale(1);
+    transition: transform 0.5s;
+    position: relative;
+    // border: solid 2px red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sliderReviews > a {
+    display: inline-flex;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: white;
+    text-decoration: none;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0 0.5rem 0;
+    position: relative;
+}
+.sliderReviews > a:active {
+    top: 1px;
+}
+.sliderReviews > a:focus {
+    background: #000;
+}
+
+#slide-1, #slide-2, #slide-3 {
+    width: 1000px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
     padding: 2px 16px;
+    // border: solid 2px red;
 }
+
+.arrowPrevious {
+    width: 100%;
+    height: 40px;
+    text-align: left;
+    margin-top: auto;
+    margin-bottom: 10px;
+}
+
+i.fa-reply {
+    font-size: 30px;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    transition: ease-in-out 0.2s;
+    color: rgb(112, 149, 250);
+
+    &:hover {
+        color: black;
+        cursor: pointer;
+    }
+}
+
+
+#slide-3 {
+    padding-top: 70px;
+}
+
+#emailReveiw {
+    width: 350px;
+    height: 50px;
+    padding-left: 15px;
+    border: solid 1px rgb(204, 204, 204);
+}
+
+#warningEmailReview {
+    display: none;
+    color: red;
+    font-size: 16px;
+}
+
+#slide-3 p {
+    width: 400px;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 30px;
+}
+
+#btn-accept-CGU {
+    width: 250px;
+    height: 50px;
+    text-align: center;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(112, 149, 250);
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    transition: ease-in-out 0.2s;
+}
+
+#btn-accept-CGU:hover {
+    background-color: rgb(51, 69, 170);
+    cursor: pointer;
+}
+

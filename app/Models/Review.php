@@ -18,4 +18,9 @@ class Review extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function images_reviews()
+    {
+        return $this->hasMany(Images_review::class);
+    } 
 }
