@@ -6514,6 +6514,7 @@ readers do not read off random characters that represent icons */
   background-color: #fefefe;
   margin: auto;
   padding: 0;
+  padding-bottom: 50px;
   border: 1px solid #888;
   width: 90%;
   max-width: 1000px;
@@ -6624,6 +6625,9 @@ readers do not read off random characters that represent icons */
 }
 
 .modal-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
   width: 100%;
   height: 10px;
   padding: 2px 16px;
@@ -6736,6 +6740,7 @@ readers do not read off random characters that represent icons */
   margin: 0 0 0.5rem 0;
   position: relative;
   border: solid 1px #7095fa;
+  transition: ease-in-out 0.5s;
 }
 
 #barrePageReview-1 {
@@ -6792,7 +6797,8 @@ readers do not read off random characters that represent icons */
   background: #000;
 }
 
-#slide-1, #slide-2, #slide-3 {
+#commentaire-1, #commentaire-2,
+#commentaire-3, #commentaire-4 {
   width: 1000px;
   display: flex;
   flex-direction: column;
@@ -6823,7 +6829,7 @@ i.fa-reply:hover {
   cursor: pointer;
 }
 
-#slide-3 {
+#commentaire-3 {
   padding-top: 70px;
 }
 
@@ -6840,14 +6846,15 @@ i.fa-reply:hover {
   font-size: 16px;
 }
 
-#slide-3 p {
+#commentaire-3 p {
   width: 400px;
   font-size: 14px;
   text-align: center;
   margin-top: 30px;
 }
 
-#btn-accept-CGU {
+#btn-accept-CGU,
+#btn-closeReview {
   width: 250px;
   height: 50px;
   text-align: center;
@@ -6864,7 +6871,8 @@ i.fa-reply:hover {
   transition: ease-in-out 0.2s;
 }
 
-#btn-accept-CGU:hover {
+#btn-accept-CGU:hover,
+#btn-closeReview {
   background-color: #3345aa;
   cursor: pointer;
 }

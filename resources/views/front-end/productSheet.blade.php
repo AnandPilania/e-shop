@@ -356,7 +356,7 @@
     });
 </script>
 
-<!-- REVIEWS -->
+<!-- ---- REVIEWS ---- REVIEWS ---- REVIEWS ----REVIEWS ---- -->
 <div class="reviews_wrapper">
     <h2>Commentaires client</h2>
     <!-- Trigger/Open The Modal -->
@@ -373,16 +373,18 @@
 
             <div class="sliderReviews">
 
-                <a id="a-slide-1" href="#slide-1"></a>
-                <a id="a-slide-2" href="#slide-2"></a>
-                <a id="a-slide-3" href="#slide-3"></a>
+                <a id="a-slide-1" href="#commentaire-1"></a>
+                <a id="a-slide-2" href="#commentaire-2"></a>
+                <a id="a-slide-3" href="#commentaire-3"></a>
+                <a id="a-slide-4" href="#commentaire-4"></a>
 
                 <div id="barrePageReview-1"></div>
                 <div id="barrePageReview-2"></div>
                 <div id="barrePageReview-3"></div>
 
                 <div class="reviewsSlides modal-body">
-                    <div id="slide-1">
+                    <div id="commentaire-1">
+                        <h3>Donnez votre note</h3>
                         <button class="scoreButtons" id="modal-button-score5" onclick="setScore(5, this.id)"><i class="fas fa-star"></i> <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i> <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i> &nbsp; &nbsp; Parfait !
@@ -404,7 +406,7 @@
                             <i class="far fa-star"></i> &nbsp; &nbsp; Je déteste
                         </button>
                     </div>
-                    <div id="slide-2">
+                    <div id="commentaire-2">
                         <div id="divTextReview">
                             <label for="textReview">Nous en dire plus !</label>
                             <textarea name="textReview" id="textReview" placeholder="Partagez votre expérience"></textarea>
@@ -413,9 +415,7 @@
 
                         <div class="block-FileReview-BtnNext">
                             <div id="fileReview"></div>
-                            @guest
                             <button id="btn-review-next" onclick="isEmptyReview()">Suivant &nbsp; <i class="fas fa-arrow-right"></i></i></button>
-                            @endguest
                         </div>
 
                         <ul id="nameFileReview"></ul>
@@ -424,27 +424,36 @@
                             <i id="reply1" class="fas fa-reply"></i>
                         </div>
                     </div>
-                    <div id="slide-3">
+                    <div id="commentaire-3">
                         @guest
-                        <input type="text" id="emailReveiw" placeholder="Email*">
+                        <input type="email" id="emailReveiw" placeholder="Email*">
                         <h5 id="warningEmailReview">Veuillez introduire une adresse email valide</h5>
                         <p>Par la présente, j'accepte les <a href="/conditionsUtilisation">Conditions générales d'utilisation</a> et la <a href="/vie-privee">Politique de Confidentialité</a> du site ainsi que l'affichage et le partage en ligne de mon avis</p>
                         <butoon id="btn-accept-CGU" onclick="isValidEmailReview()">Poster mon avis</butoon>
                         @endguest
 
                         @auth
-                        <h1>ok ok</h1>
+                        <p>Par la présente, j'accepte les <a href="/conditionsUtilisation">Conditions générales d'utilisation</a> et la <a href="/vie-privee">Politique de Confidentialité</a> du site ainsi que l'affichage et le partage en ligne de mon avis</p>
+                        <butoon id="btn-accept-CGU" onclick="storeReveiw()">Poster mon avis</butoon>
                         @endauth
                         <div class="arrowPrevious">
                             <i id="reply2" class="fas fa-reply"></i>
                         </div>
+                    </div>
+                    <div id="commentaire-4">
+                        <h3>Merci!</h3>
+                        <p>Votre avis a bien été envoyé</p>
+                        <div class="shareReview">
+                            <h3>Partagez le sur les réseaux sociaux</h3>
+                        </div>
+                        <button id="btn-closeReview" onclick="closeReview()">Fermer</button>
                     </div>
                 </div>
             </div>
 
 
             <script>
-                // open file selector when clicked on the drop region
+                // crée un input file qui sera masqué et remplacé par un bouton pour un meilleur design 
                 var fakeInput = document.createElement("input");
                 fakeInput.type = "file";
                 fakeInput.accept = "image/*";
@@ -453,7 +462,7 @@
                 var getFileReview = document.getElementById('fileReview');
                 getFileReview.innerText = "Ajouter des photos";
 
-                // open files exploratore when click on dropRegion
+                // open files exploratore when click on button load file
                 getFileReview.addEventListener('click', function() {
                     fakeInput.click();
                 });
@@ -466,9 +475,15 @@
                         li_FileReview.innerText = file.name;
                         var wrapper = document.getElementById("nameFileReview");
                         wrapper.appendChild(li_FileReview);
+                        console.log(file);
                     });
 
-
+                    // on boucle sur reviewFiles pour récupérer toutes les images
+                    if (reviewFiles) {
+                        for (var i = 0, len = reviewFiles.length; i < len; i++) {
+                            formData.append('image[]', reviewFiles[i]);
+                        }
+                    }
 
                     console.log(reviewFiles[0].name)
                     // handleFiles(files);
@@ -498,6 +513,8 @@
     // When the user clicks the button, open the modal 
     btn.onclick = function() {
         modal.style.display = "block";
+        // se positionne sur le premier slide
+        document.getElementById('a-slide-1').click();
     }
 
     // When the user clicks on <span> (x), close the modal
@@ -516,25 +533,31 @@
     function setScore(scoreValue, scoreId) {
 
         var score = scoreValue;
+        formData.append("stars", score);
 
         // met les background de tous les boutons de score en blanc 
         document.querySelectorAll('.scoreButtons').forEach(function(currentValue) {
             currentValue.style.backgroundColor = "#ffffff";
         })
 
-        // donne un autre couleur ou bouton séléctionné
+        // donne un autre couleur ou bouton de score séléctionné
         document.getElementById(scoreId).style.backgroundColor = "rgb(112, 149, 250)";
 
         // passe au slide suivant quand on clique sur un bouton pour attribuer des étoiles
         document.getElementById('a-slide-2').click();
 
+        // color la barre du stepper quand on arrive sur le slide courant 
+        document.getElementById('barrePageReview-2').style.backgroundColor = "rgb(112, 149, 250)";
+
         // reviens au slide précédent 
         document.getElementById('reply1').addEventListener('click', function() {
             document.getElementById('a-slide-1').click();
+            document.getElementById('barrePageReview-2').style.backgroundColor = "transparent";
         });
 
         document.getElementById('reply2').addEventListener('click', function() {
             document.getElementById('a-slide-2').click();
+            document.getElementById('barrePageReview-3').style.backgroundColor = "transparent";
         });
     }
 
@@ -544,22 +567,58 @@
             document.getElementById("warningReview").style.display = "block";
         } else {
             document.getElementById('a-slide-3').click();
+            document.getElementById('barrePageReview-3').style.backgroundColor = "rgb(112, 149, 250)";
+            formData.append("review", document.getElementById("textReview").value);
         }
     }
 
-    // affiche warning si on a pas écrit son mail sinon envoi les données via axios
+    // affiche warning si on a pas écrit un mail valide sinon envoi les données via axios
     function isValidEmailReview() {
-        var email =document.getElementById("emailReveiw").value;
+        var email = document.getElementById("emailReveiw").value;
         var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if (email.match(mailformat)) {
             document.getElementById("warningEmailReview").style.display = "none";
+            // formData.append("email", email);
+            // storeReveiw();
+            document.getElementById('a-slide-4').click();
+            hideBarrePageReview();
         } else {
             document.getElementById("warningEmailReview").style.display = "block";
         }
     }
+
+    var formData = new FormData();
+
+    function storeReveiw() {
+
+        formData.append("product_id", <?php echo json_encode($product->id); ?>);
+        formData.append("product_name", <?php echo json_encode($product->name); ?>);
+
+        axios.post(`http://127.0.0.1:8000/storeReveiw`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then(res => {
+                console.log('res.data  --->  ok');
+                document.getElementById('a-slide-4').click();
+                hideBarrePageReview();
+            });
+    }
+
+    function closeReview() {
+        // ferme la modal review et recharge la page en enlevant le  # et ce qui le suit
+        history.replaceState(null, null, ' ');
+        location.reload();
+    }
+
+    function hideBarrePageReview() {
+        document.getElementById('barrePageReview-1').style.display = "none";
+        document.getElementById('barrePageReview-2').style.display = "none";
+        document.getElementById('barrePageReview-3').style.display = "none";
+    }
+
 </script>
-
-
 
 <div class="lesClientAyantAcheté">
     <p>LES CLIENTS AYANT ACHETÉ CET ARTICLE ONT ÉGALEMENT ACHETÉ</p>
@@ -568,4 +627,14 @@
 
 </div>
 
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!-- <script src="{{ asset('js/app.js') }}"></script> -->
+<script>
+    let token = document.head.querySelector('meta[name="csrf-token"]');
+    if (token) {
+        window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    } else {
+        console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+    }
+</script>
 @endsection

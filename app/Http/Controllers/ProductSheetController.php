@@ -40,4 +40,6 @@ class ProductSheetController extends Controller
 
         return view('front-end.productSheet', ['product' => $product, 'categories' => $categories, 'tabDetails' => $tabDetails, 'promos' => $promos]);
     }
+
+
 }

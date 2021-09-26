@@ -56,6 +56,7 @@ Route::resource('/jumbos', JumbosController::class);
 Route::resource('/bannieres', BanniereController::class);
 Route::resource('/reviews', ReviewController::class);
 
+
 // cette route remplace Route::resource('/collections INDEX car j'ai besoin de l'URL collections pour le front end pour le SEO
 Route::get('/collectionsBackEnd', [CollectionController::class, 'collectionsBackEnd']);
 
@@ -74,6 +75,8 @@ Route::get('/detailCompletion', [ProductDetailController::class, 'detailCompleti
 Route::get('/creatFrontIndex', [FrontEndController::class, 'create']);
 // Route::get('/jumbos', [JumbosController::class, 'index']);
 
+// store les reviews envoyées par les users
+Route::post('/storeReveiw', [ReviewController::class, 'storeReveiw']);
 
 //sert à rien ??
 Route::post('/details', [ProductDetailController::class, 'details']);
@@ -112,4 +115,4 @@ Route::get('/conditionsUtilisation', function () {
 //     return view('dashboard');
 // })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
