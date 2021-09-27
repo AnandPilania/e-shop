@@ -15,7 +15,8 @@ class ProductSheetController extends Controller
         // dd($productLink);
         $categories = Category::all();
         $product = Product::where('link', $productLink)->first();
-
+        $reviews = $product->reviews;
+        // dd($reviews);
         $details = $product->product_details->groupBy('type_detail_product_id');
 
         $tabDetails = [];
@@ -38,7 +39,7 @@ class ProductSheetController extends Controller
             'promo2' => $promo2[0]->products->random(1)[0]
         );
 
-        return view('front-end.productSheet', ['product' => $product, 'categories' => $categories, 'tabDetails' => $tabDetails, 'promos' => $promos]);
+        return view('front-end.productSheet', ['product' => $product, 'categories' => $categories, 'tabDetails' => $tabDetails, 'promos' => $promos, 'reviews' => $reviews]);
     }
 
 

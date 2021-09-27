@@ -6458,6 +6458,7 @@ readers do not read off random characters that represent icons */
   padding: 20px;
   margin: 50px 0;
   display: flex;
+  flex-wrap: wrap;
 }
 
 .reviews_wrapper .fas .reviews_wrapper .far {
@@ -6465,7 +6466,14 @@ readers do not read off random characters that represent icons */
   color: #f8ce0b;
 }
 
+#header_reviews_wrapper {
+  display: flex;
+  width: 100%;
+  height: auto;
+}
+
 #reviewBtn {
+  display: inline-block;
   width: 170px;
   height: 45px;
   text-align: center;
@@ -6484,6 +6492,242 @@ readers do not read off random characters that represent icons */
   cursor: pointer;
 }
 
+#showReviews {
+  width: 100%;
+  height: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+  row-gap: 20px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 20px 0;
+  margin-top: 20px;
+}
+
+.customerReview {
+  width: 100%;
+  padding: 10px;
+  border: solid 1px #c7c7c7;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border: solid 1px red;
+}
+
+.imageReview {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+#customerNameReview {
+  width: 100%;
+  margin-bottom: 3px;
+  display: flex;
+}
+
+#dateReview {
+  font-size: 10px;
+  color: #6b6b6b;
+  margin-bottom: 10px;
+}
+
+#starsReview {
+  display: flex;
+  margin-bottom: 10px;
+  color: #f79c13;
+  font-size: 12px;
+}
+
+/* ///////////// MODAL CARD  //////////////// */
+.modal-card {
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Sit on top */
+  padding-top: 100px;
+  /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: black;
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-card-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  padding-bottom: 50px;
+  border: 1px solid #888;
+  width: 90%;
+  max-width: 1000px;
+  height: auto;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
+}
+/* The Close Button */
+.close-card {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close-card:hover,
+.close-card:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-card-header {
+  width: 100%;
+  height: 10px;
+  padding: 2px 16px;
+  background-color: #7095fa;
+  color: white;
+}
+
+.modal-card-body {
+  padding: 2px 16px;
+}
+
+.modal-card-body button {
+  width: 350px;
+  height: 50px;
+  text-align: left;
+  padding: 0 20px;
+  margin: 15px 0;
+  border: solid 1px #dddddd;
+  border-radius: 5px;
+  background-color: white;
+  font-size: 18px;
+  font-weight: bold;
+  transition: ease-in-out 0.2s;
+}
+
+.modal-card-body button:hover {
+  background-color: #7095fa;
+  cursor: pointer;
+}
+
+.mySlides {
+  display: block;
+}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+  border: solid 2px red;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.active {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+  .prev, .next, .text {
+    font-size: 11px;
+  }
+}
 /* ///////////// MODAL REVIEW //////////////// */
 .modal {
   display: none;
