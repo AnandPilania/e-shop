@@ -56,8 +56,10 @@ class ReviewController extends Controller
     public function show($id)
     {
         // renvoi un tableau avec un review et ses images à reviews.blade via axios 
+        $review = Review::find($id);
         $tab_review = [];
-        $tab_review['review'] = Review::find($id);
+        $tab_review['review'] = $review;
+        $tab_review['name'] = ucwords($review->user->first_name) . ' ' . ucwords(substr($review->user->last_name, 0, 1)) . '.';
         $tab_review['imagesReview'] = Review::find($id)->images_reviews;
 
        

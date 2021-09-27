@@ -351,9 +351,13 @@ $fa-font-path: "../webfonts";
     flex-wrap: wrap;
 }
 
-.reviews_wrapper .fas .reviews_wrapper .far {
+.reviews_wrapper .fas {
     font-size: 14px;
     color: #f8ce0b;
+}
+
+.reviews_wrapper .far {
+    font-size: 14px;
 }
 
 #header_reviews_wrapper {
@@ -407,7 +411,10 @@ $fa-font-path: "../webfonts";
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    border: solid 1px red;
+}
+
+.customerReview:hover {
+    cursor: pointer;
 }
 
 .imageReview {
@@ -450,24 +457,29 @@ $fa-font-path: "../webfonts";
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0, 0, 0); /* Fallback color */
     background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    border: solid 5px yellow;
 }
 
 /* Modal Content */
 .modal-card-content {
     position: relative;
-    background-color: #fefefe;
+    background-color: #cccccc;
     margin: auto;
     padding: 0;
     padding-bottom: 50px;
     border: 1px solid #888;
     width: 90%;
     max-width: 1000px;
-    height: auto;
+    height: 400px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
     animation-duration: 0.4s;
+    display: flex;
+    flex-wrap: wrap;
+
+    border: dashed 2px rgb(0, 119, 255);
 }
 
 /* Add Animation */
@@ -495,8 +507,11 @@ $fa-font-path: "../webfonts";
 
 /* The Close Button */
 .close-card {
-    color: white;
-    float: right;
+    width: 100%;
+    height: 30px;
+    text-align: right;
+    padding-right: 20px;
+    color: rgb(0, 0, 0);
     font-size: 28px;
     font-weight: bold;
 }
@@ -508,54 +523,19 @@ $fa-font-path: "../webfonts";
     cursor: pointer;
 }
 
-.modal-card-header {
-    width: 100%;
-    height: 10px;
-    padding: 2px 16px;
-    background-color: rgb(112, 149, 250);
-    color: white;
-}
-
-.modal-card-body {
-    // display: flex;
-    // flex-direction: row;
-    // justify-content: flex-start;
-    // align-items: center;
-    padding: 2px 16px;
-}
-
-.modal-card-body button {
-    width: 350px;
-    height: 50px;
-    text-align: left;
-    padding: 0 20px;
-    margin: 15px 0;
-    border: solid 1px rgb(221, 221, 221);
-    border-radius: 5px;
-    background-color: white;
-    font-size: 18px;
-    font-weight: bold;
-    transition: ease-in-out 0.2s;
-}
-
-.modal-card-body button:hover {
-    background-color: rgb(112, 149, 250);
-    cursor: pointer;
-}
-
-
 
 // ---------- SLIDER CUSTOMER IMAGES ----------- //
 
 .mySlides {display: block}
-// img {vertical-align: middle;}
+img {vertical-align: middle;}
 
 /* Slideshow container */
 .slideshow-container {
   max-width: 1000px;
+  height: 400px;
   position: relative;
   margin: auto;
-  border: solid 2px red;
+  border: dashed 2px red;
 }
 
 /* Next & previous buttons */
@@ -612,8 +592,17 @@ $fa-font-path: "../webfonts";
   .prev, .next,.text {font-size: 11px}
 }
 
+#divStars .fas {
+    font-size: 14px;
+    color: #f8ce0b;
+}
+
+#divStars .far {
+    font-size: 14px;
+}
 
 /* ///////////// MODAL REVIEW //////////////// */
+/////////////////////////////////////////////////
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
