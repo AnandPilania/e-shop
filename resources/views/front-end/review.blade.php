@@ -12,7 +12,7 @@
         <div class="customerReview" id="{{ $review->id }}" onclick="modalDataCard(this.id)">
 
             @foreach($review->images_reviews as $imageReview)
-            <img src="{{ asset($imageReview->path) }}" alt="{{ asset($imageReview->alt) }}" class="imageReview">
+            <img src="{{ asset($imageReview->path) }}" alt="{{ $imageReview->alt }}" class="imageReview">
             @if($loop->iteration >= 1)
             @break
             @endif
@@ -46,13 +46,18 @@
     <div id="myModal-card" class="modal-card">
 
         <div class="modal-card-content">
-            <span class="close-card">x</span>
+
             <div id="slideshow-container">
+
+                <!-- class="mySlides" Images de la card cutomer review -->
 
                 <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
                 <a class="next" onclick="plusSlides(1)">&#10095;</a>
             </div>
             <div id="slideText-container">
+                <!-- <span class="close-card">x</span> -->
+
+                <!-- Text de la card customer review -->
 
             </div>
         </div>
@@ -61,6 +66,8 @@
     <script>
         // MODAL CUSTOMER CARD IMAGES
         var cardContent = null;
+        var width = 0;
+        var height = 0;
         var slideIndex = 1;
 
         function modalDataCard(reviewId) {
@@ -70,7 +77,7 @@
                     cardContent = res.data;
                     if (cardContent.imagesReview[0]) {
 
-                        // affiche la modal "slider customer images"
+                        // show the modal "slider customer images"
                         var modalCard = document.getElementById("myModal-card");
                         modalCard.style.display = "block";
 
@@ -78,14 +85,33 @@
                         cardContent.imagesReview.map((image, index) => {
                             var imgCreatedLive = document.createElement('img');
                             imgCreatedLive.src = '../../../' + image.path;
+                            imgCreatedLive.setAttribute('alt', image.alt);
                             imgCreatedLive.classList.add("mySlides");
                             document.getElementById('slideshow-container').appendChild(imgCreatedLive);
+                            // récupère le size ing pour showSlides.
+                            // sans ça impossible d'avoir le size pour le premier affichage !!!
+                            if (index == 0) {
+                                const img = new Image();
+                                img.src = imgCreatedLive.src;
+                                img.onload = function() {
+                                    width = this.width;
+                                    height = this.height;
+                                    slideIndex = 1;
+                                    showSlides(1);
+                                    img = null;
+                                }
+                            }
                             if (index > 0) {
                                 imgCreatedLive.style.display = 'none';
                             }
                         });
-         
-                        // insertion du text dans slideText-container
+
+                        // insertion du text de la card dans slideText-container
+                        var close = document.createElement('span');
+                        close.innerHTML = "\u2716";
+                        close.setAttribute('class', 'close-card');
+                        document.getElementById('slideText-container').appendChild(close);
+
                         var nameCustomer = document.createElement('h4');
                         nameCustomer.innerText = cardContent.name;
                         document.getElementById('slideText-container').appendChild(nameCustomer);
@@ -103,7 +129,7 @@
                             starsCustomer.classList.add('fas', 'fa-star');
                             document.getElementById('divStars').appendChild(starsCustomer);
                         }
-                        for (i = 0; i < ( 5 - cardContent.review.stars.length); i++) {
+                        for (i = 0; i < (5 - cardContent.review.stars.length); i++) {
                             var starsCustomer = document.createElement('i');
                             starsCustomer.classList.add('far', 'fa-star');
                             document.getElementById('divStars').appendChild(starsCustomer);
@@ -124,6 +150,10 @@
                                 imgCreatedLives[0].parentNode.removeChild(imgCreatedLives[0])
                             };
 
+                            // delete text from customer slider card and hide modal card
+                            document.getElementById('slideText-container').innerHTML = '';
+                            width = 0;
+                            height = 0;
                             modalCard.style.display = "none";
                         }
 
@@ -131,18 +161,16 @@
                         //     if (event.target == modalCard) {
                         //         modalCard.style.display = "none";
                         //     }
-                        // }
+                        // }               
                     }
                 });
-
-
         }
 
 
         // SLIDER CUSTOMER CARD IMAGES -------------- //
 
-        slideIndex = 1;
-        showSlides(slideIndex);
+        
+        // showSlides(slideIndex);
 
         function plusSlides(n) {
             showSlides(slideIndex += n);
@@ -151,7 +179,7 @@
         function showSlides(n) {
             var i;
             var slides = document.getElementsByClassName("mySlides");
-            console.log(slides);
+
             if (n > slides.length) {
                 slideIndex = 1
             }
@@ -162,6 +190,17 @@
                 slides[i].style.display = "none";
             }
             if (slides.length) {
+                width = slides[slideIndex - 1].width;
+                height = slides[slideIndex - 1].height;
+
+                if (width > height) {
+                    slides[slideIndex - 1].style.width = "100%";
+                    slides[slideIndex - 1].style.height = "auto";
+                }
+                if (width <= height) {
+                    slides[slideIndex - 1].style.height = "100%";
+                    slides[slideIndex - 1].style.width = "auto";
+                }
                 slides[slideIndex - 1].style.display = "block"
             };
         }

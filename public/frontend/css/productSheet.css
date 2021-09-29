@@ -6572,20 +6572,18 @@ readers do not read off random characters that represent icons */
   /* Fallback color */
   background-color: rgba(0, 0, 0, 0.4);
   /* Black w/ opacity */
-  border: solid 5px yellow;
 }
 
 /* Modal Content */
 .modal-card-content {
   position: relative;
-  background-color: #cccccc;
+  background-color: #ffffff;
   margin: auto;
   padding: 0;
-  padding-bottom: 50px;
-  border: 1px solid #888;
+  border-radius: 10px;
   width: 90%;
   max-width: 1000px;
-  height: 400px;
+  height: auto;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
@@ -6593,7 +6591,8 @@ readers do not read off random characters that represent icons */
   animation-duration: 0.4s;
   display: flex;
   flex-wrap: wrap;
-  border: dashed 2px #0077ff;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 /* Add Animation */
@@ -6619,52 +6618,73 @@ readers do not read off random characters that represent icons */
 }
 /* The Close Button */
 .close-card {
-  width: 100%;
-  height: 30px;
-  text-align: right;
-  padding-right: 20px;
-  color: black;
-  font-size: 28px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  margin-left: auto;
+  color: #474747;
+  background-color: #e6e6e6;
+  font-size: 24px;
   font-weight: bold;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: ease-in-out 0.3s;
 }
 
 .close-card:hover,
 .close-card:focus {
-  color: #000;
+  color: white;
+  background-color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+/* Slideshow container */
+#slideshow-container {
+  width: 60%;
+  height: 500px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  border-radius: 10px 0 0 10px;
 }
 
 .mySlides {
   display: block;
 }
 
-img {
+img.mySlides {
   vertical-align: middle;
 }
 
-/* Slideshow container */
-.slideshow-container {
-  max-width: 1000px;
-  height: 400px;
-  position: relative;
-  margin: auto;
-  border: dashed 2px red;
+#slideText-container {
+  width: 40%;
+  height: auto;
+  padding: 20px 10px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 /* Next & previous buttons */
-.prev, .next {
+.prev,
+.next {
   cursor: pointer;
   position: absolute;
   top: 50%;
   width: auto;
   padding: 16px;
   margin-top: -22px;
-  color: white;
+  color: #dbdbdb;
   font-weight: bold;
   font-size: 18px;
   transition: 0.6s ease;
-  border-radius: 0 3px 3px 0;
+  border: solid 1px #6e6e6e;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -6674,11 +6694,19 @@ img {
 /* Position the "next button" to the right */
 .next {
   right: 0;
-  border-radius: 3px 0 0 3px;
+  border-radius: 25px 0 0 25px;
+  border-right: none;
+}
+
+.prev {
+  left: 0;
+  border-radius: 0 25px 25px 0;
+  border-left: none;
 }
 
 /* On hover, add a black background color with a little bit see-through */
-.prev:hover, .next:hover {
+.prev:hover,
+.next:hover {
   background-color: rgba(0, 0, 0, 0.8);
 }
 
@@ -6712,7 +6740,9 @@ img {
 }
 /* On smaller screens, decrease text size */
 @media only screen and (max-width: 300px) {
-  .prev, .next, .text {
+  .prev,
+.next,
+.text {
     font-size: 11px;
   }
 }
@@ -7038,8 +7068,10 @@ img {
   background: #000;
 }
 
-#commentaire-1, #commentaire-2,
-#commentaire-3, #commentaire-4 {
+#commentaire-1,
+#commentaire-2,
+#commentaire-3,
+#commentaire-4 {
   width: 1000px;
   display: flex;
   flex-direction: column;

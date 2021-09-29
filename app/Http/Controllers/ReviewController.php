@@ -151,14 +151,14 @@ class ReviewController extends Controller
                     $destinationPath = public_path('/images/imagesReviews');
                     $imgFile = Image::make($image);
 
-                    $imgFile->resize(200, null, function ($constraint) {
+                    $imgFile->resize(500, null, function ($constraint) {
                         $constraint->aspectRatio();
                     });
 
                     $imgFile->save($destinationPath . '/' . $input['image']);
 
                     $image_review->path = 'images/imagesReviews/' . $input['image'];
-                    $image_review->alt = "Image(s) de " . $request->product_name . " postée(s) par un client";
+                    $image_review->alt = "Image(s) de " . $request->product_name . " postée(s) par " . Auth::user()->last_name;
                     $image_review->review_id = $review->id;
                     $image_review->save();
                 }
