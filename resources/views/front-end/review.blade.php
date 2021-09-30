@@ -54,11 +54,12 @@
                 <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
                 <a class="next" onclick="plusSlides(1)">&#10095;</a>
             </div>
+
             <div id="slideText-container">
                 <!-- <span class="close-card">x</span> -->
-
+                <!-- name date stars -->
                 <!-- Text de la card customer review -->
-
+                <!-- miniImgReviewDiv -->
             </div>
         </div>
     </div>
@@ -73,13 +74,16 @@
         function modalDataCard(reviewId) {
             axios.get(`http://127.0.0.1:8000/reviews/${reviewId}`)
                 .then(res => {
+                    // show the modal "slider customer images"
+                    var modalCard = document.getElementById("myModal-card");
+                    modalCard.style.display = "block";
+
                     // récupère la review et ses images s'il y en a
                     cardContent = res.data;
                     if (cardContent.imagesReview[0]) {
-
-                        // show the modal "slider customer images"
-                        var modalCard = document.getElementById("myModal-card");
-                        modalCard.style.display = "block";
+                        document.getElementById('slideText-container').style.width = '40%';
+                        document.getElementById('slideshow-container').style.width = '60%';
+                        document.getElementById('slideshow-container').style.display = 'flex';
 
                         // boucle sur imagesReview pour insérer toutes les images dans le dom
                         cardContent.imagesReview.map((image, index) => {
@@ -98,70 +102,98 @@
                                     height = this.height;
                                     slideIndex = 1;
                                     showSlides(1);
-                                    img = null;
                                 }
                             }
                             if (index > 0) {
                                 imgCreatedLive.style.display = 'none';
                             }
                         });
+                    } else {
+                        document.getElementById('slideText-container').style.width = '100%';
+                        document.getElementById('slideshow-container').style.display = 'none';
+                    }
 
-                        // insertion du text de la card dans slideText-container
-                        var close = document.createElement('span');
-                        close.innerHTML = "\u2716";
-                        close.setAttribute('class', 'close-card');
-                        document.getElementById('slideText-container').appendChild(close);
+                    // insertion du text de la card dans slideText-container
+                    var close = document.createElement('span');
+                    close.innerHTML = "\u2716";
+                    close.setAttribute('class', 'close-card');
+                    document.getElementById('slideText-container').appendChild(close);
 
-                        var nameCustomer = document.createElement('h4');
-                        nameCustomer.innerText = cardContent.name;
-                        document.getElementById('slideText-container').appendChild(nameCustomer);
+                    var nameCustomer = document.createElement('h4');
+                    nameCustomer.innerText = cardContent.name;
+                    document.getElementById('slideText-container').appendChild(nameCustomer);
 
-                        var dateCustomer = document.createElement('span');
-                        dateCustomer.innerText = cardContent.review.created_at;
-                        document.getElementById('slideText-container').appendChild(dateCustomer);
+                    var dateCustomer = document.createElement('span');
+                    dateCustomer.innerText = new Date(cardContent.review.created_at).toLocaleString('fr-FR', {
+                        day: 'numeric',
+                        month: 'numeric',
+                        year: 'numeric',
+                    });
+                    document.getElementById('slideText-container').appendChild(dateCustomer);
 
-                        var divStars = document.createElement('div');
-                        divStars.setAttribute('id', 'divStars');
-                        divStars.style.display = "flex";
-                        document.getElementById('slideText-container').appendChild(divStars);
-                        for (i = 0; i < cardContent.review.stars.length; i++) {
-                            var starsCustomer = document.createElement('i');
-                            starsCustomer.classList.add('fas', 'fa-star');
-                            document.getElementById('divStars').appendChild(starsCustomer);
+                    var divStars = document.createElement('div');
+                    divStars.setAttribute('id', 'divStars');
+                    document.getElementById('slideText-container').appendChild(divStars);
+                    for (i = 0; i < cardContent.review.stars; i++) {
+                        var starsCustomer = document.createElement('i');
+                        starsCustomer.classList.add('fas', 'fa-star');
+                        document.getElementById('divStars').appendChild(starsCustomer);
+                    }
+                    for (i = 0; i < (5 - cardContent.review.stars); i++) {
+                        var starsCustomer = document.createElement('i');
+                        starsCustomer.classList.add('far', 'fa-star');
+                        document.getElementById('divStars').appendChild(starsCustomer);
+                    }
+
+                    var slideTextBody = document.createElement('div');
+                    slideTextBody.setAttribute('id', 'slideText-body');
+                    document.getElementById('slideText-container').appendChild(slideTextBody);
+
+                    var textCustomer = document.createElement('p');
+                    textCustomer.innerText = cardContent.review.review;
+                    document.getElementById('slideText-body').appendChild(textCustomer);
+
+                    var miniImgReviewDiv = document.createElement('div');
+                    miniImgReviewDiv.setAttribute('id', 'miniImgReviewDiv');
+                    document.getElementById('slideText-container').appendChild(miniImgReviewDiv);
+
+                    // affichage des miniImages dans la partie texte du slider
+                    cardContent.imagesReview.map((image, index) => {
+                        // création des mini images
+                        var miniImg = document.createElement('img');
+                        miniImg.src = '../../../' + image.path;
+                        miniImg.setAttribute('alt', image.alt);
+                        miniImg.setAttribute('id', 'miniImage_' + (index + 1));
+                        miniImg.style.boxSizing = 'border-box';
+                        miniImg.classList.add("miniImg");
+                        document.getElementById('miniImgReviewDiv').appendChild(miniImg);
+                        // gestion des changements d'images par click sur les mini images
+                        var miniImgId = document.getElementById('miniImage_' + (index + 1));
+                        miniImgId.addEventListener('click', function() {
+                            miniImageChange(parseInt(miniImgId.id.replace('miniImage_', ''), 10));
+                        });
+                        // bordure sur la 1er miniImg
+                        if (index === 0) {
+                            miniImg.style.border = "solid 2px black";
                         }
-                        for (i = 0; i < (5 - cardContent.review.stars.length); i++) {
-                            var starsCustomer = document.createElement('i');
-                            starsCustomer.classList.add('far', 'fa-star');
-                            document.getElementById('divStars').appendChild(starsCustomer);
-                        }
+                    });
 
 
-                        var textCustomer = document.createElement('p');
-                        textCustomer.innerText = cardContent.review.review;
-                        document.getElementById('slideText-container').appendChild(textCustomer);
+                    // close modal
+                    var spanCard = document.getElementsByClassName("close-card")[0];
+                    spanCard.onclick = function() {
+                        var imgCreatedLives = document.getElementsByClassName('mySlides');
 
-                        // close modal
-                        var spanCard = document.getElementsByClassName("close-card")[0];
-                        spanCard.onclick = function() {
-                            var imgCreatedLives = document.getElementsByClassName('mySlides');
+                        // supprime toutes les images créées dans le dom avec imagesReview.map...
+                        for (var i = imgCreatedLives.length - 1; i >= 0; i--) {
+                            imgCreatedLives[0].parentNode.removeChild(imgCreatedLives[0])
+                        };
 
-                            // supprime toutes les images créées dans le dom avec imagesReview.map...
-                            for (var i = imgCreatedLives.length - 1; i >= 0; i--) {
-                                imgCreatedLives[0].parentNode.removeChild(imgCreatedLives[0])
-                            };
-
-                            // delete text from customer slider card and hide modal card
-                            document.getElementById('slideText-container').innerHTML = '';
-                            width = 0;
-                            height = 0;
-                            modalCard.style.display = "none";
-                        }
-
-                        // window.onclick = function(event) {
-                        //     if (event.target == modalCard) {
-                        //         modalCard.style.display = "none";
-                        //     }
-                        // }               
+                        // delete text from customer slider card and hide modal card
+                        document.getElementById('slideText-container').innerHTML = '';
+                        width = 0;
+                        height = 0;
+                        modalCard.style.display = "none";
                     }
                 });
         }
@@ -169,17 +201,30 @@
 
         // SLIDER CUSTOMER CARD IMAGES -------------- //
 
-        
-        // showSlides(slideIndex);
-
         function plusSlides(n) {
-            showSlides(slideIndex += n);
+            // on appel miniImageChange pour gérer les miniImg et ensuite showSlides est appelée pour afficher les grandes images
+            miniImageChange(slideIndex += n);
+        }
+
+        function miniImageChange(n) {
+            var slides = document.getElementsByClassName("miniImg");
+            var ndx = 1;
+            if (n > slides.length) {
+                n = 1;
+            }
+            if (n < 1) {
+                n = slides.length;
+            }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.border = "none";
+            }
+            document.getElementById('miniImage_' + n).style.border = "solid 2px black";
+            showSlides(slideIndex = n);
         }
 
         function showSlides(n) {
             var i;
             var slides = document.getElementsByClassName("mySlides");
-
             if (n > slides.length) {
                 slideIndex = 1
             }
@@ -201,6 +246,9 @@
                     slides[slideIndex - 1].style.height = "100%";
                     slides[slideIndex - 1].style.width = "auto";
                 }
+                if (width == height) {
+                    slides[slideIndex - 1].style.borderRadius = "10px 0 0 10px";
+                }
                 slides[slideIndex - 1].style.display = "block"
             };
         }
@@ -212,7 +260,7 @@
         <!-- Modal content -->
         <div class="modal-content">
             <div class="modal-header">
-                <span class="close">&times;</span>
+                <span class="close">&#10006;</span>
             </div>
 
             <div class="sliderReviews">

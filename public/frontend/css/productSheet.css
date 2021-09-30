@@ -6461,12 +6461,12 @@ readers do not read off random characters that represent icons */
   flex-wrap: wrap;
 }
 
-.reviews_wrapper .fas {
+#commentaire-1 .fas {
   font-size: 14px;
   color: #f8ce0b;
 }
 
-.reviews_wrapper .far {
+#commentaire-1 .far {
   font-size: 14px;
 }
 
@@ -6550,6 +6550,15 @@ readers do not read off random characters that represent icons */
   font-size: 12px;
 }
 
+#textSlideReview {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  /* number of lines to show */
+  -webkit-box-orient: vertical;
+}
+
 /* ///////////// MODAL CARD  //////////////// */
 .modal-card {
   display: none;
@@ -6581,7 +6590,7 @@ readers do not read off random characters that represent icons */
   margin: auto;
   padding: 0;
   border-radius: 10px;
-  width: 90%;
+  width: 1000px;
   max-width: 1000px;
   height: auto;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -6622,6 +6631,8 @@ readers do not read off random characters that represent icons */
   height: 40px;
   text-align: center;
   margin-left: auto;
+  position: absolute;
+  right: 20px;
   color: #474747;
   background-color: #e6e6e6;
   font-size: 24px;
@@ -6643,8 +6654,7 @@ readers do not read off random characters that represent icons */
 
 /* Slideshow container */
 #slideshow-container {
-  width: 60%;
-  height: 500px;
+  height: 600px;
   position: relative;
   display: flex;
   justify-content: center;
@@ -6659,16 +6669,6 @@ readers do not read off random characters that represent icons */
 
 img.mySlides {
   vertical-align: middle;
-}
-
-#slideText-container {
-  width: 40%;
-  height: auto;
-  padding: 20px 10px 20px 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
 }
 
 /* Next & previous buttons */
@@ -6694,13 +6694,13 @@ img.mySlides {
 /* Position the "next button" to the right */
 .next {
   right: 0;
-  border-radius: 25px 0 0 25px;
+  border-radius: 10px 0 0 10px;
   border-right: none;
 }
 
 .prev {
   left: 0;
-  border-radius: 0 25px 25px 0;
+  border-radius: 0 10px 10px 0;
   border-left: none;
 }
 
@@ -6738,14 +6738,21 @@ img.mySlides {
     opacity: 1;
   }
 }
-/* On smaller screens, decrease text size */
-@media only screen and (max-width: 300px) {
-  .prev,
-.next,
-.text {
-    font-size: 11px;
-  }
+#slideText-container {
+  height: 600px;
+  padding: 20px 10px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
+
+#divStars {
+  width: 100%;
+  display: flex;
+  margin-top: 5px;
+}
+
 #divStars .fas {
   font-size: 14px;
   color: #f8ce0b;
@@ -6755,6 +6762,64 @@ img.mySlides {
   font-size: 14px;
 }
 
+#slideText-container #slideText-body {
+  width: 100%;
+  height: 350px;
+  overflow-y: auto;
+  scrollbar-color: black #686868;
+  scrollbar-width: thin;
+  margin: 0 0 10px 0;
+  padding: 10px 0;
+}
+
+#slideText-container #slideText-body::-webkit-scrollbar {
+  width: 10px;
+}
+
+#miniImgReviewDiv::-webkit-scrollbar {
+  height: 10px;
+}
+
+#slideText-container #slideText-body::-webkit-scrollbar-track,
+#miniImgReviewDiv::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+#slideText-container #slideText-body::-webkit-scrollbar-thumb,
+#miniImgReviewDiv::-webkit-scrollbar-thumb {
+  background: black;
+  border-radius: 10px;
+}
+
+#slideText-container #slideText-body::-webkit-scrollbar-thumb:hover,
+#miniImgReviewDiv::-webkit-scrollbar-thumb:hover {
+  background: #3a3a3a;
+}
+
+#miniImgReviewDiv {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  padding: 10px;
+  overflow-x: scroll;
+  scrollbar-color: black #686868;
+  scrollbar-width: thin;
+}
+
+#miniImgReviewDiv img {
+  height: 100%;
+  margin: 0 5px;
+}
+
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+  .prev,
+.next,
+.text {
+    font-size: 11px;
+  }
+}
 /* ///////////// MODAL REVIEW //////////////// */
 .modal {
   display: none;
@@ -6820,24 +6885,25 @@ img.mySlides {
 }
 /* The Close Button */
 .close {
-  color: white;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+  color: #7095fa;
+  font-size: 24px;
+  transition: ease-in-out 0.15s;
 }
 
 .close:hover,
 .close:focus {
-  color: #000;
+  color: black;
   text-decoration: none;
   cursor: pointer;
+  font-weight: bold;
 }
 
 .modal-header {
   width: 100%;
-  height: 10px;
-  padding: 2px 16px;
-  background-color: #7095fa;
+  height: 40px;
+  text-align: right;
+  padding: 3px 16px 2px 0;
+  background-color: #e6ecff;
   color: white;
 }
 
@@ -6900,9 +6966,9 @@ img.mySlides {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 10px;
+  height: 40px;
   padding: 2px 16px;
-  background-color: #7095fa;
+  background-color: #e6ecff;
   color: white;
 }
 
@@ -7086,6 +7152,7 @@ img.mySlides {
   text-align: left;
   margin-top: auto;
   margin-bottom: 10px;
+  color: #7095fa;
 }
 
 i.fa-reply {
