@@ -55,6 +55,7 @@ Route::resource('/type_detail_products', Type_detail_productController::class);
 Route::resource('/jumbos', JumbosController::class);
 Route::resource('/bannieres', BanniereController::class);
 Route::resource('/reviews', ReviewController::class);
+Route::resource('/carts', CartController::class);
 
 
 // cette route remplace Route::resource('/collections INDEX car j'ai besoin de l'URL collections pour le front end pour le SEO

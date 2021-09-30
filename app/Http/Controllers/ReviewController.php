@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+// use App\Models\User;
 use App\Models\Review;
 use Illuminate\Http\Request;
-use App\Models\Images_product;
+// use App\Models\Images_product;
 use App\Models\Images_review;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
@@ -120,7 +120,7 @@ class ReviewController extends Controller
         // dd($request);
         if (Auth::check()) {
 
-            $this->validate($request, ['review' => 'required|max:255', 'stars' => 'required', 'images' => 'mimes:jpg,jpeg,png']);
+            $this->validate($request, ['review' => 'required|max:6000', 'stars' => 'required', 'images' => 'mimes:jpg,jpeg,png']);
 
             $review = new Review();
             $review->review = $request->review;

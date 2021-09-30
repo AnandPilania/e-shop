@@ -74,7 +74,7 @@
                                 @error('description')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
-                                <input class="btn btn-primary" type="submit" value="Envoer">
+                                <input class="btn btn-primary" type="submit" value="Envoyer">
                             </fieldset>
                         </form>
                     </div>

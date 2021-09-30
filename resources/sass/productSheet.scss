@@ -702,6 +702,9 @@ img.mySlides {
     margin: 0 5px;
 }
 
+.miniImg {
+    box-sizing: border-box;
+}
 /* On smaller screens, decrease text size */
 @media only screen and (max-width: 300px) {
     .prev,
