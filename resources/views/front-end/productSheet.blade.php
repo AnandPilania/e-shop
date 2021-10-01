@@ -81,6 +81,15 @@
             })
         </script>
 
+        <!-- doit être placé avant <div class="text_product"> pour ne pas être undefined -->
+        <!-- sert à vérifier si tous les détails sont bien dans detailsObj -->
+        <script>
+            var details = [];
+
+            function listDetailsToAddToCart(detail) {
+                details.push(detail);
+            }
+        </script>
 
         <div class="text_product">
             <h1>{{ $product->name }}</h1>
@@ -99,10 +108,13 @@
             @if ($value != $lastValue)
             <div class="block_detail">
                 <h4 id="nomDetail">{{ $lastValue = $value }}</h4>
+                <script>
+                    listDetailsToAddToCart("{!! $value !!}");
+                </script>
                 @endif
                 {{-- valeur du détail --}}
                 @if ($value == $lastValue)
-                <input type="radio" class="details radio_item" value="{{ $key }}" name="{{ $value }}" id="{{ $key }}" required>
+                <input type="radio" class="details radio_item" value="{{ $key }}" name="{{ $value }}" id="{{ $key }}" required onclick="addDetailToCart(event)">
                 <label class="label_item" for="{{ $key }}"> {{ $key }}</label>
                 @endif
                 {{-- referme la div quand on change de type de détails --}}
@@ -112,22 +124,50 @@
             @endforeach
         </div>
 
-
-
         <span id="quantityBuy">Quantité</span>
         <form action="" class="nbArticles">
             @csrf
             <div class="wrapper_quantity">
-                <button class="btn-quantity" onclick="dec_NbArticle(event)" aria-label="Augmenter la quantité de l'article de un">-</button>
+                <button class="btn-quantity" onclick="dec_NbArticle(event), addQuantityToCart(event)" aria-label="Augmenter la quantité de l'article de un">-</button>
 
-                <input type="text" maxlength="3" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="1" id="quantity" name="quantity" class="nbArticles_input">
+                <input type="text" maxlength="3" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="1" id="quantity" name="quantity" class="nbArticles_input" onchange="addQuantityToCart(event)">
 
-                <button onclick="inc_NbArticle(event)" aria-label="Réduire la quantité de l'article de un">+</button>
+                <button onclick="inc_NbArticle(event), addQuantityToCart(event)" aria-label="Réduire la quantité de l'article de un">+</button>
             </div>
-            <button class="addToCart">Ajouter au panier</button>
+            <button class="addToCart" id="addToCart" onclick="addCart(event)">Ajouter au panier</button>
         </form>
 
-        {{-- gestion input quantity --}}
+        <!-- handle addToCart -->
+        <script>
+            var quantity_cart = document.getElementById('quantity').value;
+            var product_id_cart = <?php echo json_encode($product->id); ?>;
+
+            // handle update quantity
+            const addQuantityToCart = (e) => {
+                e.preventDefault();
+                quantity_cart = document.getElementById('quantity').value;
+            }
+
+            function addCart(e) {
+                e.preventDefault();
+                // vérifie si tous les détails sont bien dans detailsObj
+                // details contient tous les noms des détails
+                for (var x = 0; x < details.length; x++) {
+                    if (!Object.keys(detailsObj).includes(details[x]))
+                        console.log(details[x]);
+                }
+            }
+
+            var detailsObj = {};
+            // handle add details
+            function addDetailToCart(e) {
+                // ajoute dans detailsObj les détails et leur valeur
+                detailsObj[e.target.name] = e.target.value;
+                Object.entries(detailsObj).map(item => console.log(item));
+            }
+        </script>
+
+        <!-- gestion input quantity -->
         <script>
             // ajoute 1 à la quantité
             const inc_NbArticle = (e) => {
@@ -155,13 +195,15 @@
                     document.getElementById('quantity').value = 1
             });
         </script>
-
     </div>
 </div>
+
+<!-- fiche technique -->
 <div class="technical_sheet">
     {!! $product->product_sheet->text !!}
 </div>
 
+<!-- Promo -->
 <div class="promo_wrapper">
     <h2>PROMO LIMITÉE : 20% OFFERTS SUR CE PACK</h2>
 
@@ -356,7 +398,7 @@
     });
 </script>
 
-@include('front-end.review') 
+@include('front-end.review')
 
 <div class="lesClientAyantAcheté">
     <p>LES CLIENTS AYANT ACHETÉ CET ARTICLE ONT ÉGALEMENT ACHETÉ</p>

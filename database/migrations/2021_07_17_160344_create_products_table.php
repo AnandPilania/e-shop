@@ -20,6 +20,7 @@ class CreateProductsTable extends Migration
             $table->mediumText('description');
             $table->string('link');
             $table->boolean('best_sell')->nullable();
+            $table->integer('ordre');
             $table->timestamps();
         });
     }

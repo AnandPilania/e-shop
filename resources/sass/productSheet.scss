@@ -658,8 +658,8 @@ img.mySlides {
     overflow-y: auto;
     scrollbar-color: rgb(0, 0, 0) rgb(104, 104, 104);
     scrollbar-width: thin;
-    margin: 0 0 10px 0;
-    padding: 10px 0;
+    margin: 5px 0 10px 0;
+    padding: 10px 5px 10px 0;
     // border: solid red 1px;
 }
 
@@ -692,14 +692,14 @@ img.mySlides {
     width: 100%;
     height: 100px;
     display: flex;
-    padding: 10px;
+    padding: 10px 0;
     overflow-x: scroll;
     scrollbar-color: rgb(0, 0, 0) rgb(104, 104, 104);
     scrollbar-width: thin;
 }
 #miniImgReviewDiv img {
     height: 100%;
-    margin: 0 5px;
+    margin-right: 5px;
 }
 
 .miniImg {

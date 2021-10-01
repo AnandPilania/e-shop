@@ -115,7 +115,7 @@
 
                     // insertion du text de la card dans slideText-container
                     var close = document.createElement('span');
-                    close.innerHTML = "\u2716";
+                    close.innerHTML = "\u2716"; // <-- le x pour close
                     close.setAttribute('class', 'close-card');
                     document.getElementById('slideText-container').appendChild(close);
 
@@ -158,25 +158,29 @@
                     document.getElementById('slideText-container').appendChild(miniImgReviewDiv);
 
                     // affichage des miniImages dans la partie texte du slider
-                    cardContent.imagesReview.map((image, index) => {
-                        // création des mini images
-                        var miniImg = document.createElement('img');
-                        miniImg.src = '../../../' + image.path;
-                        miniImg.setAttribute('alt', image.alt);
-                        miniImg.setAttribute('id', 'miniImage_' + (index + 1));
-                        miniImg.style.boxSizing = 'border-box';
-                        miniImg.classList.add("miniImg");
-                        document.getElementById('miniImgReviewDiv').appendChild(miniImg);
-                        // gestion des changements d'images par click sur les mini images
-                        var miniImgId = document.getElementById('miniImage_' + (index + 1));
-                        miniImgId.addEventListener('click', function() {
-                            miniImageChange(parseInt(miniImgId.id.replace('miniImage_', ''), 10));
+                    if (cardContent.imagesReview[0]) {
+                        cardContent.imagesReview.map((image, index) => {
+                            // création des mini images
+                            var miniImg = document.createElement('img');
+                            miniImg.src = '../../../' + image.path;
+                            miniImg.setAttribute('alt', image.alt);
+                            miniImg.setAttribute('id', 'miniImage_' + (index + 1));
+                            miniImg.style.boxSizing = 'border-box';
+                            miniImg.classList.add("miniImg");
+                            document.getElementById('miniImgReviewDiv').appendChild(miniImg);
+                            // gestion des changements d'images par click sur les mini images
+                            var miniImgId = document.getElementById('miniImage_' + (index + 1));
+                            miniImgId.addEventListener('click', function() {
+                                miniImageChange(parseInt(miniImgId.id.replace('miniImage_', ''), 10));
+                            });
+                            // bordure sur la 1er miniImg
+                            if (index === 0) {
+                                miniImg.style.border = "solid 2px black";
+                            }
                         });
-                        // bordure sur la 1er miniImg
-                        if (index === 0) {
-                            miniImg.style.border = "solid 2px black";
-                        }
-                    });
+                    } else {
+                        document.getElementById('miniImgReviewDiv').style.display = 'none';
+                    }
 
 
                     // close modal
