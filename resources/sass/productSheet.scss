@@ -195,6 +195,13 @@ $fa-font-path: "../webfonts";
     background-color: rgb(226, 226, 226);
 }
 
+.missingDetails {
+    font-size: 14px;
+    font-weight: bold;
+    color: red;
+    display: none;
+}
+
 #quantityBuy {
     display: block;
     font-size: 18px;

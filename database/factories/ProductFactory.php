@@ -13,7 +13,7 @@ class ProductFactory extends Factory
      * @var string
      */
     protected $model = product::class;
-
+    private static $ordre = 1;
     /**
      * Define the model's default state.
      *
@@ -36,6 +36,7 @@ class ProductFactory extends Factory
             'description' => $this->faker->sentence(15, true),
             'link' => $link,
             'best_sell' => 0,
+            'ordre' => self::$ordre++
         ];
     }
 }

@@ -16,13 +16,12 @@ class ProductSheetController extends Controller
         $categories = Category::all();
         $product = Product::where('link', $productLink)->first();
         $reviews = $product->reviews;
-        // dd($reviews);
-        $details = $product->product_details->groupBy('type_detail_product_id');
 
+        $details = $product->product_details->groupBy('type_detail_product_id');
+   
         $tabDetails = [];
         foreach ($details as $subDetails) {
             foreach ($subDetails as $detail) {
-                // echo $detail->type_detail_product->name . '   ' . $detail->libelle . '<br>';
                 $tabDetails[$detail->libelle] = $detail->type_detail_product->name;
             }
         }
@@ -32,8 +31,6 @@ class ProductSheetController extends Controller
         $collectionId2 = Collection::all('id')->random(1);
         $promo2 = Collection::find($collectionId2);
 
-        // $promo1[0]->products->random(1)[0];
-        // $promo2[0]->products->random(1)[0];
         $promos = array(
             'promo1' => $promo1[0]->products->random(1)[0], 
             'promo2' => $promo2[0]->products->random(1)[0]

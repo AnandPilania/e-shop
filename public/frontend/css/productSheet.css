@@ -6311,6 +6311,13 @@ readers do not read off random characters that represent icons */
   background-color: #e2e2e2;
 }
 
+.missingDetails {
+  font-size: 14px;
+  font-weight: bold;
+  color: red;
+  display: none;
+}
+
 #quantityBuy {
   display: block;
   font-size: 18px;

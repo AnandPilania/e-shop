@@ -2,22 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Jumbo;
+use App\Models\Product;
 use App\Models\Banniere;
 use App\Models\Category;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 use Intervention\Image\Facades\Image;
-
 use App\Http\Requests\StoreIndexFront;
-use App\Models\Product;
-
 use function PHPUnit\Framework\isNull;
 use function PHPUnit\Framework\isEmpty;
+use Illuminate\Support\Facades\Session;
 
 class FrontEndController extends Controller
 {
     public function index()
     {
+        if (Auth::check()) {
+            // check if cart exist and put it in session
+            $cart = Cart::where('user_id', Auth::user()->id)->get();
+            if ($cart) {
+                Session::put('cart', $cart);
+                dd(Session::get('cart'));
+            } else {
+                 dd('nada');
+            }
+        }
 
         // si on a un jumbotron dans la table jumbo alors on l'affiche sinon on en crée un et on l'affiche. Pour ne pas avboir d'ereur d'objet vide dans la vue
 

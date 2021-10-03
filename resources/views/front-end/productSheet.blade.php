@@ -100,24 +100,25 @@
 
             <div class="wrapper_details">
                 @foreach ($tabDetails as $key => $value)
-                {{-- referme la div quand on change de type de détails --}}
+                <!-- referme la div quand on change de type de détails -->
                 @if ($value != $lastValue && !$loop->first)
             </div>
             @endif
-            {{-- nom du détail --}}
+            <!-- nom du détail -->
             @if ($value != $lastValue)
             <div class="block_detail">
                 <h4 id="nomDetail">{{ $lastValue = $value }}</h4>
+                <span id="{{ $value }}" class="missingDetails">Ce champ est obligatoire</span>
                 <script>
                     listDetailsToAddToCart("{!! $value !!}");
                 </script>
                 @endif
-                {{-- valeur du détail --}}
+                <!-- valeur du détail -->
                 @if ($value == $lastValue)
                 <input type="radio" class="details radio_item" value="{{ $key }}" name="{{ $value }}" id="{{ $key }}" required onclick="addDetailToCart(event)">
                 <label class="label_item" for="{{ $key }}"> {{ $key }}</label>
                 @endif
-                {{-- referme la div quand on change de type de détails --}}
+                <!-- referme la div quand on change de type de détails -->
                 @if ($loop->last)
             </div>
             @endif
@@ -142,20 +143,10 @@
             var quantity_cart = document.getElementById('quantity').value;
             var product_id_cart = <?php echo json_encode($product->id); ?>;
 
-            // handle update quantity
+            // modify quantity
             const addQuantityToCart = (e) => {
                 e.preventDefault();
                 quantity_cart = document.getElementById('quantity').value;
-            }
-
-            function addCart(e) {
-                e.preventDefault();
-                // vérifie si tous les détails sont bien dans detailsObj
-                // details contient tous les noms des détails
-                for (var x = 0; x < details.length; x++) {
-                    if (!Object.keys(detailsObj).includes(details[x]))
-                        console.log(details[x]);
-                }
             }
 
             var detailsObj = {};
@@ -164,7 +155,44 @@
                 // ajoute dans detailsObj les détails et leur valeur
                 detailsObj[e.target.name] = e.target.value;
                 Object.entries(detailsObj).map(item => console.log(item));
+                // masque le message d'erreur s'il y en avait un
+                document.getElementById(e.target.name).style.display = "none"
             }
+
+            function addCart(e) {
+                e.preventDefault();
+                // vérifie si tous les détails sont bien dans detailsObj
+                // details contient tous les noms des détails présent sur le produit
+                var missingDetails = [];
+                for (var x = 0; x < details.length; x++) {
+                    if (!Object.keys(detailsObj).includes(details[x]))
+                        missingDetails.push(details[x]);
+                }
+
+                if (missingDetails.length === 0) {
+                    missingDetails.forEach(item => document.getElementById(item).style.display = "none");
+
+                    detailsObj['product_id_cart'] = product_id_cart;
+                    detailsObj['quantity'] = quantity_cart;
+                    // transformation de l'objet en string JSON
+                    var cart = JSON.stringify(detailsObj);
+
+                    var formData = new FormData();
+                    formData.append("cart", cart);
+
+                    axios.post(`http://127.0.0.1:8000/carts`, formData)
+                        .then(res => {
+                            console.log('res.data  --->  ok');
+
+                        }).catch(function(error) {
+                            console.log('error:   ' + error);
+                        });
+                } else {
+                    missingDetails.forEach(item => document.getElementById(item).style.display = "block");
+                }
+
+            }
+
         </script>
 
         <!-- gestion input quantity -->
