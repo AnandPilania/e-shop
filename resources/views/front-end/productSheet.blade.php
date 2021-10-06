@@ -95,10 +95,40 @@
             <h1>{{ $product->name }}</h1>
             <h2>{{ $product->description }}</h2>
             <h5 id="price_product">{{ $product->price }} €</h5>
-           
+
+
+            <!-- Détails -->
             {{ $lastValue = '' }}
 
             <div class="wrapper_details">
+                @foreach ($product->product_details as $value)
+                <!-- referme la div quand on change de type de détails -->
+                @if ($value->type_detail_product->name != $lastValue && !$loop->first)
+            </div>
+            @endif
+            <!-- nom du détail -->
+            @if ($value->type_detail_product->name != $lastValue)
+            <div class="block_detail">
+                <h4 id="nomDetail">{{ $lastValue = $value->type_detail_product->name }}</h4>
+                <span id="{{ $value->type_detail_product->name }}" class="missingDetails">Ce champ est obligatoire</span>
+                <script>
+                    listDetailsToAddToCart("{!! $value->type_detail_product->name !!}");
+                </script>
+                @endif
+                <!-- valeur du détail -->
+                @if ($value->type_detail_product->name == $lastValue)
+                <input type="radio" class="details radio_item" value="{{ $value->libelle }}" name="{{ $value->type_detail_product->name }}" id="{{ $value->libelle }}" required onclick="addDetailToCart(event)">
+                <label class="label_item" for="{{ $value->libelle }}"> {{ $value->libelle }}</label>
+                @endif
+                <!-- referme la div quand on change de type de détails -->
+                @if ($loop->last)
+            </div>
+            @endif
+            @endforeach
+
+
+<!-- ////////////////////////////////////////////////////////////////////// -->
+            {{-- <div class="wrapper_details">
                 @foreach ($tabDetails as $key => $value)
                 <!-- referme la div quand on change de type de détails -->
                 @if ($value != $lastValue && !$loop->first)
@@ -108,123 +138,88 @@
             @if ($value != $lastValue)
             <div class="block_detail">
                 <h4 id="nomDetail">{{ $lastValue = $value }}</h4>
-                <span id="{{ $value }}" class="missingDetails">Ce champ est obligatoire</span>
-                <script>
-                    listDetailsToAddToCart("{!! $value !!}");
-                </script>
-                @endif
-                <!-- valeur du détail -->
-                @if ($value == $lastValue)
-                <input type="radio" class="details radio_item" value="{{ $key }}" name="{{ $value }}" id="{{ $key }}" required onclick="addDetailToCart(event)">
-                <label class="label_item" for="{{ $key }}"> {{ $key }}</label>
-                @endif
-                <!-- referme la div quand on change de type de détails -->
-                @if ($loop->last)
-            </div>
+            <span id="{{ $value }}" class="missingDetails">Ce champ est obligatoire</span>
+            <script>
+                listDetailsToAddToCart("{!! $value !!}");
+            </script>
             @endif
-            @endforeach
-            
+            <!-- valeur du détail -->
+            @if ($value == $lastValue)
+            <input type="radio" class="details radio_item" value="{{ $key }}" name="{{ $value }}" id="{{ $key }}" required onclick="addDetailToCart(event)">
+            <label class="label_item" for="{{ $key }}"> {{ $key }}</label>
+            @endif
+            <!-- referme la div quand on change de type de détails -->
+            @if ($loop->last)
         </div>
+        @endif
+        @endforeach --}}
+<!-- /////////////////////////////////////////////////////////////////////// -->
 
-        <span id="quantityBuy">Quantité</span>
-        <form action="" class="nbArticles">
-            @csrf
-            <div class="wrapper_quantity">
-                <button class="btn-quantity" onclick="dec_NbArticle(event), addQuantityToCart(event)" aria-label="Augmenter la quantité de l'article de un">-</button>
-
-                <input type="text" maxlength="3" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="1" id="quantity" name="quantity" class="nbArticles_input" onchange="addQuantityToCart(event)">
-
-                <button onclick="inc_NbArticle(event), addQuantityToCart(event)" aria-label="Réduire la quantité de l'article de un">+</button>
-            </div>
-            <button class="addToCart" id="addToCart" onclick="addCart(event)">Ajouter au panier</button>
-        </form>
-        @dump(Session::all()) 
-        <!-- handle addToCart -->
-        <script>
-            var quantity_cart = document.getElementById('quantity').value;
-            var product_id_cart = <?php echo json_encode($product->id); ?>;
-
-            // modify quantity
-            const addQuantityToCart = (e) => {
-                e.preventDefault();
-                quantity_cart = document.getElementById('quantity').value;
-            }
-
-            var detailsObj = {};
-            // handle add details
-            function addDetailToCart(e) {
-                // ajoute dans detailsObj les détails et leur valeur
-                detailsObj[e.target.name] = e.target.value;
-                Object.entries(detailsObj).map(item => console.log(item));
-                // masque le message d'erreur s'il y en avait un
-                document.getElementById(e.target.name).style.display = "none"
-            }
-
-            function addCart(e) {
-                e.preventDefault();
-                // vérifie si tous les détails sont bien dans detailsObj
-                // details contient tous les noms des détails présent sur le produit
-                var missingDetails = [];
-                for (var x = 0; x < details.length; x++) {
-                    if (!Object.keys(detailsObj).includes(details[x]))
-                        missingDetails.push(details[x]);
-                }
-
-                if (missingDetails.length === 0) {
-                    missingDetails.forEach(item => document.getElementById(item).style.display = "none");
-
-                    detailsObj['product_id_cart'] = product_id_cart;
-                    detailsObj['quantity'] = quantity_cart;
-                    // transformation de l'objet en string JSON
-                    var cart = JSON.stringify(detailsObj);
-
-                    var formData = new FormData();
-                    formData.append("cart", cart);
-
-                    axios.post(`http://127.0.0.1:8000/carts`, formData)
-                        .then(res => {
-                            console.log('res.data  --->  ok');
-
-                        }).catch(function(error) {
-                            console.log('error:   ' + error);
-                        });
-                } else {
-                    missingDetails.forEach(item => document.getElementById(item).style.display = "block");
-                }
-
-            }
-
-        </script>
-
-        <!-- gestion input quantity -->
-        <script>
-            // ajoute 1 à la quantité
-            const inc_NbArticle = (e) => {
-                e.preventDefault();
-                if (document.getElementById('quantity').value < 999) {
-                    document.getElementById('quantity').value++;
-                }
-            };
-
-            // enlève 1 de la quantité
-            const dec_NbArticle = (e) => {
-                e.preventDefault();
-                if (document.getElementById('quantity').value > 1) {
-                    document.getElementById('quantity').value--;
-                }
-            };
-
-            // empèche le paste sur l'input quantité de produit
-            var inputQuantity = document.getElementById('quantity');
-            inputQuantity.addEventListener('paste', e => e.preventDefault());
-
-            // met à 1 la quantité si elle est == à '' ou == à 0
-            window.addEventListener('click', e => {
-                if (document.getElementById('quantity').value == '' || document.getElementById('quantity').value == 0)
-                    document.getElementById('quantity').value = 1
-            });
-        </script>
     </div>
+
+    <!-- Boutons pour la quantité -->
+    @include('front-end.cart_and_sheet_elements.quantity_buttons')
+
+    <button class="addToCart" id="addToCart" onclick="addCart(event)">Ajouter au panier</button>
+
+    @dump(Session::all())
+    <!-- handle addToCart -->
+    <script>
+        var quantity_cart = document.getElementById('quantity').value;
+        var product_id_cart = <?php echo json_encode($product->id); ?>;
+
+        // modify quantity
+        const addQuantityToCart = (e) => {
+            e.preventDefault();
+            quantity_cart = document.getElementById('quantity').value;
+        }
+
+        var detailsObj = {};
+        // handle add details
+        function addDetailToCart(e) {
+            // ajoute dans detailsObj les détails et leur valeur
+            detailsObj[e.target.name] = e.target.value;
+            Object.entries(detailsObj).map(item => console.log(item));
+            // masque le message d'erreur s'il y en avait un
+            document.getElementById(e.target.name).style.display = "none"
+        }
+
+        function addCart(e) {
+            e.preventDefault();
+            // vérifie si tous les détails sont bien dans detailsObj
+            // details contient tous les noms des détails présent sur le produit
+            var missingDetails = [];
+            for (var x = 0; x < details.length; x++) {
+                if (!Object.keys(detailsObj).includes(details[x]))
+                    missingDetails.push(details[x]);
+            }
+            if (missingDetails.length === 0) {
+                missingDetails.forEach(item => document.getElementById(item).style.display = "none");
+
+                detailsObj['product_id_cart'] = product_id_cart;
+                detailsObj['quantity'] = quantity_cart;
+                // transformation de l'objet en string JSON
+                var cart = JSON.stringify(detailsObj);
+
+                var formData = new FormData();
+                formData.append("cart", cart);
+
+                axios.post(`http://127.0.0.1:8000/carts`, formData)
+                    .then(res => {
+                        console.log('res.data  --->  ok');
+
+                    }).catch(function(error) {
+                        console.log('error:   ' + error);
+                    });
+            } else {
+                missingDetails.forEach(item => document.getElementById(item).style.display = "block");
+            }
+
+        }
+    </script>
+
+
+</div>
 </div>
 
 <!-- fiche technique -->

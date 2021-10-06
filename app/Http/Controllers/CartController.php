@@ -29,16 +29,20 @@ class CartController extends Controller
     {
         $product_in_cart = [];
         $categories = Category::all();
+
         // Session::forget('cart');
 
         // récupère tous les produits présents dans la session cart et renvoi la vue panier si session cart existe 
         if (Session::exists('cart')) {
-            $cart = Session::get('cart');
-            foreach ($cart as $products) {
 
-                $product_in_cart[] = Product::find($products->product_id_cart);
+            $cart = Session::get('cart');
+
+            foreach ($cart as $products) {
+                $product_in_cart[] = Product::find($products['product_id_cart']);
+                $product = Product::find($products['product_id_cart']);
             }
-            return view('front-end.cart', ['categories' => $categories, 'cart' => $product_in_cart]);
+
+            return view('front-end.cart', ['categories' => $categories, 'cart' => $product_in_cart, 'product' => $product]);
         } else {
 
             // sinon renvoi la vue sans cart
@@ -72,7 +76,7 @@ class CartController extends Controller
         $dataCart = json_decode($request->cart, true);
 
         // Session::forget('cart');
-        if ($validated) { 
+        if ($validated) {
             // session
             $temp_array = [];
             // si Session::get('cart') exist 
@@ -80,7 +84,7 @@ class CartController extends Controller
             // sinon on push un array vide pour l'initialisation
             array_push($temp_array, $dataCart);
             Session::put('cart', $temp_array);
-    
+
             // database
             // if Auth::check, modify record, else create record
             if (Auth::check()) {
@@ -104,7 +108,7 @@ class CartController extends Controller
             $cookie_name = "2c7a6r9t5f4u3c2k5";
             $cookie_value = json_encode(Session::get('cart'));
             $cookie = cookie($cookie_name, $cookie_value, 525600);
-            return response('my cart')->cookie($cookie);;
+            return response('my cart')->cookie($cookie);
         }
     }
 
@@ -148,25 +152,36 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function deleteOnItemFromCart()
+    public function viderPanier()
     {
         Session::forget('cart');
         Cart::where('user_id', Auth::id())->delete();
     }
 
 
-
     public function destroy($id)
     {
         $all_product_in_cart = Session::get('cart');
+        // supprime l'élément situé à $id
+        array_splice($all_product_in_cart, $id, 1);
+        Session::put('cart', $all_product_in_cart);
 
-        foreach ($all_product_in_cart as $product_Key => $product_value) {
-
-            foreach ($product_value as $property => $value) {
-                if ($property == 'product_id_cart' && $value == $id) {
-                    Session::forget('cart.' . $product_Key);
-                }
+        // database
+        // if Auth::check, modify record, else create record
+        if (Auth::check()) {
+            if (Cart::where('user_id', Auth::user()->id)->exists()) {
+                $cart = Cart::where('user_id', Auth::user()->id)->first();
+                $cart->user_id = Auth::user()->id;
+                $cart->cart = json_encode(Session::get('cart'));
+                $cart->save();
             }
         }
+
+        // cookie
+        // save in cookies
+        $cookie_name = "2c7a6r9t5f4u3c2k5";
+        $cookie_value = json_encode(Session::get('cart'));
+        $cookie = cookie($cookie_name, $cookie_value, 525600);
+        return response('my cart')->cookie($cookie);;
     }
 }

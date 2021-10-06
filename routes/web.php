@@ -42,7 +42,7 @@ Route::get('/signup', [ClientController::class, 'signup']);
 Route::get('/paiement', [ClientController::class, 'paiement']);
 
 Route::get('/panier', [CartController::class, 'index_panier']);
-Route::get('/panier-vider', [CartController::class, 'deleteOnItemFromCart']);
+Route::get('/vider-panier', [CartController::class, 'viderPanier']);
 
 //Admin//
 Route::get('/dashboard', [AdminController::class, 'dashboard']);

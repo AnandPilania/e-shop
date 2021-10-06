@@ -23,15 +23,25 @@ class CartCookie
         if (Session::exists('cart') == false) {
 
             if ($request->hasCookie('2c7a6r9t5f4u3c2k5')) {
-                Session::put('cart', json_decode(Cookie::get('2c7a6r9t5f4u3c2k5', true)));
+
+                $temp_array = [];
+                // conversion object to array for each elements in cookie
+                foreach(json_decode(Cookie::get('2c7a6r9t5f4u3c2k5', true)) as $product) {
+                    array_push($temp_array, (array) $product);
+                }
+                Session::put('cart', $temp_array);
             } else {
-                if (Auth::check() && Cart::where('user_id', Auth::id())->first()) {
-                    $temp_dbCart = [];
-                    // converti en array le Cart de la db et ensuite chaque objet dans le array est aussi converti en array
-                    foreach (json_decode(Cart::where('user_id', Auth::id())->first('cart'), true) as $dbCart) {
-                        $temp_dbCart = json_decode($dbCart, true);
+                
+                if (Auth::check()) {
+                    if (Cart::where('user_id', Auth::id())->first()) {
+
+                        $temp_dbCart = [];
+                        // converti en array le Cart de la db et ensuite chaque objet dans le array est aussi converti en array
+                        foreach (json_decode(Cart::where('user_id', Auth::id())->first('cart'), true) as $dbCart) {
+                            $temp_dbCart = json_decode($dbCart, true);
+                        }
+                        Session::put('cart', $temp_dbCart);
                     }
-                    Session::put('cart', $temp_dbCart);
                 }
             }
         }
