@@ -23,8 +23,6 @@ class FrontEndController extends Controller
 {
     public function index()
     {
-        dd(json_decode(Cookie::get('2c7a6r9t5f4u3c2k5')));
-
         // si on a un jumbotron dans la table jumbo alors on l'affiche sinon on en crée un et on l'affiche. Pour ne pas avboir d'ereur d'objet vide dans la vue
 
         $jumbo = Jumbo::all();
