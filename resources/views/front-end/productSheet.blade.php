@@ -95,7 +95,7 @@
             <h1>{{ $product->name }}</h1>
             <h2>{{ $product->description }}</h2>
             <h5 id="price_product">{{ $product->price }} €</h5>
-
+           
             {{ $lastValue = '' }}
 
             <div class="wrapper_details">
@@ -123,6 +123,7 @@
             </div>
             @endif
             @endforeach
+            
         </div>
 
         <span id="quantityBuy">Quantité</span>
@@ -137,7 +138,7 @@
             </div>
             <button class="addToCart" id="addToCart" onclick="addCart(event)">Ajouter au panier</button>
         </form>
-
+        @dump(Session::all()) 
         <!-- handle addToCart -->
         <script>
             var quantity_cart = document.getElementById('quantity').value;

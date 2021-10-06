@@ -4,9 +4,10 @@
     "/js/require.js": "/js/require.js",
     "/js/app.js": "/js/app.js",
     "/css/createProduct_Js.css": "/css/createProduct_Js.css",
-    "/backend/css/back-end.css": "/backend/css/back-end.css",
+    "/frontend/css/cart.css": "/frontend/css/cart.css",
     "/frontend/css/productSheet.css": "/frontend/css/productSheet.css",
     "/frontend/css/index-front.css": "/frontend/css/index-front.css",
     "/frontend/css/nav-frontend.css": "/frontend/css/nav-frontend.css",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/backend/css/back-end.css": "/backend/css/back-end.css"
 }

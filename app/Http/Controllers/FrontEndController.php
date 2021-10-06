@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 
 use Intervention\Image\Facades\Image;
 use App\Http\Requests\StoreIndexFront;
+use Illuminate\Support\Facades\Cookie;
+
 use function PHPUnit\Framework\isNull;
 use function PHPUnit\Framework\isEmpty;
 use Illuminate\Support\Facades\Session;
@@ -21,16 +23,7 @@ class FrontEndController extends Controller
 {
     public function index()
     {
-        if (Auth::check()) {
-            // check if cart exist and put it in session
-            $cart = Cart::where('user_id', Auth::user()->id)->get();
-            if ($cart) {
-                Session::put('cart', $cart);
-                dd(Session::get('cart'));
-            } else {
-                 dd('nada');
-            }
-        }
+        dd(json_decode(Cookie::get('2c7a6r9t5f4u3c2k5')));
 
         // si on a un jumbotron dans la table jumbo alors on l'affiche sinon on en crée un et on l'affiche. Pour ne pas avboir d'ereur d'objet vide dans la vue
 

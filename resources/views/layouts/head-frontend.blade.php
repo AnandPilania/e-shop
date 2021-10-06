@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/nav-frontend.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/index-front.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/productSheet.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/cart.css') }}" />
 
 </head>
 

@@ -6,12 +6,14 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class ProductSheetController extends Controller
 {
     // afiche la fiche produit
     public function productSheet($collection, $productLink)
     {
+        // Session::forget('cart');
         // dd($productLink);
         $categories = Category::all();
         $product = Product::where('link', $productLink)->first();
