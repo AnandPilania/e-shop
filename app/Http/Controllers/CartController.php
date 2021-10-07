@@ -32,6 +32,7 @@ class CartController extends Controller
 
         // Session::forget('cart');
 
+
         // récupère tous les produits présents dans la session cart et renvoi la vue panier si session cart existe 
         if (Session::exists('cart')) {
 
@@ -40,9 +41,44 @@ class CartController extends Controller
             foreach ($cart as $products) {
                 $product_in_cart[] = Product::find($products['product_id_cart']);
                 $product = Product::find($products['product_id_cart']);
+
+                $details = [];
+                $temp_detail = [];
+                $lastName = '';
+                $i = 1;
+                $len = count($product->product_details);
+
+                // build associative array with details
+                foreach ($product->product_details as $key => $detail) {
+                    // initialise $lastName
+                    if ($key == 0) {
+                        $lastName = $detail->type_detail_product->name;
+                    }
+
+                    if ($lastName == $detail->type_detail_product->name) {
+
+                        array_push($temp_detail, $detail->libelle);
+                    } else {
+
+                        $details[$lastName] = $temp_detail;
+                        $temp_detail = [];
+                        $lastName = $detail->type_detail_product->name;
+
+                        array_push($temp_detail, $detail->libelle);
+                    }
+
+                    if ($len == $i) {
+
+                        $details[$lastName] = $temp_detail;
+                    }
+
+                    $i++;
+                }
             }
 
-            return view('front-end.cart', ['categories' => $categories, 'cart' => $product_in_cart, 'product' => $product]);
+
+
+            return view('front-end.cart', ['categories' => $categories, 'cart' => $product_in_cart, 'product' => $product, 'details' => $details]);
         } else {
 
             // sinon renvoi la vue sans cart

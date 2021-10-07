@@ -17,10 +17,8 @@
             </figure>
             <section id="text_cart_card">
                 <h2>{{ $cartProduct->name }}</h2>
-
             </section>
             <section id="text_cart_card_2">
-
                 <h3 id="text_cart_card_price">{{ $cartProduct->price }}</h3>
             </section>
             <!-- Boutons pour la quantité -->
@@ -45,5 +43,5 @@
 
 
 </div>
-</div>
+
 @endsection

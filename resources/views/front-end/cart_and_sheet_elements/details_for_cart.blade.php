@@ -1,28 +1,29 @@
  <!-- Détails -->
  {{ $lastValue = '' }}
 
-<div class="wrapper_details">
-    @foreach ($product->product_details as $value)
-    <!-- referme la div quand on change de type de détails -->
-    @if ($value->type_detail_product->name != $lastValue && !$loop->first)
-</div>
-@endif
-<!-- nom du détail -->
-@if ($value->type_detail_product->name != $lastValue)
-<div class="block_detail">
-    <h4 id="nomDetail">{{ $lastValue = $value->type_detail_product->name }}</h4>
-    <span id="{{ $value->type_detail_product->name }}" class="missingDetails">Ce champ est obligatoire</span>
-    <script>
-        listDetailsToAddToCart("{!! $value->type_detail_product->name !!}");
-    </script>
-    @endif
-    <!-- valeur du détail -->
-    @if ($value->type_detail_product->name == $lastValue)
-    <input type="radio" class="details radio_item" value="{{ $value->libelle }}" name="{{ $value->type_detail_product->name }}" id="{{ $value->libelle }}" required onclick="addDetailToCart(event)">
-    <label class="label_item" for="{{ $value->libelle }}"> {{ $value->libelle }}</label>
-    @endif
-    <!-- referme la div quand on change de type de détails -->
-    @if ($loop->last)
-</div>
-@endif
-@endforeach
+
+ @foreach ($cartProduct->product_details as $value)
+
+ <!-- nom du détail -->
+ @if ($value->type_detail_product->name != $lastValue)
+ @if ($value->type_detail_product->name != $lastValue && $loop->index != 0)
+ </select>
+ @endif
+ <h4 id="nomDetail">{{ $lastValue = $value->type_detail_product->name }}</h4>
+
+ <script>
+     listDetailsToAddToCart("{!! $value->type_detail_product->name !!}");
+ </script>
+
+ <select name="{{ $value->type_detail_product->name }}" id="{{ $value->type_detail_product->name }}" onchange="addDetailToCart(event)">
+     @endif
+
+     <!-- valeur du détail -->
+     @if ($value->type_detail_product->name == $lastValue)
+     <option value="{{ $value->libelle }}">{{ $value->libelle }}</option>
+
+     @endif
+     @if ($loop->last)
+ </select>
+ @endif
+ @endforeach
