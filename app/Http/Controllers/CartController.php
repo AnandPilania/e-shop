@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
@@ -32,53 +33,22 @@ class CartController extends Controller
 
         // Session::forget('cart');
 
-
         // récupère tous les produits présents dans la session cart et renvoi la vue panier si session cart existe 
         if (Session::exists('cart')) {
 
             $cart = Session::get('cart');
 
-            foreach ($cart as $products) {
-                $product_in_cart[] = Product::find($products['product_id_cart']);
+            foreach ($cart as $products) { 
+                // fusion du product et du cart dans product_in_cart pour faciliter l'accès aux data dabs cart.blade
                 $product = Product::find($products['product_id_cart']);
 
-                $details = [];
-                $temp_detail = [];
-                $lastName = '';
-                $i = 1;
-                $len = count($product->product_details);
+                array_push($products, $product);
 
-                // build associative array with details
-                foreach ($product->product_details as $key => $detail) {
-                    // initialise $lastName
-                    if ($key == 0) {
-                        $lastName = $detail->type_detail_product->name;
-                    }
-
-                    if ($lastName == $detail->type_detail_product->name) {
-
-                        array_push($temp_detail, $detail->libelle);
-                    } else {
-
-                        $details[$lastName] = $temp_detail;
-                        $temp_detail = [];
-                        $lastName = $detail->type_detail_product->name;
-
-                        array_push($temp_detail, $detail->libelle);
-                    }
-
-                    if ($len == $i) {
-
-                        $details[$lastName] = $temp_detail;
-                    }
-
-                    $i++;
-                }
+                $product_in_cart[] = $products;                
             }
 
-
-
-            return view('front-end.cart', ['categories' => $categories, 'cart' => $product_in_cart, 'product' => $product, 'details' => $details]);
+            return view('front-end.cart', ['categories' => $categories, 'cart' => $product_in_cart]);
+            
         } else {
 
             // sinon renvoi la vue sans cart

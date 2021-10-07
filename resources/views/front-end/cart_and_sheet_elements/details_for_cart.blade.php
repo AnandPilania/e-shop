@@ -2,10 +2,11 @@
  {{ $lastValue = '' }}
 
 
- @foreach ($cartProduct->product_details as $value)
-
+ @foreach ($cartProduct[0]->product_details as $value)
+@dump($cartProduct['Taille'])
  <!-- nom du détail -->
  @if ($value->type_detail_product->name != $lastValue)
+ <!-- permet de refermer le select quand on change de nom de détail -->
  @if ($value->type_detail_product->name != $lastValue && $loop->index != 0)
  </select>
  @endif
@@ -21,8 +22,9 @@
      <!-- valeur du détail -->
      @if ($value->type_detail_product->name == $lastValue)
      <option value="{{ $value->libelle }}">{{ $value->libelle }}</option>
-
      @endif
+     
+<!-- REFERME LE SELECT A LA DERNI7RE BOUCLE -->
      @if ($loop->last)
  </select>
  @endif

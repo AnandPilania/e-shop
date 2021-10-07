@@ -6,20 +6,20 @@
         <h1>Votre panier</h1>
     </div>
 
-    @if(isset($cart) && !empty($cart))
+    @if(isset($cart) && !empty($cart)) 
     <div class="cart_body">
         @foreach($cart as $cartProduct)
-        <div class="cart_card">
+        <div class="cart_card">  
             <figure id="img_Cart">
-                @isset($cartProduct->images_products->first()->path)
-                <img src="{{  $cartProduct->images_products->first()->path }}">
+                @isset($cartProduct[0]->images_products->first()->path)
+                <img src="{{  $cartProduct[0]->images_products->first()->path }}">
                 @endisset
             </figure>
             <section id="text_cart_card">
-                <h2>{{ $cartProduct->name }}</h2>
+                <h2>{{ $cartProduct[0]->name }}</h2>
             </section>
             <section id="text_cart_card_2">
-                <h3 id="text_cart_card_price">{{ $cartProduct->price }}</h3>
+                <h3 id="text_cart_card_price">{{ $cartProduct[0]->price }}</h3>
             </section>
             <!-- Boutons pour la quantité -->
             @include('front-end.cart_and_sheet_elements.quantity_buttons')
