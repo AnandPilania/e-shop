@@ -6,7 +6,6 @@ use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
@@ -48,7 +47,7 @@ class CartController extends Controller
             }
 
             return view('front-end.cart', ['categories' => $categories, 'cart' => $product_in_cart]);
-            
+
         } else {
 
             // sinon renvoi la vue sans cart
