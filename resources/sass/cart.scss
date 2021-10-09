@@ -16,11 +16,12 @@
     margin: 10px 0;
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    // flex-wrap: wrap;
     justify-content: flex-start;
     align-items: flex-start;
     border: solid rgb(218, 218, 218) 1px;
-    border-radius: 10px;
+    border-radius: 5px;
+    position: relative;
 }
 
 .cart_card a{
@@ -37,12 +38,14 @@
     max-height: 100%;
 }
 
-.text_cart_card,
-.text_cart_card_2 {
+.text_cart_card {
+    // max-width: 75%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start; 
+    flex-shrink: 1;
+    margin-right: 20px;
     // border: solid rgb(57, 33, 197) 1px;
 }
 
@@ -61,30 +64,52 @@
     border: none;
 }
 
-.cart_block_price_delete {
+.cart_block_price {
     margin-left: auto;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-start;
     align-items: flex-start;
-    margin-left: auto;
-    margin-top: auto;
-    margin-bottom: auto;
+    margin: auto 40px auto auto;
     // border: solid 1px rgb(175, 23, 23);
 }
 
-#text_cart_card_price {
+.text_cart_card_price {
     margin-right: 50px;
 }
 
+.text_cart_card_2 {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.text_cart_card_2 span{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.cart_block_quantity {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center; 
+    margin-top: 15px;
+    // border: solid 1px rgb(175, 23, 23);
+}
+
+#quantityBuy {
+    margin-top: auto;
+    margin-bottom: auto;
+}
 
 .delete_from_cart {
     width: 60px;
     height: 100%;
-    margin-left: auto;
+    margin-left: 10px;
     margin-top: auto;
-    margin-bottom: auto;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -98,16 +123,25 @@
     padding: 0;
 }
 
-.delete_from_cart .fa-trash-alt{
-    font-size: 22px;
+.delete_from_cart span{
+    font-size: 16px;
     opacity: .7;
+    color: rgb(197, 17, 17);
     transition: ease-in-out .2s;
 }
 
-.delete_from_cart .fa-trash-alt:hover{
+.delete_from_cart span:hover{
     font-weight: bold;
     cursor: pointer;
 }
 
 
+#cart_total_price {
+    width: 60%;
+    height: 150px;
+    border: solid 1px rgb(175, 23, 23);
+}
 
+#total_priceId {
+    font-size: 20px;
+}

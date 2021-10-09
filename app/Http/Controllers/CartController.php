@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Type_detail_product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 
@@ -38,7 +40,7 @@ class CartController extends Controller
             $cart = Session::get('cart');
 
             foreach ($cart as $products) { 
-                // fusion du product et du cart dans product_in_cart pour faciliter l'accès aux data dabs cart.blade
+                // fusion du product "model" et du cart "session" dans product_in_cart pour faciliter l'accès aux data dabs cart.blade
                 $product = Product::find($products['product_id_cart']);
 
                 array_push($products, $product);
@@ -73,6 +75,7 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         $validated = $request->validate([
             'cart' => 'required',
         ]);
@@ -80,7 +83,6 @@ class CartController extends Controller
         // convert json to array
         $dataCart = json_decode($request->cart, true);
 
-        // Session::forget('cart');
         if ($validated) {
             // session
             $temp_array = [];
