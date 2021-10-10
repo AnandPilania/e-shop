@@ -3,7 +3,7 @@
 
 
  @foreach ($cartProduct[0]->product_details as $value)
- @dump($cartProduct)
+ <!-- @dump($cartProduct) -->
 
  <div class="cart_block_details">
 
@@ -20,7 +20,7 @@
      listDetailsToAddToCart("{!! $value->type_detail_product->name !!}");
  </script> -->
 
-     <select name="{{ $cartProduct['product_id_cart'] }}" id="{{ $value->type_detail_product->name }}" onchange="handleDetails(event)">
+     <select name="{{ $value->type_detail_product->name }}" id="{{ $cartProduct['product_id_cart'] }}" onchange="handleDetails(event, <?php echo json_encode($cartProduct['product_id_cart']) ?>)">
          @endif
 
          <!-- valeur du détail -->

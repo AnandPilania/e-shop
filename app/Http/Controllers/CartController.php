@@ -38,22 +38,22 @@ class CartController extends Controller
         if (Session::exists('cart')) {
 
             $cart = Session::get('cart');
-
-            foreach ($cart as $products) { 
+           
+            foreach ($cart as $products) {   
                 // fusion du product "model" et du cart "session" dans product_in_cart pour faciliter l'accès aux data dabs cart.blade
                 $product = Product::find($products['product_id_cart']);
 
                 array_push($products, $product);
 
-                $product_in_cart[] = $products;                
+                $product_in_cart[] = $products;
             }
 
-            return view('front-end.cart', ['categories' => $categories, 'cart' => $product_in_cart]);
-
+            return view('front-end.cart', ['categories' => $categories, 'cart' => $product_in_cart, 'cart_session' => $cart]);
         } else {
-
-            // sinon renvoi la vue sans cart
-            return view('front-end.cart', ['categories' => $categories]);
+            
+            // sinon renvoi la vue avec cart vide
+            $cart = [];
+            return view('front-end.cart', ['categories' => $categories, 'cart_session' => $cart]);
         }
     }
 
@@ -75,7 +75,7 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
+        dd($request);
         $validated = $request->validate([
             'cart' => 'required',
         ]);
@@ -100,7 +100,7 @@ class CartController extends Controller
                     $cart->user_id = Auth::user()->id;
                     $cart->cart = json_encode(Session::get('cart'));
                     $cart->save();
-                    $cart->products()->attach($dataCart['product_id_cart']);
+                    // $cart->products()->attach($dataCart['product_id_cart']);
                 } else {
                     $cart = new Cart();
                     $cart->user_id = Auth::user()->id;
@@ -148,9 +148,45 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        // dd($request, 'update');
+        $validated = $request->validate([
+            'cart' => 'required',
+        ]);
+
+        // convert json to array
+        $dataCart = json_decode($request->cart, true);
+
+        if ($validated) {
+            // session
+            Session::put('cart', $dataCart);
+
+            // database
+            // if Auth::check, modify record, else create record
+            if (Auth::check()) {
+                if (Cart::where('user_id', Auth::user()->id)->exists()) {
+                    $cart = Cart::where('user_id', Auth::user()->id)->first();
+                    $cart->user_id = Auth::user()->id;
+                    $cart->cart = json_encode(Session::get('cart'));
+                    $cart->save();
+                    // $cart->products()->attach($dataCart['product_id_cart']);
+                } else {
+                    $cart = new Cart();
+                    $cart->user_id = Auth::user()->id;
+                    $cart->cart = json_encode(Session::get('cart'));
+                    $cart->save();
+                    $cart->products()->attach($dataCart['product_id_cart']);
+                }
+            }
+
+            // cookie
+            // save in cookies
+            $cookie_name = "2c7a6r9t5f4u3c2k5";
+            $cookie_value = json_encode(Session::get('cart'));
+            $cookie = cookie($cookie_name, $cookie_value, 525600);
+            return response('my cart')->cookie($cookie);
+        }
     }
 
     /**
@@ -174,7 +210,7 @@ class CartController extends Controller
         Session::put('cart', $all_product_in_cart);
 
         // database
-        // if Auth::check, modify record, else create record
+        // if Auth::check, delete record 
         if (Auth::check()) {
             if (Cart::where('user_id', Auth::user()->id)->exists()) {
                 $cart = Cart::where('user_id', Auth::user()->id)->first();

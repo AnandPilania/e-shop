@@ -86,6 +86,9 @@
 <script>
     var cartObj = {};
 
+    console.log(<?php echo json_encode($cart_session) ?>);
+    var cartSession = <?php echo json_encode($cart_session) ?>;
+
     calculTotalPrice();
 
     // ajoute 1 à la quantité
@@ -100,8 +103,6 @@
         var qt = document.getElementById('quantity_id_' + productId).value;
         var pr = document.getElementById('hidden_price_' + productId).value;
         document.getElementById('text_cart_card_price_' + productId).innerHTML = qt * pr;
-
-        cartObj['quantity'] = qt;
 
         calculTotalPrice();
     };
@@ -118,8 +119,6 @@
         var pr = document.getElementById('hidden_price_' + productId).value;
         document.getElementById('text_cart_card_price_' + productId).innerHTML = qt * pr;
 
-        cartObj['quantity'] = qt;
-
         calculTotalPrice();
     };
 
@@ -132,7 +131,15 @@
         var pr = document.getElementById('hidden_price_' + productId).value;
         document.getElementById('text_cart_card_price_' + productId).innerHTML = qt * pr;
 
-        cartObj['quantity'] = qt;
+        // update in cart where product_id_cart match
+        // si on click sur inc ou dec sa déclenche un onchange donc  addQuantityToCart
+        cartSession.forEach(item => {
+            if (item.product_id_cart == productId) {
+                item.quantity = qt
+                console.log(item.quantity, item.product_id_cart);
+                saveModificationCart();
+            }
+        });
 
         calculTotalPrice();
     }
@@ -160,35 +167,33 @@
         }
 
         document.getElementById('total_priceId').innerHTML = total_price;
-
-
-
-        // ajoute dans cartObj les détails et leur valeur
-        // cartObj[e.target.name] = e.target.value;
-        // cartObj['product_id_cart'] = product_id_cart;
-        // cartObj['quantity'] = quantity_cart;
-
     }
 
     // handle details
-    const handleDetails = (e) => {
-        cartObj[e.target.id] = e.target.value;
-        cartObj['product_id_cart'] = e.target.name;
-        console.log(e.target);
-        console.log(cartObj);
-        console.log(e.target.id);
+    const handleDetails = (e, productId) => {
+
+        // update in cart where product_id_cart match with productId
+        cartSession.forEach(item => {
+            if (item.product_id_cart == productId) {
+                // nom du détail       valeur du détail  
+                item[e.target.name] = e.target.value;
+                console.log(cartSession);
+                saveModificationCart();
+            }
+        });
     }
 
 
     // save modifications in cart
     const saveModificationCart = () => {
+        console.log('saveModificationCart');
         // transformation de l'objet en string JSON
-        var cart = JSON.stringify(cartObj);
+        var cart = JSON.stringify(cartSession);
 
         var formData = new FormData();
         formData.append("cart", cart);
 
-        axios.post(`http://127.0.0.1:8000/carts`, formData)
+        axios.post(`http://127.0.0.1:8000/cartUpdate`, formData)
             .then(res => {
                 console.log('res.data  --->  ok');
 
@@ -198,4 +203,15 @@
     }
 </script>
 
+<!-- load axios and put csrf -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!-- <script src="{{ asset('js/app.js') }}"></script> -->
+<script>
+    let token = document.head.querySelector('meta[name="csrf-token"]');
+    if (token) {
+        window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    } else {
+        console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+    }
+</script>
 @endsection

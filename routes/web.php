@@ -62,6 +62,7 @@ Route::resource('/reviews', ReviewController::class);
 Route::resource('/carts', CartController::class);
 
 
+
 // cette route remplace Route::resource('/collections INDEX car j'ai besoin de l'URL collections pour le front end pour le SEO
 Route::get('/collectionsBackEnd', [CollectionController::class, 'collectionsBackEnd']);
 
@@ -92,7 +93,8 @@ Route::post('/bestSeller', [ProductController::class, 'bestSeller']);
 // renvoi la fiche du produit
 Route::get('/collections/{collection}/{productId}', [ProductSheetController::class, 'productSheet']);
 
-
+// update le cart // put ne prend pas cette requête
+Route::post('/cartUpdate', [CartController::class, 'update']);
 
 Route::get('/logout', function () {
     Auth::logout();
