@@ -40,7 +40,8 @@
 
                             <input type="text" maxlength="3" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="@if(isset($cartProduct['quantity'])) {{$cartProduct['quantity']}} @else 1 @endif" id="quantity_id_{{$cartProduct['product_id_cart']}}" name="quantity" class="nbArticles_input" onchange="addQuantityToCart(event, <?php echo json_encode($cartProduct['product_id_cart']) ?>)">
 
-                            <button onclick="inc_NbArticle_cart(event, <?php echo json_encode($cartProduct['product_id_cart']) ?>), addQuantityToCart(event, <?php echo json_encode($cartProduct['product_id_cart']) ?>)" aria-label="Réduire la quantité de l'article de un">+</button>
+                            <button class="btn-quantity"
+                            onclick="inc_NbArticle_cart(event, <?php echo json_encode($cartProduct['product_id_cart']) ?>), addQuantityToCart(event, <?php echo json_encode($cartProduct['product_id_cart']) ?>)" aria-label="Réduire la quantité de l'article de un">+</button>
                         </div>
                     </div>
 
@@ -63,10 +64,12 @@
 
         </div>
         @endforeach
-        <div id="cart_total_price">
-            <h3 id="total_priceId">
+        <div class="cart_total_price">
+            <h3 id="total_priceId"></h3>&nbsp;<span>€</span>
+        </div>
 
-            </h3>
+        <div class="btn_passerCommande">
+            <button id="btn_passer_commande">Passer la commande</button>
         </div>
     </div>
     @else
@@ -166,7 +169,7 @@
             total_price += parseFloat(allPrices[j].innerHTML);
         }
 
-        document.getElementById('total_priceId').innerHTML = total_price;
+        document.getElementById('total_priceId').innerHTML = 'Total &nbsp;&nbsp;&nbsp;'   + total_price;
     }
 
     // handle details

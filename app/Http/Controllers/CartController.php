@@ -75,7 +75,7 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        // dd($request);
         $validated = $request->validate([
             'cart' => 'required',
         ]);
@@ -225,6 +225,7 @@ class CartController extends Controller
         $cookie_name = "2c7a6r9t5f4u3c2k5";
         $cookie_value = json_encode(Session::get('cart'));
         $cookie = cookie($cookie_name, $cookie_value, 525600);
-        return response('my cart')->cookie($cookie);;
+        return response(back())->cookie($cookie);
+
     }
 }

@@ -92,7 +92,7 @@
         </script>
 
         <div class="text_product">
-            <h1>{{ $product->name }}</h1>
+            <h1 id="product_name">{{ $product->name }}</h1>
             <h2>{{ $product->description }}</h2>
             <h5 id="price_product">{{ $product->price }} €</h5>
 
@@ -171,6 +171,19 @@
         <button class="addToCart" id="addToCart" onclick="addCart(event)">Ajouter au panier</button>
 
         @dump(Session::all())
+
+        <!------- The Modal_Cart ------->
+        <div id="modal_double_in_cart" class="modal_cart">
+            <!-- Modal_cart content -->
+            <div class="modal-content_cart">
+                <div class="modal-body_cart">
+                    <h5 id="message_modal_cart"></h5>
+                </div>
+                <button>Oui</button>
+                <button onclick="modalCart.style.display = 'none'">Annuler</button>
+            </div>
+        </div>
+
         <!-- handle addToCart -->
         <script>
             var quantity_cart = document.getElementById('quantity').value;
@@ -192,6 +205,16 @@
                 document.getElementById(e.target.name).style.display = "none"
             }
 
+            // handle modal_cart 
+            var modalCart = document.getElementById("modal_double_in_cart");
+            var spanCloseCart = document.getElementsByClassName("close_cart")[0];
+
+            const messageDoubleInCart = (nameProdcut) => {
+                document.getElementById("message_modal_cart").innerText = "l'article " + nameProdcut + " est déjà dans votre panier. <br> Voulez-vous augmenter la quantité ?";
+                modalCart.style.display = "block";
+            }
+
+            // Add to cart
             function addCart(e) {
                 e.preventDefault();
                 // vérifie si tous les détails sont bien dans detailsObj
@@ -203,6 +226,25 @@
                 }
                 if (missingDetails.length === 0) {
                     missingDetails.forEach(item => document.getElementById(item).style.display = "none");
+
+                    var product_name = document.getElementById('product_name').innerHTML;
+                    var cartSession = <?php echo json_encode(session()->get('cart')); ?>;
+                    if (cartSession) {
+                        // check if already in cart
+                        cartSession.forEach(item => {
+                            if (item.product_id_cart == product_id_cart) {
+                                Object.entries(detailsObj).map(detail => {
+                                        if (item[detail[0]] == detail[1]) {
+                                            messageDoubleInCart(product_name);
+                                            console.log(item.product_id_cart);
+                                        }
+
+                                    }
+
+                                );
+                            }
+                        });
+                    }
 
                     detailsObj['product_id_cart'] = product_id_cart;
                     detailsObj['quantity'] = quantity_cart;

@@ -13,7 +13,7 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/createProduct.js', 'public/js').react()
     .js('resources/js/editProduct.js', 'public/js').react()
-    .js('resources/js/require.js', 'public/js')
+    // .js('resources/js/require.js', 'public/js')
     .js('resources/js/app.js', 'public/js')
     .sass('resources/js/components/createProduct/createProduct_Js.scss', 'public/css')
     .sass('resources/sass/nav-frontend.scss', 'public/frontend/css')

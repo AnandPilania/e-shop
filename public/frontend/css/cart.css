@@ -16,7 +16,6 @@
   align-items: flex-start;
   border: solid #dadada 1px;
   border-radius: 5px;
-  position: relative;
 }
 
 .cart_card a {
@@ -57,6 +56,10 @@
   border: none;
 }
 
+.cart_block_details select:hover {
+  cursor: pointer;
+}
+
 .cart_block_price {
   margin-left: auto;
   display: flex;
@@ -78,7 +81,9 @@
   font-weight: bold;
 }
 
-.text_cart_card_2 span {
+.text_cart_card_2 span,
+#total_priceId,
+.cart_total_price span {
   font-size: 18px;
   font-weight: bold;
 }
@@ -94,6 +99,11 @@
 #quantityBuy {
   margin-top: auto;
   margin-bottom: auto;
+}
+
+.btn-quantity:hover {
+  cursor: pointer;
+  font-weight: bold;
 }
 
 .delete_from_cart {
@@ -125,12 +135,43 @@
   cursor: pointer;
 }
 
-#cart_total_price {
+.cart_total_price,
+.btn_passerCommande {
   width: 60%;
-  height: 150px;
-  border: solid 1px #af1717;
+  height: auto;
+  padding-right: 50px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  border: solid #dadada 1px;
+  border-radius: 5px;
+}
+
+.btn_passerCommande {
+  border: none;
+  padding-right: 0;
 }
 
 #total_priceId {
   font-size: 20px;
+  margin: 20px 0;
+}
+
+#btn_passer_commande {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 20px 40px;
+  border: solid #dadada 1px;
+  background-color: #da1a1a;
+  color: white;
+  transition: ease-in-out 0.15s;
+}
+
+#btn_passer_commande:hover {
+  cursor: pointer;
+  color: blanchedalmond;
+  letter-spacing: 1px;
 }

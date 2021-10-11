@@ -2061,8 +2061,6 @@ var __webpack_exports__ = {};
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-// require('./bootstrap');
-// require('alpinejs');
 __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 })();
 
