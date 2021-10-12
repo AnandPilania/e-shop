@@ -9,14 +9,14 @@
     <div class="products_wrapper">
         @foreach($collection->products as $product)
         <div class="product_card">
-            <a href="/collections/{{$collection->link}}/{{$product->link}}">
+            <a href="/collections/{{$collection->link}}/{{$product->link}}/{{$product->id}}">
                 @foreach($product->images_products->sortBy('order') as $image)
                     <img src="{{ asset($image->path) }}" alt="">
                     @break
                 @endforeach
                 <h2>{{$product->name}}</h2>
                 <span>{{$product->price}}</span>
-            </a>
+            </a>        
         </div>
         @endforeach
 
@@ -24,4 +24,5 @@
     <h1>hello</h1>
 
 </div>
+
 @endsection

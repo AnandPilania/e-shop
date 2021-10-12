@@ -204,6 +204,7 @@ class CartController extends Controller
 
     public function destroy($id)
     {
+        // dd($id);
         $all_product_in_cart = Session::get('cart');
         // supprime l'élément situé à $id
         array_splice($all_product_in_cart, $id, 1);
@@ -224,8 +225,9 @@ class CartController extends Controller
         // save in cookies
         $cookie_name = "2c7a6r9t5f4u3c2k5";
         $cookie_value = json_encode(Session::get('cart'));
-        $cookie = cookie($cookie_name, $cookie_value, 525600);
-        return response(back())->cookie($cookie);
-
+        Cookie::queue($cookie_name, $cookie_value, 525600);
+        // $cookie = cookie($cookie_name, $cookie_value, 525600);
+        // return response(view('front-end.cart'))->cookie($cookie);
+        return back();
     }
 }

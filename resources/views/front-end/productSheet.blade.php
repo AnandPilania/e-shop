@@ -172,22 +172,30 @@
 
         @dump(Session::all())
 
-        <!------- The Modal_Cart ------->
+        <!------- The Modal_Cart warning double in cart ------->
         <div id="modal_double_in_cart" class="modal_cart">
             <!-- Modal_cart content -->
             <div class="modal-content_cart">
                 <div class="modal-body_cart">
                     <h5 id="message_modal_cart"></h5>
                 </div>
-                <button>Oui</button>
+                <button onclick="updateQantityCart()">Oui</button>
+                <button onclick="goToCart()">Voir mon panier</button>
                 <button onclick="modalCart.style.display = 'none'">Annuler</button>
             </div>
         </div>
 
         <!-- handle addToCart -->
         <script>
+            var formData = new FormData();
             var quantity_cart = document.getElementById('quantity').value;
             var product_id_cart = <?php echo json_encode($product->id); ?>;
+            var alreadySaved = false;
+
+            // renvoi vers le panier
+            function goToCart() {
+                document.location.href = 'http://127.0.0.1:8000/panier';
+            }
 
             // modify quantity
             const addQuantityToCart = (e) => {
@@ -205,18 +213,19 @@
                 document.getElementById(e.target.name).style.display = "none"
             }
 
-            // handle modal_cart 
+            // Envoi un message d'avertissement si on tente de mettre un produit déjà dans le panier avec les même détails.
+            // si on confirme alors on augmente juste la quantité du produit déjà présent
             var modalCart = document.getElementById("modal_double_in_cart");
             var spanCloseCart = document.getElementsByClassName("close_cart")[0];
-
             const messageDoubleInCart = (nameProdcut) => {
-                document.getElementById("message_modal_cart").innerText = "l'article " + nameProdcut + " est déjà dans votre panier. <br> Voulez-vous augmenter la quantité ?";
+                document.getElementById("message_modal_cart").innerText = "l'article " + nameProdcut + " est déjà dans votre panier avec les mêmes caractèristiques. Voulez-vous augmenter la quantité ?";
                 modalCart.style.display = "block";
             }
 
             // Add to cart
             function addCart(e) {
                 e.preventDefault();
+
                 // vérifie si tous les détails sont bien dans detailsObj
                 // details contient tous les noms des détails présent sur le produit
                 var missingDetails = [];
@@ -227,45 +236,170 @@
                 if (missingDetails.length === 0) {
                     missingDetails.forEach(item => document.getElementById(item).style.display = "none");
 
-                    var product_name = document.getElementById('product_name').innerHTML;
-                    var cartSession = <?php echo json_encode(session()->get('cart')); ?>;
-                    if (cartSession) {
-                        // check if already in cart
-                        cartSession.forEach(item => {
-                            if (item.product_id_cart == product_id_cart) {
-                                Object.entries(detailsObj).map(detail => {
-                                        if (item[detail[0]] == detail[1]) {
-                                            messageDoubleInCart(product_name);
-                                            console.log(item.product_id_cart);
-                                        }
-
-                                    }
-
-                                );
-                            }
-                        });
-                    }
-
                     detailsObj['product_id_cart'] = product_id_cart;
                     detailsObj['quantity'] = quantity_cart;
                     // transformation de l'objet en string JSON
                     var cart = JSON.stringify(detailsObj);
 
-                    var formData = new FormData();
+
                     formData.append("cart", cart);
 
-                    axios.post(`http://127.0.0.1:8000/carts`, formData)
-                        .then(res => {
-                            console.log('res.data  --->  ok');
+                    // check double in cart
+                    var product_name = document.getElementById('product_name').innerHTML;
+                    var cartSession = <?php echo json_encode(session()->get('cart')); ?>;
 
-                        }).catch(function(error) {
-                            console.log('error:   ' + error);
+                    if (cartSession) {
+                        // check if already in cart
+                        var productAlreadyInCart = [];
+                        cartSession.forEach(item => {
+                            if (item.product_id_cart === product_id_cart) {
+                                productAlreadyInCart.push(item);
+                            }
                         });
+                        console.log(productAlreadyInCart);
+                        let countDetails = 0;
+                        Object.entries(detailsObj).map(detail => {
+                            // check si les détails sont différents
+                            if (!['product_id_cart', 'quantity'].includes(detail[0]) && item[detail[0]] == detail[1]) {
+                                countDetails++;
+                            }
+                        });
+                        // details contient tous les détails
+                        // si on a le même produit avec les mêmes détails alors warning !!!
+                        if (countDetails === details.length) {
+                            alreadySaved = true;
+                            messageDoubleInCart(product_name);
+                        }
+                        // si on a le même produit mais pas avec les mêmes détails alors save
+                        if (countDetails != details.length && !alreadySaved) {
+                            console.log('ça save avant');
+                            save();
+                        }
+
+                        // si le produit n'est pas du tout dans le panier
+                        if (item.product_id_cart != product_id_cart && !alreadySaved) {
+                            console.log('ça save ici');
+                            save();
+                        }
+
+                    } else {
+                        // s'il n'y a pas de session alors on save directement
+                        save();
+                        console.log('s\'il n\'y a pas de session alors on save directement');
+                    }
                 } else {
                     missingDetails.forEach(item => document.getElementById(item).style.display = "block");
                 }
+            };
 
-            }
+
+            // // Add to cart
+            // function addCart(e) {
+            //     e.preventDefault();
+
+            //     // vérifie si tous les détails sont bien dans detailsObj
+            //     // details contient tous les noms des détails présent sur le produit
+            //     var missingDetails = [];
+            //     for (var x = 0; x < details.length; x++) {
+            //         if (!Object.keys(detailsObj).includes(details[x]))
+            //             missingDetails.push(details[x]);
+            //     }
+            //     if (missingDetails.length === 0) {
+            //         missingDetails.forEach(item => document.getElementById(item).style.display = "none");
+
+            //         detailsObj['product_id_cart'] = product_id_cart;
+            //         detailsObj['quantity'] = quantity_cart;
+            //         // transformation de l'objet en string JSON
+            //         var cart = JSON.stringify(detailsObj);
+
+
+            //         formData.append("cart", cart);
+
+            //         // check double in cart
+            //         var product_name = document.getElementById('product_name').innerHTML;
+            //         var cartSession = <?php //echo json_encode(session()->get('cart')); 
+                                            ?>;
+
+            //         if (cartSession) {
+            //             // check if already in cart
+            //             cartSession.forEach(item => {
+            //                 if (item.product_id_cart === product_id_cart) {
+            //                     let countDetails = 0;
+            //                     Object.entries(detailsObj).map(detail => {
+            //                         // check si les détails sont différents
+            //                         if (!['product_id_cart', 'quantity'].includes(detail[0]) && item[detail[0]] == detail[1]) {
+            //                             countDetails++;
+            //                         }
+            //                     });
+            //                     // details contient tous les détails
+            //                     // si on a le même produit avec les mêmes détails alors warning !!!
+            //                     if (countDetails === details.length) {
+            //                         alreadySaved = true;
+            //                         messageDoubleInCart(product_name);
+            //                     }
+            //                     // si on a le même produit mais pas avec les mêmes détails alors save
+            //                     if (countDetails != details.length && !alreadySaved) {
+            //                         console.log('ça save avant');
+            //                         save();
+            //                     }
+            //                 }
+            //                 // si le produit n'est pas du tout dans le panier
+            //                 if (item.product_id_cart != product_id_cart && !alreadySaved) {
+            //                     console.log('ça save ici');
+            //                     save();
+            //                 }
+            //             });
+            //         } else {
+            //             // s'il n'y a pas de session alors on save directement
+            //             save();
+            //             console.log('s\'il n\'y a pas de session alors on save directement');
+            //         }
+            //     } else {
+            //         missingDetails.forEach(item => document.getElementById(item).style.display = "block");
+            //     }
+            // };
+
+            // save in cart
+            function save() {
+                axios.post(`http://127.0.0.1:8000/carts`, formData)
+                    .then(res => {
+                        console.log('res.data  --->  ok save');
+
+                    }).catch(function(error) {
+                        console.log('error:   ' + error);
+                    });
+                alreadySaved = true;
+                location.reload();
+            };
+
+            // si dans le warning "indiquant "produit en double dans le panier" on clique sur oui pour sauvegarder alors on additionne juste la quantité du produit avec celle demandée dans la productSheet
+            function updateQantityCart() {
+                console.log('saveCart');
+                var cartSession = <?php echo json_encode(session()->get('cart')); ?>;
+                cartSession.forEach(item => {
+                    if (item.product_id_cart == product_id_cart) {
+                        item.quantity = parseInt(item.quantity) + parseInt(quantity_cart);
+                        console.log(item.quantity, item.product_id_cart);
+
+                        // transformation de l'objet en string JSON
+                        var cart = JSON.stringify(cartSession);
+
+                        var formData = new FormData();
+                        formData.append("cart", cart);
+
+                        axios.post(`http://127.0.0.1:8000/cartUpdate`, formData)
+                            .then(res => {
+                                console.log('res.data  --->  ok cartUpdate');
+
+                            }).catch(function(error) {
+                                console.log('error:   ' + error);
+                            });
+                    }
+                });
+                alreadySaved = true;
+                modalCart.style.display = 'none'
+                location.reload();
+            };
         </script>
 
 

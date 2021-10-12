@@ -40,8 +40,7 @@
 
                             <input type="text" maxlength="3" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="@if(isset($cartProduct['quantity'])) {{$cartProduct['quantity']}} @else 1 @endif" id="quantity_id_{{$cartProduct['product_id_cart']}}" name="quantity" class="nbArticles_input" onchange="addQuantityToCart(event, <?php echo json_encode($cartProduct['product_id_cart']) ?>)">
 
-                            <button class="btn-quantity"
-                            onclick="inc_NbArticle_cart(event, <?php echo json_encode($cartProduct['product_id_cart']) ?>), addQuantityToCart(event, <?php echo json_encode($cartProduct['product_id_cart']) ?>)" aria-label="Réduire la quantité de l'article de un">+</button>
+                            <button class="btn-quantity" onclick="inc_NbArticle_cart(event, <?php echo json_encode($cartProduct['product_id_cart']) ?>), addQuantityToCart(event, <?php echo json_encode($cartProduct['product_id_cart']) ?>)" aria-label="Réduire la quantité de l'article de un">+</button>
                         </div>
                     </div>
 
@@ -49,7 +48,7 @@
                     <form action="/carts/{{ $loop->index }}" method="post" class="delete_from_cart">
                         @csrf
                         @method('delete')
-                        <button type="submit" name="delete" class="btn btn-outline-danger"><span>Retirer</span></button>
+                        <button><span>Retirer</span></button>
                     </form>
                 </div>
             </div>
@@ -138,14 +137,13 @@
         // si on click sur inc ou dec sa déclenche un onchange donc  addQuantityToCart
         cartSession.forEach(item => {
             if (item.product_id_cart == productId) {
-                item.quantity = qt
-                console.log(item.quantity, item.product_id_cart);
+                item.quantity = qt;
                 saveModificationCart();
             }
         });
 
         calculTotalPrice();
-    }
+    };
 
     // empèche le paste sur l'input quantity product
     document.querySelectorAll('.nbArticles_input').forEach(item => {
@@ -165,12 +163,14 @@
         var allPrices = document.getElementsByClassName('price_list');
         var total_price = 0;
 
-        for (var j = 0; j < allPrices.length; j++) {
-            total_price += parseFloat(allPrices[j].innerHTML);
-        }
+        if (allPrices.length) {
+            for (var j = 0; j < allPrices.length; j++) {
+                total_price += parseFloat(allPrices[j].innerHTML);
+            }
 
-        document.getElementById('total_priceId').innerHTML = 'Total &nbsp;&nbsp;&nbsp;'   + total_price;
-    }
+            document.getElementById('total_priceId').innerHTML = 'Total &nbsp;&nbsp;&nbsp;' + total_price;
+        }
+    };
 
     // handle details
     const handleDetails = (e, productId) => {
@@ -180,16 +180,14 @@
             if (item.product_id_cart == productId) {
                 // nom du détail       valeur du détail  
                 item[e.target.name] = e.target.value;
-                console.log(cartSession);
                 saveModificationCart();
             }
         });
-    }
+    };
 
 
     // save modifications in cart
     const saveModificationCart = () => {
-        console.log('saveModificationCart');
         // transformation de l'objet en string JSON
         var cart = JSON.stringify(cartSession);
 
@@ -203,7 +201,7 @@
             }).catch(function(error) {
                 console.log('error:   ' + error);
             });
-    }
+    };
 </script>
 
 <!-- load axios and put csrf -->

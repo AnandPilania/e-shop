@@ -11,12 +11,12 @@ use Illuminate\Support\Facades\Session;
 class ProductSheetController extends Controller
 {
     // afiche la fiche produit
-    public function productSheet($collection, $productLink)
+    public function productSheet($collection, $productLink, $productId)
     {
         // Session::forget('cart');
-        // dd($productLink);
+        // dd($productId);
         $categories = Category::all();
-        $product = Product::where('link', $productLink)->first();
+        $product = Product::where('id', $productId)->first();
         $reviews = $product->reviews;
        
         $collectionId1 = Collection::all('id')->random(1);

@@ -91,10 +91,11 @@ Route::post('/details', [ProductDetailController::class, 'details']);
 Route::post('/bestSeller', [ProductController::class, 'bestSeller']);
 
 // renvoi la fiche du produit
-Route::get('/collections/{collection}/{productId}', [ProductSheetController::class, 'productSheet']);
+Route::get('/collections/{collection}/{productLink}/{productId}', [ProductSheetController::class, 'productSheet']);
 
 // update le cart // put ne prend pas cette requête
 Route::post('/cartUpdate', [CartController::class, 'update']);
+
 
 Route::get('/logout', function () {
     Auth::logout();
