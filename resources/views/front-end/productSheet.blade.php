@@ -179,9 +179,11 @@
                 <div class="modal-body_cart">
                     <h5 id="message_modal_cart"></h5>
                 </div>
-                <button onclick="updateQantityCart()">Oui</button>
-                <button onclick="goToCart()">Voir mon panier</button>
-                <button onclick="modalCart.style.display = 'none'">Annuler</button>
+                <div class="btn_modal_cart">
+                    <button onclick="updateQantityCart()">Oui</button>
+                    <button onclick="goToCart()">Voir mon panier</button>
+                    <button onclick="modalCart.style.display = 'none'">Annuler</button>
+                </div>
             </div>
         </div>
 
@@ -251,36 +253,46 @@
                     if (cartSession) {
                         // check if already in cart
                         var productAlreadyInCart = [];
+                        // extrait les mêmes produits que product_id_cart s'ils sont présent dans cartSession
                         cartSession.forEach(item => {
                             if (item.product_id_cart === product_id_cart) {
                                 productAlreadyInCart.push(item);
                             }
                         });
-                        console.log(productAlreadyInCart);
+
                         let countDetails = 0;
-                        Object.entries(detailsObj).map(detail => {
-                            // check si les détails sont différents
-                            if (!['product_id_cart', 'quantity'].includes(detail[0]) && item[detail[0]] == detail[1]) {
-                                countDetails++;
+                        // check si le produit est déjà dans le panier avec les mêmes caractèristiques
+                        if (productAlreadyInCart.length) {
+                            productAlreadyInCart.forEach(item => {
+
+                                Object.entries(detailsObj).map(detail => {
+
+                                    if (!['product_id_cart', 'quantity'].includes(detail[0]) && item[detail[0]] == detail[1]) {
+                                        console.log(item[detail[0]], detail[1]);
+                                        countDetails++;
+                                    }
+                                });
+                            });
+
+                            // details contient la liste de tous les détails
+                            // si on a le même produit avec les mêmes détails alors warning !!!
+                            if (countDetails === details.length) {
+                                alreadySaved = true;
+                                messageDoubleInCart(product_name);
                             }
-                        });
-                        // details contient tous les détails
-                        // si on a le même produit avec les mêmes détails alors warning !!!
-                        if (countDetails === details.length) {
-                            alreadySaved = true;
-                            messageDoubleInCart(product_name);
-                        }
-                        // si on a le même produit mais pas avec les mêmes détails alors save
-                        if (countDetails != details.length && !alreadySaved) {
-                            console.log('ça save avant');
+
+                            // si on a le même produit mais pas avec les mêmes détails alors save
+                            if (countDetails != details.length && !alreadySaved) {
+                                console.log('on a le même produit mais pas avec les mêmes détails');
+                                save();
+                            }
+
+                        } else {
+                            // si le produit n'est pas du tout dans le panier
+                            console.log('le produit n\'est pas du tout dans le panier');
                             save();
                         }
 
-                        // si le produit n'est pas du tout dans le panier
-                        if (item.product_id_cart != product_id_cart && !alreadySaved) {
-                            console.log('ça save ici');
-                            save();
-                        }
 
                     } else {
                         // s'il n'y a pas de session alors on save directement
@@ -292,72 +304,6 @@
                 }
             };
 
-
-            // // Add to cart
-            // function addCart(e) {
-            //     e.preventDefault();
-
-            //     // vérifie si tous les détails sont bien dans detailsObj
-            //     // details contient tous les noms des détails présent sur le produit
-            //     var missingDetails = [];
-            //     for (var x = 0; x < details.length; x++) {
-            //         if (!Object.keys(detailsObj).includes(details[x]))
-            //             missingDetails.push(details[x]);
-            //     }
-            //     if (missingDetails.length === 0) {
-            //         missingDetails.forEach(item => document.getElementById(item).style.display = "none");
-
-            //         detailsObj['product_id_cart'] = product_id_cart;
-            //         detailsObj['quantity'] = quantity_cart;
-            //         // transformation de l'objet en string JSON
-            //         var cart = JSON.stringify(detailsObj);
-
-
-            //         formData.append("cart", cart);
-
-            //         // check double in cart
-            //         var product_name = document.getElementById('product_name').innerHTML;
-            //         var cartSession = <?php //echo json_encode(session()->get('cart')); 
-                                            ?>;
-
-            //         if (cartSession) {
-            //             // check if already in cart
-            //             cartSession.forEach(item => {
-            //                 if (item.product_id_cart === product_id_cart) {
-            //                     let countDetails = 0;
-            //                     Object.entries(detailsObj).map(detail => {
-            //                         // check si les détails sont différents
-            //                         if (!['product_id_cart', 'quantity'].includes(detail[0]) && item[detail[0]] == detail[1]) {
-            //                             countDetails++;
-            //                         }
-            //                     });
-            //                     // details contient tous les détails
-            //                     // si on a le même produit avec les mêmes détails alors warning !!!
-            //                     if (countDetails === details.length) {
-            //                         alreadySaved = true;
-            //                         messageDoubleInCart(product_name);
-            //                     }
-            //                     // si on a le même produit mais pas avec les mêmes détails alors save
-            //                     if (countDetails != details.length && !alreadySaved) {
-            //                         console.log('ça save avant');
-            //                         save();
-            //                     }
-            //                 }
-            //                 // si le produit n'est pas du tout dans le panier
-            //                 if (item.product_id_cart != product_id_cart && !alreadySaved) {
-            //                     console.log('ça save ici');
-            //                     save();
-            //                 }
-            //             });
-            //         } else {
-            //             // s'il n'y a pas de session alors on save directement
-            //             save();
-            //             console.log('s\'il n\'y a pas de session alors on save directement');
-            //         }
-            //     } else {
-            //         missingDetails.forEach(item => document.getElementById(item).style.display = "block");
-            //     }
-            // };
 
             // save in cart
             function save() {

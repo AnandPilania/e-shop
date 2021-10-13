@@ -7,12 +7,16 @@
     </div>
 
     @if(isset($cart) && !empty($cart))
+    <!-- $x premet de distinguer les produit lorsqu'ils sont les mêmes mais avec des caractèristiques diffétentes -->
+    @php
+    $x = 0
+    @endphp
     <div class="cart_body">
         @foreach($cart as $cartProduct)
         <!-- @dump($cartProduct['quantity'])
         @dump($cartProduct[0]->collections[0]->name) -->
         <div class="cart_card">
-            <a href="/collections/{{$cartProduct[0]->collections[0]->name}}/{{$cartProduct[0]->link}}">
+            <a href="/collections/{{$cartProduct[0]->collections[0]->name}}/{{$cartProduct[0]->link}}/{{$cartProduct[0]->id}}">
                 <figure id="img_Cart">
                     @isset($cartProduct[0]->images_products->first()->path)
                     <img src="{{  $cartProduct[0]->images_products->first()->path }}">
@@ -21,7 +25,7 @@
             </a>
 
             <div class="text_cart_card">
-                <a href="/collections/{{$cartProduct[0]->collections[0]->name}}/{{$cartProduct[0]->link}}">
+                <a href="/collections/{{$cartProduct[0]->collections[0]->name}}/{{$cartProduct[0]->link}}/{{$cartProduct[0]->id}}">
                     <h2>{{ $cartProduct[0]->name }}</h2>
                 </a>
 
@@ -36,13 +40,15 @@
                     </div>
                     <div class="nbArticles">
                         <div class="wrapper_quantity">
-                            <button class="btn-quantity" onclick="dec_NbArticle_cart(event, <?php echo json_encode($cartProduct['product_id_cart']) ?>), addQuantityToCart(event, <?php echo json_encode($cartProduct['product_id_cart']) ?>)" aria-label="Augmenter la quantité de l'article de un">-</button>
+                            <button class="btn-quantity" onclick="dec_NbArticle_cart(event, <?php echo json_encode($cartProduct['product_id_cart']) ?>, <?php echo $x ?>), addQuantityToCart(event, <?php echo json_encode($cartProduct['product_id_cart']) ?>, <?php echo $x ?>)" aria-label="Augmenter la quantité de l'article de un">-</button>
 
-                            <input type="text" maxlength="3" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="@if(isset($cartProduct['quantity'])) {{$cartProduct['quantity']}} @else 1 @endif" id="quantity_id_{{$cartProduct['product_id_cart']}}" name="quantity" class="nbArticles_input" onchange="addQuantityToCart(event, <?php echo json_encode($cartProduct['product_id_cart']) ?>)">
+                            <input type="text" maxlength="3" onkeypress="return event.charCode >= 48 && event.charCode <= 57" value="@if(isset($cartProduct['quantity'])) {{$cartProduct['quantity']}} @else 1 @endif" id="quantity_id_{{$x}}" name="quantity" class="nbArticles_input" onchange="addQuantityToCart(event, <?php echo json_encode($cartProduct['product_id_cart']) ?>, <?php echo $x ?>)">
 
-                            <button class="btn-quantity" onclick="inc_NbArticle_cart(event, <?php echo json_encode($cartProduct['product_id_cart']) ?>), addQuantityToCart(event, <?php echo json_encode($cartProduct['product_id_cart']) ?>)" aria-label="Réduire la quantité de l'article de un">+</button>
+                            <button class="btn-quantity" onclick="inc_NbArticle_cart(event, <?php echo json_encode($cartProduct['product_id_cart']) ?>, <?php echo $x ?>), addQuantityToCart(event, <?php echo json_encode($cartProduct['product_id_cart']) ?>, <?php echo $x ?>)" aria-label="Réduire la quantité de l'article de un">+</button>
                         </div>
                     </div>
+
+
 
                     <!-- delete -->
                     <form action="/carts/{{ $loop->index }}" method="post" class="delete_from_cart">
@@ -56,12 +62,15 @@
             <!-- price -->
             <div class="cart_block_price">
                 <div class="text_cart_card_2">
-                    <h3 id="text_cart_card_price_{{$cartProduct['product_id_cart']}}" class="price_list">{{ (int) $cartProduct['quantity'] * $cartProduct[0]->price }}</h3>&nbsp;<span>€</span>
-                    <input type="hidden" id="hidden_price_{{$cartProduct['product_id_cart']}}" value="{{ $cartProduct[0]->price }}">
+                    <h3 id="text_cart_card_price_{{$x}}" class="price_list">{{ (int) $cartProduct['quantity'] * $cartProduct[0]->price }}</h3>&nbsp;<span>€</span>
+                    <input type="hidden" id="hidden_price_{{$x}}" value="{{ $cartProduct[0]->price }}">
                 </div>
             </div>
 
         </div>
+        @php
+        $x++
+        @endphp
         @endforeach
         <div class="cart_total_price">
             <h3 id="total_priceId"></h3>&nbsp;<span>€</span>
@@ -94,49 +103,49 @@
     calculTotalPrice();
 
     // ajoute 1 à la quantité
-    const inc_NbArticle_cart = (e, productId) => {
+    const inc_NbArticle_cart = (e, productId, x) => {
         e.preventDefault();
         // incrémente quantity
-        if (document.getElementById('quantity_id_' + productId).value < 999) {
-            document.getElementById('quantity_id_' + productId).value++;
+        if (document.getElementById('quantity_id_' + x).value < 999) {
+            document.getElementById('quantity_id_' + x).value++;
         };
 
         //  calcule le prix par nombre d'article " quantity x price "
-        var qt = document.getElementById('quantity_id_' + productId).value;
-        var pr = document.getElementById('hidden_price_' + productId).value;
-        document.getElementById('text_cart_card_price_' + productId).innerHTML = qt * pr;
+        var qt = document.getElementById('quantity_id_' + x).value;
+        var pr = document.getElementById('hidden_price_' + x).value;
+        document.getElementById('text_cart_card_price_' + x).innerHTML = qt * pr;
 
         calculTotalPrice();
     };
 
     // enlève 1 de la quantité
-    const dec_NbArticle_cart = (e, productId) => {
+    const dec_NbArticle_cart = (e, productId, x) => {
         e.preventDefault();
-        if (document.getElementById('quantity_id_' + productId).value > 1) {
-            document.getElementById('quantity_id_' + productId).value--;
+        if (document.getElementById('quantity_id_' + x).value > 1) {
+            document.getElementById('quantity_id_' + x).value--;
         }
 
         //  calcule le prix par nombre d'article " quantity x price "
-        var qt = document.getElementById('quantity_id_' + productId).value;
-        var pr = document.getElementById('hidden_price_' + productId).value;
-        document.getElementById('text_cart_card_price_' + productId).innerHTML = qt * pr;
+        var qt = document.getElementById('quantity_id_' + x).value;
+        var pr = document.getElementById('hidden_price_' + x).value;
+        document.getElementById('text_cart_card_price_' + x).innerHTML = qt * pr;
 
         calculTotalPrice();
     };
 
     // modify quantity
-    const addQuantityToCart = (e, productId) => {
+    const addQuantityToCart = (e, productId, x) => {
         e.preventDefault();
         //  calcule le prix par nombre d'article " quantity x price "
-        var qt = document.getElementById('quantity_id_' + productId).value;
+        var qt = document.getElementById('quantity_id_' + x).value;
         if (qt == 0) qt = 1;
-        var pr = document.getElementById('hidden_price_' + productId).value;
-        document.getElementById('text_cart_card_price_' + productId).innerHTML = qt * pr;
+        var pr = document.getElementById('hidden_price_' + x).value;
+        document.getElementById('text_cart_card_price_' + x).innerHTML = qt * pr;
 
         // update in cart where product_id_cart match
         // si on click sur inc ou dec sa déclenche un onchange donc  addQuantityToCart
-        cartSession.forEach(item => {
-            if (item.product_id_cart == productId) {
+        cartSession.forEach((item, index) => {
+            if (item.product_id_cart == productId && index == x) {
                 item.quantity = qt;
                 saveModificationCart();
             }

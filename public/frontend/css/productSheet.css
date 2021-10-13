@@ -6363,9 +6363,18 @@ readers do not read off random characters that represent icons */
   position: relative;
   background-color: #fefefe;
   margin: auto;
-  padding: 0;
-  border: 1px solid #888;
-  width: 80%;
+  padding: 30px;
+  border: none;
+  width: 40%;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 20px;
+  font-weight: normal;
+  line-height: 25px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   -webkit-animation-name: animatetop_cart;
   -webkit-animation-duration: 0.4s;
@@ -6396,6 +6405,32 @@ readers do not read off random characters that represent icons */
 }
 .modal-body_cart {
   padding: 2px 16px;
+}
+
+.btn_modal_cart {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.btn_modal_cart button {
+  padding: 10px 30px;
+  border: 1px solid #b8b8b8;
+  background-color: white;
+  color: #777777;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0 10px;
+  transition: ease-in-out 0.15s;
+}
+
+.btn_modal_cart button:hover {
+  border: 1px solid #3f3f3f;
+  border-radius: 7px;
+  color: #4d4d4d;
+  cursor: pointer;
 }
 
 .wrapper_quantity {
