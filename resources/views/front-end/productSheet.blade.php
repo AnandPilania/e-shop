@@ -187,6 +187,19 @@
             </div>
         </div>
 
+        <!------- The Modal_Cart confirmation add in cart ------->
+        <div id="modal_confirm_add_in_cart" class="modal_cart">
+            <!-- Modal_cart content -->
+            <div class="modal-content_cart">
+                <div class="modal-body_cart">
+                    <h5 id="message_modal_cart"></h5>
+                </div>
+                <div class="btn_modal_cart">
+                    <button onclick="modalCart.style.display = 'none'">Fermer</button>
+                </div>
+            </div>
+        </div>
+
         <!-- handle addToCart -->
         <script>
             var formData = new FormData();
@@ -217,10 +230,18 @@
 
             // Envoi un message d'avertissement si on tente de mettre un produit déjà dans le panier avec les même détails.
             // si on confirme alors on augmente juste la quantité du produit déjà présent
-            var modalCart = document.getElementById("modal_double_in_cart");
-            var spanCloseCart = document.getElementsByClassName("close_cart")[0];
             const messageDoubleInCart = (nameProdcut) => {
+                var modalCart = document.getElementById("modal_double_in_cart");
+
                 document.getElementById("message_modal_cart").innerText = "l'article " + nameProdcut + " est déjà dans votre panier avec les mêmes caractèristiques. Voulez-vous augmenter la quantité ?";
+                modalCart.style.display = "block";
+            }
+
+            // message de confirmation d'ajout d'un produit dans le panier
+            const confirmAddInCart = (nameProdcut) => {
+                var modalCart = document.getElementById("modal_confirm_add_in_cart");
+
+                document.getElementById("message_modal_cart").innerText = "l'article " + nameProdcut + " a bien été ajouté dans votre panier";
                 modalCart.style.display = "block";
             }
 
@@ -249,9 +270,8 @@
                     // check double in cart
                     var product_name = document.getElementById('product_name').innerHTML;
                     var cartSession = <?php echo json_encode(session()->get('cart')); ?>;
-
+                    // si on a un cart dans la session alors on check s'il n'y a pas de doublon
                     if (cartSession) {
-                        // check if already in cart
                         var productAlreadyInCart = [];
                         // extrait les mêmes produits que product_id_cart s'ils sont présent dans cartSession
                         cartSession.forEach(item => {
@@ -310,6 +330,7 @@
                 axios.post(`http://127.0.0.1:8000/carts`, formData)
                     .then(res => {
                         console.log('res.data  --->  ok save');
+                        confirmAddInCart();
 
                     }).catch(function(error) {
                         console.log('error:   ' + error);
@@ -336,7 +357,7 @@
                         axios.post(`http://127.0.0.1:8000/cartUpdate`, formData)
                             .then(res => {
                                 console.log('res.data  --->  ok cartUpdate');
-
+                                confirmAddInCart();
                             }).catch(function(error) {
                                 console.log('error:   ' + error);
                             });
