@@ -36005,6 +36005,19 @@ var jss = create();
 
 /***/ }),
 
+/***/ "./resources/sass/authentification.scss":
+/*!**********************************************!*\
+  !*** ./resources/sass/authentification.scss ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./resources/sass/back-end.scss":
 /*!**************************************!*\
   !*** ./resources/sass/back-end.scss ***!
@@ -70572,7 +70585,8 @@ function warning(condition, message) {
 /******/ 			"frontend/css/index-front": 0,
 /******/ 			"frontend/css/nav-frontend": 0,
 /******/ 			"css/app": 0,
-/******/ 			"backend/css/back-end": 0
+/******/ 			"backend/css/back-end": 0,
+/******/ 			"frontend/css/authentification": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -70620,14 +70634,15 @@ function warning(condition, message) {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end"], () => (__webpack_require__("./resources/js/createProduct.js")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end"], () => (__webpack_require__("./resources/js/components/createProduct/createProduct_Js.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end"], () => (__webpack_require__("./resources/sass/nav-frontend.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end"], () => (__webpack_require__("./resources/sass/index-front.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end"], () => (__webpack_require__("./resources/sass/productSheet.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end"], () => (__webpack_require__("./resources/sass/cart.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end"], () => (__webpack_require__("./resources/sass/back-end.scss")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end"], () => (__webpack_require__("./resources/css/app.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end","frontend/css/authentification"], () => (__webpack_require__("./resources/js/createProduct.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end","frontend/css/authentification"], () => (__webpack_require__("./resources/js/components/createProduct/createProduct_Js.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/nav-frontend.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/index-front.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/productSheet.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/cart.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/authentification.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/back-end.scss")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end","frontend/css/authentification"], () => (__webpack_require__("./resources/css/app.css")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

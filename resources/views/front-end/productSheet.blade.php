@@ -3,6 +3,15 @@
 @section('content')
 <div class="container_sheet">
 
+    <div class="breadcrumb">
+        <a href="{{ asset('/') }}">Accueil</a> 
+        <i class="fas fa-chevron-right"></i>
+        <a href="{{ asset('collections/') }}">Collections</a> 
+        <i class="fas fa-chevron-right"></i>
+        <a href="{{ asset('collections/' . $product->collections[0]->link) }}">{{ $product->collections[0]->name }}</a> 
+        <i class="fas fa-chevron-right"></i>
+        <a href="{{ asset('collections/' . $product->collections[0]->link) . '/' . $product->link . '/' . $product->id }}">{{ $product->name }}</a> 
+    </div>
     <div class="product_sheet">
 
         <div class="image_product">
@@ -182,7 +191,7 @@
                 <div class="btn_modal_cart">
                     <button onclick="updateQantityCart()">Oui</button>
                     <button onclick="goToCart()">Voir mon panier</button>
-                    <button onclick="modalCart.style.display = 'none'">Annuler</button>
+                    <button onclick="document.getElementById('modal_double_in_cart').style.display = 'none'">Annuler</button>
                 </div>
             </div>
         </div>
@@ -190,13 +199,28 @@
         <!------- The Modal_Cart confirmation add in cart ------->
         <div id="modal_confirm_add_in_cart" class="modal_cart">
             <!-- Modal_cart content -->
-            <div class="modal-content_cart">
-                <div class="modal-body_cart">
-                    <h5 id="message_modal_cart"></h5>
+            <div class="modal-content_confirm_cart">
+
+                <div id="header_confirm_cart">
+                    <h4>Votre produit a bien été ajouté au panier</h4>
+                    <span class="close_modal_cart" onclick="closeModalCartAndReload()">&#10006;</span>
                 </div>
-                <div class="btn_modal_cart">
-                    <button onclick="modalCart.style.display = 'none'">Fermer</button>
+
+                <figure id="figure_confirm_add_cart">
+                    <img id="img_confirm_add_cart" src="{{ asset($product->images_products[0]->path) }}" alt="{{ $product->images_products[0]->alt }}">
+                </figure>
+
+                <div id="block_txt_confirm_add_cart">
+                    <h2 id="confirm_message_modal_cart"></h2>
+                    <span id="confirm_price_modal_cart"></span>
+                    <button id="btn_confirm_add_cart" onclick="goToCart()">
+                        ACCÉDER À MON PANIER
+                    </button>
+                    <span id="confirm_keep_buy_modal_vart" onclick="document.getElementById('modal_confirm_add_in_cart').style.display = 'none', location.reload();">
+                        <i class="far fa-arrow-alt-circle-left"></i></i> Continuer mes achats </span>
                 </div>
+
+
             </div>
         </div>
 
@@ -238,11 +262,22 @@
             }
 
             // message de confirmation d'ajout d'un produit dans le panier
-            const confirmAddInCart = (nameProdcut) => {
+            const confirmAddInCart = () => {
                 var modalCart = document.getElementById("modal_confirm_add_in_cart");
+                var nameProdcut = document.getElementById('product_name').innerHTML
 
-                document.getElementById("message_modal_cart").innerText = "l'article " + nameProdcut + " a bien été ajouté dans votre panier";
+                document.getElementById("confirm_message_modal_cart").innerText = nameProdcut;
+
+                document.getElementById("confirm_price_modal_cart").innerText = document.getElementById("price_product").innerText;
+
                 modalCart.style.display = "block";
+            }
+
+            // ferme la modal et recharge la page
+            const closeModalCartAndReload = () => {
+                document.getElementById("modal_confirm_add_in_cart").style.display = 'none';
+
+                location.reload();
             }
 
             // Add to cart
@@ -330,18 +365,19 @@
                 axios.post(`http://127.0.0.1:8000/carts`, formData)
                     .then(res => {
                         console.log('res.data  --->  ok save');
+                        alreadySaved = true;
                         confirmAddInCart();
 
                     }).catch(function(error) {
                         console.log('error:   ' + error);
                     });
-                alreadySaved = true;
-                location.reload();
             };
 
             // si dans le warning "indiquant "produit en double dans le panier" on clique sur oui pour sauvegarder alors on additionne juste la quantité du produit avec celle demandée dans la productSheet
             function updateQantityCart() {
-                console.log('saveCart');
+                // ferme d'abord la fenêtre warning duplicata
+                document.getElementById('modal_double_in_cart').style.display = 'none'
+
                 var cartSession = <?php echo json_encode(session()->get('cart')); ?>;
                 cartSession.forEach(item => {
                     if (item.product_id_cart == product_id_cart) {
@@ -364,8 +400,6 @@
                     }
                 });
                 alreadySaved = true;
-                modalCart.style.display = 'none'
-                location.reload();
             };
         </script>
 

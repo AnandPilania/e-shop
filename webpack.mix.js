@@ -20,6 +20,7 @@ mix.js('resources/js/createProduct.js', 'public/js').react()
     .sass('resources/sass/index-front.scss', 'public/frontend/css')
     .sass('resources/sass/productSheet.scss', 'public/frontend/css')
     .sass('resources/sass/cart.scss', 'public/frontend/css')
+    .sass('resources/sass/authentification.scss', 'public/frontend/css')
     .sass('resources/sass/back-end.scss', 'public/backend/css')
     .postCss('resources/css/app.css', 'public/css', [
         require('postcss-import'),

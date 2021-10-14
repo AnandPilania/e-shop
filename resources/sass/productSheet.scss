@@ -21,6 +21,30 @@ $fa-font-path: "../webfonts";
     // border: solid 2px rgb(0, 255, 85);
 }
 
+.breadcrumb {
+    margin-top: 50px;
+    width: 60%;
+    padding: 20px;
+    border: rgb(228, 228, 228) solid 1px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.breadcrumb a {
+    color: rgb(40, 126, 255);
+    font-size: 15px;
+    text-decoration: none;
+}
+
+.fa-chevron-right {
+    color: rgb(40, 126, 255);
+    font-size: 10px;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
 .product_sheet {
     width: 60%;
     height: 560px;
@@ -320,6 +344,165 @@ $fa-font-path: "../webfonts";
     border-radius: 7px;
     color: rgb(77, 77, 77);
     cursor: pointer;
+}
+
+// Modal_confirm_add_cart //////////////////////////////
+/* modal_cart background */
+
+// .modal_cart {
+//  // SAME LIKE ABOVE !!!
+// }
+
+/* Modal_cart Content */
+.modal-content_confirm_cart {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0 30px 30px 30px;
+    border: none;
+    width: 40%;
+    min-width: 300px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+    font-size: 20px;
+    font-weight: normal;
+    line-height: 25px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-animation-name: animatetop_cart;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop_cart;
+    animation-duration: 0.4s;
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop_cart {
+    from {
+        top: -300px;
+        opacity: 0;
+    }
+
+    to {
+        top: 0;
+        opacity: 1;
+    }
+}
+
+@keyframes animatetop_cart {
+    from {
+        top: -300px;
+        opacity: 0;
+    }
+
+    to {
+        top: 0;
+        opacity: 1;
+    }
+}
+
+#header_confirm_cart {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 20px;
+    margin-bottom: 30px;
+    width: 100%;
+    height: 50px;
+    // border: rgb(168, 6, 6) solid 1px;
+}
+
+#header_confirm_cart h4 {
+    font-size: 26px;
+    font-weight: bold;
+    padding-top: 30px;
+}
+
+#header_confirm_cart .close_modal_cart {
+    margin-left: auto;
+    margin-top: 30px;
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(104, 104, 104);
+    transition: ease-in-out 0.1s;
+}
+
+#header_confirm_cart .close_modal_cart:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+#figure_confirm_add_cart {
+    height: auto;
+    width: 250px;
+    margin-right: 50px;
+}
+
+#img_confirm_add_cart {
+    width: 100%;
+    height: auto;
+}
+
+#block_txt_confirm_add_cart {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    font-size: 20px;
+    font-weight: normal;
+    line-height: 25px;
+}
+
+#confirm_message_modal_cart {
+    color: rgb(0, 0, 0);
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 25px;
+    margin-bottom: 0;
+}
+
+#confirm_price_modal_cart {
+    color: red;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+#btn_confirm_add_cart {
+    padding: 10px 30px;
+    border: none;
+    background-color: rgb(221, 0, 0);
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    font-weight: bold;
+    margin: 20px 0;
+    transition: ease-in-out 0.15s;
+}
+
+#btn_confirm_add_cart:hover {
+    border-radius: 7px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#confirm_keep_buy_modal_vart {
+    font-size: 18px;
+    font-weight: bold;
+    color: rgb(37, 86, 248);
+    transition: ease-in-out 0.15s;
+}
+
+#confirm_keep_buy_modal_vart:hover {
+    cursor: pointer;
+    transform: translateX(-3px);
+}
+
+#confirm_keep_buy_modal_vart .fa-arrow-alt-circle-left {
+    font-size: 18px;
+    font-weight: bold;
+    color: rgb(37, 86, 248);
+    margin-right: 3px;
 }
 
 // Quantity input & button ///////////////

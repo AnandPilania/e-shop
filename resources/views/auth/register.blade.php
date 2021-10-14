@@ -1,66 +1,81 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+@extends('layouts.head-frontend')
 
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+@section('content')
+<x-slot name="logo">
+    <a href="/">
+        <x-application-logo />
+    </a>
+</x-slot>
 
-        <form method="POST" action="{{ route('register') }}">
-            @csrf
+<!-- Validation Errors -->
+<x-auth-validation-errors :errors="$errors" style="color:red;" />
 
-            <!-- last_name -->
-            <div class="mt-4">
-                <x-label for="last_name" :value="__('Nom')" />
+<form method="POST" action="{{ route('register') }}" class="auth auth_inscription">
+    @csrf
 
-                <x-input id="last_name" class="block mt-1 w-full" type="text" name="last_name" :value="old('last_name')" required autofocus />
-            </div>
+    <h1>Inscription</h1>
+    <!-- Name -->
+    <label for="nom" class="auth_label">Nom</label>
 
-            <!-- first_name -->
-            <div class="mt-4">
-                <x-label for="first_name" :value="__('Prénom')" />
+    <x-input id="nom" class="auth_input" type="text" name="nom" :value="old('nom')" required autofocus />
 
-                <x-input id="first_name" class="block mt-1 w-full" type="text" name="first_name" :value="old('first_name')" required />
-            </div>
 
-            <!-- Email Address -->
-            <div class="mt-4">
-                <x-label for="email" :value="__('Email')" />
+    <label for="prenom" class="auth_label">Prénom</label>
 
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
-            </div>
+    <x-input id="prenom" class="auth_input" type="text" name="prenom" :value="old('prenom')" required autofocus />
 
-            <!-- Password -->
-            <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
 
-                <x-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="new-password" />
-            </div>
+    <!-- Civilité -->
+    <div id="civilite">
+        <div>
+            <input type="radio" id="madame" name="civilite" value="old('civilite')" required> 
+            <label for="madame" style="margin-right: 20px;">Madame</label>
+        </div>
 
-            <!-- Confirm Password -->
-            <div class="mt-4">
-                <x-label for="password_confirmation" :value="__('Confirm Password')" />
+        <div>
+            <input type="radio" id="monsieur" name="civilite" value="old('civilite')" required>
+            <label for="monsieur">Monsieur</label>
+        </div>
+    </div>
 
-                <x-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required />
-            </div>
 
-            <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
-                    {{ __('Already registered?') }}
-                </a>
+    <!-- Email Address -->
 
-                <x-button class="ml-4">
-                    {{ __('Register') }}
-                </x-button>
-            </div>
-        </form>
-    </x-auth-card>
-</x-guest-layout>
+    <label for="email" class="auth_label">Email</label>
+
+    <x-input id="email" class="auth_input" type="email" name="email" :value="old('email')" required />
+
+    <!-- Password -->
+
+    <label for="password" class="auth_label">Mot de passe</label>
+
+    <x-input id="password" class="auth_input" type="password" name="password" required autocomplete="new-password" />
+
+    <!-- Confirm Password -->
+
+    <label for="password_confirmation" class="auth_label">Confirmer mot de passe</label>
+
+    <x-input id="password_confirmation" class="auth_input" type="password" name="password_confirmation" required />
+
+    <div class="rgpd">
+        <input type="checkbox" id="rgpd" name="rgpd" required>
+        <label for="rgpd" id="label_rgpd">j’ai lu et j’accepte la politique de confidentialité du site m-egalitefemmeshommes.org</label>
+    </div>
+
+    <div class="g-recaptcha" data-sitekey="{{ config('captcha.v2-site') }}" required></div>
+
+    <div class="auth_footer">
+        <a href="{{ route('login') }}">
+            Déjà inscrit
+        </a>
+
+        <x-button>
+            M'inscrire
+        </x-button>
+    </div>
+
+
+
+
+</form>
+@endsection
