@@ -15,7 +15,6 @@ class ProductSheetController extends Controller
     {
         // Session::forget('cart');
         // dd($productId);
-        $categories = Category::all();
         $product = Product::where('id', $productId)->first();
         $reviews = $product->reviews;
        
@@ -29,8 +28,6 @@ class ProductSheetController extends Controller
             'promo2' => $promo2[0]->products->random(1)[0]
         );
 
-        return view('front-end.productSheet', ['product' => $product, 'categories' => $categories, 'promos' => $promos, 'reviews' => $reviews]);
+        return view('front-end.productSheet', ['product' => $product, 'promos' => $promos, 'reviews' => $reviews]);
     }
-
-
 }

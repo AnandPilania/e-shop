@@ -11,7 +11,7 @@
 
 * {
     box-sizing: border-box;
-    color: black;
+    color: rgb(255, 255, 255);
 }
 
 *, *::before, *::after {
@@ -73,7 +73,7 @@ button.btn_ajouter {
 }
 
 button.btn_ajouter:hover a{
-    color: black;
+    color: white;
 }
 
 button.btn_ajouter:hover {
@@ -200,12 +200,18 @@ table td img {
 
 .wrapper-form input,
 .wrapper-form select {
-    margin: 0;
+    margin: 0; 
     padding-left: 10px;
     width: 100%;
     height: 55px;
     border: #e1e1e1 solid 1px;
     border-radius: 5px;
+    color: black;
+}
+
+.wrapper-form textarea {
+    color: black;
+    min-height: 100px;
 }
 
 .wrapper-form input[type=submit] { 
@@ -214,7 +220,7 @@ table td img {
     margin-top: 50px;
     border-radius: 5px;
     background-color: rgb(65, 133, 221);
-    color: white;
+    color: black;
     font-size: 16px;
     // font-weight: bold;
     letter-spacing: 1px;
@@ -265,7 +271,7 @@ table td img {
 }
 
 .navAdmin a {
-    color: black;
+    color: rgb(255, 255, 255);
     text-decoration: none;
     font-size: 16px;
     letter-spacing: 1px;

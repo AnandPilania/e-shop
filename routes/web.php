@@ -112,7 +112,7 @@ Route::get('/cookies', function () {
 
 Route::get('/conditionsUtilisation', function () {
     return View('legale.conditionsUtilisation');
-});
+})->name('cu');
 
 //breeze----------------------------
 // Route::get('/', function () {

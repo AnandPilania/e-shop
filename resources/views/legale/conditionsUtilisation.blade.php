@@ -1,4 +1,4 @@
-@extends('layouts.nav')
+@extends('layouts.head-frontend')
 
 @section('content')
 <div class="mentions">

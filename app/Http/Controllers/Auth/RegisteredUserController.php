@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
-use App\Models\Category;
+use App\Models\Address_user;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -23,8 +24,12 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
-        return view('auth.register', ['categories' => $categories]);
+        $countries = DB::table('countries')
+            ->select('name_fr')
+            ->orderBy('name_fr', 'asc')
+            ->get();
+
+        return view('auth.register', ['countries' => $countries]);
     }
 
     /**
@@ -37,68 +42,61 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-                    'nom' => 'required|string|max:255',
-                    'prenom' => 'required|string|max:255',
-                    'sexe' => 'required|string|max:20',
-                    'email' => 'required|string|email|max:255|unique:users',
-                    'password' => 'required|string|confirmed|min:8',
-                    'rgpd' => 'required',
-                    'g-recaptcha-response' => 'required',
-                ]);
-                
-        $secret = \config('captcha.v2-checkbox');
-        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-            'secret' => $secret,
-            'response' => $request['g-recaptcha-response'],
-        ]);
-        
-
-        if ($response->json()['success'] == true)
-            {
-                Auth::login($user = User::create([
-                    'nom' => $request->nom,
-                    'prenom' => $request->prenom,
-                    'sexe' => $request->sexe,
-                    'email' => $request->email,
-                    'password' => Hash::make($request->password),
-                    'admin' => 0,
-                    'rgpd' => 1
-                ]));
-        
-                event(new Registered($user));
-                return redirect(RouteServiceProvider::HOME);
-            }
-
-        return redirect()->route('register');
-        
-    }
-
-
-    public function storrrrrre(Request $request)
-    {
-      
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            // 'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
         // dd($request);
-        $user = User::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+        $request->validate([
+            'last_name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|confirmed|min:8',
+            'password_confirmation' => 'required|min:8',
+            'rgpd' => 'required',
+
+            'country' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'addressComment' => 'string|max:500',
+            'cp' => 'required|numeric|max:999999999999999999999999',
+            'city' => 'required|string|max:255',
+            'civilite' => 'string|max:1',
+            'countryShip' => 'string|max:255',
+            'addressShip' => 'string|max:255',
+            'addressCommentShip' => 'string|max:255',
+            'cpShip' => 'numeric|max:999999999999999999999999',
+            'cityShip' => 'string|max:255',
+            'phone' => 'numeric|max:999999999999999999999999',
+
+
         ]);
 
-        event(new Registered($user));
 
-        Auth::login($user);
+        $user = new User;
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->role = 'guest';
+        $user->rgpd = $request->rgpd;
+        $user->save();
 
-        return redirect(RouteServiceProvider::HOME);
+        $address_user = new Address_user;
+        $address_user->country = $request->country;
+        $address_user->address = $request->address;
+        $address_user->addressComment = $request->addressComment;
+        $address_user->cp = $request->cp;
+        $address_user->city = $request->city;
+        $address_user->civilite = $request->civilite;
+
+        $address_user->countryShip = $request->countryShip;
+        $address_user->addressShip = $request->addressShip;
+        $address_user->addressCommentShip = $request->addressCommentShip;
+        $address_user->cpShip = $request->cpShip;
+        $address_user->cityShip = $request->cityShip;
+        $address_user->phone = $request->phone;
+        $address_user->user_id = $user->id;
+        $address_user->save();
+
+
+        // Auth::login($user);
+
+        // return redirect(RouteServiceProvider::HOME);
     }
 }
-
-
-

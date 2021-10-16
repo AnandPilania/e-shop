@@ -6155,6 +6155,12 @@ readers do not read off random characters that represent icons */
   color: #287eff;
   font-size: 15px;
   text-decoration: none;
+  transition: ease-in-out 0.1s;
+}
+
+.breadcrumb a:hover {
+  color: #003bb9;
+  text-decoration: underline;
 }
 
 .fa-chevron-right {

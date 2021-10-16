@@ -30,8 +30,7 @@ class CartController extends Controller
     public function index_panier(Request $request)
     {
         $product_in_cart = [];
-        $categories = Category::all();
-
+        
         // Session::forget('cart');
 
         // récupère tous les produits présents dans la session cart et renvoi la vue panier si session cart existe 
@@ -48,12 +47,12 @@ class CartController extends Controller
                 $product_in_cart[] = $products;
             }
 
-            return view('front-end.cart', ['categories' => $categories, 'cart' => $product_in_cart, 'cart_session' => $cart]);
+            return view('front-end.cart', ['cart' => $product_in_cart, 'cart_session' => $cart]);
         } else {
             
             // sinon renvoi la vue avec cart vide
             $cart = [];
-            return view('front-end.cart', ['categories' => $categories, 'cart_session' => $cart]);
+            return view('front-end.cart', ['cart_session' => $cart]);
         }
     }
 

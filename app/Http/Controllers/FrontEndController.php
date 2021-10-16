@@ -26,13 +26,12 @@ class FrontEndController extends Controller
         // si on a un jumbotron dans la table jumbo alors on l'affiche sinon on en crée un et on l'affiche. Pour ne pas avboir d'ereur d'objet vide dans la vue
 
         $jumbo = Jumbo::all();
-        $categories = Category::all();
         $bannieres = Banniere::all() ? Banniere::all() : '';
         $bestSellers = Product::where('best_sell', 1)->limit(5)->get();
 
         if ($jumbo->count() > 0) {
 
-            return view('front-end.index', ['categories' => $categories, 'jumbo' => $jumbo, 'bannieres' => $bannieres, 'bestSellers' => $bestSellers]);
+            return view('front-end.index', ['jumbo' => $jumbo, 'bannieres' => $bannieres, 'bestSellers' => $bestSellers]);
         } else {
 
             $jumbo = new Jumbo;
@@ -44,7 +43,7 @@ class FrontEndController extends Controller
 
             $jumbo = Jumbo::all();
 
-            return view('front-end.index', ['categories' => $categories, 'jumbo' => $jumbo, 'bannieres' => $bannieres, 'bestSellers' => $bestSellers]);
+            return view('front-end.index', ['jumbo' => $jumbo, 'bannieres' => $bannieres, 'bestSellers' => $bestSellers]);
         }
     }
 

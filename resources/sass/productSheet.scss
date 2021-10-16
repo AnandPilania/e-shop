@@ -36,6 +36,12 @@ $fa-font-path: "../webfonts";
     color: rgb(40, 126, 255);
     font-size: 15px;
     text-decoration: none;
+    transition: ease-in-out .1s;
+}
+
+.breadcrumb a:hover {
+    color: rgb(0, 59, 185);
+    text-decoration: underline;
 }
 
 .fa-chevron-right {
