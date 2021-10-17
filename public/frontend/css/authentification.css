@@ -1,6 +1,6 @@
 .auth {
-  width: 90%;
-  max-width: 500px;
+  width: 100%;
+  max-width: 600px;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -10,7 +10,6 @@
   padding: 40px 30px 60px 30px;
   border-radius: 5px;
   font-family: sans-serif;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
 .auth_inscription {
@@ -247,4 +246,98 @@
   font-weight: normal;
   margin: 0;
   line-height: 16px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+.phone {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  margin-top: 15px;
+  box-sizing: border-box;
+  border: solid 1px #c4c4c4;
+}
+
+.auth_input_phone {
+  height: 50px;
+  padding: 0 15px;
+  font: 16px sans-serif;
+  width: calc(100% - 50px);
+  border: none;
+}
+
+.icon_question {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+}
+
+.fa-question-circle {
+  font-size: 20px;
+  color: #757575;
+}
+
+.tooltip {
+  position: relative;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 200px;
+  bottom: 100%;
+  left: 50%;
+  margin-bottom: 15px;
+  margin-left: -100px;
+  background-color: #666666;
+  color: #eeeeee;
+  text-align: center;
+  padding: 12px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 18px;
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  -webkit-animation: scale-in-center 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: scale-in-center 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  cursor: pointer;
+}
+
+@-webkit-keyframes scale-in-center {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes scale-in-center {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }

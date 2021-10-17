@@ -16,10 +16,6 @@
      @endif
      <h4 id="nomDetail">{{ $lastValue = $value->type_detail_product->name }}</h4>
 
-     <!-- <script>
-     listDetailsToAddToCart("{!! $value->type_detail_product->name !!}");
- </script> -->
-
      <select name="{{ $value->type_detail_product->name }}" id="{{ $cartProduct['product_id_cart'] }}" onchange="handleDetails(event, <?php echo json_encode($cartProduct['product_id_cart']) ?>)">
          @endif
 

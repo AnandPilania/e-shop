@@ -17,10 +17,10 @@ class CreateAdressUsers extends Migration
             $table->id();
             $table->string('country');
             $table->string('address');
-            $table->string('addressComment');
+            $table->string('addressComment')->nullable();
             $table->string('cp');
             $table->string('city');
-            $table->string('civilite');
+            $table->string('civilite')->nullable();
 
             $table->string('countryShip')->nullable();
             $table->string('addressShip')->nullable();

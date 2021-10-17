@@ -47,8 +47,7 @@ class RegisteredUserController extends Controller
             'last_name' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|confirmed|min:8',
-            'password_confirmation' => 'required|min:8',
+            'password' => 'required|string|min:8',
             'rgpd' => 'required',
 
             'country' => 'required|string|max:255',
@@ -56,7 +55,7 @@ class RegisteredUserController extends Controller
             'addressComment' => 'string|max:500',
             'cp' => 'required|numeric|max:999999999999999999999999',
             'city' => 'required|string|max:255',
-            'civilite' => 'string|max:1',
+            // 'civilite' => 'string|max:1',
             'countryShip' => 'string|max:255',
             'addressShip' => 'string|max:255',
             'addressCommentShip' => 'string|max:255',
@@ -83,7 +82,7 @@ class RegisteredUserController extends Controller
         $address_user->addressComment = $request->addressComment;
         $address_user->cp = $request->cp;
         $address_user->city = $request->city;
-        $address_user->civilite = $request->civilite;
+        // $address_user->civilite = $request->civilite;
 
         $address_user->countryShip = $request->countryShip;
         $address_user->addressShip = $request->addressShip;
@@ -95,7 +94,7 @@ class RegisteredUserController extends Controller
         $address_user->save();
 
 
-        // Auth::login($user);
+        Auth::login($user);
 
         // return redirect(RouteServiceProvider::HOME);
     }

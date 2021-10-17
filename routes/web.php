@@ -10,6 +10,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\JumbosController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SliderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BanniereController;
 use App\Http\Controllers\CategoryController;
@@ -95,6 +96,9 @@ Route::get('/collections/{collection}/{productLink}/{productId}', [ProductSheetC
 
 // update le cart // put ne prend pas cette requête
 Route::post('/cartUpdate', [CartController::class, 'update']);
+
+// show payment view and give $cart_session data
+Route::get('/payment', [PaymentController::class, 'index']);
 
 
 Route::get('/logout', function () {
