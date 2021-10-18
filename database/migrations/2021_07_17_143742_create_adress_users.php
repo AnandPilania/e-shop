@@ -21,13 +21,16 @@ class CreateAdressUsers extends Migration
             $table->string('cp');
             $table->string('city');
             $table->string('civilite')->nullable();
-
-            $table->string('countryShip')->nullable();
-            $table->string('addressShip')->nullable();
-            $table->string('addressCommentShip')->nullable();
-            $table->string('cpShip')->nullable();
-            $table->string('cityShip')->nullable();
             $table->string('phone')->nullable();
+
+            $table->string('first_nameBill')->nullable();
+            $table->string('last_nameBill')->nullable();
+            $table->string('countryBill')->nullable();
+            $table->string('addressBill')->nullable();
+            $table->string('addressCommentBill')->nullable();
+            $table->string('cpBill')->nullable();
+            $table->string('cityBill')->nullable();
+            
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

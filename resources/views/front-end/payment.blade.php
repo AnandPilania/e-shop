@@ -6,7 +6,7 @@
 <div class="container_payment">
 
     @include('front-end.register')
-    
+
     <div class="payment_cart_product_wrapper">
         @foreach($cart as $cartProduct)
         <div class="payment_card">
@@ -24,8 +24,6 @@
                 <a href="/collections/{{$cartProduct[0]->collections[0]->name}}/{{$cartProduct[0]->link}}/{{$cartProduct[0]->id}}">
                     <h2 id="payment_name">{{ $cartProduct[0]->name }}</h2>
                 </a>
-
-
 
                 <div class="payment_block_details">
                     <!-- quantity -->
@@ -73,7 +71,13 @@
 </div>
 
 <script>
-    window.onload(calculTotalPrice());
+    if (window.addEventListener) {
+        window.addEventListener('load', calculTotalPrice);
+    } else if (window.attachEvent) {
+        window.attachEvent('onload', calculTotalPrice);
+    } else {
+        window.onload = calculTotalPrice;
+    }
     // calcule le total des prix
     function calculTotalPrice() {
         var allPrices = document.getElementsByClassName('payment_price_list');

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Cookie;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Session;
 
@@ -42,60 +43,75 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
-        $request->validate([
-            'last_name' => 'required|string|max:255',
-            'first_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-            'rgpd' => 'required',
+        dd($request);
+        if ($request->has('conserve')) {
+            
+            $request->validate([
+                'last_name' => 'required|string|max:255',
+                'first_name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:8',
+                'rgpd' => 'required',
 
-            'country' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'addressComment' => 'string|max:500',
-            'cp' => 'required|numeric|max:999999999999999999999999',
-            'city' => 'required|string|max:255',
-            // 'civilite' => 'string|max:1',
-            'countryShip' => 'string|max:255',
-            'addressShip' => 'string|max:255',
-            'addressCommentShip' => 'string|max:255',
-            'cpShip' => 'numeric|max:999999999999999999999999',
-            'cityShip' => 'string|max:255',
-            'phone' => 'numeric|max:999999999999999999999999',
+                'country' => 'required|string|max:255',
+                'address' => 'required|string|max:255',
+                'addressComment' => 'string|max:500',
+                'cp' => 'required|numeric|max:999999999999999999999999',
+                'city' => 'required|string|max:255',
+                'phone' => 'numeric|max:999999999999999999999999',
+                // 'civilite' => 'string|max:1',
 
-
-        ]);
-
-
-        $user = new User;
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->role = 'guest';
-        $user->rgpd = $request->rgpd;
-        $user->save();
-
-        $address_user = new Address_user;
-        $address_user->country = $request->country;
-        $address_user->address = $request->address;
-        $address_user->addressComment = $request->addressComment;
-        $address_user->cp = $request->cp;
-        $address_user->city = $request->city;
-        // $address_user->civilite = $request->civilite;
-
-        $address_user->countryShip = $request->countryShip;
-        $address_user->addressShip = $request->addressShip;
-        $address_user->addressCommentShip = $request->addressCommentShip;
-        $address_user->cpShip = $request->cpShip;
-        $address_user->cityShip = $request->cityShip;
-        $address_user->phone = $request->phone;
-        $address_user->user_id = $user->id;
-        $address_user->save();
+                // for bill
+                'last_nameBill' => 'string|max:255',
+                'first_nameBill' => 'string|max:255',
+                'countryBill' => 'string|max:255',
+                'addressBill' => 'string|max:255',
+                'addressCommentBill' => 'string|max:255',
+                'cpBill' => 'numeric|max:999999999999999999999999',
+                'cityBill' => 'string|max:255',
+            ]);
 
 
-        Auth::login($user);
+            $user = new User;
+            $user->first_name = $request->first_name;
+            $user->last_name = $request->last_name;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->role = 'guest';
+            $user->rgpd = $request->rgpd;
+            $user->save();
 
-        // return redirect(RouteServiceProvider::HOME);
+            $address_user = new Address_user;
+            $address_user->country = $request->country;
+            $address_user->address = $request->address;
+            $address_user->addressComment = $request->addressComment;
+            $address_user->cp = $request->cp;
+            $address_user->city = $request->city;
+            // $address_user->civilite = $request->civilite;
+
+            $address_user->countryShip = $request->countryShip;
+            $address_user->addressShip = $request->addressShip;
+            $address_user->addressCommentShip = $request->addressCommentShip;
+            $address_user->cpShip = $request->cpShip;
+            $address_user->cityShip = $request->cityShip;
+            $address_user->phone = $request->phone;
+            $address_user->user_id = $user->id;
+            $address_user->save();
+
+
+            Auth::login($user);
+
+            // cookie
+            // save user data in cookies
+
+            $userData = [];
+            array_push($userData, $user);
+            array_push($userData, $address_user);
+
+            $cookie_name = "0s9m1c8p2l7p3f6";
+            $cookie_value = json_encode($userData);
+            Cookie::queue($cookie_name, $cookie_value, 525600);
+            return back();
+        }
     }
 }

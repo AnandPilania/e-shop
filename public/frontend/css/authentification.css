@@ -12,6 +12,44 @@
   font-family: sans-serif;
 }
 
+.payment_wrapper_register h2 {
+  font-size: 18px;
+}
+
+.first_line {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.alreadyAccount {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: auto;
+  font-size: 14px;
+}
+
+.alreadyAccount span {
+  margin-right: 5px;
+}
+
+.alreadyAccount a {
+  text-decoration: none;
+  color: #cf0000;
+  transition: ease-in-out 0.2s;
+}
+
+.alreadyAccount a:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .auth_inscription {
   margin-top: 25px;
   width: 90%;
@@ -42,13 +80,13 @@
 }
 
 .auth .auth_input {
-  height: 50px;
-  margin-top: 15px;
+  flex-grow: 1;
+  height: 30px;
   padding: 0 15px;
   font: 16px sans-serif;
   width: 100%;
   box-sizing: border-box;
-  border: solid 1px #c4c4c4;
+  border: solid 1px red;
 }
 
 .auth select {
@@ -61,6 +99,7 @@
   line-height: 1.5em;
   padding: 0 15px;
   border: solid 1px #c4c4c4;
+  border-radius: 5px;
   color: #757575;
   /* reset */
   margin: 0;
@@ -94,7 +133,6 @@
   width: 100%;
 }
 
-.register_block_name .auth_input,
 .register_block_cp_city .auth_input {
   width: 48%;
 }
@@ -171,7 +209,7 @@
   cursor: pointer;
 }
 
-#block_register_2 {
+#shipping_block {
   display: none;
   margin-bottom: 10px;
 }
@@ -228,20 +266,23 @@
   margin-top: 25px;
 }
 
-.rgpd {
+.rgpd,
+.conserve {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   margin-top: 10px;
 }
 
-#rgpd {
+#rgpd,
+#conserve {
   margin-right: 10px;
   margin-left: 0;
   width: 18px;
 }
 
-#label_rgpd {
+#label_rgpd,
+#label_conserve {
   font-size: 14px;
   font-weight: normal;
   margin: 0;
@@ -340,4 +381,80 @@ input:-webkit-autofill:active {
     transform: scale(1);
     opacity: 1;
   }
+}
+.payment_link {
+  display: none;
+  margin-left: 20px;
+  color: #c00000;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.payment_link:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.input_label_wrapper_half {
+  height: 50px;
+  margin-top: 15px;
+  width: 48%;
+  box-sizing: border-box;
+  border: solid 1px #c4c4c4;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.input_label_wrapper {
+  height: 50px;
+  margin-top: 15px;
+  width: 100%;
+  box-sizing: border-box;
+  border: solid 1px #c4c4c4;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.input-container {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.input-container label {
+  position: absolute;
+  top: calc(50% - 20px);
+  left: 10px;
+  font-size: 14px;
+  color: #646464;
+  pointer-event: none;
+  transition: all 0.5s ease-in-out;
+}
+
+.input-container input {
+  border: solid 1px #c4c4c4;
+  background: transparent;
+  width: 100%;
+  height: 50px;
+  padding: 8px 0 5px 10px;
+  font-size: 16px;
+  color: #646464;
+}
+
+.input-container input:focus {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #e74c3c;
+}
+
+.input-container input:focus ~ label,
+.input-container input:valid ~ label {
+  top: -17px;
+  left: 5px;
+  font-size: 12px;
 }

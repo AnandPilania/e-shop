@@ -77,7 +77,9 @@
         </div>
 
         <div class="btn_passerCommande">
-            <button id="btn_passer_commande">Passer la commande</button>
+            <a href="/paiement">
+                <button id="btn_passer_commande">Passer la commande</button>
+            </a>
         </div>
     </div>
     @else

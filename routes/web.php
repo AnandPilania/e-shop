@@ -98,7 +98,7 @@ Route::get('/collections/{collection}/{productLink}/{productId}', [ProductSheetC
 Route::post('/cartUpdate', [CartController::class, 'update']);
 
 // show payment view and give $cart_session data
-Route::get('/payment', [PaymentController::class, 'index']);
+Route::get('/paiement', [PaymentController::class, 'index']);
 
 
 Route::get('/logout', function () {
