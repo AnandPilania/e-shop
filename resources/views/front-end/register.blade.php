@@ -53,21 +53,21 @@
             <!-- Name -->
             <div class="register_block_name">
                 <div class="input-container input-container_half">
-                    <x-input id="first_name" class="missingField" type="text" name="first_name" :value="old('first_name')" required autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade()" />
+                    <x-input id="first_name" class="missingField" type="text" name="first_name" :value="old('first_name')" required autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" />
                     <label for="first_name">Votre prénom*</label>
                     <span id="first_name_" class="missingFieldMessage">Ce champ est obligatoire</span>
                 </div>
 
                 <div class="input-container input-container_half">
-                    <x-input id="last_name" class="missingField" type="text" name="last_name" :value="old('last_name')" required autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade()" />
+                    <x-input id="last_name" class="missingField" type="text" name="last_name" :value="old('last_name')" required autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" />
                     <label for="last_name">Votre nom*</label>
-                    <span id="first_name_" class="missingFieldMessage">Ce champ est obligatoire</span>
+                    <span id="last_name_" class="missingFieldMessage">Ce champ est obligatoire</span>
                 </div>
             </div>
 
             <!-- Email Address -->
             <div class="input-container">
-                <x-input id="email" class="missingField" type="email" name="email" :value="old('email')" autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade()" required />
+                <x-input id="email" class="missingField" type="email" name="email" :value="old('email')" autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" required />
                 <label for="email">Adresse e-mail*</label>
                 <span id="email_" class="missingFieldMessage">Ce champ est obligatoire</span>
             </div>
@@ -79,7 +79,7 @@
 
             <!-- Adresse -->
             <div class="input-container">
-                <select name="country" id="country" :value="old('country')" class="classic missingField" autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade()" required>
+                <select name="country" id="country" :value="old('country')" class="classic missingField" autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" required>
                     <option value="" disabled selected></option>
                     <option value="France">France</option>
                     <option value="Belgique">Belgique</option>
@@ -95,7 +95,7 @@
             </div>
 
             <div class="input-container">
-                <x-input id="address" class="missingField" type="text" name="address" :value="old('address')" required autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade()" />
+                <x-input id="address" class="missingField" type="text" name="address" :value="old('address')" required autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" />
                 <label for="address">Adresse*</label>
                 <span id="address_" class="missingFieldMessage">Ce champ est obligatoire</span>
             </div>
@@ -109,12 +109,12 @@
             <!-- Cp & Ville -->
             <div class="register_block_cp_city">
                 <div class="input-container input-container_half">
-                    <x-input id="cp" class="missingField" type="number" name="cp" :value="old('cp')" autocomplete="on" required onclick="this.style.border = 'none';" onfocusout="waitFade()" />
+                    <x-input id="cp" class="missingField" type="number" name="cp" :value="old('cp')" autocomplete="on" required onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" />
                     <label for="cp">Code postal*</label>
                     <span id="cp_" class="missingFieldMessage">Ce champ est obligatoire</span>
                 </div>
                 <div class="input-container input-container_half">
-                    <x-input id="city" class="missingField" type="text" name="city" :value="old('city')" autocomplete="on" required onclick="this.style.border = 'none';" onfocusout="waitFade()" />
+                    <x-input id="city" class="missingField" type="text" name="city" :value="old('city')" autocomplete="on" required onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" />
                     <label for="city">Ville*</label>
                     <span id="city_" class="missingFieldMessage">Ce champ est obligatoire</span>
                 </div>
@@ -251,8 +251,6 @@
             var page = 'livraison';
             var unvalid = false;
 
-
-
             document.getElementById('go_to_panier').style.display = 'inline-block';
 
             // link to previous page
@@ -268,17 +266,7 @@
             function changePage() {
                 event.preventDefault();
 
-                var missingFields = document.getElementsByClassName('missingField');
-                for (let i = 0; i < missingFields.length; i++) {
-                    console.log(missingFields[i].id);
-                    if (missingFields[i].value == '') {
-                        document.getElementById(missingFields[i].id + '_').style.display = 'block';
-                        unvalid = true;
-                    } else {
-                        document.getElementById(missingFields[i].id + '_').style.display = 'none';
-                        unvalid = false;
-                    }
-                }
+                validateForm();
 
                 // hide all link to previous page
                 var links = document.getElementsByClassName('payment_link');
@@ -325,6 +313,19 @@
                     }
                 }
 
+            }
+
+            function validateForm() {
+                var missingFields = document.getElementsByClassName('missingField');
+                for (let i = 0; i < missingFields.length; i++) {
+                    if (missingFields[i].value == '') {
+                        document.getElementById(missingFields[i].id + '_').style.display = 'block';
+                        unvalid = true;
+                    } else {
+                        document.getElementById(missingFields[i].id + '_').style.display = 'none';
+                        unvalid = false;
+                    }
+                }
             }
         </script>
 
