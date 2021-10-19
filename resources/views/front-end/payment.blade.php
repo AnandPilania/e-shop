@@ -11,19 +11,15 @@
         @foreach($cart as $cartProduct)
         <div class="payment_card">
             <!-- image -->
-            <a href="/collections/{{$cartProduct[0]->collections[0]->name}}/{{$cartProduct[0]->link}}/{{$cartProduct[0]->id}}">
-                <figure id="img_payment">
-                    @isset($cartProduct[0]->images_products->first()->path)
-                    <img src="{{  $cartProduct[0]->images_products->first()->path }}">
-                    @endisset
-                </figure>
-            </a>
+            <figure id="img_payment">
+                @isset($cartProduct[0]->images_products->first()->path)
+                <img src="{{  $cartProduct[0]->images_products->first()->path }}">
+                @endisset
+            </figure>
 
             <div class="text_cart_card">
                 <!-- name -->
-                <a href="/collections/{{$cartProduct[0]->collections[0]->name}}/{{$cartProduct[0]->link}}/{{$cartProduct[0]->id}}">
-                    <h2 id="payment_name">{{ $cartProduct[0]->name }}</h2>
-                </a>
+                <h2 id="payment_name">{{ $cartProduct[0]->name }}</h2>
 
                 <div class="payment_block_details">
                     <!-- quantity -->

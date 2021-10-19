@@ -1,0 +1,115 @@
+// PAYMENT
+
+.container_payment {
+    width: 100%;
+    min-height: calc(100vh - 100px);
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    // border: solid rgb(70, 135, 255) 3px;
+    // border: solid rgb(218, 218, 218) 1px;
+}
+
+// .payment_auth_inscription {
+//     width: 90%;
+//     max-width: 600px;
+// }
+
+.payment_cart_product_wrapper {
+    width: 46%;
+    min-height: 100%;
+    box-sizing: border-box;
+    // border: solid rgb(218, 218, 218) 1px;
+    border-radius: 5px;
+    padding: 50px 30px;
+    background-color: #fafafa;
+    align-self: stretch;
+}
+
+.payment_card {
+    width: 55%;
+    padding: 10px;
+    margin: 10px 0;
+    display: flex;
+    flex-direction: row;
+    // flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border: none;
+    border-bottom: solid rgb(218, 218, 218) 1px;
+}
+
+.payment_card a{
+    text-decoration: none;
+}
+
+#img_payment {
+    width: auto;
+    height: 80px;
+    margin-right: 20px;
+}
+
+#img_payment img{
+    max-height: 100%;
+}
+
+#payment_name {
+    font-size: 15px;
+}
+
+.payment_block_details {
+    padding-top: 15px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start; 
+}
+
+.payment_block_quantity {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center; 
+    // border: solid 1px rgb(175, 23, 23);
+}
+
+#payment_Detail_name,
+#payment_Detail_value,
+#payment_quantityBuy {
+    margin-right: 10px;
+}
+
+.payment_price_list {
+    font-size: 17px;
+}
+
+.payment_total_priceId {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+.payment_total_price {
+    width: 55%;
+    height: auto;
+    padding-right: 50px;
+    padding-bottom: 10px;
+    margin-top: 40px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center; 
+    border: none;
+    border-bottom: solid rgb(218, 218, 218) 1px;
+}
+
+.payment_total_price span{
+    font-size: 18px;
+    font-weight: bold;
+}

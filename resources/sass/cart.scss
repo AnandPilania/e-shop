@@ -48,6 +48,10 @@
     // border: solid rgb(57, 33, 197) 1px;
 }
 
+.text_cart_card h2 {
+    width: 100%;
+}
+
 .cart_block_details {
     padding-top: 15px;
     display: flex;
@@ -188,112 +192,4 @@
     letter-spacing: 1px;
 }
 
-/*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 
-// PAYMENT
-
-.container_payment {
-    width: 100%;
-    margin: 0;
-    padding: 50px 0 0 0;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
-    border: solid rgb(218, 218, 218) 1px;
-}
-
-.payment_auth_inscription {
-    width: 90%;
-    max-width: 600px;
-}
-
-.payment_cart_product_wrapper {
-    border: solid rgb(218, 218, 218) 1px;
-    border-radius: 5px;
-    padding: 0 30px
-}
-
-.payment_card {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    display: flex;
-    flex-direction: row;
-    // flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: flex-start;
-    border: solid rgb(218, 218, 218) 1px;
-    border-radius: 5px;
-}
-
-.payment_card a{
-    text-decoration: none;
-}
-
-#img_payment {
-    width: auto;
-    height: 80px;
-    margin-right: 20px;
-}
-
-#img_payment img{
-    max-height: 100%;
-}
-
-#payment_name {
-    font-size: 15px;
-}
-
-.payment_block_details {
-    padding-top: 15px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: flex-start; 
-}
-
-.payment_block_quantity {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center; 
-    // border: solid 1px rgb(175, 23, 23);
-}
-
-#payment_Detail_name,
-#payment_Detail_value,
-#payment_quantityBuy {
-    margin-right: 10px;
-}
-
-.payment_price_list {
-    font-size: 17px;
-}
-
-.payment_total_priceId {
-    font-size: 20px;
-    font-weight: bold;
-}
-
-
-.payment_total_price {
-    width: 100%;
-    height: auto;
-    padding-right: 50px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center; 
-    border: solid rgb(218, 218, 218) 1px;
-    border-radius: 5px;
-}
-
-.payment_total_price span{
-    font-size: 18px;
-    font-weight: bold;
-}

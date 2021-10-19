@@ -33,6 +33,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/productSheet.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/cart.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/authentification.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/payment.css') }}" />
 
 
     <!-- reCaptch v3 -->
