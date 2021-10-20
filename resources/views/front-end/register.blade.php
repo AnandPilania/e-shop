@@ -53,23 +53,23 @@
             <!-- Name -->
             <div class="register_block_name">
                 <div class="input-container input-container_half">
-                    <x-input id="first_name" class="missingField" type="text" name="first_name" :value="old('first_name')" required autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" />
+                    <x-input id="first_name" class="missingField" type="text" name="first_name" :value="old('first_name')" required autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" maxlength="255"/>
                     <label for="first_name">Votre prénom*</label>
-                    <span id="first_name_" class="missingFieldMessage">Ce champ est obligatoire</span>
+                    <span id="first_name_" class="missingFieldMessage missingMargin">Entrez un prénom</span>
                 </div>
 
                 <div class="input-container input-container_half">
-                    <x-input id="last_name" class="missingField" type="text" name="last_name" :value="old('last_name')" required autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" />
+                    <x-input id="last_name" class="missingField" type="text" name="last_name" :value="old('last_name')" required autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" maxlength="255"/>
                     <label for="last_name">Votre nom*</label>
-                    <span id="last_name_" class="missingFieldMessage">Ce champ est obligatoire</span>
+                    <span id="last_name_" class="missingFieldMessage missingMargin">Entrez un nom</span>
                 </div>
             </div>
 
             <!-- Email Address -->
             <div class="input-container">
-                <x-input id="email" class="missingField" type="email" name="email" :value="old('email')" autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" required />
+                <x-input id="email" class="missingField" type="email" name="email" :value="old('email')" autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" required maxlength="255"/>
                 <label for="email">Adresse e-mail*</label>
-                <span id="email_" class="missingFieldMessage">Ce champ est obligatoire</span>
+                <span id="email_" class="missingFieldMessage missingMargin">Entrez une adresse e-mail valide</span>
             </div>
 
 
@@ -91,17 +91,17 @@
                     @endforeach
                 </select>
                 <label for="country">Pays*</label>
-                <span id="country_" class="missingFieldMessage">Ce champ est obligatoire</span>
+                <span id="country_" class="missingFieldMessage missingMargin">Entrez un pays</span>
             </div>
 
             <div class="input-container">
-                <x-input id="address" class="missingField" type="text" name="address" :value="old('address')" required autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" />
+                <x-input id="address" class="missingField" type="text" name="address" :value="old('address')" required autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" maxlength="500"/>
                 <label for="address">Adresse*</label>
-                <span id="address_" class="missingFieldMessage">Ce champ est obligatoire</span>
+                <span id="address_" class="missingFieldMessage missingMargin">Entrez une adresse</span>
             </div>
 
             <div class="input-container">
-                <x-input id="addressComment" type="text" name="addressComment" :value="old('addressComment')" required="false" autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade()" />
+                <x-input id="addressComment" type="text" name="addressComment" :value="old('addressComment')" required="false" autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade()" maxlength="255"/>
                 <label for="addressComment">Complément d'adresse (facultatif)</label>
             </div>
 
@@ -109,21 +109,21 @@
             <!-- Cp & Ville -->
             <div class="register_block_cp_city">
                 <div class="input-container input-container_half">
-                    <x-input id="cp" class="missingField" type="number" name="cp" :value="old('cp')" autocomplete="on" required onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" />
+                    <x-input id="cp" class="missingField" type="number" name="cp" :value="old('cp')" autocomplete="on" required onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" maxlength="25"/>
                     <label for="cp">Code postal*</label>
-                    <span id="cp_" class="missingFieldMessage">Ce champ est obligatoire</span>
+                    <span id="cp_" class="missingFieldMessage missingMargin">Entrez un code postal</span>
                 </div>
                 <div class="input-container input-container_half">
-                    <x-input id="city" class="missingField" type="text" name="city" :value="old('city')" autocomplete="on" required onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" />
+                    <x-input id="city" class="missingField" type="text" name="city" :value="old('city')" autocomplete="on" required onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" maxlength="100"/>
                     <label for="city">Ville*</label>
-                    <span id="city_" class="missingFieldMessage">Ce champ est obligatoire</span>
+                    <span id="city_" class="missingFieldMessage missingMargin">Entrez une ville</span>
                 </div>
             </div>
 
 
             <!-- phone -->
             <div class="input-container phone">
-                <x-input id="phone" class="auth_input_phone" type="text" name="phone" :value="old('phone')" required="false" autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade()" />
+                <x-input id="phone" class="auth_input_phone" type="text" name="phone" :value="old('phone')" required="false" autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade()" maxlength="50"/>
 
                 <div class="icon_question">
                     <i class="fas fa-question-circle tooltip">
@@ -159,7 +159,9 @@
             }
         </script>
 
+        <!-- shipping -->
         <div id="shipping_block">
+            <h2>Vos informations</h2>
             <div class="control_coordonees">
                 <div class="contact_control">
                     <span>Contact </span>
@@ -171,6 +173,46 @@
                     <span>Expédier à </span>
                     <span id="adress_control"></span>
                     <h6 class="go_to_information">Modifier</h6>
+                </div>
+            </div>
+
+            <h2>Mode d'expédition</h2>
+            <div class="mode_expedition">
+                <div class="standard_ship">
+                    <input type="radio" name="mode_shipping" id="standard_ship" value="standard" checked onchange="get_mode_shipping('Standard');">
+                    <label for="standard_ship">Livraison Standard </label>
+                    <h6>Gratuit</h6>
+                </div>
+
+                <div class="secure_ship">
+                    <input type="radio" name="mode_shipping" id="secure_ship" value="secure" onchange="get_mode_shipping('Livraison Sécurisée - Perte/Vol/Casse · 4,99 €');">
+                    <label for="secure_ship">Livraison Sécurisée - Perte/Vol/Casse </label>
+                    <h6>4,99 €</h6>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- payment -->
+        <div id="payment_block">
+            <h2>Vos informations</h2>
+            <div class="control_coordonees">
+                <div class="contact_control">
+                    <span>Contact </span>
+                    <span id="contact_control_payment"></span>
+                    <h6 class="go_to_information">Modifier</h6>
+                </div>
+
+                <div class="adress_control">
+                    <span>Expédier à </span>
+                    <span id="adress_control_payment"></span>
+                    <h6 class="go_to_information">Modifier</h6>
+                </div>
+
+                <div class="mode_shipping_control">
+                    <span>Type d'expédition </span>
+                    <span id="shipping_control"></span>
+                    <h6 class="go_to_shipping">Modifier</h6>
                 </div>
             </div>
         </div>
@@ -242,18 +284,21 @@
             </button>
 
             <!-- link to previous page in checkout -->
-            <a href="/panier" class="payment_link" id="go_to_panier">panier</a>
-            <span class="payment_link go_to_information" id="go_to_information">info</span>
-            <span class="payment_link" id="go_to_livraison">ship</span>
+            <a href="/panier" class="payment_link" id="go_to_panier">Retour au panier</a>
+            <span class="payment_link go_to_information" id="go_to_information">Revenir aux informations</span>
+            <span class="payment_link go_to_shipping" id="go_to_shipping">Revenir à l'expédition</span>
         </div>
 
         <script>
             var page = 'livraison';
             var unvalid = false;
+            var alreadyTruToSubmit = false;
+            var modeShipping = '';
+
 
             document.getElementById('go_to_panier').style.display = 'inline-block';
 
-            // link to previous page
+            // link to previous page "information"
             var goto_information = document.getElementsByClassName('go_to_information');
             for (let i = 0; i < goto_information.length; i++) {
                 goto_information[i].addEventListener('click', function() {
@@ -261,11 +306,34 @@
                     changePage();
                 })
             }
+            // link to previous page "shipping"
+            var goto_shipping = document.getElementsByClassName('go_to_shipping');
+            for (let i = 0; i < goto_shipping.length; i++) {
+                goto_shipping[i].addEventListener('click', function() {
+                    page = 'livraison';
+                    changePage();
+                })
+            }
 
 
+            // assigne le mode de livraison choisi  
+            var mode_shipping = document.getElementsByName('mode_shipping');
+            for (let i = 0; i < mode_shipping.length; i++) {
+                if (mode_shipping[i].checked) {
+                    modeShipping = mode_shipping[i].value;
+                }             
+            }
+
+            // assigne le mode de livraison choisi  
+            function get_mode_shipping(modeShippingSlected) {
+                modeShipping = modeShippingSlected;
+            }
+
+
+            // navigue à travers les pages du formulaire de paiement
             function changePage() {
                 event.preventDefault();
-
+                alreadyTruToSubmit = true;
                 validateForm();
 
                 // hide all link to previous page
@@ -286,27 +354,37 @@
 
                 var address = address_data + ' ' + addressComment_data + ' ' + cp_data + ' ' + city_data + ' ' + country_data;
 
+
                 if (!unvalid) {
                     switch (page) {
                         case 'information':
                             document.getElementById('information_block').style.display = 'inline-block';
                             document.getElementById('shipping_block').style.display = 'none';
+                            document.getElementById('payment_block').style.display = 'none';
                             document.getElementById('authRegisterSubmit').innerHTML = 'Continuer vers l\'expédition';
                             document.getElementById('go_to_panier').style.display = 'inline-block';
                             page = 'livraison';
                             break;
                         case 'livraison':
                             document.getElementById('information_block').style.display = 'none';
+                            document.getElementById('payment_block').style.display = 'none';
                             document.getElementById('shipping_block').style.display = 'inline-block';
                             document.getElementById('authRegisterSubmit').innerHTML = 'Continuer vers le paiement';
                             document.getElementById('go_to_information').style.display = 'inline-block';
 
                             document.getElementById('contact_control').innerHTML = email_data;
                             document.getElementById('adress_control').innerHTML = address;
+                            page = 'payment';
                             break;
-                            // case 'paiement':
-                            //     // code block
-                            //     break;
+                        case 'payment':
+                            document.getElementById('shipping_block').style.display = 'none';
+                            document.getElementById('payment_block').style.display = 'inline-block';
+                            document.getElementById('authRegisterSubmit').innerHTML = 'Payer maintenant';
+                            document.getElementById('go_to_shipping').style.display = 'inline-block';
+                            document.getElementById('contact_control_payment').innerHTML = email_data;
+                            document.getElementById('adress_control_payment').innerHTML = address;
+                            document.getElementById('shipping_control').innerHTML = modeShipping;
+                            break;
                         default:
                             document.getElementById('information_block').style.display = 'block';
                             document.getElementById('shipping_block').style.display = 'none';
@@ -315,15 +393,23 @@
 
             }
 
+
+            function validateEmail() {
+
+            }
+
+
             function validateForm() {
-                var missingFields = document.getElementsByClassName('missingField');
-                for (let i = 0; i < missingFields.length; i++) {
-                    if (missingFields[i].value == '') {
-                        document.getElementById(missingFields[i].id + '_').style.display = 'block';
-                        unvalid = true;
-                    } else {
-                        document.getElementById(missingFields[i].id + '_').style.display = 'none';
-                        unvalid = false;
+                if (alreadyTruToSubmit) {
+                    var missingFields = document.getElementsByClassName('missingField');
+                    for (let i = 0; i < missingFields.length; i++) {
+                        if (missingFields[i].value == '') {
+                            document.getElementById(missingFields[i].id + '_').style.display = 'block';
+                            unvalid = true;
+                        } else {
+                            document.getElementById(missingFields[i].id + '_').style.display = 'none';
+                            unvalid = false;
+                        }
                     }
                 }
             }
