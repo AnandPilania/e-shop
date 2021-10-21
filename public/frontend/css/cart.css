@@ -81,14 +81,14 @@
 .text_cart_card_2 {
   display: flex;
   align-items: center;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
 }
 
 .text_cart_card_2 span,
 #total_priceId,
 .cart_total_price span {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
 }
 

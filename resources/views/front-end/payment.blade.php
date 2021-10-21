@@ -15,6 +15,12 @@
                 @isset($cartProduct[0]->images_products->first()->path)
                 <img src="{{  $cartProduct[0]->images_products->first()->path }}">
                 @endisset
+                @if(isset($cartProduct['quantity']))
+                <span class="qnt">{{$cartProduct['quantity']}}</span>
+                @else
+                <span class="qnt">1</span>
+                @endif
+                
             </figure>
 
             <div class="text_cart_card">
@@ -22,18 +28,6 @@
                 <h2 id="payment_name">{{ $cartProduct[0]->name }}</h2>
 
                 <div class="payment_block_details">
-                    <!-- quantity -->
-                    <div class="payment_block_quantity">
-                        <!-- quantity buttons -->
-                        <div id="payment_quantityBuy">
-                            @if(isset($cartProduct['quantity']))
-                            <h5>Quantité: {{$cartProduct['quantity']}}</h5>
-                            @else
-                            <h5>Quantité: 1</h5>
-                            @endif
-
-                        </div>
-                    </div>
                     <!-- Détails -->
                     {{ $lastValue = '' }}
                     @foreach ($cartProduct[0]->product_details as $value)
@@ -50,32 +44,77 @@
             </div>
 
             <!-- price -->
-            <div class="cart_block_price">
-                <div class="text_cart_card_2">
-                    <h3 class="payment_price_list">{{ (int) $cartProduct['quantity'] * $cartProduct[0]->price }}</h3>&nbsp;<span>€</span>
-                </div>
+            <div class="text_payment_card_price">
+                <h3 class="payment_price_list">{{ (int) $cartProduct['quantity'] * $cartProduct[0]->price }}</h3>&nbsp;<span>€</span>
             </div>
 
         </div>
         @endforeach
 
-        <div class="payment_total_price">
-            <h3 id="payment_total_priceId"></h3>&nbsp;<span>€</span>
+        <div class="payment_total">
+            <div class="payment_sous_total_price">
+                <h3>Sous-total</h3>
+                <h3 id="payment_sous_total_Id"></h3>
+                </h3>
+            </div>
+            <div class="payment_shipping_price">
+                <h3>Livraison</h3>
+                <h3 id="payment_shipping_Id"><span  id="CalculeALEtapeSuivante">Calculé à l'étape suivante</span></h3>
+            </div>
+            <div class="payment_total_price">
+                <h3>Total</h3>
+                <h3 id="payment_total_Id"></h3>
+            </div>
         </div>
+
     </div>
 
 </div>
 
 <script>
+
+    var shippingModePrice = 0;
+    var first = 0;
+
     if (window.addEventListener) {
-        window.addEventListener('load', calculTotalPrice);
+        window.addEventListener('load', calculSousTotalPrice);
     } else if (window.attachEvent) {
-        window.attachEvent('onload', calculTotalPrice);
+        window.attachEvent('onload', calculSousTotalPrice);
     } else {
-        window.onload = calculTotalPrice;
+        window.onload = calculSousTotalPrice;
     }
-    // calcule le total des prix
-    function calculTotalPrice() {
+
+    // reçoit le "Gratuit" ou "4,99" quand on sélectionne le mode de livraison. 
+    function get_shipping_price(price) {
+
+        shippingModePrice = price == 'Gratuit' ? 0 : 4.99;
+
+        var signEuro = price == 'Gratuit' ? '' : '&nbsp;<span>€</span>';
+        document.getElementById('payment_shipping_Id').innerHTML = price + signEuro;
+
+        calculSousTotalPrice();
+    }
+
+    // L'appel se fait dans register.blade 
+    // permet d'afficher le prix du mode de livraison choisi sans le modifier à chaques fois que le bouton prochaine étape est cliqué " Continuer vers ..." 
+    function get_shipping_price_realTime() {
+
+        if (shippingModePrice == 0) {
+            get_shipping_price('Gratuit');
+        } else {
+            get_shipping_price(4.99);
+        }
+            
+    }
+
+    // réinitialise CalculeALEtapeSuivante pour afficher 'Calculé à l\'étape suivante'
+    function CalculeALEtapeSuivante() {
+        console.log(document.getElementById('payment_shipping_Id').innerHTML);
+        document.getElementById('payment_shipping_Id').innerHTML = 'Calculé à l\'étape suivante';
+    }
+
+    // calcule le sous-total des prix
+    function calculSousTotalPrice() {
         var allPrices = document.getElementsByClassName('payment_price_list');
         var total_price = 0;
 
@@ -84,7 +123,25 @@
                 total_price += parseFloat(allPrices[j].innerHTML);
             }
 
-            document.getElementById('payment_total_priceId').innerHTML = 'Total &nbsp;&nbsp;&nbsp;' + total_price;
+            document.getElementById('payment_sous_total_Id').innerHTML = total_price + '&nbsp;<span>€</span>'
+
+            calculTotalPrice();
+        }
+    };
+
+        // calcule le total des prix
+        function calculTotalPrice() {
+        var allPrices = document.getElementsByClassName('payment_price_list');
+        var total_price = 0;
+
+        if (allPrices.length) {
+            for (var j = 0; j < allPrices.length; j++) {
+                total_price += parseFloat(allPrices[j].innerHTML);
+            }
+            
+            total_price += shippingModePrice;
+
+            document.getElementById('payment_total_Id').innerHTML = total_price + '&nbsp;<span>€</span>'
         }
     };
 </script>

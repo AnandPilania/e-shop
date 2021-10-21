@@ -53,13 +53,13 @@
             <!-- Name -->
             <div class="register_block_name">
                 <div class="input-container input-container_half">
-                    <x-input id="first_name" class="missingField" type="text" name="first_name" :value="old('first_name')" required autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" maxlength="255"/>
+                    <x-input id="first_name" class="missingField" type="text" name="first_name" :value="old('first_name')" required autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" maxlength="255" />
                     <label for="first_name">Votre prénom*</label>
                     <span id="first_name_" class="missingFieldMessage missingMargin">Entrez un prénom</span>
                 </div>
 
                 <div class="input-container input-container_half">
-                    <x-input id="last_name" class="missingField" type="text" name="last_name" :value="old('last_name')" required autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" maxlength="255"/>
+                    <x-input id="last_name" class="missingField" type="text" name="last_name" :value="old('last_name')" required autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" maxlength="255" />
                     <label for="last_name">Votre nom*</label>
                     <span id="last_name_" class="missingFieldMessage missingMargin">Entrez un nom</span>
                 </div>
@@ -67,7 +67,7 @@
 
             <!-- Email Address -->
             <div class="input-container">
-                <x-input id="email" class="missingField" type="email" name="email" :value="old('email')" autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" required maxlength="255"/>
+                <x-input id="email" class="missingField" type="email" name="email" :value="old('email')" autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" required maxlength="255" />
                 <label for="email">Adresse e-mail*</label>
                 <span id="email_" class="missingFieldMessage missingMargin">Entrez une adresse e-mail valide</span>
             </div>
@@ -95,13 +95,13 @@
             </div>
 
             <div class="input-container">
-                <x-input id="address" class="missingField" type="text" name="address" :value="old('address')" required autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" maxlength="500"/>
+                <x-input id="address" class="missingField" type="text" name="address" :value="old('address')" required autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" maxlength="500" />
                 <label for="address">Adresse*</label>
                 <span id="address_" class="missingFieldMessage missingMargin">Entrez une adresse</span>
             </div>
 
             <div class="input-container">
-                <x-input id="addressComment" type="text" name="addressComment" :value="old('addressComment')" required="false" autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade()" maxlength="255"/>
+                <x-input id="addressComment" type="text" name="addressComment" :value="old('addressComment')" required="false" autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade()" maxlength="255" />
                 <label for="addressComment">Complément d'adresse (facultatif)</label>
             </div>
 
@@ -109,12 +109,12 @@
             <!-- Cp & Ville -->
             <div class="register_block_cp_city">
                 <div class="input-container input-container_half">
-                    <x-input id="cp" class="missingField" type="number" name="cp" :value="old('cp')" autocomplete="on" required onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" maxlength="25"/>
+                    <x-input id="cp" class="missingField" type="number" name="cp" :value="old('cp')" autocomplete="on" required onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" maxlength="25" />
                     <label for="cp">Code postal*</label>
                     <span id="cp_" class="missingFieldMessage missingMargin">Entrez un code postal</span>
                 </div>
                 <div class="input-container input-container_half">
-                    <x-input id="city" class="missingField" type="text" name="city" :value="old('city')" autocomplete="on" required onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" maxlength="100"/>
+                    <x-input id="city" class="missingField" type="text" name="city" :value="old('city')" autocomplete="on" required onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" maxlength="100" />
                     <label for="city">Ville*</label>
                     <span id="city_" class="missingFieldMessage missingMargin">Entrez une ville</span>
                 </div>
@@ -123,7 +123,7 @@
 
             <!-- phone -->
             <div class="input-container phone">
-                <x-input id="phone" class="auth_input_phone" type="text" name="phone" :value="old('phone')" required="false" autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade()" maxlength="50"/>
+                <x-input id="phone" class="auth_input_phone" type="text" name="phone" :value="old('phone')" required="false" autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade()" maxlength="50" />
 
                 <div class="icon_question">
                     <i class="fas fa-question-circle tooltip">
@@ -161,6 +161,7 @@
 
         <!-- shipping -->
         <div id="shipping_block">
+
             <h2>Vos informations</h2>
             <div class="control_coordonees">
                 <div class="contact_control">
@@ -179,17 +180,18 @@
             <h2>Mode d'expédition</h2>
             <div class="mode_expedition">
                 <div class="standard_ship">
-                    <input type="radio" name="mode_shipping" id="standard_ship" value="standard" checked onchange="get_mode_shipping('Standard');">
+                    <input type="radio" name="mode_shipping" id="standard_ship" value="standard" checked onchange="get_mode_shipping('Standard'), get_shipping_price('Gratuit');">
                     <label for="standard_ship">Livraison Standard </label>
                     <h6>Gratuit</h6>
                 </div>
 
                 <div class="secure_ship">
-                    <input type="radio" name="mode_shipping" id="secure_ship" value="secure" onchange="get_mode_shipping('Livraison Sécurisée - Perte/Vol/Casse · 4,99 €');">
+                    <input type="radio" name="mode_shipping" id="secure_ship" value="secure" onchange="get_mode_shipping('Livraison Sécurisée - Perte/Vol/Casse · 4,99 €'), get_shipping_price(4.99);">
                     <label for="secure_ship">Livraison Sécurisée - Perte/Vol/Casse </label>
                     <h6>4,99 €</h6>
                 </div>
             </div>
+
         </div>
 
 
@@ -279,7 +281,7 @@
 
 
         <div class="auth_footer">
-            <button id="authRegisterSubmit" onclick="changePage()">
+            <button id="authRegisterSubmit" onclick="changePage(), get_shipping_price_realTime();">
                 Continuer vers l'expédition
             </button>
 
@@ -295,7 +297,6 @@
             var alreadyTruToSubmit = false;
             var modeShipping = '';
 
-
             document.getElementById('go_to_panier').style.display = 'inline-block';
 
             // link to previous page "information"
@@ -303,9 +304,12 @@
             for (let i = 0; i < goto_information.length; i++) {
                 goto_information[i].addEventListener('click', function() {
                     page = 'information';
+                    // réinitialise CalculeALEtapeSuivante pour afficher 'Calculé à l\'étape suivante' pour le prix de livraison
+                    CalculeALEtapeSuivante();
                     changePage();
                 })
             }
+
             // link to previous page "shipping"
             var goto_shipping = document.getElementsByClassName('go_to_shipping');
             for (let i = 0; i < goto_shipping.length; i++) {
@@ -315,20 +319,18 @@
                 })
             }
 
-
             // assigne le mode de livraison choisi  
             var mode_shipping = document.getElementsByName('mode_shipping');
             for (let i = 0; i < mode_shipping.length; i++) {
                 if (mode_shipping[i].checked) {
                     modeShipping = mode_shipping[i].value;
-                }             
+                }
             }
-
+  
             // assigne le mode de livraison choisi  
             function get_mode_shipping(modeShippingSlected) {
                 modeShipping = modeShippingSlected;
             }
-
 
             // navigue à travers les pages du formulaire de paiement
             function changePage() {

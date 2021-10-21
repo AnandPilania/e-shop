@@ -258,6 +258,15 @@ select:-webkit-autofill:active {
   margin-bottom: 10px;
 }
 
+#shipping_block h2,
+#payment_block h2 {
+  margin-bottom: 20px;
+}
+
+#shipping_block h2:nth-of-type(2) {
+  margin-top: 20px;
+}
+
 .rgpd,
 .conserve {
   display: flex;
@@ -287,10 +296,6 @@ select:-webkit-autofill:active {
   border: solid 1px #c4c4c4;
   border-radius: 3px;
   padding: 0 10px;
-}
-
-.mode_expedition {
-  margin-top: 100px;
 }
 
 .contact_control,
