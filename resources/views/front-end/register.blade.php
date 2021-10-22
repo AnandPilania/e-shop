@@ -50,24 +50,9 @@
                 </div>
             </div>
 
-            <!-- Name -->
-            <div class="register_block_name">
-                <div class="input-container input-container_half">
-                    <x-input id="first_name" class="missingField" type="text" name="first_name" :value="old('first_name')" required autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" maxlength="255" />
-                    <label for="first_name">Votre prénom*</label>
-                    <span id="first_name_" class="missingFieldMessage missingMargin">Entrez un prénom</span>
-                </div>
-
-                <div class="input-container input-container_half">
-                    <x-input id="last_name" class="missingField" type="text" name="last_name" :value="old('last_name')" required autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" maxlength="255" />
-                    <label for="last_name">Votre nom*</label>
-                    <span id="last_name_" class="missingFieldMessage missingMargin">Entrez un nom</span>
-                </div>
-            </div>
-
             <!-- Email Address -->
-            <div class="input-container">
-                <x-input id="email" class="missingField" type="email" name="email" :value="old('email')" autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" required maxlength="255" />
+            <div class="input-container" id="email_container">
+                <x-input id="email" class="missingField" type="email" name="email" :value="old('email')" autocomplete="on" onfocusout="validateForm()" required maxlength="255" />
                 <label for="email">Adresse e-mail*</label>
                 <span id="email_" class="missingFieldMessage missingMargin">Entrez une adresse e-mail valide</span>
             </div>
@@ -77,9 +62,24 @@
                 <h2>Adresse de livraison</h2>
             </div>
 
+            <!-- Name -->
+            <div class="register_block_name">
+                <div class="input-container input-container_half">
+                    <x-input id="first_name" class="missingField" type="text" name="first_name" :value="old('first_name')" required autocomplete="on" onfocusout="validateForm()" maxlength="255" />
+                    <label for="first_name">Votre prénom*</label>
+                    <span id="first_name_" class="missingFieldMessage missingMargin">Entrez un prénom</span>
+                </div>
+
+                <div class="input-container input-container_half">
+                    <x-input id="last_name" class="missingField" type="text" name="last_name" :value="old('last_name')" required autocomplete="on" onfocusout="validateForm()" maxlength="255" />
+                    <label for="last_name">Votre nom*</label>
+                    <span id="last_name_" class="missingFieldMessage missingMargin">Entrez un nom</span>
+                </div>
+            </div>
+
             <!-- Adresse -->
             <div class="input-container">
-                <select name="country" id="country" :value="old('country')" class="classic missingField" autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" required>
+                <select name="country" id="country" :value="old('country')" class="classic missingField" autocomplete="on" onfocusout="validateForm()" required>
                     <option value="" disabled selected></option>
                     <option value="France">France</option>
                     <option value="Belgique">Belgique</option>
@@ -95,13 +95,13 @@
             </div>
 
             <div class="input-container">
-                <x-input id="address" class="missingField" type="text" name="address" :value="old('address')" required autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" maxlength="500" />
+                <x-input id="address" class="missingField" type="text" name="address" :value="old('address')" required autocomplete="on" onfocusout="validateForm()" maxlength="500" />
                 <label for="address">Adresse*</label>
                 <span id="address_" class="missingFieldMessage missingMargin">Entrez une adresse</span>
             </div>
 
             <div class="input-container">
-                <x-input id="addressComment" type="text" name="addressComment" :value="old('addressComment')" required="false" autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade()" maxlength="255" />
+                <x-input id="addressComment" type="text" name="addressComment" :value="old('addressComment')" required="false" autocomplete="on" maxlength="255" />
                 <label for="addressComment">Complément d'adresse (facultatif)</label>
             </div>
 
@@ -109,12 +109,12 @@
             <!-- Cp & Ville -->
             <div class="register_block_cp_city">
                 <div class="input-container input-container_half">
-                    <x-input id="cp" class="missingField" type="number" name="cp" :value="old('cp')" autocomplete="on" required onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" maxlength="25" />
+                    <x-input id="cp" class="missingField" type="number" name="cp" :value="old('cp')" autocomplete="on" required onfocusout="validateForm()" maxlength="25" />
                     <label for="cp">Code postal*</label>
                     <span id="cp_" class="missingFieldMessage missingMargin">Entrez un code postal</span>
                 </div>
                 <div class="input-container input-container_half">
-                    <x-input id="city" class="missingField" type="text" name="city" :value="old('city')" autocomplete="on" required onclick="this.style.border = 'none';" onfocusout="waitFade(), validateForm()" maxlength="100" />
+                    <x-input id="city" class="missingField" type="text" name="city" :value="old('city')" autocomplete="on" required onfocusout=" validateForm()" maxlength="100" />
                     <label for="city">Ville*</label>
                     <span id="city_" class="missingFieldMessage missingMargin">Entrez une ville</span>
                 </div>
@@ -123,7 +123,7 @@
 
             <!-- phone -->
             <div class="input-container phone">
-                <x-input id="phone" class="auth_input_phone" type="text" name="phone" :value="old('phone')" required="false" autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade()" maxlength="50" />
+                <x-input id="phone" class="auth_input_phone" type="text" name="phone" :value="old('phone')" required="false" autocomplete="on" maxlength="50" />
 
                 <div class="icon_question">
                     <i class="fas fa-question-circle tooltip">
@@ -142,22 +142,6 @@
             </div>
 
         </div>
-
-        <!-- gère la réapparition des bordures des inputs après l'animation des labels -->
-        <script>
-            var evnt = null;
-
-            function waitFade() {
-                event.target.style.border = 'none';
-                evnt = event;
-                setTimeout(borderFade, 350);
-            }
-
-            function borderFade() {
-                evnt.target.style.border = 'solid 1px rgb(196, 196, 196)';
-                console.log(evnt.target);
-            }
-        </script>
 
         <!-- shipping -->
         <div id="shipping_block">
@@ -217,29 +201,39 @@
                     <h6 class="go_to_shipping">Modifier</h6>
                 </div>
             </div>
+
+            <h2 id="Adresse_de_facturation">Adresse de facturation</h2>
+            <p>Sélectionnez l'adresse qui correspond à votre carte ou à votre moyen de paiement.</p>
+            <div class="adresse_facturation">
+                <div class="idem_address">
+                    <input type="radio" name="address_bill" id="address_idem_ship" value="idem" checked onclick="hide_bill_block();">
+                    <label for="address_idem_ship"> Identique à l'adresse de livraison </label>
+                </div>
+
+                <div class="different_address">
+                    <input type="radio" name="address_bill" id="address_different_ship" value="different" onclick="shown_bill_block();">
+                    <label for="address_different_ship">Utiliser une adresse de facturation différente </label>
+                </div>
+            </div>
         </div>
 
-        <!-- <div id="bill_block"> -->
-        <!-- Name -->
-        <!-- <div class="register_block_name">
+        <!-- Adresse de facturation -->
+        <div id="bill_block">
+            <!-- Name -->
+            <div class="register_block_name">
                 <div class="input-container input-container_half">
-                    <x-input id="first_nameBill" type="text" name="first_nameBill" :value="old('first_nameBill')" required autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade()" />
+                    <x-input id="first_nameBill" type="text" name="first_nameBill" :value="old('first_nameBill')" required autocomplete="on" />
                     <label for="first_nameBill">Votre prénom*</label>
                 </div>
 
                 <div class="input-container input-container_half">
-                    <x-input id="last_nameBill" type="text" name="last_nameBill" :value="old('last_nameBill')" required autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade()" />
+                    <x-input id="last_nameBill" type="text" name="last_nameBill" :value="old('last_nameBill')" required autocomplete="on" />
                     <label for="last_nameBill">Votre nom*</label>
                 </div>
             </div>
-
-            <div class="register_title">
-                <h2>Adresse de facturation</h2>
-            </div> -->
-
-        <!-- Adresse -->
-        <!-- <div class="input-container">
-                <select name="countryBill" id="countryBill" :value="old('countryBill')" class="classic" autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade()" required>
+            <!-- Adresse -->
+            <div class="input-container">
+                <select name="countryBill" id="countryBill" :value="old('countryBill')" class="classic" autocomplete="on" required>
                     <option value="" disabled selected></option>
                     <option value="France">France</option>
                     <option value="Belgique">Belgique</option>
@@ -254,32 +248,48 @@
             </div>
 
             <div class="input-container">
-                <x-input id="addressBill" type="text" name="addressBill" :value="old('addressBill')" required autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade()" />
+                <x-input id="addressBill" type="text" name="addressBill" :value="old('addressBill')" required autocomplete="on" />
                 <label for="addressBill">Adresse*</label>
             </div>
 
             <div class="input-container">
-                <x-input id="addressCommentBill" type="text" name="addressCommentBill" :value="old('addressCommentBill')" required="false" autocomplete="on" onclick="this.style.border = 'none';" onfocusout="waitFade()" />
+                <x-input id="addressCommentBill" type="text" name="addressCommentBill" :value="old('addressCommentBill')" required="false" autocomplete="on" />
                 <label for="addressCommentBill">Complément d'adresse (facultatif)</label>
-            </div> -->
+            </div>
 
 
-        <!-- Cp & Ville -->
-        <!-- <div class="register_block_cp_city">
+            <!-- Cp & Ville -->
+            <div class="register_block_cp_city">
                 <div class="input-container input-container_half">
-                    <x-input id="cpBill" type="text" name="cpBill" :value="old('cpBill')" autocomplete="on" required onclick="this.style.border = 'none';" onfocusout="waitFade()" />
+                    <x-input id="cpBill" type="number" name="cpBill" :value="old('cpBill')" autocomplete="on" required />
                     <label for="cpBill">Code postal*</label>
                 </div>
                 <div class="input-container input-container_half">
-                    <x-input id="cityBill" type="number" name="cityBill" :value="old('cityBill')" autocomplete="on" required="false" onclick="this.style.border = 'none';" onfocusout="waitFade()" />
+                    <x-input id="cityBill" type="text" name="cityBill" :value="old('cityBill')" autocomplete="on" required="false" />
                     <label for="cityBill">Ville*</label>
                 </div>
             </div>
-        </div> -->
+        </div>
+
+        <!-- --------------------------------------------------------- -->
+
+        <script>
+            // state_bill_block sert à conserver l'état du bill_block lorsqu'on revient en arrière vers l'expédition dans le formulaire de paiement
+            var state_bill_block = 'hide';
+
+            function shown_bill_block() {
+                state_bill_block = 'show';
+                document.getElementById('bill_block').style.display = 'block';
+            }
+
+            function hide_bill_block() {
+                state_bill_block = 'hide';
+                document.getElementById('bill_block').style.display = 'none';
+            }
+        </script>
 
 
-
-
+        <!-- Button to next -->
         <div class="auth_footer">
             <button id="authRegisterSubmit" onclick="changePage(), get_shipping_price_realTime();">
                 Continuer vers l'expédition
@@ -304,6 +314,7 @@
             for (let i = 0; i < goto_information.length; i++) {
                 goto_information[i].addEventListener('click', function() {
                     page = 'information';
+                    document.getElementById('bill_block').style.display = 'none';
                     // réinitialise CalculeALEtapeSuivante pour afficher 'Calculé à l\'étape suivante' pour le prix de livraison
                     CalculeALEtapeSuivante();
                     changePage();
@@ -315,6 +326,7 @@
             for (let i = 0; i < goto_shipping.length; i++) {
                 goto_shipping[i].addEventListener('click', function() {
                     page = 'livraison';
+                    document.getElementById('bill_block').style.display = 'none';
                     changePage();
                 })
             }
@@ -326,7 +338,7 @@
                     modeShipping = mode_shipping[i].value;
                 }
             }
-  
+
             // assigne le mode de livraison choisi  
             function get_mode_shipping(modeShippingSlected) {
                 modeShipping = modeShippingSlected;
@@ -344,7 +356,7 @@
                     links[i].style.display = 'none';
                 }
 
-                // data to control
+                // récupère toutes les données pour les afficher dans "le cadre Vos informations" et pour les submit dans un formData
                 var first_name_data = document.getElementById('first_name').value;
                 var last_name_data = document.getElementById('last_name').value;
                 var email_data = document.getElementById('email').value;
@@ -373,7 +385,6 @@
                             document.getElementById('shipping_block').style.display = 'inline-block';
                             document.getElementById('authRegisterSubmit').innerHTML = 'Continuer vers le paiement';
                             document.getElementById('go_to_information').style.display = 'inline-block';
-
                             document.getElementById('contact_control').innerHTML = email_data;
                             document.getElementById('adress_control').innerHTML = address;
                             page = 'payment';
@@ -386,6 +397,9 @@
                             document.getElementById('contact_control_payment').innerHTML = email_data;
                             document.getElementById('adress_control_payment').innerHTML = address;
                             document.getElementById('shipping_control').innerHTML = modeShipping;
+                            // state_bill_block sert à conserver l'état du bill_block lorsqu'on revient en arrière vers l'expédition dans le formulaire de paiement
+                            if (state_bill_block == 'show') shown_bill_block();
+                            if (state_bill_block == 'hide') hide_bill_block();
                             break;
                         default:
                             document.getElementById('information_block').style.display = 'block';
@@ -401,6 +415,7 @@
             }
 
 
+            // check si tous les champs sont remplis
             function validateForm() {
                 if (alreadyTruToSubmit) {
                     var missingFields = document.getElementsByClassName('missingField');
@@ -424,31 +439,7 @@
 
 
 <!-- ------------------------------------------------------------------ -->
-<!-- <div id="shippingAdresse">
-            <div id="toggleShipping" onclick="toggleShipping()">
-                <div id="onOffShipping"></div>
-            </div>
 
-            <h4 onclick="toggleShipping()">Adresse de facturation différente</h4>
-        </div>
-
-
-        <script>
-            function toggleShipping() {
-                var onOffShipping = document.getElementById('onOffShipping');
-                var block_register_2 = document.getElementById('block_register_2');
-
-                if (onOffShipping.style.marginLeft === '28px') {
-                    onOffShipping.style.marginLeft = '2px';
-                    onOffShipping.style.backgroundColor = 'rgb(129, 5, 5)';
-                    block_register_2.style.display = 'none';
-                } else {
-                    onOffShipping.style.marginLeft = '28px';
-                    onOffShipping.style.backgroundColor = 'green';
-                    block_register_2.style.display = 'block';
-                }
-            }
-        </script> -->
 
 <!-- ------------------------------------------------------------ -->
 

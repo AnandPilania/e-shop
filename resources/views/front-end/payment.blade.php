@@ -107,7 +107,7 @@
             
     }
 
-    // réinitialise CalculeALEtapeSuivante pour afficher 'Calculé à l\'étape suivante'
+    // réinitialise CalculeALEtapeSuivante pour afficher 'Calculé à l\'étape suivante' dans le cadre d'information
     function CalculeALEtapeSuivante() {
         console.log(document.getElementById('payment_shipping_Id').innerHTML);
         document.getElementById('payment_shipping_Id').innerHTML = 'Calculé à l\'étape suivante';
