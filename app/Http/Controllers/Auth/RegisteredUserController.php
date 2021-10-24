@@ -43,30 +43,35 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        // dd($request);
+        $user = User::find(7);
+        // $user->charge(100000, $request->payment_method);
+        // dd($request);
         if ($request->has('conserve')) {
             
             $request->validate([
                 'last_name' => 'required|string|max:255',
                 'first_name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
-                'password' => 'required|string|min:8',
-                'rgpd' => 'required',
+                // 'password' => 'required|string|min:8',
+                // 'rgpd' => 'required',
 
                 'country' => 'required|string|max:255',
                 'address' => 'required|string|max:255',
-                'addressComment' => 'string|max:500',
+                // 'addressComment' => 'string|max:500',
+                'addressComment' => 'max:500',
                 'cp' => 'required|numeric|max:999999999999999999999999',
                 'city' => 'required|string|max:255',
                 'phone' => 'numeric|max:999999999999999999999999',
                 // 'civilite' => 'string|max:1',
 
-                // for bill
+                // if bill address is different
                 'last_nameBill' => 'string|max:255',
                 'first_nameBill' => 'string|max:255',
                 'countryBill' => 'string|max:255',
                 'addressBill' => 'string|max:255',
-                'addressCommentBill' => 'string|max:255',
+                // 'addressCommentBill' => 'string|max:255',
+                'addressCommentBill' => 'max:255',
                 'cpBill' => 'numeric|max:999999999999999999999999',
                 'cityBill' => 'string|max:255',
             ]);
@@ -78,7 +83,7 @@ class RegisteredUserController extends Controller
             $user->email = $request->email;
             $user->password = Hash::make($request->password);
             $user->role = 'guest';
-            $user->rgpd = $request->rgpd;
+            $user->rgpd = ' à créer'; //$request->rgpd;
             $user->save();
 
             $address_user = new Address_user;

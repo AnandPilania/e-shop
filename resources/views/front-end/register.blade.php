@@ -1,3 +1,5 @@
+<script src="https://js.stripe.com/v3/"></script>
+
 <div class="payment_wrapper_register">
 
     <!-- reCaptch v3 -->
@@ -35,11 +37,20 @@
     <!-- Validation Errors -->
     <x-auth-validation-errors :errors="$errors" style="color:red;" />
 
-    <form method="POST" action="{{ route('register') }}" class="auth" autocomplete="on">
+    <form method="POST" action="{{ route('register') }}" class="auth" autocomplete="on" id="form_payment">
         @csrf
 
-        <div id="information_block">
+        <div class="ariane_payment">
+            <a href="/panier" id="ariane_panier">Panier</a>
+            <i class="fas fa-chevron-right"></i>
+            <span id="ariane_information" onclick="changePage()">Informations</span>
+            <i class="fas fa-chevron-right"></i>
+            <span id="ariane_shipping" onclick="changePage()">Livraison</span>
+            <i class="fas fa-chevron-right"></i>
+            <span id="ariane_payment" onclick="changePage()">Paiement</span>
+        </div>
 
+        <div id="information_block">
             <div class="register_title">
                 <h2>Coordonnées</h2>
                 <div class="alreadyAccount">
@@ -202,6 +213,12 @@
                 </div>
             </div>
 
+            <!-- stripe elements -->
+            <input type="text" name="card_name" id="card_name">
+            <input type="hidden" name="payment_method" id="payment_method">
+            <div id="card-element"></div>
+            <!-- --------------- -->
+
             <h2 id="Adresse_de_facturation">Adresse de facturation</h2>
             <p>Sélectionnez l'adresse qui correspond à votre carte ou à votre moyen de paiement.</p>
             <div class="adresse_facturation">
@@ -215,7 +232,9 @@
                     <label for="address_different_ship">Utiliser une adresse de facturation différente </label>
                 </div>
             </div>
+
         </div>
+
 
         <!-- Adresse de facturation -->
         <div id="bill_block">
@@ -271,7 +290,7 @@
             </div>
         </div>
 
-        <!-- --------------------------------------------------------- -->
+
 
         <script>
             // state_bill_block sert à conserver l'état du bill_block lorsqu'on revient en arrière vers l'expédition dans le formulaire de paiement
@@ -295,11 +314,65 @@
                 Continuer vers l'expédition
             </button>
 
+            <input type="submit" value="Envoyer" id="submit-button">
+
             <!-- link to previous page in checkout -->
             <a href="/panier" class="payment_link" id="go_to_panier">Retour au panier</a>
             <span class="payment_link go_to_information" id="go_to_information">Revenir aux informations</span>
             <span class="payment_link go_to_shipping" id="go_to_shipping">Revenir à l'expédition</span>
         </div>
+
+        <!-- Stripe block -->
+        <script>
+            const stripe = Stripe(" {{ env('STRIPE_KEY') }} ");
+
+            const elements = stripe.elements();
+
+            const cardElement = elements.create('card', {
+                style: {
+                    base: {
+                        iconColor: '#c4f0ff',
+                        color: '#000',
+                        fontWeight: '500',
+                        fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
+                        fontSize: '16px',
+                        fontSmoothing: 'antialiased',
+                        ':-webkit-autofill': {
+                            color: '#000',
+                        },
+                        '::placeholder': {
+                            color: '#87BBFD',
+                        },
+                    },
+                    invalid: {
+                        iconColor: 'red',
+                        color: '#000',
+                    },
+                },
+            });
+
+            cardElement.mount('#card-element');
+
+            const cardButton = document.getElementById('submit-button');
+
+            cardButton.addEventListener('click', async (e) => {
+                e.preventDefault();
+
+                const {
+                    paymentMethod,
+                    error
+                } = await stripe.createPaymentMethod('card', cardElement);
+
+                if (error) {
+                    console.log(error);
+                } else {
+                    document.getElementById('payment_method').value = paymentMethod.id;
+                }
+
+                document.getElementById('form_payment').submit();
+            })
+        </script>
+
 
         <script>
             var page = 'livraison';
@@ -307,9 +380,10 @@
             var alreadyTruToSubmit = false;
             var modeShipping = '';
 
+            // show link to cart
             document.getElementById('go_to_panier').style.display = 'inline-block';
 
-            // link to previous page "information"
+            // link to page "information"
             var goto_information = document.getElementsByClassName('go_to_information');
             for (let i = 0; i < goto_information.length; i++) {
                 goto_information[i].addEventListener('click', function() {
@@ -321,11 +395,21 @@
                 })
             }
 
-            // link to previous page "shipping"
+            // link to page "shipping"
             var goto_shipping = document.getElementsByClassName('go_to_shipping');
             for (let i = 0; i < goto_shipping.length; i++) {
                 goto_shipping[i].addEventListener('click', function() {
                     page = 'livraison';
+                    document.getElementById('bill_block').style.display = 'none';
+                    changePage();
+                })
+            }
+
+            // link to page "payment"
+            var goto_payment = document.getElementsByClassName('goto_payment');
+            for (let i = 0; i < goto_payment.length; i++) {
+                goto_payment[i].addEventListener('click', function() {
+                    page = 'payment';
                     document.getElementById('bill_block').style.display = 'none';
                     changePage();
                 })
@@ -368,6 +452,10 @@
 
                 var address = address_data + ' ' + addressComment_data + ' ' + cp_data + ' ' + city_data + ' ' + country_data;
 
+                // handle ariane
+                var ariane_information = document.getElementById('ariane_information');
+                var ariane_shipping = document.getElementById('ariane_shipping');
+
 
                 if (!unvalid) {
                     switch (page) {
@@ -388,15 +476,30 @@
                             document.getElementById('contact_control').innerHTML = email_data;
                             document.getElementById('adress_control').innerHTML = address;
                             page = 'payment';
+
+
+
+                            // <-- breadcrumb -->
+                            // document.getElementById('ariane_information').style.color = '#bb1e0c';
+                            // document.getElementById('ariane_information').onclick = function() {
+                            //     page = 'information';
+                            //     changePage();
+                            // }
+                            // document.getElementById('ariane_information').addEventListener("mousemove", function() {
+                            //     document.getElementById("ariane_information").style.cursor = 'pointer';
+                            // })
                             break;
                         case 'payment':
                             document.getElementById('shipping_block').style.display = 'none';
                             document.getElementById('payment_block').style.display = 'inline-block';
-                            document.getElementById('authRegisterSubmit').innerHTML = 'Payer maintenant';
+                            document.getElementById('authRegisterSubmit').style.display = 'none';
                             document.getElementById('go_to_shipping').style.display = 'inline-block';
                             document.getElementById('contact_control_payment').innerHTML = email_data;
                             document.getElementById('adress_control_payment').innerHTML = address;
                             document.getElementById('shipping_control').innerHTML = modeShipping;
+                            document.getElementById('card-element').style.display = 'block';
+                            document.getElementById('submit-button').style.display = 'block';
+                            document.getElementById('submit-button').innerHTML = 'Payer maintenant';
                             // state_bill_block sert à conserver l'état du bill_block lorsqu'on revient en arrière vers l'expédition dans le formulaire de paiement
                             if (state_bill_block == 'show') shown_bill_block();
                             if (state_bill_block == 'hide') hide_bill_block();
@@ -414,6 +517,44 @@
 
             }
 
+            // ariane_panier
+            // ariane_information
+            // ariane_shipping
+            // ariane_payment
+
+            // function handleBreadcrumb() {
+            //     switch (page) {
+            //         case 'information':
+            //             // document.getElementById('ariane_information').onclick = null;
+            //             // document.getElementById('ariane_information').style.color = 'black';
+            //             // document.getElementById('ariane_information').addEventListener("mousemove", function() {
+            //             //     document.getElementById("ariane_information").style.cursor = 'default';
+            //             // });
+
+            //             if (!unvalid) {
+            //                 // document.getElementById('ariane_information').style.color = '#bb1e0c';
+            //                 // document.getElementById('ariane_information').onclick = function() {
+            //                 //     page = 'livraison';
+            //                 //     changePage();
+            //                 // }
+            //                 // document.getElementById('ariane_information').addEventListener("mousemove", function() {
+            //                 //     document.getElementById("ariane_information").style.cursor = 'pointer';
+            //                 // })
+            //             }
+
+
+            //             break;
+            //         case 'livraison':
+
+            //             break;
+            //         case 'payment':
+
+            //             break;
+            //         default:
+
+            //     }
+            // }
+
 
             // check si tous les champs sont remplis
             function validateForm() {
@@ -426,6 +567,7 @@
                         } else {
                             document.getElementById(missingFields[i].id + '_').style.display = 'none';
                             unvalid = false;
+                            // handleBreadcrumb();
                         }
                     }
                 }

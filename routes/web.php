@@ -21,6 +21,7 @@ use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ProductSheetController;
 use App\Http\Controllers\ProductDetailController;
 use App\Http\Controllers\Type_detail_productController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -117,6 +118,16 @@ Route::get('/cookies', function () {
 Route::get('/conditionsUtilisation', function () {
     return View('legale.conditionsUtilisation');
 })->name('cu');
+
+
+// Stripe
+// Route::post('/paiement', function (Request $request) {
+//     $stripeCharge = $request->user()->charge(
+//         100, $request->paymentMethodId
+//     );
+
+//     // ...
+// });
 
 //breeze----------------------------
 // Route::get('/', function () {
