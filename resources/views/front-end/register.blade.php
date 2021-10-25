@@ -43,11 +43,11 @@
         <div class="ariane_payment">
             <a href="/panier" id="ariane_panier">Panier</a>
             <i class="fas fa-chevron-right"></i>
-            <span id="ariane_information" onclick="changePage()">Informations</span>
+            <span id="ariane_information">Informations</span>
             <i class="fas fa-chevron-right"></i>
-            <span id="ariane_shipping" onclick="changePage()">Livraison</span>
+            <span id="ariane_shipping">Livraison</span>
             <i class="fas fa-chevron-right"></i>
-            <span id="ariane_payment" onclick="changePage()">Paiement</span>
+            <span id="ariane_payment">Paiement</span>
         </div>
 
         <div id="information_block">
@@ -213,11 +213,24 @@
                 </div>
             </div>
 
-            <!-- stripe elements -->
-            <input type="text" name="card_name" id="card_name">
-            <input type="hidden" name="payment_method" id="payment_method">
-            <div id="card-element"></div>
-            <!-- --------------- -->
+            <!-- stripe elements --------------------------------------------->
+            <div class="stripe_wrapper">
+                <div id="header_stripe">
+                    <h2>Carte de crédit</h2>
+                    <div class="icon_cards">
+                        <img src="{{ asset('images/card/visa.png') }}" alt="Carte de crédit visa">
+                        <img src="{{ asset('images/card/master card.png') }}" alt="Carte de crédit master card">
+                        <img src="{{ asset('images/card/amex.png') }}" alt="Carte de crédit american express">
+                    </div>
+                </div>
+                <div class="input-container block_stripe">
+                    <x-input id="cardName" type="text" name="cardName" required autocomplete="off" placeholder="Nom sur la carte" style="padding: 0 0 0 40px;" />
+                    <!-- <label for="cardName">Nom sur la carte </label> -->
+                    <input type="hidden" name="payment_method" id="payment_method" />
+                    <div id="card-element"></div>
+                </div>
+            </div>
+            <!-- ---------------------------------------------------------- -->
 
             <h2 id="Adresse_de_facturation">Adresse de facturation</h2>
             <p>Sélectionnez l'adresse qui correspond à votre carte ou à votre moyen de paiement.</p>
@@ -332,21 +345,21 @@
                 style: {
                     base: {
                         iconColor: '#c4f0ff',
-                        color: '#000',
-                        fontWeight: '500',
+                        color: '#7e7e7e',
+                        fontWeight: 'normal',
                         fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
                         fontSize: '16px',
                         fontSmoothing: 'antialiased',
                         ':-webkit-autofill': {
-                            color: '#000',
+                            color: '#7e7e7e',
                         },
                         '::placeholder': {
-                            color: '#87BBFD',
+                            color: '#7e7e7e',
                         },
                     },
                     invalid: {
                         iconColor: 'red',
-                        color: '#000',
+                        color: '#7e7e7e',
                     },
                 },
             });
@@ -376,8 +389,8 @@
 
         <script>
             var page = 'livraison';
-            var unvalid = false;
-            var alreadyTruToSubmit = false;
+            var unvalid = true;
+            // var alreadyTruToSubmit = false;
             var modeShipping = '';
 
             // show link to cart
@@ -389,6 +402,8 @@
                 goto_information[i].addEventListener('click', function() {
                     page = 'information';
                     document.getElementById('bill_block').style.display = 'none';
+                    document.getElementById('submit-button').style.display = 'none';
+                    document.getElementById('authRegisterSubmit').style.display = 'block';
                     // réinitialise CalculeALEtapeSuivante pour afficher 'Calculé à l\'étape suivante' pour le prix de livraison
                     CalculeALEtapeSuivante();
                     changePage();
@@ -401,6 +416,8 @@
                 goto_shipping[i].addEventListener('click', function() {
                     page = 'livraison';
                     document.getElementById('bill_block').style.display = 'none';
+                    document.getElementById('submit-button').style.display = 'none';
+                    document.getElementById('authRegisterSubmit').style.display = 'block';
                     changePage();
                 })
             }
@@ -431,7 +448,7 @@
             // navigue à travers les pages du formulaire de paiement
             function changePage() {
                 event.preventDefault();
-                alreadyTruToSubmit = true;
+
                 validateForm();
 
                 // hide all link to previous page
@@ -452,6 +469,16 @@
 
                 var address = address_data + ' ' + addressComment_data + ' ' + cp_data + ' ' + city_data + ' ' + country_data;
 
+                var formData = new FormData();
+                formData.append("first_name", first_name_data);
+                formData.append("last_name", last_name_data);
+                formData.append("email", email_data);
+                formData.append("address", address_data);
+                formData.append("addressComment", addressComment_data);
+                formData.append("cp", cp_data);
+                formData.append("city", city_data);
+                formData.append("country", country_data);
+
                 // handle ariane
                 var ariane_information = document.getElementById('ariane_information');
                 var ariane_shipping = document.getElementById('ariane_shipping');
@@ -463,8 +490,26 @@
                             document.getElementById('information_block').style.display = 'inline-block';
                             document.getElementById('shipping_block').style.display = 'none';
                             document.getElementById('payment_block').style.display = 'none';
+                            document.getElementById('submit-button').style.display = 'none';
+                            document.getElementById('authRegisterSubmit').style.display = 'block';
                             document.getElementById('authRegisterSubmit').innerHTML = 'Continuer vers l\'expédition';
                             document.getElementById('go_to_panier').style.display = 'inline-block';
+
+                            // <-- breadcrumb -->
+                            var ariane_information = document.getElementById('ariane_information');
+                            ariane_information.style.color = '#000';
+                            ariane_information.onclick = null;
+                            ariane_information.addEventListener("mousemove", function() {
+                                ariane_information.style.cursor = 'text';
+                            });
+
+                            var ariane_shipping = document.getElementById('ariane_shipping');
+                            ariane_shipping.style.color = '#000';
+                            ariane_shipping.onclick = null;
+                            ariane_shipping.addEventListener("mousemove", function() {
+                                ariane_shipping.style.cursor = 'text';
+                            });
+
                             page = 'livraison';
                             break;
                         case 'livraison':
@@ -472,6 +517,8 @@
                             document.getElementById('payment_block').style.display = 'none';
                             document.getElementById('shipping_block').style.display = 'inline-block';
                             document.getElementById('authRegisterSubmit').innerHTML = 'Continuer vers le paiement';
+                            document.getElementById('submit-button').style.display = 'none';
+                            document.getElementById('authRegisterSubmit').style.display = 'block';
                             document.getElementById('go_to_information').style.display = 'inline-block';
                             document.getElementById('contact_control').innerHTML = email_data;
                             document.getElementById('adress_control').innerHTML = address;
@@ -480,14 +527,17 @@
 
 
                             // <-- breadcrumb -->
-                            // document.getElementById('ariane_information').style.color = '#bb1e0c';
-                            // document.getElementById('ariane_information').onclick = function() {
-                            //     page = 'information';
-                            //     changePage();
-                            // }
-                            // document.getElementById('ariane_information').addEventListener("mousemove", function() {
-                            //     document.getElementById("ariane_information").style.cursor = 'pointer';
-                            // })
+                            var ariane_information = document.getElementById('ariane_information');
+                            ariane_information.style.color = '#bb1e0c';
+                            ariane_information.onclick = function() {
+                                page = 'information';
+                                changePage();
+                            }
+                            ariane_information.addEventListener("mousemove", function() {
+                                ariane_information.style.cursor = 'pointer';
+                            });
+
+
                             break;
                         case 'payment':
                             document.getElementById('shipping_block').style.display = 'none';
@@ -503,6 +553,17 @@
                             // state_bill_block sert à conserver l'état du bill_block lorsqu'on revient en arrière vers l'expédition dans le formulaire de paiement
                             if (state_bill_block == 'show') shown_bill_block();
                             if (state_bill_block == 'hide') hide_bill_block();
+
+                            // <-- breadcrumb -->
+                            var ariane_shipping = document.getElementById('ariane_shipping');
+                            ariane_shipping.style.color = '#bb1e0c';
+                            ariane_shipping.onclick = function() {
+                                page = 'livraison';
+                                changePage();
+                            }
+                            ariane_shipping.addEventListener("mousemove", function() {
+                                ariane_shipping.style.cursor = 'pointer';
+                            });
                             break;
                         default:
                             document.getElementById('information_block').style.display = 'block';
@@ -525,21 +586,28 @@
             // function handleBreadcrumb() {
             //     switch (page) {
             //         case 'information':
-            //             // document.getElementById('ariane_information').onclick = null;
-            //             // document.getElementById('ariane_information').style.color = 'black';
-            //             // document.getElementById('ariane_information').addEventListener("mousemove", function() {
-            //             //     document.getElementById("ariane_information").style.cursor = 'default';
-            //             // });
+            //             if (recordedInformations) {
+            //                 document.getElementById('ariane_information').onclick = null;
+            //                 document.getElementById('ariane_information').style.color = 'black';
+            //                 document.getElementById('ariane_information').addEventListener("mousemove", function() {
+            //                     document.getElementById("ariane_information").style.cursor = 'default';
+            //                 });
+            //                 document.getElementById('ariane_shipping').onclick = function() {
+            //                     page = 'livraison';
+            //                     changePage();
+            //                 }
+            //             }
+
 
             //             if (!unvalid) {
-            //                 // document.getElementById('ariane_information').style.color = '#bb1e0c';
-            //                 // document.getElementById('ariane_information').onclick = function() {
-            //                 //     page = 'livraison';
-            //                 //     changePage();
-            //                 // }
-            //                 // document.getElementById('ariane_information').addEventListener("mousemove", function() {
-            //                 //     document.getElementById("ariane_information").style.cursor = 'pointer';
-            //                 // })
+            //                 document.getElementById('ariane_information').style.color = '#bb1e0c';
+            //                 document.getElementById('ariane_information').onclick = function() {
+            //                     page = 'livraison';
+            //                     changePage();
+            //                 }
+            //                 document.getElementById('ariane_information').addEventListener("mousemove", function() {
+            //                     document.getElementById("ariane_information").style.cursor = 'pointer';
+            //                 })
             //             }
 
 
@@ -558,17 +626,19 @@
 
             // check si tous les champs sont remplis
             function validateForm() {
-                if (alreadyTruToSubmit) {
-                    var missingFields = document.getElementsByClassName('missingField');
-                    for (let i = 0; i < missingFields.length; i++) {
-                        if (missingFields[i].value == '') {
-                            document.getElementById(missingFields[i].id + '_').style.display = 'block';
-                            unvalid = true;
-                        } else {
-                            document.getElementById(missingFields[i].id + '_').style.display = 'none';
-                            unvalid = false;
-                            // handleBreadcrumb();
-                        }
+                var missingCount = 0;
+                var missingFields = document.getElementsByClassName('missingField');
+                for (let i = 0; i < missingFields.length; i++) {
+                    if (missingFields[i].value.length == 0) {
+                        console.log(missingFields[i].value);
+                        document.getElementById(missingFields[i].id + '_').style.display = 'block';
+                        missingCount++;
+                        unvalid = true;
+                    }
+                    if (missingCount === 0) {
+                        document.getElementById(missingFields[i].id + '_').style.display = 'none';
+                        unvalid = false;
+                        // handleBreadcrumb();
                     }
                 }
             }
