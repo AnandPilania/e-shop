@@ -390,11 +390,21 @@
         <script>
             var page = 'livraison';
             var unvalid = true;
-            // var alreadyTruToSubmit = false;
             var modeShipping = '';
+            var informationsIsValid = false;
+            var shippingIsValid = false;
 
             // show link to cart
             document.getElementById('go_to_panier').style.display = 'inline-block';
+
+            // <-- breadcrumb -->
+            var ariane_information = document.getElementById('ariane_information');
+            var ariane_shipping = document.getElementById('ariane_shipping');
+            var ariane_payment = document.getElementById('ariane_payment');
+
+            // <-- breadcrumb initialisation fontWeight bold "Informations" -->
+            ariane_information.style.color = '#000';
+            ariane_information.style.fontWeight = 'bold';
 
             // link to page "information"
             var goto_information = document.getElementsByClassName('go_to_information');
@@ -451,10 +461,12 @@
 
                 validateForm();
 
-                // hide all link to previous page
-                var links = document.getElementsByClassName('payment_link');
-                for (let i = 0; i < links.length; i++) {
-                    links[i].style.display = 'none';
+                if (!unvalid) {
+                    // hide all link to previous page
+                    var links = document.getElementsByClassName('payment_link');
+                    for (let i = 0; i < links.length; i++) {
+                        links[i].style.display = 'none';
+                    }
                 }
 
                 // récupère toutes les données pour les afficher dans "le cadre Vos informations" et pour les submit dans un formData
@@ -479,56 +491,81 @@
                 formData.append("city", city_data);
                 formData.append("country", country_data);
 
-                // handle ariane
-                var ariane_information = document.getElementById('ariane_information');
-                var ariane_shipping = document.getElementById('ariane_shipping');
-
 
                 if (!unvalid) {
+                    var information_block = document.getElementById('information_block');
+                    var shipping_block = document.getElementById('shipping_block');
+                    var payment_block = document.getElementById('payment_block');
+                    var submit_button = document.getElementById('submit-button');
+                    var authRegisterSubmit = document.getElementById('authRegisterSubmit');
+                    var contact_control = document.getElementById('contact_control');
+                    var adress_control = document.getElementById('adress_control');
+                    var contact_control_payment = document.getElementById('contact_control_payment').innerHTML = email_data;
+                    var adress_control_payment = document.getElementById('adress_control_payment')
+                    var shipping_control = document.getElementById('shipping_control');
+                    var card_element = document.getElementById('card-element');
+
                     switch (page) {
                         case 'information':
-                            document.getElementById('information_block').style.display = 'inline-block';
-                            document.getElementById('shipping_block').style.display = 'none';
-                            document.getElementById('payment_block').style.display = 'none';
-                            document.getElementById('submit-button').style.display = 'none';
-                            document.getElementById('authRegisterSubmit').style.display = 'block';
-                            document.getElementById('authRegisterSubmit').innerHTML = 'Continuer vers l\'expédition';
-                            document.getElementById('go_to_panier').style.display = 'inline-block';
+                            information_block.style.display = 'inline-block';
+                            shipping_block.style.display = 'none';
+                            payment_block.style.display = 'none';
+                            submit_button.style.display = 'none';
+                            authRegisterSubmit.style.display = 'block';
+                            authRegisterSubmit.innerHTML = 'Continuer vers l\'expédition';
+                            go_to_panier.style.display = 'inline-block';
 
                             // <-- breadcrumb -->
-                            var ariane_information = document.getElementById('ariane_information');
                             ariane_information.style.color = '#000';
+                            ariane_information.style.fontWeight = 'bold';
                             ariane_information.onclick = null;
                             ariane_information.addEventListener("mousemove", function() {
                                 ariane_information.style.cursor = 'text';
                             });
 
-                            var ariane_shipping = document.getElementById('ariane_shipping');
-                            ariane_shipping.style.color = '#000';
-                            ariane_shipping.onclick = null;
-                            ariane_shipping.addEventListener("mousemove", function() {
-                                ariane_shipping.style.cursor = 'text';
-                            });
+                            // si les informations ont déjà été validées au moins une fois alors le breadcrum ariane_shipping doit être activé sinon non
+                            if (informationsIsValid) {
+                                ariane_shipping.style.color = '#bb1e0c';
+                                ariane_shipping.style.fontWeight = 'normal';
+                                ariane_shipping.onclick = function() {
+                                    page = 'livraison';
+                                    changePage();
+                                }
+                                ariane_shipping.addEventListener("mousemove", function() {
+                                    ariane_shipping.style.cursor = 'pointer';
+                                });
+                            } else {
+                                ariane_shipping.style.color = '#000';
+                                ariane_shipping.style.fontWeight = 'normal';
+                                ariane_shipping.onclick = null;
+                                ariane_shipping.addEventListener("mousemove", function() {
+                                    ariane_shipping.style.cursor = 'text';
+                                });
+                            }
+
+
+                            ariane_payment.style.color = '#000';
+                            ariane_payment.style.fontWeight = 'normal';
+                            ariane_payment.onclick = null;
 
                             page = 'livraison';
                             break;
                         case 'livraison':
-                            document.getElementById('information_block').style.display = 'none';
-                            document.getElementById('payment_block').style.display = 'none';
-                            document.getElementById('shipping_block').style.display = 'inline-block';
-                            document.getElementById('authRegisterSubmit').innerHTML = 'Continuer vers le paiement';
-                            document.getElementById('submit-button').style.display = 'none';
-                            document.getElementById('authRegisterSubmit').style.display = 'block';
-                            document.getElementById('go_to_information').style.display = 'inline-block';
-                            document.getElementById('contact_control').innerHTML = email_data;
-                            document.getElementById('adress_control').innerHTML = address;
+                            informationsIsValid = true;
+                            information_block.style.display = 'none';
+                            payment_block.style.display = 'none';
+                            shipping_block.style.display = 'inline-block';
+                            authRegisterSubmit.innerHTML = 'Continuer vers le paiement';
+                            authRegisterSubmit.style.display = 'block';
+                            submit_button.style.display = 'none';
+                            go_to_information.style.display = 'inline-block';
+                            contact_control.innerHTML = email_data;
+                            adress_control.innerHTML = address;
                             page = 'payment';
 
-
-
                             // <-- breadcrumb -->
-                            var ariane_information = document.getElementById('ariane_information');
                             ariane_information.style.color = '#bb1e0c';
+                            ariane_information.style.fontWeight = 'normal';
                             ariane_information.onclick = function() {
                                 page = 'information';
                                 changePage();
@@ -537,26 +574,59 @@
                                 ariane_information.style.cursor = 'pointer';
                             });
 
+                            ariane_shipping.style.color = '#000';
+                            ariane_shipping.style.fontWeight = 'bold';
+                            ariane_shipping.onclick = null;
+                            ariane_shipping.addEventListener("mousemove", function() {
+                                ariane_shipping.style.cursor = 'text';
+                            });
+
+                            // si les informations ont déjà été validées au moins une fois alors le breadcrum ariane_shipping doit être activé sinon non
+                            if (shippingIsValid) {
+                                ariane_payment.style.color = '#bb1e0c';
+                                ariane_payment.style.fontWeight = 'normal';
+                                ariane_payment.onclick = function() {
+                                    page = 'payment';
+                                    changePage();
+                                }
+                                ariane_payment.addEventListener("mousemove", function() {
+                                    ariane_payment.style.cursor = 'pointer';
+                                });
+                            } else {
+                                ariane_payment.style.color = '#000';
+                                ariane_payment.style.fontWeight = 'normal';
+                                ariane_payment.onclick = null;
+                                ariane_payment.addEventListener("mousemove", function() {
+                                    ariane_payment.style.cursor = 'text';
+                                });
+                            }
+
+
+                            // ariane_payment.style.color = '#000';
+                            // ariane_payment.style.fontWeight = 'normal';
+                            // ariane_payment.onclick = null;
 
                             break;
                         case 'payment':
-                            document.getElementById('shipping_block').style.display = 'none';
-                            document.getElementById('payment_block').style.display = 'inline-block';
-                            document.getElementById('authRegisterSubmit').style.display = 'none';
-                            document.getElementById('go_to_shipping').style.display = 'inline-block';
-                            document.getElementById('contact_control_payment').innerHTML = email_data;
-                            document.getElementById('adress_control_payment').innerHTML = address;
-                            document.getElementById('shipping_control').innerHTML = modeShipping;
-                            document.getElementById('card-element').style.display = 'block';
-                            document.getElementById('submit-button').style.display = 'block';
-                            document.getElementById('submit-button').innerHTML = 'Payer maintenant';
+                            shippingIsValid = true;
+                            shipping_block.style.display = 'none';
+                            payment_block.style.display = 'inline-block';
+                            authRegisterSubmit.style.display = 'none';
+                            go_to_shipping.style.display = 'inline-block';
+                            contact_control_payment.innerHTML = email_data;
+                            adress_control_payment.innerHTML = address;
+                            shipping_control.innerHTML = modeShipping;
+                            card_element.style.display = 'block';
+                            submit_button.style.display = 'block';
+                            submit_button.innerHTML = 'Payer maintenant';
+
                             // state_bill_block sert à conserver l'état du bill_block lorsqu'on revient en arrière vers l'expédition dans le formulaire de paiement
                             if (state_bill_block == 'show') shown_bill_block();
                             if (state_bill_block == 'hide') hide_bill_block();
 
                             // <-- breadcrumb -->
-                            var ariane_shipping = document.getElementById('ariane_shipping');
                             ariane_shipping.style.color = '#bb1e0c';
+                            ariane_shipping.style.fontWeight = 'normal';
                             ariane_shipping.onclick = function() {
                                 page = 'livraison';
                                 changePage();
@@ -564,10 +634,18 @@
                             ariane_shipping.addEventListener("mousemove", function() {
                                 ariane_shipping.style.cursor = 'pointer';
                             });
+
+                            ariane_payment.style.color = '#000';
+                            ariane_payment.style.fontWeight = 'bold';
+                            ariane_payment.onclick = null;
+                            ariane_payment.addEventListener("mousemove", function() {
+                                ariane_payment.style.cursor = 'text';
+                            });
+
                             break;
                         default:
-                            document.getElementById('information_block').style.display = 'block';
-                            document.getElementById('shipping_block').style.display = 'none';
+                            information_block.style.display = 'block';
+                            shipping_block.style.display = 'none';
                     }
                 }
 
@@ -577,52 +655,6 @@
             function validateEmail() {
 
             }
-
-            // ariane_panier
-            // ariane_information
-            // ariane_shipping
-            // ariane_payment
-
-            // function handleBreadcrumb() {
-            //     switch (page) {
-            //         case 'information':
-            //             if (recordedInformations) {
-            //                 document.getElementById('ariane_information').onclick = null;
-            //                 document.getElementById('ariane_information').style.color = 'black';
-            //                 document.getElementById('ariane_information').addEventListener("mousemove", function() {
-            //                     document.getElementById("ariane_information").style.cursor = 'default';
-            //                 });
-            //                 document.getElementById('ariane_shipping').onclick = function() {
-            //                     page = 'livraison';
-            //                     changePage();
-            //                 }
-            //             }
-
-
-            //             if (!unvalid) {
-            //                 document.getElementById('ariane_information').style.color = '#bb1e0c';
-            //                 document.getElementById('ariane_information').onclick = function() {
-            //                     page = 'livraison';
-            //                     changePage();
-            //                 }
-            //                 document.getElementById('ariane_information').addEventListener("mousemove", function() {
-            //                     document.getElementById("ariane_information").style.cursor = 'pointer';
-            //                 })
-            //             }
-
-
-            //             break;
-            //         case 'livraison':
-
-            //             break;
-            //         case 'payment':
-
-            //             break;
-            //         default:
-
-            //     }
-            // }
-
 
             // check si tous les champs sont remplis
             function validateForm() {
@@ -638,7 +670,6 @@
                     if (missingCount === 0) {
                         document.getElementById(missingFields[i].id + '_').style.display = 'none';
                         unvalid = false;
-                        // handleBreadcrumb();
                     }
                 }
             }

@@ -22,6 +22,10 @@
 .ariane_payment a, .ariane_payment span, .ariane_payment .fa-chevron-right {
   color: #636363;
   font-size: 14px;
+  text-decoration: none;
+}
+.ariane_payment a {
+  color: #bb1e0c;
 }
 
 .auth {
