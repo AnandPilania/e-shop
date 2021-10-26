@@ -241,7 +241,7 @@
                 </div>
 
                 <div class="different_address">
-                    <input type="radio" name="address_bill" id="address_different_ship" value="different" onclick="shown_bill_block();">
+                    <input type="radio" name="address_bill" id="address_different_ship" value="different" onclick="show_bill_block();">
                     <label for="address_different_ship">Utiliser une adresse de facturation différente </label>
                 </div>
             </div>
@@ -254,18 +254,20 @@
             <!-- Name -->
             <div class="register_block_name">
                 <div class="input-container input-container_half">
-                    <x-input id="first_nameBill" type="text" name="first_nameBill" :value="old('first_nameBill')" required autocomplete="on" />
+                    <x-input id="first_nameBill" class="missingFieldBill" type="text" name="first_nameBill" :value="old('first_nameBill')" required autocomplete="on" onfocusout="validateFormBill()" />
                     <label for="first_nameBill">Votre prénom*</label>
+                    <span id="first_nameBill_" class="missingFieldMessage missingMargin">Entrez un prénom</span>
                 </div>
 
                 <div class="input-container input-container_half">
-                    <x-input id="last_nameBill" type="text" name="last_nameBill" :value="old('last_nameBill')" required autocomplete="on" />
+                    <x-input id="last_nameBill" class="missingFieldBill" type="text" name="last_nameBill" :value="old('last_nameBill')" required autocomplete="on" onfocusout="validateFormBill()" />
                     <label for="last_nameBill">Votre nom*</label>
+                    <span id="last_nameBill_" class="missingFieldMessage missingMargin">Entrez un nom</span>
                 </div>
             </div>
             <!-- Adresse -->
             <div class="input-container">
-                <select name="countryBill" id="countryBill" :value="old('countryBill')" class="classic" autocomplete="on" required>
+                <select name="countryBill" class="missingFieldBill" id="countryBill" :value="old('countryBill')" class="classic" autocomplete="on" required onfocusout="validateFormBill()">
                     <option value="" disabled selected></option>
                     <option value="France">France</option>
                     <option value="Belgique">Belgique</option>
@@ -277,15 +279,17 @@
                     @endforeach
                 </select>
                 <label for="email">Pays*</label>
+                <span id="countryBill_" class="missingFieldMessage missingMargin">Entrez un pays</span>
             </div>
 
             <div class="input-container">
-                <x-input id="addressBill" type="text" name="addressBill" :value="old('addressBill')" required autocomplete="on" />
+                <x-input id="addressBill" class="missingFieldBill" type="text" name="addressBill" :value="old('addressBill')" required autocomplete="on" onfocusout="validateFormBill()" />
                 <label for="addressBill">Adresse*</label>
+                <span id="addressBill_" class="missingFieldMessage missingMargin">Entrez une adresse</span>
             </div>
 
             <div class="input-container">
-                <x-input id="addressCommentBill" type="text" name="addressCommentBill" :value="old('addressCommentBill')" required="false" autocomplete="on" />
+                <x-input id="addressCommentBill" type="text" name="addressCommentBill" :value="old('addressCommentBill')" required="false" autocomplete="on" onfocusout="validateFormBill()" />
                 <label for="addressCommentBill">Complément d'adresse (facultatif)</label>
             </div>
 
@@ -293,23 +297,23 @@
             <!-- Cp & Ville -->
             <div class="register_block_cp_city">
                 <div class="input-container input-container_half">
-                    <x-input id="cpBill" type="number" name="cpBill" :value="old('cpBill')" autocomplete="on" required />
+                    <x-input id="cpBill" class="missingFieldBill" type="number" name="cpBill" :value="old('cpBill')" autocomplete="on" required onfocusout="validateFormBill()" />
                     <label for="cpBill">Code postal*</label>
+                    <span id="cpBill_" class="missingFieldMessage missingMargin">Entrez un code postal</span>
                 </div>
                 <div class="input-container input-container_half">
-                    <x-input id="cityBill" type="text" name="cityBill" :value="old('cityBill')" autocomplete="on" required="false" />
+                    <x-input id="cityBill" class="missingFieldBill" type="text" name="cityBill" :value="old('cityBill')" autocomplete="on" required="false" onfocusout="validateFormBill()" />
                     <label for="cityBill">Ville*</label>
+                    <span id="cityBill_" class="missingFieldMessage missingMargin">Entrez une ville</span>
                 </div>
             </div>
         </div>
-
-
 
         <script>
             // state_bill_block sert à conserver l'état du bill_block lorsqu'on revient en arrière vers l'expédition dans le formulaire de paiement
             var state_bill_block = 'hide';
 
-            function shown_bill_block() {
+            function show_bill_block() {
                 state_bill_block = 'show';
                 document.getElementById('bill_block').style.display = 'block';
             }
@@ -382,7 +386,14 @@
                     document.getElementById('payment_method').value = paymentMethod.id;
                 }
 
-                document.getElementById('form_payment').submit();
+
+                // validation des champs de addressBill
+                validateFormBill();
+
+                if (!unvalidBill) {
+                    document.getElementById('form_payment').submit();
+                }
+
             })
         </script>
 
@@ -390,6 +401,7 @@
         <script>
             var page = 'livraison';
             var unvalid = true;
+            var unvalidBill = true;
             var modeShipping = '';
             var informationsIsValid = false;
             var shippingIsValid = false;
@@ -508,6 +520,8 @@
 
                     switch (page) {
                         case 'information':
+                            hide_bill_block();
+
                             information_block.style.display = 'inline-block';
                             shipping_block.style.display = 'none';
                             payment_block.style.display = 'none';
@@ -570,6 +584,8 @@
                             page = 'livraison';
                             break;
                         case 'livraison':
+                            hide_bill_block();
+
                             informationsIsValid = true;
                             information_block.style.display = 'none';
                             payment_block.style.display = 'none';
@@ -625,6 +641,9 @@
 
                             break;
                         case 'payment':
+                            if (document.getElementById('address_different_ship').checked) {
+                                show_bill_block();
+                            }
                             shippingIsValid = true;
                             paymentIsValid = true;
                             information_block.style.display = 'none';
@@ -640,7 +659,7 @@
                             submit_button.innerHTML = 'Payer maintenant';
 
                             // state_bill_block sert à conserver l'état du bill_block lorsqu'on revient en arrière vers l'expédition dans le formulaire de paiement
-                            if (state_bill_block == 'show') shown_bill_block();
+                            if (state_bill_block == 'show') show_bill_block();
                             if (state_bill_block == 'hide') hide_bill_block();
 
 
@@ -672,11 +691,10 @@
                             shipping_block.style.display = 'none';
                     }
                 }
-
             }
 
 
-            // check si tous les champs sont remplis
+            // check si tous les champs sont remplis et si l'adresse email est valide
             function validateForm() {
                 var missingCount = 0;
                 var missingFields = document.getElementsByClassName('missingField');
@@ -702,6 +720,23 @@
                         unvalid = true;
                     }
 
+                }
+            }
+
+            // check si tous les champs de l'adresse de facturation sont remplis
+            function validateFormBill() {
+                var missingCount = 0;
+                var missingFields = document.getElementsByClassName('missingFieldBill');
+                for (let i = 0; i < missingFields.length; i++) {
+                    if (missingFields[i].value.length == 0) {
+                        document.getElementById(missingFields[i].id + '_').style.display = 'block';
+                        missingCount++;
+                        unvalidBill = true;
+                    }
+                    if (missingCount === 0) {
+                        document.getElementById(missingFields[i].id + '_').style.display = 'none';
+                        unvalidBill = false;
+                    }
                 }
             }
         </script>
