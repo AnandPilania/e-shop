@@ -393,6 +393,7 @@
             var modeShipping = '';
             var informationsIsValid = false;
             var shippingIsValid = false;
+            var paymentIsValid = false;
 
             // show link to cart
             document.getElementById('go_to_panier').style.display = 'inline-block';
@@ -523,6 +524,9 @@
                                 ariane_information.style.cursor = 'text';
                             });
 
+                            // affiche "Calculé à l'étape suivante" dans le décompte du panier
+                            CalculeALEtapeSuivante();
+
                             // si les informations ont déjà été validées au moins une fois alors le breadcrum ariane_shipping doit être activé sinon non
                             if (informationsIsValid) {
                                 ariane_shipping.style.color = '#bb1e0c';
@@ -543,10 +547,25 @@
                                 });
                             }
 
-
-                            ariane_payment.style.color = '#000';
-                            ariane_payment.style.fontWeight = 'normal';
-                            ariane_payment.onclick = null;
+                            // activation du lien paiement vers payment si étape précédente validée au moins une fois
+                            if (paymentIsValid) {
+                                ariane_payment.style.color = '#bb1e0c';
+                                ariane_payment.style.fontWeight = 'normal';
+                                ariane_payment.onclick = function() {
+                                    page = 'payment';
+                                    changePage();
+                                }
+                                ariane_payment.addEventListener("mousemove", function() {
+                                    ariane_payment.style.cursor = 'pointer';
+                                });
+                            } else {
+                                ariane_payment.style.color = '#000';
+                                ariane_payment.style.fontWeight = 'normal';
+                                ariane_payment.onclick = null;
+                                ariane_payment.addEventListener("mousemove", function() {
+                                    ariane_payment.style.cursor = 'text';
+                                });
+                            }
 
                             page = 'livraison';
                             break;
@@ -562,6 +581,9 @@
                             contact_control.innerHTML = email_data;
                             adress_control.innerHTML = address;
                             page = 'payment';
+
+                            // affiche le prix du transport dans le décompte du panier
+                            get_shipping_price_realTime();
 
                             // <-- breadcrumb -->
                             ariane_information.style.color = '#bb1e0c';
@@ -581,7 +603,7 @@
                                 ariane_shipping.style.cursor = 'text';
                             });
 
-                            // si les informations ont déjà été validées au moins une fois alors le breadcrum ariane_shipping doit être activé sinon non
+                            // si lle shipping a été validé alors payment doit être activé lorsqu'on revient vers les précétdentes pages  pcq tous ce qui menait à payment a été validé
                             if (shippingIsValid) {
                                 ariane_payment.style.color = '#bb1e0c';
                                 ariane_payment.style.fontWeight = 'normal';
@@ -601,14 +623,11 @@
                                 });
                             }
 
-
-                            // ariane_payment.style.color = '#000';
-                            // ariane_payment.style.fontWeight = 'normal';
-                            // ariane_payment.onclick = null;
-
                             break;
                         case 'payment':
                             shippingIsValid = true;
+                            paymentIsValid = true;
+                            information_block.style.display = 'none';
                             shipping_block.style.display = 'none';
                             payment_block.style.display = 'inline-block';
                             authRegisterSubmit.style.display = 'none';
@@ -624,7 +643,12 @@
                             if (state_bill_block == 'show') shown_bill_block();
                             if (state_bill_block == 'hide') hide_bill_block();
 
+
+                            // affiche le prix du transport dans le décompte du panier
+                            get_shipping_price_realTime();
+
                             // <-- breadcrumb -->
+                            // on active le lien vers shipping puisqu'il a été validé précédement
                             ariane_shipping.style.color = '#bb1e0c';
                             ariane_shipping.style.fontWeight = 'normal';
                             ariane_shipping.onclick = function() {
@@ -652,17 +676,12 @@
             }
 
 
-            function validateEmail() {
-
-            }
-
             // check si tous les champs sont remplis
             function validateForm() {
                 var missingCount = 0;
                 var missingFields = document.getElementsByClassName('missingField');
                 for (let i = 0; i < missingFields.length; i++) {
                     if (missingFields[i].value.length == 0) {
-                        console.log(missingFields[i].value);
                         document.getElementById(missingFields[i].id + '_').style.display = 'block';
                         missingCount++;
                         unvalid = true;
@@ -671,6 +690,18 @@
                         document.getElementById(missingFields[i].id + '_').style.display = 'none';
                         unvalid = false;
                     }
+                }
+                if (missingCount === 0) {
+                    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                    var email = document.getElementById('email').value;
+                    console.log(email);
+                    if (email.match(mailformat)) {
+                        unvalid = false;
+                    } else {
+                        document.getElementById('email_').style.display = 'block';
+                        unvalid = true;
+                    }
+
                 }
             }
         </script>
