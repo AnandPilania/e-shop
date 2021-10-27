@@ -236,7 +236,7 @@
             <p>Sélectionnez l'adresse qui correspond à votre carte ou à votre moyen de paiement.</p>
             <div class="adresse_facturation">
                 <div class="idem_address">
-                    <input type="radio" name="address_bill" id="address_idem_ship" value="idem" checked onclick="hide_bill_block();">
+                    <input type="radio" name="address_bill" id="address_idem_ship" value="idem" checked onclick="hide_bill_block(),                 removeAllFieldsFormBill();">
                     <label for="address_idem_ship"> Identique à l'adresse de livraison </label>
                 </div>
 
@@ -667,6 +667,15 @@
                             get_shipping_price_realTime();
 
                             // <-- breadcrumb -->
+                            ariane_information.style.color = '#bb1e0c';
+                            ariane_information.style.fontWeight = 'normal';
+                            ariane_information.onclick = function() {
+                                page = 'information';
+                                changePage();
+                            }
+                            ariane_information.addEventListener("mousemove", function() {
+                                ariane_information.style.cursor = 'pointer';
+                            });
                             // on active le lien vers shipping puisqu'il a été validé précédement
                             ariane_shipping.style.color = '#bb1e0c';
                             ariane_shipping.style.fontWeight = 'normal';
@@ -738,6 +747,15 @@
                         unvalidBill = false;
                     }
                 }
+            }
+
+            // efface les champs de "adresse de facturation"
+            function removeAllFieldsFormBill() {
+                var missingFields = document.getElementsByClassName('missingFieldBill');
+                for (let i = 0; i < missingFields.length; i++) {
+                    missingFields[i].value = null
+                }
+                document.getElementById('addressCommentBill').value = null;
             }
         </script>
 

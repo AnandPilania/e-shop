@@ -156,7 +156,12 @@
     left: 10px;
     font-size: 14px;
     font-weight: bold;
-    opacity: .6;
+    opacity: .6 !important;
+}
+
+input[type="radio"] {
+    opacity: 1;
+    margin: 0px;
 }
 
 /* arrows */
