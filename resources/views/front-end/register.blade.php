@@ -37,7 +37,7 @@
     <!-- Validation Errors -->
     <x-auth-validation-errors :errors="$errors" style="color:red;" />
 
-    <form method="POST" action="{{ route('register') }}" class="auth" autocomplete="on" id="form_payment">
+    <form method="POST" action="{{ route('register') }}" class="auth" id="form_payment">
         @csrf
 
         <div class="ariane_payment">
@@ -61,14 +61,6 @@
                 </div>
             </div>
 
-            <!-- Email Address -->
-            <div class="input-container" id="email_container">
-                <x-input id="email" class="missingField" type="email" name="email" :value="old('email')" autocomplete="on" onfocusout="validateForm()" required maxlength="255" />
-                <label for="email">Adresse e-mail*</label>
-                <span id="email_" class="missingFieldMessage missingMargin">Entrez une adresse e-mail valide</span>
-            </div>
-
-
             <div class="register_title">
                 <h2>Adresse de livraison</h2>
             </div>
@@ -77,18 +69,45 @@
             <div class="register_block_name">
                 <div class="input-container input-container_half">
                     <x-input id="first_name" class="missingField" type="text" name="first_name" :value="old('first_name')" required autocomplete="on" onfocusout="validateForm()" maxlength="255" />
-                    <label for="first_name">Votre prénom*</label>
+                    <label for="first_name">Prénom*</label>
                     <span id="first_name_" class="missingFieldMessage missingMargin">Entrez un prénom</span>
                 </div>
 
                 <div class="input-container input-container_half">
                     <x-input id="last_name" class="missingField" type="text" name="last_name" :value="old('last_name')" required autocomplete="on" onfocusout="validateForm()" maxlength="255" />
-                    <label for="last_name">Votre nom*</label>
+                    <label for="last_name">Nom*</label>
                     <span id="last_name_" class="missingFieldMessage missingMargin">Entrez un nom</span>
                 </div>
             </div>
 
             <!-- Adresse -->
+            <div class="input-container">
+                <x-input id="address" class="missingField" type="text" name="address" :value="old('address')" required autocomplete="on" onfocusout="validateForm()" maxlength="500" />
+                <label for="address">Adresse*</label>
+                <span id="address_" class="missingFieldMessage missingMargin">Entrez une adresse</span>
+            </div>
+
+            <div class="input-container">
+                <x-input id="addressComment" type="text" name="addressComment" :value="old('addressComment')" required="false" autocomplete="off" maxlength="255" />
+                <label for="addressComment">Complément d'adresse (facultatif)</label>
+            </div>
+
+
+            <!-- Cp & Ville -->
+            <div class="register_block_cp_city">
+                <div class="input-container input-container_half">
+                    <x-input id="city" class="missingField" type="text" name="city" :value="old('city')" autocomplete="on" required onfocusout=" validateForm()" maxlength="100" />
+                    <label for="city">Ville*</label>
+                    <span id="city_" class="missingFieldMessage missingMargin">Entrez une ville</span>
+                </div>
+
+                <div class="input-container input-container_half">
+                    <x-input id="cp" class="missingField" type="number" name="cp" :value="old('cp')" autocomplete="on" required onfocusout="validateForm()" maxlength="25" />
+                    <label for="cp">Code postal*</label>
+                    <span id="cp_" class="missingFieldMessage missingMargin">Entrez un code postal</span>
+                </div>
+            </div>
+
             <div class="input-container">
                 <select name="country" id="country" :value="old('country')" class="classic missingField" autocomplete="on" onfocusout="validateForm()" required>
                     <option value="" disabled selected></option>
@@ -105,32 +124,6 @@
                 <span id="country_" class="missingFieldMessage missingMargin">Entrez un pays</span>
             </div>
 
-            <div class="input-container">
-                <x-input id="address" class="missingField" type="text" name="address" :value="old('address')" required autocomplete="on" onfocusout="validateForm()" maxlength="500" />
-                <label for="address">Adresse*</label>
-                <span id="address_" class="missingFieldMessage missingMargin">Entrez une adresse</span>
-            </div>
-
-            <div class="input-container">
-                <x-input id="addressComment" type="text" name="addressComment" :value="old('addressComment')" required="false" autocomplete="on" maxlength="255" />
-                <label for="addressComment">Complément d'adresse (facultatif)</label>
-            </div>
-
-
-            <!-- Cp & Ville -->
-            <div class="register_block_cp_city">
-                <div class="input-container input-container_half">
-                    <x-input id="cp" class="missingField" type="number" name="cp" :value="old('cp')" autocomplete="on" required onfocusout="validateForm()" maxlength="25" />
-                    <label for="cp">Code postal*</label>
-                    <span id="cp_" class="missingFieldMessage missingMargin">Entrez un code postal</span>
-                </div>
-                <div class="input-container input-container_half">
-                    <x-input id="city" class="missingField" type="text" name="city" :value="old('city')" autocomplete="on" required onfocusout=" validateForm()" maxlength="100" />
-                    <label for="city">Ville*</label>
-                    <span id="city_" class="missingFieldMessage missingMargin">Entrez une ville</span>
-                </div>
-            </div>
-
 
             <!-- phone -->
             <div class="input-container phone">
@@ -144,15 +137,80 @@
                 <label for="phone">Téléphone (facultatif)</label>
             </div>
 
-            <!-- conserve -->
-            <div class="conserve">
-                <input type="checkbox" id="conserve" name="conserve" :value="old('conserve')" value="conserve">
-                <label for="conserve" id="label_conserve">Sauvegarder mes coordonnées pour la prochaine fois</label>
-
-                <!-- <label for="rgpd" id="label_rgpd"> En créant mon compte, je certifie avoir 15 ans ou plus, et avoir pris connaissance de <a href="{{ route('cu') }}">notre Politique de données personnelles*</a></label> -->
+            <!-- Email Address -->
+            <div class="input-container" id="email_container">
+                <x-input id="email" class="missingField" type="email" name="email" :value="old('email')" autocomplete="on" onfocusout="validateForm()" required maxlength="255" />
+                <label for="email">Adresse e-mail*</label>
+                <span id="email_" class="missingFieldMessage missingMargin">Entrez une adresse e-mail valide</span>
             </div>
 
+            <!-- conserve -->
+            <div class="conserve">
+                <input type="checkbox" id="conserve" name="conserve" :value="old('conserve')" value="conserve" onclick="showPasswordField();">
+                <label for="conserve" id="label_conserve">Sauvegarder mes coordonnées pour la prochaine fois</label>
+            </div>
+
+            <!-- Password -->
+            <div class="input-container" id="block_password">
+                <x-input id="password" class="missingField" type="search" name="password" autocomplete="off" minlength="8" onfocusout="validateForm()" onkeyup="hideCaraterePassword(event);" />
+                <label for="password">Mot de passe* (min 8 caractères)</label>
+                <span id="password_" class="missingFieldMessagePassword missingMargin">Entrez un mot de passe</span>
+
+                <div class="icon_question">
+                    <i class="fas fa-question-circle tooltip">
+                        <span class="tooltiptext">Entrez un mot de passe pour créer votre compte et accéder à vos données personnelles.</span>
+                    </i>
+                </div>
+            </div>
         </div>
+
+        <!-- show or hide password field -->
+        <script>
+            function showPasswordField() {
+                var checkBox = document.getElementById("conserve");
+                var block_password = document.getElementById("block_password");
+                var password = document.getElementById("password");
+
+                document.getElementById('password_').style.display = 'none';
+
+                if (checkBox.checked == true) {
+                    block_password.style.display = "block";
+                    password.value = null;
+                    password.required = true;
+
+                } else {
+                    block_password.style.display = "none";
+                    password.value = null;
+                    password.required = false;
+                }
+            }
+
+            var temp_pswd = '';
+            var lengthPassTaped = 0;
+            var strHidePassword = '*';
+            // hide password in input field
+            function hideCaraterePassword(e) {
+
+                // check si on a éffacé un caractère, si c'est le cas on retire le dernier caractère de temp_pswd
+                if (lengthPassTaped > e.target.value.length) {
+                    
+                    let diff = Math.abs(lengthPassTaped - e.target.value.length) * -1;
+
+                    temp_pswd = temp_pswd.slice(0, diff);
+                    lengthPassTaped = e.target.value.length;
+                }
+
+                lengthPassTaped = e.target.value.length;
+
+                // empèche le '*' d'être ajouté au temp_pswd
+                if (e.target.value.slice(e.target.value.length - 1) != '*') {
+                    temp_pswd += e.target.value.slice(e.target.value.length - 1);
+                }
+                
+                // affiche '*' autant de fois que la longueur du password
+                document.getElementById('password').value = strHidePassword.repeat(e.target.value.length);
+            }
+        </script>
 
         <!-- shipping -->
         <div id="shipping_block">
@@ -213,7 +271,7 @@
                 </div>
             </div>
 
-            <!-- stripe elements --------------------------------------------->
+            <!-- -------stripe elements -------------------------------- -->
             <div class="stripe_wrapper">
                 <div id="header_stripe">
                     <h2>Carte de crédit</h2>
@@ -230,7 +288,7 @@
                     <div id="card-element"></div>
                 </div>
             </div>
-            <!-- ---------------------------------------------------------- -->
+
 
             <h2 id="Adresse_de_facturation">Adresse de facturation</h2>
             <p>Sélectionnez l'adresse qui correspond à votre carte ou à votre moyen de paiement.</p>
@@ -338,6 +396,9 @@
             <span class="payment_link go_to_information" id="go_to_information">Revenir aux informations</span>
             <span class="payment_link go_to_shipping" id="go_to_shipping">Revenir à l'expédition</span>
         </div>
+
+        <p id="infosRgpd">Les informations recueillies à partir de ce formulaire font l'objet d'un traitement informatique destiné au service marketing de Mon Site de E-Commerce, et sont utilisées pour le traitement de votre demande et pour vous informer sur nos offres. Conformément à la loi "informatique et libertés" du 6 janvier 1978 modifiée, vous disposez d'un droit d'accès et de rectification aux informations qui vous concernent. Vous pouvez également, pour des motifs légitimes, vous opposer au traitement des données vous concernant. Vous pouvez accéder aux informations qui vous concernent en vous adressant à : contact.client@mmonsite.com. Pour en savoir plus, consultez vos droits sur le site de la CNIL</p>
+
 
         <!-- Stripe block -->
         <script>
@@ -705,8 +766,13 @@
 
             // check si tous les champs sont remplis et si l'adresse email est valide
             function validateForm() {
+                var checkBox = document.getElementById("conserve");
+                var password = document.getElementById("password");
+                var spanMessageError = document.getElementById("password_");
+
                 var missingCount = 0;
                 var missingFields = document.getElementsByClassName('missingField');
+
                 for (let i = 0; i < missingFields.length; i++) {
                     if (missingFields[i].value.length == 0) {
                         document.getElementById(missingFields[i].id + '_').style.display = 'block';
@@ -717,6 +783,10 @@
                         document.getElementById(missingFields[i].id + '_').style.display = 'none';
                         unvalid = false;
                     }
+                    // if (password.value.length >= 8) {
+                    //     document.getElementById(spanMessageError).style.display = 'none';
+                    //     unvalid = false;
+                    // }
                 }
                 if (missingCount === 0) {
                     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -730,6 +800,16 @@
                     }
 
                 }
+                if (checkBox.checked == true && password.value.length < 8) {
+                    spanMessageError.style.display = "block";
+                    spanMessageError.innerHTML = "Entrez un mot de passe de minimum 8 caractères";
+                    unvalid = true;
+                }
+                if (checkBox.checked == true && password.value.length >= 8) {
+                    spanMessageError.style.display = "none";
+                    unvalid = false;
+                }
+
             }
 
             // check si tous les champs de l'adresse de facturation sont remplis
@@ -770,21 +850,20 @@
 
 <!-- ------------------------------------------------------------ -->
 
-<!-- Password -->
-<!-- <x-input id="password" class="auth_input" type="password" name="password" required autocomplete="new-password" placeholder="Mot de passe* (min 8 caractères)" /> -->
+
 
 <!-- Confirm Password -->
 <!-- <x-input id="password_confirmation" class="auth_input" type="password" name="password_confirmation" autocomplete="on" required placeholder="Confirmer mot de passe*" /> -->
 
 <!-- Civilité -->
 <!-- <div class="register_block_civilite">
-            <div>
-                <input type="radio" id="madame" name="civilite" :value="old('civilite')" value="f">
-                <label for="madame" style="margin-right: 20px;">Madame</label>
-            </div>
+             <div>
+                 <input type="radio" id="madame" name="civilite" :value="old('civilite')" value="f">
+                 <label for="madame" style="margin-right: 20px;">Madame</label>
+             </div>
 
-            <div>
-                <input type="radio" id="monsieur" name="civilite" :value="old('civilite')" value="m">
-                <label for="monsieur">Monsieur</label>
-            </div>
-            </div> -->
+             <div>
+                 <input type="radio" id="monsieur" name="civilite" :value="old('civilite')" value="m">
+                 <label for="monsieur">Monsieur</label>
+             </div>
+             </div> -->

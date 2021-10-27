@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .payment_wrapper_register {
   width: 54%;
   display: flex;
@@ -19,7 +20,9 @@
   align-items: center;
   margin-bottom: 30px;
 }
-.ariane_payment a, .ariane_payment span, .ariane_payment .fa-chevron-right {
+.ariane_payment a,
+.ariane_payment span,
+.ariane_payment .fa-chevron-right {
   color: #636363;
   font-size: 14px;
   text-decoration: none;
@@ -95,7 +98,7 @@
 }
 
 #email_container {
-  margin-bottom: 55px;
+  margin-bottom: 20;
 }
 
 .input-container {
@@ -156,7 +159,6 @@
 
 input[type=radio] {
   opacity: 1;
-  margin: 0px;
 }
 
 /* arrows */
@@ -178,11 +180,33 @@ select:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
-.missingFieldMessage {
+.missingFieldMessage,
+.missingFieldMessagePassword {
   color: #b90000;
   display: none;
   font-size: 13px;
   font-weight: bold;
+}
+
+/* clears the ‘X’ from Internet Explorer */
+input[type=search]::-ms-clear {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+input[type=search]::-ms-reveal {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* clears the ‘X’ from Chrome */
+input[type=search]::-webkit-search-decoration,
+input[type=search]::-webkit-search-cancel-button,
+input[type=search]::-webkit-search-results-button,
+input[type=search]::-webkit-search-results-decoration {
+  display: none;
 }
 
 .missingMargin {
@@ -370,6 +394,7 @@ select:-webkit-autofill:active {
   justify-content: flex-start;
   align-items: flex-start;
   margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 #rgpd,
@@ -385,6 +410,10 @@ select:-webkit-autofill:active {
   font-weight: normal;
   margin: 0;
   line-height: 16px;
+}
+
+#block_password {
+  display: none;
 }
 
 .control_coordonees,
@@ -490,7 +519,7 @@ select:-webkit-autofill:active {
 .auth_footer {
   width: 100%;
   margin-top: 30px;
-  margin-bottom: 100px;
+  margin-bottom: 40px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -549,4 +578,11 @@ select:-webkit-autofill:active {
 
 .auth_checkbox {
   width: 15px;
+}
+
+#infosRgpd {
+  width: 100%;
+  font-size: 12px;
+  color: #757575;
+  opacity: 0.8;
 }

@@ -20,13 +20,15 @@
     justify-content: flex-start;
     align-items: center;
     margin-bottom: 30px;
-    & a, span, .fa-chevron-right {
+    & a,
+    span,
+    .fa-chevron-right {
         color: rgb(99, 99, 99);
         font-size: 14px;
         text-decoration: none;
     }
     & a {
-        color:#bb1e0c;
+        color: #bb1e0c;
     }
 }
 
@@ -97,7 +99,7 @@
 }
 
 #email_container {
-    margin-bottom: 55px;
+    margin-bottom: 20;
 }
 
 // input effect
@@ -156,12 +158,11 @@
     left: 10px;
     font-size: 14px;
     font-weight: bold;
-    opacity: .6 !important;
+    opacity: 0.6 !important;
 }
 
 input[type="radio"] {
     opacity: 1;
-    margin: 0px;
 }
 
 /* arrows */
@@ -186,11 +187,31 @@ select:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
-.missingFieldMessage {
+.missingFieldMessage,
+.missingFieldMessagePassword {
     color: rgb(185, 0, 0);
     display: none;
     font-size: 13px;
     font-weight: bold;
+}
+
+/* clears the ‘X’ from Internet Explorer */
+input[type="search"]::-ms-clear {
+    display: none;
+    width: 0;
+    height: 0;
+}
+input[type="search"]::-ms-reveal {
+    display: none;
+    width: 0;
+    height: 0;
+}
+/* clears the ‘X’ from Chrome */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+    display: none;
 }
 
 .missingMargin {
@@ -315,7 +336,7 @@ select:-webkit-autofill:active {
     // display: none;
 }
 
-#bill_block  {
+#bill_block {
     display: none;
     margin-bottom: 10px;
     margin-top: 0;
@@ -331,7 +352,7 @@ select:-webkit-autofill:active {
     margin-bottom: 20px;
 }
 
-#shipping_block h2:nth-of-type(2){
+#shipping_block h2:nth-of-type(2) {
     margin-top: 20px;
 }
 //-----------------------------------------------------------
@@ -387,13 +408,13 @@ select:-webkit-autofill:active {
 }
 //-----------------------------------------------------------
 
-
 .rgpd,
 .conserve {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
     margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 #rgpd,
@@ -409,6 +430,10 @@ select:-webkit-autofill:active {
     font-weight: normal;
     margin: 0;
     line-height: 16px;
+}
+
+#block_password {
+    display: none;
 }
 
 .control_coordonees,
@@ -440,7 +465,7 @@ select:-webkit-autofill:active {
     min-height: 50px;
     display: flex;
     justify-content: flex-start;
-    align-items: center; 
+    align-items: center;
     background: transparent;
     color: rgb(126, 126, 126);
 }
@@ -466,13 +491,11 @@ select:-webkit-autofill:active {
 .mode_shipping_control span,
 .standard_ship label,
 .secure_ship label,
-.idem_address label
-.different_address label {
+.idem_address label .different_address label {
     margin-right: 20px;
     font-size: 14px;
     text-align: left;
 }
-
 
 .contact_control span:first-child,
 .adress_control span:first-child,
@@ -516,7 +539,7 @@ select:-webkit-autofill:active {
 .auth_footer {
     width: 100%;
     margin-top: 30px;
-    margin-bottom: 100px;
+    margin-bottom: 40px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -543,7 +566,6 @@ select:-webkit-autofill:active {
     border: none;
     border-radius: 5px;
 }
-
 
 #submit-button {
     display: none;
@@ -576,6 +598,13 @@ select:-webkit-autofill:active {
 
 .auth_checkbox {
     width: 15px;
+}
+
+#infosRgpd {
+    width: 100%;
+    font-size: 12px;
+    color: rgb(117, 117, 117);
+    opacity: 0.8;
 }
 
 ////////////////////////////////////////////////////////////////
