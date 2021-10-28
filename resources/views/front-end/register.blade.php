@@ -37,7 +37,7 @@
     <!-- Validation Errors -->
     <x-auth-validation-errors :errors="$errors" style="color:red;" />
 
-    <form method="POST" action="{{ route('register') }}" class="auth" id="form_payment">
+    <form method="POST" action="{{ route('register') }}" class="auth" id="form_payment" autocomplete="off">
         @csrf
 
         <div class="ariane_payment">
@@ -61,9 +61,7 @@
                 </div>
             </div>
 
-            <div class="register_title">
-                <h2>Adresse de livraison</h2>
-            </div>
+
 
             <!-- Name -->
             <div class="register_block_name">
@@ -80,36 +78,115 @@
                 </div>
             </div>
 
+
+            <!-- Email -->
+            <div class="input-container" id="email_container">
+                <x-input id="email" class="missingField" type="email" name="email" :value="old('email')" autocomplete="on" onfocusout="validateForm()" required maxlength="255" />
+                <label for="email">Adresse e-mail*</label>
+                <span id="email_" class="missingFieldMessage missingMargin">Entrez une adresse e-mail valide</span>
+            </div>
+
+            <!-- Password -->
+            <div class="input-container" id="block_password">
+                <x-input id="password" class="missingField" type="search" name="password" autocomplete="off" minlength="8" onfocusout="validateForm()" onkeyup="hideCaraterePassword(event);" onclick="labelPassword();" />
+                <label for="password" id="labelPassword">Mot de passe* (min 8 caractères)</label>
+                <span id="password_" class="missingFieldMessage missingMargin">Entrez un mot de passe</span>
+
+                <div class="icon_question">
+                    <i class="fas fa-question-circle tooltip">
+                        <span class="tooltiptext">Entrez un mot de passe pour créer votre compte et accéder à vos données personnelles.</span>
+                    </i>
+                </div>
+            </div>
+
+            <script>
+                function labelPassword() {
+                    var pass = document.getElementById('labelPassword').style;
+                    pass.top = '5px';
+                    pass.left = '10px';
+                    pass.fontWeight = 'bold';
+                    pass.fontSize = '14px';
+                    pass.setProperty("opacity", "0.6", "important");
+                }
+            </script>
+
+
+            
+
+            <!-- conserve -->
+            <div class="conserve">
+                <input type="checkbox" id="conserve" name="conserve" :value="old('conserve')" value="conserve">
+                <label for="conserve" id="label_conserve">Sauvegarder mes coordonnées pour la prochaine fois</label>
+            </div>
+
+
+        </div>
+
+        <!-- replace password by '*' in input field -->
+        <script>
+            var temp_pswd = '';
+            var lengthPassTaped = 0;
+            var strHidePassword = '*';
+
+            function hideCaraterePassword(e) {
+
+                // check si on a éffacé un caractère, si c'est le cas on retire le dernier caractère de temp_pswd
+                if (lengthPassTaped > e.target.value.length) {
+
+                    let diff = Math.abs(lengthPassTaped - e.target.value.length) * -1;
+
+                    temp_pswd = temp_pswd.slice(0, diff);
+                    lengthPassTaped = e.target.value.length;
+                }
+
+                lengthPassTaped = e.target.value.length;
+
+                // empèche le '*' d'être ajouté au temp_pswd
+                if (e.target.value.slice(e.target.value.length - 1) != '*') {
+                    temp_pswd += e.target.value.slice(e.target.value.length - 1);
+                }
+
+                // affiche '*' autant de fois que la longueur du password
+                document.getElementById('password').value = strHidePassword.repeat(e.target.value.length);
+            }
+        </script>
+
+        <!-- shipping -->
+        <div id="shipping_block">
+
+            <div class="register_title">
+                <h2>Adresse de livraison</h2>
+            </div>
+
             <!-- Adresse -->
             <div class="input-container">
-                <x-input id="address" class="missingField" type="text" name="address" :value="old('address')" required autocomplete="on" onfocusout="validateForm()" maxlength="500" />
+                <x-input id="address" class="missingFieldShipping" type="text" name="address" :value="old('address')"  autocomplete="on" onfocusout="validateFormShipping('dontKeepToChangPage')" maxlength="500" />
                 <label for="address">Adresse*</label>
                 <span id="address_" class="missingFieldMessage missingMargin">Entrez une adresse</span>
             </div>
 
             <div class="input-container">
-                <x-input id="addressComment" type="text" name="addressComment" :value="old('addressComment')" required="false" autocomplete="off" maxlength="255" />
+                <x-input id="addressComment" type="text" name="addressComment" :value="old('addressComment')" maxlength="255" />
                 <label for="addressComment">Complément d'adresse (facultatif)</label>
             </div>
-
 
             <!-- Cp & Ville -->
             <div class="register_block_cp_city">
                 <div class="input-container input-container_half">
-                    <x-input id="city" class="missingField" type="text" name="city" :value="old('city')" autocomplete="on" required onfocusout=" validateForm()" maxlength="100" />
+                    <x-input id="city" class="missingFieldShipping" type="text" name="city" :value="old('city')" onfocusout=" validateFormShipping('dontKeepToChangPage')" maxlength="100" />
                     <label for="city">Ville*</label>
                     <span id="city_" class="missingFieldMessage missingMargin">Entrez une ville</span>
                 </div>
 
                 <div class="input-container input-container_half">
-                    <x-input id="cp" class="missingField" type="number" name="cp" :value="old('cp')" autocomplete="on" required onfocusout="validateForm()" maxlength="25" />
+                    <x-input id="cp" class="missingFieldShipping" type="number" name="cp" :value="old('cp')" onfocusout="validateFormShipping('dontKeepToChangPage')" maxlength="25" />
                     <label for="cp">Code postal*</label>
                     <span id="cp_" class="missingFieldMessage missingMargin">Entrez un code postal</span>
                 </div>
             </div>
 
             <div class="input-container">
-                <select name="country" id="country" :value="old('country')" class="classic missingField" autocomplete="on" onfocusout="validateForm()" required>
+                <select name="country" id="country" :value="old('country')" class="classic missingFieldShipping" onfocusout="validateFormShipping('dontKeepToChangPage')" >
                     <option value="" disabled selected></option>
                     <option value="France">France</option>
                     <option value="Belgique">Belgique</option>
@@ -124,10 +201,9 @@
                 <span id="country_" class="missingFieldMessage missingMargin">Entrez un pays</span>
             </div>
 
-
             <!-- phone -->
             <div class="input-container phone">
-                <x-input id="phone" class="auth_input_phone" type="text" name="phone" :value="old('phone')" required="false" autocomplete="on" maxlength="50" />
+                <x-input id="phone" class="auth_input_phone" type="text" name="phone" :value="old('phone')" maxlength="50" />
 
                 <div class="icon_question">
                     <i class="fas fa-question-circle tooltip">
@@ -137,103 +213,10 @@
                 <label for="phone">Téléphone (facultatif)</label>
             </div>
 
-            <!-- Email Address -->
-            <div class="input-container" id="email_container">
-                <x-input id="email" class="missingField" type="email" name="email" :value="old('email')" autocomplete="on" onfocusout="validateForm()" required maxlength="255" />
-                <label for="email">Adresse e-mail*</label>
-                <span id="email_" class="missingFieldMessage missingMargin">Entrez une adresse e-mail valide</span>
-            </div>
-
-            <!-- conserve -->
-            <div class="conserve">
-                <input type="checkbox" id="conserve" name="conserve" :value="old('conserve')" value="conserve" onclick="showPasswordField();">
-                <label for="conserve" id="label_conserve">Sauvegarder mes coordonnées pour la prochaine fois</label>
-            </div>
-
-            <!-- Password -->
-            <div class="input-container" id="block_password">
-                <x-input id="password" class="missingField" type="search" name="password" autocomplete="off" minlength="8" onfocusout="validateForm()" onkeyup="hideCaraterePassword(event);" />
-                <label for="password">Mot de passe* (min 8 caractères)</label>
-                <span id="password_" class="missingFieldMessagePassword missingMargin">Entrez un mot de passe</span>
-
-                <div class="icon_question">
-                    <i class="fas fa-question-circle tooltip">
-                        <span class="tooltiptext">Entrez un mot de passe pour créer votre compte et accéder à vos données personnelles.</span>
-                    </i>
-                </div>
-            </div>
-        </div>
-
-        <!-- show or hide password field -->
-        <script>
-            function showPasswordField() {
-                var checkBox = document.getElementById("conserve");
-                var block_password = document.getElementById("block_password");
-                var password = document.getElementById("password");
-
-                document.getElementById('password_').style.display = 'none';
-
-                if (checkBox.checked == true) {
-                    block_password.style.display = "block";
-                    password.value = null;
-                    password.required = true;
-
-                } else {
-                    block_password.style.display = "none";
-                    password.value = null;
-                    password.required = false;
-                }
-            }
-
-            var temp_pswd = '';
-            var lengthPassTaped = 0;
-            var strHidePassword = '*';
-            // hide password in input field
-            function hideCaraterePassword(e) {
-
-                // check si on a éffacé un caractère, si c'est le cas on retire le dernier caractère de temp_pswd
-                if (lengthPassTaped > e.target.value.length) {
-                    
-                    let diff = Math.abs(lengthPassTaped - e.target.value.length) * -1;
-
-                    temp_pswd = temp_pswd.slice(0, diff);
-                    lengthPassTaped = e.target.value.length;
-                }
-
-                lengthPassTaped = e.target.value.length;
-
-                // empèche le '*' d'être ajouté au temp_pswd
-                if (e.target.value.slice(e.target.value.length - 1) != '*') {
-                    temp_pswd += e.target.value.slice(e.target.value.length - 1);
-                }
-                
-                // affiche '*' autant de fois que la longueur du password
-                document.getElementById('password').value = strHidePassword.repeat(e.target.value.length);
-            }
-        </script>
-
-        <!-- shipping -->
-        <div id="shipping_block">
-
-            <h2>Vos informations</h2>
-            <div class="control_coordonees">
-                <div class="contact_control">
-                    <span>Contact </span>
-                    <span id="contact_control"></span>
-                    <h6 class="go_to_information">Modifier</h6>
-                </div>
-
-                <div class="adress_control">
-                    <span>Expédier à </span>
-                    <span id="adress_control"></span>
-                    <h6 class="go_to_information">Modifier</h6>
-                </div>
-            </div>
-
             <h2>Mode d'expédition</h2>
             <div class="mode_expedition">
                 <div class="standard_ship">
-                    <input type="radio" name="mode_shipping" id="standard_ship" value="standard" checked onchange="get_mode_shipping('Standard'), get_shipping_price('Gratuit');">
+                    <input type="radio" name="mode_shipping" id="standard_ship" value="Standard (Gratuit)" checked onchange="get_mode_shipping('Standard'), get_shipping_price('Gratuit');">
                     <label for="standard_ship">Livraison Standard </label>
                     <h6>Gratuit</h6>
                 </div>
@@ -246,7 +229,6 @@
             </div>
 
         </div>
-
 
         <!-- payment -->
         <div id="payment_block">
@@ -261,7 +243,7 @@
                 <div class="adress_control">
                     <span>Expédier à </span>
                     <span id="adress_control_payment"></span>
-                    <h6 class="go_to_information">Modifier</h6>
+                    <h6 class="go_to_shipping">Modifier</h6>
                 </div>
 
                 <div class="mode_shipping_control">
@@ -389,7 +371,11 @@
                 Continuer vers l'expédition
             </button>
 
-            <input type="submit" value="Envoyer" id="submit-button">
+            <button id="shippingRegisterSubmit" onclick="validateFormShipping('keepToChangPage'), get_shipping_price_realTime();">
+                Continuer vers le paiement
+            </button>
+
+            <input type="submit" value="Payer maintenant" id="submit-button">
 
             <!-- link to previous page in checkout -->
             <a href="/panier" class="payment_link" id="go_to_panier">Retour au panier</a>
@@ -487,6 +473,7 @@
                     page = 'information';
                     document.getElementById('bill_block').style.display = 'none';
                     document.getElementById('submit-button').style.display = 'none';
+                    document.getElementById('shippingRegisterSubmit').style.display = 'none';
                     document.getElementById('authRegisterSubmit').style.display = 'block';
                     // réinitialise CalculeALEtapeSuivante pour afficher 'Calculé à l\'étape suivante' pour le prix de livraison
                     CalculeALEtapeSuivante();
@@ -501,20 +488,21 @@
                     page = 'livraison';
                     document.getElementById('bill_block').style.display = 'none';
                     document.getElementById('submit-button').style.display = 'none';
-                    document.getElementById('authRegisterSubmit').style.display = 'block';
+                    document.getElementById('authRegisterSubmit').style.display = 'none';
+                    document.getElementById('shippingRegisterSubmit').style.display = 'block';
                     changePage();
                 })
             }
 
             // link to page "payment"
-            var goto_payment = document.getElementsByClassName('goto_payment');
-            for (let i = 0; i < goto_payment.length; i++) {
-                goto_payment[i].addEventListener('click', function() {
-                    page = 'payment';
-                    document.getElementById('bill_block').style.display = 'none';
-                    changePage();
-                })
-            }
+            // var goto_payment = document.getElementsByClassName('goto_payment');
+            // for (let i = 0; i < goto_payment.length; i++) {
+            //     goto_payment[i].addEventListener('click', function() {
+            //         page = 'payment';
+            //         document.getElementById('bill_block').style.display = 'none';
+            //         changePage();
+            //     })
+            // }
 
             // assigne le mode de livraison choisi  
             var mode_shipping = document.getElementsByName('mode_shipping');
@@ -587,6 +575,7 @@
                             shipping_block.style.display = 'none';
                             payment_block.style.display = 'none';
                             submit_button.style.display = 'none';
+                            shippingRegisterSubmit.style.display = 'none';
                             authRegisterSubmit.style.display = 'block';
                             authRegisterSubmit.innerHTML = 'Continuer vers l\'expédition';
                             go_to_panier.style.display = 'inline-block';
@@ -651,12 +640,12 @@
                             information_block.style.display = 'none';
                             payment_block.style.display = 'none';
                             shipping_block.style.display = 'inline-block';
-                            authRegisterSubmit.innerHTML = 'Continuer vers le paiement';
-                            authRegisterSubmit.style.display = 'block';
+                            authRegisterSubmit.style.display = 'none';
+                            shippingRegisterSubmit.style.display = 'block';
                             submit_button.style.display = 'none';
                             go_to_information.style.display = 'inline-block';
-                            contact_control.innerHTML = email_data;
-                            adress_control.innerHTML = address;
+                            // contact_control.innerHTML = email_data;
+                            // adress_control.innerHTML = address;
                             page = 'payment';
 
                             // affiche le prix du transport dans le décompte du panier
@@ -711,6 +700,7 @@
                             shipping_block.style.display = 'none';
                             payment_block.style.display = 'inline-block';
                             authRegisterSubmit.style.display = 'none';
+                            shippingRegisterSubmit.style.display = 'none';
                             go_to_shipping.style.display = 'inline-block';
                             contact_control_payment.innerHTML = email_data;
                             adress_control_payment.innerHTML = address;
@@ -783,10 +773,6 @@
                         document.getElementById(missingFields[i].id + '_').style.display = 'none';
                         unvalid = false;
                     }
-                    // if (password.value.length >= 8) {
-                    //     document.getElementById(spanMessageError).style.display = 'none';
-                    //     unvalid = false;
-                    // }
                 }
                 if (missingCount === 0) {
                     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -800,16 +786,34 @@
                     }
 
                 }
-                if (checkBox.checked == true && password.value.length < 8) {
+                if (password.value.length < 8) {
                     spanMessageError.style.display = "block";
                     spanMessageError.innerHTML = "Entrez un mot de passe de minimum 8 caractères";
                     unvalid = true;
                 }
-                if (checkBox.checked == true && password.value.length >= 8) {
+                if (password.value.length >= 8) {
                     spanMessageError.style.display = "none";
                     unvalid = false;
                 }
 
+            }
+
+           // check si tous les champs de l'adresse de livraison sont remplis 
+            function validateFormShipping(keepToChangPage) {
+                var missingCount = 0;
+                var missingFields = document.getElementsByClassName('missingFieldShipping');
+                for (let i = 0; i < missingFields.length; i++) {
+                    if (missingFields[i].value.length == 0) {
+                        document.getElementById(missingFields[i].id + '_').style.display = 'block';
+                        missingCount++;
+                        unvalidBill = true;
+                    }
+                    if (missingCount === 0) {
+                        document.getElementById(missingFields[i].id + '_').style.display = 'none';
+                        unvalidBill = false;
+                    }
+                }
+                if (missingCount === 0 && keepToChangPage == 'keepToChangPage') changePage();
             }
 
             // check si tous les champs de l'adresse de facturation sont remplis
