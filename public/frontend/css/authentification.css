@@ -604,3 +604,7 @@ input[type=search]::-webkit-search-results-decoration {
   color: #757575;
   opacity: 0.8;
 }
+
+#existEmalModal {
+  display: none;
+}

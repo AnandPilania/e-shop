@@ -117,4 +117,14 @@ class RegisteredUserController extends Controller
             return back();
         }
     }
+
+    public function checkEmailExist($email) {
+        
+        $exist = User::where('email', $email);
+        if ($exist) {
+            return 'exist';
+        } else {
+           return 'not exist';
+        }
+    }
 }

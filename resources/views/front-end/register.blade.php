@@ -111,7 +111,7 @@
             </script>
 
 
-            
+
 
             <!-- conserve -->
             <div class="conserve">
@@ -160,7 +160,7 @@
 
             <!-- Adresse -->
             <div class="input-container">
-                <x-input id="address" class="missingFieldShipping" type="text" name="address" :value="old('address')"  autocomplete="on" onfocusout="validateFormShipping('dontKeepToChangPage')" maxlength="500" />
+                <x-input id="address" class="missingFieldShipping" type="text" name="address" :value="old('address')" autocomplete="on" onfocusout="validateFormShipping('dontKeepToChangPage')" maxlength="500" />
                 <label for="address">Adresse*</label>
                 <span id="address_" class="missingFieldMessage missingMargin">Entrez une adresse</span>
             </div>
@@ -186,7 +186,7 @@
             </div>
 
             <div class="input-container">
-                <select name="country" id="country" :value="old('country')" class="classic missingFieldShipping" onfocusout="validateFormShipping('dontKeepToChangPage')" >
+                <select name="country" id="country" :value="old('country')" class="classic missingFieldShipping" onfocusout="validateFormShipping('dontKeepToChangPage')">
                     <option value="" disabled selected></option>
                     <option value="France">France</option>
                     <option value="Belgique">Belgique</option>
@@ -264,8 +264,7 @@
                     </div>
                 </div>
                 <div class="input-container block_stripe">
-                    <x-input id="cardName" type="text" name="cardName" required autocomplete="off" placeholder="Nom sur la carte" style="padding: 0 0 0 40px;" />
-                    <!-- <label for="cardName">Nom sur la carte </label> -->
+                    <x-input id="cardName" type="text" name="cardName" required placeholder="Nom sur la carte" style="padding: 0 0 0 40px;" />
                     <input type="hidden" name="payment_method" id="payment_method" />
                     <div id="card-element"></div>
                 </div>
@@ -349,6 +348,7 @@
             </div>
         </div>
 
+        <!-- show_bill_block -->
         <script>
             // state_bill_block sert à conserver l'état du bill_block lorsqu'on revient en arrière vers l'expédition dans le formulaire de paiement
             var state_bill_block = 'hide';
@@ -367,7 +367,7 @@
 
         <!-- Button to next -->
         <div class="auth_footer">
-            <button id="authRegisterSubmit" onclick="changePage(), get_shipping_price_realTime();">
+            <button id="authRegisterSubmit" onclick="emailExist(event);">
                 Continuer vers l'expédition
             </button>
 
@@ -383,351 +383,290 @@
             <span class="payment_link go_to_shipping" id="go_to_shipping">Revenir à l'expédition</span>
         </div>
 
+        <script>
+            function emailExist(e) {
+                e.preventDefault();
+                var newEmail = document.getElementById('email').value;
+
+                axios.get(`http://127.0.0.1:8000/checkEmailExist/${newEmail}`)
+                    .then(res => {
+                        console.log(res.data);
+                        if (res.data == 'not exist') {
+                            changePage();
+                            get_shipping_price_realTime();
+                        }
+                        if (res.data == 'exist') {
+                            document.getElementById("existEmalModal").style.display = 'block';
+                        }
+
+                        
+
+                    });
+            }
+        </script>
+
         <p id="infosRgpd">Les informations recueillies à partir de ce formulaire font l'objet d'un traitement informatique destiné au service marketing de Mon Site de E-Commerce, et sont utilisées pour le traitement de votre demande et pour vous informer sur nos offres. Conformément à la loi "informatique et libertés" du 6 janvier 1978 modifiée, vous disposez d'un droit d'accès et de rectification aux informations qui vous concernent. Vous pouvez également, pour des motifs légitimes, vous opposer au traitement des données vous concernant. Vous pouvez accéder aux informations qui vous concernent en vous adressant à : contact.client@mmonsite.com. Pour en savoir plus, consultez vos droits sur le site de la CNIL</p>
 
+        <!-- The Modal --- The Modal ---The Modal ---The Modal -->
+        <div id="existEmalModal">
 
-        <!-- Stripe block -->
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span id="closeExistEmailModal">&#10006;</span>
+                </div>
+
+                <div class="modal-body">
+                    <h4>L’adresse e-mail que vous avez saisie est déjà enregistrée</h4>
+                    <h4>Connectez-vous à votre Espace Client</h4>
+
+
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+            </div>
+
+        </div>
+
         <script>
-            const stripe = Stripe(" {{ env('STRIPE_KEY') }} ");
+            // Get the modal
+            var modal = document.getElementById("existEmalModal");
 
-            const elements = stripe.elements();
+            // Get the button that opens the modal
+            // var btn = document.getElementById("reviewBtn");
 
-            const cardElement = elements.create('card', {
-                style: {
-                    base: {
-                        iconColor: '#c4f0ff',
+            // Get the <span> element that closes the modal
+            var span = document.getElementById("closeExistEmailModal");
+
+            // When the user clicks the button, open the modal 
+            // btn.onclick = function() {
+            //     modal.style.display = "block";
+            //     // se positionne sur le premier slide
+            //     document.getElementById('a-slide-1').click();
+            // }
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        </script>
+    </form>
+    <!-- Stripe block -->
+    <script>
+        const stripe = Stripe(" {{ env('STRIPE_KEY') }} ");
+
+        const elements = stripe.elements();
+
+        const cardElement = elements.create('card', {
+            style: {
+                base: {
+                    iconColor: '#c4f0ff',
+                    color: '#7e7e7e',
+                    fontWeight: 'normal',
+                    fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
+                    fontSize: '16px',
+                    fontSmoothing: 'antialiased',
+                    ':-webkit-autofill': {
                         color: '#7e7e7e',
-                        fontWeight: 'normal',
-                        fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
-                        fontSize: '16px',
-                        fontSmoothing: 'antialiased',
-                        ':-webkit-autofill': {
-                            color: '#7e7e7e',
-                        },
-                        '::placeholder': {
-                            color: '#7e7e7e',
-                        },
                     },
-                    invalid: {
-                        iconColor: 'red',
+                    '::placeholder': {
                         color: '#7e7e7e',
                     },
                 },
-            });
+                invalid: {
+                    iconColor: 'red',
+                    color: '#7e7e7e',
+                },
+            },
+        });
 
-            cardElement.mount('#card-element');
+        cardElement.mount('#card-element');
 
-            const cardButton = document.getElementById('submit-button');
+        const cardButton = document.getElementById('submit-button');
 
-            cardButton.addEventListener('click', async (e) => {
-                e.preventDefault();
+        cardButton.addEventListener('click', async (e) => {
+            e.preventDefault();
 
-                const {
-                    paymentMethod,
-                    error
-                } = await stripe.createPaymentMethod('card', cardElement);
+            const {
+                paymentMethod,
+                error
+            } = await stripe.createPaymentMethod('card', cardElement);
 
-                if (error) {
-                    console.log(error);
-                } else {
-                    document.getElementById('payment_method').value = paymentMethod.id;
-                }
+            if (error) {
+                console.log(error);
+            } else {
+                document.getElementById('payment_method').value = paymentMethod.id;
+            }
 
 
-                // validation des champs de addressBill
-                validateFormBill();
+            // validation des champs de addressBill
+            validateFormBill();
 
-                if (!unvalidBill) {
-                    document.getElementById('form_payment').submit();
-                }
+            if (!unvalidBill) {
+                document.getElementById('form_payment').submit();
+            }
 
+        })
+    </script>
+
+    <!-- changePage block -->
+    <script>
+        var page = 'livraison';
+        var unvalid = true;
+        var unvalidBill = true;
+        var modeShipping = '';
+        var informationsIsValid = false;
+        var shippingIsValid = false;
+        var paymentIsValid = false;
+
+        // show link to cart
+        document.getElementById('go_to_panier').style.display = 'inline-block';
+
+        // <-- breadcrumb -->
+        var ariane_information = document.getElementById('ariane_information');
+        var ariane_shipping = document.getElementById('ariane_shipping');
+        var ariane_payment = document.getElementById('ariane_payment');
+
+        // <-- breadcrumb initialisation fontWeight bold "Informations" -->
+        ariane_information.style.color = '#000';
+        ariane_information.style.fontWeight = 'bold';
+
+        // link to page "information"
+        var goto_information = document.getElementsByClassName('go_to_information');
+        for (let i = 0; i < goto_information.length; i++) {
+            goto_information[i].addEventListener('click', function() {
+                page = 'information';
+                document.getElementById('bill_block').style.display = 'none';
+                document.getElementById('submit-button').style.display = 'none';
+                document.getElementById('shippingRegisterSubmit').style.display = 'none';
+                document.getElementById('authRegisterSubmit').style.display = 'block';
+                // réinitialise CalculeALEtapeSuivante pour afficher 'Calculé à l\'étape suivante' pour le prix de livraison
+                CalculeALEtapeSuivante();
+                changePage();
             })
-        </script>
+        }
 
+        // link to page "shipping"
+        var goto_shipping = document.getElementsByClassName('go_to_shipping');
+        for (let i = 0; i < goto_shipping.length; i++) {
+            goto_shipping[i].addEventListener('click', function() {
+                page = 'livraison';
+                document.getElementById('bill_block').style.display = 'none';
+                document.getElementById('submit-button').style.display = 'none';
+                document.getElementById('authRegisterSubmit').style.display = 'none';
+                document.getElementById('shippingRegisterSubmit').style.display = 'block';
+                changePage();
+            })
+        }
 
-        <script>
-            var page = 'livraison';
-            var unvalid = true;
-            var unvalidBill = true;
-            var modeShipping = '';
-            var informationsIsValid = false;
-            var shippingIsValid = false;
-            var paymentIsValid = false;
+        // link to page "payment"
+        // var goto_payment = document.getElementsByClassName('goto_payment');
+        // for (let i = 0; i < goto_payment.length; i++) {
+        //     goto_payment[i].addEventListener('click', function() {
+        //         page = 'payment';
+        //         document.getElementById('bill_block').style.display = 'none';
+        //         changePage();
+        //     })
+        // }
 
-            // show link to cart
-            document.getElementById('go_to_panier').style.display = 'inline-block';
-
-            // <-- breadcrumb -->
-            var ariane_information = document.getElementById('ariane_information');
-            var ariane_shipping = document.getElementById('ariane_shipping');
-            var ariane_payment = document.getElementById('ariane_payment');
-
-            // <-- breadcrumb initialisation fontWeight bold "Informations" -->
-            ariane_information.style.color = '#000';
-            ariane_information.style.fontWeight = 'bold';
-
-            // link to page "information"
-            var goto_information = document.getElementsByClassName('go_to_information');
-            for (let i = 0; i < goto_information.length; i++) {
-                goto_information[i].addEventListener('click', function() {
-                    page = 'information';
-                    document.getElementById('bill_block').style.display = 'none';
-                    document.getElementById('submit-button').style.display = 'none';
-                    document.getElementById('shippingRegisterSubmit').style.display = 'none';
-                    document.getElementById('authRegisterSubmit').style.display = 'block';
-                    // réinitialise CalculeALEtapeSuivante pour afficher 'Calculé à l\'étape suivante' pour le prix de livraison
-                    CalculeALEtapeSuivante();
-                    changePage();
-                })
+        // assigne le mode de livraison choisi  
+        var mode_shipping = document.getElementsByName('mode_shipping');
+        for (let i = 0; i < mode_shipping.length; i++) {
+            if (mode_shipping[i].checked) {
+                modeShipping = mode_shipping[i].value;
             }
+        }
 
-            // link to page "shipping"
-            var goto_shipping = document.getElementsByClassName('go_to_shipping');
-            for (let i = 0; i < goto_shipping.length; i++) {
-                goto_shipping[i].addEventListener('click', function() {
-                    page = 'livraison';
-                    document.getElementById('bill_block').style.display = 'none';
-                    document.getElementById('submit-button').style.display = 'none';
-                    document.getElementById('authRegisterSubmit').style.display = 'none';
-                    document.getElementById('shippingRegisterSubmit').style.display = 'block';
-                    changePage();
-                })
-            }
+        // assigne le mode de livraison choisi  
+        function get_mode_shipping(modeShippingSlected) {
+            modeShipping = modeShippingSlected;
+        }
 
-            // link to page "payment"
-            // var goto_payment = document.getElementsByClassName('goto_payment');
-            // for (let i = 0; i < goto_payment.length; i++) {
-            //     goto_payment[i].addEventListener('click', function() {
-            //         page = 'payment';
-            //         document.getElementById('bill_block').style.display = 'none';
-            //         changePage();
-            //     })
-            // }
+        // navigue à travers les pages du formulaire de paiement
+        function changePage() {
+            event.preventDefault();
 
-            // assigne le mode de livraison choisi  
-            var mode_shipping = document.getElementsByName('mode_shipping');
-            for (let i = 0; i < mode_shipping.length; i++) {
-                if (mode_shipping[i].checked) {
-                    modeShipping = mode_shipping[i].value;
+            validateForm();
+
+            if (!unvalid) {
+                // hide all link to previous page
+                var links = document.getElementsByClassName('payment_link');
+                for (let i = 0; i < links.length; i++) {
+                    links[i].style.display = 'none';
                 }
             }
 
-            // assigne le mode de livraison choisi  
-            function get_mode_shipping(modeShippingSlected) {
-                modeShipping = modeShippingSlected;
-            }
+            // récupère toutes les données pour les afficher dans "le cadre Vos informations" et pour les submit dans un formData
+            var first_name_data = document.getElementById('first_name').value;
+            var last_name_data = document.getElementById('last_name').value;
+            var email_data = document.getElementById('email').value;
+            var address_data = document.getElementById('address').value;
+            var addressComment_data = document.getElementById('addressComment').value;
+            var cp_data = document.getElementById('cp').value;
+            var city_data = document.getElementById('city').value;
+            var country_data = document.getElementById('country').value;
 
-            // navigue à travers les pages du formulaire de paiement
-            function changePage() {
-                event.preventDefault();
+            var address = address_data + ' ' + addressComment_data + ' ' + cp_data + ' ' + city_data + ' ' + country_data;
 
-                validateForm();
-
-                if (!unvalid) {
-                    // hide all link to previous page
-                    var links = document.getElementsByClassName('payment_link');
-                    for (let i = 0; i < links.length; i++) {
-                        links[i].style.display = 'none';
-                    }
-                }
-
-                // récupère toutes les données pour les afficher dans "le cadre Vos informations" et pour les submit dans un formData
-                var first_name_data = document.getElementById('first_name').value;
-                var last_name_data = document.getElementById('last_name').value;
-                var email_data = document.getElementById('email').value;
-                var address_data = document.getElementById('address').value;
-                var addressComment_data = document.getElementById('addressComment').value;
-                var cp_data = document.getElementById('cp').value;
-                var city_data = document.getElementById('city').value;
-                var country_data = document.getElementById('country').value;
-
-                var address = address_data + ' ' + addressComment_data + ' ' + cp_data + ' ' + city_data + ' ' + country_data;
-
-                var formData = new FormData();
-                formData.append("first_name", first_name_data);
-                formData.append("last_name", last_name_data);
-                formData.append("email", email_data);
-                formData.append("address", address_data);
-                formData.append("addressComment", addressComment_data);
-                formData.append("cp", cp_data);
-                formData.append("city", city_data);
-                formData.append("country", country_data);
+            var formData = new FormData();
+            formData.append("first_name", first_name_data);
+            formData.append("last_name", last_name_data);
+            formData.append("email", email_data);
+            formData.append("address", address_data);
+            formData.append("addressComment", addressComment_data);
+            formData.append("cp", cp_data);
+            formData.append("city", city_data);
+            formData.append("country", country_data);
 
 
-                if (!unvalid) {
-                    var information_block = document.getElementById('information_block');
-                    var shipping_block = document.getElementById('shipping_block');
-                    var payment_block = document.getElementById('payment_block');
-                    var submit_button = document.getElementById('submit-button');
-                    var authRegisterSubmit = document.getElementById('authRegisterSubmit');
-                    var contact_control = document.getElementById('contact_control');
-                    var adress_control = document.getElementById('adress_control');
-                    var contact_control_payment = document.getElementById('contact_control_payment').innerHTML = email_data;
-                    var adress_control_payment = document.getElementById('adress_control_payment')
-                    var shipping_control = document.getElementById('shipping_control');
-                    var card_element = document.getElementById('card-element');
+            if (!unvalid) {
+                var information_block = document.getElementById('information_block');
+                var shipping_block = document.getElementById('shipping_block');
+                var payment_block = document.getElementById('payment_block');
+                var submit_button = document.getElementById('submit-button');
+                var authRegisterSubmit = document.getElementById('authRegisterSubmit');
+                var contact_control = document.getElementById('contact_control');
+                var adress_control = document.getElementById('adress_control');
+                var contact_control_payment = document.getElementById('contact_control_payment').innerHTML = email_data;
+                var adress_control_payment = document.getElementById('adress_control_payment')
+                var shipping_control = document.getElementById('shipping_control');
+                var card_element = document.getElementById('card-element');
 
-                    switch (page) {
-                        case 'information':
-                            hide_bill_block();
+                switch (page) {
+                    case 'information':
+                        hide_bill_block();
 
-                            information_block.style.display = 'inline-block';
-                            shipping_block.style.display = 'none';
-                            payment_block.style.display = 'none';
-                            submit_button.style.display = 'none';
-                            shippingRegisterSubmit.style.display = 'none';
-                            authRegisterSubmit.style.display = 'block';
-                            authRegisterSubmit.innerHTML = 'Continuer vers l\'expédition';
-                            go_to_panier.style.display = 'inline-block';
+                        information_block.style.display = 'inline-block';
+                        shipping_block.style.display = 'none';
+                        payment_block.style.display = 'none';
+                        submit_button.style.display = 'none';
+                        shippingRegisterSubmit.style.display = 'none';
+                        authRegisterSubmit.style.display = 'block';
+                        authRegisterSubmit.innerHTML = 'Continuer vers l\'expédition';
+                        go_to_panier.style.display = 'inline-block';
 
-                            // <-- breadcrumb -->
-                            ariane_information.style.color = '#000';
-                            ariane_information.style.fontWeight = 'bold';
-                            ariane_information.onclick = null;
-                            ariane_information.addEventListener("mousemove", function() {
-                                ariane_information.style.cursor = 'text';
-                            });
+                        // <-- breadcrumb -->
+                        ariane_information.style.color = '#000';
+                        ariane_information.style.fontWeight = 'bold';
+                        ariane_information.onclick = null;
+                        ariane_information.addEventListener("mousemove", function() {
+                            ariane_information.style.cursor = 'text';
+                        });
 
-                            // affiche "Calculé à l'étape suivante" dans le décompte du panier
-                            CalculeALEtapeSuivante();
+                        // affiche "Calculé à l'étape suivante" dans le décompte du panier
+                        CalculeALEtapeSuivante();
 
-                            // si les informations ont déjà été validées au moins une fois alors le breadcrum ariane_shipping doit être activé sinon non
-                            if (informationsIsValid) {
-                                ariane_shipping.style.color = '#bb1e0c';
-                                ariane_shipping.style.fontWeight = 'normal';
-                                ariane_shipping.onclick = function() {
-                                    page = 'livraison';
-                                    changePage();
-                                }
-                                ariane_shipping.addEventListener("mousemove", function() {
-                                    ariane_shipping.style.cursor = 'pointer';
-                                });
-                            } else {
-                                ariane_shipping.style.color = '#000';
-                                ariane_shipping.style.fontWeight = 'normal';
-                                ariane_shipping.onclick = null;
-                                ariane_shipping.addEventListener("mousemove", function() {
-                                    ariane_shipping.style.cursor = 'text';
-                                });
-                            }
-
-                            // activation du lien paiement vers payment si étape précédente validée au moins une fois
-                            if (paymentIsValid) {
-                                ariane_payment.style.color = '#bb1e0c';
-                                ariane_payment.style.fontWeight = 'normal';
-                                ariane_payment.onclick = function() {
-                                    page = 'payment';
-                                    changePage();
-                                }
-                                ariane_payment.addEventListener("mousemove", function() {
-                                    ariane_payment.style.cursor = 'pointer';
-                                });
-                            } else {
-                                ariane_payment.style.color = '#000';
-                                ariane_payment.style.fontWeight = 'normal';
-                                ariane_payment.onclick = null;
-                                ariane_payment.addEventListener("mousemove", function() {
-                                    ariane_payment.style.cursor = 'text';
-                                });
-                            }
-
-                            page = 'livraison';
-                            break;
-                        case 'livraison':
-                            hide_bill_block();
-
-                            informationsIsValid = true;
-                            information_block.style.display = 'none';
-                            payment_block.style.display = 'none';
-                            shipping_block.style.display = 'inline-block';
-                            authRegisterSubmit.style.display = 'none';
-                            shippingRegisterSubmit.style.display = 'block';
-                            submit_button.style.display = 'none';
-                            go_to_information.style.display = 'inline-block';
-                            // contact_control.innerHTML = email_data;
-                            // adress_control.innerHTML = address;
-                            page = 'payment';
-
-                            // affiche le prix du transport dans le décompte du panier
-                            get_shipping_price_realTime();
-
-                            // <-- breadcrumb -->
-                            ariane_information.style.color = '#bb1e0c';
-                            ariane_information.style.fontWeight = 'normal';
-                            ariane_information.onclick = function() {
-                                page = 'information';
-                                changePage();
-                            }
-                            ariane_information.addEventListener("mousemove", function() {
-                                ariane_information.style.cursor = 'pointer';
-                            });
-
-                            ariane_shipping.style.color = '#000';
-                            ariane_shipping.style.fontWeight = 'bold';
-                            ariane_shipping.onclick = null;
-                            ariane_shipping.addEventListener("mousemove", function() {
-                                ariane_shipping.style.cursor = 'text';
-                            });
-
-                            // si lle shipping a été validé alors payment doit être activé lorsqu'on revient vers les précétdentes pages  pcq tous ce qui menait à payment a été validé
-                            if (shippingIsValid) {
-                                ariane_payment.style.color = '#bb1e0c';
-                                ariane_payment.style.fontWeight = 'normal';
-                                ariane_payment.onclick = function() {
-                                    page = 'payment';
-                                    changePage();
-                                }
-                                ariane_payment.addEventListener("mousemove", function() {
-                                    ariane_payment.style.cursor = 'pointer';
-                                });
-                            } else {
-                                ariane_payment.style.color = '#000';
-                                ariane_payment.style.fontWeight = 'normal';
-                                ariane_payment.onclick = null;
-                                ariane_payment.addEventListener("mousemove", function() {
-                                    ariane_payment.style.cursor = 'text';
-                                });
-                            }
-
-                            break;
-                        case 'payment':
-                            if (document.getElementById('address_different_ship').checked) {
-                                show_bill_block();
-                            }
-                            shippingIsValid = true;
-                            paymentIsValid = true;
-                            information_block.style.display = 'none';
-                            shipping_block.style.display = 'none';
-                            payment_block.style.display = 'inline-block';
-                            authRegisterSubmit.style.display = 'none';
-                            shippingRegisterSubmit.style.display = 'none';
-                            go_to_shipping.style.display = 'inline-block';
-                            contact_control_payment.innerHTML = email_data;
-                            adress_control_payment.innerHTML = address;
-                            shipping_control.innerHTML = modeShipping;
-                            card_element.style.display = 'block';
-                            submit_button.style.display = 'block';
-                            submit_button.innerHTML = 'Payer maintenant';
-
-                            // state_bill_block sert à conserver l'état du bill_block lorsqu'on revient en arrière vers l'expédition dans le formulaire de paiement
-                            if (state_bill_block == 'show') show_bill_block();
-                            if (state_bill_block == 'hide') hide_bill_block();
-
-
-                            // affiche le prix du transport dans le décompte du panier
-                            get_shipping_price_realTime();
-
-                            // <-- breadcrumb -->
-                            ariane_information.style.color = '#bb1e0c';
-                            ariane_information.style.fontWeight = 'normal';
-                            ariane_information.onclick = function() {
-                                page = 'information';
-                                changePage();
-                            }
-                            ariane_information.addEventListener("mousemove", function() {
-                                ariane_information.style.cursor = 'pointer';
-                            });
-                            // on active le lien vers shipping puisqu'il a été validé précédement
+                        // si les informations ont déjà été validées au moins une fois alors le breadcrum ariane_shipping doit être activé sinon non
+                        if (informationsIsValid) {
                             ariane_shipping.style.color = '#bb1e0c';
                             ariane_shipping.style.fontWeight = 'normal';
                             ariane_shipping.onclick = function() {
@@ -737,113 +676,248 @@
                             ariane_shipping.addEventListener("mousemove", function() {
                                 ariane_shipping.style.cursor = 'pointer';
                             });
+                        } else {
+                            ariane_shipping.style.color = '#000';
+                            ariane_shipping.style.fontWeight = 'normal';
+                            ariane_shipping.onclick = null;
+                            ariane_shipping.addEventListener("mousemove", function() {
+                                ariane_shipping.style.cursor = 'text';
+                            });
+                        }
 
+                        // activation du lien paiement vers payment si étape précédente validée au moins une fois
+                        if (paymentIsValid) {
+                            ariane_payment.style.color = '#bb1e0c';
+                            ariane_payment.style.fontWeight = 'normal';
+                            ariane_payment.onclick = function() {
+                                page = 'payment';
+                                changePage();
+                            }
+                            ariane_payment.addEventListener("mousemove", function() {
+                                ariane_payment.style.cursor = 'pointer';
+                            });
+                        } else {
                             ariane_payment.style.color = '#000';
-                            ariane_payment.style.fontWeight = 'bold';
+                            ariane_payment.style.fontWeight = 'normal';
                             ariane_payment.onclick = null;
                             ariane_payment.addEventListener("mousemove", function() {
                                 ariane_payment.style.cursor = 'text';
                             });
+                        }
 
-                            break;
-                        default:
-                            information_block.style.display = 'block';
-                            shipping_block.style.display = 'none';
-                    }
+                        page = 'livraison';
+                        break;
+                    case 'livraison':
+                        hide_bill_block();
+
+                        informationsIsValid = true;
+                        information_block.style.display = 'none';
+                        payment_block.style.display = 'none';
+                        shipping_block.style.display = 'inline-block';
+                        authRegisterSubmit.style.display = 'none';
+                        shippingRegisterSubmit.style.display = 'block';
+                        submit_button.style.display = 'none';
+                        go_to_information.style.display = 'inline-block';
+                        // contact_control.innerHTML = email_data;
+                        // adress_control.innerHTML = address;
+                        page = 'payment';
+
+                        // affiche le prix du transport dans le décompte du panier
+                        get_shipping_price_realTime();
+
+                        // <-- breadcrumb -->
+                        ariane_information.style.color = '#bb1e0c';
+                        ariane_information.style.fontWeight = 'normal';
+                        ariane_information.onclick = function() {
+                            page = 'information';
+                            changePage();
+                        }
+                        ariane_information.addEventListener("mousemove", function() {
+                            ariane_information.style.cursor = 'pointer';
+                        });
+
+                        ariane_shipping.style.color = '#000';
+                        ariane_shipping.style.fontWeight = 'bold';
+                        ariane_shipping.onclick = null;
+                        ariane_shipping.addEventListener("mousemove", function() {
+                            ariane_shipping.style.cursor = 'text';
+                        });
+
+                        // si lle shipping a été validé alors payment doit être activé lorsqu'on revient vers les précétdentes pages  pcq tous ce qui menait à payment a été validé
+                        if (shippingIsValid) {
+                            ariane_payment.style.color = '#bb1e0c';
+                            ariane_payment.style.fontWeight = 'normal';
+                            ariane_payment.onclick = function() {
+                                page = 'payment';
+                                changePage();
+                            }
+                            ariane_payment.addEventListener("mousemove", function() {
+                                ariane_payment.style.cursor = 'pointer';
+                            });
+                        } else {
+                            ariane_payment.style.color = '#000';
+                            ariane_payment.style.fontWeight = 'normal';
+                            ariane_payment.onclick = null;
+                            ariane_payment.addEventListener("mousemove", function() {
+                                ariane_payment.style.cursor = 'text';
+                            });
+                        }
+
+                        break;
+                    case 'payment':
+                        if (document.getElementById('address_different_ship').checked) {
+                            show_bill_block();
+                        }
+                        shippingIsValid = true;
+                        paymentIsValid = true;
+                        information_block.style.display = 'none';
+                        shipping_block.style.display = 'none';
+                        payment_block.style.display = 'inline-block';
+                        authRegisterSubmit.style.display = 'none';
+                        shippingRegisterSubmit.style.display = 'none';
+                        go_to_shipping.style.display = 'inline-block';
+                        contact_control_payment.innerHTML = email_data;
+                        adress_control_payment.innerHTML = address;
+                        shipping_control.innerHTML = modeShipping;
+                        card_element.style.display = 'block';
+                        submit_button.style.display = 'block';
+                        submit_button.innerHTML = 'Payer maintenant';
+
+                        // state_bill_block sert à conserver l'état du bill_block lorsqu'on revient en arrière vers l'expédition dans le formulaire de paiement
+                        if (state_bill_block == 'show') show_bill_block();
+                        if (state_bill_block == 'hide') hide_bill_block();
+
+
+                        // affiche le prix du transport dans le décompte du panier
+                        get_shipping_price_realTime();
+
+                        // <-- breadcrumb -->
+                        ariane_information.style.color = '#bb1e0c';
+                        ariane_information.style.fontWeight = 'normal';
+                        ariane_information.onclick = function() {
+                            page = 'information';
+                            changePage();
+                        }
+                        ariane_information.addEventListener("mousemove", function() {
+                            ariane_information.style.cursor = 'pointer';
+                        });
+                        // on active le lien vers shipping puisqu'il a été validé précédement
+                        ariane_shipping.style.color = '#bb1e0c';
+                        ariane_shipping.style.fontWeight = 'normal';
+                        ariane_shipping.onclick = function() {
+                            page = 'livraison';
+                            changePage();
+                        }
+                        ariane_shipping.addEventListener("mousemove", function() {
+                            ariane_shipping.style.cursor = 'pointer';
+                        });
+
+                        ariane_payment.style.color = '#000';
+                        ariane_payment.style.fontWeight = 'bold';
+                        ariane_payment.onclick = null;
+                        ariane_payment.addEventListener("mousemove", function() {
+                            ariane_payment.style.cursor = 'text';
+                        });
+
+                        break;
+                    default:
+                        information_block.style.display = 'block';
+                        shipping_block.style.display = 'none';
                 }
             }
+        }
 
 
-            // check si tous les champs sont remplis et si l'adresse email est valide
-            function validateForm() {
-                var checkBox = document.getElementById("conserve");
-                var password = document.getElementById("password");
-                var spanMessageError = document.getElementById("password_");
+        // check si tous les champs sont remplis et si l'adresse email est valide
+        function validateForm() {
+            var checkBox = document.getElementById("conserve");
+            var password = document.getElementById("password");
+            var spanMessageError = document.getElementById("password_");
 
-                var missingCount = 0;
-                var missingFields = document.getElementsByClassName('missingField');
+            var missingCount = 0;
+            var missingFields = document.getElementsByClassName('missingField');
 
-                for (let i = 0; i < missingFields.length; i++) {
-                    if (missingFields[i].value.length == 0) {
-                        document.getElementById(missingFields[i].id + '_').style.display = 'block';
-                        missingCount++;
-                        unvalid = true;
-                    }
-                    if (missingCount === 0) {
-                        document.getElementById(missingFields[i].id + '_').style.display = 'none';
-                        unvalid = false;
-                    }
-                }
-                if (missingCount === 0) {
-                    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-                    var email = document.getElementById('email').value;
-                    console.log(email);
-                    if (email.match(mailformat)) {
-                        unvalid = false;
-                    } else {
-                        document.getElementById('email_').style.display = 'block';
-                        unvalid = true;
-                    }
-
-                }
-                if (password.value.length < 8) {
-                    spanMessageError.style.display = "block";
-                    spanMessageError.innerHTML = "Entrez un mot de passe de minimum 8 caractères";
+            for (let i = 0; i < missingFields.length; i++) {
+                if (missingFields[i].value.length == 0) {
+                    document.getElementById(missingFields[i].id + '_').style.display = 'block';
+                    missingCount++;
                     unvalid = true;
                 }
-                if (password.value.length >= 8) {
-                    spanMessageError.style.display = "none";
+                if (missingCount === 0) {
+                    document.getElementById(missingFields[i].id + '_').style.display = 'none';
                     unvalid = false;
                 }
-
             }
-
-           // check si tous les champs de l'adresse de livraison sont remplis 
-            function validateFormShipping(keepToChangPage) {
-                var missingCount = 0;
-                var missingFields = document.getElementsByClassName('missingFieldShipping');
-                for (let i = 0; i < missingFields.length; i++) {
-                    if (missingFields[i].value.length == 0) {
-                        document.getElementById(missingFields[i].id + '_').style.display = 'block';
-                        missingCount++;
-                        unvalidBill = true;
-                    }
-                    if (missingCount === 0) {
-                        document.getElementById(missingFields[i].id + '_').style.display = 'none';
-                        unvalidBill = false;
-                    }
+            if (missingCount === 0) {
+                var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                var email = document.getElementById('email').value;
+                console.log(email);
+                if (email.match(mailformat)) {
+                    unvalid = false;
+                } else {
+                    document.getElementById('email_').style.display = 'block';
+                    unvalid = true;
                 }
-                if (missingCount === 0 && keepToChangPage == 'keepToChangPage') changePage();
+
+            }
+            if (password.value.length < 8) {
+                spanMessageError.style.display = "block";
+                spanMessageError.innerHTML = "Entrez un mot de passe de minimum 8 caractères";
+                unvalid = true;
+            }
+            if (password.value.length >= 8) {
+                spanMessageError.style.display = "none";
+                unvalid = false;
             }
 
-            // check si tous les champs de l'adresse de facturation sont remplis
-            function validateFormBill() {
-                var missingCount = 0;
-                var missingFields = document.getElementsByClassName('missingFieldBill');
-                for (let i = 0; i < missingFields.length; i++) {
-                    if (missingFields[i].value.length == 0) {
-                        document.getElementById(missingFields[i].id + '_').style.display = 'block';
-                        missingCount++;
-                        unvalidBill = true;
-                    }
-                    if (missingCount === 0) {
-                        document.getElementById(missingFields[i].id + '_').style.display = 'none';
-                        unvalidBill = false;
-                    }
+        }
+
+        // check si tous les champs de l'adresse de livraison sont remplis 
+        function validateFormShipping(keepToChangPage) {
+            var missingCount = 0;
+            var missingFields = document.getElementsByClassName('missingFieldShipping');
+            for (let i = 0; i < missingFields.length; i++) {
+                if (missingFields[i].value.length == 0) {
+                    document.getElementById(missingFields[i].id + '_').style.display = 'block';
+                    missingCount++;
+                    unvalidBill = true;
+                }
+                if (missingCount === 0) {
+                    document.getElementById(missingFields[i].id + '_').style.display = 'none';
+                    unvalidBill = false;
                 }
             }
+            if (missingCount === 0 && keepToChangPage == 'keepToChangPage') changePage();
+        }
 
-            // efface les champs de "adresse de facturation"
-            function removeAllFieldsFormBill() {
-                var missingFields = document.getElementsByClassName('missingFieldBill');
-                for (let i = 0; i < missingFields.length; i++) {
-                    missingFields[i].value = null
+        // check si tous les champs de l'adresse de facturation sont remplis
+        function validateFormBill() {
+            var missingCount = 0;
+            var missingFields = document.getElementsByClassName('missingFieldBill');
+            for (let i = 0; i < missingFields.length; i++) {
+                if (missingFields[i].value.length == 0) {
+                    document.getElementById(missingFields[i].id + '_').style.display = 'block';
+                    missingCount++;
+                    unvalidBill = true;
                 }
-                document.getElementById('addressCommentBill').value = null;
+                if (missingCount === 0) {
+                    document.getElementById(missingFields[i].id + '_').style.display = 'none';
+                    unvalidBill = false;
+                }
             }
-        </script>
+        }
 
-    </form>
+        // efface les champs de "adresse de facturation"
+        function removeAllFieldsFormBill() {
+            var missingFields = document.getElementsByClassName('missingFieldBill');
+            for (let i = 0; i < missingFields.length; i++) {
+                missingFields[i].value = null
+            }
+            document.getElementById('addressCommentBill').value = null;
+        }
+    </script>
+
+
 
 </div>
 

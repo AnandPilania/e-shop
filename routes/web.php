@@ -1,6 +1,7 @@
 <?php
 
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
@@ -20,8 +21,8 @@ use App\Http\Controllers\FrontEndController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ProductSheetController;
 use App\Http\Controllers\ProductDetailController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Type_detail_productController;
-use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -100,6 +101,9 @@ Route::post('/cartUpdate', [CartController::class, 'update']);
 
 // show payment view and give $cart_session data
 Route::get('/paiement', [PaymentController::class, 'index']);
+
+// check if email exist
+Route::get('/checkEmailExist/{email}', [RegisteredUserController::class, 'checkEmailExist']);
 
 
 Route::get('/logout', function () {
