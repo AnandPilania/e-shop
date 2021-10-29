@@ -20,5 +20,8 @@
 			<li><a href="/login">login</a></li>
 			<li><a href="/logout">logout</a></li>
 			<li><a href="/panier">Panier</a></li>
+			@if (auth()->user())
+			<li>{{ auth()->user()->first_name }}</li>
+			@endif
 	</ul>
 </nav>

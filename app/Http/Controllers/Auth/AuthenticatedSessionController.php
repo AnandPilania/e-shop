@@ -27,13 +27,23 @@ class AuthenticatedSessionController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(LoginRequest $request)
-    {
+    {  
         $request->authenticate();
 
         $request->session()->regenerate();
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }
+
+    public function storeFromEmailExist(LoginRequest $request)
+    {  
+        $request->authenticate();
+
+        $request->session()->regenerate();
+
+        return redirect('/paiement');
+    }
+
 
     /**
      * Destroy an authenticated session.

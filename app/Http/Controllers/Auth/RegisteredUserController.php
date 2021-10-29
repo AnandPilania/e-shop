@@ -73,7 +73,7 @@ class RegisteredUserController extends Controller
             'cityBill' => 'nullable|string|max:255',
         ]);
 
-        dd($request);
+        // dd($request);
         $user = new User;
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
@@ -119,8 +119,9 @@ class RegisteredUserController extends Controller
     }
 
     public function checkEmailExist($email) {
-        
-        $exist = User::where('email', $email);
+ 
+        $exist = User::where('email', $email)->first();
+   
         if ($exist) {
             return 'exist';
         } else {

@@ -20,7 +20,7 @@
                 @else
                 <span class="qnt">1</span>
                 @endif
-                
+
             </figure>
 
             <div class="text_cart_card">
@@ -59,20 +59,93 @@
             </div>
             <div class="payment_shipping_price">
                 <h3>Livraison</h3>
-                <h3 id="payment_shipping_Id"><span  id="CalculeALEtapeSuivante">Calculé à l'étape suivante</span></h3>
+                <h3 id="payment_shipping_Id"><span id="CalculeALEtapeSuivante">Calculé à l'étape suivante</span></h3>
             </div>
             <div class="payment_total_price">
                 <h3>Total</h3>
                 <h3 id="payment_total_Id"></h3>
             </div>
         </div>
-
     </div>
+
+
+
+    <!-- The Modal  -->
+    <!-- Le CSS est en partie dans productSheet.scss pour le fonctionnement général et en partie dans authentification.scss pour l'interieur de la modal -->
+    <div id="existEmalModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content modalExistEmail-content">
+            <div class="modal-header">
+                <span id="closeExistEmailModal">&#10006;</span>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ route('emailExisit') }}" id="formEmailExist">
+                    @csrf
+                    <h4>L’adresse e-mail que vous avez saisie est déjà enregistrée</h4>
+                    <h4>Connectez-vous à votre Espace Client</h4>
+                    <div class="input-container emailExistInput-container">
+                        <input id="emailExist" type="email" name="email" required />
+                        <input type="Password" autocomplete="new-password" name="password" id="loginPasswordModal" required>
+                        <label for="loginPasswordModal">Entrez votre mot de passe</label>
+                        <span id="password_" class="missingFieldMessage missingMargin">Entrez un mot de passe</span>
+                    </div>
+                    <div class="existEmailButtonGroup">
+                        <button onclick="loginFromExistEmail();">Connexion</button>
+                        <button id="AnnulerExistEmailLogin">Annuler</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+    </div>
+    <script>
+        // Modal handle
+        var modal = document.getElementById("existEmalModal");
+
+        var closeModalSpan = document.getElementById("closeExistEmailModal");
+        var AnnulerExistEmailLogin = document.getElementById("AnnulerExistEmailLogin");
+
+        closeModalSpan.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        AnnulerExistEmailLogin.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        document.getElementById('emailExist').value = document.getElementById('email').value;
+
+        function loginFromExistEmail() {
+
+
+            document.getElementById('formEmailExist').submit();
+
+
+            // var formData = new FormData();
+            // var password = document.getElementById("loginPasswordModal");
+            // var email = document.getElementById('email').value;
+            // formData.append("email", email);
+            // formData.append("password", password);
+
+            // axios.post(`http://127.0.0.1:8000/login`, formData)
+            //     .then(res => {
+            //         console.log('res.data  --->  ok connected');
+            //     }).catch(function(error) {
+            //         console.log('error:   ' + error);
+            //     });
+        }
+    </script>
 
 </div>
 
 <script>
-
     var shippingModePrice = 0;
     var first = 0;
 
@@ -104,7 +177,7 @@
         } else {
             get_shipping_price(4.99);
         }
-            
+
     }
 
     // réinitialise CalculeALEtapeSuivante pour afficher 'Calculé à l\'étape suivante' dans le cadre d'information
@@ -128,8 +201,8 @@
         }
     };
 
-        // calcule le total des prix
-        function calculTotalPrice() {
+    // calcule le total des prix
+    function calculTotalPrice() {
         var allPrices = document.getElementsByClassName('payment_price_list');
         var total_price = 0;
 
@@ -137,7 +210,7 @@
             for (var j = 0; j < allPrices.length; j++) {
                 total_price += parseFloat(allPrices[j].innerHTML);
             }
-            
+
             total_price += shippingModePrice;
 
             document.getElementById('payment_total_Id').innerHTML = total_price + '&nbsp;<span>€</span>'

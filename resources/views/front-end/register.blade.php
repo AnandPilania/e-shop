@@ -407,58 +407,7 @@
 
         <p id="infosRgpd">Les informations recueillies à partir de ce formulaire font l'objet d'un traitement informatique destiné au service marketing de Mon Site de E-Commerce, et sont utilisées pour le traitement de votre demande et pour vous informer sur nos offres. Conformément à la loi "informatique et libertés" du 6 janvier 1978 modifiée, vous disposez d'un droit d'accès et de rectification aux informations qui vous concernent. Vous pouvez également, pour des motifs légitimes, vous opposer au traitement des données vous concernant. Vous pouvez accéder aux informations qui vous concernent en vous adressant à : contact.client@mmonsite.com. Pour en savoir plus, consultez vos droits sur le site de la CNIL</p>
 
-        <!-- The Modal --- The Modal ---The Modal ---The Modal -->
-        <div id="existEmalModal">
 
-            <!-- Modal content -->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <span id="closeExistEmailModal">&#10006;</span>
-                </div>
-
-                <div class="modal-body">
-                    <h4>L’adresse e-mail que vous avez saisie est déjà enregistrée</h4>
-                    <h4>Connectez-vous à votre Espace Client</h4>
-
-
-
-                </div>
-            </div>
-
-            <div class="modal-footer">
-            </div>
-
-        </div>
-
-        <script>
-            // Get the modal
-            var modal = document.getElementById("existEmalModal");
-
-            // Get the button that opens the modal
-            // var btn = document.getElementById("reviewBtn");
-
-            // Get the <span> element that closes the modal
-            var span = document.getElementById("closeExistEmailModal");
-
-            // When the user clicks the button, open the modal 
-            // btn.onclick = function() {
-            //     modal.style.display = "block";
-            //     // se positionne sur le premier slide
-            //     document.getElementById('a-slide-1').click();
-            // }
-
-            // When the user clicks on <span> (x), close the modal
-            span.onclick = function() {
-                modal.style.display = "none";
-            }
-
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            }
-        </script>
     </form>
     <!-- Stripe block -->
     <script>
