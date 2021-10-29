@@ -103,7 +103,7 @@ Route::post('/cartUpdate', [CartController::class, 'update']);
 Route::get('/paiement', [PaymentController::class, 'index']);
 
 // check if email exist
-Route::get('/checkEmailExist/{email}', [RegisteredUserController::class, 'checkEmailExist']);
+Route::post('/checkEmailExist', [RegisteredUserController::class, 'checkEmailExist']);
 
 
 Route::get('/logout', function () {

@@ -121,7 +121,7 @@
         }
 
         document.getElementById('emailExist').value = document.getElementById('email').value;
-
+        // PROPOSER DE REINITIALISER SON MOT DE PASSE DANS LA MODAL DE EMAIL EXIST !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         function loginFromExistEmail() {
 
 

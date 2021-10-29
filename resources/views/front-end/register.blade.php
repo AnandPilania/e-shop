@@ -388,9 +388,13 @@
                 e.preventDefault();
                 var newEmail = document.getElementById('email').value;
 
-                axios.get(`http://127.0.0.1:8000/checkEmailExist/${newEmail}`)
+                var formData = new FormData();
+                formData.append("email", newEmail);
+                formData.append("password", temp_pswd);
+
+                axios.post(`http://127.0.0.1:8000/checkEmailExist`, formData)
                     .then(res => {
-                        console.log(res.data);
+                        // console.log(res.data);
                         if (res.data == 'not exist') {
                             changePage();
                             get_shipping_price_realTime();
@@ -398,9 +402,19 @@
                         if (res.data == 'exist') {
                             document.getElementById("existEmalModal").style.display = 'block';
                         }
-
-                        
-
+                        if (res.data != 'not exist' && res.data != 'exist') {
+                            console.log(Object.values(res.data));
+                            console.log(res.data);
+                            document.getElementById('address').value = res.data.address;
+                            document.getElementById('addressComment').value = res.data.addressComment;
+                            document.getElementById('cp').value = res.data.cp;
+                            document.getElementById('city').value = res.data.city;
+                            document.getElementById('country').value = res.data.country;
+                            document.getElementById('phone').value = res.data.phone;
+                            var country_data = document.getElementById('country').value;
+                            changePage();
+                            get_shipping_price_realTime();
+                        }
                     });
             }
         </script>

@@ -58,7 +58,7 @@ class RegisteredUserController extends Controller
             'country' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'addressComment' => 'nullable|string|max:500',
-             'cp' => 'required|numeric|max:999999999999999999999999',
+            'cp' => 'required|numeric|max:999999999999999999999999',
             'city' => 'required|string|max:255',
             'phone' => 'numeric|max:999999999999999999999999',
             // 'civilite' => 'string|max:1',
@@ -118,14 +118,21 @@ class RegisteredUserController extends Controller
         }
     }
 
-    public function checkEmailExist($email) {
- 
-        $exist = User::where('email', $email)->first();
-   
-        if ($exist) {
-            return 'exist';
-        } else {
-           return 'not exist';
+    public function checkEmailExist(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+
+        // si l'email existe et que le mdp est le même que celui en db alors on renvoi les adresses de users et on passe à la page
+        if ($user) {
+            if (Hash::check($request->password, $user->password)) {
+                $userData = $user->address_user;
+                return $userData;
+            } else {
+                return 'exist';
+            }
+        }
+        if (!$user) {
+            return 'not exist';
         }
     }
 }
