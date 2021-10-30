@@ -609,6 +609,14 @@ input[type=search]::-webkit-search-results-decoration {
   display: none;
 }
 
+#existEmal_H4 {
+  margin-top: 20px;
+}
+
+#existEmal_H4_second {
+  margin-bottom: 20px;
+}
+
 .modalExistEmail-content {
   width: 100%;
   max-width: 600px;
@@ -627,7 +635,7 @@ input[type=search]::-webkit-search-results-decoration {
 }
 
 .emailExistInput-container {
-  margin-top: 30px;
+  padding: 0 40px;
 }
 
 .existEmailButtonGroup {
@@ -636,6 +644,10 @@ input[type=search]::-webkit-search-results-decoration {
   justify-content: center;
   align-items: center;
   margin-top: 20px;
+}
+
+#emailExist {
+  margin-bottom: 20px;
 }
 
 .existEmailButtonGroup button {

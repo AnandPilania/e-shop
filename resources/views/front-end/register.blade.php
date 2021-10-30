@@ -11,7 +11,7 @@
 
     <!-- IMPORTANT!!! remember CSRF token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <!-- reCaptch v3 -->
     <script type="text/javascript">
         function callbackThen(response) {
             // read HTTP status
@@ -34,11 +34,18 @@
         </a>
     </x-slot>
 
+    <!-- pour pré remplir le formulaire avec les données de user -->
+    @php
+    $user = Auth::user();
+    @endphp
+
+
     <!-- Validation Errors -->
     <x-auth-validation-errors :errors="$errors" style="color:red;" />
 
     <form method="POST" action="{{ route('register') }}" class="auth" id="form_payment" autocomplete="off">
         @csrf
+
 
         <div class="ariane_payment">
             <a href="/panier" id="ariane_panier">Panier</a>
@@ -62,17 +69,16 @@
             </div>
 
 
-
             <!-- Name -->
             <div class="register_block_name">
                 <div class="input-container input-container_half">
-                    <x-input id="first_name" class="missingField" type="text" name="first_name" :value="old('first_name')" required autocomplete="on" onfocusout="validateForm()" maxlength="255" />
+                    <input id="first_name" class="missingField" type="text" name="first_name" value="{{ $user ? $user->first_name : old('first_name') }}" required autocomplete="on" onfocusout="validateForm()" maxlength="255" />
                     <label for="first_name">Prénom*</label>
                     <span id="first_name_" class="missingFieldMessage missingMargin">Entrez un prénom</span>
                 </div>
 
                 <div class="input-container input-container_half">
-                    <x-input id="last_name" class="missingField" type="text" name="last_name" :value="old('last_name')" required autocomplete="on" onfocusout="validateForm()" maxlength="255" />
+                    <input id="last_name" class="missingField" type="text" name="last_name" value="{{ $user ? $user->last_name : old('last_name') }}" required autocomplete="on" onfocusout="validateForm()" maxlength="255" />
                     <label for="last_name">Nom*</label>
                     <span id="last_name_" class="missingFieldMessage missingMargin">Entrez un nom</span>
                 </div>
@@ -81,14 +87,14 @@
 
             <!-- Email -->
             <div class="input-container" id="email_container">
-                <x-input id="email" class="missingField" type="email" name="email" :value="old('email')" autocomplete="on" onfocusout="validateForm()" required maxlength="255" />
+                <input id="email" class="missingField" type="email" name="email" value="{{ $user ? $user->email : old('email') }}" autocomplete="on" onfocusout="validateForm()" required maxlength="255" />
                 <label for="email">Adresse e-mail*</label>
                 <span id="email_" class="missingFieldMessage missingMargin">Entrez une adresse e-mail valide</span>
             </div>
 
             <!-- Password -->
             <div class="input-container" id="block_password">
-                <x-input id="password" class="missingField" type="search" name="password" autocomplete="off" minlength="8" onfocusout="validateForm()" onkeyup="hideCaraterePassword(event);" onclick="labelPassword();" />
+                <input id="password" class="missingField" type="search" name="password" autocomplete="off" minlength="8" onfocusout="validateForm()" onkeyup="hideCaraterePassword(event);" onclick="labelPassword();" />
                 <label for="password" id="labelPassword">Mot de passe* (min 8 caractères)</label>
                 <span id="password_" class="missingFieldMessage missingMargin">Entrez un mot de passe</span>
 
@@ -113,10 +119,10 @@
 
 
 
-            <!-- conserve -->
-            <div class="conserve">
-                <input type="checkbox" id="conserve" name="conserve" :value="old('conserve')" value="conserve">
-                <label for="conserve" id="label_conserve">Sauvegarder mes coordonnées pour la prochaine fois</label>
+            <!-- rgpd -->
+            <div class="rgpd">
+                <input type="checkbox" id="rgpd" name="rgpd" :value="old('rgpd')" value="rgpd">
+                <label for="rgpd" id="label_conserve">Sauvegarder mes coordonnées pour la prochaine fois</label>
             </div>
 
 
@@ -383,6 +389,9 @@
             <span class="payment_link go_to_shipping" id="go_to_shipping">Revenir à l'expédition</span>
         </div>
 
+
+
+        <!-- check if email exist and handle modal if not exist -->
         <script>
             function emailExist(e) {
                 e.preventDefault();
@@ -394,28 +403,45 @@
 
                 axios.post(`http://127.0.0.1:8000/checkEmailExist`, formData)
                     .then(res => {
-                        // console.log(res.data);
+                        console.log(res.data);
                         if (res.data == 'not exist') {
                             changePage();
                             get_shipping_price_realTime();
                         }
                         if (res.data == 'exist') {
+                            // pré-remplissage du champ email de la modal
+                            document.getElementById('emailExist').value = document.getElementById('email').value;
+                            // ouvertur de la modal
                             document.getElementById("existEmalModal").style.display = 'block';
                         }
                         if (res.data != 'not exist' && res.data != 'exist') {
-                            console.log(Object.values(res.data));
-                            console.log(res.data);
-                            document.getElementById('address').value = res.data.address;
-                            document.getElementById('addressComment').value = res.data.addressComment;
-                            document.getElementById('cp').value = res.data.cp;
-                            document.getElementById('city').value = res.data.city;
-                            document.getElementById('country').value = res.data.country;
-                            document.getElementById('phone').value = res.data.phone;
-                            var country_data = document.getElementById('country').value;
-                            changePage();
-                            get_shipping_price_realTime();
+                            // merge objects from res.data
+                            let data = {
+                                ...res.data[0],
+                                ...res.data[1]
+                            };
+                            // fill fields and go to shipping page
+                            fillFields(data);
                         }
                     });
+            }
+        </script>
+
+        <!-- fill form's fields when auth::check -->
+        <script>
+            function fillFields(data) {
+                document.getElementById('first_name').value = data.first_name ? data.first_name : '';
+                document.getElementById('last_name').value = data.last_name ? data.last_name : '';
+                document.getElementById('address').value = data.address ? data.address : '';
+                document.getElementById('addressComment').value = data.addressComment ? data.addressComment : '';
+                document.getElementById('cp').value = data.cp ? data.cp : '';
+                document.getElementById('city').value = data.city ? data.city : '';
+                document.getElementById('country').value = data.country ? data.country : '';
+                document.getElementById('phone').value = data.phone ? data.phone : '';
+                document.getElementById('country').value = data.country ? data.country : '';
+
+                changePage();
+                get_shipping_price_realTime();
             }
         </script>
 
@@ -580,15 +606,15 @@
 
             var address = address_data + ' ' + addressComment_data + ' ' + cp_data + ' ' + city_data + ' ' + country_data;
 
-            var formData = new FormData();
-            formData.append("first_name", first_name_data);
-            formData.append("last_name", last_name_data);
-            formData.append("email", email_data);
-            formData.append("address", address_data);
-            formData.append("addressComment", addressComment_data);
-            formData.append("cp", cp_data);
-            formData.append("city", city_data);
-            formData.append("country", country_data);
+            // var formData = new FormData();
+            // formData.append("first_name", first_name_data);
+            // formData.append("last_name", last_name_data);
+            // formData.append("email", email_data);
+            // formData.append("address", address_data);
+            // formData.append("addressComment", addressComment_data);
+            // formData.append("cp", cp_data);
+            // formData.append("city", city_data);
+            // formData.append("country", country_data);
 
 
             if (!unvalid) {
@@ -599,7 +625,7 @@
                 var authRegisterSubmit = document.getElementById('authRegisterSubmit');
                 var contact_control = document.getElementById('contact_control');
                 var adress_control = document.getElementById('adress_control');
-                var contact_control_payment = document.getElementById('contact_control_payment').innerHTML = email_data;
+                var contact_control_payment = document.getElementById('contact_control_payment').innerHTML = first_name_data + ' ' + last_name_data + ' ' + email_data;;
                 var adress_control_payment = document.getElementById('adress_control_payment')
                 var shipping_control = document.getElementById('shipping_control');
                 var card_element = document.getElementById('card-element');
@@ -681,8 +707,6 @@
                         shippingRegisterSubmit.style.display = 'block';
                         submit_button.style.display = 'none';
                         go_to_information.style.display = 'inline-block';
-                        // contact_control.innerHTML = email_data;
-                        // adress_control.innerHTML = address;
                         page = 'payment';
 
                         // affiche le prix du transport dans le décompte du panier
@@ -739,7 +763,7 @@
                         authRegisterSubmit.style.display = 'none';
                         shippingRegisterSubmit.style.display = 'none';
                         go_to_shipping.style.display = 'inline-block';
-                        contact_control_payment.innerHTML = email_data;
+                        contact_control_payment.innerHTML = first_name_data + ' ' + last_name_data + ' ' + email_data;
                         adress_control_payment.innerHTML = address;
                         shipping_control.innerHTML = modeShipping;
                         card_element.style.display = 'block';
@@ -793,7 +817,7 @@
 
         // check si tous les champs sont remplis et si l'adresse email est valide
         function validateForm() {
-            var checkBox = document.getElementById("conserve");
+            var checkBox = document.getElementById("rgpd");
             var password = document.getElementById("password");
             var spanMessageError = document.getElementById("password_");
 
@@ -879,8 +903,6 @@
             document.getElementById('addressCommentBill').value = null;
         }
     </script>
-
-
 
 </div>
 

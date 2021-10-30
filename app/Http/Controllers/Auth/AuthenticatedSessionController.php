@@ -41,7 +41,9 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect('/paiement');
+        $user = Auth::user();
+
+        return redirect('/paiement')->with('user', $user);
     }
 
 

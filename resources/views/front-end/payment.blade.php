@@ -2,7 +2,6 @@
 
 @section('content')
 
-
 <div class="container_payment">
 
     @include('front-end.register')
@@ -81,16 +80,24 @@
             <div class="modal-body">
                 <form method="POST" action="{{ route('emailExisit') }}" id="formEmailExist">
                     @csrf
-                    <h4>L’adresse e-mail que vous avez saisie est déjà enregistrée</h4>
-                    <h4>Connectez-vous à votre Espace Client</h4>
+                    <h4 id="existEmal_H4">L’adresse e-mail que vous avez saisie est déjà enregistrée</h4>
+                    <h4 id="existEmal_H4_second">Connectez-vous à votre Espace Client</h4>
                     <div class="input-container emailExistInput-container">
                         <input id="emailExist" type="email" name="email" required />
-                        <input type="Password" autocomplete="new-password" name="password" id="loginPasswordModal" required>
-                        <label for="loginPasswordModal">Entrez votre mot de passe</label>
+                    </div>
+                    <div class="input-container emailExistInput-container">
+                        <input type="Password" autocomplete="new-password" name="password" id="loginPasswordModal" required placeholder="Entrez votre mot de passe">
                         <span id="password_" class="missingFieldMessage missingMargin">Entrez un mot de passe</span>
                     </div>
+                    <div>
+                        @if (Route::has('password.request'))
+                        <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
+                            Mot de passe oublié ? Pas de soucis cliquez ici
+                        </a>
+                        @endif
+                    </div>
                     <div class="existEmailButtonGroup">
-                        <button onclick="loginFromExistEmail();">Connexion</button>
+                        <button onclick="submitLoginFromExistEmail();">Connexion</button>
                         <button id="AnnulerExistEmailLogin">Annuler</button>
                     </div>
                 </form>
@@ -99,6 +106,7 @@
         <div class="modal-footer">
         </div>
     </div>
+    
     <script>
         // Modal handle
         var modal = document.getElementById("existEmalModal");
@@ -120,26 +128,9 @@
             }
         }
 
-        document.getElementById('emailExist').value = document.getElementById('email').value;
-        // PROPOSER DE REINITIALISER SON MOT DE PASSE DANS LA MODAL DE EMAIL EXIST !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        function loginFromExistEmail() {
-
+        function submitLoginFromExistEmail() {
 
             document.getElementById('formEmailExist').submit();
-
-
-            // var formData = new FormData();
-            // var password = document.getElementById("loginPasswordModal");
-            // var email = document.getElementById('email').value;
-            // formData.append("email", email);
-            // formData.append("password", password);
-
-            // axios.post(`http://127.0.0.1:8000/login`, formData)
-            //     .then(res => {
-            //         console.log('res.data  --->  ok connected');
-            //     }).catch(function(error) {
-            //         console.log('error:   ' + error);
-            //     });
         }
     </script>
 

@@ -45,23 +45,25 @@ class RegisteredUserController extends Controller
     {
         // dd($request);
         $user = User::find(7);
+
+        // stripe payment
         // $user->charge(100000, $request->payment_method);
-        // dd($request);
+    
 
         $request->validate([
             'last_name' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            // 'password' => 'required|string|min:8',
-            // 'rgpd' => 'required',
+            'password' => 'required|string|min:8',
+            'rgpd' => 'required',
 
             'country' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'addressComment' => 'nullable|string|max:500',
             'cp' => 'required|numeric|max:999999999999999999999999',
             'city' => 'required|string|max:255',
-            'phone' => 'numeric|max:999999999999999999999999',
-            // 'civilite' => 'string|max:1',
+            'phone' => 'nullable|numeric|max:999999999999999999999999',
+            'civilite' => 'nullable|string|max:1',
 
             // if bill address is different
             'last_nameBill' => 'nullable|string|max:255',
@@ -89,21 +91,23 @@ class RegisteredUserController extends Controller
         $address_user->addressComment = $request->addressComment;
         $address_user->cp = $request->cp;
         $address_user->city = $request->city;
-        // $address_user->civilite = $request->civilite;
-
-        $address_user->countryShip = $request->countryShip;
-        $address_user->addressShip = $request->addressShip;
-        $address_user->addressCommentShip = $request->addressCommentShip;
-        $address_user->cpShip = $request->cpShip;
-        $address_user->cityShip = $request->cityShip;
+        $address_user->civilite = $request->civilite;
         $address_user->phone = $request->phone;
+
+        $address_user->first_nameBill = $request->first_nameBill;
+        $address_user->last_nameBill = $request->last_nameBill;
+        $address_user->countryBill = $request->countryBill;
+        $address_user->addressBill = $request->addressBill;
+        $address_user->addressCommentBill = $request->addressCommentBill;
+        $address_user->cpBill = $request->cpBill;
+        $address_user->cityBill = $request->cityBill;
         $address_user->user_id = $user->id;
         $address_user->save();
 
 
         Auth::login($user);
 
-        if ($request->has('conserve')) {
+        if ($request->has('rgpd')) {
             // save user data in cookies when he check consere
             $userData = [];
             array_push($userData, $user);
@@ -122,10 +126,13 @@ class RegisteredUserController extends Controller
     {
         $user = User::where('email', $request->email)->first();
 
-        // si l'email existe et que le mdp est le même que celui en db alors on renvoi les adresses de users et on passe à la page
+        // si l'email existe et que le mdp est le même que celui en db alors on renvoi les adresses de users et on passe à la partie shipping de la page paiement
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
-                $userData = $user->address_user;
+                $userData = [];
+                array_push($userData, $user);
+                array_push($userData, $user->address_user);
+
                 return $userData;
             } else {
                 return 'exist';
