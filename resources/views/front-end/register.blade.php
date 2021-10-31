@@ -106,6 +106,8 @@
                 </div>
             </div>
 
+            <input type="hidden" name="price" id="price">
+
             <script>
                 function labelPassword() {
                     var pass = document.getElementById('labelPassword').style;
@@ -124,13 +126,16 @@
             <div class="rgpd">
                 <div class="inuptRgpd_and_Label">
                     <input type="checkbox" id="rgpd" name="rgpd" class="missingField" :value="old('rgpd')" value="rgpd">
-                    <label for="rgpd" id="label_conserve">j’ai lu et j’accepte la politique de confidentialité du site 'Nom du site'</label>
+                    <label for="rgpd" id="label_conserve">Se souvenir de moi pour la prochaine fois</label>
                 </div>
-                <span id="rgpd_" class="missingFieldMessage missingMargin">Veuillez cocher la case du Règlement Général sur la protection des données</span>
+                <!-- <span id="rgpd_" class="missingFieldMessage missingMargin">Veuillez cocher la case du Règlement Général sur la protection des données</span> -->
             </div>
+
             @auth
             <script>
+                // check rgpd
                 document.getElementById('rgpd').checked = true;
+                // show message for password
                 document.getElementById('password_').style.display = 'block';
             </script>
             @endauth
@@ -601,6 +606,7 @@
         function changePage() {
             event.preventDefault();
 
+            // check if form fields are validate
             validateForm();
 
             if (!unvalid) {
@@ -874,7 +880,7 @@
             if (password.value.length >= 8) {
                 spanMessageError.style.display = "none";
                 unvalid = false;
-                validateRgpd()
+                validateRgpd();
             }
         }
 
@@ -883,12 +889,10 @@
             var checkBox = document.getElementById("rgpd");
 
             if (checkBox.checked == false) {
-                document.getElementById('rgpd_').style.display = 'block';
-                unvalid = true;
+                document.getElementById('rgpd_').value = null;
             }
             if (checkBox.checked == true) {
-                document.getElementById('rgpd_').style.display = 'none';
-                unvalid = false;
+                document.getElementById('rgpd_').value = 'agreed';
             }
         }
 

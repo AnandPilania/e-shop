@@ -44,13 +44,15 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         // dd($request);
-        $user = Auth::user();
 
-        if (Auth::check()) {
-            dd('yes auth check', $request);
-        }
+        // determine if use existing user or create new user
+        $user =
+            $user = Auth::check() ? User::find(Auth::id()) : new User;
+        $address_user = Auth::check() ? $user->address_user : new Address_user;
+
+        $price = $request->price * 100;
         // stripe payment
-        // $user->charge(100000, $request->payment_method);
+        $user->charge($price, $request->payment_method);
 
 
         $request->validate([
@@ -58,7 +60,7 @@ class RegisteredUserController extends Controller
             'first_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
-            'rgpd' => 'required',
+            'rgpd' => 'nullable',
 
             'country' => 'required|string|max:255',
             'address' => 'required|string|max:255',
@@ -78,17 +80,15 @@ class RegisteredUserController extends Controller
             'cityBill' => 'nullable|string|max:255',
         ]);
 
-        // dd($request);
-        $user = new User;
+
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->role = 'guest';
-        $user->rgpd = ' à créer'; //$request->rgpd;
+        $user->rgpd = $request->rgpd;
         $user->save();
 
-        $address_user = new Address_user;
         $address_user->country = $request->country;
         $address_user->address = $request->address;
         $address_user->addressComment = $request->addressComment;
@@ -97,32 +97,34 @@ class RegisteredUserController extends Controller
         $address_user->civilite = $request->civilite;
         $address_user->phone = $request->phone;
 
-        $address_user->first_nameBill = $request->first_nameBill;
-        $address_user->last_nameBill = $request->last_nameBill;
-        $address_user->countryBill = $request->countryBill;
-        $address_user->addressBill = $request->addressBill;
-        $address_user->addressCommentBill = $request->addressCommentBill;
-        $address_user->cpBill = $request->cpBill;
-        $address_user->cityBill = $request->cityBill;
-        $address_user->user_id = $user->id;
+        if ($request->address_bill == 'different') {
+            $address_user->first_nameBill = $request->first_nameBill;
+            $address_user->last_nameBill = $request->last_nameBill;
+            $address_user->countryBill = $request->countryBill;
+            $address_user->addressBill = $request->addressBill;
+            $address_user->addressCommentBill = $request->addressCommentBill;
+            $address_user->cpBill = $request->cpBill;
+            $address_user->cityBill = $request->cityBill;
+            $address_user->user_id = $user->id;
+        }
+
         $address_user->save();
 
 
+        // if it's a new user he is logged
         Auth::login($user);
 
-        if ($request->has('rgpd')) {
-            // save user data in cookies when he check consere
-            $userData = [];
-            array_push($userData, $user);
-            array_push($userData, $address_user);
+        // save user data in cookies 
+        $userData = [];
+        array_push($userData, $user);
+        array_push($userData, $address_user);
 
-            $cookie_name = "0s9m1c8p2l7p3f6";
-            $cookie_value = json_encode($userData);
-            Cookie::queue($cookie_name, $cookie_value, 525600);
+        $cookie_name = "0s9m1c8p2l7p3f6";
+        $cookie_value = json_encode($userData);
+        Cookie::queue($cookie_name, $cookie_value, 525600);
 
-            dd(json_decode(Cookie::get('0s9m1c8p2l7p3f6', true)));
-            return back();
-        }
+        // dd(json_decode(Cookie::get('0s9m1c8p2l7p3f6', true)));
+        return back();
     }
 
     public function checkEmailExist(LoginRequest $request)
@@ -139,9 +141,8 @@ class RegisteredUserController extends Controller
                 $credentials = $request->only('email', 'password');
 
                 Auth::attempt($credentials);
-       
-                return $userData;
 
+                return $userData;
             } else {
                 return 'exist';
             }

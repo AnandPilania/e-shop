@@ -205,6 +205,7 @@
             total_price += shippingModePrice;
 
             document.getElementById('payment_total_Id').innerHTML = total_price + '&nbsp;<span>€</span>'
+            document.getElementById('price').value = total_price;
         }
     };
 </script>
