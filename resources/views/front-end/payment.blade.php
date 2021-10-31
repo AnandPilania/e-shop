@@ -69,7 +69,7 @@
 
 
 
-    <!-- The Modal  -->
+    <!-- Modal  -->
     <!-- Le CSS est en partie dans productSheet.scss pour le fonctionnement général et en partie dans authentification.scss pour l'interieur de la modal -->
     <div id="existEmalModal" class="modal">
         <!-- Modal content -->
@@ -91,7 +91,7 @@
                     </div>
                     <div>
                         @if (Route::has('password.request'))
-                        <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
+                        <a id="forgetPwrd" href="{{ route('password.request') }}">
                             Mot de passe oublié ? Pas de soucis cliquez ici
                         </a>
                         @endif
@@ -222,3 +222,4 @@
     }
 </script>
 @endsection
+

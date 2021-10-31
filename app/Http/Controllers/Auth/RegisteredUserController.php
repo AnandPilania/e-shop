@@ -14,7 +14,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Cookie;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Session;
-
+use App\Http\Requests\Auth\LoginRequest;
 
 class RegisteredUserController extends Controller
 {
@@ -44,11 +44,14 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         // dd($request);
-        $user = User::find(7);
+        $user = Auth::user();
 
+        if (Auth::check()) {
+            dd('yes auth check', $request);
+        }
         // stripe payment
         // $user->charge(100000, $request->payment_method);
-    
+
 
         $request->validate([
             'last_name' => 'required|string|max:255',
@@ -122,7 +125,7 @@ class RegisteredUserController extends Controller
         }
     }
 
-    public function checkEmailExist(Request $request)
+    public function checkEmailExist(LoginRequest $request)
     {
         $user = User::where('email', $request->email)->first();
 
@@ -133,7 +136,12 @@ class RegisteredUserController extends Controller
                 array_push($userData, $user);
                 array_push($userData, $user->address_user);
 
+                $credentials = $request->only('email', 'password');
+
+                Auth::attempt($credentials);
+       
                 return $userData;
+
             } else {
                 return 'exist';
             }

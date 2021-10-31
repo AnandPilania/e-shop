@@ -402,10 +402,18 @@ input[type=search]::-webkit-search-results-decoration {
 .rgpd,
 .conserve {
   display: flex;
+  flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   margin-top: 10px;
   margin-bottom: 20px;
+}
+
+.inuptRgpd_and_Label {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 #rgpd,
@@ -421,6 +429,10 @@ input[type=search]::-webkit-search-results-decoration {
   font-weight: normal;
   margin: 0;
   line-height: 16px;
+}
+
+#rgpd_ {
+  width: 100%;
 }
 
 .control_coordonees,
@@ -636,6 +648,19 @@ input[type=search]::-webkit-search-results-decoration {
 
 .emailExistInput-container {
   padding: 0 40px;
+}
+
+#forgetPwrd {
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  color: #c20000;
+  transition: ease-in-out 0.15s;
+}
+
+#forgetPwrd:hover {
+  text-decoration: underline;
+  color: #0860d4;
 }
 
 .existEmailButtonGroup {

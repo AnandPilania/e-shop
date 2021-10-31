@@ -40,10 +40,11 @@
     @endphp
 
 
+
     <!-- Validation Errors -->
     <x-auth-validation-errors :errors="$errors" style="color:red;" />
 
-    <form method="POST" action="{{ route('register') }}" class="auth" id="form_payment" autocomplete="off">
+    <form method="POST" action="/registerFromPayment" class="auth" id="form_payment" autocomplete="off">
         @csrf
 
 
@@ -121,10 +122,18 @@
 
             <!-- rgpd -->
             <div class="rgpd">
-                <input type="checkbox" id="rgpd" name="rgpd" :value="old('rgpd')" value="rgpd">
-                <label for="rgpd" id="label_conserve">Sauvegarder mes coordonnées pour la prochaine fois</label>
+                <div class="inuptRgpd_and_Label">
+                    <input type="checkbox" id="rgpd" name="rgpd" class="missingField" :value="old('rgpd')" value="rgpd">
+                    <label for="rgpd" id="label_conserve">j’ai lu et j’accepte la politique de confidentialité du site 'Nom du site'</label>
+                </div>
+                <span id="rgpd_" class="missingFieldMessage missingMargin">Veuillez cocher la case du Règlement Général sur la protection des données</span>
             </div>
-
+            @auth
+            <script>
+                document.getElementById('rgpd').checked = true;
+                document.getElementById('password_').style.display = 'block';
+            </script>
+            @endauth
 
         </div>
 
@@ -409,10 +418,32 @@
                             get_shipping_price_realTime();
                         }
                         if (res.data == 'exist') {
-                            // pré-remplissage du champ email de la modal
-                            document.getElementById('emailExist').value = document.getElementById('email').value;
-                            // ouvertur de la modal
-                            document.getElementById("existEmalModal").style.display = 'block';
+                            if (temp_pswd.length > 0) {
+                                // pré-remplissage du champ email de la modal
+                                document.getElementById('emailExist').value = document.getElementById('email').value;
+                                // ouvertur de la modal
+                                document.getElementById("existEmalModal").style.display = 'block';
+                            } else {
+                                document.getElementById('password_').innerHTML = 'Entrez votre mot de passe';
+                                document.getElementById("password_").animate([
+                                    // keyframes
+                                    {
+                                        transform: 'translateX(0px)'
+                                    },
+                                    {
+                                        transform: 'translateX(20px)'
+                                    },
+                                    {
+                                        transform: 'translateX(0px)'
+                                    }
+                                ], {
+                                    // timing options
+                                    duration: 1000,
+                                    iterations: 1
+                                });
+                                document.getElementById('password_').style.display = 'block';
+                            }
+
                         }
                         if (res.data != 'not exist' && res.data != 'exist') {
                             // merge objects from res.data
@@ -496,14 +527,10 @@
                 document.getElementById('payment_method').value = paymentMethod.id;
             }
 
-
-            // validation des champs de addressBill
-            validateFormBill();
-
-            if (!unvalidBill) {
-                document.getElementById('form_payment').submit();
-            }
-
+            // replace the field value with the true 
+            document.getElementById('password').value = temp_pswd;
+            // submit form
+            document.getElementById('form_payment').submit();
         })
     </script>
 
@@ -556,16 +583,6 @@
                 changePage();
             })
         }
-
-        // link to page "payment"
-        // var goto_payment = document.getElementsByClassName('goto_payment');
-        // for (let i = 0; i < goto_payment.length; i++) {
-        //     goto_payment[i].addEventListener('click', function() {
-        //         page = 'payment';
-        //         document.getElementById('bill_block').style.display = 'none';
-        //         changePage();
-        //     })
-        // }
 
         // assigne le mode de livraison choisi  
         var mode_shipping = document.getElementsByName('mode_shipping');
@@ -817,10 +834,6 @@
 
         // check si tous les champs sont remplis et si l'adresse email est valide
         function validateForm() {
-            var checkBox = document.getElementById("rgpd");
-            var password = document.getElementById("password");
-            var spanMessageError = document.getElementById("password_");
-
             var missingCount = 0;
             var missingFields = document.getElementsByClassName('missingField');
 
@@ -838,15 +851,21 @@
             if (missingCount === 0) {
                 var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
                 var email = document.getElementById('email').value;
-                console.log(email);
+
                 if (email.match(mailformat)) {
                     unvalid = false;
+                    validatePassworrd();
                 } else {
                     document.getElementById('email_').style.display = 'block';
                     unvalid = true;
                 }
-
             }
+        }
+
+        // check password 
+        function validatePassworrd() {
+            var password = document.getElementById("password");
+            var spanMessageError = document.getElementById("password_");
             if (password.value.length < 8) {
                 spanMessageError.style.display = "block";
                 spanMessageError.innerHTML = "Entrez un mot de passe de minimum 8 caractères";
@@ -855,8 +874,22 @@
             if (password.value.length >= 8) {
                 spanMessageError.style.display = "none";
                 unvalid = false;
+                validateRgpd()
             }
+        }
 
+        // check rgpd
+        function validateRgpd() {
+            var checkBox = document.getElementById("rgpd");
+
+            if (checkBox.checked == false) {
+                document.getElementById('rgpd_').style.display = 'block';
+                unvalid = true;
+            }
+            if (checkBox.checked == true) {
+                document.getElementById('rgpd_').style.display = 'none';
+                unvalid = false;
+            }
         }
 
         // check si tous les champs de l'adresse de livraison sont remplis 
@@ -907,7 +940,14 @@
 </div>
 
 
-
+<script>
+    let token = document.head.querySelector('meta[name="csrf-token"]');
+    if (token) {
+        window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    } else {
+        console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+    }
+</script>
 <!-- ------------------------------------------------------------------ -->
 
 
