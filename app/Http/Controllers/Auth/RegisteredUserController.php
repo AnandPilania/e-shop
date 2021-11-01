@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Cookie;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Session;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\RegisteredUserRequest;
 
 class RegisteredUserController extends Controller
 {
@@ -41,46 +42,24 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    public function store(RegisteredUserRequest $request)
     {
         // dd($request);
 
-        // determine if use existing user or create new user
-        $user =
-            $user = Auth::check() ? User::find(Auth::id()) : new User;
+        // ICI JE DOIS ENREGISTER LE payment_methode QUELQUE PART !!!!
+        // POUR FAIRE LE LIEN AVEC L USER ET LE PAIEMENT SUR STRIPE
+
+        // determine if use existing user or create a new user
+        $user = Auth::check() ? User::find(Auth::id()) : new User;
         $address_user = Auth::check() ? $user->address_user : new Address_user;
 
+        // stripe doit recevoir le prix en centimes
         $price = $request->price * 100;
         // stripe payment
         $user->charge($price, $request->payment_method);
 
-
-        $request->validate([
-            'last_name' => 'required|string|max:255',
-            'first_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-            'rgpd' => 'nullable',
-
-            'country' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'addressComment' => 'nullable|string|max:500',
-            'cp' => 'required|numeric|max:999999999999999999999999',
-            'city' => 'required|string|max:255',
-            'phone' => 'nullable|numeric|max:999999999999999999999999',
-            'civilite' => 'nullable|string|max:1',
-
-            // if bill address is different
-            'last_nameBill' => 'nullable|string|max:255',
-            'first_nameBill' => 'nullable|string|max:255',
-            'countryBill' => 'nullable|string|max:255',
-            'addressBill' => 'nullable|string|max:255',
-            'addressCommentBill' => 'nullable|string|max:255',
-            'cpBill' => 'nullable|numeric|max:999999999999999999999999',
-            'cityBill' => 'nullable|string|max:255',
-        ]);
-
-
+        // save user in db
+        // on sauvegarde d'office même les users déjà dans la db pour tenir compte des éventuels changements dans les infos
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
         $user->email = $request->email;
@@ -89,6 +68,7 @@ class RegisteredUserController extends Controller
         $user->rgpd = $request->rgpd;
         $user->save();
 
+        // save address user in db
         $address_user->country = $request->country;
         $address_user->address = $request->address;
         $address_user->addressComment = $request->addressComment;
@@ -97,6 +77,7 @@ class RegisteredUserController extends Controller
         $address_user->civilite = $request->civilite;
         $address_user->phone = $request->phone;
 
+        // save bill address user in db
         if ($request->address_bill == 'different') {
             $address_user->first_nameBill = $request->first_nameBill;
             $address_user->last_nameBill = $request->last_nameBill;
@@ -110,11 +91,10 @@ class RegisteredUserController extends Controller
 
         $address_user->save();
 
-
         // if it's a new user he is logged
         Auth::login($user);
 
-        // save user data in cookies 
+        // save user data in cookies !!! A QUOI CA SERT ???
         $userData = [];
         array_push($userData, $user);
         array_push($userData, $address_user);

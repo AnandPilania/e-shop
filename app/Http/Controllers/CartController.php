@@ -99,13 +99,13 @@ class CartController extends Controller
                     $cart->user_id = Auth::user()->id;
                     $cart->cart = json_encode(Session::get('cart'));
                     $cart->save();
+                    // si on a 2 fois le même produit mais avec des caractèristiques différentes on ne sait pas les istinguer dans la table pivot car les champs contiennent les même données !!!
                     // $cart->products()->attach($dataCart['product_id_cart']);
                 } else {
                     $cart = new Cart();
                     $cart->user_id = Auth::user()->id;
                     $cart->cart = json_encode(Session::get('cart'));
                     $cart->save();
-                    $cart->products()->attach($dataCart['product_id_cart']);
                 }
             }
 
@@ -161,21 +161,19 @@ class CartController extends Controller
             // session
             Session::put('cart', $dataCart);
 
-            // database
-            // if Auth::check, modify record, else create record
+            // if Auth::check, modify record, 
+            // idem store
             if (Auth::check()) {
                 if (Cart::where('user_id', Auth::user()->id)->exists()) {
                     $cart = Cart::where('user_id', Auth::user()->id)->first();
                     $cart->user_id = Auth::user()->id;
                     $cart->cart = json_encode(Session::get('cart'));
                     $cart->save();
-                    // $cart->products()->attach($dataCart['product_id_cart']);
                 } else {
                     $cart = new Cart();
                     $cart->user_id = Auth::user()->id;
                     $cart->cart = json_encode(Session::get('cart'));
                     $cart->save();
-                    $cart->products()->attach($dataCart['product_id_cart']);
                 }
             }
 

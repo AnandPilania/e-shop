@@ -125,7 +125,7 @@
             <!-- rgpd -->
             <div class="rgpd">
                 <div class="inuptRgpd_and_Label">
-                    <input type="checkbox" id="rgpd" name="rgpd" class="missingField" :value="old('rgpd')" value="rgpd">
+                    <input type="checkbox" id="rgpd" name="rgpd" :value="old('rgpd')" value="rgpd">
                     <label for="rgpd" id="label_conserve">Se souvenir de moi pour la prochaine fois</label>
                 </div>
                 <!-- <span id="rgpd_" class="missingFieldMessage missingMargin">Veuillez cocher la case du Règlement Général sur la protection des données</span> -->
@@ -531,7 +531,7 @@
             } else {
                 document.getElementById('payment_method').value = paymentMethod.id;
             }
-
+            console.log(paymentMethod);
             // replace the field value with the true 
             document.getElementById('password').value = temp_pswd;
             // submit form
@@ -889,10 +889,10 @@
             var checkBox = document.getElementById("rgpd");
 
             if (checkBox.checked == false) {
-                document.getElementById('rgpd_').value = null;
+                document.getElementById('rgpd').value = null;
             }
             if (checkBox.checked == true) {
-                document.getElementById('rgpd_').value = 'agreed';
+                document.getElementById('rgpd').value = 'agreed';
             }
         }
 

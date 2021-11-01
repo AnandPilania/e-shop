@@ -125,13 +125,17 @@ Route::get('/conditionsUtilisation', function () {
 
 
 // Stripe
-// Route::post('/paiement', function (Request $request) {
-//     $stripeCharge = $request->user()->charge(
-//         100, $request->paymentMethodId
-//     );
+Route::post('webhook/payment/succeeded', function (Request $request) {
+   
+    try {
+        
+    } catch (\Exception $e) {
 
-//     // ...
-// });
+        return $e->getMessage();
+    }
+
+    return 'ok';
+});
 
 //breeze----------------------------
 // Route::get('/', function () {

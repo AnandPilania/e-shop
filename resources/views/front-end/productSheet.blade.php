@@ -382,7 +382,6 @@
                 cartSession.forEach(item => {
                     if (item.product_id_cart == product_id_cart) {
                         item.quantity = parseInt(item.quantity) + parseInt(quantity_cart);
-                        console.log(item.quantity, item.product_id_cart);
 
                         // transformation de l'objet en string JSON
                         var cart = JSON.stringify(cartSession);
