@@ -15,7 +15,7 @@ class CreateShippingsTable extends Migration
     {
         Schema::create('shippings', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['tarif1', 'tarif2', 'tarif3']);
+            $table->string('type');
             $table->double('price', 3, 2);
             $table->timestamps();
         });

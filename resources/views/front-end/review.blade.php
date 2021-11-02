@@ -371,7 +371,7 @@
     fakeInput.type = "file";
     fakeInput.accept = "image/*";
     fakeInput.multiple = true;
-
+        console.log('total_price   ' + total_price);
     var getFileReview = document.getElementById('fileReview');
     getFileReview.innerText = "Ajouter des photos";
 
@@ -524,13 +524,13 @@
 </script>
 
 <!-- load axios and put csrf -->
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
 <!-- <script src="{{ asset('js/app.js') }}"></script> -->
-<script>
+<!-- <script>
     let token = document.head.querySelector('meta[name="csrf-token"]');
     if (token) {
         window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
     } else {
         console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
     }
-</script>
+</script> -->

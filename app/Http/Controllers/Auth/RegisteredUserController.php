@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Models\Order;
 use App\Models\Address_user;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -44,6 +45,7 @@ class RegisteredUserController extends Controller
      */
     public function store(RegisteredUserRequest $request)
     {
+        // dd(Session::get('cart'));
         // dd($request);
 
         // ICI JE DOIS ENREGISTER LE payment_methode QUELQUE PART !!!!
@@ -52,11 +54,6 @@ class RegisteredUserController extends Controller
         // determine if use existing user or create a new user
         $user = Auth::check() ? User::find(Auth::id()) : new User;
         $address_user = Auth::check() ? $user->address_user : new Address_user;
-
-        // stripe doit recevoir le prix en centimes
-        $price = $request->price * 100;
-        // stripe payment
-        $user->charge($price, $request->payment_method);
 
         // save user in db
         // on sauvegarde d'office même les users déjà dans la db pour tenir compte des éventuels changements dans les infos
@@ -69,6 +66,7 @@ class RegisteredUserController extends Controller
         $user->save();
 
         // save address user in db
+        $address_user->user_id = $user->id;
         $address_user->country = $request->country;
         $address_user->address = $request->address;
         $address_user->addressComment = $request->addressComment;
@@ -92,7 +90,7 @@ class RegisteredUserController extends Controller
         $address_user->save();
 
         // if it's a new user he is logged
-        Auth::login($user);
+        !Auth::check() && Auth::login($user);
 
         // save user data in cookies !!! A QUOI CA SERT ???
         $userData = [];
@@ -103,8 +101,13 @@ class RegisteredUserController extends Controller
         $cookie_value = json_encode($userData);
         Cookie::queue($cookie_name, $cookie_value, 525600);
 
-        // dd(json_decode(Cookie::get('0s9m1c8p2l7p3f6', true)));
-        return back();
+        // STRIPE
+        // stripe doit recevoir le prix en centimes
+        $price = $request->price * 100;
+        // stripe payment
+        $user->charge($price, $request->payment_method);
+
+        // return back();
     }
 
     public function checkEmailExist(LoginRequest $request)

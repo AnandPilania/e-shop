@@ -605,7 +605,8 @@
         }
     });
 </script>
-
+<!-- load axios  -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 @include('front-end.review')
 
 <div class="lesClientAyantAcheté">

@@ -531,7 +531,7 @@
             } else {
                 document.getElementById('payment_method').value = paymentMethod.id;
             }
-            console.log(paymentMethod);
+
             // replace the field value with the true 
             document.getElementById('password').value = temp_pswd;
             // submit form
@@ -943,19 +943,6 @@
 
 </div>
 
-
-<script>
-    let token = document.head.querySelector('meta[name="csrf-token"]');
-    if (token) {
-        window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
-    } else {
-        console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
-    }
-</script>
-<!-- ------------------------------------------------------------------ -->
-
-
-<!-- ------------------------------------------------------------ -->
 
 
 

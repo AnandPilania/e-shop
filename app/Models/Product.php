@@ -32,11 +32,6 @@ class Product extends Model
         return $this->belongsToMany(Cart::class);
     }
 
-    public function shippings()
-    {
-        return $this->belongsToMany(shipping::class);
-    } 
-
     public function taxe()
     {
         return $this->belongsTo(Taxe::class);
@@ -60,5 +55,10 @@ class Product extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function order_details()
+    {
+        return $this->hasMany(Order_detail::class);
     }
 }

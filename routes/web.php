@@ -23,6 +23,7 @@ use App\Http\Controllers\ProductSheetController;
 use App\Http\Controllers\ProductDetailController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Type_detail_productController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -126,9 +127,10 @@ Route::get('/conditionsUtilisation', function () {
 
 // Stripe
 Route::post('webhook/payment/succeeded', function (Request $request) {
-   
+    
     try {
-        
+        $orderController = new OrderController;
+        $orderController->storeAfterStripePayment($request);
     } catch (\Exception $e) {
 
         return $e->getMessage();

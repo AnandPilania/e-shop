@@ -1,8 +1,0 @@
-ici se trouve stripe.exe pour le webhook et ngrok pour pouvoir  l'utiliser avec laravel
-C:\Users\propa\Downloads
-
-déclenche l'écoute de la route 
-stripe listen --forward-to localhost:8000/webhook/payment/succeeded
-
-lance un teste à partir d'un terminal
-stripe trigger payment_intent.succeeded

@@ -9,8 +9,8 @@ class shipping extends Model
 {
     use HasFactory;
 
-    public function products()
+    public function order_details()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->hasMany(Order_detail::class);
     } 
 }
