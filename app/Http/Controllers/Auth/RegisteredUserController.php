@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\Address_user;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -101,9 +102,23 @@ class RegisteredUserController extends Controller
         $cookie_value = json_encode($userData);
         Cookie::queue($cookie_name, $cookie_value, 525600);
 
+        // calcule le prix total de façon sécurisée
+        if (Session::exists('cart')) {
+
+            $cart = Session::get('cart');
+            $total_price = 0;
+
+            foreach ($cart as $products) {
+               
+                $product = Product::find($products['product_id_cart']);
+
+                $total_price += ((int) $products['quantity'] * $product->price);
+
+             }
+        }
         // STRIPE
         // stripe doit recevoir le prix en centimes
-        $price = $request->price * 100;
+        $price = $total_price * 100;
         // stripe payment
         $user->charge($price, $request->payment_method);
 

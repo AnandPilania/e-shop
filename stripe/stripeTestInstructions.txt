@@ -1,5 +1,5 @@
 d�clenche l'�coute de la route 
-stripe listen --forward-to localhost:8000/webhook/payment/succeeded
+stripe listen --forward-to 127.0.0.1:8000/webhook/payment/succeeded
 
 lance un teste � partir d'un terminal
 stripe trigger payment_intent.succeeded

@@ -126,6 +126,7 @@ Route::get('/conditionsUtilisation', function () {
 
 
 // Stripe
+// Route::post('/webhook/payment/succeeded', [OrderController::class, 'storeAfterStripePayment']);
 Route::post('webhook/payment/succeeded', function (Request $request) {
     
     try {

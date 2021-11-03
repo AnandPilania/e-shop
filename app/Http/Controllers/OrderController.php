@@ -42,29 +42,27 @@ class OrderController extends Controller
 
     public function storeAfterStripePayment($request)
     {
-        // dd('ok ok ok ok ok');
+      
+        try {
 
+            if ($request->type === 'payment_intent.succeeded') {
+                // if (Auth::check()) {
+                // $user = User::find(Auth::id());
+                $order = new Order;
+                $order->user_id = 1;
+                $order->total_amount = $request->data['object']['amount'] / 100;
+                // $order->stripe_payment_method = $request;
+                // $order->paid = $request->data['object']['paid'];
+                $order->stripe_id = $request->data['object']['id'];
+                $order->save();
+                // }
+            }
+        } catch (\Exception $e) {
 
-        if ($request->type === 'payment_intent.created') {
-            // if (Auth::check()) {
-            // $user = User::find(Auth::id());
-            $order = new Order;
-            $order->user_id = 1;
-            $order->total_amount = $request->data['object']['amount'];
-            $order->stripe_payment_method = $request->data['object']['payment_method'];
-            // $order->paid = $request->data['object']['charges']['paid'];
-            // $order->stripe_id = $request->data['object']['charges']['id'];
-            $order->save();
-            // }
-        } else {
-            $order = new Order;
-            $order->user_id = 11;
-            $order->total_amount = 11;
-            $order->stripe_payment_method = '11';
-            $order->paid = 'true';
-            $order->stripe_id = 11;
-            $order->save();
+            return $e->getMessage();
         }
+
+        // return 'ok';
     }
 
     /**
