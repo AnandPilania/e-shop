@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\User;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Session;
 
 class OrderController extends Controller
 {
@@ -42,27 +45,35 @@ class OrderController extends Controller
 
     public function storeAfterStripePayment($request)
     {
-      
-        try {
 
+        try {
+            // si le payment a réussi
             if ($request->type === 'payment_intent.succeeded') {
-                // if (Auth::check()) {
-                // $user = User::find(Auth::id());
-                $order = new Order;
-                $order->user_id = 1;
-                $order->total_amount = $request->data['object']['amount'] / 100;
-                // $order->stripe_payment_method = $request;
-                // $order->paid = $request->data['object']['paid'];
-                $order->stripe_id = $request->data['object']['id'];
-                $order->save();
-                // }
+                // on récupère l'user qui a le customer id = stripe_id
+                $user = User::where('stripe_id', $request->data['object']['customer'])->first();
+
+                if ($user) {
+                    $order = new Order;
+                    $order->user_id = $user->id;
+                    $order->total_amount = $request->data['object']['amount'] / 100;
+                    $order->stripe_id = $request->data['object']['id'];
+                    $order->payment_operator = 'Stripe';
+                    $order->cart = json_encode(Session::get('cart'));
+                    $order->save();
+
+                    $cart = Cart::where('user_id', $user->id);
+
+                    $cart->delete();
+
+                    Cookie::forget('2c7a6r9t5f4u3c2k5');
+
+                    Session::forget('cart');
+                }
             }
         } catch (\Exception $e) {
 
             return $e->getMessage();
         }
-
-        // return 'ok';
     }
 
     /**

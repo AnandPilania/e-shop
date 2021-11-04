@@ -520,6 +520,7 @@
 
         cardButton.addEventListener('click', async (e) => {
             e.preventDefault();
+            cardButton.disabled = true;
 
             const {
                 paymentMethod,

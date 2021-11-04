@@ -18,9 +18,9 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->double('total_amount', 8, 2);
-            $table->string('paid', 10);
-            $table->string('stripe_payment_method');
-            $table->string('stripe_id', 80)->nullable();
+            $table->string('stripe_id');
+            $table->json('cart');
+            $table->string('payment_operator');
             $table->timestamps();
         });
     }

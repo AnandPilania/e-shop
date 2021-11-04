@@ -125,6 +125,7 @@ Route::get('/conditionsUtilisation', function () {
 })->name('cu');
 
 
+Route::post('/registerFromPayment', [RegisteredUserController::class, 'store']);
 // Stripe
 // Route::post('/webhook/payment/succeeded', [OrderController::class, 'storeAfterStripePayment']);
 Route::post('webhook/payment/succeeded', function (Request $request) {

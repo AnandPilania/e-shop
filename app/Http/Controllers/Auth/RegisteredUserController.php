@@ -94,13 +94,13 @@ class RegisteredUserController extends Controller
         !Auth::check() && Auth::login($user);
 
         // save user data in cookies !!! A QUOI CA SERT ???
-        $userData = [];
-        array_push($userData, $user);
-        array_push($userData, $address_user);
+        // $userData = [];
+        // array_push($userData, $user);
+        // array_push($userData, $address_user);
 
-        $cookie_name = "0s9m1c8p2l7p3f6";
-        $cookie_value = json_encode($userData);
-        Cookie::queue($cookie_name, $cookie_value, 525600);
+        // $cookie_name = "0s9m1c8p2l7p3f6";
+        // $cookie_value = json_encode($userData);
+        // Cookie::queue($cookie_name, $cookie_value, 525600);
 
         // calcule le prix total de façon sécurisée
         if (Session::exists('cart')) {
@@ -109,21 +109,25 @@ class RegisteredUserController extends Controller
             $total_price = 0;
 
             foreach ($cart as $products) {
-               
+
                 $product = Product::find($products['product_id_cart']);
 
                 $total_price += ((int) $products['quantity'] * $product->price);
-
-             }
+            }
         }
         // STRIPE
+        $user->createOrGetStripeCustomer();
+
         // stripe doit recevoir le prix en centimes
         $price = $total_price * 100;
         // stripe payment
-        $user->charge($price, $request->payment_method);
+        $user->charge($price, $request->payment_method, [
+            "description" => $user->id,
+        ]);
 
-        // return back();
+        return back();
     }
+
 
     public function checkEmailExist(LoginRequest $request)
     {

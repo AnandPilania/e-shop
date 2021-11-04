@@ -14,11 +14,14 @@
                     <table id="order-listing" class="table">
                         <thead>
                             <tr>
-                                <th>Order #</th>
-                                <th>Nom du client</th>
-                                <th>Adresse</th>
-                                <th>panier</th>
-                                <th>Payement Id</th>
+                                <th>Id</th>
+                                <th>Nom_client</th>
+                                <th>Pays</th>
+                                <th>Code_postal</th>
+                                <th>Montant</th>
+                                <th>Panier</th>
+                                <th>Payement_id</th>
+                                <th>PayementOperator</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
