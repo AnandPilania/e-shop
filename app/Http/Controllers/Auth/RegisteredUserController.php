@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\Cart;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Product;
@@ -46,7 +47,7 @@ class RegisteredUserController extends Controller
      */
     public function store(RegisteredUserRequest $request)
     {
-        // dd(Session::get('cart'));
+        // dd(json_encode(Session::get('cart')));
         // dd($request);
 
         // ICI JE DOIS ENREGISTER LE payment_methode QUELQUE PART !!!!
@@ -115,6 +116,21 @@ class RegisteredUserController extends Controller
                 $total_price += ((int) $products['quantity'] * $product->price);
             }
         }
+
+        // puisque je ne sais pas accéder à Session('cart') dans OrderController je met le cart en db et le récupère à partir de la db dans OrderController -> storeAfterStripePayment
+        if (Cart::where('user_id', $user->id)->exists()) {
+            $cart = Cart::where('user_id', $user->id)->first();
+            $cart->user_id = $user->id;
+            $cart->cart = json_encode(Session::get('cart'));
+            $cart->save();
+        } else {
+            $cart = new Cart();
+            $cart->user_id = $user->id;
+            $cart->cart = json_encode(Session::get('cart'));
+            $cart->save();
+        }
+        // setcookie("2c7a6r9t5f4u3c2k5", "", time()-3600);
+
         // STRIPE
         $user->createOrGetStripeCustomer();
 

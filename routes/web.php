@@ -4,9 +4,12 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\TaxeController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\JumbosController;
 use App\Http\Controllers\ReviewController;
@@ -23,7 +26,6 @@ use App\Http\Controllers\ProductSheetController;
 use App\Http\Controllers\ProductDetailController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Type_detail_productController;
-use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,11 +41,11 @@ use App\Http\Controllers\OrderController;
 //Client//
 Route::get('/', [FrontEndController::class, 'index']);
 Route::get('/home', [ClientController::class, 'home']);
-Route::get('/shop', [ClientController::class, 'shop']);
-Route::get('/panier', [ClientController::class, 'panier']);
-Route::get('/client_login', [ClientController::class, 'client_login']);
-Route::get('/signup', [ClientController::class, 'signup']);
-Route::get('/paiement', [ClientController::class, 'paiement']);
+// Route::get('/shop', [ClientController::class, 'shop']);
+// Route::get('/panier', [ClientController::class, 'panier']);
+// Route::get('/client_login', [ClientController::class, 'client_login']);
+// Route::get('/signup', [ClientController::class, 'signup']);
+// Route::get('/paiement', [ClientController::class, 'paiement']);
 
 Route::get('/panier', [CartController::class, 'index_panier']);
 Route::get('/vider-panier', [CartController::class, 'viderPanier']);
@@ -126,20 +128,17 @@ Route::get('/conditionsUtilisation', function () {
 
 
 Route::post('/registerFromPayment', [RegisteredUserController::class, 'store']);
+
 // Stripe
-// Route::post('/webhook/payment/succeeded', [OrderController::class, 'storeAfterStripePayment']);
-Route::post('webhook/payment/succeeded', function (Request $request) {
-    
-    try {
-        $orderController = new OrderController;
-        $orderController->storeAfterStripePayment($request);
-    } catch (\Exception $e) {
+Route::post('/webhook/payment/succeeded', [OrderController::class, 'storeAfterStripePayment']);
+// Route::post('webhook/payment/succeeded', function (Request $request) {
 
-        return $e->getMessage();
-    }
+//     $orderController = new OrderController;
+//     $orderController->storeAfterStripePayment($request);
 
-    return 'ok';
-});
+//     return 'ok';
+
+// });
 
 //breeze----------------------------
 // Route::get('/', function () {

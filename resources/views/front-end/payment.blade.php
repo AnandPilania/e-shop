@@ -65,6 +65,7 @@
                 <h3 id="payment_total_Id"></h3>
             </div>
         </div>
+        @dump(Session::all())
     </div>
 
 

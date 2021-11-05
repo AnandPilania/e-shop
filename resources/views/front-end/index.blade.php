@@ -2,6 +2,7 @@
 
 @section('content')
 <div class="container_index-front">
+    @dump($status)
 
     <h1 class="text_jumbo">{{ $jumbo[0]->text }}</h1>
 
