@@ -72,6 +72,7 @@
         $x++
         @endphp
         @endforeach
+
         <div class="cart_total_price">
             <h3 id="total_priceId"></h3>&nbsp;<span>€</span>
         </div>
@@ -81,6 +82,7 @@
                 <button id="btn_passer_commande">Passer la commande</button>
             </a>
         </div>
+
     </div>
     @else
     <h2>Votre panier est vide</h2>

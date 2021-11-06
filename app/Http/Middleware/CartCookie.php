@@ -6,6 +6,7 @@ use Closure;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 
@@ -20,6 +21,12 @@ class CartCookie
      */
     public function handle(Request $request, Closure $next)
     {
+        // on exclu la route paiement pour pouvoir supprimer session cart et le cookie du cart dans OrderController
+        if (Route::getFacadeRoot()->current()->uri() === 'paiement' || 
+        Route::getFacadeRoot()->current()->uri() === 'collections.index') {
+            return $next($request);
+        }
+
         if (Session::exists('cart') == false) {
 
             if ($request->hasCookie('2c7a6r9t5f4u3c2k5')) {

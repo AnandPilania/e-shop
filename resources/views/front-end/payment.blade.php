@@ -7,6 +7,7 @@
     @include('front-end.register')
 
     <div class="payment_cart_product_wrapper">
+        @isset($cart)
         @foreach($cart as $cartProduct)
         <div class="payment_card">
             <!-- image -->
@@ -49,6 +50,7 @@
 
         </div>
         @endforeach
+        @endisset
 
         <div class="payment_total">
             <div class="payment_sous_total_price">

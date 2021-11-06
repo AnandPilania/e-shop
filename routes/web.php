@@ -66,6 +66,7 @@ Route::resource('/jumbos', JumbosController::class);
 Route::resource('/bannieres', BanniereController::class);
 Route::resource('/reviews', ReviewController::class);
 Route::resource('/carts', CartController::class);
+Route::resource('/orders', OrderController::class);
 
 
 

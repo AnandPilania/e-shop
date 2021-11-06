@@ -6,8 +6,10 @@ use App\Models\Cart;
 use App\Models\User;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
+use App\Events\EmptySessionCart_DestroyCookieCart;
 
 
 class OrderController extends Controller
@@ -46,39 +48,35 @@ class OrderController extends Controller
     public function storeAfterStripePayment(Request $request)
     {
         try {
-        // si le payment a réussi
-        if ($request->type === 'payment_intent.succeeded') {
-            // on récupère l'user qui a le customer id = stripe_id
-            $user = User::where('stripe_id', $request->data['object']['customer'])->first();
+            // si le payment a réussi
+            if ($request->type === 'payment_intent.succeeded') {
 
-            if ($user) {
-                $cart = Cart::where('user_id', $user->id)->first();
+                // on récupère l'user qui a le customer id = stripe_id
+                $user = User::where('stripe_id', $request->data['object']['customer'])->first();
 
-                $order = new Order;
-                $order->user_id = $user->id;
-                $order->total_amount = $request->data['object']['amount'] / 100;
-                $order->stripe_id = $request->data['object']['id'];
-                $order->payment_operator = 'Stripe';
-                $order->cart = $cart->cart;
-                $order->save();
+                if ($user) {
+                    // on indique dans cart que le paiement est ok
+                    $cart = Cart::where('user_id', $user->id)->first();
 
-                $cart->delete();
+                    // on crée la commande
+                    $order = new Order;
+                    $order->user_id = $user->id;
+                    $order->total_amount = $request->data['object']['amount'] / 100;
+                    $order->stripe_id = $request->data['object']['id'];
+                    $order->payment_operator = 'Stripe';
+                    $order->cart = $cart->cart;
+                    $order->save();
 
-                setcookie("2c7a6r9t5f4u3c2k5", "", time()-3600);
-                
-                Session::forget('cart');
- 
-                // setcookie("2c7a6r9t5f4u3c2k5", "", time()-3600);
-
-                
+                    // si le paiement est ok alors on peut supprimer le cart dans la db 
+                    $cart->delete();
+                }
             }
-        }
         } catch (\Exception $e) {
 
             return $e->getMessage();
         }
 
-        return 'ok';        
+        return 'ok';
     }
 
     /**

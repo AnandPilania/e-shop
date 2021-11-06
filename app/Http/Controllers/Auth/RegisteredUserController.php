@@ -19,6 +19,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Session;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\RegisteredUserRequest;
+use App\Events\EmptySessionCart_DestroyCookieCart;
 
 class RegisteredUserController extends Controller
 {
@@ -109,11 +110,13 @@ class RegisteredUserController extends Controller
             $cart = Session::get('cart');
             $total_price = 0;
 
-            foreach ($cart as $products) {
+            if ($cart != null) {
+                foreach ($cart as $products) {
 
-                $product = Product::find($products['product_id_cart']);
-
-                $total_price += ((int) $products['quantity'] * $product->price);
+                    $product = Product::find($products['product_id_cart']);
+    
+                    $total_price += ((int) $products['quantity'] * $product->price);
+                }
             }
         }
 
@@ -129,17 +132,22 @@ class RegisteredUserController extends Controller
             $cart->cart = json_encode(Session::get('cart'));
             $cart->save();
         }
-        // setcookie("2c7a6r9t5f4u3c2k5", "", time()-3600);
+
+        // supression session et cookie du cart
+        setcookie("2c7a6r9t5f4u3c2k5", "", time() - 3600);
+        Session::forget('cart');
 
         // STRIPE
         $user->createOrGetStripeCustomer();
 
         // stripe doit recevoir le prix en centimes
-        $price = $total_price * 100;
-        // stripe payment
-        $user->charge($price, $request->payment_method, [
-            "description" => $user->id,
-        ]);
+        if ($total_price) {
+            $price = $total_price * 100;
+            // stripe payment
+            $user->charge($price, $request->payment_method, [
+                "description" => $user->id,
+            ]);
+        }
 
         return back();
     }
