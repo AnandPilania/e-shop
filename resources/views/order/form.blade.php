@@ -1,52 +1,74 @@
 @extends('layouts.head_admin')
 
 @section('title')
-<h2>Ajouter une catégorie</h2>
+<h2>Ajouter une commande</h2>
 @endsection
 
 @section('content')
-<div class="main-panel">
-    <div class="content-wrapper">
-        <div class="row grid-margin">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">Ajouter un produit</h4>
-                        <form class="cmxform" id="commentForm" method="post" action="/categories" enctype="multipart/form-data">
-                            @csrf
-                            <fieldset>
-                                <div class="form-group">
-                                    <label for="name">Nom</label>
-                                    <input id="name" class="form-control" name="name" type="text" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="price">Prix</label>
-                                    <input id="price" class="form-control" type="number" name="price" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="category">Catégorie</label>
-                                    <p>
-                                        <select class="form-control" name="category" id="category">
-                                            <option value="">Sélectionnez une catégorie</option>
-                                            @foreach($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </p>
-                                </div>
-                                <div class="form-group">
-                                    <label for="image">Image</label>
-                                    <input type="file" name="image" id="image" class="form-control" required>
-                                </div>
-                                <input class="btn btn-primary" type="submit" value="Envoer">
-                            </fieldset>
-                        </form>
-                    </div>
-                </div>
-            </div>
+<div class="wrapper-form">
+    <h4 class="card-title">Ajouter une commande</h4>
+    @if (Session::has('status'))
+    <div class="alert">{{Session::get('status')}}</div>
+    @endif
+    <form method="post" action="/orders">
+        @csrf
+        <label for="name">Id</label>
+        <input id="id" name="id" type="text" value="{{ $order->id }}">
+        @error('id')
+        <div class="alert">{{ $message }}</div>
+        @enderror
+        <label for="last_name">Nom</label>
+        <input id="last_name" name="last_name" type="text" value="{{ $order->user->last_name }}">
+        @error('last_name')
+        <div class="alert">{{ $message }}</div>
+        @enderror
+        <div class="input-container">
+            <select name="country" id="country" value="{{ $order->user->address_user->country }}" class="classic missingFieldShipping">
+                <option value="" disabled selected></option>
+                <option value="France">France</option>
+                <option value="Belgique">Belgique</option>
+                <option value="Suisse">Suisse</option>
+                <option value="Canada">Canada</option>
+                <option value="---" disabled>---</option>
+                @foreach($countries as $country)
+                <option value="{{ $country->name_fr }}">{{ $country->name_fr }}</option>
+                @endforeach
+            </select>
+            <label for="country">Pays*</label>
+            @error('country')
+            <div class="alert">{{ $message }}</div>
+            @enderror
         </div>
+        <div class="input-container input-container_half">
+            <input id="cp" class="missingFieldShipping" type="number" name="cp" value="{{ $order->user->address_user->cp }}" maxlength="25" />
+            <label for="cp">Code postal*</label>
+            @error('cp')
+            <div class="alert">{{ $message }}</div>
+            @enderror
+        </div>
+        <label for="name">Montant</label>
+        <input id="amount" name="amount" type="number" step="0.01" value="{{ $order->total_amount }}">
+        @error('amount')
+        <div class="alert">{{ $message }}</div>
+        @enderror
+        <label for="cart">Panier</label>
+        <input id="cart" name="cart" type="text" value="{{ $order->cart }}">
+        @error('cart')
+        <div class="alert">{{ $message }}</div>
+        @enderror
+        <label for="payment_id">Payment_id</label>
+        <input id="payment_id" name="payment_id" type="text" value="{{ $order->stripe_id }}">
+        @error('payment_id')
+        <div class="alert">{{ $message }}</div>
+        @enderror
+        <label for="PayementOperator">Panier</label>
+        <input id="payementOperator" name="payementOperator" type="text" value="{{ $order->payment_operator }}">
+        @error('payementOperator')
+        <div class="alert">{{ $message }}</div>
+        @enderror
 
-    </div>
+        <div><input class="btn" type="submit" value="Envoyer"></div>
+        </fieldset>
+    </form>
 </div>
 @endsection
-

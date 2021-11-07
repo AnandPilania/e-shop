@@ -26,7 +26,7 @@
     background-color: #1e1e2f;
     margin: 0;
     padding: 0;
-    border: solid 2px rgb(0, 255, 85);
+    // border: solid 2px rgb(0, 255, 85);
 }
 
 .content-wrapper {
@@ -93,16 +93,19 @@ button.btn_ajouter:hover {
 }
 
 .table  tbody {
-    display: table-row-group;
     vertical-align: middle;
     border-color: inherit;
 }
 
 .table tr, .table td {
     height: 130px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 0 10px;
     // border: solid 2px rgb(255, 255, 255);
 }
-
+ 
 table td img {
     height: 100px;
     // border: solid 2px rgb(255, 255, 255);
@@ -243,14 +246,14 @@ table td img {
     width: 100%;
     padding: 0;
     overflow: scroll;
-    border: solid 5px rgb(255, 0, 157);
+    // border: solid 5px rgb(255, 0, 157);
 }
 
 .navAdmin ul {
     width: 250px;
     list-style-type: none;
     padding: 0;
-    border: solid 5px lime;
+    // border: solid 5px lime;
 }
 
 .navAdmin li {

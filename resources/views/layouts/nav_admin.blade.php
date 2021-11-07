@@ -30,6 +30,12 @@
         Products
       </li>
     </a>
+    <a href="/orders">
+      <li class="{{ 'orders' == request()->path() ? 'activeAdmin' : '' }}">
+        <i class="fas fa-list"></i>
+        Orders
+      </li>
+    </a>
     <a href="/type_detail_products">
       <li class="{{ 'type_detail_products' == request()->path() ? 'activeAdmin' : '' }}">
         <i class="far fa-question-circle"></i>
@@ -47,12 +53,6 @@
       <li class="{{ 'bannieres' == request()->path() ? 'activeAdmin' : '' }}">
         <i class="fas fa-info"></i>
         Banners
-      </li>
-    </a>
-    <a href="/commandes">
-      <li class="{{ 'commandes' == request()->path() ? 'activeAdmin' : '' }}">
-        <i class="far fa-comment-dots"></i>
-        Commandes
       </li>
     </a>
     <a href="/taxes">

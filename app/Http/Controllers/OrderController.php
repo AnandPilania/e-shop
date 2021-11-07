@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
@@ -21,7 +23,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return view('commande.list');
+        $orders = Order::all();
+        return view('order.list', ['orders' => $orders]);
     }
 
     /**
@@ -87,7 +90,14 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        $order = Order::find($id);
+        $cart = json_decode($order->cart);
+        
+        foreach ($cart as $item) {
+            $item->product = Product::where('id', $item->product_id_cart)->first();
+        }
+
+        return view('order.orderCartDetail', ['order' => $order, 'cart' => $cart]);
     }
 
     /**
@@ -98,7 +108,13 @@ class OrderController extends Controller
      */
     public function edit($id)
     {
-        //
+        $order = Order::find($id);
+        $countries = DB::table('countries')
+            ->select('name_fr')
+            ->orderBy('name_fr', 'asc')
+            ->get();
+
+        return view('order.edit', ['order' => $order, 'countries' => $countries]);
     }
 
     /**
@@ -110,7 +126,16 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $order = Order::find($id);
+        $order->user_id = $request->user_id;
+        $order->total_amount = $request->amount;
+        $order->stripe_id = $request->payment_id;
+        $order->cart = $request->cart;
+        $order->payment_operator = $request->payementOperator;
+        $order->save();
+
+        return redirect()->route('orders.index');
     }
 
     /**
@@ -121,6 +146,8 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Order::find($id)->delete();
+
+        return back();
     }
 }

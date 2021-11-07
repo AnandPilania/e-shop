@@ -133,9 +133,10 @@ class RegisteredUserController extends Controller
             $cart->save();
         }
 
-        // supression session et cookie du cart
+        // vidage de session cart et supression de cookie cart
         setcookie("2c7a6r9t5f4u3c2k5", "", time() - 3600);
-        Session::forget('cart');
+        $cart = [];
+        Session::put('cart', $cart);
 
         // STRIPE
         $user->createOrGetStripeCustomer();
@@ -149,7 +150,8 @@ class RegisteredUserController extends Controller
             ]);
         }
 
-        return back();
+        // return back();
+        return redirect()->route('collections.index');
     }
 
 

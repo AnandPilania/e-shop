@@ -8,12 +8,11 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\TaxeController;
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\ClientController;
 use App\Http\Controllers\JumbosController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SliderController;
+use App\Http\Controllers\BackEndController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BanniereController;
@@ -38,20 +37,13 @@ use App\Http\Controllers\Type_detail_productController;
 |
 */
 
-//Client//
-Route::get('/', [FrontEndController::class, 'index']);
-Route::get('/home', [ClientController::class, 'home']);
-// Route::get('/shop', [ClientController::class, 'shop']);
-// Route::get('/panier', [ClientController::class, 'panier']);
-// Route::get('/client_login', [ClientController::class, 'client_login']);
-// Route::get('/signup', [ClientController::class, 'signup']);
-// Route::get('/paiement', [ClientController::class, 'paiement']);
 
+Route::get('/', [FrontEndController::class, 'index']);
 Route::get('/panier', [CartController::class, 'index_panier']);
 Route::get('/vider-panier', [CartController::class, 'viderPanier']);
 
-//Admin//
-Route::get('/dashboard', [AdminController::class, 'dashboard']);
+//Back-end//
+Route::get('/dashboard', [BackEndController::class, 'dashboard']);
 
 //resources//
 Route::resource('/categories', CategoryController::class);
