@@ -92,10 +92,13 @@ class OrderController extends Controller
     {
         $order = Order::find($id);
         $cart = json_decode($order->cart);
-        
+   
         foreach ($cart as $item) {
             $item->product = Product::where('id', $item->product_id_cart)->first();
         }
+
+        $order->cartAndProduct = $cart;
+        $order->user = User::where('id', $order->user_id)->first();
 
         return view('order.orderCartDetail', ['order' => $order, 'cart' => $cart]);
     }
