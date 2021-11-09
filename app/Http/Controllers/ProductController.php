@@ -62,6 +62,7 @@ class ProductController extends Controller
 
         $product =  new Product;
         $product->name = $request->name;
+        $product->id_ali_express = $request->id_ali_express;
         $product->price = $request->price;
         $product->description = $request->description;
 
@@ -70,6 +71,7 @@ class ProductController extends Controller
         $replace = array('A', 'A', 'A', 'A', 'A', 'A', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y', 'a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y');
         $cleanLink = str_replace($search, $replace, $link);
         $product->link = strtolower($cleanLink);
+        $product->ordre = Product::all()->max('ordre') + 1;
 
         $product->save();
 
@@ -344,6 +346,7 @@ class ProductController extends Controller
 
         $product =  Product::find($request->id);
         $product->name = $request->name;
+        $product->id_ali_express = $request->id_ali_express;
         $product->price = $request->price;
         $product->description = $request->description;
 
@@ -352,7 +355,8 @@ class ProductController extends Controller
         $replace = array('A', 'A', 'A', 'A', 'A', 'A', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y', 'a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y');
         $cleanLink = str_replace($search, $replace, $link);
         $product->link = strtolower($cleanLink);
-        
+        $product->ordre = $product->ordre;
+
         $product->save();
 
         // collection_product

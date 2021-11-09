@@ -1,0 +1,20 @@
+{
+    "manifest_version": 2, 
+    "name": "RetrievIt", 
+    "description": "import products",
+    "version": "1.0", 
+    "permissions": [ 
+     "http://*/*",
+     "https://*/*",
+     "tabs", 
+     "<all_urls>",
+     "activeTab", "declarativeContent", "storage","contextMenus"
+    ],
+    "browser_action": {  
+     "default_icon" : "img/icon.png",
+     "default_popup": "popup.html"
+    },
+    "icons": { 
+     "128" : "img/icon.png" 
+    }
+   }

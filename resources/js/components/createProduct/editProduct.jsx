@@ -13,6 +13,7 @@ const EditProduct = () => {
     const [collection, setCollection] = React.useState([]);
     const [technicalSheet, setTechnicalSheet] = React.useState('');
     const [productName, setProductName] = React.useState('');
+    const [productIdAliExpress, setProductIdAliExpress] = React.useState('');
     const [productPrice, setProductPrice] = React.useState('');
     const [productDescription, setProductDescription] = React.useState('');
     const [sheet, setSheet] = React.useState('');
@@ -23,8 +24,10 @@ const EditProduct = () => {
         // récupére les types de détails de la table type_detail_products pour remplire le select id=selectdetails
         axios.get(`http://127.0.0.1:8000/editProduct/${productId}`)
             .then(res => {
-             
+
                 setProductName(res.data.product.name);
+                let id_ali = res.data.product.id_ali_express == null &&  'none'; 
+                setProductIdAliExpress(id_ali);
                 setProductPrice(res.data.product.price);
                 setProductDescription(res.data.product.description);
                 setSheet(res.data.sheet);
@@ -40,6 +43,7 @@ const EditProduct = () => {
 
         formData.append("id", productId);
         formData.append("name", document.getElementById("name").value);
+        formData.append("id_ali_express", document.getElementById("id_ali_express").value);
         formData.append("price", document.getElementById("price").value);
         formData.append("collection", collection);
         formData.append("description", document.getElementById("description").value);
@@ -74,6 +78,10 @@ const EditProduct = () => {
         setProductName(e.target.value);
     }
 
+    const handleIdAliExpress = (e) => {
+        setProductIdAliExpress(e.target.value);
+    }
+
     const handlePrice = (e) => {
         setProductPrice(e.target.value);
     }
@@ -99,10 +107,10 @@ const EditProduct = () => {
             // { name: 'links', groups: [ 'links' ] },
             // { name: 'insert', groups: [ 'insert' ] },
             // '/',
-            { name: 'styles', groups: [ 'styles' ] },
-            { name: 'colors', groups: [ 'colors' ] },
-            { name: 'tools', groups: [ 'tools' ] },
-            { name: 'others', groups: [ 'others' ] },
+            { name: 'styles', groups: ['styles'] },
+            { name: 'colors', groups: ['colors'] },
+            { name: 'tools', groups: ['tools'] },
+            { name: 'others', groups: ['others'] },
         ]
     };
 
@@ -116,12 +124,18 @@ const EditProduct = () => {
                 <fieldset>
                     <div className="form-group">
                         <label htmlFor="name">Nom</label>
-                        <input id="name" className="form-control" name="name" type="text" value={productName} onChange={handleName} />
+                        <input id="name" name="name" type="text" value={productName} onChange={handleName} />
                     </div>
 
                     <div className="form-group">
+                        <label htmlFor="id_ali_express">Id_AliExpress</label>
+                        <input id="id_ali_express" name="id_ali_express" type="text" value={productIdAliExpress} onChange={handleIdAliExpress} />
+                    </div>
+
+
+                    <div className="form-group">
                         <label htmlFor="price">Prix</label>
-                        <input id="price" className="form-control" type="number" step=".01" name="price" onChange={handlePrice} value={productPrice} />
+                        <input id="price" type="number" step=".01" name="price" onChange={handlePrice} value={productPrice} />
                     </div>
 
                     <SelectCollectionsEdit
@@ -130,7 +144,7 @@ const EditProduct = () => {
 
                     <div className="form-group">
                         <label htmlFor="description">Déscription</label>
-                        <input id="description" className="form-control" name="description" type="text" value={productDescription} onChange={handleDescription} />
+                        <input id="description" name="description" type="text" value={productDescription} onChange={handleDescription} />
                     </div>
 
                     <ContainerDetailEdit setDataDetail={setDataDetail} />

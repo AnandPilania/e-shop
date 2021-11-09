@@ -24496,24 +24496,31 @@ var EditProduct = function EditProduct() {
 
   var _React$useState7 = react__WEBPACK_IMPORTED_MODULE_0__.useState(''),
       _React$useState8 = _slicedToArray(_React$useState7, 2),
-      productPrice = _React$useState8[0],
-      setProductPrice = _React$useState8[1];
+      productIdAliExpress = _React$useState8[0],
+      setProductIdAliExpress = _React$useState8[1];
 
   var _React$useState9 = react__WEBPACK_IMPORTED_MODULE_0__.useState(''),
       _React$useState10 = _slicedToArray(_React$useState9, 2),
-      productDescription = _React$useState10[0],
-      setProductDescription = _React$useState10[1];
+      productPrice = _React$useState10[0],
+      setProductPrice = _React$useState10[1];
 
   var _React$useState11 = react__WEBPACK_IMPORTED_MODULE_0__.useState(''),
       _React$useState12 = _slicedToArray(_React$useState11, 2),
-      sheet = _React$useState12[0],
-      setSheet = _React$useState12[1];
+      productDescription = _React$useState12[0],
+      setProductDescription = _React$useState12[1];
+
+  var _React$useState13 = react__WEBPACK_IMPORTED_MODULE_0__.useState(''),
+      _React$useState14 = _slicedToArray(_React$useState13, 2),
+      sheet = _React$useState14[0],
+      setSheet = _React$useState14[1];
 
   var formData = new FormData();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // récupére les types de détails de la table type_detail_products pour remplire le select id=selectdetails
     axios__WEBPACK_IMPORTED_MODULE_4___default().get("http://127.0.0.1:8000/editProduct/".concat(productId)).then(function (res) {
       setProductName(res.data.product.name);
+      var id_ali = res.data.product.id_ali_express == null && 'none';
+      setProductIdAliExpress(id_ali);
       setProductPrice(res.data.product.price);
       setProductDescription(res.data.product.description);
       setSheet(res.data.sheet);
@@ -24526,6 +24533,7 @@ var EditProduct = function EditProduct() {
     e.preventDefault();
     formData.append("id", productId);
     formData.append("name", document.getElementById("name").value);
+    formData.append("id_ali_express", document.getElementById("id_ali_express").value);
     formData.append("price", document.getElementById("price").value);
     formData.append("collection", collection);
     formData.append("description", document.getElementById("description").value);
@@ -24552,6 +24560,10 @@ var EditProduct = function EditProduct() {
 
   var handleName = function handleName(e) {
     setProductName(e.target.value);
+  };
+
+  var handleIdAliExpress = function handleIdAliExpress(e) {
+    setProductIdAliExpress(e.target.value);
   };
 
   var handlePrice = function handlePrice(e) {
@@ -24611,7 +24623,6 @@ var EditProduct = function EditProduct() {
             children: "Nom"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
             id: "name",
-            className: "form-control",
             name: "name",
             type: "text",
             value: productName,
@@ -24620,11 +24631,22 @@ var EditProduct = function EditProduct() {
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "form-group",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
+            htmlFor: "id_ali_express",
+            children: "Id_AliExpress"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
+            id: "id_ali_express",
+            name: "id_ali_express",
+            type: "text",
+            value: productIdAliExpress,
+            onChange: handleIdAliExpress
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          className: "form-group",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
             htmlFor: "price",
             children: "Prix"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
             id: "price",
-            className: "form-control",
             type: "number",
             step: ".01",
             name: "price",
@@ -24640,7 +24662,6 @@ var EditProduct = function EditProduct() {
             children: "D\xE9scription"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
             id: "description",
-            className: "form-control",
             name: "description",
             type: "text",
             value: productDescription,

@@ -88,6 +88,15 @@ class RegisteredUserController extends Controller
             $address_user->cpBill = $request->cpBill;
             $address_user->cityBill = $request->cityBill;
             $address_user->user_id = $user->id;
+        } else {
+            $address_user->first_nameBill = $request->first_name;
+            $address_user->last_nameBill = $request->last_name;
+            $address_user->countryBill = $request->country;
+            $address_user->addressBill = $request->address;
+            $address_user->addressCommentBill = $request->addressComment;
+            $address_user->cpBill = $request->cp;
+            $address_user->cityBill = $request->city;
+            $address_user->user_id = $user->id;
         }
 
         $address_user->save();

@@ -24476,6 +24476,7 @@ var FormProduct = function FormProduct(props) {
     }
 
     formData.append("name", document.getElementById("name").value);
+    formData.append("id_ali_express", document.getElementById("id_ali_express").value);
     formData.append("price", document.getElementById("price").value);
     formData.append("collection", collection);
     formData.append("description", document.getElementById("description").value);
@@ -24674,6 +24675,13 @@ var FormProduct = function FormProduct(props) {
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
         id: "name",
         name: "name",
+        type: "text"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
+        htmlFor: "id_ali_express",
+        children: "Id_AliExpress"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
+        id: "id_ali_express",
+        name: "id_ali_express",
         type: "text"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
         htmlFor: "price",

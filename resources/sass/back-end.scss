@@ -286,41 +286,51 @@ table td img {
 }
 
 
-//////// SIDE MENU ACCORDEON ///////
-// .accordion {
-//     background-color: #eee;
-//     color: #444;
-//     cursor: pointer;
-//     padding: 18px;
-//     width: 100%;
-//     border: none;
-//     text-align: left;
-//     outline: none;
-//     font-size: 15px;
-//     transition: 0.4s;
-//   }
-  
-//   .active, .accordion:hover {
-//     background-color: #ccc;
-//   }
-  
-//   .accordion:after {
-//     content: '\002B';
-//     color: #777;
-//     font-weight: bold;
-//     float: right;
-//     margin-left: 5px;
-//   }
-  
-//   .active:after {
-//     content: "\2212";
-//   }
-  
-//   .panel {
-//     padding: 0 18px;
-//     background-color: white;
-//     max-height: 0;
-//     overflow: hidden;
-//     transition: max-height 0.2s ease-out;
-//   }
+// orederCartDetail.blade --------------------------
+
+
+.order_details {
+    width: 100%;
+    padding: 20px;
+    border: solid red 2px;
+}
+
+.wrapper_order_detail {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 30px 0;
+}
+
+.block_order_detail {
+    padding: 20px;
+    margin: 10px 0;
+    font-size: 16px;
+    line-height: 22px;
+    border-radius: 5px;
+    border: solid rgb(216, 216, 216) 1px;
+}
+
+.title_order_detail {
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.block_order_detail_user,
+.block_order_detail_address,
+.block_order_detail_addressBill,
+.block_order_detail_product {
+    width: 32%;
+    height: auto;
+    min-height: 220px;
+    min-width: 350px;
+    margin-right: 20px;
+}
+
+.block_order_detail_product {
+    width: 100%;
+}
 

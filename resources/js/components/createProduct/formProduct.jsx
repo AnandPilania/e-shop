@@ -44,6 +44,7 @@ const FormProduct = (props) => {
         }
 
         formData.append("name", document.getElementById("name").value);
+        formData.append("id_ali_express", document.getElementById("id_ali_express").value);
         formData.append("price", document.getElementById("price").value);
         formData.append("collection", collection);
         formData.append("description", document.getElementById("description").value);
@@ -251,7 +252,10 @@ const FormProduct = (props) => {
             <form method="post" action="/products" encType="multipart/form-data" onSubmit={handleSubmit}>
 
                 <label htmlFor="name">Nom</label>
-                <input id="name" name="name" type="text" />
+                <input id="name" name="name" type="text" />  
+                
+                <label htmlFor="id_ali_express">Id_AliExpress</label>
+                <input id="id_ali_express" name="id_ali_express" type="text" />
 
                 <label htmlFor="price">Prix</label>
                 <input id="price" type="number" step=".01" name="price" />
