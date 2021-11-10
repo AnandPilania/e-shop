@@ -48,6 +48,9 @@
             @endforeach
             @endforeach
         </div>
+
+        <div id="extends">Mon extension</div>
+
     </div>
 
 

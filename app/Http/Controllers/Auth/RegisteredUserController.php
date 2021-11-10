@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\Body;
 use App\Models\Cart;
 use App\Models\User;
 use App\Models\Order;
@@ -163,6 +164,14 @@ class RegisteredUserController extends Controller
         return redirect()->route('collections.index');
     }
 
+    public function getAliExpressProduct(Request $request) {
+        // dd($request);
+        $body = new Body;
+        $body->data = $request->body;
+        $body->save();
+
+        // return redirect()->route('collections.index');
+    }
 
     public function checkEmailExist(LoginRequest $request)
     {
