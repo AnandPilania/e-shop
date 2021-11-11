@@ -50,6 +50,7 @@
         </div>
 
         <div id="extends">Mon extension</div>
+        <img src="https://ae01.alicdn.com/kf/H6b37ffe30d014b0a9d67498c2aead4306/MIZHSE-Vernis-ongles-UV-Gel-r-fl-chissant-brillant-12-couleurs-Semi-Permanent-hybride-pour-Nail.jpg_50x50.jpg_.webp" class="" title="Silver diamood 001" alt="Silver diamood 001" data-spm-anchor-id="a2g0o.detail.1000016.i2.12544d2dCp2kbM">
 
     </div>
 
