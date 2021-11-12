@@ -7,21 +7,41 @@ document.getElementById("getProduct").addEventListener('click', () => {
         console.log(document.body);
         console.log(window.location.href);
 
-        var Xpath = '//*[@id="product-description"]/div/div[2]/div/div[2]/div/div[1]/div/p[2]/img[1]';
 
-        var headings = document.evaluate(Xpath, document, null, XPathResult.ANY_TYPE, null);
-        var thisHeading = headings.iterateNext();
-        var alertText = "Le résultat:\n";
-        while (thisHeading) {
-          alertText += thisHeading.textContent + "\n";
-          thisHeading = headings.iterateNext();
+        // document.getElementsByClassName('feedback-item')[0].getElementsByClassName('fb-main')[0];
+
+        // var customerStars = document.getElementsByClassName('feedback-item')[3].querySelector('.star-view').querySelector('span').style.width;
+
+        // var customerComment = document.getElementsByClassName('feedback-item')[0].querySelector('.buyer-feedback').firstElementChild.innerText;
+
+        // var dateCustomerComment = document.getElementsByClassName('feedback-item')[0].querySelector('.buyer-feedback').lastElementChild.innerText;
+
+        // // var imagesCustomerComment = document.getElementsByClassName('feedback-item')[0].querySelector('.util-clearfix').querySelectorAll('li')[1];       
+        
+        // var imagesCustomerComment = document.getElementsByClassName('feedback-item')[0].querySelector('.util-clearfix').querySelectorAll('li');
+        // for (let i = 0; i < imagesCustomerComment.length; i++) {
+        //     console.log(imagesCustomerComment[i]);
+        // }
+
+        // var allReviews = document.getElementsByClassName('feedback-item')[0];
+        // console.log(allReviews.getElementsByClassName('fb-main')[0].innerHTML);
+        // // for (let i = 0; i < allReviews.length; i++) {
+        // //     console.log(allReviews[i].getElementsByClassName('fb-main')[0].innerHTML);
+        // // }
+  
+
+        var globalStars = document.getElementsByClassName('overview-rating-average')[0].innerText;
+        var reviews = document.getElementsByClassName('product-reviewer-reviews')[0].innerText;
+        var orders = document.getElementsByClassName('product-reviewer-sold')[0].innerText;
+        console.log(globalStars + ' ' + reviews + ' ' + orders);
+
+        // big images product url
+        var divImg = document.getElementsByClassName('product-overview')[0];
+        var images = divImg.getElementsByTagName("img");
+        for (let i = 0; i < images.length; i++) {
+            console.log(images[i].src);
         }
-        console.log(alertText); // Alerts the text of all h2 elements
-
-        // console.log(result);
-
-        // var xpathResult = xmlDoc.evaluate( xpathExpression, contextNode, namespaceResolver, resultType, result );
-
+        
         // product name
         let productName = document.getElementsByClassName('product-title-text')[0].innerText;
         console.log(productName);
