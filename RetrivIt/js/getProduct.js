@@ -1,7 +1,6 @@
 
 document.getElementById("getProduct").addEventListener('click', () => {
-    console.log("Popup DOM fully loaded and parsed");
-
+    
     function modifyDOM() {
         //You can play with your DOM here or check URL against your regex
         console.log(document.body);
@@ -29,48 +28,63 @@ document.getElementById("getProduct").addEventListener('click', () => {
         // //     console.log(allReviews[i].getElementsByClassName('fb-main')[0].innerHTML);
         // // }
   
+        var formData = new FormData();
+
+        // urm product
+        formData.append("urlProduct", window.location.href);
 
         var globalStars = document.getElementsByClassName('overview-rating-average')[0].innerText;
         var reviews = document.getElementsByClassName('product-reviewer-reviews')[0].innerText;
         var orders = document.getElementsByClassName('product-reviewer-sold')[0].innerText;
-        console.log(globalStars + ' ' + reviews + ' ' + orders);
+        formData.append("globalStars", globalStars);
+        formData.append("reviews", reviews);
+        formData.append("orders", orders);
 
         // big images product url
         var divImg = document.getElementsByClassName('product-overview')[0];
         var images = divImg.getElementsByTagName("img");
+        var bigImagesProductUrl = [];
         for (let i = 0; i < images.length; i++) {
-            console.log(images[i].src);
+            bigImagesProductUrl.push(images[i].src);
         }
-        
+        var bigImagesProductUrlObj = JSON.stringify(bigImagesProductUrl);
+        formData.append("bigImagesProductUrl", bigImagesProductUrlObj);
+
         // product name
         let productName = document.getElementsByClassName('product-title-text')[0].innerText;
-        console.log(productName);
+        formData.append("productName", productName);
 
         // price
         const myelements = document.getElementsByTagName("div");
+        var price = null;
         for (let i = 0; i < myelements.length; i++) {
             if (myelements[i].classList.contains("product-price-current")) {
                 var product_price_current = true;
             }
         }
         if (product_price_current) {
-            let price = document.getElementsByClassName('product-price-current')[0].innerText;
-            console.log(price.replace('€', ''));
+            price = document.getElementsByClassName('product-price-current')[0].innerText;
         } else {
-            let price = document.getElementsByClassName('uniform-banner-box-price')[0].innerText;
-            console.log(price.replace('€', ''));
+            price = document.getElementsByClassName('uniform-banner-box-price')[0].innerText;
         }
+
+        formData.append("price", price);
 
         // slider images product 
         let images_view_item = document.getElementsByClassName('images-view-item');
+        var slider_images_product = [];
         if (images_view_item.length > 0) {
             for (let i = 0; i < images_view_item.length; i++) {
-                console.log(images_view_item[i].innerHTML);
+                slider_images_product.push(images_view_item[i].innerHTML);
             }
         }
+        var slider_images_productObj = JSON.stringify(slider_images_product);
+        formData.append("slider_images_product", slider_images_productObj);
 
         // récupère les class des propriétés comme couleur, taille,...
         let property = document.getElementsByClassName('sku-title');
+        var colorProperty = {};
+        var sizeProperty = [];
         for (let i = 0; i < property.length; i++) {
             let titleProperty = property[i].firstChild.textContent.replace('"', '');
             console.log(titleProperty);
@@ -82,27 +96,25 @@ document.getElementById("getProduct").addEventListener('click', () => {
                 let color = document.getElementsByClassName('sku-property-image');
                 if (color.length > 0) {
                     for (let i = 0; i < color.length; i++) {
-                        console.log(color[i].innerHTML);
+                        colorProperty['color_' + i] = (color[i].innerHTML);
                     }
                 }
+                var colorPropertyObj = JSON.stringify(colorProperty);
+                formData.append("color", colorPropertyObj);
             }
 
             if (titleProperty == 'Taille' || titleProperty == 'Size') {
-                let taille = document.getElementsByClassName('sku-property-text');
-                if (taille.length > 0) {
-                    for (let i = 0; i < taille.length; i++) {
-                        console.log(taille[i].innerText);
+                let size = document.getElementsByClassName('sku-property-text');
+                if (size.length > 0) {
+                    for (let i = 0; i < size.length; i++) {
+                        sizeProperty.push(size[i].innerText);
                     }
                 }
+                var sizePropertyObj = JSON.stringify(sizeProperty);
+                formData.append("size", sizePropertyObj);
             }
         }
 
-
-
-
-        var formData = new FormData();
-
-        formData.append("body", document.getElementsByClassName('product-title-text')[0].innerText);
 
 
         fetch(`http://127.0.0.1:8000/getAliExpressProduct`, {

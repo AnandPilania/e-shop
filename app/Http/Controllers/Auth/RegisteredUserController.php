@@ -124,7 +124,7 @@ class RegisteredUserController extends Controller
                 foreach ($cart as $products) {
 
                     $product = Product::find($products['product_id_cart']);
-    
+
                     $total_price += ((int) $products['quantity'] * $product->price);
                 }
             }
@@ -164,11 +164,23 @@ class RegisteredUserController extends Controller
         return redirect()->route('collections.index');
     }
 
-    public function getAliExpressProduct(Request $request) {
-        // dd($request);
+    public function getAliExpressProduct(Request $request)
+    {
+        // $url = $request->color;
+        // $contents = file_get_contents($url);
+        $colorTab = (json_decode($request->color));
+        dd($colorTab->color_1);
         $body = new Body;
         $body->data = $request->body;
         $body->save();
+
+        // importer image et sauvegarder
+        // $url = "http://www.google.co.in/intl/en_com/images/srpr/logo1w.png";
+        // $contents = file_get_contents($url);
+        // $name = substr($url, strrpos($url, '/') + 1);
+        // Storage::put($name, $contents);
+
+
 
         // return redirect()->route('collections.index');
     }

@@ -3,6 +3,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
@@ -98,7 +99,7 @@ Route::post('/cartUpdate', [CartController::class, 'update']);
 // show payment view and give $cart_session data
 Route::get('/paiement', [PaymentController::class, 'index']);
 
-// check if email exist
+// check if email exist when checkout
 Route::post('/checkEmailExist', [RegisteredUserController::class, 'checkEmailExist']);
 // save ali express product in db
 Route::post('/getAliExpressProduct', [RegisteredUserController::class, 'getAliExpressProduct']);
@@ -145,3 +146,5 @@ Route::post('/webhook/payment/succeeded', [OrderController::class, 'storeAfterSt
 // })->middleware(['auth'])->name('dashboard');
 
 require __DIR__ . '/auth.php';
+
+
