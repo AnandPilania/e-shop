@@ -127,7 +127,10 @@
                 <!-- valeur du détail -->
                 @if ($value->type_detail_product->name == $lastValue)
                 <input type="radio" class="details radio_item" value="{{ $value->libelle }}" name="{{ $value->type_detail_product->name }}" id="{{ $value->libelle }}" required onclick="addDetailToCart(event)">
+
+                <!-- ICI METTRE UN IF QUI CHECK SI $value->libelle COMMENCE PAR 'http' POUR SAVOIR SI C'EST LE SRC D'UNE IMAGE OU DU TEXTE -->
                 <label class="label_item" for="{{ $value->libelle }}"> {{ $value->libelle }}</label>
+                <!-- ----------------------------------------------------- -->
                 @endif
                 <!-- referme la div quand on change de type de détails -->
                 @if ($loop->last)

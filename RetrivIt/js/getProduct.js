@@ -96,7 +96,9 @@ document.getElementById("getProduct").addEventListener('click', () => {
                 let color = document.getElementsByClassName('sku-property-image');
                 if (color.length > 0) {
                     for (let i = 0; i < color.length; i++) {
-                        colorProperty['color_' + i] = (color[i].innerHTML);
+                        colorProperty['color_src_' + i] = color[i].querySelector('img').src;
+                        colorProperty['color_alt_' + i] = color[i].querySelector('img').alt;
+                        colorProperty['color_title_' + i] = color[i].querySelector('img').title;
                     }
                 }
                 var colorPropertyObj = JSON.stringify(colorProperty);

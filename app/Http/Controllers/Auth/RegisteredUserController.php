@@ -169,7 +169,7 @@ class RegisteredUserController extends Controller
         // $url = $request->color;
         // $contents = file_get_contents($url);
         $colorTab = (json_decode($request->color));
-        dd($colorTab->color_1);
+        dd($colorTab, json_decode($request->size));
         $body = new Body;
         $body->data = $request->body;
         $body->save();
