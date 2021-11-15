@@ -166,6 +166,7 @@ class RegisteredUserController extends Controller
 
     public function getAliExpressProduct(Request $request)
     {
+        dd($request);
         // $url = $request->color;
         // $contents = file_get_contents($url);
         $colorTab = (json_decode($request->color));

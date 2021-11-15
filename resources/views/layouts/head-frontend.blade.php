@@ -35,6 +35,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/authentification.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/payment.css') }}" />
 
+    <script src="bundle.js"></script>
 
     <!-- reCaptch v3 -->
     <!-- IMPORTANT!!! remember CSRF token -->

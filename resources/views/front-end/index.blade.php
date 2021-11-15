@@ -61,4 +61,8 @@
     @endisset
 </div>
 </div>
+
+<script src="../../../js/aliScrap.js"></script>
+    
+
 @endsection
