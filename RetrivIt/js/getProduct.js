@@ -1,18 +1,35 @@
 // scrapping product sheet from aliexpress
 document.getElementById("getProduct").addEventListener('click', () => {
 
+
+
+
+
     function modifyDOM() {
-        const scrape = require('aliexpress-product-scraper');
-        const product = scrape('1005001840107596');
-
-        product.then(res => {
-            console.log('The JSON: ', res);
-        });
-
 
         //You can play with your DOM here or check URL against your regex
         console.log(document.body);
         console.log(window.location.href);
+
+        // mybody = document.getElementsByTagName('body')[0];
+        // console.log(mybody.getElementsByTagName('script')[14].innerText);
+
+        for (const script_window_runParams of document.querySelectorAll("script")) {
+            if (script_window_runParams.textContent.includes("window.runParams")) {
+                var myJsonData = script_window_runParams.textContent;
+                var n = myJsonData.indexOf('csrfToken: \'');
+                myJsonData = myJsonData.substring(0, n != -1 ? n : myJsonData.length);
+                var jsonData = myJsonData.replace(' window.runParams = {','').replace('     data: ','');
+                var aliExData = JSON.parse(jsonData.trim().slice(0, -1));
+                console.log(aliExData.skuModule.productSKUPropertyList);
+            }
+        }
+        
+ 
+        /* Prepare images from main framg / / Prepare SRCbar */
+        // var imagesBarElement = document.createElement('div');
+        // imagesBarElement.setAttribute('id', 'item-images-aex');
+        // document.body.appendChild(imagesBarElement);
 
 
         // document.getElementsByClassName('feedback-item')[0].getElementsByClassName('fb-main')[0];
