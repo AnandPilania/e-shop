@@ -1,18 +1,10 @@
 // scrapping product sheet from aliexpress
 document.getElementById("getProduct").addEventListener('click', () => {
 
-
-
-
-
     function modifyDOM() {
 
-        //You can play with your DOM here or check URL against your regex
         console.log(document.body);
         console.log(window.location.href);
-
-        // mybody = document.getElementsByTagName('body')[0];
-        // console.log(mybody.getElementsByTagName('script')[14].innerText);
 
         for (const script_window_runParams of document.querySelectorAll("script")) {
             if (script_window_runParams.textContent.includes("window.runParams")) {
@@ -21,41 +13,34 @@ document.getElementById("getProduct").addEventListener('click', () => {
                 myJsonData = myJsonData.substring(0, n != -1 ? n : myJsonData.length);
                 var jsonData = myJsonData.replace(' window.runParams = {','').replace('     data: ','');
                 var aliExData = JSON.parse(jsonData.trim().slice(0, -1));
-                console.log(aliExData.skuModule.productSKUPropertyList);
+
+
+                aliExData.imageModule.imagePathList.forEach(function(nextPathImage) {
+                    console.log(nextPathImage);
+                });
+
+                aliExData.skuModule.productSKUPropertyList.forEach(function (nextProperty) {
+                    console.log(nextProperty.skuPropertyName);
+                    nextProperty.skuPropertyValues.forEach(function (nextPropertyDetail, index) {
+                        console.log(nextPropertyDetail.propertyValueName);
+                        console.log(nextPropertyDetail.skuPropertyImagePath);
+                    });
+                });
+
+
+                // aliExData.skuModule.productSKUPropertyList.forEach(function(nextProperty) {
+                //     console.log(nextProperty.skuPropertyValues);
+                //     // console.log(nextProperty.skuPropertyValues.skuPropertyImagePath);
+                // });
+                // console.log(aliExData.skuModule.productSKUPropertyList[0].skuPropertyValues);
+                console.log(aliExData.imageModule);
             }
         }
         
  
-        /* Prepare images from main framg / / Prepare SRCbar */
-        // var imagesBarElement = document.createElement('div');
-        // imagesBarElement.setAttribute('id', 'item-images-aex');
-        // document.body.appendChild(imagesBarElement);
-
-
-        // document.getElementsByClassName('feedback-item')[0].getElementsByClassName('fb-main')[0];
-
-        // var customerStars = document.getElementsByClassName('feedback-item')[3].querySelector('.star-view').querySelector('span').style.width;
-
-        // var customerComment = document.getElementsByClassName('feedback-item')[0].querySelector('.buyer-feedback').firstElementChild.innerText;
-
-        // var dateCustomerComment = document.getElementsByClassName('feedback-item')[0].querySelector('.buyer-feedback').lastElementChild.innerText;
-
-        // // var imagesCustomerComment = document.getElementsByClassName('feedback-item')[0].querySelector('.util-clearfix').querySelectorAll('li')[1];       
-
-        // var imagesCustomerComment = document.getElementsByClassName('feedback-item')[0].querySelector('.util-clearfix').querySelectorAll('li');
-        // for (let i = 0; i < imagesCustomerComment.length; i++) {
-        //     console.log(imagesCustomerComment[i]);
-        // }
-
-        // var allReviews = document.getElementsByClassName('feedback-item')[0];
-        // console.log(allReviews.getElementsByClassName('fb-main')[0].innerHTML);
-        // // for (let i = 0; i < allReviews.length; i++) {
-        // //     console.log(allReviews[i].getElementsByClassName('fb-main')[0].innerHTML);
-        // // }
-
         var formData = new FormData();
 
-        // urm product
+        // url product
         formData.append("urlProduct", window.location.href);
 
         if (document.getElementsByClassName('overview-rating-average').length > 0) {
