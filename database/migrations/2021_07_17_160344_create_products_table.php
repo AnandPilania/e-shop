@@ -17,9 +17,10 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('ali_url_product')->nullable();
-            $table->string('global_stars')->nullable();
-            $table->string('reviews')->nullable();
-            $table->string('orders')->nullable();
+            $table->string('ali_product_id')->nullable();
+            $table->integer('global_stars')->nullable();
+            $table->integer('reviews')->nullable();
+            $table->integer('orders')->nullable();
             $table->float('price', 8, 2);
             $table->mediumText('description')->nullable();
             $table->string('link');

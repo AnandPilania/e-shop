@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Body;
 use App\Models\Product;
 use App\Models\Collection;
 use Illuminate\Http\Request;
@@ -62,7 +63,11 @@ class ProductController extends Controller
 
         $product =  new Product;
         $product->name = $request->name;
-        $product->id_ali_express = $request->id_ali_express;
+        $product->ali_url_product = $request->ali_url_product;
+        $product->ali_product_id = $request->ali_product_id;
+        $product->global_stars = $request->global_stars;
+        $product->reviews = $request->reviews;
+        $product->orders = $request->orders;
         $product->price = $request->price;
         $product->description = $request->description;
 
@@ -142,6 +147,30 @@ class ProductController extends Controller
 
         return redirect('/products/create')->with('status', 'Le produit ' . $input['image'] . ' a été ajouté');
     }
+
+
+    public function getAliExpressProduct(Request $request)
+    {
+        dd($request);
+        // $url = $request->color;
+        // $contents = file_get_contents($url);
+        $colorTab = (json_decode($request->color));
+        dd($colorTab, json_decode($request->size));
+        $body = new Body;
+        $body->data = $request->body;
+        $body->save();
+
+        // importer image et sauvegarder
+        // $url = "http://www.google.co.in/intl/en_com/images/srpr/logo1w.png";
+        // $contents = file_get_contents($url);
+        // $name = substr($url, strrpos($url, '/') + 1);
+        // Storage::put($name, $contents);
+
+
+
+        // return redirect()->route('collections.index');
+    }
+
 
 
     /**

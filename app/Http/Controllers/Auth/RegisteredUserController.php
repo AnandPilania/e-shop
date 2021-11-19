@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\Body;
+
 use App\Models\Cart;
 use App\Models\User;
 use App\Models\Order;
@@ -162,28 +162,6 @@ class RegisteredUserController extends Controller
 
         // return back();
         return redirect()->route('collections.index');
-    }
-
-    public function getAliExpressProduct(Request $request)
-    {
-        dd($request);
-        // $url = $request->color;
-        // $contents = file_get_contents($url);
-        $colorTab = (json_decode($request->color));
-        dd($colorTab, json_decode($request->size));
-        $body = new Body;
-        $body->data = $request->body;
-        $body->save();
-
-        // importer image et sauvegarder
-        // $url = "http://www.google.co.in/intl/en_com/images/srpr/logo1w.png";
-        // $contents = file_get_contents($url);
-        // $name = substr($url, strrpos($url, '/') + 1);
-        // Storage::put($name, $contents);
-
-
-
-        // return redirect()->route('collections.index');
     }
 
     public function checkEmailExist(LoginRequest $request)

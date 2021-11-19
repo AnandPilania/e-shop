@@ -15,6 +15,7 @@ document.getElementById("getProduct").addEventListener('click', () => {
                 var aliExData = JSON.parse(jsonData.trim().slice(0, -1));
 
 
+                // imga du slider "grandes images"
                 aliExData.imageModule.imagePathList.forEach(function(nextPathImage) {
                     console.log(nextPathImage);
                 });
@@ -44,13 +45,13 @@ document.getElementById("getProduct").addEventListener('click', () => {
         formData.append("urlProduct", window.location.href);
 
         if (document.getElementsByClassName('overview-rating-average').length > 0) {
-            var globalStars = document.getElementsByClassName('overview-rating-average')[0].innerText;
+            var globalStars = parseInt(document.getElementsByClassName('overview-rating-average')[0].innerText.trim().replace(/\D/g,''), 10) / 10;
         }
         if (document.getElementsByClassName('product-reviewer-reviews').length > 0) {
-            var reviews = document.getElementsByClassName('product-reviewer-reviews')[0].innerText;
+            var reviews = parseInt(document.getElementsByClassName('product-reviewer-reviews')[0].innerText.trim().replace(/\D/g,''), 10);
         }
         if (document.getElementsByClassName('product-reviewer-sold').length > 0) {
-            var orders = document.getElementsByClassName('product-reviewer-sold')[0].innerText;
+            var orders = parseInt(document.getElementsByClassName('product-reviewer-sold')[0].innerText.trim().replace(/\D/g,''), 10);
         }
 
         formData.append("globalStars", globalStars);

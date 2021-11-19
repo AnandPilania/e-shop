@@ -102,7 +102,7 @@ Route::get('/paiement', [PaymentController::class, 'index']);
 // check if email exist when checkout
 Route::post('/checkEmailExist', [RegisteredUserController::class, 'checkEmailExist']);
 // save ali express product in db
-Route::post('/getAliExpressProduct', [RegisteredUserController::class, 'getAliExpressProduct']);
+Route::post('/getAliExpressProduct', [ProductController::class, 'getAliExpressProduct']);
 
 
 Route::get('/logout', function () {
