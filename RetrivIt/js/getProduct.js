@@ -3,28 +3,37 @@ document.getElementById("getProduct").addEventListener('click', () => {
 
     function modifyDOM() {
 
-        console.log(document.body);
+        // console.log(document.body);
+
+        console.log('ce qui suis est la fiche du produit sur aliexpress');
         console.log(window.location.href);
 
+        // on récupère le script qui contien "window.runParams" pour en extraire les data
         for (const script_window_runParams of document.querySelectorAll("script")) {
             if (script_window_runParams.textContent.includes("window.runParams")) {
+                // on retire ce qu'on a pas besoin pour obtenir un fichier json prêt à l'emploi
                 var myJsonData = script_window_runParams.textContent;
                 var n = myJsonData.indexOf('csrfToken: \'');
                 myJsonData = myJsonData.substring(0, n != -1 ? n : myJsonData.length);
-                var jsonData = myJsonData.replace(' window.runParams = {','').replace('     data: ','');
+                var jsonData = myJsonData.replace(' window.runParams = {', '').replace('     data: ', '');
+                // console.log(jsonData);
+
+                console.log('ce qui suis est le jsonData');
                 var aliExData = JSON.parse(jsonData.trim().slice(0, -1));
+                console.log(aliExData);
 
-
-                // imga du slider "grandes images"
-                aliExData.imageModule.imagePathList.forEach(function(nextPathImage) {
-                    console.log(nextPathImage);
+                // lien de slider img big format
+                console.log('ce qui suis est le slider img big format');
+                aliExData.imageModule.imagePathList.forEach(function (nextPathImage) {
+                    console.log('slide img  ' + nextPathImage);
                 });
 
+                console.log('ce qui suis sont les propriétés');
                 aliExData.skuModule.productSKUPropertyList.forEach(function (nextProperty) {
-                    console.log(nextProperty.skuPropertyName);
+                    console.log('Property  ' + nextProperty.skuPropertyName);
                     nextProperty.skuPropertyValues.forEach(function (nextPropertyDetail, index) {
-                        console.log(nextPropertyDetail.propertyValueName);
-                        console.log(nextPropertyDetail.skuPropertyImagePath);
+                        console.log('propertyValueName  ' + nextPropertyDetail.propertyValueName);
+                        console.log('imgPath  ' + nextPropertyDetail.skuPropertyImagePath);
                     });
                 });
 
@@ -34,24 +43,31 @@ document.getElementById("getProduct").addEventListener('click', () => {
                 //     // console.log(nextProperty.skuPropertyValues.skuPropertyImagePath);
                 // });
                 // console.log(aliExData.skuModule.productSKUPropertyList[0].skuPropertyValues);
+                
+                console.log('ce qui est aliExData.imageModule');
                 console.log(aliExData.imageModule);
+
+                console.log('ce qui sont les détails techniques');
+                aliExData.specsModule.props.forEach(function (nextProps) {
+                    console.log(nextProps.attrName + '  ' + nextProps.attrValue);
+                });
             }
         }
-        
- 
+
+
         var formData = new FormData();
 
         // url product
         formData.append("urlProduct", window.location.href);
 
         if (document.getElementsByClassName('overview-rating-average').length > 0) {
-            var globalStars = parseInt(document.getElementsByClassName('overview-rating-average')[0].innerText.trim().replace(/\D/g,''), 10) / 10;
+            var globalStars = parseInt(document.getElementsByClassName('overview-rating-average')[0].innerText.trim().replace(/\D/g, ''), 10) / 10;
         }
         if (document.getElementsByClassName('product-reviewer-reviews').length > 0) {
-            var reviews = parseInt(document.getElementsByClassName('product-reviewer-reviews')[0].innerText.trim().replace(/\D/g,''), 10);
+            var reviews = parseInt(document.getElementsByClassName('product-reviewer-reviews')[0].innerText.trim().replace(/\D/g, ''), 10);
         }
         if (document.getElementsByClassName('product-reviewer-sold').length > 0) {
-            var orders = parseInt(document.getElementsByClassName('product-reviewer-sold')[0].innerText.trim().replace(/\D/g,''), 10);
+            var orders = parseInt(document.getElementsByClassName('product-reviewer-sold')[0].innerText.trim().replace(/\D/g, ''), 10);
         }
 
         formData.append("globalStars", globalStars);
@@ -95,11 +111,14 @@ document.getElementById("getProduct").addEventListener('click', () => {
         }
         formData.append("price", price);
 
-        // slider images product 
+
+
+        // slider images product thumbnail 
         if (document.getElementsByClassName('images-view-item').length > 0) {
             let images_view_item = document.getElementsByClassName('images-view-item');
             var slider_images_product = {};
             if (images_view_item.length > 0) {
+
                 for (let i = 0; i < images_view_item.length; i++) {
                     slider_images_product['src_' + i] = images_view_item[i].querySelector('img').src;
                     slider_images_product['alt_' + i] = images_view_item[i].querySelector('img').alt;
