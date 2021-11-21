@@ -95,6 +95,7 @@ document.getElementById("getProduct").addEventListener('click', () => {
         formData.append("productName", productName);
 
         // price
+        console.log('ce qui suis est le prix');
         if (document.getElementsByTagName('div').length > 0) {
             const divsContainPrice = document.getElementsByTagName("div");
             var price = null;
@@ -108,6 +109,7 @@ document.getElementById("getProduct").addEventListener('click', () => {
             } else {
                 price = document.getElementsByClassName('uniform-banner-box-price')[0].innerText;
             }
+            console.log(price);
         }
         formData.append("price", price);
 

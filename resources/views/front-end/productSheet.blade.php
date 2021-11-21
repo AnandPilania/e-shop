@@ -12,8 +12,11 @@
         <i class="fas fa-chevron-right"></i>
         <a href="{{ asset('collections/' . $product->collections[0]->link) . '/' . $product->link . '/' . $product->id }}">{{ $product->name }}</a> 
     </div>
+
+
     <div class="product_sheet">
 
+        <!-- slider images -->
         <div class="image_product">
 
             <div id="slide-wrapper">
@@ -36,7 +39,7 @@
 
         </div>
 
-        {{-- GESTION IMAGES --}}
+        {{-- GESTION IMAGES SLIDER --}}
         <script type="text/javascript">
             let thumbnails = document.getElementsByClassName('thumbnail')
 
@@ -118,7 +121,7 @@
             <!-- nom du détail -->
             @if ($value->type_detail_product->name != $lastValue)
             <div class="block_detail">
-                <h4 id="nomDetail">{{ $lastValue = $value->type_detail_product->name }}</h4>
+                <h4 class="nomDetail">{{ $lastValue = $value->type_detail_product->name }}</h4>
                 <span id="{{ $value->type_detail_product->name }}" class="missingDetails">Ce champ est obligatoire</span>
                 <script>
                     listDetailsToAddToCart("{!! $value->type_detail_product->name !!}");
