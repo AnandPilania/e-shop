@@ -5,6 +5,9 @@ document.getElementById("getProduct").addEventListener('click', () => {
 
         // console.log(document.body);
 
+
+
+
         console.log('ce qui suis est la fiche du produit sur aliexpress');
         console.log(window.location.href);
 
@@ -16,16 +19,16 @@ document.getElementById("getProduct").addEventListener('click', () => {
                 var n = myJsonData.indexOf('csrfToken: \'');
                 myJsonData = myJsonData.substring(0, n != -1 ? n : myJsonData.length);
                 var jsonData = myJsonData.replace(' window.runParams = {', '').replace('     data: ', '');
-                // console.log(jsonData);
+                console.log(jsonData);
 
                 console.log('ce qui suis est le jsonData');
                 var aliExData = JSON.parse(jsonData.trim().slice(0, -1));
                 console.log(aliExData);
 
-                // lien de slider img big format
+                // slider lien img big format
                 console.log('ce qui suis est le slider img big format');
                 aliExData.imageModule.imagePathList.forEach(function (nextPathImage) {
-                    console.log('slide img  ' + nextPathImage);
+                    console.log('slide img big format ' + nextPathImage);
                 });
 
                 console.log('ce qui suis sont les propriétés');
@@ -44,11 +47,18 @@ document.getElementById("getProduct").addEventListener('click', () => {
                 // });
                 // console.log(aliExData.skuModule.productSKUPropertyList[0].skuPropertyValues);
                 
-                console.log('ce qui est aliExData.imageModule');
+                console.log('ce qui suis est aliExData.imageModule');
                 console.log(aliExData.imageModule);
 
-                console.log('ce qui sont les détails techniques');
+                console.log('ce qui suis sont les détails techniques');
                 aliExData.specsModule.props.forEach(function (nextProps) {
+                    console.log(nextProps.attrName + '  ' + nextProps.attrValue);
+                }); 
+                
+                // description produit "les grandes images dans la description"
+                var descriptionUrlImages = aliExData.descriptionModule.descriptionUrl;
+                aliExData.specsModule.props.forEach(function (nextProps) {
+                    
                     console.log(nextProps.attrName + '  ' + nextProps.attrValue);
                 });
             }
@@ -62,19 +72,22 @@ document.getElementById("getProduct").addEventListener('click', () => {
 
         if (document.getElementsByClassName('overview-rating-average').length > 0) {
             var globalStars = parseInt(document.getElementsByClassName('overview-rating-average')[0].innerText.trim().replace(/\D/g, ''), 10) / 10;
+            console.log("globalStars", globalStars);
         }
         if (document.getElementsByClassName('product-reviewer-reviews').length > 0) {
             var reviews = parseInt(document.getElementsByClassName('product-reviewer-reviews')[0].innerText.trim().replace(/\D/g, ''), 10);
+            console.log("reviews", reviews);
         }
         if (document.getElementsByClassName('product-reviewer-sold').length > 0) {
             var orders = parseInt(document.getElementsByClassName('product-reviewer-sold')[0].innerText.trim().replace(/\D/g, ''), 10);
+            console.log("orders", orders);
         }
 
         formData.append("globalStars", globalStars);
         formData.append("reviews", reviews);
         formData.append("orders", orders);
 
-        // big images product url
+        // description big images product url
         if (document.getElementsByClassName('product-overview').length > 0) {
             var divImg = document.getElementsByClassName('product-overview')[0];
             var images = divImg.getElementsByTagName("img");
@@ -85,12 +98,14 @@ document.getElementById("getProduct").addEventListener('click', () => {
                 bigImagesProduct['title_' + i] = images[i].title;
             }
             var bigImagesProductObj = JSON.stringify(bigImagesProduct);
+            console.log("description big images", bigImagesProductObj);
         }
-        formData.append("bigImagesProduct", bigImagesProductObj);
+        formData.append("descriptionBigImages", bigImagesProductObj);
 
         // product name
         if (document.getElementsByClassName('product-title-text').length > 0) {
             var productName = document.getElementsByClassName('product-title-text')[0].innerText;
+            console.log("productName", productName);
         }
         formData.append("productName", productName);
 
@@ -128,6 +143,7 @@ document.getElementById("getProduct").addEventListener('click', () => {
                 }
                 var slider_images_productObj = JSON.stringify(slider_images_product);
             }
+            console.log("slider_images_product", slider_images_productObj);
         }
         formData.append("slider_images_product", slider_images_productObj);
 
@@ -150,6 +166,7 @@ document.getElementById("getProduct").addEventListener('click', () => {
                     }
                     var colorPropertyObj = JSON.stringify(colorProperty);
                     formData.append("color", colorPropertyObj);
+                    console.log("color", colorPropertyObj);
                 }
                 // get size for size details
                 if (titleProperty == 'Taille' || titleProperty == 'Size') {
@@ -161,8 +178,10 @@ document.getElementById("getProduct").addEventListener('click', () => {
                     }
                     var sizePropertyObj = JSON.stringify(sizeProperty);
                     formData.append("size", sizePropertyObj);
+                    console.log("size", sizePropertyObj);
                 }
             }
+            
         }
 
         fetch(`http://127.0.0.1:8000/getAliExpressProduct`, {
