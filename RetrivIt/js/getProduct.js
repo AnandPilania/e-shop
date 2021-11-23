@@ -5,7 +5,47 @@ document.getElementById("getProduct").addEventListener('click', () => {
 
         // console.log(document.body);
 
+        document.querySelector("#root > div > div.product-main > div > div.product-info > div.product-sku > div > div:nth-child(2) > ul > li:nth-child(1) > div > img").click();
 
+        console.log('--------------------   ' + document.querySelector("#root > div > div.product-main > div > div.product-info > div.product-sku > div > div:nth-child(1) > ul > li:nth-child(1) > div > span"));
+
+         // price
+         console.log('ce qui suis est le prix');
+         if (document.getElementsByTagName('div').length > 0) {
+             const divsContainPrice = document.getElementsByTagName("div");
+             var price = null;
+             for (let i = 0; i < divsContainPrice.length; i++) {
+                 if (divsContainPrice[i].classList.contains("product-price-current")) {
+                     var product_price_current = true;
+                 }
+             }
+             if (product_price_current) {
+                 price = document.getElementsByClassName('product-price-current')[0].innerText;
+             } else {
+                 price = document.getElementsByClassName('uniform-banner-box-price')[0].innerText;
+             }
+             console.log(price);
+         }
+
+        document.querySelector("#root > div > div.product-main > div > div.product-info > div.product-sku > div > div:nth-child(1) > ul > li:nth-child(2) > div > span").click();
+
+         // price
+         console.log('ce qui suis est le prix');
+         if (document.getElementsByTagName('div').length > 0) {
+             const divsContainPrice = document.getElementsByTagName("div");
+             var price = null;
+             for (let i = 0; i < divsContainPrice.length; i++) {
+                 if (divsContainPrice[i].classList.contains("product-price-current")) {
+                     var product_price_current = true;
+                 }
+             }
+             if (product_price_current) {
+                 price = document.getElementsByClassName('product-price-current')[0].innerText;
+             } else {
+                 price = document.getElementsByClassName('uniform-banner-box-price')[0].innerText;
+             }
+             console.log(price);
+         }
 
 
         console.log('ce qui suis est la fiche du produit sur aliexpress');
@@ -24,6 +64,76 @@ document.getElementById("getProduct").addEventListener('click', () => {
                 console.log('ce qui suis est le jsonData');
                 var aliExData = JSON.parse(jsonData.trim().slice(0, -1));
                 console.log(aliExData);
+
+
+
+
+                // --------------------------------------------------------------------
+                /* ------------------PRODUCT ALL SKU-------------------- */
+                /* Collect all SKU */
+
+                console.log('ce qui suis est le CODE DU SCRAPPEUR');
+                aliExData.skuModule.productSKUPropertyList.forEach(function (nextPropertyGroup) {
+
+                    // récupère le nom de la propriété
+                    var skuPropertyName = nextPropertyGroup.skuPropertyName + ': ';
+                    var nextGroupItems = [];
+
+                    // on parcoure toutes les itérations de la propriété courrante
+                    nextPropertyGroup.skuPropertyValues.forEach(function (nextPropertyGroupValue) {
+                        var nextParam = (typeof nextPropertyGroupValue.skuPropertyImagePath !== 'undefined' ? nextPropertyGroupValue.skuPropertyImagePath : '') + ' ' +
+                            // en français propertyValueName au lieu de propertyValueDisplayName
+                            nextPropertyGroupValue.propertyValueName;
+
+                        skuPropertyName += nextParam + ' ';
+                    });
+
+                    skuPropertyName += nextGroupItems.join(', ');
+
+                    console.log('skuPropertyName  ' + skuPropertyName);
+                });
+
+
+                /* Collect all variants */
+                aliExData.skuModule.skuPriceList.forEach(function (skuPriceOffer) {
+
+                    var skuVariantFullName = [];
+                    var skuProps = skuPriceOffer.skuPropIds.split(',');
+                    var imageLinkIfSpecified = '';
+                    skuProps.forEach(function (skuId) {
+                        aliExData.skuModule.productSKUPropertyList.forEach(function (nextPropertyGroup) {
+                            nextPropertyGroup.skuPropertyValues.forEach(function (nextPropertyGroupValue) {
+                                if (Number(nextPropertyGroupValue.propertyValueId) === Number(skuId)) {
+                                    // nextParam contient le nom de la propriété et sa valeur
+                                    var nextParam = nextPropertyGroup.skuPropertyName + ': ' + nextPropertyGroupValue.propertyValueDisplayName;
+                                    // on met nextParam dans un tableau
+                                    skuVariantFullName.push(nextParam);
+                                    // si cette propriété aune image on la récupère dans imageLinkIfSpecified
+                                    if (typeof nextPropertyGroupValue.skuPropertyImagePath !== 'undefined')
+                                        imageLinkIfSpecified = nextPropertyGroupValue.skuPropertyImagePath;
+                                }
+                            });
+                        });
+
+                    });
+
+                    var nextSKUOffer = skuVariantFullName.join(', ') + (typeof skuPriceOffer.skuVal.availQuantity !== 'undefined' ? ', Available: ' + skuPriceOffer.skuVal.availQuantity : '') + ', Price: ' + skuPriceOffer.skuVal.skuAmount.formatedAmount;
+                    if (imageLinkIfSpecified.length > 0)
+                        nextSKUOffer += ', Image: ' + imageLinkIfSpecified;
+
+                    console.log('nextSKUOffer   ' + nextSKUOffer);
+
+
+                   
+
+                });
+                // throw new Error("my error message");
+                //------------------------------------------------------------------------
+
+
+
+
+
 
                 // slider lien img big format
                 console.log('ce qui suis est le slider img big format');
@@ -46,19 +156,19 @@ document.getElementById("getProduct").addEventListener('click', () => {
                 //     // console.log(nextProperty.skuPropertyValues.skuPropertyImagePath);
                 // });
                 // console.log(aliExData.skuModule.productSKUPropertyList[0].skuPropertyValues);
-                
+
                 console.log('ce qui suis est aliExData.imageModule');
                 console.log(aliExData.imageModule);
 
                 console.log('ce qui suis sont les détails techniques');
                 aliExData.specsModule.props.forEach(function (nextProps) {
                     console.log(nextProps.attrName + '  ' + nextProps.attrValue);
-                }); 
-                
+                });
+
                 // description produit "les grandes images dans la description"
                 var descriptionUrlImages = aliExData.descriptionModule.descriptionUrl;
                 aliExData.specsModule.props.forEach(function (nextProps) {
-                    
+
                     console.log(nextProps.attrName + '  ' + nextProps.attrValue);
                 });
             }
@@ -181,7 +291,7 @@ document.getElementById("getProduct").addEventListener('click', () => {
                     console.log("size", sizePropertyObj);
                 }
             }
-            
+
         }
 
         fetch(`http://127.0.0.1:8000/getAliExpressProduct`, {
