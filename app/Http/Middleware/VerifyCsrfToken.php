@@ -13,6 +13,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         'webhook/payment/succeeded',
-        'getAliExpressProduct'
+        'getAliExpressProduct',
+        'importProduct',
     ];
 }

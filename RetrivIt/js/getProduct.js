@@ -5,47 +5,23 @@ document.getElementById("getProduct").addEventListener('click', () => {
 
         // console.log(document.body);
 
-        document.querySelector("#root > div > div.product-main > div > div.product-info > div.product-sku > div > div:nth-child(2) > ul > li:nth-child(1) > div > img").click();
+        var myUrl = 'https://fr.aliexpress.com/item/4000874659885.html?spm=a2g0o.tm800039653.9966668930.8.5c8a7dbbwhDHlA&pdp_ext_f=%7B%22ship_from%22:%22US%22,%22sku_id%22:%2212000018733172121%22%7D&&scm=1007.25281.247653.0&scm_id=1007.25281.247653.0&scm-url=1007.25281.247653.0&pvid=6cb9eb1c-1a64-4490-8718-20016a8c93c8&utparam=%257B%2522process_id%2522%253A%25221%2522%252C%2522x_object_type%2522%253A%2522product%2522%252C%2522pvid%2522%253A%25226cb9eb1c-1a64-4490-8718-20016a8c93c8%2522%252C%2522belongs%2522%253A%255B%257B%2522floor_id%2522%253A%252223051931%2522%252C%2522id%2522%253A%2522876052%2522%252C%2522type%2522%253A%2522dataset%2522%257D%252C%257B%2522id_list%2522%253A%255B%25221000126943%2522%255D%252C%2522type%2522%253A%2522gbrain%2522%257D%255D%252C%2522scm%2522%253A%25221007.25281.247653.0%2522%252C%2522tpp_buckets%2522%253A%252221669%25230%2523186385%25230_21669%25234190%252319166%2523884_15281%25230%2523247653%25233%2522%252C%2522x_object_id%2522%253A%25224000874659885%2522%257D';
 
-        console.log('--------------------   ' + document.querySelector("#root > div > div.product-main > div > div.product-info > div.product-sku > div > div:nth-child(1) > ul > li:nth-child(1) > div > span"));
+        var dataUrl = new FormData();
+        dataUrl.append("dataUrl", myUrl);
 
-         // price
-         console.log('ce qui suis est le prix');
-         if (document.getElementsByTagName('div').length > 0) {
-             const divsContainPrice = document.getElementsByTagName("div");
-             var price = null;
-             for (let i = 0; i < divsContainPrice.length; i++) {
-                 if (divsContainPrice[i].classList.contains("product-price-current")) {
-                     var product_price_current = true;
-                 }
-             }
-             if (product_price_current) {
-                 price = document.getElementsByClassName('product-price-current')[0].innerText;
-             } else {
-                 price = document.getElementsByClassName('uniform-banner-box-price')[0].innerText;
-             }
-             console.log(price);
-         }
 
-        document.querySelector("#root > div > div.product-main > div > div.product-info > div.product-sku > div > div:nth-child(1) > ul > li:nth-child(2) > div > span").click();
+        fetch('http://127.0.0.1:8000/importProduct', {
+            method: 'post',
+            body: dataUrl,
+        })
+            .then(console.log('res.dataUrl  --->  ok'));
 
-         // price
-         console.log('ce qui suis est le prix');
-         if (document.getElementsByTagName('div').length > 0) {
-             const divsContainPrice = document.getElementsByTagName("div");
-             var price = null;
-             for (let i = 0; i < divsContainPrice.length; i++) {
-                 if (divsContainPrice[i].classList.contains("product-price-current")) {
-                     var product_price_current = true;
-                 }
-             }
-             if (product_price_current) {
-                 price = document.getElementsByClassName('product-price-current')[0].innerText;
-             } else {
-                 price = document.getElementsByClassName('uniform-banner-box-price')[0].innerText;
-             }
-             console.log(price);
-         }
+
+        // console.log(window.open(myUrl));
+        throw new Error("my error message");
+
+
 
 
         console.log('ce qui suis est la fiche du produit sur aliexpress');
@@ -117,14 +93,14 @@ document.getElementById("getProduct").addEventListener('click', () => {
 
                     });
 
-                    var nextSKUOffer = skuVariantFullName.join(', ') + (typeof skuPriceOffer.skuVal.availQuantity !== 'undefined' ? ', Available: ' + skuPriceOffer.skuVal.availQuantity : '') + ', Price: ' + skuPriceOffer.skuVal.skuAmount.formatedAmount;
+                    var nextSKUOffer = skuVariantFullName.join(', ') + (typeof skuPriceOffer.skuVal.availQuantity !== 'undefined' ? ', Available: ' + skuPriceOffer.skuVal.availQuantity : '') + ', Price: ' + skuPriceOffer.skuVal.skuActivityAmount.value;
                     if (imageLinkIfSpecified.length > 0)
                         nextSKUOffer += ', Image: ' + imageLinkIfSpecified;
 
                     console.log('nextSKUOffer   ' + nextSKUOffer);
 
 
-                   
+
 
                 });
                 // throw new Error("my error message");

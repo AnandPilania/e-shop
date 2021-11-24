@@ -21,6 +21,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FrontEndController;
+use App\Http\Controllers\AliExpressController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ProductSheetController;
 use App\Http\Controllers\ProductDetailController;
@@ -103,6 +104,8 @@ Route::get('/paiement', [PaymentController::class, 'index']);
 Route::post('/checkEmailExist', [RegisteredUserController::class, 'checkEmailExist']);
 // save ali express product in db
 Route::post('/getAliExpressProduct', [ProductController::class, 'getAliExpressProduct']);
+
+Route::post('/importProduct', [AliExpressController::class, 'importProduct']);
 
 
 Route::get('/logout', function () {
