@@ -1,7 +1,41 @@
 // scrapping product sheet from aliexpress
+
 document.getElementById("getProduct").addEventListener('click', () => {
 
     function modifyDOM() {
+
+        //  window.scrollTo( 0, 50000 );
+        //  window.scrollTo( 0, 0 );
+
+         var lazy = document.getElementsByClassName('lazyload-placeholder');
+         for (let i = 0; i < lazy.length; i++) {
+            lazy[i].style.display = 'block';
+
+        }
+            var product_cards = document.getElementsByClassName('_3KNwG _2f4Ho');
+            for (let i = 0; i < product_cards.length; i++) {
+                product_cards[i].style.border = 'solid 5px red';
+                product_cards[i].style.position = 'relative';
+                
+    
+                var header_card = document.createElement('div');
+                header_card.classList.add('header_card');
+                header_card.style.position = 'absolute';
+                header_card.style.top = '0px';
+                header_card.style.left = '0px';
+                header_card.style.width = '100%';
+                header_card.style.height = '25px';
+                header_card.style.textAlign = 'center';
+                header_card.style.backgroundColor = 'blue';
+                header_card.style.color = 'white';
+                header_card.innerText = product_cards[i].getElementsByClassName('_1XYdp')[0].textContent;
+                // availableProductPropertiesElement.setAttribute('id', 'item-sku-library');
+                product_cards[i].appendChild(header_card);
+    
+                // var href_product_card_[i] = product_cards[i].href;
+    
+            }
+      
 
         // console.log(document.body);
 
