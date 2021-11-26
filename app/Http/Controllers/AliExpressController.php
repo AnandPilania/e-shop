@@ -23,20 +23,16 @@ class AliExpressController extends Controller
                 $containerJs_product_infos = substr_replace($containerJs_product_infos, "", -1);
                 $containerJs_product_infos = str_replace("window.runParams = {", "", $containerJs_product_infos);
                 $containerJs_product_infos = str_replace("data: ", "", $containerJs_product_infos);
+                $containerJs_product_infos = str_replace(" ", "", $containerJs_product_infos);
 
 
+                $jsonRes = json_decode($containerJs_product_infos);
 
-                
-                $containerJs_product_infos = substr($containerJs_product_infos, 0, strpos($element->textContent, "Vous avez gagné"));
-
-                $containerJs_product_infos = str_replace(array("\r", "\n"), '', $containerJs_product_infos);
-
-
-                echo $containerJs_product_infos;
+                echo $jsonRes->imageModule->imagePathList[0];
             }
         }
 
-        dd(' ');     
+        dd(' ');
     }
 
 
