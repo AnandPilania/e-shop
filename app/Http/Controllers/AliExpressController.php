@@ -9,7 +9,7 @@ class AliExpressController extends Controller
 
     public function importProduct(Request $request)
     {
-        // dd($request->url);
+        // dd($request->dataUrl);
         $source = $this->getCurl($request->dataUrl);
         // dd($source);
         $pathObj = $this->getXPathObj($source);
@@ -17,10 +17,26 @@ class AliExpressController extends Controller
 
         $product_data = $pathObj->query("//script");
         foreach ($product_data as $element) {
-            echo $element->nodeValue . '------------------------------------------------<br><br><br>';
+            if (str_contains($element->textContent, 'window.runParams')) {
+                $containerJs_product_infos = substr($element->textContent, 0, strpos($element->textContent, "csrfToken"));
+                $containerJs_product_infos = trim($containerJs_product_infos);
+                $containerJs_product_infos = substr_replace($containerJs_product_infos, "", -1);
+                $containerJs_product_infos = str_replace("window.runParams = {", "", $containerJs_product_infos);
+                $containerJs_product_infos = str_replace("data: ", "", $containerJs_product_infos);
+
+
+
+                
+                $containerJs_product_infos = substr($containerJs_product_infos, 0, strpos($element->textContent, "Vous avez gagné"));
+
+                $containerJs_product_infos = str_replace(array("\r", "\n"), '', $containerJs_product_infos);
+
+
+                echo $containerJs_product_infos;
+            }
         }
 
-        dd($product_data);     
+        dd(' ');     
     }
 
 

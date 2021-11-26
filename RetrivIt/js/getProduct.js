@@ -4,22 +4,18 @@ document.getElementById("getProduct").addEventListener('click', () => {
 
     function modifyDOM() {
 
-        //  window.scrollTo( 0, 50000 );
-        //  window.scrollTo( 0, 0 );
-
-         var lazy = document.getElementsByClassName('lazyload-placeholder');
-         for (let i = 0; i < lazy.length; i++) {
-            lazy[i].style.display = 'block';
-
-        }
+        // entoure les cards avec les infos et le button add product
+        function getProductCards() {
             var product_cards = document.getElementsByClassName('_3KNwG _2f4Ho');
             for (let i = 0; i < product_cards.length; i++) {
+                product_cards[i].onclick = function(event) {
+                    event.preventDefault();
+                };
                 product_cards[i].style.border = 'solid 5px red';
                 product_cards[i].style.position = 'relative';
-                
-    
+
                 var header_card = document.createElement('div');
-                header_card.classList.add('header_card');
+                // header_card.classList.add('header_card');
                 header_card.style.position = 'absolute';
                 header_card.style.top = '0px';
                 header_card.style.left = '0px';
@@ -28,28 +24,78 @@ document.getElementById("getProduct").addEventListener('click', () => {
                 header_card.style.textAlign = 'center';
                 header_card.style.backgroundColor = 'blue';
                 header_card.style.color = 'white';
-                header_card.innerText = product_cards[i].getElementsByClassName('_1XYdp')[0].textContent;
-                // availableProductPropertiesElement.setAttribute('id', 'item-sku-library');
+                header_card.innerText = product_cards[i].getElementsByClassName('_1XYdp')[0] ? product_cards[i].getElementsByClassName('_1XYdp')[0].textContent : 'Non communiqué';
                 product_cards[i].appendChild(header_card);
-    
-                // var href_product_card_[i] = product_cards[i].href;
-    
+
+
+                // add button
+                var add_button = document.createElement('span');
+                // header_card.classList.add('header_card');
+                add_button.style.position = 'absolute';
+                add_button.style.top = '40px';
+                add_button.style.left = '0px';
+                add_button.style.width = '100%';
+                add_button.style.height = '45px';
+                add_button.style.textAlign = 'center';
+                add_button.style.backgroundColor = 'white';
+                add_button.style.color = 'black';
+                add_button.style.fontSize = '20px';
+                add_button.style.zIndex = '10';
+                
+                add_button.innerText = 'Add product';
+                product_cards[i].appendChild(add_button);
+                // add_button.onclick = addProduct(product_cards[i].href);
+                add_button.onclick = function(e){
+                    e.preventDefault();
+                    addProduct(product_cards[i].href);
+                };
+
             }
-      
+        }
+
+        getProductCards();
+
+        // quand on pagine, attend 3sec et scroll pour déclencher getProductCards ce qui rafraichi product_cards
+        function isExistPagination() {
+            if (document.getElementsByClassName('next-pagination-pages')[0]) {
+
+                var paginationButton = document.getElementsByClassName('next-pagination-pages')[0].querySelectorAll('button');
+
+                for (let i = 0; i < paginationButton.length; i++) {
+                    paginationButton[i].addEventListener("click", function (event) {
+                        // setTimeout(function() { getProductCards(); }, 200);
+                        setTimeout(function() { window.scrollTo( 0, 1 ); }, 3000);
+                        
+                    }, { passive: true });
+                }
+            }
+        }
+
+        window.addEventListener("scroll", function (event) {
+            getProductCards();
+            isExistPagination();
+        }, { passive: true });        
+        
+
 
         // console.log(document.body);
 
-        var myUrl = 'https://fr.aliexpress.com/item/4000874659885.html?spm=a2g0o.tm800039653.9966668930.8.5c8a7dbbwhDHlA&pdp_ext_f=%7B%22ship_from%22:%22US%22,%22sku_id%22:%2212000018733172121%22%7D&&scm=1007.25281.247653.0&scm_id=1007.25281.247653.0&scm-url=1007.25281.247653.0&pvid=6cb9eb1c-1a64-4490-8718-20016a8c93c8&utparam=%257B%2522process_id%2522%253A%25221%2522%252C%2522x_object_type%2522%253A%2522product%2522%252C%2522pvid%2522%253A%25226cb9eb1c-1a64-4490-8718-20016a8c93c8%2522%252C%2522belongs%2522%253A%255B%257B%2522floor_id%2522%253A%252223051931%2522%252C%2522id%2522%253A%2522876052%2522%252C%2522type%2522%253A%2522dataset%2522%257D%252C%257B%2522id_list%2522%253A%255B%25221000126943%2522%255D%252C%2522type%2522%253A%2522gbrain%2522%257D%255D%252C%2522scm%2522%253A%25221007.25281.247653.0%2522%252C%2522tpp_buckets%2522%253A%252221669%25230%2523186385%25230_21669%25234190%252319166%2523884_15281%25230%2523247653%25233%2522%252C%2522x_object_id%2522%253A%25224000874659885%2522%257D';
-
-        var dataUrl = new FormData();
-        dataUrl.append("dataUrl", myUrl);
+        // var myUrl = 'https://fr.aliexpress.com/item/4000874659885.html?spm=a2g0o.tm800039653.9966668930.8.5c8a7dbbwhDHlA&pdp_ext_f=%7B%22ship_from%22:%22US%22,%22sku_id%22:%2212000018733172121%22%7D&&scm=1007.25281.247653.0&scm_id=1007.25281.247653.0&scm-url=1007.25281.247653.0&pvid=6cb9eb1c-1a64-4490-8718-20016a8c93c8&utparam=%257B%2522process_id%2522%253A%25221%2522%252C%2522x_object_type%2522%253A%2522product%2522%252C%2522pvid%2522%253A%25226cb9eb1c-1a64-4490-8718-20016a8c93c8%2522%252C%2522belongs%2522%253A%255B%257B%2522floor_id%2522%253A%252223051931%2522%252C%2522id%2522%253A%2522876052%2522%252C%2522type%2522%253A%2522dataset%2522%257D%252C%257B%2522id_list%2522%253A%255B%25221000126943%2522%255D%252C%2522type%2522%253A%2522gbrain%2522%257D%255D%252C%2522scm%2522%253A%25221007.25281.247653.0%2522%252C%2522tpp_buckets%2522%253A%252221669%25230%2523186385%25230_21669%25234190%252319166%2523884_15281%25230%2523247653%25233%2522%252C%2522x_object_id%2522%253A%25224000874659885%2522%257D';
 
 
-        fetch('http://127.0.0.1:8000/importProduct', {
-            method: 'post',
-            body: dataUrl,
-        })
-            .then(console.log('res.dataUrl  --->  ok'));
+
+        function addProduct(myUrl) {
+            var dataUrl = new FormData();
+            dataUrl.append("dataUrl", myUrl);
+    
+    
+            fetch('http://127.0.0.1:8000/importProduct', {
+                method: 'post',
+                body: dataUrl,
+            })
+                .then(console.log('res.dataUrl  --->  ok'));
+        }
+        
 
 
         // console.log(window.open(myUrl));
