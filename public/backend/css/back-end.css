@@ -1,17 +1,5 @@
-.rien {
-  color: #1e1e2f;
-  color: #3a3f51;
-  color: #248afd;
-  color: #e7940b;
-  color: #ff4747;
-  color: #71c016;
-  color: #b1b1b5;
-  color: #f5a623;
-}
-
 * {
   box-sizing: border-box;
-  color: white;
 }
 
 *, *::before, *::after {
@@ -23,7 +11,7 @@
   min-height: 1080px;
   display: grid;
   grid-template-columns: 250px calc(100% - 250px);
-  background-color: #1e1e2f;
+  background-color: #f6f6f7;
   margin: 0;
   padding: 0;
 }
@@ -70,7 +58,7 @@ button.btn_ajouter {
 }
 
 button.btn_ajouter:hover a {
-  color: white;
+  color: #202223;
 }
 
 button.btn_ajouter:hover {
@@ -179,7 +167,7 @@ table td img {
   margin-left: 5px;
   margin-bottom: 15px;
   margin-top: 20px;
-  color: whitesmoke;
+  color: #202223;
   width: auto;
 }
 
@@ -191,11 +179,11 @@ table td img {
   height: 55px;
   border: #e1e1e1 solid 1px;
   border-radius: 5px;
-  color: black;
+  color: #202223;
 }
 
 .wrapper-form textarea {
-  color: black;
+  color: #202223;
   min-height: 100px;
 }
 
@@ -205,7 +193,7 @@ table td img {
   margin-top: 50px;
   border-radius: 5px;
   background-color: #4185dd;
-  color: black;
+  color: #202223;
   font-size: 16px;
   letter-spacing: 1px;
 }
@@ -246,13 +234,13 @@ table td img {
 
 .activeAdmin {
   background-color: #f7f7f7;
-  color: #292b2c;
+  color: #202223;
   letter-spacing: 1px;
   font-weight: bold;
 }
 
 .navAdmin a {
-  color: white;
+  color: #202223;
   text-decoration: none;
   font-size: 16px;
   letter-spacing: 1px;
@@ -260,7 +248,7 @@ table td img {
 
 .navAdmin .fas, .navAdmin .far {
   margin-right: 15px;
-  background-color: rgba(255, 255, 255, 0.719);
+  background-color: #202223;
 }
 
 .order_details {

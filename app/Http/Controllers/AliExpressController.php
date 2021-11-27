@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 class AliExpressController extends Controller
 {
 
+
+    public function aliProductImportView(Request $request)
+    {
+        return view('aliProductImport.aliProductImport');
+    }
+
+
     public function importProduct(Request $request)
     {
         // dd($request->dataUrl);
@@ -25,7 +32,6 @@ class AliExpressController extends Controller
                 $containerJs_product_infos = str_replace("data: ", "", $containerJs_product_infos);
                 $containerJs_product_infos = str_replace(" ", "", $containerJs_product_infos);
 
-
                 $jsonRes = json_decode($containerJs_product_infos);
 
                 echo $jsonRes->imageModule->imagePathList[0];
@@ -34,6 +40,8 @@ class AliExpressController extends Controller
 
         dd(' ');
     }
+
+
 
 
     // Method for making a POST request using cURL

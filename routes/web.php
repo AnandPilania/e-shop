@@ -68,9 +68,11 @@ Route::resource('/orders', OrderController::class);
 Route::get('/collectionsBackEnd', [CollectionController::class, 'collectionsBackEnd']);
 
 
-
 Route::get('/listtype', [Type_detail_productController::class, 'listtype']);
-Route::get('/createProduct', [ProductController::class, 'createProduct']);
+
+// utilisé dans selectCollections.jsx 
+Route::get('/getCollections', [CollectionController::class, 'getCollections']);
+
 Route::get('/editProduct/{productId}', [ProductController::class, 'editProduct']);
 Route::get('/selectCollections/{productId}', [ProductController::class, 'selectCollections']);
 Route::get('/editImagesProduct/{id}', [ProductController::class, 'editImagesProduct']);
@@ -105,6 +107,7 @@ Route::post('/checkEmailExist', [RegisteredUserController::class, 'checkEmailExi
 // save ali express product in db
 Route::post('/getAliExpressProduct', [ProductController::class, 'getAliExpressProduct']);
 
+Route::get('/aliProductImport', [AliExpressController::class, 'aliProductImportView']);
 Route::post('/importProduct', [AliExpressController::class, 'importProduct']);
 
 

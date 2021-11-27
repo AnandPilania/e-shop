@@ -1,17 +1,7 @@
-.rien {
-    color: #1e1e2f;
-    color: #3a3f51;
-    color: #248afd;
-    color: #e7940b;
-    color: #ff4747;
-    color: #71c016;
-    color: #b1b1b5;
-    color: #f5a623;
-}
+@import "_variables";
 
 * {
     box-sizing: border-box;
-    color: rgb(255, 255, 255);
 }
 
 *, *::before, *::after {
@@ -23,7 +13,7 @@
     min-height: 1080px;
     display: grid;
     grid-template-columns: 250px calc(100% - 250px);
-    background-color: #1e1e2f;
+    background-color: $backgroundAdminColor;
     margin: 0;
     padding: 0;
     // border: solid 2px rgb(0, 255, 85);
@@ -73,7 +63,7 @@ button.btn_ajouter {
 }
 
 button.btn_ajouter:hover a{
-    color: white;
+    color: $policeAdminColor;
 }
 
 button.btn_ajouter:hover {
@@ -196,7 +186,7 @@ table td img {
     margin-left: 5px;
     margin-bottom: 15px;
     margin-top: 20px;
-    color: whitesmoke;
+    color: $policeAdminColor;
     width: auto;
     // border: solid red 1px; 
 }
@@ -209,11 +199,11 @@ table td img {
     height: 55px;
     border: #e1e1e1 solid 1px;
     border-radius: 5px;
-    color: black;
+    color: $policeAdminColor;
 }
 
 .wrapper-form textarea {
-    color: black;
+    color: $policeAdminColor;
     min-height: 100px;
 }
 
@@ -223,7 +213,7 @@ table td img {
     margin-top: 50px;
     border-radius: 5px;
     background-color: rgb(65, 133, 221);
-    color: black;
+    color: $policeAdminColor;
     font-size: 16px;
     // font-weight: bold;
     letter-spacing: 1px;
@@ -268,13 +258,13 @@ table td img {
 
 .activeAdmin {
     background-color: #f7f7f7;
-    color: #292b2c;
+    color: $policeAdminColor;
     letter-spacing: 1px;
     font-weight: bold;
 }
 
 .navAdmin a {
-    color: rgb(255, 255, 255);
+    color: $policeAdminColor;
     text-decoration: none;
     font-size: 16px;
     letter-spacing: 1px;
@@ -282,7 +272,7 @@ table td img {
 
 .navAdmin .fas, .navAdmin .far {
     margin-right: 15px;
-    background-color: rgba(255, 255, 255, 0.719);
+    background-color: $policeAdminColor;
 }
 
 

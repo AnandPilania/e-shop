@@ -23,7 +23,7 @@ const FormProduct = (props) => {
 
     useEffect(() => {
         // récupére les types de détails de la table type_detail_products pour remplire le select id=selectdetails
-        axios.get(`http://127.0.0.1:8000/createProduct`)
+        axios.get(`http://127.0.0.1:8000/getCollections`)
             .then(res => {
                 setCollectionsRelations(res.data.collections);
             }).catch(function (error) {

@@ -41,12 +41,6 @@ class ProductController extends Controller
         return view('product.form', ['collections' => $collections]);
     }
 
-    public function createProduct()
-    {
-        $collections = Collection::all();
-        return ['collections' => $collections];
-    }
-
 
     /**
      * Store a newly created resource in storage.

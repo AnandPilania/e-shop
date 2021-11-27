@@ -73,6 +73,12 @@
         Carts
       </li>
     </a>
+    <a href="/aliProductImport">
+      <li class="{{ 'aliProductImport' == request()->path() ? 'activeAdmin' : '' }}">
+        <i class="fas fa-chart-line"></i>
+        Ali Import Product
+      </li>
+    </a>
     <a href="/">
       <li class="{{ '/' == request()->path() ? 'activeAdmin' : '' }}">
         <i class="fas fa-home"></i>
