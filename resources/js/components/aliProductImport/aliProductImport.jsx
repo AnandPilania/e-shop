@@ -3,13 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import Input from '@material-ui/core/Input';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import ListItemText from '@material-ui/core/ListItemText';
-import Select from '@material-ui/core/Select';
-import Checkbox from '@material-ui/core/Checkbox';
-import axios from "axios";
+import SelectCollectionsAli from "./selectCollectionsAli";
 
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
@@ -39,9 +33,6 @@ const useStyles = makeStyles({
 });
 
 
-
-
-
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -55,7 +46,8 @@ function TabPanel(props) {
         >
             {value === index && (
                 <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
+                    {/* component={'span'} permet de ne pas avoir l'erreur "<div> as children of <p>" */}
+                    <Typography component={'span'}>{children}</Typography>
                 </Box>
             )}
         </div>
@@ -79,29 +71,18 @@ export default function AliProductImport() {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
     const [collection, setCollection] = React.useState([]);
-    const [collectionsRelations, setCollectionsRelations] = useState([]);
-
-    useEffect(() => {
-        // récupére les collections
-        axios.get(`http://127.0.0.1:8000/getCollections`)
-            .then(res => {
-                setCollectionsRelations(res.data.collections);
-            }).catch(function (error) {
-                console.log('error:   ' + error);
-            });
-    }, []);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
-    const handleCollections = (value) => {
-        setCollection(value);
-    }
+    const handleCollections = (event) => {
+        setCollection(event.target.value);
+    };
+
 
     return (
-        // <div className="container_tabs">
-        <Box sx={{ width: '100%' }}>
+        <Box sx={{ width: '100%' }} className="container_tabs">
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="Produit" {...a11yProps(0)} />
@@ -112,32 +93,12 @@ export default function AliProductImport() {
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                <div>
-                    <label htmlFor="collection">Collections</label>
-                    <FormControl className={classes.formControl}>
-                        <Select
-                            id="collection"
-                            multiple
-                            value={collection}
-                            onChange={handleChange}
-                            input={<Input className={classes.inputText} />}
-                            renderValue={(selected) => selected.join(', ')}
-                        >
-                            <MenuItem value="selectionnez une collection">
-                                selectionnez une collection
-                            </MenuItem>
-                            {collectionsRelations.map((item) => (
-                                <MenuItem key={item.id} value={item.name} >
-                                    <Checkbox checked={collection.indexOf(item.name) > -1} />
-                                    <ListItemText primary={item.name} />
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </div>
+                <SelectCollectionsAli
+                    handleCollections={handleCollections}
+                    collection={collection} />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                Tarification
+                Tarification 
             </TabPanel>
             <TabPanel value={value} index={2}>
                 Variantes
@@ -149,8 +110,6 @@ export default function AliProductImport() {
                 Description
             </TabPanel>
         </Box>
-        // </div>
-
     );
 }
 

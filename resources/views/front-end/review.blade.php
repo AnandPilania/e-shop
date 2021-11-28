@@ -371,11 +371,11 @@
     fakeInput.type = "file";
     fakeInput.accept = "image/*";
     fakeInput.multiple = true;
-        console.log('total_price   ' + total_price);
+
     var getFileReview = document.getElementById('fileReview');
     getFileReview.innerText = "Ajouter des photos";
 
-    // open files exploratore when click on button load file
+    // open files explorer when click on button load file
     getFileReview.addEventListener('click', function() {
         fakeInput.click();
     });

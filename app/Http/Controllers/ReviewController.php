@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Images_review;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\File;
 
 class ReviewController extends Controller
 {
@@ -36,15 +37,15 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, ['review' => 'required', 'stars' => 'required']);
+        // $this->validate($request, ['review' => 'required', 'stars' => 'required']);
 
-        $review = new Review();
-        $review->review = $request->review;
-        $review->stars = $request->stars;
+        // $review = new Review();
+        // $review->review = $request->review;
+        // $review->stars = $request->stars;
 
-        $review->save();
+        // $review->save();
 
-        return redirect('/taxes/create')->with('status', 'Le review ' . $review->title . ' a été ajoutée');
+        // return redirect('/taxes/create')->with('status', 'Le review ' . $review->title . ' a été ajoutée');
     }
 
     /**
@@ -122,7 +123,19 @@ class ReviewController extends Controller
 
             $this->validate($request, ['review' => 'required|max:6000', 'stars' => 'required', 'images' => 'mimes:jpg,jpeg,png']);
 
-            $review = new Review();
+            // check si user a déjà laissé un avis, si c est le cas on update sinon on create
+            $user_already_posted = Review::where('user_id', Auth::user()->id)->first();
+            if ($user_already_posted) {
+                $review = $user_already_posted;  
+                // efface les anciennes images
+                foreach($review->images_reviews as $image) {
+                    File::delete(public_path($image->path)); 
+                    $image->delete();
+                }
+            } else {
+                $review = new Review();
+            }
+            
             $review->review = $request->review;
             $review->stars = $request->stars;
             $review->user_id = Auth::user()->id;

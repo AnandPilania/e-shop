@@ -16,11 +16,15 @@ class AliExpressController extends Controller
 
     public function importProduct(Request $request)
     {
-        // dd($request->dataUrl);
-        $source = $this->getCurl($request->dataUrl);
+        // dd($request->url);
+
+        $source = $this->getCurl($request->url);
         // dd($source);
         $pathObj = $this->getXPathObj($source);
         // dd($pathObj);
+
+        $jsonContainerJs = null;
+        $result = [];
 
         $product_data = $pathObj->query("//script");
         foreach ($product_data as $element) {
@@ -32,13 +36,46 @@ class AliExpressController extends Controller
                 $containerJs_product_infos = str_replace("data: ", "", $containerJs_product_infos);
                 $containerJs_product_infos = str_replace(" ", "", $containerJs_product_infos);
 
-                $jsonRes = json_decode($containerJs_product_infos);
+                $jsonContainerJs = json_decode($containerJs_product_infos);
 
-                echo $jsonRes->imageModule->imagePathList[0];
+                // dd($jsonContainerJs);
+                // echo $jsonContainerJs->imageModule->imagePathList[0];
             }
         }
 
-        dd(' ');
+        foreach ($jsonContainerJs->skuModule->skuPriceList as $skuPriceOffer) {
+            $skuVariantFullName = [];
+            $skuProps = explode(",", $skuPriceOffer->skuPropIds);
+            $imageLinkIfSpecified = '';
+
+            foreach ($skuProps as $skuId) {
+                foreach ($jsonContainerJs->skuModule->productSKUPropertyList as $nextPropertyGroup) {
+                    foreach ($nextPropertyGroup->skuPropertyValues as $nextPropertyGroupValue) {
+                        if ((float)$nextPropertyGroupValue->propertyValueId === (float)$skuId) {
+                            // nextParam contient le nom de la propriété et sa valeur
+                            $nextParam = $nextPropertyGroup->skuPropertyName . ': ' . $nextPropertyGroupValue->propertyValueDisplayName;
+                            // on met nextParam dans un tableau
+                            $skuVariantFullName[] = $nextParam;
+                            // si cette propriété aune image on la récupère dans imageLinkIfSpecified
+                            if (isset($nextPropertyGroupValue->skuPropertyImagePath)) {
+                                $imageLinkIfSpecified = $nextPropertyGroupValue->skuPropertyImagePath;
+                            }
+                        }
+                    }
+                }
+            }
+
+            $nextSKUOffer =  implode(",", $skuVariantFullName) .', ' . (isset($skuPriceOffer->skuVal->availQuantity) ? ', Available: ' . $skuPriceOffer->skuVal->availQuantity : '') . ', Price: ' . $skuPriceOffer->skuVal->skuAmount->formatedAmount;
+            if (isset($imageLinkIfSpecified) && !empty($imageLinkIfSpecified))
+                $nextSKUOffer .= ', Image: ' . $imageLinkIfSpecified;
+
+            $result[] = $nextSKUOffer;
+
+
+        }
+
+        dd($result);
+
     }
 
 

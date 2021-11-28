@@ -30193,14 +30193,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
-/* harmony import */ var _material_ui_core_Input__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @material-ui/core/Input */ "./node_modules/@material-ui/core/Input/Input.js");
-/* harmony import */ var _material_ui_core_MenuItem__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @material-ui/core/MenuItem */ "./node_modules/@material-ui/core/MenuItem/MenuItem.js");
-/* harmony import */ var _material_ui_core_FormControl__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @material-ui/core/FormControl */ "./node_modules/@material-ui/core/FormControl/FormControl.js");
-/* harmony import */ var _material_ui_core_ListItemText__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @material-ui/core/ListItemText */ "./node_modules/@material-ui/core/ListItemText/ListItemText.js");
-/* harmony import */ var _material_ui_core_Select__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @material-ui/core/Select */ "./node_modules/@material-ui/core/Select/Select.js");
-/* harmony import */ var _material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @material-ui/core/Checkbox */ "./node_modules/@material-ui/core/Checkbox/Checkbox.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _selectCollectionsAli__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./selectCollectionsAli */ "./resources/js/components/aliProductImport/selectCollectionsAli.jsx");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _mui_material_Tabs__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @mui/material/Tabs */ "./node_modules/@mui/material/Tabs/Tabs.js");
@@ -30234,12 +30227,6 @@ function _objectWithoutProperties(source, excluded) { if (source == null) return
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
 // import * as React from 'react';
-
-
-
-
-
-
 
 
 
@@ -30287,6 +30274,7 @@ function TabPanel(props) {
         p: 3
       },
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Typography__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        component: 'span',
         children: children
       })
     })
@@ -30319,112 +30307,181 @@ function AliProductImport() {
       collection = _React$useState4[0],
       setCollection = _React$useState4[1];
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState2 = _slicedToArray(_useState, 2),
-      collectionsRelations = _useState2[0],
-      setCollectionsRelations = _useState2[1];
-
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    // récupére les collections
-    axios__WEBPACK_IMPORTED_MODULE_1___default().get("http://127.0.0.1:8000/getCollections").then(function (res) {
-      setCollectionsRelations(res.data.collections);
-    })["catch"](function (error) {
-      console.log('error:   ' + error);
-    });
-  }, []);
-
   var handleChange = function handleChange(event, newValue) {
     setValue(newValue);
   };
 
-  var handleCollections = function handleCollections(value) {
-    setCollection(value);
+  var handleCollections = function handleCollections(event) {
+    setCollection(event.target.value);
   };
 
-  return (
-    /*#__PURE__*/
-    // <div className="container_tabs">
-    (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_mui_material_Box__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_mui_material_Box__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    sx: {
+      width: '100%'
+    },
+    className: "container_tabs",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Box__WEBPACK_IMPORTED_MODULE_6__["default"], {
       sx: {
-        width: '100%'
+        borderBottom: 1,
+        borderColor: 'divider'
       },
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Box__WEBPACK_IMPORTED_MODULE_6__["default"], {
-        sx: {
-          borderBottom: 1,
-          borderColor: 'divider'
-        },
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_mui_material_Tabs__WEBPACK_IMPORTED_MODULE_8__["default"], {
-          value: value,
-          onChange: handleChange,
-          "aria-label": "basic tabs example",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Tab__WEBPACK_IMPORTED_MODULE_9__["default"], _objectSpread({
-            label: "Produit"
-          }, a11yProps(0))), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Tab__WEBPACK_IMPORTED_MODULE_9__["default"], _objectSpread({
-            label: "Tarification"
-          }, a11yProps(1))), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Tab__WEBPACK_IMPORTED_MODULE_9__["default"], _objectSpread({
-            label: "Variantes"
-          }, a11yProps(2))), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Tab__WEBPACK_IMPORTED_MODULE_9__["default"], _objectSpread({
-            label: "Images"
-          }, a11yProps(3))), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Tab__WEBPACK_IMPORTED_MODULE_9__["default"], _objectSpread({
-            label: "Description"
-          }, a11yProps(4)))]
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(TabPanel, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_mui_material_Tabs__WEBPACK_IMPORTED_MODULE_8__["default"], {
         value: value,
-        index: 0,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
-            htmlFor: "collection",
-            children: "Collections"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_material_ui_core_FormControl__WEBPACK_IMPORTED_MODULE_10__["default"], {
-            className: classes.formControl,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_material_ui_core_Select__WEBPACK_IMPORTED_MODULE_11__["default"], {
-              id: "collection",
-              multiple: true,
-              value: collection,
-              onChange: handleChange,
-              input: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_material_ui_core_Input__WEBPACK_IMPORTED_MODULE_12__["default"], {
-                className: classes.inputText
-              }),
-              renderValue: function renderValue(selected) {
-                return selected.join(', ');
-              },
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_material_ui_core_MenuItem__WEBPACK_IMPORTED_MODULE_13__["default"], {
-                value: "selectionnez une collection",
-                children: "selectionnez une collection"
-              }), collectionsRelations.map(function (item) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_material_ui_core_MenuItem__WEBPACK_IMPORTED_MODULE_13__["default"], {
-                  value: item.name,
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_14__["default"], {
-                    checked: collection.indexOf(item.name) > -1
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_material_ui_core_ListItemText__WEBPACK_IMPORTED_MODULE_15__["default"], {
-                    primary: item.name
-                  })]
-                }, item.id);
-              })]
-            })
-          })]
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(TabPanel, {
-        value: value,
-        index: 1,
-        children: "Tarification"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(TabPanel, {
-        value: value,
-        index: 2,
-        children: "Variantes"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(TabPanel, {
-        value: value,
-        index: 3,
-        children: "Images"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(TabPanel, {
-        value: value,
-        index: 4,
-        children: "Description"
-      })]
-    }) // </div>
+        onChange: handleChange,
+        "aria-label": "basic tabs example",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Tab__WEBPACK_IMPORTED_MODULE_9__["default"], _objectSpread({
+          label: "Produit"
+        }, a11yProps(0))), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Tab__WEBPACK_IMPORTED_MODULE_9__["default"], _objectSpread({
+          label: "Tarification"
+        }, a11yProps(1))), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Tab__WEBPACK_IMPORTED_MODULE_9__["default"], _objectSpread({
+          label: "Variantes"
+        }, a11yProps(2))), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Tab__WEBPACK_IMPORTED_MODULE_9__["default"], _objectSpread({
+          label: "Images"
+        }, a11yProps(3))), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_mui_material_Tab__WEBPACK_IMPORTED_MODULE_9__["default"], _objectSpread({
+          label: "Description"
+        }, a11yProps(4)))]
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(TabPanel, {
+      value: value,
+      index: 0,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_selectCollectionsAli__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        handleCollections: handleCollections,
+        collection: collection
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(TabPanel, {
+      value: value,
+      index: 1,
+      children: "Tarification"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(TabPanel, {
+      value: value,
+      index: 2,
+      children: "Variantes"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(TabPanel, {
+      value: value,
+      index: 3,
+      children: "Images"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(TabPanel, {
+      value: value,
+      index: 4,
+      children: "Description"
+    })]
+  });
+}
 
-  );
+/***/ }),
+
+/***/ "./resources/js/components/aliProductImport/selectCollectionsAli.jsx":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/aliProductImport/selectCollectionsAli.jsx ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ SelectCollectionsAli)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
+/* harmony import */ var _material_ui_core_Input__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @material-ui/core/Input */ "./node_modules/@material-ui/core/Input/Input.js");
+/* harmony import */ var _material_ui_core_MenuItem__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @material-ui/core/MenuItem */ "./node_modules/@material-ui/core/MenuItem/MenuItem.js");
+/* harmony import */ var _material_ui_core_FormControl__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/core/FormControl */ "./node_modules/@material-ui/core/FormControl/FormControl.js");
+/* harmony import */ var _material_ui_core_ListItemText__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @material-ui/core/ListItemText */ "./node_modules/@material-ui/core/ListItemText/ListItemText.js");
+/* harmony import */ var _material_ui_core_Select__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core/Select */ "./node_modules/@material-ui/core/Select/Select.js");
+/* harmony import */ var _material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @material-ui/core/Checkbox */ "./node_modules/@material-ui/core/Checkbox/Checkbox.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _aliProductImport_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./aliProductImport.scss */ "./resources/js/components/aliProductImport/aliProductImport.scss");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_4__["default"])({
+  formControl: {
+    width: '100%',
+    height: '50px',
+    backgroundColor: '#fafafa',
+    lineHeight: 1,
+    padding: '0.600rem 1rem',
+    marginBottom: 22,
+    border: 'none'
+  },
+  inputText: {
+    color: '#000000',
+    fontWeight: 400,
+    fontSize: '16px',
+    width: '100%',
+    height: '100%'
+  }
+});
+function SelectCollectionsAli(props) {
+  var classes = useStyles();
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      collectionsAll = _useState2[0],
+      setCollectionsAll = _useState2[1];
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // récupére les collections
+    axios__WEBPACK_IMPORTED_MODULE_1___default().get("http://127.0.0.1:8000/getCollections").then(function (res) {
+      setCollectionsAll(res.data.collections);
+    })["catch"](function (error) {
+      console.log('error:   ' + error);
+    });
+  }, []);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    className: "container_tabs",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_material_ui_core_FormControl__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      className: classes.formControl,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_material_ui_core_Select__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        id: "collection",
+        multiple: true,
+        value: props.collection,
+        onChange: props.handleCollections,
+        input: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_material_ui_core_Input__WEBPACK_IMPORTED_MODULE_7__["default"], {
+          className: classes.inputText
+        }),
+        renderValue: function renderValue(selected) {
+          return selected.join(', ');
+        },
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_material_ui_core_MenuItem__WEBPACK_IMPORTED_MODULE_8__["default"], {
+          value: "selectionnez une collection",
+          children: "selectionnez une collection"
+        }), collectionsAll.map(function (item) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_material_ui_core_MenuItem__WEBPACK_IMPORTED_MODULE_8__["default"], {
+            value: item.name,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_9__["default"], {
+              checked: props.collection.indexOf(item.name) > -1
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_material_ui_core_ListItemText__WEBPACK_IMPORTED_MODULE_10__["default"], {
+              primary: item.name
+            })]
+          }, item.id);
+        })]
+      })
+    })
+  });
 }
 
 /***/ }),
@@ -30501,7 +30558,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".container_tabs {\n  padding-top: 100px;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".container_tabs {\n  padding-top: 40px;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

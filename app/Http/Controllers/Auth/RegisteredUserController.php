@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Session;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\RegisteredUserRequest;
 use App\Events\EmptySessionCart_DestroyCookieCart;
+use Mockery\Undefined;
 
 class RegisteredUserController extends Controller
 {
@@ -152,7 +153,7 @@ class RegisteredUserController extends Controller
         $user->createOrGetStripeCustomer();
 
         // stripe doit recevoir le prix en centimes
-        if ($total_price) {
+        if ($total_price != null) {
             $price = $total_price * 100;
             // stripe payment
             $user->charge($price, $request->payment_method, [

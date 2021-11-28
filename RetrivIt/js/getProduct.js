@@ -1,4 +1,4 @@
-// scrapping product sheet from aliexpress
+// chrome extension scrapping product sheet from aliexpress
 
 document.getElementById("getProduct").addEventListener('click', () => {
 
@@ -11,7 +11,7 @@ document.getElementById("getProduct").addEventListener('click', () => {
                 product_cards[i].onclick = function(event) {
                     event.preventDefault();
                 };
-                product_cards[i].style.border = 'solid 5px red';
+                product_cards[i].style.border = 'solid 5px navy';
                 product_cards[i].style.position = 'relative';
 
                 var header_card = document.createElement('div');
@@ -19,10 +19,11 @@ document.getElementById("getProduct").addEventListener('click', () => {
                 header_card.style.position = 'absolute';
                 header_card.style.top = '0px';
                 header_card.style.left = '0px';
+                header_card.style.paddingTop = '7px';
                 header_card.style.width = '100%';
-                header_card.style.height = '25px';
+                header_card.style.height = '35px';
                 header_card.style.textAlign = 'center';
-                header_card.style.backgroundColor = 'blue';
+                header_card.style.backgroundColor = 'navy';
                 header_card.style.color = 'white';
                 header_card.innerText = product_cards[i].getElementsByClassName('_1XYdp')[0] ? product_cards[i].getElementsByClassName('_1XYdp')[0].textContent : 'Non communiqué';
                 product_cards[i].appendChild(header_card);
@@ -80,14 +81,14 @@ document.getElementById("getProduct").addEventListener('click', () => {
 
         // console.log(document.body);
 
-        function addProduct(myUrl) {
-            var dataUrl = new FormData();
-            dataUrl.append("dataUrl", myUrl);
+        function addProduct(pageUrl) {
+            var url = new FormData();
+            url.append("url", pageUrl);
     
     
             fetch('http://127.0.0.1:8000/importProduct', {
                 method: 'post',
-                body: dataUrl,
+                body: url,
             })
                 .then(console.log('res.dataUrl  --->  ok'));
         }
@@ -96,8 +97,26 @@ document.getElementById("getProduct").addEventListener('click', () => {
 
         // console.log(window.open(myUrl));
         throw new Error("my error message");
+    }
+
+    //We have permission to access the activeTab, so we can call chrome.tabs.executeScript:
+    chrome.tabs.executeScript({
+        code: '(' + modifyDOM + ')();' //argument here is a string but function.toString() returns function's code
+    }, (results) => {
+        //Here we have just the innerHTML and not DOM structure
+        console.log('Popup script:')
+        console.log(results[0]);
+    });
+});
 
 
+
+
+
+
+document.getElementById("dev").addEventListener('click', () => {
+
+    function devDOM() {
 
 
         console.log('ce qui suis est la fiche du produit sur aliexpress');
@@ -174,10 +193,6 @@ document.getElementById("getProduct").addEventListener('click', () => {
                         nextSKUOffer += ', Image: ' + imageLinkIfSpecified;
 
                     console.log('nextSKUOffer   ' + nextSKUOffer);
-
-
-
-
                 });
                 // throw new Error("my error message");
                 //------------------------------------------------------------------------
@@ -357,7 +372,7 @@ document.getElementById("getProduct").addEventListener('click', () => {
 
     //We have permission to access the activeTab, so we can call chrome.tabs.executeScript:
     chrome.tabs.executeScript({
-        code: '(' + modifyDOM + ')();' //argument here is a string but function.toString() returns function's code
+        code: '(' + devDOM + ')();' //argument here is a string but function.toString() returns function's code
     }, (results) => {
         //Here we have just the innerHTML and not DOM structure
         console.log('Popup script:')
