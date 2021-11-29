@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
+import FormControl from '@material-ui/core/FormControl';
 import SelectCollectionsAli from "./selectCollectionsAli";
 
 import PropTypes from 'prop-types';
@@ -10,6 +11,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+
 import './aliProductImport.scss';
 
 
@@ -71,6 +74,9 @@ export default function AliProductImport() {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
     const [collection, setCollection] = React.useState([]);
+    const [type, setType] = React.useState('');
+    const [tags, setTags] = React.useState([]);
+    const [title, setTitle] = React.useState('');
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -80,6 +86,17 @@ export default function AliProductImport() {
         setCollection(event.target.value);
     };
 
+    const handleType = (event) => {
+        setType(event.target.value);
+    };
+
+    const handleTags = (event) => {
+        setTags(event.target.value);
+    };
+
+    const handleTitle = (event) => {
+        setTitle(event.target.value);
+    };
 
     return (
         <Box sx={{ width: '100%' }} className="container_tabs">
@@ -93,12 +110,39 @@ export default function AliProductImport() {
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                <SelectCollectionsAli
-                    handleCollections={handleCollections}
-                    collection={collection} />
+                <FormControl className={classes.formControl}>
+                    <TextField id="outlined-basic" label="Modifier le titre" variant="outlined" value={title} onChange={handleTitle} />
+                    <SelectCollectionsAli
+                        handleFunction={handleCollections}
+                        caracteristique={collection}
+                        endPointAxios="getCollections"
+                        label="Choisir des collections"
+                        inputLabel="collections-inputLabel"
+                        labelId="collections-labelId"
+                        id="collections-checkbox-id"
+                    />
+                    <SelectCollectionsAli
+                        handleFunction={handleType}
+                        caracteristique={type}
+                        endPointAxios="getType"
+                        label="Choisir un type"
+                        inputLabel="type-inputLabel"
+                        labelId="type-labelId"
+                        id="type-checkbox-id"
+                    />
+                    <SelectCollectionsAli
+                        handleFunction={handleTags}
+                        caracteristique={tags}
+                        endPointAxios="getTags"
+                        label="Choisir des balises"
+                        inputLabel="tags-inputLabel"
+                        labelId="tags-labelId"
+                        id="tags-checkbox-id"
+                    />
+                </FormControl>
             </TabPanel>
             <TabPanel value={value} index={1}>
-                Tarification 
+                Tarification
             </TabPanel>
             <TabPanel value={value} index={2}>
                 Variantes

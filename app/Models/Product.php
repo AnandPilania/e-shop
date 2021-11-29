@@ -61,4 +61,20 @@ class Product extends Model
     {
         return $this->hasMany(Order_detail::class);
     }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
+    public function variants()
+    {
+        return $this->hasMany(Variant::class);
+    }
+
+    public function image_ali_import_temps()
+    {
+        return $this->hasMany(Image_ali_import_temp::class);
+    }
+
 }

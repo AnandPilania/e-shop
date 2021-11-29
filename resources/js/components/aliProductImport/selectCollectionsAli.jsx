@@ -1,46 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/styles';
-import Input from '@material-ui/core/Input';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import ListItemText from '@material-ui/core/ListItemText';
-import Select from '@material-ui/core/Select';
-import Checkbox from '@material-ui/core/Checkbox';
-import axios from "axios";
+import * as React from 'react';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import ListItemText from '@mui/material/ListItemText';
+import Select from '@mui/material/Select';
+import Checkbox from '@mui/material/Checkbox';
 
-import './aliProductImport.scss';
-
-
-const useStyles = makeStyles({
-    formControl: {
-        width: '100%',
-        height: '50px',
-        backgroundColor: '#fafafa',
-        lineHeight: 1,
-        padding: '0.600rem 1rem',
-        marginBottom: 22,
-        border: 'none',
+const ITEM_HEIGHT = 50;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+    PaperProps: {
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            width: 250,          
+        },
     },
-    inputText: {
-        color: '#000000',
-        fontWeight: 400,
-        fontSize: '16px',
-        width: '100%',
-        height: '100%',
-    }
-});
-
+};
 
 
 export default function SelectCollectionsAli(props) {
-    const classes = useStyles();
-    const [collectionsAll, setCollectionsAll] = useState([]);
+    const [checkItemsList, setCheckItemsList] = React.useState([]);
 
-    useEffect(() => {
+    React.useEffect(() => {
         // récupére les collections
-        axios.get(`http://127.0.0.1:8000/getCollections`)
+        axios.get(`http://127.0.0.1:8000/${props.endPointAxios}`)
             .then(res => {
-                setCollectionsAll(res.data.collections);
+                res.data.collections && setCheckItemsList(res.data.collections);
+                res.data.type && setCheckItemsList(res.data.type);
+                res.data.tags && setCheckItemsList(res.data.tags);
             }).catch(function (error) {
                 console.log('error:   ' + error);
             });
@@ -48,31 +36,28 @@ export default function SelectCollectionsAli(props) {
 
 
     return (
-        <div className="container_tabs">
-            <FormControl className={classes.formControl}>
+        <div>
+            <FormControl sx={{ marginTop: "30px", width: "100%", backgroundColor: "#fafafa" }}>
+                <InputLabel id={props.inputLabel}>{props.label}</InputLabel>
                 <Select
-                    id="collection"
+                    labelId={props.labelId}
+                    id={props.id}
                     multiple
-                    value={props.collection}
-                    onChange={props.handleCollections}
-                    input={<Input className={classes.inputText} />}
+                    value={props.caracteristique}
+                    onChange={props.handleFunction}
+                    input={<OutlinedInput label={props.label} />}
                     renderValue={(selected) => selected.join(', ')}
+                    MenuProps={MenuProps}
                 >
-                    <MenuItem value="selectionnez une collection">
-                        selectionnez une collection
-                    </MenuItem>
-                    {collectionsAll.map((item) => (
-                        <MenuItem key={item.id} value={item.name} >
-                            <Checkbox checked={props.collection.indexOf(item.name) > -1} />
+                    {checkItemsList.map((item) => (
+                        // caracteristique représente les collection, le type ou les tags, ... 
+                        <MenuItem key={item.id} value={item.name}>
+                            <Checkbox checked={props.caracteristique.indexOf(item.name) > -1} />
                             <ListItemText primary={item.name} />
                         </MenuItem>
                     ))}
                 </Select>
             </FormControl>
         </div>
-
     );
 }
-
-
-

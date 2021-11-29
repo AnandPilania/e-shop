@@ -5,22 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product_detail extends Model
+class Variant extends Model
 {
     use HasFactory;
 
     public function product()
     {
         return $this->belongsTo(Product::class);
-    }
+    } 
 
-    public function type_detail_product()
+    public function product_details()
     {
-        return $this->belongsTo(Type_detail_product::class);
-    }
-
-    public function variant()
-    {
-        return $this->belongsTo(Variant::class);
+        return $this->hasMany(Product_detail::class);
     }
 }

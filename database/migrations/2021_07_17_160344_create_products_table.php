@@ -19,13 +19,15 @@ class CreateProductsTable extends Migration
             $table->string('ali_url_product')->nullable();
             $table->string('ali_product_id')->nullable();
             $table->integer('global_stars')->nullable();
-            $table->integer('reviews')->nullable();
-            $table->integer('orders')->nullable();
-            $table->float('price', 8, 2);
+            $table->integer('ali_reviews')->nullable();
+            $table->integer('ali_orders')->nullable();
             $table->mediumText('description')->nullable();
             $table->string('link');
+            $table->string('type');
             $table->boolean('best_sell')->nullable();
             $table->integer('ordre');
+            $table->unsignedBigInteger('taxe_id');
+            $table->foreign('taxe_id')->references('id')->on('taxes');
             $table->timestamps();
         });
     }

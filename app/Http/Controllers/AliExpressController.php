@@ -26,6 +26,7 @@ class AliExpressController extends Controller
         $jsonContainerJs = null;
         $result = [];
 
+        // extraction du container js contenant les données du produit
         $product_data = $pathObj->query("//script");
         foreach ($product_data as $element) {
             if (str_contains($element->textContent, 'window.runParams')) {
@@ -46,6 +47,7 @@ class AliExpressController extends Controller
         foreach ($jsonContainerJs->skuModule->skuPriceList as $skuPriceOffer) {
             $skuVariantFullName = [];
             $skuProps = explode(",", $skuPriceOffer->skuPropIds);
+            // dd($skuProps);
             $imageLinkIfSpecified = '';
 
             foreach ($skuProps as $skuId) {
@@ -65,7 +67,7 @@ class AliExpressController extends Controller
                 }
             }
 
-            $nextSKUOffer =  implode(",", $skuVariantFullName) .', ' . (isset($skuPriceOffer->skuVal->availQuantity) ? ', Available: ' . $skuPriceOffer->skuVal->availQuantity : '') . ', Price: ' . $skuPriceOffer->skuVal->skuAmount->formatedAmount;
+            $nextSKUOffer =  implode(",", $skuVariantFullName) .', ' . (isset($skuPriceOffer->skuVal->availQuantity) ? ', Available: ' . $skuPriceOffer->skuVal->availQuantity : '') . ', Price: ' . $skuPriceOffer->skuVal->skuActivityAmount->value;
             if (isset($imageLinkIfSpecified) && !empty($imageLinkIfSpecified))
                 $nextSKUOffer .= ', Image: ' . $imageLinkIfSpecified;
 
