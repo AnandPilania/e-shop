@@ -7,8 +7,23 @@ document.getElementById("getProduct").addEventListener('click', () => {
         // entoure les cards avec les infos et le button add product
         function getProductCards() {
             var product_cards = document.getElementsByClassName('_3KNwG _2f4Ho');
+
+
+
+      
+
+            // chrome.extension.sendMessage({action: "test", url: product_cards[0].href}, function(response){
+            //     console.log("From background.js ->", response)
+            // });
+
+
+
+
+
+
+
             for (let i = 0; i < product_cards.length; i++) {
-                product_cards[i].onclick = function(event) {
+                product_cards[i].onclick = function (event) {
                     event.preventDefault();
                 };
                 product_cards[i].style.border = 'solid 5px navy';
@@ -42,11 +57,11 @@ document.getElementById("getProduct").addEventListener('click', () => {
                 add_button.style.color = 'black';
                 add_button.style.fontSize = '20px';
                 add_button.style.zIndex = '10';
-                
+
                 add_button.innerText = 'Add product';
                 product_cards[i].appendChild(add_button);
                 // add_button.onclick = addProduct(product_cards[i].href);
-                add_button.onclick = function(e){
+                add_button.onclick = function (e) {
                     e.preventDefault();
                     addProduct(product_cards[i].href);
                 };
@@ -65,8 +80,8 @@ document.getElementById("getProduct").addEventListener('click', () => {
                 for (let i = 0; i < paginationButton.length; i++) {
                     paginationButton[i].addEventListener("click", function (event) {
                         // setTimeout(function() { getProductCards(); }, 200);
-                        setTimeout(function() { window.scrollTo( 0, 1 ); }, 3000);
-                        
+                        setTimeout(function () { window.scrollTo(0, 1); }, 3000);
+
                     }, { passive: true });
                 }
             }
@@ -75,8 +90,8 @@ document.getElementById("getProduct").addEventListener('click', () => {
         window.addEventListener("scroll", function (event) {
             getProductCards();
             isExistPagination();
-        }, { passive: true });        
-        
+        }, { passive: true });
+
 
 
         // console.log(document.body);
@@ -84,15 +99,20 @@ document.getElementById("getProduct").addEventListener('click', () => {
         function addProduct(pageUrl) {
             var url = new FormData();
             url.append("url", pageUrl);
-    
-    
+
+
             fetch('http://127.0.0.1:8000/importProduct', {
                 method: 'post',
                 body: url,
             })
                 .then(console.log('res.dataUrl  --->  ok'));
+
+            // chrome.extension.sendMessage({action: "test", url: pageUrl}, function(response){
+            //     console.log("From background.js ->", response)
+            // });
+            
         }
-        
+
 
 
         // console.log(window.open(myUrl));

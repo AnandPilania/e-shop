@@ -32,10 +32,12 @@ class ProductFactory extends Factory
 
         return [
             'name' => $name,
-            'price' => rand(9,50),
+            // 'price' => rand(9,50),
             'description' => $this->faker->sentence(15, true),
             'link' => $link,
             'best_sell' => 0,
+            'type' => 'type',
+            'taxe_id' => 1,
             'ordre' => self::$ordre++
         ];
     }
