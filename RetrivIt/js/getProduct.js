@@ -8,20 +8,6 @@ document.getElementById("getProduct").addEventListener('click', () => {
         function getProductCards() {
             var product_cards = document.getElementsByClassName('_3KNwG _2f4Ho');
 
-
-
-      
-
-            // chrome.extension.sendMessage({action: "test", url: product_cards[0].href}, function(response){
-            //     console.log("From background.js ->", response)
-            // });
-
-
-
-
-
-
-
             for (let i = 0; i < product_cards.length; i++) {
                 product_cards[i].onclick = function (event) {
                     event.preventDefault();
@@ -71,6 +57,19 @@ document.getElementById("getProduct").addEventListener('click', () => {
 
         getProductCards();
 
+        function addProduct(pageUrl) {
+            var page = new FormData();
+            page.append('page', pageUrl);
+            fetch('http://127.0.0.1:8000/importProduct', {
+                method: 'post',
+                body: page,
+            })
+                .then(console.log('res.dataUrl  --->  ok'))
+        
+        }
+
+
+
         // quand on pagine, attend 3sec et scroll pour déclencher getProductCards ce qui rafraichi product_cards
         function isExistPagination() {
             if (document.getElementsByClassName('next-pagination-pages')[0]) {
@@ -96,22 +95,7 @@ document.getElementById("getProduct").addEventListener('click', () => {
 
         // console.log(document.body);
 
-        function addProduct(pageUrl) {
-            var url = new FormData();
-            url.append("url", pageUrl);
 
-
-            fetch('http://127.0.0.1:8000/importProduct', {
-                method: 'post',
-                body: url,
-            })
-                .then(console.log('res.dataUrl  --->  ok'));
-
-            // chrome.extension.sendMessage({action: "test", url: pageUrl}, function(response){
-            //     console.log("From background.js ->", response)
-            // });
-            
-        }
 
 
 

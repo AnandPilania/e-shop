@@ -13,12 +13,5 @@
     "permissions": ["activeTab", "<all_urls>"],
     "icons": {
         "128": "img/icon.png" 
-    },
-      "optional_permissions": [
-        "unlimitedStorage"
-      ],
-      "host_permissions": [
-        "https://fr.aliexpress.com/",
-        "*://*/*"
-      ]
+    }
 }
