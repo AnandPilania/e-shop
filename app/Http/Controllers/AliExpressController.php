@@ -29,11 +29,17 @@ class AliExpressController extends Controller
 
         // extraction du container js contenant les données du produit
         $product_data = $pathObj->query("//script");
-        // foreach ($product_data as $element) {
-        //     $result[] = $element;
+        // extraction discount
+        // $discount = $pathObj->query("//*[@class='uniform-banner-box-discounts']/span[last()]");
+        // $discount = $pathObj->query("//span");
+        // dd($discount);
+        // foreach ($discount as $element) {
+        //     $element->getElementsByClassName('uniform-banner-box-discounts');
+
+        //     $result[] = $element->nodeValue;
 
         // }
-        // dd($element);
+        // dd($result);
         foreach ($product_data as $element) {
             if (str_contains($element->textContent, 'window.runParams')) {
                 $containerJs_product_infos = substr($element->textContent, 0, strpos($element->textContent, "csrfToken"));
@@ -79,7 +85,16 @@ class AliExpressController extends Controller
                 }
             }
 
-            $nextSKUOffer =  implode(",", $skuVariantFullName) . ', ' . (isset($skuPriceOffer->skuVal->availQuantity) ? ', Available: ' . $skuPriceOffer->skuVal->availQuantity : '') . ', Price: ' . $skuPriceOffer->skuVal->skuActivityAmount->value; // ICI METTRE UNE CONDITION POUR CHOISIR LA PROVENANCE DU PRIX
+            $nextSKUOffer =  implode(",", $skuVariantFullName) . ', ' . 
+            
+            (isset($skuPriceOffer->skuVal->availQuantity) ? ', Available: ' . $skuPriceOffer->skuVal->availQuantity : '') . ' ' . 
+
+            (isset($skuPriceOffer->skuVal->skuActivityAmount) ? ', Price_skuActivityAmount: ' . $skuPriceOffer->skuVal->skuActivityAmount->value : '[not skuActivityAmount] ') . ' ' .
+            
+            (isset($skuPriceOffer->skuVal->skuAmount) ? ', Price_skuAmount: ' . $skuPriceOffer->skuVal->skuAmount->value : '[not Price_skuAmount] ')  . ' ' .
+
+            (isset($skuPriceOffer->skuVal->discount) ? ', discount: ' . $skuPriceOffer->skuVal->discount : '[not discount] ') ;
+
             if (isset($imageLinkIfSpecified) && !empty($imageLinkIfSpecified))
                 $nextSKUOffer .= ', Image: ' . $imageLinkIfSpecified;
 

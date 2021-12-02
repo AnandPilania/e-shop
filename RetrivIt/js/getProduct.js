@@ -65,52 +65,86 @@ document.getElementById("getProduct").addEventListener('click', () => {
                 body: page,
             })
                 .then(console.log('res.dataUrl  --->  ok'))
+
+        }
+
+        // function addProduct(pageUrl) {
+        //     window.open(pageUrl);
+
+        //     var promo = document.querySelector("#root > div > div.product-main > div > div.product-info > div.uniform-banner > div.uniform-banner-box > div:nth-child(1) > span.uniform-banner-box-discounts > span:nth-child(2)");
+        //     document.referrer;
+
+        //     console.log(promo);
         
+
+
+
+
+
+        //     // (async () => {
+        //     //     var response = await fetch(pageUrl);
+        //     //     switch (response.status) {
+        //     //         // status "OK"
+        //     //         case 200:
+        //     //             console.log(await response.text());
+        //     //             break;
+        //     //         // status "Not Found"
+        //     //         case 404:
+        //     //             console.log('Not Found');
+        //     //             break;
+        //     //     }
+        //     // })();
+
+        //     // fetch(pageUrl)('uniform-banner-box-discounts')[0]
+        //     //     .then(res => res.text())
+        //     //     .then(data=>{ console.log(data); });
+        
+        // }
+
+
+
+
+// quand on pagine, attend 3sec et scroll pour déclencher getProductCards ce qui rafraichi product_cards
+function isExistPagination() {
+    if (document.getElementsByClassName('next-pagination-pages')[0]) {
+
+        var paginationButton = document.getElementsByClassName('next-pagination-pages')[0].querySelectorAll('button');
+
+        for (let i = 0; i < paginationButton.length; i++) {
+            paginationButton[i].addEventListener("click", function (event) {
+                // setTimeout(function() { getProductCards(); }, 200);
+                setTimeout(function () { window.scrollTo(0, 1); }, 3000);
+
+            }, { passive: true });
         }
+    }
+}
+
+window.addEventListener("scroll", function (event) {
+    getProductCards();
+    isExistPagination();
+}, { passive: true });
 
 
 
-        // quand on pagine, attend 3sec et scroll pour déclencher getProductCards ce qui rafraichi product_cards
-        function isExistPagination() {
-            if (document.getElementsByClassName('next-pagination-pages')[0]) {
-
-                var paginationButton = document.getElementsByClassName('next-pagination-pages')[0].querySelectorAll('button');
-
-                for (let i = 0; i < paginationButton.length; i++) {
-                    paginationButton[i].addEventListener("click", function (event) {
-                        // setTimeout(function() { getProductCards(); }, 200);
-                        setTimeout(function () { window.scrollTo(0, 1); }, 3000);
-
-                    }, { passive: true });
-                }
-            }
-        }
-
-        window.addEventListener("scroll", function (event) {
-            getProductCards();
-            isExistPagination();
-        }, { passive: true });
-
-
-
-        // console.log(document.body);
+// console.log(document.body);
 
 
 
 
 
-        // console.log(window.open(myUrl));
-        throw new Error("my error message");
+// console.log(window.open(myUrl));
+throw new Error("my error message");
     }
 
-    //We have permission to access the activeTab, so we can call chrome.tabs.executeScript:
-    chrome.tabs.executeScript({
-        code: '(' + modifyDOM + ')();' //argument here is a string but function.toString() returns function's code
-    }, (results) => {
-        //Here we have just the innerHTML and not DOM structure
-        console.log('Popup script:')
-        console.log(results[0]);
-    });
+//We have permission to access the activeTab, so we can call chrome.tabs.executeScript:
+chrome.tabs.executeScript({
+    code: '(' + modifyDOM + ')();' //argument here is a string but function.toString() returns function's code
+}, (results) => {
+    //Here we have just the innerHTML and not DOM structure
+    console.log('Popup script:')
+    console.log(results[0]);
+});
 });
 
 
