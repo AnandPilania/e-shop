@@ -46,10 +46,21 @@ document.getElementById("getProduct").addEventListener('click', () => {
 
                 add_button.innerText = 'Add product';
                 product_cards[i].appendChild(add_button);
+
+                // get card price
+                let cardPrice = product_cards[i].getElementsByClassName('_13_ga _37W_B')[0];
+
+                // check if second span is ',' or '€'
+                if (cardPrice.getElementsByTagName('span')[0].textContent == ',') {
+                    var price = cardPrice.getElementsByTagName('span')[0].textContent + '.' + cardPrice.getElementsByTagName('span')[2].textContent;
+                } else {
+                    var price = cardPrice.getElementsByTagName('span')[0].textContent;
+                }
+                
                 // add_button.onclick = addProduct(product_cards[i].href);
                 add_button.onclick = function (e) {
                     e.preventDefault();
-                    addProduct(product_cards[i].href);
+                    addProduct(product_cards[i].href, price);
                 };
 
             }
@@ -57,9 +68,10 @@ document.getElementById("getProduct").addEventListener('click', () => {
 
         getProductCards();
 
-        function addProduct(pageUrl) {
+        function addProduct(pageUrl, price) {
             var page = new FormData();
             page.append('page', pageUrl);
+            page.append('price', price);
             fetch('http://127.0.0.1:8000/importProduct', {
                 method: 'post',
                 body: page,
@@ -67,39 +79,6 @@ document.getElementById("getProduct").addEventListener('click', () => {
                 .then(console.log('res.dataUrl  --->  ok'))
 
         }
-
-        // function addProduct(pageUrl) {
-        //     window.open(pageUrl);
-
-        //     var promo = document.querySelector("#root > div > div.product-main > div > div.product-info > div.uniform-banner > div.uniform-banner-box > div:nth-child(1) > span.uniform-banner-box-discounts > span:nth-child(2)");
-        //     document.referrer;
-
-        //     console.log(promo);
-        
-
-
-
-
-
-        //     // (async () => {
-        //     //     var response = await fetch(pageUrl);
-        //     //     switch (response.status) {
-        //     //         // status "OK"
-        //     //         case 200:
-        //     //             console.log(await response.text());
-        //     //             break;
-        //     //         // status "Not Found"
-        //     //         case 404:
-        //     //             console.log('Not Found');
-        //     //             break;
-        //     //     }
-        //     // })();
-
-        //     // fetch(pageUrl)('uniform-banner-box-discounts')[0]
-        //     //     .then(res => res.text())
-        //     //     .then(data=>{ console.log(data); });
-        
-        // }
 
 
 

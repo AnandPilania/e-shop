@@ -17,29 +17,20 @@ class AliExpressController extends Controller
     public function importProduct(Request $request)
     {
         // dd($request->page);
+        // dd($request->price);
 
         $source = $this->getCurl($request->page);
         // $source = $this->doCurl($request->url);
         // dd($source);
         $pathObj = $this->getXPathObj($source);
-        // dd($pathObj);
+        dd($pathObj);
 
         $jsonContainerJs = null;
-        $result = [];
+        $discount = 0;
+        $cardPrice = (double) $request->price;
 
         // extraction du container js contenant les données du produit
         $product_data = $pathObj->query("//script");
-        // extraction discount
-        // $discount = $pathObj->query("//*[@class='uniform-banner-box-discounts']/span[last()]");
-        // $discount = $pathObj->query("//span");
-        // dd($discount);
-        // foreach ($discount as $element) {
-        //     $element->getElementsByClassName('uniform-banner-box-discounts');
-
-        //     $result[] = $element->nodeValue;
-
-        // }
-        // dd($result);
         foreach ($product_data as $element) {
             if (str_contains($element->textContent, 'window.runParams')) {
                 $containerJs_product_infos = substr($element->textContent, 0, strpos($element->textContent, "csrfToken"));
@@ -55,6 +46,26 @@ class AliExpressController extends Controller
                 // echo $jsonContainerJs->imageModule->imagePathList[0];
             }
         }
+
+        // calcul du discount "si il y en a un"
+        
+            // foreach ($jsonContainerJs->skuModule->skuPriceList as $skuPriceOffer) {
+            //     echo $skuPriceOffer->skuVal->skuAmount->value . '<br>';
+            //     $sku_amount = $skuPriceOffer->skuVal->skuAmount->value;
+
+            //     if (isset($skuPriceOffer->skuVal->discount) && $skuPriceOffer->skuVal->discount > 50) {
+            //         if (isset($sku_amount) && $sku_amount == $cardPrice) {
+                        
+            //             $discount = round((((int) $sku_amount - $cardPrice) / $sku_amount) * 100);
+            //         } else {
+            //             $discount = 0;
+            //         }
+            //     } else {
+
+            //     }
+            // }
+     
+
 
         foreach ($jsonContainerJs->skuModule->skuPriceList as $skuPriceOffer) {
             // dd($jsonContainerJs);
@@ -85,15 +96,15 @@ class AliExpressController extends Controller
                 }
             }
 
-            $nextSKUOffer =  implode(",", $skuVariantFullName) . ', ' . 
-            
-            (isset($skuPriceOffer->skuVal->availQuantity) ? ', Available: ' . $skuPriceOffer->skuVal->availQuantity : '') . ' ' . 
+            $nextSKUOffer =  implode(",", $skuVariantFullName) . ', ' .
 
-            (isset($skuPriceOffer->skuVal->skuActivityAmount) ? ', Price_skuActivityAmount: ' . $skuPriceOffer->skuVal->skuActivityAmount->value : '[not skuActivityAmount] ') . ' ' .
-            
-            (isset($skuPriceOffer->skuVal->skuAmount) ? ', Price_skuAmount: ' . $skuPriceOffer->skuVal->skuAmount->value : '[not Price_skuAmount] ')  . ' ' .
+                (isset($skuPriceOffer->skuVal->availQuantity) ? ', Available: ' . $skuPriceOffer->skuVal->availQuantity : '  ') . 
 
-            (isset($skuPriceOffer->skuVal->discount) ? ', discount: ' . $skuPriceOffer->skuVal->discount : '[not discount] ') ;
+                (isset($skuPriceOffer->skuVal->skuActivityAmount) ? ',   skuActivityAmount: ' . $skuPriceOffer->skuVal->skuActivityAmount->value : ',  real_price: ' . round($skuPriceOffer->skuVal->skuAmount->value * ((100 - $discount) / 100), 2)) . 
+               
+                (isset($skuPriceOffer->skuVal->skuAmount) ? ', Price_skuAmount: ' . $skuPriceOffer->skuVal->skuAmount->value : '[not Price_skuAmount] ')  . ' ' .
+
+                (isset($skuPriceOffer->skuVal->discount) ? ', discount: ' . $skuPriceOffer->skuVal->discount : '[not discount] ') . '   realDiscount ' . $discount;
 
             if (isset($imageLinkIfSpecified) && !empty($imageLinkIfSpecified))
                 $nextSKUOffer .= ', Image: ' . $imageLinkIfSpecified;
