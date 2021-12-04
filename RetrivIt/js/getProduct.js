@@ -47,19 +47,20 @@ document.getElementById("getProduct").addEventListener('click', () => {
                 add_button.innerText = 'Add product';
                 product_cards[i].appendChild(add_button);
 
-                // get card price
-                let cardPrice = product_cards[i].getElementsByClassName('_13_ga _37W_B')[0];
 
-                // check if second span is ',' or '€'
-                if (cardPrice.getElementsByTagName('span')[0].textContent == ',') {
-                    var price = cardPrice.getElementsByTagName('span')[0].textContent + '.' + cardPrice.getElementsByTagName('span')[2].textContent;
-                } else {
-                    var price = cardPrice.getElementsByTagName('span')[0].textContent;
-                }
-                
+
                 // add_button.onclick = addProduct(product_cards[i].href);
                 add_button.onclick = function (e) {
                     e.preventDefault();
+                    // get card price
+                    let cardPrice = product_cards[i].getElementsByClassName('_13_ga _37W_B')[0];
+
+                    // check if second span is ',' or '€'
+                    if (cardPrice.getElementsByTagName('span')[1].textContent == ',') {
+                        var price = cardPrice.getElementsByTagName('span')[0].textContent + '.' + cardPrice.getElementsByTagName('span')[2].textContent;
+                    } else {
+                        var price = cardPrice.getElementsByTagName('span')[0].textContent;
+                    }
                     addProduct(product_cards[i].href, price);
                 };
 
@@ -68,13 +69,13 @@ document.getElementById("getProduct").addEventListener('click', () => {
 
         getProductCards();
 
-        function addProduct(pageUrl, price) {
-            var page = new FormData();
-            page.append('page', pageUrl);
-            page.append('price', price);
+        function addProduct(url, price) {
+            var data = new FormData();
+            data.append('url', url);
+            data.append('price', price);
             fetch('http://127.0.0.1:8000/importProduct', {
                 method: 'post',
-                body: page,
+                body: data,
             })
                 .then(console.log('res.dataUrl  --->  ok'))
 
@@ -83,47 +84,47 @@ document.getElementById("getProduct").addEventListener('click', () => {
 
 
 
-// quand on pagine, attend 3sec et scroll pour déclencher getProductCards ce qui rafraichi product_cards
-function isExistPagination() {
-    if (document.getElementsByClassName('next-pagination-pages')[0]) {
+        // quand on pagine, attend 3sec et scroll pour déclencher getProductCards ce qui rafraichi product_cards
+        function isExistPagination() {
+            if (document.getElementsByClassName('next-pagination-pages')[0]) {
 
-        var paginationButton = document.getElementsByClassName('next-pagination-pages')[0].querySelectorAll('button');
+                var paginationButton = document.getElementsByClassName('next-pagination-pages')[0].querySelectorAll('button');
 
-        for (let i = 0; i < paginationButton.length; i++) {
-            paginationButton[i].addEventListener("click", function (event) {
-                // setTimeout(function() { getProductCards(); }, 200);
-                setTimeout(function () { window.scrollTo(0, 1); }, 3000);
+                for (let i = 0; i < paginationButton.length; i++) {
+                    paginationButton[i].addEventListener("click", function (event) {
+                        // setTimeout(function() { getProductCards(); }, 200);
+                        setTimeout(function () { window.scrollTo(0, 1); }, 3000);
 
-            }, { passive: true });
+                    }, { passive: true });
+                }
+            }
         }
-    }
-}
 
-window.addEventListener("scroll", function (event) {
-    getProductCards();
-    isExistPagination();
-}, { passive: true });
+        window.addEventListener("scroll", function (event) {
+            getProductCards();
+            isExistPagination();
+        }, { passive: true });
 
 
 
-// console.log(document.body);
+        // console.log(document.body);
 
 
 
 
 
-// console.log(window.open(myUrl));
-throw new Error("my error message");
+        // console.log(window.open(myUrl));
+        throw new Error("my error message");
     }
 
-//We have permission to access the activeTab, so we can call chrome.tabs.executeScript:
-chrome.tabs.executeScript({
-    code: '(' + modifyDOM + ')();' //argument here is a string but function.toString() returns function's code
-}, (results) => {
-    //Here we have just the innerHTML and not DOM structure
-    console.log('Popup script:')
-    console.log(results[0]);
-});
+    //We have permission to access the activeTab, so we can call chrome.tabs.executeScript:
+    chrome.tabs.executeScript({
+        code: '(' + modifyDOM + ')();' //argument here is a string but function.toString() returns function's code
+    }, (results) => {
+        //Here we have just the innerHTML and not DOM structure
+        console.log('Popup script:')
+        console.log(results[0]);
+    });
 });
 
 

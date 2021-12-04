@@ -16,18 +16,18 @@ class AliExpressController extends Controller
 
     public function importProduct(Request $request)
     {
-        // dd($request->page);
+        // dd($request->url);
         // dd($request->price);
 
-        $source = $this->getCurl($request->page);
+        $source = $this->getCurl($request->url);
         // $source = $this->doCurl($request->url);
         // dd($source);
         $pathObj = $this->getXPathObj($source);
-        dd($pathObj);
+        // dd($pathObj);
 
         $jsonContainerJs = null;
         $discount = 0;
-        $cardPrice = (double) $request->price;
+        $cardPrice = (float) $request->price;
 
         // extraction du container js contenant les données du produit
         $product_data = $pathObj->query("//script");
@@ -41,31 +41,29 @@ class AliExpressController extends Controller
                 $containerJs_product_infos = str_replace(" ", "", $containerJs_product_infos);
 
                 $jsonContainerJs = json_decode($containerJs_product_infos);
-
-                // dd($jsonContainerJs);
-                // echo $jsonContainerJs->imageModule->imagePathList[0];
             }
         }
 
-        // calcul du discount "si il y en a un"
-        
-            // foreach ($jsonContainerJs->skuModule->skuPriceList as $skuPriceOffer) {
-            //     echo $skuPriceOffer->skuVal->skuAmount->value . '<br>';
-            //     $sku_amount = $skuPriceOffer->skuVal->skuAmount->value;
+        // extrait de l'url reçue dans $request->url le skuProductId de la variante pour pouvoir calculer le taux du discount 
+        $product_variante_id = null;
+        $pattern = '/%22[0-9]+%22%7D$/';
+        if (preg_match($pattern, $request->url, $match)) {
+            $toDelete = array("%22", "%7D");
+            $product_variante_id = str_replace($toDelete, "", $match[0]);
+        }
 
-            //     if (isset($skuPriceOffer->skuVal->discount) && $skuPriceOffer->skuVal->discount > 50) {
-            //         if (isset($sku_amount) && $sku_amount == $cardPrice) {
-                        
-            //             $discount = round((((int) $sku_amount - $cardPrice) / $sku_amount) * 100);
-            //         } else {
-            //             $discount = 0;
-            //         }
-            //     } else {
+        // calcule le % de discount
+        foreach ($jsonContainerJs->skuModule->skuPriceList as $skuPriceOffer) {
 
-            //     }
-            // }
-     
+            $sku_amount = $skuPriceOffer->skuVal->skuAmount->value;
 
+            if (isset($skuPriceOffer->skuId) && $skuPriceOffer->skuId == $product_variante_id) {
+                $discount =  round((($sku_amount - $cardPrice) / $sku_amount) * 100);
+                break;
+            } else {
+                $discount = 0;
+            }
+        }
 
         foreach ($jsonContainerJs->skuModule->skuPriceList as $skuPriceOffer) {
             // dd($jsonContainerJs);
@@ -98,13 +96,15 @@ class AliExpressController extends Controller
 
             $nextSKUOffer =  implode(",", $skuVariantFullName) . ', ' .
 
-                (isset($skuPriceOffer->skuVal->availQuantity) ? ', Available: ' . $skuPriceOffer->skuVal->availQuantity : '  ') . 
+                (isset($skuPriceOffer->skuId) ? ', skuId: ' . $skuPriceOffer->skuId : '  ') .
 
-                (isset($skuPriceOffer->skuVal->skuActivityAmount) ? ',   skuActivityAmount: ' . $skuPriceOffer->skuVal->skuActivityAmount->value : ',  real_price: ' . round($skuPriceOffer->skuVal->skuAmount->value * ((100 - $discount) / 100), 2)) . 
-               
+                (isset($skuPriceOffer->skuVal->availQuantity) ? ', Available: ' . $skuPriceOffer->skuVal->availQuantity : '  ') .
+
+                ',  calculated_price: ' . round(($skuPriceOffer->skuVal->skuAmount->value / 100) * (100 - $discount), 2) .
+
                 (isset($skuPriceOffer->skuVal->skuAmount) ? ', Price_skuAmount: ' . $skuPriceOffer->skuVal->skuAmount->value : '[not Price_skuAmount] ')  . ' ' .
 
-                (isset($skuPriceOffer->skuVal->discount) ? ', discount: ' . $skuPriceOffer->skuVal->discount : '[not discount] ') . '   realDiscount ' . $discount;
+                (isset($skuPriceOffer->skuVal->discount) ? ', discount: ' . $skuPriceOffer->skuVal->discount : '[not discount] ') . '   calculatedDiscount ' . $discount;
 
             if (isset($imageLinkIfSpecified) && !empty($imageLinkIfSpecified))
                 $nextSKUOffer .= ', Image: ' . $imageLinkIfSpecified;
@@ -193,16 +193,14 @@ class AliExpressController extends Controller
     // }
 
 
-    // Method to get XPath object
+    // get XPath object
     public function getXPathObj($item)
     {
-        // Instantiating a new DomDocument object
         $xmlPageDom = new \DomDocument();
-        // Loading the HTML from downloaded page
+
         @$xmlPageDom->loadHTML($item);
-        // Instantiating new XPath DOM object
+
         $xmlPageXPath = new \DOMXPath($xmlPageDom);
         return $xmlPageXPath;
-        //get xpath
     }
 }
