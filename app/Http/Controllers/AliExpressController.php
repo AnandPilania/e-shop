@@ -44,6 +44,60 @@ class AliExpressController extends Controller
             }
         }
 
+        // toutes les images du slider
+        // dd($jsonContainerJs->imageModule->imagePathList);
+
+        // toutes les images des details ---------------------------------
+        $imageDetailsTab = [];
+        foreach ($jsonContainerJs->skuModule->productSKUPropertyList as $productSKUPropertiesList) {
+            foreach ($productSKUPropertiesList as $key => $value) {
+                if ($key == 'skuPropertyValues') {
+                    foreach ($value as $property) {
+                        foreach ($property as $propertyName => $propertyValue) {
+                            if ($propertyName == 'skuPropertyImagePath') {
+                                $imageDetailsTab[] = $propertyValue;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        // dd($imageDetailsTab);
+        // -------------------------------------------------
+
+
+        // lien vers toutes les images en description
+        // dd($jsonContainerJs->descriptionModule->descriptionUrl);
+
+        // toutes les images en description
+        $imagesDescriptionUrl = $jsonContainerJs->descriptionModule->descriptionUrl;
+        $source_url_images_description = $this->getCurl($imagesDescriptionUrl);
+        $pathObj_img_descr = $this->getXPathObj($source_url_images_description);
+
+        $images_description_list = $pathObj_img_descr->query("//img/@src");
+        $imgDescrList = [];
+        foreach ($images_description_list as $imgDescr) {
+            $imgDescrList[] = $imgDescr->textContent;
+        }
+        // dd($imgDescrList);
+
+
+        // coupons
+        // if (isset($jsonContainerJs->couponModule->fixedDiscountLevelList)) {
+        //     dd($jsonContainerJs->couponModule->fixedDiscountLevelList);
+        // }       
+        
+        // product title
+        // if (isset($jsonContainerJs->pageModule->title)) {
+        //     dd($jsonContainerJs->pageModule->title);
+        // }       
+        
+        // product description
+        if (isset($jsonContainerJs->pageModule->description)) {
+            $description = $jsonContainerJs->pageModule->description;
+            dd($description);
+        }
+        
         // extrait de l'url reçue dans $request->url le skuProductId de la variante pour pouvoir calculer le taux du discount 
         $product_variante_id = null;
         $pattern = '/%22[0-9]+%22%7D$/';

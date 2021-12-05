@@ -216,10 +216,6 @@ document.getElementById("dev").addEventListener('click', () => {
                 //------------------------------------------------------------------------
 
 
-
-
-
-
                 // slider lien img big format
                 console.log('ce qui suis est le slider img big format');
                 aliExData.imageModule.imagePathList.forEach(function (nextPathImage) {
