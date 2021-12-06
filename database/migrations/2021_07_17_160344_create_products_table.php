@@ -26,6 +26,7 @@ class CreateProductsTable extends Migration
             $table->integer('ali_reviews')->nullable();
             $table->integer('ali_orders')->nullable();
             $table->integer('ordre');
+            $table->tinyInteger('active')->default('0');
             $table->unsignedBigInteger('taxe_id');
             $table->foreign('taxe_id')->references('id')->on('taxes');
             $table->timestamps();

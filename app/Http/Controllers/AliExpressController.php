@@ -29,6 +29,7 @@ class AliExpressController extends Controller
         $discount = 0;
         $cardPrice = (float) $request->price;
 
+
         // extraction du container js contenant les données du produit
         $product_data = $pathObj->query("//script");
         foreach ($product_data as $element) {
@@ -38,67 +39,104 @@ class AliExpressController extends Controller
                 $containerJs_product_infos = substr_replace($containerJs_product_infos, "", -1);
                 $containerJs_product_infos = str_replace("window.runParams = {", "", $containerJs_product_infos);
                 $containerJs_product_infos = str_replace("data: ", "", $containerJs_product_infos);
-                $containerJs_product_infos = str_replace(" ", "", $containerJs_product_infos);
+                // $containerJs_product_infos = str_replace(" ", "", $containerJs_product_infos);
 
                 $jsonContainerJs = json_decode($containerJs_product_infos);
             }
         }
 
         // toutes les images du slider
-        // dd($jsonContainerJs->imageModule->imagePathList);
+        if (isset($jsonContainerJs->imageModule->imagePathList)) {
+            $images_slider = $jsonContainerJs->imageModule->imagePathList;
+            // dd($images_slider);
+        }        
+        
+        // fiche technique
+        if (isset($jsonContainerJs->specsModule->props)) {
+            $technical_sheet = $jsonContainerJs->specsModule->props;
+            // dd($technical_sheet);
+        }
+
 
         // toutes les images des details ---------------------------------
         $imageDetailsTab = [];
-        foreach ($jsonContainerJs->skuModule->productSKUPropertyList as $productSKUPropertiesList) {
-            foreach ($productSKUPropertiesList as $key => $value) {
-                if ($key == 'skuPropertyValues') {
-                    foreach ($value as $property) {
-                        foreach ($property as $propertyName => $propertyValue) {
-                            if ($propertyName == 'skuPropertyImagePath') {
-                                $imageDetailsTab[] = $propertyValue;
+        if (isset($jsonContainerJs->skuModule->productSKUPropertyList)) {
+            foreach ($jsonContainerJs->skuModule->productSKUPropertyList as $productSKUPropertiesList) {
+                foreach ($productSKUPropertiesList as $key => $value) {
+                    if ($key == 'skuPropertyValues') {
+                        foreach ($value as $property) {
+                            foreach ($property as $propertyName => $propertyValue) {
+                                if ($propertyName == 'skuPropertyImagePath') {
+                                    $imageDetailsTab[] = $propertyValue;
+                                }
                             }
                         }
                     }
                 }
             }
+            // dd($imageDetailsTab);
         }
-        // dd($imageDetailsTab);
-        // -------------------------------------------------
 
 
-        // lien vers toutes les images en description
+
+        // lien vers une page qui contient toutes les images en description
         // dd($jsonContainerJs->descriptionModule->descriptionUrl);
 
-        // toutes les images en description
-        $imagesDescriptionUrl = $jsonContainerJs->descriptionModule->descriptionUrl;
-        $source_url_images_description = $this->getCurl($imagesDescriptionUrl);
-        $pathObj_img_descr = $this->getXPathObj($source_url_images_description);
+        // toutes les images dans la partie description
+        if (isset($jsonContainerJs->descriptionModule->descriptionUrl)) {
+            $imagesDescriptionUrl = $jsonContainerJs->descriptionModule->descriptionUrl;
+            $source_url_images_description = $this->getCurl($imagesDescriptionUrl);
+            $pathObj_img_descr = $this->getXPathObj($source_url_images_description);
 
-        $images_description_list = $pathObj_img_descr->query("//img/@src");
-        $imgDescrList = [];
-        foreach ($images_description_list as $imgDescr) {
-            $imgDescrList[] = $imgDescr->textContent;
+            $images_description_list = $pathObj_img_descr->query("//img/@src");
+            $all_images_in_description = [];
+            foreach ($images_description_list as $imgDescr) {
+                $all_images_in_description[] = $imgDescr->textContent;
+            }
+            // dd($all_images_in_description);
         }
-        // dd($imgDescrList);
 
 
-        // coupons
-        // if (isset($jsonContainerJs->couponModule->fixedDiscountLevelList)) {
-        //     dd($jsonContainerJs->couponModule->fixedDiscountLevelList);
-        // }       
-        
-        // product title
-        // if (isset($jsonContainerJs->pageModule->title)) {
-        //     dd($jsonContainerJs->pageModule->title);
-        // }       
-        
+
+        // // coupons
+        if (isset($jsonContainerJs->couponModule->fixedDiscountLevelList)) {
+            $coupons = $jsonContainerJs->couponModule->fixedDiscountLevelList;
+            // dd($coupons);
+        }       
+
+        // // product title
+        if (isset($jsonContainerJs->titleModule->subject)) {
+            $title = $jsonContainerJs->titleModule->subject;
+            // dd($title);
+        }       
+
         // product description
         if (isset($jsonContainerJs->pageModule->description)) {
             $description = $jsonContainerJs->pageModule->description;
-            dd($description);
+            // dd($description);
         }
-        
-        // extrait de l'url reçue dans $request->url le skuProductId de la variante pour pouvoir calculer le taux du discount 
+
+        // // shipping company
+        if (isset($jsonContainerJs->shippingModule->freightCalculateInfo->freight->company)) {
+            $shipping_company = $jsonContainerJs->shippingModule->freightCalculateInfo->freight->company;
+            // dd($shipping_company);
+        }
+
+        // // shipping cost
+        if (isset($jsonContainerJs->shippingModule->freightCalculateInfo->freight->freightAmount->value)) {
+            $shipping_cost = $jsonContainerJs->shippingModule->freightCalculateInfo->freight->freightAmount->value;
+            // dd($shipping_cost);
+        }
+
+        // // shipping cost currency cost delivery
+        if (isset($jsonContainerJs->shippingModule->freightCalculateInfo->freight->freightAmount->currency)) {
+            $shipping_cost_currency = $jsonContainerJs->shippingModule->freightCalculateInfo->freight->freightAmount->currency;
+            // dd($shipping_cost_currency);
+        }
+
+
+
+        // récupère dans l'url le skuProductId de la variante pour pouvoir calculer le taux du discount 
         $product_variante_id = null;
         $pattern = '/%22[0-9]+%22%7D$/';
         if (preg_match($pattern, $request->url, $match)) {
@@ -106,7 +144,7 @@ class AliExpressController extends Controller
             $product_variante_id = str_replace($toDelete, "", $match[0]);
         }
 
-        // calcule le % de discount
+        // calcule le taux du discount pour pouvoir calculer le prix exacte affiché sur la fiche produit
         foreach ($jsonContainerJs->skuModule->skuPriceList as $skuPriceOffer) {
 
             $sku_amount = $skuPriceOffer->skuVal->skuAmount->value;
@@ -119,6 +157,8 @@ class AliExpressController extends Controller
             }
         }
 
+
+        // récupère les détails
         foreach ($jsonContainerJs->skuModule->skuPriceList as $skuPriceOffer) {
             // dd($jsonContainerJs);
             $skuVariantFullName = [];
@@ -131,7 +171,7 @@ class AliExpressController extends Controller
                 if (isset($jsonContainerJs->skuModule->productSKUPropertyList)) {
                     foreach ($jsonContainerJs->skuModule->productSKUPropertyList as $nextPropertyGroup) {
                         foreach ($nextPropertyGroup->skuPropertyValues as $nextPropertyGroupValue) {
-                            if ((float)$nextPropertyGroupValue->propertyValueId === (float)$skuId) {
+                            if ((int)$nextPropertyGroupValue->propertyValueId === (int)$skuId) {
                                 // nextParam contient le nom de la propriété et sa valeur
                                 $nextParam = $nextPropertyGroup->skuPropertyName . ': ' . $nextPropertyGroupValue->propertyValueDisplayName;
                                 // on met nextParam dans un tableau
@@ -148,25 +188,78 @@ class AliExpressController extends Controller
                 }
             }
 
-            $nextSKUOffer =  implode(",", $skuVariantFullName) . ', ' .
+            if (isset($skuPriceOffer->skuId)) {
+                $sku_id = $skuPriceOffer->skuId;
+            }
+            if (isset($skuVariantFullName)) {
+                $characteristiques =  implode(", ", $skuVariantFullName);
+            }             
+            if (isset($skuPriceOffer->skuVal->availQuantity)) {
+                $Available = $skuPriceOffer->skuVal->availQuantity;
+            } 
+            if (isset($skuPriceOffer->skuVal->skuAmount->value)) {
+                $calculated_price = round(($skuPriceOffer->skuVal->skuAmount->value / 100) * (100 - $discount), 2);
+            }
+            if (isset($skuPriceOffer->skuVal->skuAmount)) {
+                $Price_skuAmount = $skuPriceOffer->skuVal->skuAmount->value;
+            } 
+            if (isset($skuPriceOffer->skuVal->discount)) {
+                $discount_fromAli = $skuPriceOffer->skuVal->discount;
+            } 
+            if (isset($skuPriceOffer->skuVal->discount)) {
+                $calculatedDiscount = $discount;
+            }
+            if (isset($imageLinkIfSpecified) && !empty($imageLinkIfSpecified)) {
+                $image_variante = $imageLinkIfSpecified;
+            }
+        
+            $variante = (object) array(
+                'sku_id' => $sku_id, 
+                'characteristiques' => $characteristiques,
+                'Available' => $Available, 
+                'calculated_price' => $calculated_price,
+                'Price_skuAmount' => $Price_skuAmount, 
+                'discount_fromAli' => $discount_fromAli,
+                'calculatedDiscount' => $calculatedDiscount,
+                'image_variante' => $image_variante
+            );
+ 
+            $variantes[] = $variante;
 
-                (isset($skuPriceOffer->skuId) ? ', skuId: ' . $skuPriceOffer->skuId : '  ') .
+            // $nextSKUOffer =  implode(", ", $skuVariantFullName) . ', ' .
 
-                (isset($skuPriceOffer->skuVal->availQuantity) ? ', Available: ' . $skuPriceOffer->skuVal->availQuantity : '  ') .
+            //     (isset($skuPriceOffer->skuId) ? ' skuId: ' . $skuPriceOffer->skuId : '  ') .
 
-                ',  calculated_price: ' . round(($skuPriceOffer->skuVal->skuAmount->value / 100) * (100 - $discount), 2) .
+            //     (isset($skuPriceOffer->skuVal->availQuantity) ? ', Available: ' . $skuPriceOffer->skuVal->availQuantity : '  ') .
 
-                (isset($skuPriceOffer->skuVal->skuAmount) ? ', Price_skuAmount: ' . $skuPriceOffer->skuVal->skuAmount->value : '[not Price_skuAmount] ')  . ' ' .
+            //     ',  calculated_price: ' . round(($skuPriceOffer->skuVal->skuAmount->value / 100) * (100 - $discount), 2) .
 
-                (isset($skuPriceOffer->skuVal->discount) ? ', discount: ' . $skuPriceOffer->skuVal->discount : '[not discount] ') . '   calculatedDiscount ' . $discount;
+            //     (isset($skuPriceOffer->skuVal->skuAmount) ? ', Price_skuAmount: ' . $skuPriceOffer->skuVal->skuAmount->value : '[not Price_skuAmount] ')  . ' ' .
 
-            if (isset($imageLinkIfSpecified) && !empty($imageLinkIfSpecified))
-                $nextSKUOffer .= ', Image: ' . $imageLinkIfSpecified;
+            //     (isset($skuPriceOffer->skuVal->discount) ? ', discount: ' . $skuPriceOffer->skuVal->discount : '[not discount] ') . '   calculatedDiscount ' . $discount;
 
-            $result[] = $nextSKUOffer;
+            // if (isset($imageLinkIfSpecified) && !empty($imageLinkIfSpecified))
+            //     $nextSKUOffer .= ', Image: ' . $imageLinkIfSpecified;
+
+            // $result[] = $nextSKUOffer;
         }
 
-        dd($result);
+        $imported_product = (object) array(
+            'images_slider' => $images_slider, 
+            'imageDetailsTab' => $imageDetailsTab,
+            'all_images_in_description' => $all_images_in_description, 
+            'coupons' => $coupons,
+            'title' => $title,
+            'description' => $description, 
+            'technical_sheet' => $technical_sheet, 
+            'shipping_company' => $shipping_company, 
+            'shipping_cost' => $shipping_cost, 
+            'shipping_cost_currency' => $shipping_cost_currency, 
+            'variantes' => $variantes, 
+        );
+
+        dd(json_encode($imported_product));
+        // dd($result);
     }
 
 
