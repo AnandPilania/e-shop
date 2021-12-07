@@ -3,11 +3,18 @@
 document.getElementById("getProduct").addEventListener('click', () => {
 
     function modifyDOM() {
-
+        // !!! GERE L IMPORTATION DES DONNEES SUR UNE PAGE DE CATEGORY/COLLECTION ET SUR UNE PAGE DE BOUTIQUE DE VENDEUR !!!
         // entoure les cards avec les infos et le button add product
+        
         function getProductCards() {
+            // récupère les lass des cards à partir d'une page de catégorie
             var product_cards = document.getElementsByClassName('_3KNwG _2f4Ho');
+            if (product_cards.length == 0) {
+                // récupère les class des cards à partir d'une page de boutique d'un vendeur si les class '_3KNwG _2f4Ho n'existent pas et donc qu'on est sur une page de boutique de vendeur
+                product_cards = document.getElementsByClassName('pic-rind');
+            }
 
+            // on habille les cards avec des bordures et des boutons pour add les produits
             for (let i = 0; i < product_cards.length; i++) {
                 product_cards[i].onclick = function (event) {
                     event.preventDefault();
@@ -53,15 +60,31 @@ document.getElementById("getProduct").addEventListener('click', () => {
                 add_button.onclick = function (e) {
                     e.preventDefault();
                     // get card price
-                    let cardPrice = product_cards[i].getElementsByClassName('_13_ga _37W_B')[0];
 
-                    // check if second span is ',' or '€'
-                    if (cardPrice.getElementsByTagName('span')[1].textContent == ',') {
-                        var price = cardPrice.getElementsByTagName('span')[0].textContent + '.' + cardPrice.getElementsByTagName('span')[2].textContent;
+                    var cardPrice = product_cards[i].getElementsByClassName('_13_ga _37W_B');
+
+                    // récupération du prix soit dans une page de catégorie soit dans une page de boutique de vendeur
+                    if (cardPrice.length != 0) {
+                        var from = 'category';
+                        // si on est dans une page de catégorie/collection 
+                        cardPrice = product_cards[i].getElementsByClassName('_13_ga _37W_B')[0];
+                        // check if second span is ',' or '€' pour sélectionner les span qui contiennent le prix
+                        if (cardPrice.getElementsByTagName('span')[1].textContent == ',') {
+                            var price = cardPrice.getElementsByTagName('span')[0].textContent + '.' + cardPrice.getElementsByTagName('span')[2].textContent;
+                        } else {
+                            var price = cardPrice.getElementsByTagName('span')[0].textContent;
+                        }
                     } else {
-                        var price = cardPrice.getElementsByTagName('span')[0].textContent;
+                        var from = 'store';
+                        // on récupère le prix dans div.cost > b si on est dans une page de boutique d'un revendeur  
+                        cardPrice = document.querySelector("div.cost > b").innerHTML;
+                        // on extrait un chiffre suivi éventuellment d'une virgule et d'un ou plusieurs chiffres
+                        const regex = /[0-9]+,?[0-9]*/;
+                        cardPrice = cardPrice.match(regex);
+                        price = cardPrice[0].replace(',', '.');
                     }
-                    addProduct(product_cards[i].href, price);
+
+                    addProduct(product_cards[i].href, price, from);
                 };
 
             }
@@ -69,10 +92,11 @@ document.getElementById("getProduct").addEventListener('click', () => {
 
         getProductCards();
 
-        function addProduct(url, price) {
+        function addProduct(url, price, from) {
             var data = new FormData();
             data.append('url', url);
             data.append('price', price);
+            data.append('from', from);
             fetch('http://127.0.0.1:8000/importProduct', {
                 method: 'post',
                 body: data,
@@ -108,9 +132,6 @@ document.getElementById("getProduct").addEventListener('click', () => {
 
 
         // console.log(document.body);
-
-
-
 
 
         // console.log(window.open(myUrl));
