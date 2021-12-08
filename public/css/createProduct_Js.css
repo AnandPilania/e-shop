@@ -2,10 +2,6 @@
   border: dashed 3px yellow;
 }
 
-.detailsProduct {
-  border: solid 3px red;
-}
-
 .button_addDetail {
   width: 200px;
   height: 40px;
@@ -36,7 +32,7 @@
   margin-bottom: 6px;
   width: auto;
   height: 30px;
-  background-color: #303030;
+  background-color: #e24545;
   border-radius: 15px;
 }
 
@@ -68,21 +64,6 @@
   margin-top: 40px;
   border: solid yellow 1px;
   width: 100%;
-}
-
-#drop-region {
-  background-color: #fff;
-  border-radius: 20px;
-  box-shadow: 0 0 35px rgba(0, 0, 0, 0.05);
-  width: 400px;
-  padding: 60px 40px;
-  text-align: center;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-#drop-region:hover {
-  box-shadow: 0 0 45px rgba(0, 0, 0, 0.1);
 }
 
 #image-preview {

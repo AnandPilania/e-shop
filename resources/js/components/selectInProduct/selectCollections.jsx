@@ -18,12 +18,25 @@ const useStyles = makeStyles({
         marginBottom: 22,
         border: 'solid yellow 3px',
     },
-    inputText: {
-        color: '#ffffff',
-        fontWeight: 400,
+    label_text: {
         fontSize: '16px',
+        fontWeight: 'bold',
+        margin: '0', 
+        marginLeft: '5px',
+        marginBottom: 10,
+        marginTop: '20px',
+        color: '#111fff',
+        width: 'auto',
+    },
+    input_text: {
+        margin: '0', 
+        paddingLeft: '10px',
         width: '100%',
-        height: '100%',
+        height: '55px',
+        border: '#e1e1e1 solid 1px',
+        borderRadius: '5px',
+        color:'#111fff',
+        backgroundColor: '#fff',
     }
   });
 
@@ -40,14 +53,14 @@ export default function SelectCollections(props) {
 
     return (
         <div>
-            <label htmlFor="collection">Collections</label>
+            <p className={classes.input_label}><label htmlFor="collection">Collections</label></p>
             <FormControl className={classes.formControl}>
                 <Select
                     id="collection"
                     multiple
                     value={collection}
                     onChange={handleChange}
-                    input={<Input className={classes.inputText} />}
+                    input={<Input className={classes.input_text} />}
                     renderValue={(selected) => selected.join(', ')}
                 >
                     <MenuItem value="selectionnez une collection">

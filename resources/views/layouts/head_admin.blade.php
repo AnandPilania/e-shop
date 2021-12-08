@@ -9,6 +9,7 @@
     <!-- plugins:css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/getTypeDetailsProduct_JS.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/back-end.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/menu_accordion.css') }}" />
 
     <!-- Roboto pour Material-UI -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />

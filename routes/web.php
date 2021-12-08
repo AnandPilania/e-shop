@@ -151,6 +151,12 @@ Route::post('/webhook/payment/succeeded', [OrderController::class, 'storeAfterSt
 //     return view('dashboard');
 // })->middleware(['auth'])->name('dashboard');
 
+
+Route::get('/accordion', function () {
+    return View('test_menu_accordion.menu');
+});
+
+
 require __DIR__ . '/auth.php';
 
 

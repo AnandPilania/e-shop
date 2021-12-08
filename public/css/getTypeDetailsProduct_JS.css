@@ -2,9 +2,6 @@
   border: dashed 3px yellow;
 }
 
-.detailsProduct {
-  border: solid 3px red;
-}
 
 .button_addDetail {
   width: 200px;
@@ -70,7 +67,7 @@
   width: 100%;
 }
 
-#drop-region {
+/* #drop-region {
   background-color: #fff;
   border-radius: 20px;
   box-shadow: 0 0 35px rgba(0, 0, 0, 0.05);
@@ -83,7 +80,7 @@
 
 #drop-region:hover {
   box-shadow: 0 0 45px rgba(0, 0, 0, 0.1);
-}
+} */
 
 #image-preview {
   margin-top: 20px;
@@ -115,7 +112,7 @@
   background-color: grey;
 }
 
-#drop-region-edit {
+/* #drop-region-edit {
   background-color: #fff;
   border-radius: 20px;
   box-shadow: 0 0 35px rgba(0, 0, 0, 0.05);
@@ -127,7 +124,7 @@
 
 #drop-region-edit:hover {
   box-shadow: 0 0 45px rgba(0, 0, 0, 0.1);
-}
+} */
 
 #image-preview-edit {
   margin-top: 20px;

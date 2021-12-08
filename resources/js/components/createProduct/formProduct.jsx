@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './createProduct_Js.scss';
+import { makeStyles } from '@material-ui/styles';
+// import './createProduct_Js.scss';
 import ContainerDetail from './containerDetail';
 import SelectCollections from '../selectInProduct/selectCollections';
 import axios from "axios";
@@ -7,9 +8,75 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 
+const useStyles = makeStyles({
+    wrapperForm: {
+        marginTop: '50px',
+        width: '80%',
+        overflow: 'auto',
+        padding: '50px',
+        // border: '#e0e0e0 dashed 1px',
+        border: 'red dashed 2px',
+        borderRadius: '5px',
+        height: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        flexWrap: 'nowrap',
+        backgroundColor: '#f6f6f7',
+    },
+    title: {
+        fontSize: '20px',
+    },
+    label_text: {
+        fontSize: '16px',
+        fontWeight: 'bold',
+        margin: '0', 
+        marginLeft: '5px',
+        marginBottom: 10,
+        marginTop: '20px',
+        color: '#111fff',
+        width: 'auto',
+    },
+    input_text: {
+        margin: '0', 
+        paddingLeft: '10px',
+        width: '100%',
+        height: '55px',
+        border: '#e1e1e1 solid 1px',
+        borderRadius: '5px',
+        color:'#111fff',
+    },
+    textarea: {
+        color: '#111fff',
+        minHeight: '100px',
+    },
+    submit_btn: { 
+        height: '45px',
+        width: '150px',
+        marginTop: '50px',
+        borderRadius: '5px',
+        backgroundColor: '#eeefff',
+        color: '#111fff',
+        fontSize: '16px',
+        letterSpacing: '1px',
+    },
+    drop_region: {
+        backgroundColor: '#fff',
+        borderRadius: '5px',
+        boxShadow: '0 0 35px rgba(0, 0, 0, 0.05)',
+        width: '100%',
+        padding: '60px 40px',
+        marginTop: '30px',
+        textAlign: 'center',
+        cursor: 'pointer',
+        transition: '0.3s',
+    },
+  });
+
+
 // props.id = detailx
 const FormProduct = (props) => {
-
+    const classes = useStyles();
     const [collectionsRelations, setCollectionsRelations] = useState([]);
     const [dataDetail, setDataDetail] = useState([]);
     const [collection, setCollection] = React.useState([]);
@@ -22,7 +89,7 @@ const FormProduct = (props) => {
     var tab = [];
 
     useEffect(() => {
-        // récupére les types de détails de la table type_detail_products pour remplire le select id=selectdetails
+        // récupére les types de détails dans la table type_detail_products pour remplire le select id=selectdetails
         axios.get(`http://127.0.0.1:8000/getCollections`)
             .then(res => {
                 setCollectionsRelations(res.data.collections);
@@ -245,32 +312,32 @@ const FormProduct = (props) => {
 
 
     return (
-        <div className="createProduct wrapper-form">
+        <div className={classes.wrapperForm}>
 
-            <h4 className="card-title">Ajouter un produit</h4>
+            <h4 className={classes.title}>Ajouter un produit</h4>
 
             <form method="post" action="/products" encType="multipart/form-data" onSubmit={handleSubmit}>
 
-                <label htmlFor="name">Nom</label>
-                <input id="name" name="name" type="text" />  
+                <p className={classes.label_text}><label htmlFor="name" >Nom</label></p>
+                <input id="name" name="name" type="text" className={classes.input_text} />  
                 
-                <label htmlFor="id_ali_express">Id_AliExpress</label>
-                <input id="id_ali_express" name="id_ali_express" type="text" />
+                <p className={classes.label_text}><label htmlFor="id_ali_express" >Id_AliExpress</label></p>
+                <input id="id_ali_express" name="id_ali_express" type="text" className={classes.input_text} />
 
-                <label htmlFor="price">Prix</label>
-                <input id="price" type="number" step=".01" name="price" />
+                <p className={classes.label_text}><label htmlFor="price" >Prix</label></p>
+                <input id="price" type="number" step=".01" name="price" className={classes.input_text} />
 
                 <SelectCollections collectionsRelations={collectionsRelations} handleCollections={handleCollections} />
 
-                <div id="drop-region">
+                <div id="drop-region" className={classes.drop_region}>
                     <div className="drop-message">
                         Drag & Drop images or click to upload
                     </div>
                     <div id="image-preview"></div>
                 </div>
 
-                <label htmlFor="description">Déscription</label>
-                <input id="description" name="description" type="text" />
+                <p className={classes.label_text}><label htmlFor="description" >Déscription</label></p>
+                <input id="description" name="description" type="text" className={classes.input_text} />
 
                 <ContainerDetail setDataDetail={setDataDetail} />
 
@@ -298,7 +365,7 @@ const FormProduct = (props) => {
                 />
 
                 <br></br>
-                <input className="btn" type="submit" value="Envoyer" />
+                <input className="btn input_submit" type="submit" value="Envoyer" />
             </form>
         </div>
     )

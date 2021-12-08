@@ -6,10 +6,6 @@
         "default_title": "Get AliExpress product",
         "default_popup": "popup.html"
     },
-    "background": {
-    "scripts": ["js/background.js"],
-    "persistent": true
-  },
     "permissions": ["activeTab", "<all_urls>"],
     "icons": {
         "128": "img/icon.png" 

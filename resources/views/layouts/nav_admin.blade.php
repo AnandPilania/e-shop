@@ -79,6 +79,12 @@
         Ali Import Product
       </li>
     </a>
+    <a href="/accordion">
+      <li class="{{ 'accordion' == request()->path() ? 'activeAdmin' : '' }}">
+        <i class="fas fa-chart-line"></i>
+        Accordion
+      </li>
+    </a>
     <a href="/">
       <li class="{{ '/' == request()->path() ? 'activeAdmin' : '' }}">
         <i class="fas fa-home"></i>

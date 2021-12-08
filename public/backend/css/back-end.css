@@ -69,7 +69,7 @@ button.btn_ajouter:hover {
   width: 100%;
   border-collapse: collapse;
   border-radius: 7px;
-  background-color: #3a3f51;
+  background-color: white;
 }
 
 .table .tr_thead {
@@ -137,83 +137,12 @@ table td img {
   color: whitesmoke;
 }
 
-.wrapper-form {
-  margin-top: 50px;
-  width: 80%;
-  overflow: auto;
-  padding: 50px;
-  border: #e0e0e0 dashed 1px;
-  border-radius: 5px;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  background-color: #3a3f51;
-}
-
-.wrapper-form h4 {
-  font-size: 20px;
-}
-
-.wrapper-form form {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  flex-wrap: nowrap;
-}
-
-.wrapper-form label {
-  font-size: 16px;
-  font-weight: bold;
-  margin-left: 5px;
-  margin-bottom: 15px;
-  margin-top: 20px;
-  color: #202223;
-  width: auto;
-}
-
-.wrapper-form input,
-.wrapper-form select {
-  margin: 0;
-  padding-left: 10px;
-  width: 100%;
-  height: 55px;
-  border: #e1e1e1 solid 1px;
-  border-radius: 5px;
-  color: #202223;
-}
-
-.wrapper-form textarea {
-  color: #202223;
-  min-height: 100px;
-}
-
-.wrapper-form input[type=submit] {
-  height: 45px;
-  width: 150px;
-  margin-top: 50px;
-  border-radius: 5px;
-  background-color: #4185dd;
-  color: #202223;
-  font-size: 16px;
-  letter-spacing: 1px;
-}
-
-.alert {
-  margin-top: 10px;
-  color: red;
-}
-
-.wrapper-form p {
-  margin: 0;
-  padding: 0;
-}
-
 .navAdmin {
-  border-right: solid 1px #e9e9e9;
+  border-right: solid 1px #cfcfcf;
   height: 100vh;
   width: 100%;
   padding: 0;
-  overflow: scroll;
+  overflow: hidden;
 }
 
 .navAdmin ul {
@@ -223,7 +152,7 @@ table td img {
 }
 
 .navAdmin li {
-  height: 70px;
+  height: 50px;
   width: 100%;
   border-bottom: solid 1px rgba(235, 235, 235, 0.3);
   padding: 0 20px;

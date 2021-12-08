@@ -1,0 +1,220 @@
+/* Variables */
+
+$accordion: 700px; // Accordion width
+$panelheight: 400px; // Applied to "max-height" - Must be larger than the panel content
+$items: 5; // Specify the number of panels present in HTML
+
+$panel_bg: darken(white, 5%); // bg color of the accordion panel
+$label_bg: lighten(#ccc, 10%); // bg color of the accordion labels
+
+// Don't edit below
+$label_bg_active: darken($label_bg,7.5%);
+$num_bg: darken($label_bg_active,15%);
+$border_col: darken($label_bg,40%);
+$label_color: black;
+// Don't edit above
+
+$gutter: 15px; // General padding around items
+$ts: all 0.2s ease; // General transition effect
+
+/* Styles */
+
+* {
+  box-sizing: border-box;
+}
+
+%reset {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  font-family: Sans-Serif;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  line-height: 1.4;
+  color: darken(white, 50%);
+  @extend %reset;
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 24px;
+  color: black;
+  padding: 15px 15px 0;
+  margin: 0;
+}
+
+.block {
+  max-width: $accordion;
+  width: 100%;
+  height: 100%;
+  float: left;
+  padding: $gutter;
+  z-index: 10;
+  background-color: white;
+  overflow: hidden;
+  
+  @media screen and (max-width: 599px) {
+    max-width: 100%;
+  }
+  
+  > div {
+    display: block;
+    position: relative;
+    padding: 0 0 0 20px+$gutter;
+    //border: 1px solid $border_col;
+    //border-bottom: none;
+    //border-top: 1px solid $border_col;
+    //background-color: $panel_bg;
+    @extend %reset;
+    
+    &:not(:last-of-type) {
+      margin: 0 0 10px;
+    }
+          
+    @if lightness($panel_bg) < 50% {
+      color: invert($label_color);
+    } @else {
+      color: $label_color;
+    } 
+    
+    @for $i from 1 through $items {
+      &:nth-child(#{$i}) {        
+        &:before {
+          content: '#{$i}';
+          width: 20px;
+          font-weight: bold;
+          text-align: center;
+          position: absolute;
+          left: 0;
+          top: 0;
+          //background-color: $num_bg;
+          //color: darken(white, 15%);
+          padding: $gutter $gutter/2;
+          border-right: 1px solid rgba($border_col, 0.25);
+          margin: 0;
+          
+          @if lightness($num_bg) < 50% {
+            color: invert($label_color);
+          } @else {
+            color: $label_color;
+          }  
+        }
+      }
+    }
+    input {
+      & + label {
+        cursor: pointer;
+        display: block;
+        padding: $gutter $gutter;
+        //background-color: $label_bg;
+        transition: all 0.25s ease-in-out 0.5s, color 0.25s ease-in-out 0.5s;    
+
+        @if lightness($label_bg) < 50% {
+          color: invert($label_color);
+        } @else {
+          color: $label_color;
+        }         
+      }
+      & ~ div {
+        visibility: hidden;
+        max-height: 0;
+        opacity: 0;
+        transition: all 0.5s ease-in-out 0.2s, opacity 0.25s ease-in-out 0.25s, padding 0s ease-in-out 0s;
+        width: calc(100% + 35px);
+        margin-left: -35px;
+        
+        p {
+          padding: $gutter;
+          border-top: 1px solid rgba($border_col, 0.25);
+        }
+      }
+      &:checked {
+        & + label {
+          //background-color: $label_bg_active;
+          transition: background-color 0s ease-in-out 0s;
+          
+          @if lightness($label_bg_active) < 50% {
+            color: invert($label_color);
+          } @else {
+            color: $label_color;
+          } 
+        }
+        & ~ div {
+          display: block;
+          opacity: 1;
+          visibility: visible;
+          max-height: $panelheight;
+          transition: all 0.5s ease-in-out 0.2s, opacity 0.25s ease-in-out 0.5s, padding 0s ease-in-out 0s;
+        }
+      }
+    }
+  }
+}
+
+.details {
+  width: calc(100% - #{$gutter*2});
+  float: right;
+  margin: $gutter;
+  padding: $gutter;
+  background-color: lighten(#0066cc,20%);
+
+  @media screen and (max-width: 599px) {
+    float: left;
+    width: calc(100% - #{$gutter*2});
+    margin: $gutter;
+  }
+  
+  * {
+    display: inline-block;
+    margin: $gutter/2 0;
+    line-height: 20px;
+    color: white;
+  }
+  h1 {
+    font-size: 36px;
+    font-weight: bold;
+    line-height: 40px;
+    padding: 0;
+    margin: 0;
+    clear: both;
+  }
+  a {
+    clear: both;
+    font-family: "FontAwesome", Sans-Serif;
+    font-size: 14px;
+    text-decoration: none;
+    
+    &.follow {
+      float: left;
+      font-weight: bold;
+      background-color: lighten(black,20%);
+      margin: $gutter 0 0;
+      padding: $gutter/2 $gutter;
+      cursor: pointer;
+      
+      &:before {
+        margin: 0 $gutter/2 0 0;
+      }
+      
+      strong {
+        color: lighten(#0066cc,40%);
+        @extend %reset;
+      }
+      
+      &:hover {
+        background-color: lighten(#0066cc,30%);
+        
+        strong {
+          color: lighten(black,30%);
+        }
+      }
+    }
+  }
+}

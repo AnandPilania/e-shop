@@ -24,7 +24,7 @@ class CollectionController extends Controller
         return view('front-end.collections', ['collections' => $collections, 'categories' => $categories]);
     }
 
-    // utilisé dans selectCollections.jsx 
+    // utilisé dans formProduct.jsx 
     public function getCollections()
     {
         $collections = Collection::all();

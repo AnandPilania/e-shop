@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Ali_imported_temp;
+use stdClass;
 
 class AliExpressController extends Controller
 {
@@ -21,7 +23,6 @@ class AliExpressController extends Controller
         // dd($request->from);
 
         $source = $this->getCurl($request->url);
-        // $source = $this->doCurl($request->url);
         // dd($source);
         $pathObj = $this->getXPathObj($source);
         // dd($pathObj);
@@ -202,61 +203,46 @@ class AliExpressController extends Controller
 
             if (isset($skuPriceOffer->skuId)) {
                 $sku_id = $skuPriceOffer->skuId;
+            } else {
+                $sku_id = 'empty';
             }
-            if (isset($skuVariantFullName)) {
-                $characteristiques =  implode(", ", $skuVariantFullName);
-            }
+
             if (isset($skuPriceOffer->skuVal->availQuantity)) {
                 $Available = $skuPriceOffer->skuVal->availQuantity;
+            } else {
+                $Available = 0;
             }
+
             if (isset($skuPriceOffer->skuVal->skuAmount->value)) {
                 $calculated_price = round(($skuPriceOffer->skuVal->skuAmount->value / 100) * (100 - $discount), 2);
+            } else {
+                $calculated_price = 0;
             }
-            if (isset($skuPriceOffer->skuVal->skuAmount)) {
-                $Price_skuAmount = $skuPriceOffer->skuVal->skuAmount->value;
-            }
-            if (isset($skuPriceOffer->skuVal->discount)) {
-                $discount_fromAli = $skuPriceOffer->skuVal->discount;
-            }
-            if (isset($skuPriceOffer->skuVal->discount)) {
+
+            if (isset($discount)) {
                 $calculatedDiscount = $discount;
+            } else {
+                $calculatedDiscount = 0;
             }
+
             if (isset($imageLinkIfSpecified) && !empty($imageLinkIfSpecified)) {
                 $image_variante = $imageLinkIfSpecified;
+            } else {
+                $image_variante = null;
             }
 
             $variante = (object) array(
                 'sku_id' => $sku_id,
-                'characteristiques' => json_encode($characteristiquesList, JSON_UNESCAPED_UNICODE),
+                'characteristiques' => $characteristiquesList,
                 'Available' => $Available,
                 'calculated_price' => $calculated_price,
-                // 'Price_skuAmount' => $Price_skuAmount,
-                // 'discount_fromAli' => $discount_fromAli,
                 'discount_calculated' => $calculatedDiscount,
                 'image_variante' => $image_variante
             );
 
             $variantes[] = $variante;
-            // vidage de characteristiquesList pour ne pas accumuler les détails
+            // reset de characteristiquesList pour ne pas accumuler les détails
             $characteristiquesList = [];
-
-
-            // $nextSKUOffer =  implode(", ", $skuVariantFullName) . ', ' .
-
-            //     (isset($skuPriceOffer->skuId) ? ' skuId: ' . $skuPriceOffer->skuId : '  ') .
-
-            //     (isset($skuPriceOffer->skuVal->availQuantity) ? ', Available: ' . $skuPriceOffer->skuVal->availQuantity : '  ') .
-
-            //     ',  calculated_price: ' . round(($skuPriceOffer->skuVal->skuAmount->value / 100) * (100 - $discount), 2) .
-
-            //     (isset($skuPriceOffer->skuVal->skuAmount) ? ', Price_skuAmount: ' . $skuPriceOffer->skuVal->skuAmount->value : '[not Price_skuAmount] ')  . ' ' .
-
-            //     (isset($skuPriceOffer->skuVal->discount) ? ', discount: ' . $skuPriceOffer->skuVal->discount : '[not discount] ') . '   calculatedDiscount ' . $discount;
-
-            // if (isset($imageLinkIfSpecified) && !empty($imageLinkIfSpecified))
-            //     $nextSKUOffer .= ', Image: ' . $imageLinkIfSpecified;
-
-            // $result[] = $nextSKUOffer;
         }
 
         $imported_product = (object) array(
@@ -273,16 +259,13 @@ class AliExpressController extends Controller
             'variantes' => $variantes,
         );
 
-        dd(json_encode($imported_product));
-        dd($imported_product);
-        // dd($result);
+        $temporary_imported_ali_product = new Ali_imported_temp;
+        $temporary_imported_ali_product->data_product = json_encode($imported_product);
+        $temporary_imported_ali_product->save();
     }
 
 
-
-
     // Method for making a POST request using cURL
-
     public function getCurl($url)
     {
         $useragent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36 OPR/68.0.3618.125'; // Setting user agent of a popular browser
@@ -311,49 +294,6 @@ class AliExpressController extends Controller
         return $results;
     }
 
-
-    // function doCurl($url)
-    // {
-
-    //     $type = 'GET';
-    //     $headers = [];
-    //     $post_fields = [];
-    //     $user_agent = '';
-    //     $referrer = '';
-    //     $follow = true;
-    //     $use_ssl = false;
-    //     $con_timeout = 10;
-    //     $timeout = 40;
-
-
-    //     $crl = curl_init($url);
-    //     curl_setopt($crl, CURLOPT_CUSTOMREQUEST, $type);
-    //     curl_setopt($crl, CURLOPT_USERAGENT, $user_agent);
-    //     curl_setopt($crl, CURLOPT_REFERER, $referrer);
-    //     if ($type == 'POST') {
-    //         curl_setopt($crl, CURLOPT_POST, true);
-    //         if (!empty($post_fields)) {
-    //             curl_setopt($crl, CURLOPT_POSTFIELDS, $post_fields);
-    //         }
-    //     }
-    //     if (!empty($headers)) {
-    //         curl_setopt($crl, CURLOPT_HTTPHEADER, $headers);
-    //     }
-    //     curl_setopt($crl, CURLOPT_FOLLOWLOCATION, $follow);
-    //     curl_setopt($crl, CURLOPT_CONNECTTIMEOUT, $con_timeout);
-    //     curl_setopt($crl, CURLOPT_TIMEOUT, $timeout);
-    //     curl_setopt($crl, CURLOPT_SSL_VERIFYHOST, $use_ssl);
-    //     curl_setopt($crl, CURLOPT_SSL_VERIFYPEER, $use_ssl);
-    //     curl_setopt($crl, CURLOPT_RETURNTRANSFER, true);
-    //     $call_response = curl_exec($crl);
-    //     $http_response_code = curl_getinfo($crl, CURLINFO_HTTP_CODE);
-    //     curl_close($crl);
-    //     if ($http_response_code == 200) {
-    //         return $call_response; //Return data
-    //     } else {
-    //         return array('http_response_code' => $http_response_code); //Call failed
-    //     }
-    // }
 
 
     // get XPath object

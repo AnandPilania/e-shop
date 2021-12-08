@@ -22110,16 +22110,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _createProduct_Js_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./createProduct_Js.scss */ "./resources/js/components/createProduct/createProduct_Js.scss");
-/* harmony import */ var _containerDetail__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./containerDetail */ "./resources/js/components/createProduct/containerDetail.jsx");
-/* harmony import */ var _selectInProduct_selectCollections__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../selectInProduct/selectCollections */ "./resources/js/components/selectInProduct/selectCollections.jsx");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _ckeditor_ckeditor5_react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ckeditor/ckeditor5-react */ "./node_modules/@ckeditor/ckeditor5-react/dist/ckeditor.js");
-/* harmony import */ var _ckeditor_ckeditor5_react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_ckeditor_ckeditor5_react__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ckeditor/ckeditor5-build-classic */ "./node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js");
-/* harmony import */ var _ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
+/* harmony import */ var _containerDetail__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./containerDetail */ "./resources/js/components/createProduct/containerDetail.jsx");
+/* harmony import */ var _selectInProduct_selectCollections__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../selectInProduct/selectCollections */ "./resources/js/components/selectInProduct/selectCollections.jsx");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _ckeditor_ckeditor5_react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ckeditor/ckeditor5-react */ "./node_modules/@ckeditor/ckeditor5-react/dist/ckeditor.js");
+/* harmony import */ var _ckeditor_ckeditor5_react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_ckeditor_ckeditor5_react__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ckeditor/ckeditor5-build-classic */ "./node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js");
+/* harmony import */ var _ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -22141,17 +22141,83 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
+ // import './createProduct_Js.scss';
 
 
 
 
 
- // props.id = detailx
 
 
 
+var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_7__["default"])({
+  wrapperForm: {
+    marginTop: '50px',
+    width: '80%',
+    overflow: 'auto',
+    padding: '50px',
+    // border: '#e0e0e0 dashed 1px',
+    border: 'red dashed 2px',
+    borderRadius: '5px',
+    height: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    flexWrap: 'nowrap',
+    backgroundColor: '#f6f6f7'
+  },
+  title: {
+    fontSize: '20px'
+  },
+  label_text: {
+    fontSize: '16px',
+    fontWeight: 'bold',
+    margin: '0',
+    marginLeft: '5px',
+    marginBottom: 10,
+    marginTop: '20px',
+    color: '#111fff',
+    width: 'auto'
+  },
+  input_text: {
+    margin: '0',
+    paddingLeft: '10px',
+    width: '100%',
+    height: '55px',
+    border: '#e1e1e1 solid 1px',
+    borderRadius: '5px',
+    color: '#111fff'
+  },
+  textarea: {
+    color: '#111fff',
+    minHeight: '100px'
+  },
+  submit_btn: {
+    height: '45px',
+    width: '150px',
+    marginTop: '50px',
+    borderRadius: '5px',
+    backgroundColor: '#eeefff',
+    color: '#111fff',
+    fontSize: '16px',
+    letterSpacing: '1px'
+  },
+  drop_region: {
+    backgroundColor: '#fff',
+    borderRadius: '5px',
+    boxShadow: '0 0 35px rgba(0, 0, 0, 0.05)',
+    width: '100%',
+    padding: '60px 40px',
+    marginTop: '30px',
+    textAlign: 'center',
+    cursor: 'pointer',
+    transition: '0.3s'
+  }
+}); // props.id = detailx
 
 var FormProduct = function FormProduct(props) {
+  var classes = useStyles();
+
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
       collectionsRelations = _useState2[0],
@@ -22182,8 +22248,8 @@ var FormProduct = function FormProduct(props) {
   var formData = new FormData();
   var tab = [];
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    // récupére les types de détails de la table type_detail_products pour remplire le select id=selectdetails
-    axios__WEBPACK_IMPORTED_MODULE_4___default().get("http://127.0.0.1:8000/getCollections").then(function (res) {
+    // récupére les types de détails dans la table type_detail_products pour remplire le select id=selectdetails
+    axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/getCollections").then(function (res) {
       setCollectionsRelations(res.data.collections);
     })["catch"](function (error) {
       console.log('error:   ' + error);
@@ -22214,7 +22280,7 @@ var FormProduct = function FormProduct(props) {
 
     var obj = JSON.stringify(dataDetail);
     formData.append("obj", obj);
-    axios__WEBPACK_IMPORTED_MODULE_4___default().post("http://127.0.0.1:8000/products", formData, {
+    axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/products", formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -22385,62 +22451,79 @@ var FormProduct = function FormProduct(props) {
     sheet && console.log('sheet  ' + sheet);
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-    className: "createProduct wrapper-form",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h4", {
-      className: "card-title",
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+    className: classes.wrapperForm,
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h4", {
+      className: classes.title,
       children: "Ajouter un produit"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("form", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("form", {
       method: "post",
       action: "/products",
       encType: "multipart/form-data",
       onSubmit: handleSubmit,
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
-        htmlFor: "name",
-        children: "Nom"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+        className: classes.label_text,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+          htmlFor: "name",
+          children: "Nom"
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
         id: "name",
         name: "name",
-        type: "text"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
-        htmlFor: "id_ali_express",
-        children: "Id_AliExpress"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
+        type: "text",
+        className: classes.input_text
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+        className: classes.label_text,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+          htmlFor: "id_ali_express",
+          children: "Id_AliExpress"
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
         id: "id_ali_express",
         name: "id_ali_express",
-        type: "text"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
-        htmlFor: "price",
-        children: "Prix"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
+        type: "text",
+        className: classes.input_text
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+        className: classes.label_text,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+          htmlFor: "price",
+          children: "Prix"
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
         id: "price",
         type: "number",
         step: ".01",
-        name: "price"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_selectInProduct_selectCollections__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        name: "price",
+        className: classes.input_text
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_selectInProduct_selectCollections__WEBPACK_IMPORTED_MODULE_2__["default"], {
         collectionsRelations: collectionsRelations,
         handleCollections: handleCollections
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         id: "drop-region",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+        className: classes.drop_region,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
           className: "drop-message",
           children: "Drag & Drop images or click to upload"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
           id: "image-preview"
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
-        htmlFor: "description",
-        children: "D\xE9scription"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+        className: classes.label_text,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+          htmlFor: "description",
+          children: "D\xE9scription"
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
         id: "description",
         name: "description",
-        type: "text"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_containerDetail__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        type: "text",
+        className: classes.input_text
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_containerDetail__WEBPACK_IMPORTED_MODULE_1__["default"], {
         setDataDetail: setDataDetail
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h6", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h6", {
         children: "Fiche technique"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_ckeditor_ckeditor5_react__WEBPACK_IMPORTED_MODULE_5__.CKEditor, {
-        editor: (_ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_6___default()),
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_ckeditor_ckeditor5_react__WEBPACK_IMPORTED_MODULE_4__.CKEditor, {
+        editor: (_ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_5___default()),
         data: "",
         onReady: function onReady(editor) {
           // You can store the "editor" and use when it is needed.
@@ -22461,8 +22544,8 @@ var FormProduct = function FormProduct(props) {
         onFocus: function onFocus(event, editor) {
           console.log('Focus.', editor);
         }
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
-        className: "btn",
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+        className: "btn input_submit",
         type: "submit",
         value: "Envoyer"
       })]
@@ -22806,12 +22889,25 @@ var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_2__["default"])(
     marginBottom: 22,
     border: 'solid yellow 3px'
   },
-  inputText: {
-    color: '#ffffff',
-    fontWeight: 400,
+  label_text: {
     fontSize: '16px',
+    fontWeight: 'bold',
+    margin: '0',
+    marginLeft: '5px',
+    marginBottom: 10,
+    marginTop: '20px',
+    color: '#111fff',
+    width: 'auto'
+  },
+  input_text: {
+    margin: '0',
+    paddingLeft: '10px',
     width: '100%',
-    height: '100%'
+    height: '55px',
+    border: '#e1e1e1 solid 1px',
+    borderRadius: '5px',
+    color: '#111fff',
+    backgroundColor: '#fff'
   }
 });
 function SelectCollections(props) {
@@ -22828,9 +22924,12 @@ function SelectCollections(props) {
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
-      htmlFor: "collection",
-      children: "Collections"
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+      className: classes.input_label,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+        htmlFor: "collection",
+        children: "Collections"
+      })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_material_ui_core_FormControl__WEBPACK_IMPORTED_MODULE_3__["default"], {
       className: classes.formControl,
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(_material_ui_core_Select__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -22839,7 +22938,7 @@ function SelectCollections(props) {
         value: collection,
         onChange: handleChange,
         input: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_material_ui_core_Input__WEBPACK_IMPORTED_MODULE_5__["default"], {
-          className: classes.inputText
+          className: classes.input_text
         }),
         renderValue: function renderValue(selected) {
           return selected.join(', ');
@@ -26853,6 +26952,19 @@ __webpack_require__.r(__webpack_exports__);
 /*!**************************************!*\
   !*** ./resources/sass/back-end.scss ***!
   \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/sass/menu_accordion.scss":
+/*!********************************************!*\
+  !*** ./resources/sass/menu_accordion.scss ***!
+  \********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -61704,6 +61816,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 			"frontend/css/index-front": 0,
 /******/ 			"frontend/css/nav-frontend": 0,
 /******/ 			"css/app": 0,
+/******/ 			"backend/css/menu_accordion": 0,
 /******/ 			"backend/css/back-end": 0,
 /******/ 			"frontend/css/payment": 0,
 /******/ 			"frontend/css/authentification": 0
@@ -61756,16 +61869,17 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/js/createProduct.js")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/js/components/createProduct/createProduct_Js.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/nav-frontend.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/index-front.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/productSheet.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/cart.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/authentification.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/payment.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/back-end.scss")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/css/app.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/menu_accordion","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/js/createProduct.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/menu_accordion","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/js/components/createProduct/createProduct_Js.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/menu_accordion","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/nav-frontend.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/menu_accordion","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/index-front.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/menu_accordion","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/productSheet.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/menu_accordion","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/cart.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/menu_accordion","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/authentification.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/menu_accordion","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/payment.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/menu_accordion","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/back-end.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/menu_accordion","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/menu_accordion.scss")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/createProduct_Js","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/menu_accordion","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/css/app.css")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()
