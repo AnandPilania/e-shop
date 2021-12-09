@@ -14,6 +14,7 @@ const mix = require('laravel-mix');
 mix.js('resources/js/createProduct.js', 'public/js').react()
     .js('resources/js/editProduct.js', 'public/js').react()
     .js('resources/js/aliProductImport.js', 'public/js').react()
+    .js('resources/js/backEnd.js', 'public/js').react()
     // .js('resources/js/require.js', 'public/js')
     .js('resources/js/app.js', 'public/js')
     // .js('RetrivIt/js/getProduct.js', 'public/js')

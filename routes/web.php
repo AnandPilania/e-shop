@@ -157,6 +157,15 @@ Route::get('/accordion', function () {
 });
 
 
+// affiche back-end.backend quand l'url commence par admin. Les sous domaines qui suivent admin sont gérés par reactRouter dans app.jsx 
+Route::pattern('path', '^admin+[a-zA-Z0-9-/]*');
+Route::any( '{path}', function( $page ){   
+     return view('back-end.backend');
+});
+
+
+
+
 require __DIR__ . '/auth.php';
 
 

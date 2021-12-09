@@ -68,7 +68,7 @@ function a11yProps(index) {
     };
 }
 
-export default function ProductPanel() {
+export default function ProductTab() {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
     const [collection, setCollection] = React.useState([]);

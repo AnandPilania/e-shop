@@ -17,6 +17,7 @@
 			@endforeach
 			<li><a href="/">Home</a></li>
 			<li><a href="/dashboard">Admin</a></li>
+			<li><a href="/backendtemp">Backend</a></li>
 			<li><a href="/login">login</a></li>
 			<li><a href="/logout">logout</a></li>
 			<li><a href="/panier">Panier</a></li>

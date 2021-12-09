@@ -19,15 +19,18 @@
 
     <!-- <link rel="shortcut icon" href="{{ asset('backend/images/logo_2H_tech.png') }}" /> -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    
+
 </head>
 
 <body>
     <div class="container-backend">
 
- 
         @include('layouts.nav_admin')
-            <div class="content-wrapper">
-                @yield('content')
-            </div>
-        <!-- @include('layouts.footer_admin') -->
+        <div class="content-wrapper">
+            @yield('content')
+            <!-- @include('layouts.footer_admin') -->
+        </div>
+    </div>
+</body>
+
+</html>

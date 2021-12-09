@@ -14,7 +14,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
 import './aliProductImport.scss';
-import ProductPanel from './product_panel';
+import ProductTab from './product_tab';
 
 const useStyles = makeStyles({
     formControl: {
@@ -110,7 +110,7 @@ export default function AliProductImport() {
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-            <ProductPanel />
+            <ProductTab />
                 {/* <FormControl className={classes.formControl}>
                     <TextField id="outlined-basic" label="Modifier le titre" variant="outlined" value={title} onChange={handleTitle} />
                     <SelectCollectionsAli

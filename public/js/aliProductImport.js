@@ -22690,7 +22690,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mui_material_Typography__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @mui/material/Typography */ "./node_modules/@mui/material/Typography/Typography.js");
 /* harmony import */ var _mui_material_Box__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @mui/material/Box */ "./node_modules/@mui/material/Box/Box.js");
 /* harmony import */ var _aliProductImport_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./aliProductImport.scss */ "./resources/js/components/aliProductImport/aliProductImport.scss");
-/* harmony import */ var _product_panel__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./product_panel */ "./resources/js/components/aliProductImport/product_panel.jsx");
+/* harmony import */ var _product_tab__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./product_tab */ "./resources/js/components/aliProductImport/product_tab.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 var _excluded = ["children", "value", "index"];
 
@@ -22864,7 +22864,7 @@ function AliProductImport() {
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(TabPanel, {
       value: value,
       index: 0,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_product_panel__WEBPACK_IMPORTED_MODULE_4__["default"], {})
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_product_tab__WEBPACK_IMPORTED_MODULE_4__["default"], {})
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(TabPanel, {
       value: value,
       index: 1,
@@ -22887,16 +22887,16 @@ function AliProductImport() {
 
 /***/ }),
 
-/***/ "./resources/js/components/aliProductImport/product_panel.jsx":
-/*!********************************************************************!*\
-  !*** ./resources/js/components/aliProductImport/product_panel.jsx ***!
-  \********************************************************************/
+/***/ "./resources/js/components/aliProductImport/product_tab.jsx":
+/*!******************************************************************!*\
+  !*** ./resources/js/components/aliProductImport/product_tab.jsx ***!
+  \******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ ProductPanel)
+/* harmony export */   "default": () => (/* binding */ ProductTab)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
@@ -23000,7 +23000,7 @@ function a11yProps(index) {
   };
 }
 
-function ProductPanel() {
+function ProductTab() {
   var classes = useStyles();
 
   var _React$useState = react__WEBPACK_IMPORTED_MODULE_0__.useState(0),
