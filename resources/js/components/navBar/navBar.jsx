@@ -1,73 +1,45 @@
-import React from 'react';
+import { React, useState } from 'react';
 import { Link } from 'react-router-dom';
-import '../../../sass/menu_accordion.scss';
-
-{/* <button class="accordion"><img class="barcodeIcon" src="{{ asset('images\icons\icons8-label-128.png') }}">Produit</button>
-<div class="panel">
-  <div class="panel_elements">
-    <span>Tous les produits</span>
-    <span>Ajouter un produit</span>
-    <span>Ajouter une catégorie</span>
-  </div>
-</div>
-
-<button class="accordion"><img class="barcodeIcon" src="{{ asset('images\icons\icons8-label-128.png') }}">Section 2</button>
-<div class="panel">
-  <div class="panel_elements">
-    <span>Tous les produits</span>
-    <span>Ajouter un produit</span>
-    <span>Ajouter une catégorie</span>
-  </div>
-</div>
-
-<button class="accordion"><img class="barcodeIcon" src="{{ asset('images\icons\icons8-label-128.png') }}">Section 3</button>
-<div class="panel">
-  <div class="panel_elements">
-    <span>Tous les produits</span>
-    <span>Ajouter un produit</span>
-    <span>Ajouter une catégorie</span>
-  </div>
-</div>
-*/}
-
-
-const handleMenu = (i) => {
-    var acc = document.getElementsByClassName("accordion");
-    var i;
-  
-    for (i = 0; i < acc.length; i++) {
-      acc[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        var panel = this.nextElementSibling;
-        if (panel.style.maxHeight) {
-          panel.style.maxHeight = null;
-        } else {
-          panel.style.maxHeight = panel.scrollHeight + "px";
-        }
-      });
-    }
-}
-
+import './menu_accordion.scss';
 
 const Navbar = () => {
-    return (
-        <nav>
-            <div className="accordion"  onClick={handleMenu} ><img className="barcodeIcon" src="../images\icons\icons8-label-128.png" />Produit</div>
-            <div className="panel">
-                <div className="panel_elements">
-                    <span>Tous les produits</span>
-                    <span>Ajouter un produit</span>
-                    <span>Ajouter une catégorie</span>
-                </div>
-            </div>
+  const [isActive, setIsActive] = useState(false);
 
 
-            <Link to="/dash">Dash</Link>
-            <br></br>
-            <Link to="/dash2">Dash2</Link>
+  const handleMenu = (i) => {
+    var acc = document.getElementsByClassName("accordion")[i];
 
-        </nav>
-    );
+    setIsActive(!isActive);
+
+    var panel = acc.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    }
+  }
+
+  return (
+    <nav>
+      <div className={"accordion ${isActive && 'active'}"} onClick={() => handleMenu(0)} ><img className="barcodeIcon" src="../images\icons\icons8-label-128.png" />Produit</div>
+      <div className="panel">
+        <div className="panel_elements">
+          <Link className="link" to="/listProduct">Tous les produits</Link>
+          <Link className="link" to="/addProduct">Ajouter un produit</Link>
+          <Link className="link" to="/editProduct/1">Modifier un produit</Link>
+          <Link className="link" to="/dash">Ajouter une catégorie</Link>
+        </div>
+      </div>
+
+      <div className={"accordion ${isActive && 'active'}"} onClick={() => handleMenu(1)} ><img className="barcodeIcon" src="../images\icons\icons8-label-128.png" />Produit 2</div>
+      <div className="panel">
+        <div className="panel_elements">
+          <Link className="link" to="/dash2">Dash2</Link>
+          <Link className="link" to="/dash">Dash</Link>
+        </div>
+      </div>
+    </nav>
+  );
 }
 
 export default Navbar;

@@ -26,8 +26,20 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate(5);
-        return view('product.list')->with('products', $products);
+        $products = DB::table('products')
+            ->select('products.id as id', 'images_products.path as image_path', 'products.name as name', 'products.best_sell as best_sell')
+            ->join('images_products', function ($join) {
+                $join->on('products.id', '=', 'images_products.product_id')
+                    ->where('images_products.ordre', 1);
+            })
+            ->orderBy('products.id', 'asc')
+            ->get();
+
+        return $products;
+
+        // blade
+        // $products = Product::paginate(5);
+        // return view('product.list')->with('products', $products);
     }
 
     /**
@@ -186,11 +198,6 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        // $product = Product::find($id);
-        // $collections_id = DB::table('collection_product')->where('product_id', $id)->first();
-        // $collections = Collection::where('id', $collections_id->id)->get();
-
-        // return view('product.edit', ['product' => $product, 'collections' => $collections]);
         return view('product.edit', ['id' => $id]);
     }
 
@@ -238,7 +245,7 @@ class ProductController extends Controller
         $images_product = Images_product::where('product_id', $id)
             ->orderBy('ordre')
             ->get();
-            
+
         return view('product.edit_images', ['images_product' => $images_product, 'product_id' => $id]);
     }
 
@@ -437,7 +444,8 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Product $product)
-    { dd($product);
+    {
+        dd($product);
         $images_products = Images_product::where('product_id', $product->id)->get();
 
         // suppression des fichiers images dans public/images
@@ -470,6 +478,4 @@ class ProductController extends Controller
 
         $product->save();
     }
-
-
 }

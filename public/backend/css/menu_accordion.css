@@ -2,7 +2,7 @@
   background-color: #f6f6f7;
   color: #444;
   cursor: pointer;
-  padding: 18px;
+  padding: 10px 18px;
   width: 100%;
   border: none;
   text-align: left;
@@ -34,8 +34,10 @@
   align-items: flex-start;
 }
 
-.panel_elements span {
-  padding: 5px 0 5px 20px;
+.panel_elements .link {
+  text-decoration: none;
+  padding: 0 0 0 30px;
+  margin: 5px 0;
   font-size: 15px;
   color: #5f5f5f;
 }

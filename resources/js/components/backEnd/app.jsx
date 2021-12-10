@@ -3,6 +3,11 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Dashboard from '../dashboard/dashboard';
 import Dashboard2 from '../dashboard/dashboard2';
 import Navbar from '../navBar/navBar';
+import FormProduct from '../createProduct/formProduct';
+import EditProduct from '../createProduct/editProduct';
+import List from '../createProduct/list';
+
+        
 
 const App = () => {
     return (
@@ -10,8 +15,9 @@ const App = () => {
             <BrowserRouter basename='/admin'>
                 <Navbar />
                 <Routes>
-                    <Route path="/dash" element={<Dashboard />} />
-                    <Route path="/dash2" element={<Dashboard2 />} />
+                    <Route path="/listProduct" element={<List />} />
+                    <Route path="/addProduct" element={<FormProduct />} />
+                    <Route path="/editProduct:id" element={<EditProduct />} />
                 </Routes>
             </BrowserRouter>
         </div>
