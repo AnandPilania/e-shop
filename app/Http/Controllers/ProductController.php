@@ -27,11 +27,14 @@ class ProductController extends Controller
     public function index()
     {
         $products = DB::table('products')
-            ->select('products.id as id', 'images_products.path as image_path', 'products.name as name', 'products.best_sell as best_sell')
+            ->select('products.id as id', 'images_products.path as image_path', 'products.name as name', 'collections.name as collection', 'categories.name as category', 'products.created_at as created_at')
             ->join('images_products', function ($join) {
                 $join->on('products.id', '=', 'images_products.product_id')
                     ->where('images_products.ordre', 1);
             })
+            ->join('collection_product', 'products.id', '=', 'collection_product.product_id')
+            ->join('collections', 'collections.id', '=', 'collection_product.collection_id')
+            ->join('categories', 'categories.id', '=', 'collections.category_id')
             ->orderBy('products.id', 'asc')
             ->get();
 
@@ -239,7 +242,7 @@ class ProductController extends Controller
         return ['collections' => $collections, 'product' => $product, 'productCollections' => $prodCol];
     }
 
-
+    // pour blade -> edit_images.blade
     public function editImagesProduct($id)
     {
         $images_product = Images_product::where('product_id', $id)
@@ -247,6 +250,16 @@ class ProductController extends Controller
             ->get();
 
         return view('product.edit_images', ['images_product' => $images_product, 'product_id' => $id]);
+    }
+
+    // pour react edit_images.jsx
+    public function getImagesProduct($id)
+    {
+        $images_product = Images_product::where('product_id', $id)
+            ->orderBy('ordre')
+            ->get();
+
+        return $images_product;
     }
 
 

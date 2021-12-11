@@ -75,7 +75,11 @@ Route::get('/getCollections', [CollectionController::class, 'getCollections']);
 
 Route::get('/editProduct/{productId}', [ProductController::class, 'editProduct']);
 Route::get('/selectCollections/{productId}', [ProductController::class, 'selectCollections']);
+
+// pour blade -> edit_images.blade !!! N EST PLUS UTILISE
 Route::get('/editImagesProduct/{id}', [ProductController::class, 'editImagesProduct']);
+// pour react edit_images.jsx
+Route::get('/getImagesProduct/{id}', [ProductController::class, 'getImagesProduct']);
 Route::post('/replaceImagesProduct', [ProductController::class, 'replaceImagesProduct']);
 Route::post('/addImagesProduct', [ProductController::class, 'addImagesProduct']);
 Route::get('/deleteImagesProduct/{id}', [ProductController::class, 'deleteImagesProduct']);

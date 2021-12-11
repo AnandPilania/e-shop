@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import InputText from '../InputText/Input_text';
 
 
@@ -45,9 +46,6 @@ const List = () => {
         //     });
     }
 
-    const handleChecked = (best_sell) => {
-        // event.target.checked = best_sell == 1 ? true : false;
-    }
 
     return (
         <div className="card">
@@ -57,53 +55,46 @@ const List = () => {
 
                 <thead>
                     <tr className="tr_thead">
-                        <th>Order #</th>
                         <th>Image</th>
                         <th>Nom</th>
                         <th>Collection</th>
-                        <th>Prix</th>
-                        <th>Best Seller</th>
-                        <th>Actions</th>
+                        <th>Catégorie</th>
+                        <th>Ajouté le</th>
+                        <th>--Actions--</th>
                     </tr>
                 </thead>
                 <tbody>
                     {products.map((product, index) => (
                         <tr key={index}>
-                            <td className="td_id">
-                                {product.id}
-                            </td>
                             <td>
-             
-                                    <img src={window.location.origin + "/" + product.image_path} />
-                             
+                                <img src={window.location.origin + "/" + product.image_path} />
                             </td>
                             <td>
                                 {product.name}
                             </td>
-                            {/* <td>
-                                 @isset($product->collections->first()->name) 
-                                    @foreach($product->collections as $collection)
-                                product.collection.name
-                                <br>
-                                    @endforeach
-                                    @endisset
-                            </td> */}
                             <td>
-                                {/* {product.price} */}
+                                {product.collection}
                             </td>
                             <td>
-                                <input type="checkbox" id={product.id} onClick={bestSellChecked(product.id)}  onChange={handleChecked(product.best_sell)}  />
+                                {product.category}
+                            </td>
+                            <td>
+                                {product.created_at}
                             </td>
                             <td className="td_buton">
-                                {/* <button class="btn btn_img"><a href="/editImagesProduct/{{$product->id}}">Image</a></button>
+                                <button className="btn btn_img">
+                                    <Link className="link" to={`/editImagesProduct/${product.id}`}>Image</Link>
+                                </button>
 
-                                <button class="btn btn_edit"><a href="/products/{{$product->id}}/edit">Modifier</a></button>
+
+
+                                <button className="btn btn_edit"><a href="/products/{{$product->id}}/edit">Modifier</a></button>
 
 
                                 <form action="/products/{{ $product->id }}" method="post">
 
-                                    <input type="submit" value="Supprimer" name="delete" class="btn btn_delete" />
-                                </form> */}
+                                    <input type="submit" value="Supprimer" name="delete" className="btn btn_delete" />
+                                </form>
 
                             </td>
                         </tr>

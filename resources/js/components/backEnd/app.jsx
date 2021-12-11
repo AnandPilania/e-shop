@@ -5,6 +5,7 @@ import Dashboard2 from '../dashboard/dashboard2';
 import Navbar from '../navBar/navBar';
 import FormProduct from '../createProduct/formProduct';
 import EditProduct from '../createProduct/editProduct';
+import EditImages from '../createProduct/edit_images';
 import List from '../createProduct/list';
 
         
@@ -18,6 +19,7 @@ const App = () => {
                     <Route path="/listProduct" element={<List />} />
                     <Route path="/addProduct" element={<FormProduct />} />
                     <Route path="/editProduct:id" element={<EditProduct />} />
+                    <Route path="/editImagesProduct/:product_id" element={<EditImages />} />
                 </Routes>
             </BrowserRouter>
         </div>
