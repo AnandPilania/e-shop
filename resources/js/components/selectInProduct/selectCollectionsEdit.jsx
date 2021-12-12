@@ -34,7 +34,7 @@ export default function SelectCollectionsEdit(props) {
     const [collectionsRelations, setCollectionsRelations] = useState([]);
     
     useEffect(() => {
-        axios.get(`http://127.0.0.1:8000/selectCollections/${productId}`)
+        axios.get(`http://127.0.0.1:8000/selectCollections/${props.productId}`)
         .then(res => {
             setCollectionsRelations(res.data.collections);
             setCollection(res.data.productCollections);

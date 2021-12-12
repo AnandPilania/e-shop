@@ -36,14 +36,19 @@
     </div>
 
     <div class="best_seller_wrapper">
-        @for ($i = 0; $i < 5; $i++) <div class="best_seller_sheet">
+        @isset($bestSellers[0])
+        @for ($i = 0; $i < 5; $i++) 
+        <div class="best_seller_sheet">
             <div class="best_seller_image">
                 <img src="{{  $bestSellers[$i]->images_products[0]->path }}" alt="">
             </div>
             <h2>{{ $bestSellers[$i]->name }}</h2>
             <h5>{{ $bestSellers[$i]->price }}</h5>
+        </div>
+        @endfor
+        @endisset
     </div>
-    @endfor
+
 </div>
 
 <div class="banniere ban-left">
@@ -63,6 +68,6 @@
 </div>
 
 <script src="../../../js/aliScrap.js"></script>
-    
+
 
 @endsection

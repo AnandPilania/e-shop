@@ -19,7 +19,7 @@ class Product extends Model
 
     public function collections()
     {
-        return $this->belongsToMany(Collection::class);
+        return $this->belongsToMany(Collection::class)->withTimestamps();
     }
 
     public function orders()

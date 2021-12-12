@@ -40,6 +40,11 @@ class RegisteredUserController extends Controller
         return view('auth.register', ['countries' => $countries]);
     }
 
+    public function createQuick()
+    {
+        return view('auth.register_quick');
+    }
+
     /**
      * Handle an incoming registration request.
      *
@@ -164,6 +169,22 @@ class RegisteredUserController extends Controller
         // return back();
         return redirect()->route('collections.index');
     }
+
+    public function storeQuick(Request $request)
+    {
+        // dd($request);
+        $this->validate($request, ['first_name' => 'required', 'email' => 'required', 'password' => 'required', 'rgpd' => 'required']);
+
+        $user = new User;
+        $user->first_name = $request->first_name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->rgpd = $request->rgpd;
+        $user->save();
+
+        return redirect()->route('index');
+    }
+
 
     public function checkEmailExist(LoginRequest $request)
     {

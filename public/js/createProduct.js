@@ -22228,20 +22228,20 @@ var FormProduct = function FormProduct(props) {
       dataDetail = _useState4[0],
       setDataDetail = _useState4[1];
 
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0__.useState([]),
-      _React$useState2 = _slicedToArray(_React$useState, 2),
-      collection = _React$useState2[0],
-      setCollection = _React$useState2[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState6 = _slicedToArray(_useState5, 2),
+      collection = _useState6[0],
+      setCollection = _useState6[1];
 
-  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0__.useState([]),
-      _React$useState4 = _slicedToArray(_React$useState3, 2),
-      imageFiles = _React$useState4[0],
-      setImageFiles = _React$useState4[1];
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState8 = _slicedToArray(_useState7, 2),
+      imageFiles = _useState8[0],
+      setImageFiles = _useState8[1];
 
-  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0__.useState(''),
-      _React$useState6 = _slicedToArray(_React$useState5, 2),
-      technicalSheet = _React$useState6[0],
-      setTechnicalSheet = _React$useState6[1];
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState10 = _slicedToArray(_useState9, 2),
+      technicalSheet = _useState10[0],
+      setTechnicalSheet = _useState10[1];
 
   var dropRegion = null;
   var imagePreviewRegion = null;
@@ -22391,7 +22391,7 @@ var FormProduct = function FormProduct(props) {
   function handleFiles(files) {
     tab.push.apply(tab, _toConsumableArray(files));
 
-    for (var i = 0, len = files.length; i < len; i++) {
+    for (var i = 0; i < files.length; i++) {
       if (validateImage(files[i])) {
         setImageFiles(tab);
         previewImage(files[i]);
@@ -22470,17 +22470,6 @@ var FormProduct = function FormProduct(props) {
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
         id: "name",
         name: "name",
-        type: "text",
-        className: classes.input_text
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
-        className: classes.label_text,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
-          htmlFor: "id_ali_express",
-          children: "Id_AliExpress"
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
-        id: "id_ali_express",
-        name: "id_ali_express",
         type: "text",
         className: classes.input_text
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
@@ -22913,10 +22902,10 @@ var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_2__["default"])(
 function SelectCollections(props) {
   var classes = useStyles();
 
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0__.useState([]),
-      _React$useState2 = _slicedToArray(_React$useState, 2),
-      collection = _React$useState2[0],
-      setCollection = _React$useState2[1];
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      collection = _useState2[0],
+      setCollection = _useState2[1];
 
   var handleChange = function handleChange(event) {
     setCollection(event.target.value);

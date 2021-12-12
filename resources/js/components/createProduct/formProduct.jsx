@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { React, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 // import './createProduct_Js.scss';
 import ContainerDetail from './containerDetail';
@@ -79,9 +79,9 @@ const FormProduct = (props) => {
     const classes = useStyles();
     const [collectionsRelations, setCollectionsRelations] = useState([]);
     const [dataDetail, setDataDetail] = useState([]);
-    const [collection, setCollection] = React.useState([]);
-    const [imageFiles, setImageFiles] = React.useState([]);
-    const [technicalSheet, setTechnicalSheet] = React.useState('');
+    const [collection, setCollection] = useState([]);
+    const [imageFiles, setImageFiles] = useState([]);
+    const [technicalSheet, setTechnicalSheet] = useState('');
 
     var dropRegion = null;
     var imagePreviewRegion = null;
@@ -246,7 +246,7 @@ const FormProduct = (props) => {
     // affiche et sauvegarde les images
     function handleFiles(files) {
         tab.push(...files);
-        for (var i = 0, len = files.length; i < len; i++) {
+        for (var i = 0; i < files.length; i++) {
             if (validateImage(files[i])) {
                 setImageFiles(tab);
                 previewImage(files[i]);
@@ -321,9 +321,6 @@ const FormProduct = (props) => {
                 <p className={classes.label_text}><label htmlFor="name" >Nom</label></p>
                 <input id="name" name="name" type="text" className={classes.input_text} />  
                 
-                <p className={classes.label_text}><label htmlFor="id_ali_express" >Id_AliExpress</label></p>
-                <input id="id_ali_express" name="id_ali_express" type="text" className={classes.input_text} />
-
                 <p className={classes.label_text}><label htmlFor="price" >Prix</label></p>
                 <input id="price" type="number" step=".01" name="price" className={classes.input_text} />
 

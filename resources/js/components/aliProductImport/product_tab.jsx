@@ -1,6 +1,3 @@
-// import * as React from 'react';
-
-
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import FormControl from '@material-ui/core/FormControl';
@@ -70,11 +67,11 @@ function a11yProps(index) {
 
 export default function ProductTab() {
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
-    const [collection, setCollection] = React.useState([]);
-    const [type, setType] = React.useState('');
-    const [tags, setTags] = React.useState([]);
-    const [title, setTitle] = React.useState('');
+    const [value, setValue] = useState(0);
+    const [collection, setCollection] = useState([]);
+    const [type, setType] = useState('');
+    const [tags, setTags] = useState([]);
+    const [title, setTitle] = useState('');
 
     const handleChange = (event, newValue) => {
         setValue(newValue);

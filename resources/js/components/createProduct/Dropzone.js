@@ -1,7 +1,3 @@
-/* 
-  filename: Dropzone.js 
-*/
-
 import React from "react";
 // Import the useDropzone hooks from react-dropzone
 import { useDropzone } from "react-dropzone";

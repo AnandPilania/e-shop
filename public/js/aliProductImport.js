@@ -22932,7 +22932,6 @@ function _objectWithoutProperties(source, excluded) { if (source == null) return
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-// import * as React from 'react';
 
 
 
@@ -23003,30 +23002,30 @@ function a11yProps(index) {
 function ProductTab() {
   var classes = useStyles();
 
-  var _React$useState = react__WEBPACK_IMPORTED_MODULE_0__.useState(0),
-      _React$useState2 = _slicedToArray(_React$useState, 2),
-      value = _React$useState2[0],
-      setValue = _React$useState2[1];
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+      _useState2 = _slicedToArray(_useState, 2),
+      value = _useState2[0],
+      setValue = _useState2[1];
 
-  var _React$useState3 = react__WEBPACK_IMPORTED_MODULE_0__.useState([]),
-      _React$useState4 = _slicedToArray(_React$useState3, 2),
-      collection = _React$useState4[0],
-      setCollection = _React$useState4[1];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState4 = _slicedToArray(_useState3, 2),
+      collection = _useState4[0],
+      setCollection = _useState4[1];
 
-  var _React$useState5 = react__WEBPACK_IMPORTED_MODULE_0__.useState(''),
-      _React$useState6 = _slicedToArray(_React$useState5, 2),
-      type = _React$useState6[0],
-      setType = _React$useState6[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState6 = _slicedToArray(_useState5, 2),
+      type = _useState6[0],
+      setType = _useState6[1];
 
-  var _React$useState7 = react__WEBPACK_IMPORTED_MODULE_0__.useState([]),
-      _React$useState8 = _slicedToArray(_React$useState7, 2),
-      tags = _React$useState8[0],
-      setTags = _React$useState8[1];
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState8 = _slicedToArray(_useState7, 2),
+      tags = _useState8[0],
+      setTags = _useState8[1];
 
-  var _React$useState9 = react__WEBPACK_IMPORTED_MODULE_0__.useState(''),
-      _React$useState10 = _slicedToArray(_React$useState9, 2),
-      title = _React$useState10[0],
-      setTitle = _React$useState10[1];
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState10 = _slicedToArray(_useState9, 2),
+      title = _useState10[0],
+      setTitle = _useState10[1];
 
   var handleChange = function handleChange(event, newValue) {
     setValue(newValue);

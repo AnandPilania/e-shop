@@ -88,13 +88,13 @@ const List = () => {
 
 
 
-                                <button className="btn btn_edit"><a href="/products/{{$product->id}}/edit">Modifier</a></button>
+                                <button className="btn btn_edit"><Link className="link" to={`/editProduct/${product.id}`}>Modifier</Link></button>
+                                
 
-
-                                <form action="/products/{{ $product->id }}" method="post">
+                                {/* <form action="/products/{{ $product->id }}" method="post">
 
                                     <input type="submit" value="Supprimer" name="delete" className="btn btn_delete" />
-                                </form>
+                                </form> */}
 
                             </td>
                         </tr>

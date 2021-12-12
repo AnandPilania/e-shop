@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Input from '@material-ui/core/Input';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -43,7 +43,7 @@ const useStyles = makeStyles({
 
 export default function SelectCollections(props) {
     const classes = useStyles();
-    const [collection, setCollection] = React.useState([]);
+    const [collection, setCollection] = useState([]);
 
 
     const handleChange = (event) => {

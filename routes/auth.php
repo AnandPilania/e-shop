@@ -14,7 +14,14 @@ Route::get('/register', [RegisteredUserController::class, 'create'])
     ->middleware('guest')
     ->name('register');
 
+Route::get('/register-quick', [RegisteredUserController::class, 'createQuick'])
+    ->middleware('guest')
+    ->name('registerQuick');
+
 Route::post('/register', [RegisteredUserController::class, 'store'])
+    ->middleware('guest');
+
+Route::post('/register-quick', [RegisteredUserController::class, 'storeQuick'])
     ->middleware('guest');
 
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])

@@ -72,13 +72,15 @@ class ProductController extends Controller
 
         $product =  new Product;
         $product->name = $request->name;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->type = 'none';
+        $product->taxe_id = 1; // '!!! à définir !!!'
+        $product->active = 1;
         $product->ali_url_product = $request->ali_url_product;
         $product->ali_product_id = $request->ali_product_id;
-        $product->global_stars = $request->global_stars;
-        $product->reviews = $request->reviews;
-        $product->orders = $request->orders;
-        $product->price = $request->price;
-        $product->description = $request->description;
+
+
 
         $link = str_replace(' ', '-', $request->name);
         $search = array('À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'à', 'á', 'â', 'ã', 'ä', 'å', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ð', 'ò', 'ó', 'ô', 'õ', 'ö', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ');
@@ -201,7 +203,8 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        return view('product.edit', ['id' => $id]);
+        // !!! N EST PLUS UTILISE !!!
+        // return view('product.edit', ['id' => $id]);
     }
 
     public function editProduct($productId)
@@ -242,18 +245,18 @@ class ProductController extends Controller
         return ['collections' => $collections, 'product' => $product, 'productCollections' => $prodCol];
     }
 
-    // pour blade -> edit_images.blade
-    public function editImagesProduct($id)
-    {
-        $images_product = Images_product::where('product_id', $id)
-            ->orderBy('ordre')
-            ->get();
+    // pour blade -> edit_images.blade  !!! N EST PLUS UTILISE
+    // public function editImagesProduct($id)
+    // {
+    //     $images_product = Images_product::where('product_id', $id)
+    //         ->orderBy('ordre')
+    //         ->get();
 
-        return view('product.edit_images', ['images_product' => $images_product, 'product_id' => $id]);
-    }
+    //     return view('product.edit_images', ['images_product' => $images_product, 'product_id' => $id]);
+    // }
 
     // pour react edit_images.jsx
-    public function getImagesProduct($id)
+    public function editImagesProduct($id)
     {
         $images_product = Images_product::where('product_id', $id)
             ->orderBy('ordre')
