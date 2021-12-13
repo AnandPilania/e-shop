@@ -175,7 +175,7 @@ const ContainerDetail = (props) => {
         ]);
         setI(i + 1);
 
-        // on récupère l'id du select pour obtenir le bon type et on l'envoi à gatTypeDetailProduct
+        // on récupère l'id du select pour obtenir le bon type et on l'envoi à getTypeDetailProduct
         setTempCurrentType(currentListType[0].name);
 
     }

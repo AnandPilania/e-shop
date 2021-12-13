@@ -21942,7 +21942,7 @@ var ContainerDetail = function ContainerDetail(props) {
       listTypes: _objectSpread({}, currentListType),
       detail: {}
     }]));
-    setI(i + 1); // on récupère l'id du select pour obtenir le bon type et on l'envoi à gatTypeDetailProduct
+    setI(i + 1); // on récupère l'id du select pour obtenir le bon type et on l'envoi à getTypeDetailProduct
 
     setTempCurrentType(currentListType[0].name);
   }; // supprime un block de détails

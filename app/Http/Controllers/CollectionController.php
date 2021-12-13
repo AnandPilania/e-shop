@@ -32,10 +32,19 @@ class CollectionController extends Controller
     }
 
     // renvoi vers la page de liste des collections dans le backend
-    public function collectionsBackEnd()
+    // !!! N EST PLUS UTILISEE !!!
+    // public function collectionsBackEnd()
+    // {
+    //     $collections = Collection::all();
+    //     return view('collection.list')->with('collections', $collections);
+    // }
+
+    // renvoi vers la page de liste des collections dans le backend
+    // Route '/collections-list-back-end'
+    public function collectionsListBackEnd()
     {
         $collections = Collection::all();
-        return view('collection.list')->with('collections', $collections);
+        return $collections;
     }
 
     /**
@@ -103,8 +112,8 @@ class CollectionController extends Controller
         $collection = Collection::where('link', $link)->first();
         $categories = Category::all();
         return view('front-end.products', ['categories' => $categories, 'collection' => $collection]);
-    }    
-    
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

@@ -27,15 +27,15 @@ const Navbar = () => {
           <Link className="link" to="/listProduct">Tous les produits</Link>
           <Link className="link" to="/addProduct">Ajouter un produit</Link>
           <Link className="link" to="/editProduct/1">Modifier un produit</Link>
-          <Link className="link" to="/dash">Ajouter une catégorie</Link>
+          <Link className="link" to="/collections-list">Collections</Link>
         </div>
       </div>
 
       <div className={"accordion ${isActive && 'active'}"} onClick={() => handleMenu(1)} ><img className="barcodeIcon" src="../images\icons\icons8-label-128.png" />Produit 2</div>
       <div className="panel">
         <div className="panel_elements">
-          <Link className="link" to="/dash2">Dash2</Link>
-          <Link className="link" to="/dash">Dash</Link>
+          <Link className="link" to="/listProduct">Tous les produits</Link>
+          <Link className="link" to="/addProduct">Ajouter un produit</Link>
         </div>
       </div>
     </nav>

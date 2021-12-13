@@ -65,7 +65,12 @@ Route::resource('/orders', OrderController::class);
 
 
 // cette route remplace Route::resource('/collections INDEX car j'ai besoin de l'URL collections pour le front end pour le SEO
+    // !!! N EST PLUS UTILISEE !!!     // !!! N EST PLUS UTILISEE !!!
 Route::get('/collectionsBackEnd', [CollectionController::class, 'collectionsBackEnd']);
+
+// cette route remplace Route::resource('/collections INDEX car j'ai besoin de l'URL collections pour le front end pour le SEO
+Route::get('/collections-list-back-end', [CollectionController::class, 'collectionsListBackEnd']);
+
 
 
 Route::get('/listtype', [Type_detail_productController::class, 'listtype']);
