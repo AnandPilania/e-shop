@@ -18,6 +18,12 @@ class CategoryController extends Controller
         return view('category.list')->with('categories', $categories);
     }
 
+    public function getCategories()
+    {
+        $categories = Category::all();
+        return $categories;
+    }
+
     /**
      * Show the form for creating a new resource.
      *

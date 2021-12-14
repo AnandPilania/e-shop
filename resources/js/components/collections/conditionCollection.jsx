@@ -1,55 +1,41 @@
-import { React, useState } from 'react';
+import { React } from 'react';
 
 const ConditionCollection = (props) => {
-    const [param, setParam] = useState(props.condition.parameter);
-    const [operator, setOperator] = useState(props.condition.operator);
-    const [value, setValue] = useState(props.condition.value);
+
     var typeValue = '€';
 
 
-    const handleChangeParam = (e) => {
-        setParam(e.target.value);
-    }
-
-    const handleChangeOperator = (e) => {
-        setOperator(e.target.value);
-    }
-
-    const handleChangeValue = (e) => {
-        setValue(e.target.value);
-    }
-
     return (
-        <div className="sub-div-horiz-align">
-            <div className="div-label-select">
-                <select value={param} onClick={handleChangeParam} name="parameter" id="parameter">
-                    <option onClick={props.handleTitre}>Titre du produit</option>
-                    <option onClick={props.handleType}>Type du produit</option>
-                    <option onClick={props.handleDistributeur}>Distributeur du produit</option>
-                    <option onClick={props.handlePrix}>Prix du produit</option>
-                    <option onClick={props.handleBalise}>Balise du produit</option>
-                    <option onClick={props.handlePrixAvantReduction}>Prix avant réduction</option>
-                    <option onClick={props.handlePoids}>Poids</option>
-                    <option onClick={props.handleStock}>Stock</option>
-                    <option onClick={props.handleTitreVariante}>Titre de variante</option>
+        <div className="sub-div-horiz-align space-between">
+            <div className="div-label-select grow-shrink">
+                <select value={props.condition.parameter} onChange={(e) => props.handleChangeParam(e, props.index)} >
+                    <option>Nom du produit</option>
+                    <option disabled>Type du produit</option>
+                    {/* <option>Distributeur du produit</option> */}
+                    <option>Prix du produit</option>
+                    <option>Balise du produit</option>
+                    <option>Prix avant réduction</option>
+                    <option>Poids</option>
+                    <option>Stock</option>
+                    <option>Nom de variante</option>
                 </select>
             </div>
-            <div className="div-label-select">
-                <select value={operator} onClick={handleChangeOperator} name="operator" id="operator">
-                    <option value="1">est égale à</option>
-                    <option value="2">n'est pas égale à</option>
-                    <option value="3">est suppérieur à</option>
-                    <option value="4">est infèrieur à</option>
-                    <option value="5">commence par</option>
-                    <option value="6">se termine par</option>
-                    <option value="7">contient</option>
-                    <option value="8">ne contient pas</option>
-                    <option value="9">n'est pas vide</option>
-                    <option value="10">est vide</option>
+            <div className="div-label-select grow-shrink">
+                <select value={props.condition.operator} onChange={(e) => props.handleChangeOperator(e, props.index)} >
+                    <option>est égale à</option>
+                    <option>n'est pas égale à</option>
+                    <option>est suppérieur à</option>
+                    <option>est infèrieur à</option>
+                    <option>commence par</option>
+                    <option>se termine par</option>
+                    <option>contient</option>
+                    <option>ne contient pas</option>
+                    <option>n'est pas vide</option>
+                    <option>est vide</option>
                 </select>
             </div>
-            <div className="div-input">
-                <input type='text' value={value} onClick={handleChangeValue}  id='value' placeholder={typeValue} />
+            <div className="div-input grow-shrink">
+                <input type='text' value={props.condition.value} onChange={(e) => props.handleChangeValue(e, props.index)} placeholder={typeValue} />
             </div>
         </div>
     );
