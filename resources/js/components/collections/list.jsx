@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import Axios from 'axios';
 import SearchRow from './searchRow';
 
 const ListCollections = () => {
@@ -8,7 +8,7 @@ const ListCollections = () => {
 
     useEffect(() => {
         // chargement des collections
-        axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
+        Axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
             .then(res => {
                 setListCollections(res.data);
             }).catch(function (error) {

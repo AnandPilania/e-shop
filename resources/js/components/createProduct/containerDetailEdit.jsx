@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './createProduct_Js.scss';
 import GetTypeDetailProduct from './getTypeDetailsProduct';
-import axios from "axios";
+import Axios from "axios";
 
 
 
@@ -25,7 +25,7 @@ const ContainerDetailEdit = (props) => {
     useEffect(() => {
 
         // récupére les types de détails de la table type_detail_products pour remplire le select id=selectdetails
-        axios.get(`http://127.0.0.1:8000/listtype`)
+        Axios.get(`http://127.0.0.1:8000/listtype`)
             .then(res => {
                 setListType(res.data);
                 setFirstType(res.data[0].name);
@@ -43,7 +43,7 @@ const ContainerDetailEdit = (props) => {
 
 
         // récupére les types de détails de la table type_detail_products pour remplire le select id=selectdetails
-        axios.get(`http://127.0.0.1:8000/editProduct/${props.productId}`)
+        Axios.get(`http://127.0.0.1:8000/editProduct/${props.productId}`)
             .then(res => {
 
                 let data = [];
@@ -165,7 +165,7 @@ const ContainerDetailEdit = (props) => {
 
 
         // récupération de tous les détails pour les pré-charger dans
-        axios.get(`http://127.0.0.1:8000/detailCompletion`,
+        Axios.get(`http://127.0.0.1:8000/detailCompletion`,
             {
                 params: {
                     type_detail_name: type,

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './createProduct_Js.scss';
 import AddDetail from './addDetail';
 import SelectType from './select';
-import axios from "axios";
+import Axios from "axios";
 
 
 
@@ -37,7 +37,7 @@ const GetTypeDetailProduct = (props) => {
   useEffect(() => {
     // récupération de tous les détails pour les pré-charger dans
     if (props.currentType) {
-      axios.get(`http://127.0.0.1:8000/detailCompletion`,
+      Axios.get(`http://127.0.0.1:8000/detailCompletion`,
         {
           params: {
             type_detail_name: props.currentType,
@@ -105,7 +105,7 @@ const GetTypeDetailProduct = (props) => {
     setTab_details([]);
 
     // récupération de tous les détails pour les pré-charger dans
-    axios.get(`http://127.0.0.1:8000/detailCompletion`,
+    Axios.get(`http://127.0.0.1:8000/detailCompletion`,
       {
         params: {
           type_detail_name: e.target.value,

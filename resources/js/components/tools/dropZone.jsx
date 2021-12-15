@@ -1,12 +1,5 @@
 import { React, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
-// import './createProduct_Js.scss';
-import ContainerDetail from './containerDetail';
-import SelectCollections from '../selectInProduct/selectCollections';
-import Axios from "axios";
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-
 
 const useStyles = makeStyles({
     wrapperForm: {
@@ -30,7 +23,7 @@ const useStyles = makeStyles({
     label_text: {
         fontSize: '16px',
         fontWeight: 'bold',
-        margin: '0', 
+        margin: '0',
         marginLeft: '5px',
         marginBottom: 10,
         marginTop: '20px',
@@ -38,27 +31,17 @@ const useStyles = makeStyles({
         width: 'auto',
     },
     input_text: {
-        margin: '0', 
+        margin: '0',
         paddingLeft: '10px',
         width: '100%',
         height: '55px',
         border: '#e1e1e1 solid 1px',
         borderRadius: '5px',
-        color:'#111fff',
+        color: '#111fff',
     },
     textarea: {
         color: '#111fff',
         minHeight: '100px',
-    },
-    submit_btn: { 
-        height: '45px',
-        width: '150px',
-        marginTop: '50px',
-        borderRadius: '5px',
-        backgroundColor: '#eeefff',
-        color: '#111fff',
-        fontSize: '16px',
-        letterSpacing: '1px',
     },
     drop_region: {
         backgroundColor: '#fff',
@@ -71,77 +54,17 @@ const useStyles = makeStyles({
         cursor: 'pointer',
         transition: '0.3s',
     },
-  });
+});
 
 
-// props.id = detailx
-const FormProduct = (props) => {
+const DropZone = (props) => {
     const classes = useStyles();
     const [collectionsRelations, setCollectionsRelations] = useState([]);
-    const [dataDetail, setDataDetail] = useState([]);
-    const [collection, setCollection] = useState([]);
     const [imageFiles, setImageFiles] = useState([]);
-    const [technicalSheet, setTechnicalSheet] = useState('');
 
     var dropRegion = null;
     var imagePreviewRegion = null;
-    var formData = new FormData();
     var tab = [];
-
-    useEffect(() => {
-        // récupére les types de détails dans la table type_detail_products pour remplire le select id=selectdetails
-        Axios.get(`http://127.0.0.1:8000/getCollections`)
-            .then(res => {
-                setCollectionsRelations(res.data.collections);
-            }).catch(function (error) {
-                console.log('error:   ' + error);
-            });
-    }, []);
-
-    function handleSubmit(e) {
-        e.preventDefault();
-
-        // on boucle sur imageFiles pour récupérer toutes les images
-        if (imageFiles) {
-            for (var i = 0, len = imageFiles.length; i < len; i++) {
-                if (validateImage(imageFiles[i])) {
-                    formData.append('image[]', imageFiles[i]);
-                }
-            }
-        }
-
-        formData.append("name", document.getElementById("name").value);
-        formData.append("id_ali_express", document.getElementById("id_ali_express").value);
-        formData.append("price", document.getElementById("price").value);
-        formData.append("collection", collection);
-        formData.append("description", document.getElementById("description").value);
-        formData.append("technicalSheet", technicalSheet);
-
-        // supprime listTypes de dataDetail car inutile côté controlleur
-        dataDetail.forEach(obj => delete obj.listTypes);
-
-        // transformation de l'objet en string JSON
-        var obj = JSON.stringify(dataDetail);
-        formData.append("obj", obj);
-
-        Axios.post(`http://127.0.0.1:8000/products`, formData,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-            .then(res => {
-                console.log('res.data  --->  ok');
-
-            });
-    }
-
-
-
-    const handleCollections = (value) => {
-        setCollection(value);
-    }
-
 
     useEffect(() => {
         dropRegion = document.getElementById("drop-region");
@@ -305,68 +228,18 @@ const FormProduct = (props) => {
     }
 
 
-    const ckEditorOnChange = (sheet) => {
-        setTechnicalSheet(sheet);
-        sheet && console.log('sheet  ' + sheet);
-    }
-
-
     return (
         <div className={classes.wrapperForm}>
-
             <h4 className={classes.title}>Ajouter un produit</h4>
-
-            <form method="post" action="/products" encType="multipart/form-data" onSubmit={handleSubmit}>
-
-                <p className={classes.label_text}><label htmlFor="name" >Nom</label></p>
-                <input id="name" name="name" type="text" className={classes.input_text} />  
-                
-                <p className={classes.label_text}><label htmlFor="price" >Prix</label></p>
-                <input id="price" type="number" step=".01" name="price" className={classes.input_text} />
-
-                <SelectCollections collectionsRelations={collectionsRelations} handleCollections={handleCollections} />
-
-                <div id="drop-region" className={classes.drop_region}>
-                    <div className="drop-message">
-                        Drag & Drop images or click to upload
-                    </div>
-                    <div id="image-preview"></div>
+            <div id="drop-region" className={classes.drop_region}>
+                <div className="drop-message">
+                    Drag & Drop images or click to upload
                 </div>
-
-                <p className={classes.label_text}><label htmlFor="description" >Déscription</label></p>
-                <input id="description" name="description" type="text" className={classes.input_text} />
-
-                <ContainerDetail setDataDetail={setDataDetail} />
-
-                <br></br><br></br>
-                <h6>Fiche technique</h6>
-                <br></br>
-                <CKEditor
-                    editor={ClassicEditor}
-                    data=""
-                    onReady={editor => {
-                        // You can store the "editor" and use when it is needed.
-                        console.log('Editor is ready to use!', editor);
-                    }}
-                    onChange={(event, editor) => {
-                        const sheet = editor.getData();
-                        ckEditorOnChange(sheet);
-                        console.log({ event, editor, sheet });
-                    }}
-                    onBlur={(event, editor) => {
-                        console.log('Blur.', editor);
-                    }}
-                    onFocus={(event, editor) => {
-                        console.log('Focus.', editor);
-                    }}
-                />
-
-                <br></br>
-                <input className="btn input_submit" type="submit" value="Envoyer" />
-            </form>
+                <div id="image-preview"></div>
+            </div>
         </div>
     )
 }
 
-export default FormProduct;
+export default DropZone;
 

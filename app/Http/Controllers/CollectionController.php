@@ -100,6 +100,80 @@ class CollectionController extends Controller
         return redirect('/collectionsBackEnd/create')->with('status', 'La collection ' . $collection->name . ' a été ajoutée');
     }
 
+
+    public function storeAndAssign(Request $request)
+    {
+        // $this->validate($request, ['name' => 'required', 'category' => 'required', 'image' => 'required', 'alt' => 'required']);
+
+        foreach ($request->conditions as $condition) {
+            switch ($condition->operator) {
+                case '=':
+                    
+                    break;
+                case '!=':
+                    
+                    break;
+                case '>':
+                    
+                    break;
+                case '<':
+                    
+                    break;
+                case '%_':
+                    
+                    break;
+                case '_%':
+                    
+                    break;
+                case '%_%':
+                    
+                    break;
+                case '!%_%':
+                    
+                    break;
+                case '!null_empty':
+                    
+                    break;
+                case 'null_empty':
+                    
+                    break;
+            }
+        }
+
+
+        $collection = new Collection;
+        $collection->name = $request->name;
+        $collection->category_id = $request->category;
+        $collection->alt = $request->alt;
+
+        $link = str_replace(' ', '-', $request->name);
+        $search = array('À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'à', 'á', 'â', 'ã', 'ä', 'å', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ð', 'ò', 'ó', 'ô', 'õ', 'ö', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ');
+        $replace = array('A', 'A', 'A', 'A', 'A', 'A', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y', 'a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y');
+        $cleanLink = str_replace($search, $replace, $link);
+        $collection->link = strtolower($cleanLink);
+
+        $image = $request->file('image');
+        $input['image'] = time() . '.' . $image->getClientOriginalExtension();
+
+        $destinationPath = public_path('/images');
+
+        $imgFile = Image::make($image->getRealPath());
+
+        $imgFile->resize(1080, 480, function ($constraint) {
+            $constraint->aspectRatio();
+        })->save($destinationPath . '/' . $input['image']);
+
+        $image->move($destinationPath, $input['image']);
+
+        $collection->image = 'images/' . $input['image'];
+
+
+        $collection->save();
+
+        return redirect('/collectionsBackEnd/create')->with('status', 'La collection ' . $collection->name . ' a été ajoutée');
+    }
+
+
     /**
      * Display the specified resource.
      *

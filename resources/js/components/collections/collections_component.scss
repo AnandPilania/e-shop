@@ -1,7 +1,6 @@
-
 * {
     // font-family: 'Poppins', sans-serif;
-    font-family: 'Source Sans 3', sans-serif;
+    font-family: "Source Sans 3", sans-serif;
     font-weight: 400;
     font-size: 1rem;
     line-height: 24px;
@@ -11,67 +10,40 @@
 }
 
 .collection-main-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
+    min-width: 985px;
+    width: 60%;
+    min-height: 130vh;
+    margin: auto;
+    display: grid;
+    grid-template-columns: calc(66.6666% - 10px) calc(33.3333% - 10px);
+    grid-gap: 10px;
+    // border: solid 2px rgb(52, 184, 0);
 }
 
 .collection-block-container {
-    width: 50%;
-    margin: auto;
+    width: 100%;
     // border: solid 2px red;
+}
 
-    .div-vert-align {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
-        background-color: white;
-        border-radius: 5px;
-        margin-bottom: 10px;
-        padding: 20px 20px 25px 20px;
-        // border: solid 2px rgb(52, 184, 0);
-
-        .div-label-inputTxt,
-        .sub-div-vert-align {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: flex-start;
-            margin-bottom: 15px;
-            // border: solid 2px rgb(17, 120, 218);
-        }
-
-        .div-radio-label {
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-start;
-            align-items: center;
-            // border: solid 2px rgb(255, 0, 76);
-        }
-
-        .sub-div-horiz-align {
-            width: 100%;
-            margin: 10px 0;
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-start;
-            align-items: center;
-            // border: solid 2px rgb(255, 0, 76);
-        }
-    }
+.div-vert-align {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: white;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 20px 20px 35px 20px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    // border: solid 1px rgb(52, 184, 0);
 
     label {
         width: 100%;
         margin-right: 30px;
-        margin-bottom: 5px;
         // border: solid 2px rgb(255, 238, 0);
     }
 
-    input[type=text],
+    input[type="text"],
     select {
         min-width: 200px;
         width: 100%;
@@ -81,7 +53,7 @@
         border: solid 1px rgb(220, 220, 220);
     }
 
-    input[type=radio] {
+    input[type="radio"] {
         width: 30px;
         height: 30px;
         margin-right: 10px;
@@ -106,25 +78,66 @@
 
     p {
         margin-top: 5px;
+        margin-bottom: 5px;
     }
 
-    .btn-bcknd {
-        height: 50px;
-        padding: 0 20px;
-        margin-top: 20px;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        background-color: transparent;
-        border-radius: 5px;
-        border: solid 1px rgb(220, 220, 220);
-        transition: ease-in-out .15s;
+    strong {
+        font-size: 15px;
     }
 
-    .btn-bcknd:hover {
-        cursor: pointer;
-        background-color: rgb(250, 250, 250);
-        border: solid 1px rgb(10, 179, 114);
-    }
+}
+
+.btn-bcknd {
+    height: 50px;
+    padding: 0 20px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border-radius: 5px;
+    border: solid 1px rgb(220, 220, 220);
+    transition: ease-in-out 0.15s;
+}
+
+.btn-bcknd:hover {
+    cursor: pointer;
+    background-color: rgb(250, 250, 250);
+    border: solid 1px rgb(10, 179, 114);
+}
+
+.div-label-inputTxt,
+.sub-div-vert-align {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    // border: solid 2px rgb(17, 120, 218);
+}
+
+.div-radio-label {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    // border: solid 2px rgb(255, 0, 76);
+}
+
+.sub-div-horiz-align {
+    width: 100%;
+    margin: 10px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    // border: solid 2px rgb(255, 0, 76);
+}
+
+// side -------------------------------
+.side-create-collection {
+
+    // border: solid 1px rgb(52, 184, 0);
 }

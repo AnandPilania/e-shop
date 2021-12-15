@@ -2,7 +2,7 @@
 import { React, useState, useEffect } from 'react';
 // import "./App.css";
 import { useParams } from "react-router-dom";
-import axios from 'axios';
+import Axios from 'axios';
 
 const EditImages = (props) => {
 
@@ -27,7 +27,7 @@ const EditImages = (props) => {
 
     useEffect(() => {
         // chargement des images déjà enregistrées
-        axios.get(`http://127.0.0.1:8000/editImagesProduct/${product_id}`)
+        Axios.get(`http://127.0.0.1:8000/editImagesProduct/${product_id}`)
             .then(res => {
                 setImages_product(res.data);
             }).catch(function (error) {
@@ -217,7 +217,7 @@ const EditImages = (props) => {
             var data = new FormData();
             data.append("newImage", files[0]);
             data.append("id", id);
-            axios.post(`http://127.0.0.1:8000/replaceImagesProduct`, data, {
+            Axios.post(`http://127.0.0.1:8000/replaceImagesProduct`, data, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -314,7 +314,7 @@ const EditImages = (props) => {
 
         formData.append('id', product_id);
 
-        axios.post(`http://127.0.0.1:8000/addImagesProduct`, formData, {
+        Axios.post(`http://127.0.0.1:8000/addImagesProduct`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }

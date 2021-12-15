@@ -6,6 +6,8 @@ import FormControl from '@mui/material/FormControl';
 import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
+import Axios from 'axios';
+
 
 const ITEM_HEIGHT = 50;
 const ITEM_PADDING_TOP = 8;
@@ -24,7 +26,7 @@ export default function SelectCollectionsAli(props) {
 
     React.useEffect(() => {
         // récupére les collections
-        axios.get(`http://127.0.0.1:8000/${props.endPointAxios}`)
+        Axios.get(`http://127.0.0.1:8000/${props.endPointAxios}`)
             .then(res => {
                 res.data.collections && setCheckItemsList(res.data.collections);
                 res.data.type && setCheckItemsList(res.data.type);

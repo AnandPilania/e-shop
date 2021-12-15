@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import axios from 'axios';
+import Axios from 'axios';
 import { Link } from 'react-router-dom';
 import InputText from '../InputText/Input_text';
 
@@ -9,7 +9,7 @@ const List = () => {
     const [isChecked, setIsChecked] = useState(false);
 
     useEffect(() => {
-        axios.get(`http://127.0.0.1:8000/products`)
+        Axios.get(`http://127.0.0.1:8000/products`)
             .then(res => {
                 setProducts(Object.values(res.data));
                 // console.log(res.data);
@@ -35,7 +35,7 @@ const List = () => {
         //     check = 0;
         // }
 
-        // axios.post(`http://127.0.0.1:8000/bestSeller`, {
+        // Axios.post(`http://127.0.0.1:8000/bestSeller`, {
         //         id: id,
         //         checked: check
         //     })

@@ -21837,24 +21837,34 @@ var ConditionCollection = function ConditionCollection(props) {
           return props.handleChangeOperator(e, props.index);
         },
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+          value: "=",
           children: "est \xE9gale \xE0"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+          value: "!=",
           children: "n'est pas \xE9gale \xE0"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+          value: ">",
           children: "est supp\xE9rieur \xE0"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+          value: "<",
           children: "est inf\xE8rieur \xE0"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+          value: "%_",
           children: "commence par"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+          value: "_%",
           children: "se termine par"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+          value: "%_%",
           children: "contient"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+          value: "!%_%",
           children: "ne contient pas"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+          value: "!null_empty",
           children: "n'est pas vide"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+          value: "null_empty",
           children: "est vide"
         })]
       })
@@ -21893,7 +21903,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ckeditor_ckeditor5_react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_ckeditor_ckeditor5_react__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ckeditor/ckeditor5-build-classic */ "./node_modules/@ckeditor/ckeditor5-build-classic/build/ckeditor.js");
 /* harmony import */ var _ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _tools_dropZone__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../tools/dropZone */ "./resources/js/components/tools/dropZone.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -21921,6 +21934,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+
 var CreateCollection = function CreateCollection() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
     parameter: 'Titre du produit',
@@ -21931,14 +21946,19 @@ var CreateCollection = function CreateCollection() {
       conditions = _useState2[0],
       setConditions = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState4 = _slicedToArray(_useState3, 2),
-      categories = _useState4[0],
-      setCategories = _useState4[1];
+      isToggleOn = _useState4[0],
+      setIsToggleOn = _useState4[1];
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState6 = _slicedToArray(_useState5, 2),
+      categories = _useState6[0],
+      setCategories = _useState6[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // chargement des collections
-    axios.get("http://127.0.0.1:8000/getCategories").then(function (res) {
+    axios__WEBPACK_IMPORTED_MODULE_4___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
       setCategories(res.data);
     })["catch"](function (error) {
       console.log('error:   ' + error);
@@ -21969,43 +21989,61 @@ var CreateCollection = function CreateCollection() {
     setConditions(tmp_conditions);
   };
 
+  console.log(conditions);
+
   var handleChangeValue = function handleChangeValue(e, index) {
     var tmp_conditions = _toConsumableArray(conditions);
 
     tmp_conditions[index].value = e.target.value;
     setConditions(tmp_conditions);
-  };
+  }; // const buildQuery = () => {
+  //     conditions.forEach(obj => (
+  //     ))
+  // }
+
 
   var ckEditorOnChange = function ckEditorOnChange(sheet) {// setTechnicalSheet(sheet);
   }; // var obj = JSON.stringify(dataDetail);
 
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+  var showHideConditions = function showHideConditions(e) {
+    console.log(e);
+
+    if (e.target.checked || e.target.textContent == 'Automatisé') {
+      setIsToggleOn(true);
+    }
+
+    if (e.target.checked || e.target.textContent == 'Manuel') {
+      setIsToggleOn(false);
+    }
+  };
+
+  console.log(isToggleOn);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
     className: "collection-main-container",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
       className: "collection-block-container",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         className: "div-vert-align",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
           className: "div-label-inputTxt",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
-            htmlFor: "titreCollection",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
             children: "Nom de la collection"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
             type: "text",
             id: "titreCollection",
             placeholder: "ex. Robes, Op\xE9ration d\xE9stockage, Collection hiver"
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
           className: "div-label-inputTxt",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
-            htmlFor: "descriptionCollection",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
             children: "Description (optionnel)"
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_ckeditor_ckeditor5_react__WEBPACK_IMPORTED_MODULE_2__.CKEditor, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_ckeditor_ckeditor5_react__WEBPACK_IMPORTED_MODULE_2__.CKEditor, {
           editor: (_ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_3___default()),
           data: "",
           onReady: function onReady(editor) {
+            editor.ui.view.element.style.marginBottom = "20px";
             editor.ui.view.element.style.width = "100%";
             editor.ui.view.editable.element.style.minHeight = "150px";
           },
@@ -22024,118 +22062,147 @@ var CreateCollection = function CreateCollection() {
           onFocus: function onFocus(event, editor) {
             editor.ui.view.editable.element.style.minHeight = "150px";
           }
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-          className: "div-label-inputTxt",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
-            htmlFor: "category",
-            children: "Cat\xE9gorie"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("select", {
-            id: "category",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
-              children: "Attribuer une cat\xE9gorie \xE0 cette collection. (optionnel)"
-            }), categories.map(function (category, index) {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
-                value: category.id,
-                children: category.name
-              }, index);
-            })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
-              href: "#",
-              children: "Plus d'informations sur les cat\xE9gories."
-            })
-          })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         className: "div-vert-align",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h2", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
           children: "Type de collection"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
           className: "sub-div-vert-align",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
             className: "div-radio-label",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
               type: "radio",
-              name: "typeCondition",
-              id: "manuel",
-              checked: true
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
-              htmlFor: "manuel",
+              checked: isToggleOn === false,
+              onChange: showHideConditions
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+              onClick: showHideConditions,
               children: "Manuel"
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("p", {
-            children: ["Ajouter un produit \xE0 la fois dans cette collection. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("p", {
+            children: ["Ajouter un produit \xE0 la fois dans cette collection. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
               href: "#",
               children: "Plus d'informations sur les collections manuelles."
             })]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
           className: "sub-div-vert-align",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
             className: "div-radio-label",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
               type: "radio",
-              name: "typeCondition",
-              id: "Automatise"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
-              htmlFor: "Automatise",
+              checked: isToggleOn === true,
+              onChange: showHideConditions
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+              onClick: showHideConditions,
               children: "Automatis\xE9"
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("p", {
-            children: ["Ajouter automatiquement les produits lorsqu'ils correspondent aux r\xE8gles d\xE9finies. Y compris les produits d\xE9j\xE0 ajout\xE9s. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("p", {
+            children: ["Ajouter automatiquement les produits lorsqu'ils correspondent aux r\xE8gles d\xE9finies. Y compris les produits d\xE9j\xE0 ajout\xE9s. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
               href: "#",
               children: "Plus d'informations sur les collections automatis\xE9es."
             })]
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      }), isToggleOn && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         className: "div-vert-align",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h2", {
-          children: "Crit\xE8res"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h4", {
-          children: "D\xE9finissez une ou plusieurs r\xE8gles. Seuls les produits correspondants \xE0 vos r\xE8gles seront int\xE9gr\xE9s dans cette collection. ex. Prix du produit est inf\xE9rieur \xE0 50 \u20AC, Titre du produit contient Robe."
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        id: "conditions_collection",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
+          children: "Condition(s)"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h4", {
+          children: "D\xE9finissez une ou plusieurs r\xE8gles. Ex. Prix du produit est inf\xE9rieur \xE0 50 \u20AC, Titre du produit contient Robe, etc. Seuls les produits correspondants \xE0 vos r\xE8gles seront int\xE9gr\xE9s dans cette collection. "
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
           className: "sub-div-horiz-align",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
             className: "div-radio-label",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
               type: "radio",
               name: "condition",
               id: "allConditions",
               checked: true
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
               htmlFor: "allConditions",
               children: "Les produits doivent r\xE9pondre \xE0 toutes les conditions"
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
             className: "div-radio-label",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
               type: "radio",
               name: "condition",
               id: "leastOnConditions"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
               htmlFor: "leastOnConditions",
               children: "Les produits doivent r\xE9pondre \xE0 au moins une condition"
             })]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
           className: "sub-div-vert-align",
           children: [conditions.map(function (item, i) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_conditionCollection__WEBPACK_IMPORTED_MODULE_1__["default"], {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_conditionCollection__WEBPACK_IMPORTED_MODULE_1__["default"], {
               index: i,
               handleChangeParam: handleChangeParam,
               handleChangeOperator: handleChangeOperator,
               handleChangeValue: handleChangeValue,
               condition: item
             }, i);
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
             className: "btn-bcknd",
             onClick: addCondition,
             children: "Ajouter une condition"
           })]
         })]
       })]
-    })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+      className: "side-create-collection",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        className: "div-vert-align",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          className: "div-label-inputTxt",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
+            children: "Cat\xE9gorie"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("p", {
+            children: ["Attribuer une cat\xE9gorie \xE0 cette collection. (", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("strong", {
+              children: "*optionnel"
+            }), ")"]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("select", {
+            id: "category",
+            placeholder: 'yes',
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("option", {
+              value: "none",
+              children: "Aucune cat\xE9gorie"
+            }), categories.map(function (category, index) {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("option", {
+                value: category.id,
+                children: category.name
+              }, index);
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
+              href: "#",
+              children: "Plus d'informations sur les cat\xE9gories."
+            })
+          })]
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        className: "div-vert-align",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          className: "div-label-inputTxt",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
+            children: "Image"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+            children: "S\xE9lectionner une image pour cette collection. (*optionnel)"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tools_dropZone__WEBPACK_IMPORTED_MODULE_5__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+            className: "div-label-inputTxt",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+              children: "Indiquer une br\xE8ve description de votre image ex. \"Jeans noir avec fermeture \xE9clair\". Ceci am\xE9liorera l'accessibilit\xE9 et le r\xE9f\xE9rencement de votre boutique. (*optionnel) "
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+              type: "text",
+              name: "alt"
+            })]
+          })]
+        })
+      })]
+    })]
   });
 };
 
@@ -24575,7 +24642,7 @@ var List = function List() {
     // } else {
     //     check = 0;
     // }
-    // axios.post(`http://127.0.0.1:8000/bestSeller`, {
+    // Axios.post(`http://127.0.0.1:8000/bestSeller`, {
     //         id: id,
     //         checked: check
     //     })
@@ -25108,6 +25175,290 @@ function SelectCollectionsEdit(props) {
     })]
   });
 }
+
+/***/ }),
+
+/***/ "./resources/js/components/tools/dropZone.jsx":
+/*!****************************************************!*\
+  !*** ./resources/js/components/tools/dropZone.jsx ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_2__["default"])({
+  wrapperForm: {
+    marginTop: '50px',
+    width: '80%',
+    overflow: 'auto',
+    padding: '50px',
+    // border: '#e0e0e0 dashed 1px',
+    border: 'red dashed 2px',
+    borderRadius: '5px',
+    height: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    flexWrap: 'nowrap',
+    backgroundColor: '#f6f6f7'
+  },
+  title: {
+    fontSize: '20px'
+  },
+  label_text: {
+    fontSize: '16px',
+    fontWeight: 'bold',
+    margin: '0',
+    marginLeft: '5px',
+    marginBottom: 10,
+    marginTop: '20px',
+    color: '#111fff',
+    width: 'auto'
+  },
+  input_text: {
+    margin: '0',
+    paddingLeft: '10px',
+    width: '100%',
+    height: '55px',
+    border: '#e1e1e1 solid 1px',
+    borderRadius: '5px',
+    color: '#111fff'
+  },
+  textarea: {
+    color: '#111fff',
+    minHeight: '100px'
+  },
+  drop_region: {
+    backgroundColor: '#fff',
+    borderRadius: '5px',
+    boxShadow: '0 0 35px rgba(0, 0, 0, 0.05)',
+    width: '100%',
+    padding: '60px 40px',
+    marginTop: '30px',
+    textAlign: 'center',
+    cursor: 'pointer',
+    transition: '0.3s'
+  }
+});
+
+var DropZone = function DropZone(props) {
+  var classes = useStyles();
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      collectionsRelations = _useState2[0],
+      setCollectionsRelations = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState4 = _slicedToArray(_useState3, 2),
+      imageFiles = _useState4[0],
+      setImageFiles = _useState4[1];
+
+  var dropRegion = null;
+  var imagePreviewRegion = null;
+  var tab = [];
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    dropRegion = document.getElementById("drop-region");
+    imagePreviewRegion = document.getElementById("image-preview"); // open file selector when clicked on the drop region
+
+    var fakeInput = document.createElement("input");
+    fakeInput.type = "file";
+    fakeInput.accept = "image/*";
+    fakeInput.multiple = true; // open files exploratore when click on dropRegion
+
+    dropRegion.addEventListener('click', function () {
+      fakeInput.click();
+    });
+    fakeInput.addEventListener("change", function () {
+      var files = fakeInput.files;
+      handleFiles(files);
+    }); // empèche le comportement par défault et la propagation
+
+    dropRegion.addEventListener('dragenter', preventDefault, false);
+    dropRegion.addEventListener('dragleave', preventDefault, false);
+    dropRegion.addEventListener('dragover', preventDefault, false);
+    dropRegion.addEventListener('drop', preventDefault, false);
+    dropRegion.addEventListener('drop', handleDrop, false); // change the message if doesn't support drag & drop
+
+    var dragSupported = detectDragDrop();
+
+    if (!dragSupported) {
+      document.getElementsByClassName("drop-message")[0].innerHTML = 'Click to upload';
+    }
+
+    dropRegion.addEventListener('dragenter', highlight, false);
+    dropRegion.addEventListener('dragover', highlight, false);
+    dropRegion.addEventListener('dragleave', unhighlight, false);
+    dropRegion.addEventListener('drop', unhighlight, false);
+  }, []);
+
+  function highlight() {
+    dropRegion.classList.add('highlighted');
+  }
+
+  function unhighlight() {
+    dropRegion.classList.remove("highlighted");
+  }
+
+  function preventDefault(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  } // récupère les files quand on drop et les envoi à handleFiles
+
+
+  function handleDrop(e) {
+    var dt = e.dataTransfer,
+        files = dt.files;
+
+    if (files.length) {
+      handleFiles(files);
+    } else {
+      // check for img
+      var html = dt.getData('text/html'),
+          match = html && /\bsrc="?([^"\s]+)"?\s*/.exec(html),
+          url = match && match[1];
+
+      if (url) {
+        uploadImageFromURL(url);
+        return;
+      }
+    }
+
+    function uploadImageFromURL(url) {
+      var img = new Image();
+      var c = document.createElement("canvas");
+      var ctx = c.getContext("2d");
+
+      img.onload = function () {
+        c.width = this.naturalWidth; // update canvas size to match image
+
+        c.height = this.naturalHeight;
+        ctx.drawImage(this, 0, 0); // draw in image
+
+        c.toBlob(function (blob) {
+          // get content as blob
+          handleFiles([blob]);
+        }, 'image/png', 0.95);
+      };
+
+      img.onerror = function () {
+        alert("Error in uploading");
+      };
+
+      img.crossOrigin = ""; // if from different origin
+
+      img.src = url;
+    }
+  } // affiche et sauvegarde les images
+
+
+  function handleFiles(files) {
+    tab.push.apply(tab, _toConsumableArray(files));
+
+    for (var i = 0; i < files.length; i++) {
+      if (validateImage(files[i])) {
+        setImageFiles(tab);
+        previewImage(files[i]);
+      }
+    }
+  }
+
+  function validateImage(image) {
+    // check the type
+    var validTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'];
+
+    if (validTypes.indexOf(image.type) === -1) {
+      alert("Invalid File Type");
+      return false;
+    } // check the size
+
+
+    var maxSizeInBytes = 10e6; // 10MB
+
+    if (image.size > maxSizeInBytes) {
+      alert("File too large");
+      return false;
+    }
+
+    return true;
+  }
+
+  function previewImage(image) {
+    // container
+    var imgView = document.createElement("div");
+    imgView.className = "image-view";
+    imagePreviewRegion.appendChild(imgView); // previewing image
+
+    var img = document.createElement("img");
+    imgView.appendChild(img); // progress overlay
+
+    var overlay = document.createElement("div");
+    overlay.className = "overlay";
+    imgView.appendChild(overlay); // read the image...
+
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      img.src = e.target.result;
+    };
+
+    reader.readAsDataURL(image);
+  }
+
+  function detectDragDrop() {
+    var div = document.createElement('div');
+    return 'draggable' in div || 'ondragstart' in div && 'ondrop' in div;
+  }
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    className: classes.wrapperForm,
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h4", {
+      className: classes.title,
+      children: "Ajouter un produit"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      id: "drop-region",
+      className: classes.drop_region,
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "drop-message",
+        children: "Drag & Drop images or click to upload"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        id: "image-preview"
+      })]
+    })]
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DropZone);
 
 /***/ }),
 

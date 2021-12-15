@@ -22,16 +22,16 @@ const ConditionCollection = (props) => {
             </div>
             <div className="div-label-select grow-shrink">
                 <select value={props.condition.operator} onChange={(e) => props.handleChangeOperator(e, props.index)} >
-                    <option>est égale à</option>
-                    <option>n'est pas égale à</option>
-                    <option>est suppérieur à</option>
-                    <option>est infèrieur à</option>
-                    <option>commence par</option>
-                    <option>se termine par</option>
-                    <option>contient</option>
-                    <option>ne contient pas</option>
-                    <option>n'est pas vide</option>
-                    <option>est vide</option>
+                    <option value="=">est égale à</option>
+                    <option value="!=">n'est pas égale à</option>
+                    <option value=">">est suppérieur à</option>
+                    <option value="<">est infèrieur à</option>
+                    <option value="%_">commence par</option>
+                    <option value="_%">se termine par</option>
+                    <option value="%_%">contient</option>
+                    <option value="!%_%">ne contient pas</option>
+                    <option value="!null_empty">n'est pas vide</option>
+                    <option value="null_empty">est vide</option>
                 </select>
             </div>
             <div className="div-input grow-shrink">

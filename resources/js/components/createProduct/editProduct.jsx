@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 import './createProduct_Js.scss';
 import ContainerDetailEdit from './containerDetailEdit';
 import SelectCollectionsEdit from '../selectInProduct/selectCollectionsEdit';
-import axios from "axios";
+import Axios from "axios";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useParams } from "react-router-dom";
@@ -94,7 +94,7 @@ const EditProduct = () => {
 
     useEffect(() => {
         // récupére toutes les données d'un produit pour être éditées
-        axios.get(`http://127.0.0.1:8000/editProduct/${productId}`)
+        Axios.get(`http://127.0.0.1:8000/editProduct/${productId}`)
             .then(res => {
                 setProductName(res.data.product.name);
                 let id_ali = res.data.product.id_ali_express == null &&  'none'; 
@@ -127,7 +127,7 @@ const EditProduct = () => {
         var obj = JSON.stringify(dataDetail);
         formData.append("obj", obj);
 
-        axios.post(`http://127.0.0.1:8000/updateProduct`, formData,
+        Axios.post(`http://127.0.0.1:8000/updateProduct`, formData,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data'
