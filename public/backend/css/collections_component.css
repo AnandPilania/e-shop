@@ -38,6 +38,7 @@
   margin-right: 30px;
 }
 .div-vert-align input[type=text],
+.div-vert-align input[type=datetime-local],
 .div-vert-align select {
   min-width: 200px;
   width: 100%;
@@ -46,11 +47,17 @@
   border-radius: 5px;
   border: solid 1px gainsboro;
 }
+.div-vert-align select:hover {
+  cursor: pointer;
+}
 .div-vert-align input[type=radio] {
   width: 30px;
   height: 30px;
   margin-right: 10px;
   border: solid 1px gainsboro;
+}
+.div-vert-align input[type=radio]:hover {
+  cursor: pointer;
 }
 .div-vert-align .grow-shrink {
   width: 32%;
@@ -109,6 +116,10 @@
   align-items: center;
 }
 
+.div-radio-label label:hover {
+  cursor: pointer;
+}
+
 .sub-div-horiz-align {
   width: 100%;
   margin: 10px 0;
@@ -116,4 +127,8 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+}
+
+.hideOperator {
+  display: none;
 }

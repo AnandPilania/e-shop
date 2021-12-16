@@ -44,6 +44,7 @@
     }
 
     input[type="text"],
+    input[type="datetime-local"],
     select {
         min-width: 200px;
         width: 100%;
@@ -53,12 +54,21 @@
         border: solid 1px rgb(220, 220, 220);
     }
 
+    select:hover {
+        cursor: pointer;
+    }
+
     input[type="radio"] {
         width: 30px;
         height: 30px;
         margin-right: 10px;
         border: solid 1px rgb(220, 220, 220);
     }
+
+    input[type="radio"]:hover {
+        cursor: pointer;
+    }
+    
 
     // for input & select
     .grow-shrink {
@@ -126,6 +136,10 @@
     // border: solid 2px rgb(255, 0, 76);
 }
 
+.div-radio-label label:hover {
+    cursor: pointer;
+}
+
 .sub-div-horiz-align {
     width: 100%;
     margin: 10px 0;
@@ -137,7 +151,11 @@
 }
 
 // side -------------------------------
-.side-create-collection {
+// .side-create-collection {
 
-    // border: solid 1px rgb(52, 184, 0);
+//     // border: solid 1px rgb(52, 184, 0);
+// }
+
+.hideOperator {
+    display: none;
 }

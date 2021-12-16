@@ -3,12 +3,12 @@ import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles({
     wrapperForm: {
-        marginTop: '50px',
-        width: '80%',
+        marginTop: '20px',
+        marginBottom: '20px',
+        width: '100%',
         overflow: 'auto',
-        padding: '50px',
-        // border: '#e0e0e0 dashed 1px',
-        border: 'red dashed 2px',
+        padding: '10px',
+        border: '#DCDCDB dashed 5px',
         borderRadius: '5px',
         height: 'auto',
         display: 'flex',
@@ -17,39 +17,15 @@ const useStyles = makeStyles({
         flexWrap: 'nowrap',
         backgroundColor: '#f6f6f7',
     },
-    title: {
-        fontSize: '20px',
-    },
-    label_text: {
-        fontSize: '16px',
-        fontWeight: 'bold',
-        margin: '0',
-        marginLeft: '5px',
-        marginBottom: 10,
-        marginTop: '20px',
-        color: '#111fff',
-        width: 'auto',
-    },
-    input_text: {
-        margin: '0',
-        paddingLeft: '10px',
-        width: '100%',
-        height: '55px',
-        border: '#e1e1e1 solid 1px',
-        borderRadius: '5px',
-        color: '#111fff',
-    },
-    textarea: {
-        color: '#111fff',
-        minHeight: '100px',
-    },
     drop_region: {
         backgroundColor: '#fff',
+        background: 'no-repeat url("../images/icons/backgroundDropZone.png")',
+        backgroundPosition: 'center 90%',
         borderRadius: '5px',
         boxShadow: '0 0 35px rgba(0, 0, 0, 0.05)',
         width: '100%',
-        padding: '60px 40px',
-        marginTop: '30px',
+        minHeight: '200px',
+        padding: '20px',
         textAlign: 'center',
         cursor: 'pointer',
         transition: '0.3s',
@@ -75,7 +51,7 @@ const DropZone = (props) => {
         var fakeInput = document.createElement("input");
         fakeInput.type = "file";
         fakeInput.accept = "image/*";
-        fakeInput.multiple = true;
+        fakeInput.multiple = props.multiple;
         // open files exploratore when click on dropRegion
         dropRegion.addEventListener('click', function () {
             fakeInput.click();
@@ -126,16 +102,12 @@ const DropZone = (props) => {
             files = dt.files;
 
         if (files.length) {
-
             handleFiles(files);
-
         } else {
-
             // check for img
             var html = dt.getData('text/html'),
                 match = html && /\bsrc="?([^"\s]+)"?\s*/.exec(html),
                 url = match && match[1];
-
 
             if (url) {
                 uploadImageFromURL(url);
@@ -168,7 +140,14 @@ const DropZone = (props) => {
 
     // affiche et sauvegarde les images
     function handleFiles(files) {
-        tab.push(...files);
+        if (props.multiple === false) {
+            tab = files;
+            console.log(tab);
+        }
+        if (props.multiple === true) {
+            tab.push(...files);
+            console.log(tab);
+        }
         for (var i = 0; i < files.length; i++) {
             if (validateImage(files[i])) {
                 setImageFiles(tab);
@@ -182,14 +161,14 @@ const DropZone = (props) => {
         // check the type
         var validTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'];
         if (validTypes.indexOf(image.type) === -1) {
-            alert("Invalid File Type");
+            alert("Fichier non valide");
             return false;
         }
 
         // check the size
         var maxSizeInBytes = 10e6; // 10MB
         if (image.size > maxSizeInBytes) {
-            alert("File too large");
+            alert("Votre fichier est trop grand");
             return false;
         }
 
@@ -198,20 +177,41 @@ const DropZone = (props) => {
 
     function previewImage(image) {
 
-        // container
-        var imgView = document.createElement("div");
-        imgView.className = "image-view";
-        imagePreviewRegion.appendChild(imgView);
+        document.getElementById('drop-region').style.background = 'none';
+        document.getElementById('drop-region').style.backgroundColor = '#FFFFFF';
 
-        // previewing image
-        var img = document.createElement("img");
-        imgView.appendChild(img);
+        let checkImgViewExist = document.getElementsByClassName('image-view');
+        // if multiple == true or is first preview
+        if (props.multiple === true || (props.multiple === false && checkImgViewExist.length == 0)) {
+            // container
+            var imgView = document.createElement("div");
+            imgView.className = "image-view";
+            imagePreviewRegion.appendChild(imgView);
 
-        // progress overlay
-        var overlay = document.createElement("div");
-        overlay.className = "overlay";
-        imgView.appendChild(overlay);
+            // previewing image
+            var img = document.createElement("img");
+            img.className = 'imagesPreview';
+            imgView.appendChild(img);
 
+            // progress overlay
+            var overlay = document.createElement("div");
+            overlay.className = "overlay";
+            imgView.appendChild(overlay);
+        }
+
+        // if multiple == false
+        if (props.multiple === false) {
+            // container
+            var imgView = document.getElementsByClassName('image-view')[0];
+
+            // previewing image
+            var img = document.getElementsByClassName('imagesPreview')[0];
+            imgView.appendChild(img);
+
+            // progress overlay
+            var overlay = document.getElementsByClassName('overlay')[0];
+            imgView.appendChild(overlay);
+        }
 
         // read the image...
         var reader = new FileReader();
@@ -230,10 +230,9 @@ const DropZone = (props) => {
 
     return (
         <div className={classes.wrapperForm}>
-            <h4 className={classes.title}>Ajouter un produit</h4>
             <div id="drop-region" className={classes.drop_region}>
                 <div className="drop-message">
-                    Drag & Drop images or click to upload
+                    Déposer ici une image <br></br>ou cliquer pour charger une image
                 </div>
                 <div id="image-preview"></div>
             </div>

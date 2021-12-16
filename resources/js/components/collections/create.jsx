@@ -12,7 +12,11 @@ const CreateCollection = () => {
         value: ''
     }]);
     const [isToggleOn, setIsToggleOn] = useState(true);
+    const [includePrevProduct, setIncludePrevProduct] = useState(true);
     const [categories, setCategories] = useState([]);
+    const [datetimeField, setDatetimeField] = useState();
+
+
     useEffect(() => {
         // chargement des collections
         Axios.get(`http://127.0.0.1:8000/getCategories`)
@@ -21,6 +25,22 @@ const CreateCollection = () => {
             }).catch(function (error) {
                 console.log('error:   ' + error);
             });
+
+
+        // current date & time
+            var now = new Date();
+            var year = now.getFullYear();
+            var month = now.getMonth() + 1;
+            var day = now.getDate();
+            var hour = now.getHours();
+            var minute = now.getMinutes();
+            var localDatetime = year + "-" +
+                              (month < 10 ? "0" + month.toString() : month) + "-" +
+                              (day < 10 ? "0" + day.toString() : day) + "T" +
+                              (hour < 10 ? "0" + hour.toString() : hour) + ":" +
+                              (minute < 10 ? "0" + minute.toString() : minute);
+            setDatetimeField(localDatetime);
+;
     }, []);
 
     // var lastCondition = conditions.slice(-1)[0];
@@ -67,16 +87,22 @@ const CreateCollection = () => {
     }
     // var obj = JSON.stringify(dataDetail);
 
-    const showHideConditions = (e) => {
-        console.log(e);
-        if (e.target.checked || e.target.textContent == 'Automatisé') {
+    const showHideConditions = (auto) => {
+        if (auto) {
             setIsToggleOn(true);
-        }
-        if (e.target.checked || e.target.textContent == 'Manuel') {
+        } else {
             setIsToggleOn(false);
         }
     }
-    console.log(isToggleOn);
+
+    const includePrevProducts = (includ) => {
+        setIncludePrevProduct(includ);
+    }
+
+    const handleDateChange = (e) => {
+        setDatetimeField(e.target.value);
+    };
+
     return (
         <div className="collection-main-container">
             <div className="collection-block-container">
@@ -119,20 +145,36 @@ const CreateCollection = () => {
                     <div className="sub-div-vert-align">
                         <div className="div-radio-label">
                             <input type='radio'
-                                checked={isToggleOn === false}
-                                onChange={showHideConditions} />
-                            <label onClick={showHideConditions}>Manuel</label>
+                                checked={isToggleOn == false}
+                                onChange={() => showHideConditions(false)} />
+                            <label onClick={() => showHideConditions(false)}>Manuel</label>
                         </div>
                         <p>Ajouter un produit à la fois dans cette collection. <a href='#'>Plus d'informations sur les collections manuelles.</a></p>
                     </div>
                     <div className="sub-div-vert-align">
                         <div className="div-radio-label">
                             <input type='radio'
-                                checked={isToggleOn === true}
-                                onChange={showHideConditions} />
-                            <label onClick={showHideConditions}>Automatisé</label>
+                                checked={isToggleOn == true}
+                                onChange={() => showHideConditions(true)} />
+                            <label onClick={() => showHideConditions(true)}>Automatisé</label>
                         </div>
-                        <p>Ajouter automatiquement les produits lorsqu'ils correspondent aux règles définies. Y compris les produits déjà ajoutés. <a href='#'>Plus d'informations sur les collections automatisées.</a></p>
+                        <p>Ajouter automatiquement les produits lorsqu'ils correspondent aux règles définies. Y compris les produits déjà enregistrés. <a href='#'>Plus d'informations sur les collections automatisées.</a></p>
+
+
+                        {isToggleOn && <div className="sub-div-horiz-align">
+                            <div className="div-radio-label">
+                                <input type='radio'
+                                    checked={includePrevProduct == true}
+                                    onChange={() => includePrevProducts(true)} />
+                                <label onClick={() => includePrevProducts(true)}>Inclure les produits déjà enregistrés</label>
+                            </div>
+                            <div className="div-radio-label">
+                                <input type='radio'
+                                    checked={includePrevProduct == false}
+                                    onChange={() => includePrevProducts(false)} />
+                                <label onClick={() => includePrevProducts(false)}>Ne pas inclure les produits déjà enregistrés</label>
+                            </div>
+                        </div>}
                     </div>
                 </div>
 
@@ -169,6 +211,15 @@ const CreateCollection = () => {
             {/* side */}
             <div className='side-create-collection'>
                 <div className="div-vert-align">
+                    {/* Date d'activation */}
+                    <div className="div-label-inputTxt">
+                        <h2>Activation</h2>
+                        <p>Date d'activation.</p>
+                        <input id="activationDate" type="datetime-local" value={datetimeField} onChange={handleDateChange} />
+                        <p><a href='#'>Plus d'informations sur l'activation des collections.</a></p>
+                    </div>
+                </div>
+                <div className="div-vert-align">
                     {/* catégorie */}
                     <div className="div-label-inputTxt">
                         <h2>Catégorie</h2>
@@ -181,15 +232,20 @@ const CreateCollection = () => {
                     </div>
                 </div>
                 <div className="div-vert-align">
-                    {/* catégorie */}
+                    {/* image */}
                     <div className="div-label-inputTxt">
                         <h2>Image</h2>
-                        <p>Sélectionner une image pour cette collection. (*optionnel)</p>
-                        <DropZone />
-                        <div className="div-label-inputTxt">
-                            <label>Indiquer une brève description de votre image ex. "Jeans noir avec fermeture éclair". Ceci améliorera l'accessibilité et le référencement de votre boutique. (*optionnel) </label>
-                            <input type="text" name="alt" />
-                        </div>
+                        <p>Ajouter une image pour cette collection. (*optionnel)</p>
+                        <DropZone multiple={false} />
+                        <p><a href="#">Comment bien choisir son image ?</a></p>
+                    </div>
+                </div>
+                <div className="div-vert-align">
+                    {/* Référencement */}
+                    <div className="div-label-inputTxt">
+                        <h2>Référencement</h2>
+                        <label>Ajouter une brève description de l'image ex. "Jeans noir avec fermeture éclair". Ceci améliorera l'accessibilité et le référencement de votre boutique. (*optionnel) </label><br></br>
+                        <input type="text" name="alt" />
                     </div>
                 </div>
             </div>
