@@ -22,6 +22,7 @@
 
 .collection-block-container {
     width: 100%;
+    padding-bottom: 200px;
     // border: solid 2px red;
 }
 
@@ -34,7 +35,8 @@
     border-radius: 5px;
     margin-bottom: 10px;
     padding: 20px 20px 35px 20px;
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+        rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
     // border: solid 1px rgb(52, 184, 0);
 
     label {
@@ -46,7 +48,6 @@
     input[type="text"],
     input[type="datetime-local"],
     select {
-        min-width: 200px;
         width: 100%;
         height: 50px;
         padding: 0 20px;
@@ -68,17 +69,6 @@
     input[type="radio"]:hover {
         cursor: pointer;
     }
-    
-
-    // for input & select
-    .grow-shrink {
-        width: 32%;
-        flex: 1;
-    }
-
-    .space-between {
-        justify-content: space-between !important;
-    }
 
     h2 {
         font-size: 20px;
@@ -94,7 +84,6 @@
     strong {
         font-size: 15px;
     }
-
 }
 
 .btn-bcknd {
@@ -150,12 +139,34 @@
     // border: solid 2px rgb(255, 0, 76);
 }
 
+.block-select-conditions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 10px;
+    margin-bottom: 15px;
+
+    // for input & span
+    .input-span {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    .w30 {
+        width: 30px;
+        padding-left: 3px;
+        text-align: center;
+    }
+}
+
 // side -------------------------------
 // .side-create-collection {
 
 //     // border: solid 1px rgb(52, 184, 0);
 // }
 
-.hideOperator {
-    display: none;
+.settings {
+    width: 25px;
 }

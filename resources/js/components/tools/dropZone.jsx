@@ -35,7 +35,6 @@ const useStyles = makeStyles({
 
 const DropZone = (props) => {
     const classes = useStyles();
-    const [collectionsRelations, setCollectionsRelations] = useState([]);
     const [imageFiles, setImageFiles] = useState([]);
 
     var dropRegion = null;
@@ -151,6 +150,7 @@ const DropZone = (props) => {
         for (var i = 0; i < files.length; i++) {
             if (validateImage(files[i])) {
                 setImageFiles(tab);
+                props.setImage(tab);
                 previewImage(files[i]);
             }
         }

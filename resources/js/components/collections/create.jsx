@@ -7,15 +7,22 @@ import DropZone from '../tools/dropZone';
 
 const CreateCollection = () => {
     const [conditions, setConditions] = useState([{
-        parameter: 'Titre du produit',
-        operator: 'contient',
+        parameter: 'Nom du produit',
+        operator: '=',
         value: ''
     }]);
     const [isToggleOn, setIsToggleOn] = useState(true);
     const [includePrevProduct, setIncludePrevProduct] = useState(true);
     const [categories, setCategories] = useState([]);
-    const [datetimeField, setDatetimeField] = useState();
+    const [datetimeField, setDatetimeField] = useState(new Date());
+    const [allConditionsNeeded, setAllConditionsNeeded] = useState(true);
+    const [nameCollection, setNameCollection] = useState('');
+    const [descriptionCollection, setDescriptionCollection] = useState('');
+    const [category, setCategory] = useState('');
+    const [alt, setAlt] = useState('');
+    const [image, setImage] = useState([]);
 
+    var form_data = new FormData;
 
     useEffect(() => {
         // chargement des collections
@@ -28,19 +35,19 @@ const CreateCollection = () => {
 
 
         // current date & time
-            var now = new Date();
-            var year = now.getFullYear();
-            var month = now.getMonth() + 1;
-            var day = now.getDate();
-            var hour = now.getHours();
-            var minute = now.getMinutes();
-            var localDatetime = year + "-" +
-                              (month < 10 ? "0" + month.toString() : month) + "-" +
-                              (day < 10 ? "0" + day.toString() : day) + "T" +
-                              (hour < 10 ? "0" + hour.toString() : hour) + ":" +
-                              (minute < 10 ? "0" + minute.toString() : minute);
-            setDatetimeField(localDatetime);
-;
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = now.getMonth() + 1;
+        var day = now.getDate();
+        var hour = now.getHours();
+        var minute = now.getMinutes();
+        var localDatetime = year + "-" +
+            (month < 10 ? "0" + month.toString() : month) + "-" +
+            (day < 10 ? "0" + day.toString() : day) + "T" +
+            (hour < 10 ? "0" + hour.toString() : hour) + ":" +
+            (minute < 10 ? "0" + minute.toString() : minute);
+        setDatetimeField(localDatetime);
+        ;
     }, []);
 
     // var lastCondition = conditions.slice(-1)[0];
@@ -48,18 +55,16 @@ const CreateCollection = () => {
     const addCondition = () => {
         setConditions([
             ...conditions, {
-                parameter: 'Titre du produit',
-                operator: 'contient',
+                parameter: 'Nom du produit',
+                operator: '=',
                 value: ''
             }
         ]);
     }
 
-    console.log(conditions);
-
-    const handleChangeParam = (e, index) => {
+    const handleChangeParam = (param, index) => {
         let tmp_conditions = [...conditions];
-        tmp_conditions[index].parameter = e.target.value;
+        tmp_conditions[index].parameter = param;
         setConditions(tmp_conditions);
     }
 
@@ -74,18 +79,6 @@ const CreateCollection = () => {
         tmp_conditions[index].value = e.target.value;
         setConditions(tmp_conditions);
     }
-
-    // const buildQuery = () => {
-    //     conditions.forEach(obj => (
-
-    //     ))
-    // }
-
-
-    const ckEditorOnChange = (sheet) => {
-        // setTechnicalSheet(sheet);
-    }
-    // var obj = JSON.stringify(dataDetail);
 
     const showHideConditions = (auto) => {
         if (auto) {
@@ -103,6 +96,31 @@ const CreateCollection = () => {
         setDatetimeField(e.target.value);
     };
 
+    const handleNameCollection = (e) => {
+        setNameCollection(e.target.value);
+    };
+
+    const handleCategory = (e) => {
+        setCategory(e.target.value);
+    };
+
+    const handleAlt = (e) => {
+        setAlt(e.target.value);
+    };
+
+
+    var objConditions = JSON.stringify(conditions);
+    form_data.append("name", nameCollection);
+    form_data.append("description", descriptionCollection);
+    form_data.append("automatise", isToggleOn);
+    form_data.append("includePrevProduct", includePrevProduct);
+    form_data.append("allConditionsNeeded", allConditionsNeeded);
+    form_data.append("objConditions", objConditions);
+    form_data.append("dateActivation", datetimeField);
+    form_data.append("category", category);
+    form_data.append("image", image);
+    form_data.append("alt", alt);
+
     return (
         <div className="collection-main-container">
             <div className="collection-block-container">
@@ -110,7 +128,10 @@ const CreateCollection = () => {
                     {/* nom */}
                     <div className="div-label-inputTxt">
                         <h2>Nom de la collection</h2>
-                        <input type='text' id='titreCollection' placeholder='ex. Robes, Opération déstockage, Collection hiver' />
+                        <input type='text' id='titreCollection'
+                            value={nameCollection}
+                            onChange={handleNameCollection}
+                            placeholder='ex. Robes, Opération déstockage, Collection hiver' />
                     </div>
 
                     {/* description */}
@@ -126,9 +147,8 @@ const CreateCollection = () => {
                             editor.ui.view.editable.element.style.minHeight = "150px";
                         }}
                         onChange={(event, editor) => {
-                            const sheet = editor.getData();
-                            ckEditorOnChange(sheet);
-                            console.log({ event, editor, sheet });
+                            setDescriptionCollection(editor.getData());
+                            console.log({ event, editor, descriptionCollection });
                         }}
                         onBlur={(event, editor) => {
                             editor.ui.view.editable.element.style.minHeight = "150px";
@@ -181,14 +201,19 @@ const CreateCollection = () => {
                 {/* conditions */}
                 {isToggleOn && <div className="div-vert-align" id="conditions_collection">
                     <h2>Condition(s)</h2>
-                    <h4>Définissez une ou plusieurs règles. Ex. Prix du produit est inférieur à 50 €, Titre du produit contient Robe, etc. Seuls les produits correspondants à vos règles seront intégrés dans cette collection. </h4>
+                    <h4>Définissez une ou plusieurs règles. Ex. Prix du produit est inférieur à 50 €, Nom du produit contient Robe, etc. Seuls les produits correspondants à vos règles seront intégrés dans cette collection. </h4>
                     <div className="sub-div-horiz-align">
                         <div className="div-radio-label">
-                            <input type='radio' name="condition" id='allConditions' checked />
+                            <input type='radio' name="condition" id='allConditions'
+                                checked={allConditionsNeeded == true}
+                                onChange={() => setAllConditionsNeeded(true)} />
                             <label htmlFor='allConditions'>Les produits doivent répondre à toutes les conditions</label>
                         </div>
                         <div className="div-radio-label">
-                            <input type='radio' name="condition" id='leastOnConditions' />
+                            <input type='radio' name="condition" id='leastOnConditions'
+                                checked={allConditionsNeeded == false}
+                                onChange={() => setAllConditionsNeeded(false)}
+                            />
                             <label htmlFor='leastOnConditions'>Les produits doivent répondre à au moins une condition</label>
                         </div>
                     </div>
@@ -215,7 +240,7 @@ const CreateCollection = () => {
                     <div className="div-label-inputTxt">
                         <h2>Activation</h2>
                         <p>Date d'activation.</p>
-                        <input id="activationDate" type="datetime-local" value={datetimeField} onChange={handleDateChange} />
+                        <input id="activationDate" type="datetime-local" value={datetimeField} min={datetimeField} onChange={handleDateChange} />
                         <p><a href='#'>Plus d'informations sur l'activation des collections.</a></p>
                     </div>
                 </div>
@@ -224,7 +249,7 @@ const CreateCollection = () => {
                     <div className="div-label-inputTxt">
                         <h2>Catégorie</h2>
                         <p>Attribuer une catégorie à cette collection. (<strong>*optionnel</strong>)</p>
-                        <select id='category' placeholder={'yes'}>
+                        <select id='category' value={category} onChange={handleCategory} >
                             <option value="none">Aucune catégorie</option>
                             {categories.map((category, index) => (<option key={index} value={category.id}>{category.name}</option>))}
                         </select>
@@ -236,7 +261,7 @@ const CreateCollection = () => {
                     <div className="div-label-inputTxt">
                         <h2>Image</h2>
                         <p>Ajouter une image pour cette collection. (*optionnel)</p>
-                        <DropZone multiple={false} />
+                        <DropZone multiple={false} setImage={setImage} />
                         <p><a href="#">Comment bien choisir son image ?</a></p>
                     </div>
                 </div>
@@ -245,7 +270,7 @@ const CreateCollection = () => {
                     <div className="div-label-inputTxt">
                         <h2>Référencement</h2>
                         <label>Ajouter une brève description de l'image ex. "Jeans noir avec fermeture éclair". Ceci améliorera l'accessibilité et le référencement de votre boutique. (*optionnel) </label><br></br>
-                        <input type="text" name="alt" />
+                        <input type="text" name="alt" value={alt} onChange={handleAlt} />
                     </div>
                 </div>
             </div>
