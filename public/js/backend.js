@@ -22092,7 +22092,22 @@ var ConditionCollection = function ConditionCollection(props) {
   var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState22 = _slicedToArray(_useState21, 2),
       typeValue = _useState22[0],
-      setTypeValue = _useState22[1]; // initialise à show les operators qui correspondent à "Nom du produit"
+      setTypeValue = _useState22[1];
+
+  var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('text'),
+      _useState24 = _slicedToArray(_useState23, 2),
+      inputType = _useState24[0],
+      setInputType = _useState24[1];
+
+  var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('0.01'),
+      _useState26 = _slicedToArray(_useState25, 2),
+      inputStep = _useState26[0],
+      setInputStep = _useState26[1];
+
+  var _useState27 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState28 = _slicedToArray(_useState27, 2),
+      inputValue = _useState28[0],
+      setInputValue = _useState28[1]; // initialise à show les operators qui correspondent à "Nom du produit"
 
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
@@ -22131,6 +22146,7 @@ var ConditionCollection = function ConditionCollection(props) {
       setHideOp6('show');
       setHideOp7('show');
       setHideOp8('show');
+      setInputType('text');
     }
 
     if (param == 4 || param == 7) {
@@ -22138,10 +22154,13 @@ var ConditionCollection = function ConditionCollection(props) {
       setHideOp2('show');
       setHideOp3('show');
       setHideOp4('show');
+      setInputType('number');
+      setInputStep('0.01');
     }
 
     if (param == 5) {
       setHideOp1('show');
+      setInputType('text');
     }
 
     if (param == 6) {
@@ -22157,22 +22176,32 @@ var ConditionCollection = function ConditionCollection(props) {
       setHideOp1('show');
       setHideOp3('show');
       setHideOp4('show');
+      setInputType('number');
+      setInputStep('1');
     }
 
     if (param == 4 || param == 6) {
       setTypeValue('€');
+      setInputType('number');
     }
 
     if (param == 7) {
       setTypeValue('Kg');
+      setInputType('number');
+      setInputStep('0.01');
     }
-  }; // récup le param et l'envoi à handleChangeParam pour mettre à jours l'obj conditions et l'envoi à showOnlyUsableOperator pour détermine quels opérators afficher
+  }; // récup le param et l'envoi à handleChangeParam pour mettre à jours l'obj conditions + l'envoi à showOnlyUsableOperator pour détermine quelle liste d'opérators afficher
 
 
   var changeParamValue = function changeParamValue(e) {
     var param = e.target.value;
     props.handleChangeParam(param, props.index);
     showOnlyUsableOperator(param);
+    setInputValue('');
+  };
+
+  var handleInputValue = function handleInputValue(e) {
+    setInputValue(e.target.value);
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
@@ -22207,6 +22236,12 @@ var ConditionCollection = function ConditionCollection(props) {
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
           value: "9",
           children: "Nom de variante"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+          value: "10",
+          children: "Date ajout produit"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+          value: "11",
+          children: "Date modification produit \xA0\xA0 "
         })]
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
@@ -22216,45 +22251,47 @@ var ConditionCollection = function ConditionCollection(props) {
           return props.handleChangeOperator(e, props.index);
         },
         children: [HideOp1 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
-          value: "=",
+          value: "1",
           children: "est \xE9gale \xE0"
-        }), HideOp2 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
-          value: "!=",
+        }), " ", HideOp2 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+          value: "2",
           children: "n'est pas \xE9gale \xE0"
-        }), HideOp3 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
-          value: ">",
+        }), " ", HideOp3 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+          value: "3",
           children: "est supp\xE9rieur \xE0"
-        }), HideOp4 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
-          value: "<",
+        }), " ", HideOp4 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+          value: "4",
           children: "est inf\xE8rieur \xE0"
-        }), HideOp5 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
-          value: "%_",
+        }), " ", HideOp5 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+          value: "5",
           children: "commence par"
-        }), HideOp6 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
-          value: "_%",
+        }), " ", HideOp6 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+          value: "6",
           children: "se termine par"
-        }), HideOp7 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
-          value: "%_%",
+        }), " ", HideOp7 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+          value: "7",
           children: "contient"
-        }), HideOp8 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
-          value: "!%_%",
+        }), " ", HideOp8 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+          value: "8",
           children: "ne contient pas"
-        }), HideOp9 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
-          value: "!null_empty",
+        }), " ", HideOp9 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+          value: "9",
           children: "n'est pas vide"
-        }), HideOp10 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
-          value: "null_empty",
+        }), " ", HideOp10 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+          value: "10",
           children: "est vide"
-        })]
+        }), " "]
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
       className: "input-span",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-        type: "text",
-        value: props.condition.value,
-        onChange: function onChange(e) {
+        type: inputType,
+        step: inputStep,
+        min: "0",
+        value: inputValue,
+        onChange: (function (e) {
           return props.handleChangeValue(e, props.index);
-        }
+        }, handleInputValue)
       }), typeValue != '' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
         className: "w30",
         children: typeValue
@@ -22319,7 +22356,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var CreateCollection = function CreateCollection() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
-    parameter: 'Nom du produit',
+    parameter: '1',
     operator: '=',
     value: ''
   }]),
@@ -22377,7 +22414,6 @@ var CreateCollection = function CreateCollection() {
       image = _useState22[0],
       setImage = _useState22[1];
 
-  var form_data = new FormData();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // chargement des collections
     axios__WEBPACK_IMPORTED_MODULE_4___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
@@ -22399,7 +22435,7 @@ var CreateCollection = function CreateCollection() {
 
   var addCondition = function addCondition() {
     setConditions([].concat(_toConsumableArray(conditions), [{
-      parameter: 'Nom du produit',
+      parameter: '1',
       operator: '=',
       value: ''
     }]));
@@ -22418,8 +22454,6 @@ var CreateCollection = function CreateCollection() {
     tmp_conditions[index].operator = e.target.value;
     setConditions(tmp_conditions);
   };
-
-  console.log(conditions);
 
   var handleChangeValue = function handleChangeValue(e, index) {
     var tmp_conditions = _toConsumableArray(conditions);
@@ -22456,17 +22490,33 @@ var CreateCollection = function CreateCollection() {
     setAlt(e.target.value);
   };
 
+  var formData = new FormData();
   var objConditions = JSON.stringify(conditions);
-  form_data.append("name", nameCollection);
-  form_data.append("description", descriptionCollection);
-  form_data.append("automatise", isToggleOn);
-  form_data.append("includePrevProduct", includePrevProduct);
-  form_data.append("allConditionsNeeded", allConditionsNeeded);
-  form_data.append("objConditions", objConditions);
-  form_data.append("dateActivation", datetimeField);
-  form_data.append("category", category);
-  form_data.append("image", image);
-  form_data.append("alt", alt);
+
+  if (image) {
+    formData.append('image[]', image[0]);
+  }
+
+  formData.append("name", nameCollection);
+  formData.append("description", descriptionCollection);
+  formData.append("automatise", isToggleOn);
+  formData.append("includePrevProduct", includePrevProduct);
+  formData.append("allConditionsNeeded", allConditionsNeeded);
+  formData.append("objConditions", objConditions);
+  formData.append("dateActivation", datetimeField);
+  formData.append("category", category);
+  formData.append("alt", alt);
+
+  var handleSubmit = function handleSubmit() {
+    axios__WEBPACK_IMPORTED_MODULE_4___default().post("http://127.0.0.1:8000/save-collection", formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }).then(function (res) {
+      console.log('res.data  --->  ok');
+    });
+  };
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
     className: "collection-main-container",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
@@ -22646,6 +22696,16 @@ var CreateCollection = function CreateCollection() {
             children: "Ajouter une condition"
           })]
         })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        className: "div-vert-align",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+          className: "div-label-inputTxt",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            className: "btn-bcknd",
+            onClick: handleSubmit,
+            children: "Enregistrer"
+          })
+        })
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
       className: "side-create-collection",
@@ -24626,7 +24686,6 @@ var FormProduct = function FormProduct(props) {
     }
 
     formData.append("name", document.getElementById("name").value);
-    formData.append("id_ali_express", document.getElementById("id_ali_express").value);
     formData.append("price", document.getElementById("price").value);
     formData.append("collection", collection);
     formData.append("description", document.getElementById("description").value);
@@ -24818,7 +24877,6 @@ var FormProduct = function FormProduct(props) {
       method: "post",
       action: "/products",
       encType: "multipart/form-data",
-      onSubmit: handleSubmit,
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
         className: classes.label_text,
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
@@ -24891,10 +24949,10 @@ var FormProduct = function FormProduct(props) {
         onFocus: function onFocus(event, editor) {
           console.log('Focus.', editor);
         }
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
-        className: "btn input_submit",
-        type: "submit",
-        value: "Envoyer"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+        className: "btn-backEnd",
+        onClick: handleSubmit,
+        children: "Envoyer"
       })]
     })]
   });
@@ -25888,15 +25946,12 @@ var DropZone = function DropZone(props) {
   function handleFiles(files) {
     if (props.multiple === false) {
       tab = files;
-      console.log(tab);
     }
 
     if (props.multiple === true) {
       var _tab;
 
       (_tab = tab).push.apply(_tab, _toConsumableArray(files));
-
-      console.log(tab);
     }
 
     for (var i = 0; i < files.length; i++) {

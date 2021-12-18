@@ -14,6 +14,7 @@
     width: 60%;
     min-height: 130vh;
     margin: auto;
+    padding-bottom: 100px;
     display: grid;
     grid-template-columns: calc(66.6666% - 10px) calc(33.3333% - 10px);
     grid-gap: 10px;
@@ -22,7 +23,6 @@
 
 .collection-block-container {
     width: 100%;
-    padding-bottom: 200px;
     // border: solid 2px red;
 }
 
@@ -46,6 +46,7 @@
     }
 
     input[type="text"],
+    input[type="number"],
     input[type="datetime-local"],
     select {
         width: 100%;
@@ -56,6 +57,11 @@
     }
 
     select:hover {
+        cursor: pointer;
+    }
+
+    select option:hover {
+        background-color: rgb(164, 189, 255);
         cursor: pointer;
     }
 

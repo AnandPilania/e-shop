@@ -30,7 +30,7 @@ const useStyles = makeStyles({
     label_text: {
         fontSize: '16px',
         fontWeight: 'bold',
-        margin: '0', 
+        margin: '0',
         marginLeft: '5px',
         marginBottom: 10,
         marginTop: '20px',
@@ -38,19 +38,19 @@ const useStyles = makeStyles({
         width: 'auto',
     },
     input_text: {
-        margin: '0', 
+        margin: '0',
         paddingLeft: '10px',
         width: '100%',
         height: '55px',
         border: '#e1e1e1 solid 1px',
         borderRadius: '5px',
-        color:'#111fff',
+        color: '#111fff',
     },
     textarea: {
         color: '#111fff',
         minHeight: '100px',
     },
-    submit_btn: { 
+    submit_btn: {
         height: '45px',
         width: '150px',
         marginTop: '50px',
@@ -71,7 +71,7 @@ const useStyles = makeStyles({
         cursor: 'pointer',
         transition: '0.3s',
     },
-  });
+});
 
 
 // props.id = detailx
@@ -111,7 +111,6 @@ const FormProduct = (props) => {
         }
 
         formData.append("name", document.getElementById("name").value);
-        formData.append("id_ali_express", document.getElementById("id_ali_express").value);
         formData.append("price", document.getElementById("price").value);
         formData.append("collection", collection);
         formData.append("description", document.getElementById("description").value);
@@ -316,11 +315,11 @@ const FormProduct = (props) => {
 
             <h4 className={classes.title}>Ajouter un produit</h4>
 
-            <form method="post" action="/products" encType="multipart/form-data" onSubmit={handleSubmit}>
+            <form method="post" action="/products" encType="multipart/form-data">
 
                 <p className={classes.label_text}><label htmlFor="name" >Nom</label></p>
-                <input id="name" name="name" type="text" className={classes.input_text} />  
-                
+                <input id="name" name="name" type="text" className={classes.input_text} />
+
                 <p className={classes.label_text}><label htmlFor="price" >Prix</label></p>
                 <input id="price" type="number" step=".01" name="price" className={classes.input_text} />
 
@@ -362,7 +361,9 @@ const FormProduct = (props) => {
                 />
 
                 <br></br>
-                <input className="btn input_submit" type="submit" value="Envoyer" />
+                <button className="btn-backEnd" onClick={handleSubmit}>
+                    Envoyer
+                </button>
             </form>
         </div>
     )

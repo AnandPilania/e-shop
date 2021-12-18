@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Category;
 use App\Models\Collection;
 use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
 
 
 class CollectionController extends Controller
@@ -103,43 +104,92 @@ class CollectionController extends Controller
 
     public function storeAndAssign(Request $request)
     {
+        // dd(json_decode($request->objConditions));
         // $this->validate($request, ['name' => 'required', 'category' => 'required', 'image' => 'required', 'alt' => 'required']);
 
-        foreach ($request->conditions as $condition) {
+        $conditions = json_decode($request->objConditions);
+
+        foreach ($conditions as $condition) {
+
+            $field = '';
+
+            switch ($condition->parameter) {
+                case '1':
+                    $field = 'name';
+                    break;
+                case '2':
+                    $field = 'type';
+                    break;
+                case '3':
+                    $field = 'supplier';
+                    break;
+                case '4':
+                    $field = 'price';
+                    break;
+                case '5':
+                    $field = 'tag';
+                    break;
+                case '6':
+                    $field = 'prev_price'; // prix avant promo
+                    break;
+                case '7':
+                    $field = 'weight';
+                    break;
+                case '8':
+                    $field = 'stock';
+                    break;
+                case '9':
+                    $field = 'sku_name'; // variante name
+                    break;
+                default:
+                    $field = 'name';
+                    break;
+            }
+        // $test = $field . ' like ' . '%'.$condition->value;
+        // dd($test);
             switch ($condition->operator) {
-                case '=':
-                    
+                case '1':
+                    $list_match[] = Product::where($field, $condition->value)->get();
                     break;
-                case '!=':
-                    
+                case '2':
+                    $list_match[] = Product::where($field, '!=', $condition->value)->get();
                     break;
-                case '>':
-                    
+                case '3':
+                    $list_match[] = Product::where($field, '>', $condition->value)->get();
                     break;
-                case '<':
-                    
+                case '4':
+                    $list_match[] = Product::where($field, '<', $condition->value)->get();
                     break;
-                case '%_':
-                    
+                    // commence par
+                case '5':
+                    $list_match[] = Product::where($field, 'like', $condition->value .' %')->get();
                     break;
-                case '_%':
-                    
+                    //  se termine par
+                case '6':
+                    $list_match[] = Product::where($field, 'like', '% '.$condition->value)->get();
                     break;
-                case '%_%':
-                    
+                    // contient
+                case '7': 
+                    $list_match[] = Product::where($field, $condition->value)
+                    ->orWhere($field, 'like', $condition->value .' %')
+                    ->orWhere($field, 'like', '% '.$condition->value)
+                    ->orWhere($field, 'like', '% '.$condition->value.' %')->get();
                     break;
-                case '!%_%':
-                    
+                case '8':
+                    $list_match[] = Product::where($field, 'not like', '%'.$condition->value.'%')->get();
                     break;
-                case '!null_empty':
-                    
+                case '9':
+                    $list_match[] = Product::whereNotNull($field)->where($field, 'not like', '')->get();
                     break;
-                case 'null_empty':
-                    
+                case '10':
+                    $list_match[] = Product::whereNull($field)->where($field, 'like', '')->get();
+                    break;
+                default:
+                    $list_match[] = '';
                     break;
             }
         }
-
+        dd($list_match);
 
         $collection = new Collection;
         $collection->name = $request->name;

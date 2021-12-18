@@ -13,6 +13,9 @@ const ConditionCollection = (props) => {
     const [HideOp9, setHideOp9] = useState('hide');
     const [HideOp10, setHideOp10] = useState('hide');
     const [typeValue, setTypeValue] = useState('');
+    const [inputType, setInputType] = useState('text');
+    const [inputStep, setInputStep] = useState('0.01');
+    const [inputValue, setInputValue] = useState('');
 
     // initialise à show les operators qui correspondent à "Nom du produit"
     useEffect(() => {
@@ -45,7 +48,7 @@ const ConditionCollection = (props) => {
     const showOnlyUsableOperator = (param) => {
 
         hideUselessOperatorReset();
-        setTypeValue('');
+        setTypeValue('')
 
         if (param == 1 || param == 2 || param == 3 || param == 9) {
             setHideOp1('show');
@@ -54,15 +57,19 @@ const ConditionCollection = (props) => {
             setHideOp6('show');
             setHideOp7('show');
             setHideOp8('show');
+            setInputType('text');
         }
         if (param == 4 || param == 7) {
             setHideOp1('show');
             setHideOp2('show');
             setHideOp3('show');
             setHideOp4('show');
+            setInputType('number');
+            setInputStep('0.01');
         }
         if (param == 5) {
             setHideOp1('show');
+            setInputType('text');
         }
         if (param == 6) {
             setHideOp1('show');
@@ -76,22 +83,32 @@ const ConditionCollection = (props) => {
             setHideOp1('show');
             setHideOp3('show');
             setHideOp4('show');
+            setInputType('number');
+            setInputStep('1');
         }
         if (param == 4 || param == 6) {
             setTypeValue('€');
+            setInputType('number');
         }
 
         if (param == 7) {
             setTypeValue('Kg');
+            setInputType('number');
+            setInputStep('0.01');
         }
 
     }
 
-    // récup le param et l'envoi à handleChangeParam pour mettre à jours l'obj conditions et l'envoi à showOnlyUsableOperator pour détermine quels opérators afficher
+    // récup le param et l'envoi à handleChangeParam pour mettre à jours l'obj conditions + l'envoi à showOnlyUsableOperator pour détermine quelle liste d'opérators afficher
     const changeParamValue = (e) => {
         let param = e.target.value;
         props.handleChangeParam(param, props.index);
         showOnlyUsableOperator(param);
+        setInputValue('');
+    }    
+    
+    const handleInputValue = (e) => {
+        setInputValue(e.target.value);
     }
 
     return (
@@ -109,26 +126,29 @@ const ConditionCollection = (props) => {
                     <option value="7">Poids</option>
                     <option value="8">Stock</option>
                     <option value="9">Nom de variante</option>
+                    <option value="10">Date ajout produit</option>
+                    <option value="11">Date modification produit &nbsp;&nbsp; </option>
                 </select>
             </div>
             {/* operator */}
             <div>
                 <select value={props.condition.operator} onChange={(e) => props.handleChangeOperator(e, props.index)} >
-                    {HideOp1 == 'show' && <option value="=">est égale à</option>}
-                    {HideOp2 == 'show' && <option value="!=">n'est pas égale à</option>}
-                    {HideOp3 == 'show' && <option value=">">est suppérieur à</option>}
-                    {HideOp4 == 'show' && <option value="<">est infèrieur à</option>}
-                    {HideOp5 == 'show' && <option value="%_">commence par</option>}
-                    {HideOp6 == 'show' && <option value="_%">se termine par</option>}
-                    {HideOp7 == 'show' && <option value="%_%">contient</option>}
-                    {HideOp8 == 'show' && <option value="!%_%">ne contient pas</option>}
-                    {HideOp9 == 'show' && <option value="!null_empty">n'est pas vide</option>}
-                    {HideOp10 == 'show' && <option value="null_empty">est vide</option>}
+                    {HideOp1 == 'show' && <option value="1">est égale à</option>} {/* = */}
+                    {HideOp2 == 'show' && <option value="2">n'est pas égale à</option>} {/* != */}
+                    {HideOp3 == 'show' && <option value="3">est suppérieur à</option>} {/* > */}
+                    {HideOp4 == 'show' && <option value="4">est infèrieur à</option>} {/* < */}
+                    {HideOp5 == 'show' && <option value="5">commence par</option>} {/* %_ */}
+                    {HideOp6 == 'show' && <option value="6">se termine par</option>} {/* _% */}
+                    {HideOp7 == 'show' && <option value="7">contient</option>} {/* %_% */}
+                    {HideOp8 == 'show' && <option value="8">ne contient pas</option>} {/* !%_% */}
+                    {HideOp9 == 'show' && <option value="9">n'est pas vide</option>} {/* !null_empty */}
+                    {HideOp10 == 'show' && <option value="10">est vide</option>} {/* null_empty */}
                 </select>
             </div>
             {/* value */}
             <div className="input-span">
-                <input type='text' value={props.condition.value} onChange={(e) => props.handleChangeValue(e, props.index)} />
+                <input type={inputType} step={inputStep} min="0" value={inputValue} onChange={(e) => props.handleChangeValue(e, props.index),
+                handleInputValue} />
                 {typeValue != '' && <span className="w30"> 
                     {typeValue}
                 </span>}

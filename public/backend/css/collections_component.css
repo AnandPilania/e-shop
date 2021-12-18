@@ -13,6 +13,7 @@
   width: 60%;
   min-height: 130vh;
   margin: auto;
+  padding-bottom: 100px;
   display: grid;
   grid-template-columns: calc(66.6666% - 10px) calc(33.3333% - 10px);
   grid-gap: 10px;
@@ -20,7 +21,6 @@
 
 .collection-block-container {
   width: 100%;
-  padding-bottom: 200px;
 }
 
 .div-vert-align {
@@ -39,6 +39,7 @@
   margin-right: 30px;
 }
 .div-vert-align input[type=text],
+.div-vert-align input[type=number],
 .div-vert-align input[type=datetime-local],
 .div-vert-align select {
   width: 100%;
@@ -48,6 +49,10 @@
   border: solid 1px gainsboro;
 }
 .div-vert-align select:hover {
+  cursor: pointer;
+}
+.div-vert-align select option:hover {
+  background-color: #a4bdff;
   cursor: pointer;
 }
 .div-vert-align input[type=radio] {

@@ -18,11 +18,10 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->mediumText('description')->nullable();
             $table->double('price', 8, 2);
+            $table->double('weight', 8, 2)->nullable()->default(null);
             $table->string('link');
             $table->string('type')->nullable();
             $table->boolean('best_sell')->nullable();
-            $table->string('ali_url_product')->nullable();
-            $table->string('ali_product_id')->nullable();
             $table->integer('ordre');
             $table->tinyInteger('active')->default('0');
             $table->unsignedBigInteger('taxe_id');

@@ -22495,7 +22495,6 @@ var FormProduct = function FormProduct(props) {
     }
 
     formData.append("name", document.getElementById("name").value);
-    formData.append("id_ali_express", document.getElementById("id_ali_express").value);
     formData.append("price", document.getElementById("price").value);
     formData.append("collection", collection);
     formData.append("description", document.getElementById("description").value);
@@ -22687,7 +22686,6 @@ var FormProduct = function FormProduct(props) {
       method: "post",
       action: "/products",
       encType: "multipart/form-data",
-      onSubmit: handleSubmit,
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
         className: classes.label_text,
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
@@ -22760,10 +22758,10 @@ var FormProduct = function FormProduct(props) {
         onFocus: function onFocus(event, editor) {
           console.log('Focus.', editor);
         }
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
-        className: "btn input_submit",
-        type: "submit",
-        value: "Envoyer"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+        className: "btn-backEnd",
+        onClick: handleSubmit,
+        children: "Envoyer"
       })]
     })]
   });

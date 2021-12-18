@@ -77,4 +77,9 @@ class Product extends Model
         return $this->hasMany(Image_ali_import_temp::class);
     }
 
+    public function ali_product_info()
+    {
+        return $this->hasOne(Ali_product_info::class);
+    }
+
 }

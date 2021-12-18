@@ -65,7 +65,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
+        dd($request);
         $this->validate($request, ['name' => 'required', 'price' => 'required', 'collection' => 'required', 'image' => 'required', 'description' => 'required']);
 
         $collections = new Collection;

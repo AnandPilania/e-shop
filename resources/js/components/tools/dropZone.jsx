@@ -141,11 +141,9 @@ const DropZone = (props) => {
     function handleFiles(files) {
         if (props.multiple === false) {
             tab = files;
-            console.log(tab);
         }
         if (props.multiple === true) {
             tab.push(...files);
-            console.log(tab);
         }
         for (var i = 0; i < files.length; i++) {
             if (validateImage(files[i])) {

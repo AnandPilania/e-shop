@@ -7,7 +7,7 @@ import DropZone from '../tools/dropZone';
 
 const CreateCollection = () => {
     const [conditions, setConditions] = useState([{
-        parameter: 'Nom du produit',
+        parameter: '1',
         operator: '=',
         value: ''
     }]);
@@ -21,8 +21,6 @@ const CreateCollection = () => {
     const [category, setCategory] = useState('');
     const [alt, setAlt] = useState('');
     const [image, setImage] = useState([]);
-
-    var form_data = new FormData;
 
     useEffect(() => {
         // chargement des collections
@@ -55,7 +53,7 @@ const CreateCollection = () => {
     const addCondition = () => {
         setConditions([
             ...conditions, {
-                parameter: 'Nom du produit',
+                parameter: '1',
                 operator: '=',
                 value: ''
             }
@@ -73,7 +71,7 @@ const CreateCollection = () => {
         tmp_conditions[index].operator = e.target.value;
         setConditions(tmp_conditions);
     }
-    console.log(conditions);
+
     const handleChangeValue = (e, index) => {
         let tmp_conditions = [...conditions];
         tmp_conditions[index].value = e.target.value;
@@ -108,18 +106,36 @@ const CreateCollection = () => {
         setAlt(e.target.value);
     };
 
-
+    var formData = new FormData;
     var objConditions = JSON.stringify(conditions);
-    form_data.append("name", nameCollection);
-    form_data.append("description", descriptionCollection);
-    form_data.append("automatise", isToggleOn);
-    form_data.append("includePrevProduct", includePrevProduct);
-    form_data.append("allConditionsNeeded", allConditionsNeeded);
-    form_data.append("objConditions", objConditions);
-    form_data.append("dateActivation", datetimeField);
-    form_data.append("category", category);
-    form_data.append("image", image);
-    form_data.append("alt", alt);
+
+    if (image) {
+        formData.append('image[]', image[0]);
+    }
+
+    formData.append("name", nameCollection);
+    formData.append("description", descriptionCollection);
+    formData.append("automatise", isToggleOn);
+    formData.append("includePrevProduct", includePrevProduct);
+    formData.append("allConditionsNeeded", allConditionsNeeded);
+    formData.append("objConditions", objConditions);
+    formData.append("dateActivation", datetimeField);
+    formData.append("category", category);
+    formData.append("alt", alt);
+
+    const handleSubmit = () => {
+        Axios.post(`http://127.0.0.1:8000/save-collection`, formData,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then(res => {
+                console.log('res.data  --->  ok');
+
+            });
+    }
+
 
     return (
         <div className="collection-main-container">
@@ -231,6 +247,14 @@ const CreateCollection = () => {
                         <button className="btn-bcknd" onClick={addCondition}>Ajouter une condition</button>
                     </div>
                 </div>}
+                <div className="div-vert-align">
+                    {/* submit */}
+                    <div className="div-label-inputTxt">
+                        <button className="btn-bcknd" onClick={handleSubmit}>
+                            Enregistrer
+                        </button>
+                    </div>
+                </div>
             </div>
 
             {/* side */}
