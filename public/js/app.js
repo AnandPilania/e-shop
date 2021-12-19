@@ -22536,16 +22536,12 @@ var CreateCollection = function CreateCollection() {
   }
 
   var handleDescriptionCollection = function handleDescriptionCollection(description) {
-    console.log(description); // if metaDescription field is not used then we can 
+    // console.log(description);
+    // if metaDescription field is not used then we can 
     // fill apercuMetaDescription with the description field 
-
     if (isEmptyMetaDescription == true) {
-      // on met un espace entre les balises pour que les mots ne soient pas collés dans l'apérçu
-      var htmlDescriptionText = description.replaceAll(/^<[a-zA-Z0-9]+>$/gi, " ");
-      console.log(htmlDescriptionText); // htmlDescriptionText = htmlDescriptionText.replace('> <', " ");
-      // htmlDescriptionText = htmlDescriptionText.replace(/\n/gi, " ");
-      // on enlève les balises
-
+      // on remplace les balises de ckeditor par un espace pour que les mots ne soient pas collés dans l'apérçu
+      var htmlDescriptionText = description.replaceAll(/<[a-zA-Z0-9]*>/gi, " ");
       setApercuMetaDescription(strip(htmlDescriptionText));
     }
   };
@@ -22557,11 +22553,13 @@ var CreateCollection = function CreateCollection() {
     setApercuMetaDescription(e.target.value);
 
     if (e.target.value == '') {
-      isEmptyMetaDescription = true;
-      setApercuMetaDescription(descriptionCollection);
-    }
-  }; // console.log(apercuMetaDescription);
+      isEmptyMetaDescription = true; // on remplace les balises de ckeditor par un espace pour que les mots ne soient pas collés dans l'apérçu lorsqu'on efface la meta description !!! 2eme nettoyage 
 
+      var htmlDescriptionText = descriptionCollection.replaceAll(/<[\/a-zA-Z0-9]*>/gi, " ");
+      console.log(htmlDescriptionText);
+      setApercuMetaDescription(htmlDescriptionText);
+    }
+  };
 
   var handleCategory = function handleCategory(e) {
     setCategory(e.target.value);
