@@ -27162,6 +27162,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/sass/fontawesome.scss":
+/*!*****************************************!*\
+  !*** ./resources/sass/fontawesome.scss ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./resources/sass/back-end.scss":
 /*!**************************************!*\
   !*** ./resources/sass/back-end.scss ***!
@@ -62046,6 +62059,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 			"css/app": 0,
 /******/ 			"backend/css/collections_component": 0,
 /******/ 			"backend/css/back-end": 0,
+/******/ 			"css/fontawesome": 0,
 /******/ 			"frontend/css/payment": 0,
 /******/ 			"frontend/css/authentification": 0
 /******/ 		};
@@ -62097,18 +62111,19 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/menu_accordion","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/collections_component","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/js/createProduct.js")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/menu_accordion","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/collections_component","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/js/components/createProduct/createProduct_Js.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/menu_accordion","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/collections_component","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/nav-frontend.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/menu_accordion","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/collections_component","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/index-front.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/menu_accordion","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/collections_component","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/productSheet.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/menu_accordion","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/collections_component","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/cart.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/menu_accordion","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/collections_component","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/authentification.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/menu_accordion","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/collections_component","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/payment.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/menu_accordion","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/collections_component","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/back-end.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/menu_accordion","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/collections_component","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/js/components/navBar/menu_accordion.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/menu_accordion","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/collections_component","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/js/components/collections/collections_component.scss")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/menu_accordion","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/collections_component","backend/css/back-end","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/css/app.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/menu_accordion","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/collections_component","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/js/createProduct.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/menu_accordion","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/collections_component","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/js/components/createProduct/createProduct_Js.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/menu_accordion","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/collections_component","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/nav-frontend.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/menu_accordion","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/collections_component","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/index-front.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/menu_accordion","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/collections_component","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/productSheet.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/menu_accordion","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/collections_component","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/cart.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/menu_accordion","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/collections_component","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/authentification.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/menu_accordion","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/collections_component","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/payment.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/menu_accordion","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/collections_component","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/fontawesome.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/menu_accordion","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/collections_component","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/back-end.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/menu_accordion","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/collections_component","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/js/components/navBar/menu_accordion.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/menu_accordion","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/collections_component","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/js/components/collections/collections_component.scss")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/menu_accordion","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","backend/css/collections_component","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/css/app.css")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

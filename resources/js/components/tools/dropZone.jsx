@@ -230,7 +230,7 @@ const DropZone = (props) => {
         <div className={classes.wrapperForm}>
             <div id="drop-region" className={classes.drop_region}>
                 <div className="drop-message">
-                    Déposer ici une image <br></br>ou cliquer pour charger une image
+                    Déposez ici une image <br></br>ou cliquez pour charger une image
                 </div>
                 <div id="image-preview"></div>
             </div>

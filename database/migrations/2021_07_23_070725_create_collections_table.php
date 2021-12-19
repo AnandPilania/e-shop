@@ -19,6 +19,9 @@ class CreateCollectionsTable extends Migration
             $table->string('image');
             $table->string('alt');
             $table->string('link');
+            $table->longText('description');
+            $table->longText('meta_title');
+            $table->longText('meta_description');
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->timestamps();

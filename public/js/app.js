@@ -22426,6 +22426,33 @@ var CreateCollection = function CreateCollection() {
       image = _useState22[0],
       setImage = _useState22[1];
 
+  var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState24 = _slicedToArray(_useState23, 2),
+      metaTitle = _useState24[0],
+      setMetaTitle = _useState24[1];
+
+  var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState26 = _slicedToArray(_useState25, 2),
+      apercuMetaTitle = _useState26[0],
+      setApercuMetaTitle = _useState26[1];
+
+  var _useState27 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState28 = _slicedToArray(_useState27, 2),
+      metaDescription = _useState28[0],
+      setMetaDescription = _useState28[1];
+
+  var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState30 = _slicedToArray(_useState29, 2),
+      apercuMetaDescription = _useState30[0],
+      setApercuMetaDescription = _useState30[1];
+
+  var _useState31 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState32 = _slicedToArray(_useState31, 2),
+      metaUrl = _useState32[0],
+      setMetaUrl = _useState32[1];
+
+  var isEmptyMetaTitle = true;
+  var isEmptyMetaDescription = true;
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // chargement des collections
     axios__WEBPACK_IMPORTED_MODULE_4___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
@@ -22442,7 +22469,11 @@ var CreateCollection = function CreateCollection() {
     var minute = now.getMinutes();
     var localDatetime = year + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + (day < 10 ? "0" + day.toString() : day) + "T" + (hour < 10 ? "0" + hour.toString() : hour) + ":" + (minute < 10 ? "0" + minute.toString() : minute);
     setDatetimeField(localDatetime);
-    ;
+    ; // pour autoriser handleNameCollection à setMetaTitle
+    // let tmp_metaTitle = [...metaTitle];
+    // tmp_metaTitle[0] = '';
+    // tmp_metaTitle[1] = 'can_touch';
+    // setMetaTitle(...tmp_metaTitle);
   }, []); // var lastCondition = conditions.slice(-1)[0];
 
   var addCondition = function addCondition() {
@@ -22491,8 +22522,46 @@ var CreateCollection = function CreateCollection() {
   };
 
   var handleNameCollection = function handleNameCollection(e) {
-    setNameCollection(e.target.value);
+    setNameCollection(e.target.value); // if metaTitle field is not used then we can 
+    // fill apercuMetaTitle with the name field 
+
+    if (isEmptyMetaTitle == true) {
+      setApercuMetaTitle(e.target.value);
+    }
   };
+
+  function strip(htmlText) {
+    var doc = new DOMParser().parseFromString(htmlText, 'text/html');
+    return doc.body.textContent || "";
+  }
+
+  var handleDescriptionCollection = function handleDescriptionCollection(description) {
+    console.log(description); // if metaDescription field is not used then we can 
+    // fill apercuMetaDescription with the description field 
+
+    if (isEmptyMetaDescription == true) {
+      // on met un espace entre les balises pour que les mots ne soient pas collés dans l'apérçu
+      var htmlDescriptionText = description.replaceAll(/^<[a-zA-Z0-9]+>$/gi, " ");
+      console.log(htmlDescriptionText); // htmlDescriptionText = htmlDescriptionText.replace('> <', " ");
+      // htmlDescriptionText = htmlDescriptionText.replace(/\n/gi, " ");
+      // on enlève les balises
+
+      setApercuMetaDescription(strip(htmlDescriptionText));
+    }
+  };
+
+  var handleMetaDescription = function handleMetaDescription(e) {
+    setMetaDescription('');
+    setMetaDescription(e.target.value);
+    isEmptyMetaDescription = false;
+    setApercuMetaDescription(e.target.value);
+
+    if (e.target.value == '') {
+      isEmptyMetaDescription = true;
+      setApercuMetaDescription(descriptionCollection);
+    }
+  }; // console.log(apercuMetaDescription);
+
 
   var handleCategory = function handleCategory(e) {
     setCategory(e.target.value);
@@ -22500,6 +22569,21 @@ var CreateCollection = function CreateCollection() {
 
   var handleAlt = function handleAlt(e) {
     setAlt(e.target.value);
+  };
+
+  var handleMetaTitle = function handleMetaTitle(e) {
+    setMetaTitle(e.target.value);
+    isEmptyMetaTitle = false;
+    setApercuMetaTitle(e.target.value);
+
+    if (e.target.value == '') {
+      isEmptyMetaTitle = true;
+      setApercuMetaTitle(nameCollection);
+    }
+  };
+
+  var handleMetaUrl = function handleMetaUrl(e) {
+    setMetaUrl(e.target.value);
   };
 
   var formData = new FormData();
@@ -22558,9 +22642,11 @@ var CreateCollection = function CreateCollection() {
             editor.ui.view.element.style.marginBottom = "20px";
             editor.ui.view.element.style.width = "100%";
             editor.ui.view.editable.element.style.minHeight = "150px";
+            editor.ui.view.editable.element.style.borderRadius = "0 0 5px 5px";
           },
           onChange: function onChange(event, editor) {
             setDescriptionCollection(editor.getData());
+            handleDescriptionCollection(editor.getData());
             console.log({
               event: event,
               editor: editor,
@@ -22706,6 +22792,51 @@ var CreateCollection = function CreateCollection() {
             className: "btn-bcknd",
             onClick: addCondition,
             children: "Ajouter une condition"
+          })]
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        className: "div-vert-align",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
+          children: "Optimisation pour les moteurs de reherche."
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h4", {
+          children: "Coup d'oeil sur le r\xE9sultat affich\xE9 par les moteurs de recherche"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h3", {
+            children: apercuMetaTitle
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+            children: metaUrl
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+            children: apercuMetaDescription
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          className: "div-label-inputTxt",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+            className: "sub-div-horiz-align",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+              children: "M\xE9ta-titre de la page de cette collection"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+              className: "fas fa-question-circle tooltip",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                className: "tooltiptext",
+                children: "Le m\xE9ta-titre est tr\xE8s important pour le r\xE9f\xE9rencement d'une page web et peut contenir jusqu'\xE0 255 caract\xE8res. Toutefois, les moteurs de recherche n'afficheront que les 70 premiers. Veillez \xE0 ce que votre titre commence par des mots cl\xE9s pertinants pour l'internaute afin d'am\xE9liorer le taux de clics vers votre page."
+              })
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+            type: "text",
+            value: metaTitle,
+            onChange: handleMetaTitle,
+            placeholder: "Ce titre sera affich\xE9 dans les r\xE9sultats des moteurs de recherche.",
+            maxLength: "255"
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          className: "div-label-inputTxt",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+            children: "M\xE9ta-d\xE9scription de cette collection:"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("textarea", {
+            value: metaDescription,
+            onChange: handleMetaDescription,
+            placeholder: "Cette d\xE9scription sera utilis\xE9e pour d\xE9crire le contenu de cette page. Elle s\u2019affichera sous le titre et l\u2019URL de votre page dans les r\xE9sultats des moteurs de recherche. Veillez \xE0 ne pas d\xE9passer les 140-160 caract\xE8res pour qu'elle soit enti\xE8rement visibles dans les r\xE9sultats de Google",
+            maxLength: "320"
           })]
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
@@ -26049,7 +26180,7 @@ var DropZone = function DropZone(props) {
       className: classes.drop_region,
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
         className: "drop-message",
-        children: ["D\xE9poser ici une image ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("br", {}), "ou cliquer pour charger une image"]
+        children: ["D\xE9posez ici une image ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("br", {}), "ou cliquez pour charger une image"]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         id: "image-preview"
       })]

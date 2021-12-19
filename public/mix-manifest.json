@@ -13,6 +13,7 @@
     "/css/app.css": "/css/app.css",
     "/backend/css/collections_component.css": "/backend/css/collections_component.css",
     "/backend/css/back-end.css": "/backend/css/back-end.css",
+    "/css/fontawesome.css": "/css/fontawesome.css",
     "/frontend/css/payment.css": "/frontend/css/payment.css",
     "/frontend/css/authentification.css": "/frontend/css/authentification.css"
 }

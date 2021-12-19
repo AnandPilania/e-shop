@@ -64,6 +64,13 @@
 .div-vert-align input[type=radio]:hover {
   cursor: pointer;
 }
+.div-vert-align textarea {
+  width: 100%;
+  min-height: 150px;
+  padding: 20px;
+  border-radius: 5px;
+  border: solid 1px gainsboro;
+}
 .div-vert-align h2 {
   font-size: 20px;
   font-weight: 600;
@@ -150,4 +157,42 @@
 
 .settings {
   width: 25px;
+}
+
+.sub-div-horiz-align .fa-question-circle {
+  font-size: 16px;
+  color: #757575;
+  margin-left: 6px;
+}
+
+.tooltip {
+  position: relative;
+}
+
+/* Tooltip text */
+.sub-div-horiz-align .tooltip .tooltiptext {
+  visibility: hidden;
+  min-width: 200px;
+  width: 300px;
+  bottom: 100%;
+  margin-bottom: 15px;
+  background-color: #666666;
+  color: #eeeeee;
+  text-align: center;
+  padding: 12px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 22px;
+  letter-spacing: 1px;
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.sub-div-horiz-align .tooltip:hover .tooltiptext {
+  visibility: visible;
+  -webkit-animation: scale-in-center 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: scale-in-center 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  cursor: pointer;
 }

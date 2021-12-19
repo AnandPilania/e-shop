@@ -21,6 +21,14 @@ const CreateCollection = () => {
     const [category, setCategory] = useState('');
     const [alt, setAlt] = useState('');
     const [image, setImage] = useState([]);
+    const [metaTitle, setMetaTitle] = useState('');
+    const [apercuMetaTitle, setApercuMetaTitle] = useState('');
+    const [metaDescription, setMetaDescription] = useState('');
+    const [apercuMetaDescription, setApercuMetaDescription] = useState('');
+    const [metaUrl, setMetaUrl] = useState('');
+    var isEmptyMetaTitle = true;
+    var isEmptyMetaDescription = true;
+
 
     useEffect(() => {
         // chargement des collections
@@ -46,6 +54,12 @@ const CreateCollection = () => {
             (minute < 10 ? "0" + minute.toString() : minute);
         setDatetimeField(localDatetime);
         ;
+
+        // pour autoriser handleNameCollection à setMetaTitle
+        // let tmp_metaTitle = [...metaTitle];
+        // tmp_metaTitle[0] = '';
+        // tmp_metaTitle[1] = 'can_touch';
+        // setMetaTitle(...tmp_metaTitle);
     }, []);
 
     // var lastCondition = conditions.slice(-1)[0];
@@ -96,14 +110,67 @@ const CreateCollection = () => {
 
     const handleNameCollection = (e) => {
         setNameCollection(e.target.value);
+        // if metaTitle field is not used then we can 
+        // fill apercuMetaTitle with the name field 
+        if (isEmptyMetaTitle == true) {
+            setApercuMetaTitle(e.target.value);
+        }
     };
 
+    function strip(htmlText) {
+        let doc = new DOMParser().parseFromString(htmlText, 'text/html');
+        return doc.body.textContent || "";
+    }
+
+    const handleDescriptionCollection = (description) => {
+        console.log(description);
+        // if metaDescription field is not used then we can 
+        // fill apercuMetaDescription with the description field 
+        if (isEmptyMetaDescription == true) {
+            // on met un espace entre les balises pour que les mots ne soient pas collés dans l'apérçu
+            let htmlDescriptionText = description.replaceAll(/^<[a-zA-Z0-9]+>$/gi, " ");
+    
+            console.log(htmlDescriptionText);
+            // htmlDescriptionText = htmlDescriptionText.replace('> <', " ");
+            // htmlDescriptionText = htmlDescriptionText.replace(/\n/gi, " ");
+               // on enlève les balises
+            setApercuMetaDescription(strip(htmlDescriptionText));
+        }
+    };
+
+    const handleMetaDescription = (e) => {
+        setMetaDescription('');
+        setMetaDescription(e.target.value);
+        isEmptyMetaDescription = false;
+        setApercuMetaDescription(e.target.value);
+
+        if (e.target.value == '') {
+            isEmptyMetaDescription = true;
+            setApercuMetaDescription(descriptionCollection);
+        }
+    };
+    // console.log(apercuMetaDescription);
     const handleCategory = (e) => {
         setCategory(e.target.value);
     };
 
     const handleAlt = (e) => {
         setAlt(e.target.value);
+    };
+
+    const handleMetaTitle = (e) => {
+        setMetaTitle(e.target.value);
+        isEmptyMetaTitle = false;
+        setApercuMetaTitle(e.target.value);
+
+        if (e.target.value == '') {
+            isEmptyMetaTitle = true;
+            setApercuMetaTitle(nameCollection);
+        }
+    };
+
+    const handleMetaUrl = (e) => {
+        setMetaUrl(e.target.value);
     };
 
     var formData = new FormData;
@@ -140,8 +207,9 @@ const CreateCollection = () => {
     return (
         <div className="collection-main-container">
             <div className="collection-block-container">
+
+                {/* nom */}
                 <div className="div-vert-align">
-                    {/* nom */}
                     <div className="div-label-inputTxt">
                         <h2>Nom de la collection</h2>
                         <input type='text' id='titreCollection'
@@ -161,9 +229,11 @@ const CreateCollection = () => {
                             editor.ui.view.element.style.marginBottom = "20px";
                             editor.ui.view.element.style.width = "100%";
                             editor.ui.view.editable.element.style.minHeight = "150px";
+                            editor.ui.view.editable.element.style.borderRadius = "0 0 5px 5px";
                         }}
                         onChange={(event, editor) => {
                             setDescriptionCollection(editor.getData());
+                            handleDescriptionCollection(editor.getData());
                             console.log({ event, editor, descriptionCollection });
                         }}
                         onBlur={(event, editor) => {
@@ -195,8 +265,6 @@ const CreateCollection = () => {
                             <label onClick={() => showHideConditions(true)}>Automatisé</label>
                         </div>
                         <p>Ajouter automatiquement les produits lorsqu'ils correspondent aux règles définies. Y compris les produits déjà enregistrés. <a href='#'>Plus d'informations sur les collections automatisées.</a></p>
-
-
                         {isToggleOn && <div className="sub-div-horiz-align">
                             <div className="div-radio-label">
                                 <input type='radio'
@@ -247,20 +315,60 @@ const CreateCollection = () => {
                         <button className="btn-bcknd" onClick={addCondition}>Ajouter une condition</button>
                     </div>
                 </div>}
+
+                {/* résultat sur les moteurs de recherche */}
                 <div className="div-vert-align">
-                    {/* submit */}
+                    <h2>Optimisation pour les moteurs de reherche.</h2>
+                    <h4>Coup d'oeil sur le résultat affiché par les moteurs de recherche</h4>
+                    <div>
+                        <h3>{apercuMetaTitle}</h3>
+                        <span>{metaUrl}</span>
+                        <p>{apercuMetaDescription}</p>
+                    </div>
+                    <div className="div-label-inputTxt">
+                        <div className="sub-div-horiz-align">
+                            <label>
+                                Méta-titre de la page de cette collection
+                            </label>
+                            <i className="fas fa-question-circle tooltip">
+                                <span className="tooltiptext">Le méta-titre est très important pour le référencement d'une page web et peut contenir jusqu'à 255 caractères. Toutefois, les moteurs de recherche n'afficheront que les 70 premiers. Veillez à ce que votre titre commence par des mots clés pertinants pour l'internaute afin d'améliorer le taux de clics vers votre page.</span>
+                            </i>
+                        </div>
+                        <input type='text'
+                            value={metaTitle}
+                            onChange={handleMetaTitle}
+                            placeholder="Ce titre sera affiché dans les résultats des moteurs de recherche."
+                            maxLength="255"
+                        />
+                    </div>
+
+                    <div className="div-label-inputTxt">
+                        <label>Méta-déscription de cette collection:</label>
+                        <textarea
+                            value={metaDescription}
+                            onChange={handleMetaDescription}
+                            placeholder="Cette déscription sera utilisée pour décrire le contenu de cette page. Elle s’affichera sous le titre et l’URL de votre page dans les résultats des moteurs de recherche. Veillez à ne pas dépasser les 140-160 caractères pour qu'elle soit entièrement visibles dans les résultats de Google"
+                            maxLength="320">
+                        </textarea>
+                    </div>
+                </div>
+
+                {/* submit */}
+                <div className="div-vert-align">
                     <div className="div-label-inputTxt">
                         <button className="btn-bcknd" onClick={handleSubmit}>
                             Enregistrer
                         </button>
                     </div>
                 </div>
+
             </div>
 
-            {/* side */}
+            {/* ----------  side  ---------- */}
             <div className='side-create-collection'>
+
+                {/* Date d'activation */}
                 <div className="div-vert-align">
-                    {/* Date d'activation */}
                     <div className="div-label-inputTxt">
                         <h2>Activation</h2>
                         <p>Date d'activation.</p>
@@ -268,8 +376,9 @@ const CreateCollection = () => {
                         <p><a href='#'>Plus d'informations sur l'activation des collections.</a></p>
                     </div>
                 </div>
+
+                {/* catégorie */}
                 <div className="div-vert-align">
-                    {/* catégorie */}
                     <div className="div-label-inputTxt">
                         <h2>Catégorie</h2>
                         <p>Attribuer une catégorie à cette collection. (<strong>*optionnel</strong>)</p>
@@ -280,8 +389,9 @@ const CreateCollection = () => {
                         <p><a href='#'>Plus d'informations sur les catégories.</a></p>
                     </div>
                 </div>
+
+                {/* image */}
                 <div className="div-vert-align">
-                    {/* image */}
                     <div className="div-label-inputTxt">
                         <h2>Image</h2>
                         <p>Ajouter une image pour cette collection. (*optionnel)</p>
@@ -289,14 +399,16 @@ const CreateCollection = () => {
                         <p><a href="#">Comment bien choisir son image ?</a></p>
                     </div>
                 </div>
+
+                {/* Référencement */}
                 <div className="div-vert-align">
-                    {/* Référencement */}
                     <div className="div-label-inputTxt">
                         <h2>Référencement</h2>
                         <label>Ajouter une brève description de l'image ex. "Jeans noir avec fermeture éclair". Ceci améliorera l'accessibilité et le référencement de votre boutique. (*optionnel) </label><br></br>
                         <input type="text" name="alt" value={alt} onChange={handleAlt} />
                     </div>
                 </div>
+
             </div>
         </div>
     );
