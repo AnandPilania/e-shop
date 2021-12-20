@@ -13,7 +13,7 @@
   width: 60%;
   min-height: 130vh;
   margin: auto;
-  padding-bottom: 100px;
+  padding-bottom: 300px;
   display: grid;
   grid-template-columns: calc(66.6666% - 10px) calc(33.3333% - 10px);
   grid-gap: 10px;
@@ -86,13 +86,14 @@
 
 .btn-bcknd {
   height: 50px;
-  padding: 0 20px;
+  padding: 0 25px;
   margin-top: 20px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: transparent;
+  background-color: white;
+  color: #636363;
   border-radius: 5px;
   border: solid 1px gainsboro;
   transition: ease-in-out 0.15s;
@@ -100,8 +101,31 @@
 
 .btn-bcknd:hover {
   cursor: pointer;
+  color: #5a5a5a;
   background-color: #fafafa;
-  border: solid 1px #0ab372;
+  border: solid 1px #1352ff;
+}
+
+.btn-submit {
+  height: 50px;
+  padding: 0 25px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: #1352ff;
+  color: white;
+  border-radius: 5px;
+  border: solid 1px gainsboro;
+  transition: ease-in-out 0.15s;
+}
+
+.btn-submit:hover {
+  cursor: pointer;
+  color: black;
+  background-color: #fafafa;
+  border: solid 1px #1352ff;
 }
 
 .div-label-inputTxt,
@@ -112,6 +136,17 @@
   justify-content: flex-start;
   align-items: flex-start;
   margin-bottom: 15px;
+}
+
+.sub-div-vert-align-border-top {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  padding-top: 15px;
+  border-top: gainsboro solid 1px;
 }
 
 .div-radio-label {
@@ -195,4 +230,63 @@
   -webkit-animation: scale-in-center 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   animation: scale-in-center 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   cursor: pointer;
+}
+
+/* Toggle Button ------------------------------*/
+.cm-toggle {
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  margin: 10px;
+}
+
+/* To create surface of toggle button */
+.cm-toggle:after {
+  content: "";
+  width: 48px;
+  height: 24px;
+  display: inline-block;
+  background: rgba(204, 204, 204, 0.55);
+  border-radius: 12px;
+  clear: both;
+}
+
+/* Contents before checkbox to create toggle handle */
+.cm-toggle:before {
+  content: "";
+  width: 24px;
+  height: 24px;
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+/* Shift the handle to left on check event */
+.cm-toggle:checked:before {
+  left: 24px;
+  box-shadow: -1px 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+/* Background color when toggle button will be active */
+.cm-toggle:checked:after {
+  background: #005cc8;
+}
+
+/* Transition for smoothness */
+.cm-toggle,
+.cm-toggle:before,
+.cm-toggle:after,
+.cm-toggle:checked:before,
+.cm-toggle:checked:after {
+  transition: ease 0.3s;
+  -webkit-transition: ease 0.3s;
+  -moz-transition: ease 0.3s;
+  -o-transition: ease 0.3s;
 }

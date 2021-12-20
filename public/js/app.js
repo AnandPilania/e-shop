@@ -22383,73 +22383,78 @@ var CreateCollection = function CreateCollection() {
 
   var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState6 = _slicedToArray(_useState5, 2),
-      includePrevProduct = _useState6[0],
-      setIncludePrevProduct = _useState6[1];
+      isShowOptimisation = _useState6[0],
+      setIsShowOptimisation = _useState6[1];
 
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState8 = _slicedToArray(_useState7, 2),
-      categories = _useState8[0],
-      setCategories = _useState8[1];
+      includePrevProduct = _useState8[0],
+      setIncludePrevProduct = _useState8[1];
 
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(new Date()),
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState10 = _slicedToArray(_useState9, 2),
-      datetimeField = _useState10[0],
-      setDatetimeField = _useState10[1];
+      categories = _useState10[0],
+      setCategories = _useState10[1];
 
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(new Date()),
       _useState12 = _slicedToArray(_useState11, 2),
-      allConditionsNeeded = _useState12[0],
-      setAllConditionsNeeded = _useState12[1];
+      datetimeField = _useState12[0],
+      setDatetimeField = _useState12[1];
 
-  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState14 = _slicedToArray(_useState13, 2),
-      nameCollection = _useState14[0],
-      setNameCollection = _useState14[1];
+      allConditionsNeeded = _useState14[0],
+      setAllConditionsNeeded = _useState14[1];
 
   var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState16 = _slicedToArray(_useState15, 2),
-      descriptionCollection = _useState16[0],
-      setDescriptionCollection = _useState16[1];
+      nameCollection = _useState16[0],
+      setNameCollection = _useState16[1];
 
   var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState18 = _slicedToArray(_useState17, 2),
-      category = _useState18[0],
-      setCategory = _useState18[1];
+      descriptionCollection = _useState18[0],
+      setDescriptionCollection = _useState18[1];
 
   var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState20 = _slicedToArray(_useState19, 2),
-      alt = _useState20[0],
-      setAlt = _useState20[1];
+      category = _useState20[0],
+      setCategory = _useState20[1];
 
-  var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState22 = _slicedToArray(_useState21, 2),
-      image = _useState22[0],
-      setImage = _useState22[1];
+      alt = _useState22[0],
+      setAlt = _useState22[1];
 
-  var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState24 = _slicedToArray(_useState23, 2),
-      metaTitle = _useState24[0],
-      setMetaTitle = _useState24[1];
+      image = _useState24[0],
+      setImage = _useState24[1];
 
   var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState26 = _slicedToArray(_useState25, 2),
-      apercuMetaTitle = _useState26[0],
-      setApercuMetaTitle = _useState26[1];
+      metaTitle = _useState26[0],
+      setMetaTitle = _useState26[1];
 
   var _useState27 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState28 = _slicedToArray(_useState27, 2),
-      metaDescription = _useState28[0],
-      setMetaDescription = _useState28[1];
+      apercuMetaTitle = _useState28[0],
+      setApercuMetaTitle = _useState28[1];
 
   var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState30 = _slicedToArray(_useState29, 2),
-      apercuMetaDescription = _useState30[0],
-      setApercuMetaDescription = _useState30[1];
+      metaDescription = _useState30[0],
+      setMetaDescription = _useState30[1];
 
   var _useState31 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState32 = _slicedToArray(_useState31, 2),
-      metaUrl = _useState32[0],
-      setMetaUrl = _useState32[1];
+      apercuMetaDescription = _useState32[0],
+      setApercuMetaDescription = _useState32[1];
+
+  var _useState33 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState34 = _slicedToArray(_useState33, 2),
+      metaUrl = _useState34[0],
+      setMetaUrl = _useState34[1];
 
   var isEmptyMetaTitle = true;
   var isEmptyMetaDescription = true;
@@ -22511,6 +22516,10 @@ var CreateCollection = function CreateCollection() {
     } else {
       setIsToggleOn(false);
     }
+  };
+
+  var showHideOptimisation = function showHideOptimisation() {
+    setIsShowOptimisation(!isShowOptimisation);
   };
 
   var includePrevProducts = function includePrevProducts(includ) {
@@ -22737,115 +22746,123 @@ var CreateCollection = function CreateCollection() {
               })]
             })]
           })]
-        })]
-      }), isToggleOn && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-        className: "div-vert-align",
-        id: "conditions_collection",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
-          children: "Condition(s)"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h4", {
-          children: "D\xE9finissez une ou plusieurs r\xE8gles. Ex. Prix du produit est inf\xE9rieur \xE0 50 \u20AC, Nom du produit contient Robe, etc. Seuls les produits correspondants \xE0 vos r\xE8gles seront int\xE9gr\xE9s dans cette collection. "
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-          className: "sub-div-horiz-align",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-            className: "div-radio-label",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
-              type: "radio",
-              name: "condition",
-              id: "allConditions",
-              checked: allConditionsNeeded == true,
-              onChange: function onChange() {
-                return setAllConditionsNeeded(true);
-              }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
-              htmlFor: "allConditions",
-              children: "Les produits doivent r\xE9pondre \xE0 toutes les conditions"
+        }), isToggleOn && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          className: "sub-div-vert-align-border-top",
+          id: "conditions_collection",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
+            children: "Condition(s)"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h4", {
+            children: "D\xE9finissez une ou plusieurs r\xE8gles. Ex. Prix du produit est inf\xE9rieur \xE0 50 \u20AC, Nom du produit contient Robe, etc. Seuls les produits correspondants \xE0 vos r\xE8gles seront int\xE9gr\xE9s dans cette collection. "
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+            className: "sub-div-horiz-align",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+              className: "div-radio-label",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+                type: "radio",
+                name: "condition",
+                id: "allConditions",
+                checked: allConditionsNeeded == true,
+                onChange: function onChange() {
+                  return setAllConditionsNeeded(true);
+                }
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+                htmlFor: "allConditions",
+                children: "Les produits doivent r\xE9pondre \xE0 toutes les conditions"
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+              className: "div-radio-label",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+                type: "radio",
+                name: "condition",
+                id: "leastOnConditions",
+                checked: allConditionsNeeded == false,
+                onChange: function onChange() {
+                  return setAllConditionsNeeded(false);
+                }
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+                htmlFor: "leastOnConditions",
+                children: "Les produits doivent r\xE9pondre \xE0 au moins une condition"
+              })]
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-            className: "div-radio-label",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
-              type: "radio",
-              name: "condition",
-              id: "leastOnConditions",
-              checked: allConditionsNeeded == false,
-              onChange: function onChange() {
-                return setAllConditionsNeeded(false);
-              }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
-              htmlFor: "leastOnConditions",
-              children: "Les produits doivent r\xE9pondre \xE0 au moins une condition"
+            className: "sub-div-vert-align",
+            children: [conditions.map(function (item, i) {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_conditionCollection__WEBPACK_IMPORTED_MODULE_1__["default"], {
+                index: i,
+                handleChangeParam: handleChangeParam,
+                handleChangeOperator: handleChangeOperator,
+                handleChangeValue: handleChangeValue,
+                condition: item
+              }, i);
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+              className: "btn-bcknd",
+              onClick: addCondition,
+              children: "Ajouter une condition"
             })]
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-          className: "sub-div-vert-align",
-          children: [conditions.map(function (item, i) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_conditionCollection__WEBPACK_IMPORTED_MODULE_1__["default"], {
-              index: i,
-              handleChangeParam: handleChangeParam,
-              handleChangeOperator: handleChangeOperator,
-              handleChangeValue: handleChangeValue,
-              condition: item
-            }, i);
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
-            className: "btn-bcknd",
-            onClick: addCondition,
-            children: "Ajouter une condition"
           })]
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         className: "div-vert-align",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
-          children: "Optimisation pour les moteurs de reherche."
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h4", {
-          children: "Coup d'oeil sur le r\xE9sultat affich\xE9 par les moteurs de recherche"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h3", {
-            children: apercuMetaTitle
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-            children: metaUrl
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
-            children: apercuMetaDescription
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-          className: "div-label-inputTxt",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-            className: "sub-div-horiz-align",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
-              children: "M\xE9ta-titre de la page de cette collection"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
-              className: "fas fa-question-circle tooltip",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-                className: "tooltiptext",
-                children: "Le m\xE9ta-titre est tr\xE8s important pour le r\xE9f\xE9rencement d'une page web et peut contenir jusqu'\xE0 255 caract\xE8res. Toutefois, les moteurs de recherche n'afficheront que les 70 premiers. Veillez \xE0 ce que votre titre commence par des mots cl\xE9s pertinants pour l'internaute afin d'am\xE9liorer le taux de clics vers votre page."
-              })
-            })]
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          className: "sub-div-horiz-align",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
+            children: "Optimiser pour les moteurs de reherche."
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
-            type: "text",
-            value: metaTitle,
-            onChange: handleMetaTitle,
-            placeholder: "Ce titre sera affich\xE9 dans les r\xE9sultats des moteurs de recherche.",
-            maxLength: "255"
+            type: "checkbox",
+            className: "cm-toggle",
+            checked: isShowOptimisation == true,
+            onChange: showHideOptimisation
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-          className: "div-label-inputTxt",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
-            children: "M\xE9ta-d\xE9scription de cette collection:"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("textarea", {
-            value: metaDescription,
-            onChange: handleMetaDescription,
-            placeholder: "Cette d\xE9scription sera utilis\xE9e pour d\xE9crire le contenu de cette page. Elle s\u2019affichera sous le titre et l\u2019URL de votre page dans les r\xE9sultats des moteurs de recherche. Veillez \xE0 ne pas d\xE9passer les 140-160 caract\xE8res pour qu'elle soit enti\xE8rement visibles dans les r\xE9sultats de Google",
-            maxLength: "320"
+        }), isShowOptimisation && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          className: "sub-div-vert-align-border-top",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h4", {
+            children: "Coup d'oeil sur le r\xE9sultat affich\xE9 par les moteurs de recherche"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h3", {
+              children: apercuMetaTitle
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+              children: metaUrl
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+              children: apercuMetaDescription
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+            className: "div-label-inputTxt",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+              className: "sub-div-horiz-align",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+                children: "M\xE9ta-titre de la page de cette collection"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+                className: "fas fa-question-circle tooltip",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                  className: "tooltiptext",
+                  children: "Le m\xE9ta-titre est tr\xE8s important pour le r\xE9f\xE9rencement d'une page web et peut contenir jusqu'\xE0 255 caract\xE8res. Toutefois, les moteurs de recherche n'afficheront que les 70 premiers. Veillez \xE0 ce que votre titre commence par des mots cl\xE9s pertinants pour l'internaute afin d'am\xE9liorer le taux de clics vers votre page."
+                })
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+              type: "text",
+              value: metaTitle,
+              onChange: handleMetaTitle,
+              placeholder: "Ce titre sera affich\xE9 dans les r\xE9sultats des moteurs de recherche.",
+              maxLength: "255"
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+            className: "div-label-inputTxt",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+              children: "M\xE9ta-d\xE9scription de cette collection:"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("textarea", {
+              value: metaDescription,
+              onChange: handleMetaDescription,
+              placeholder: "Cette d\xE9scription sera utilis\xE9e pour d\xE9crire le contenu de cette page. Elle s\u2019affichera sous le titre et l\u2019URL de votre page dans les r\xE9sultats des moteurs de recherche. Veillez \xE0 ne pas d\xE9passer les 140-160 caract\xE8res pour qu'elle soit enti\xE8rement visibles dans les r\xE9sultats de Google",
+              maxLength: "320"
+            })]
           })]
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-        className: "div-vert-align",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-          className: "div-label-inputTxt",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
-            className: "btn-bcknd",
-            onClick: handleSubmit,
-            children: "Enregistrer"
-          })
+        className: "div-label-inputTxt",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+          className: "btn-submit",
+          onClick: handleSubmit,
+          children: "Enregistrer"
         })
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
@@ -25975,6 +25992,9 @@ var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_2__["default"])(
     textAlign: 'center',
     cursor: 'pointer',
     transition: '0.3s'
+  },
+  drop_region_hover: {
+    border: 'rgb(19, 82, 255) dashed 5px'
   }
 });
 
@@ -25985,6 +26005,11 @@ var DropZone = function DropZone(props) {
       _useState2 = _slicedToArray(_useState, 2),
       imageFiles = _useState2[0],
       setImageFiles = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      isHover = _useState4[0],
+      setIsHover = _useState4[1];
 
   var dropRegion = null;
   var imagePreviewRegion = null;
@@ -26172,7 +26197,13 @@ var DropZone = function DropZone(props) {
   }
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-    className: classes.wrapperForm,
+    className: "".concat(classes.wrapperForm, " ").concat(isHover && classes.drop_region_hover),
+    onMouseEnter: function onMouseEnter() {
+      return setIsHover(true);
+    },
+    onMouseLeave: function onMouseLeave() {
+      return setIsHover(false);
+    },
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
       id: "drop-region",
       className: classes.drop_region,

@@ -30,12 +30,19 @@ const useStyles = makeStyles({
         cursor: 'pointer',
         transition: '0.3s',
     },
+    drop_region_hover: {
+        border: 'rgb(19, 82, 255) dashed 5px',
+    }
 });
+
+
+
 
 
 const DropZone = (props) => {
     const classes = useStyles();
     const [imageFiles, setImageFiles] = useState([]);
+    const [isHover, setIsHover] = useState(false);
 
     var dropRegion = null;
     var imagePreviewRegion = null;
@@ -227,7 +234,11 @@ const DropZone = (props) => {
 
 
     return (
-        <div className={classes.wrapperForm}>
+        <div
+            className={`${classes.wrapperForm} ${isHover && classes.drop_region_hover}`}
+            onMouseEnter={() => setIsHover(true)}
+            onMouseLeave={() => setIsHover(false)}
+        >
             <div id="drop-region" className={classes.drop_region}>
                 <div className="drop-message">
                     Déposez ici une image <br></br>ou cliquez pour charger une image

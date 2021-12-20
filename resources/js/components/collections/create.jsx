@@ -12,6 +12,7 @@ const CreateCollection = () => {
         value: ''
     }]);
     const [isToggleOn, setIsToggleOn] = useState(true);
+    const [isShowOptimisation, setIsShowOptimisation] = useState(true);
     const [includePrevProduct, setIncludePrevProduct] = useState(true);
     const [categories, setCategories] = useState([]);
     const [datetimeField, setDatetimeField] = useState(new Date());
@@ -100,6 +101,10 @@ const CreateCollection = () => {
         }
     }
 
+    const showHideOptimisation = () => {
+        setIsShowOptimisation(!isShowOptimisation);
+    }
+
     const includePrevProducts = (includ) => {
         setIncludePrevProduct(includ);
     }
@@ -147,7 +152,7 @@ const CreateCollection = () => {
             setApercuMetaDescription(htmlDescriptionText);
         }
     };
-    
+
     const handleCategory = (e) => {
         setCategory(e.target.value);
     };
@@ -251,7 +256,10 @@ const CreateCollection = () => {
                             <input type='radio'
                                 checked={isToggleOn == false}
                                 onChange={() => showHideConditions(false)} />
-                            <label onClick={() => showHideConditions(false)}>Manuel</label>
+                            <label
+                                onClick={() => showHideConditions(false)}>
+                                Manuel
+                            </label>
                         </div>
                         <p>Ajouter un produit à la fois dans cette collection. <a href='#'>Plus d'informations sur les collections manuelles.</a></p>
                     </div>
@@ -260,7 +268,10 @@ const CreateCollection = () => {
                             <input type='radio'
                                 checked={isToggleOn == true}
                                 onChange={() => showHideConditions(true)} />
-                            <label onClick={() => showHideConditions(true)}>Automatisé</label>
+                            <label
+                                onClick={() => showHideConditions(true)}>
+                                Automatisé
+                            </label>
                         </div>
                         <p>Ajouter automatiquement les produits lorsqu'ils correspondent aux règles définies. Y compris les produits déjà enregistrés. <a href='#'>Plus d'informations sur les collections automatisées.</a></p>
                         {isToggleOn && <div className="sub-div-horiz-align">
@@ -278,88 +289,97 @@ const CreateCollection = () => {
                             </div>
                         </div>}
                     </div>
+                    {/* conditions */}
+                    {isToggleOn &&
+                        <div className="sub-div-vert-align-border-top" id="conditions_collection">
+                            <h2>Condition(s)</h2>
+                            <h4>Définissez une ou plusieurs règles. Ex. Prix du produit est inférieur à 50 €, Nom du produit contient Robe, etc. Seuls les produits correspondants à vos règles seront intégrés dans cette collection. </h4>
+                            <div className="sub-div-horiz-align">
+                                <div className="div-radio-label">
+                                    <input type='radio' name="condition" id='allConditions'
+                                        checked={allConditionsNeeded == true}
+                                        onChange={() => setAllConditionsNeeded(true)} />
+                                    <label htmlFor='allConditions'>Les produits doivent répondre à toutes les conditions</label>
+                                </div>
+                                <div className="div-radio-label">
+                                    <input type='radio' name="condition" id='leastOnConditions'
+                                        checked={allConditionsNeeded == false}
+                                        onChange={() => setAllConditionsNeeded(false)}
+                                    />
+                                    <label htmlFor='leastOnConditions'>Les produits doivent répondre à au moins une condition</label>
+                                </div>
+                            </div>
+
+                            {/* inputs conditions */}
+                            <div className="sub-div-vert-align">
+                                {conditions.map((item, i) => (
+                                    <ConditionCollection
+                                        key={i}
+                                        index={i}
+                                        handleChangeParam={handleChangeParam}
+                                        handleChangeOperator={handleChangeOperator} handleChangeValue={handleChangeValue}
+                                        condition={item}
+                                    />))}
+                                <button className="btn-bcknd" onClick={addCondition}>Ajouter une condition</button>
+                            </div>
+                        </div>
+                    }
                 </div>
-
-                {/* conditions */}
-                {isToggleOn && <div className="div-vert-align" id="conditions_collection">
-                    <h2>Condition(s)</h2>
-                    <h4>Définissez une ou plusieurs règles. Ex. Prix du produit est inférieur à 50 €, Nom du produit contient Robe, etc. Seuls les produits correspondants à vos règles seront intégrés dans cette collection. </h4>
-                    <div className="sub-div-horiz-align">
-                        <div className="div-radio-label">
-                            <input type='radio' name="condition" id='allConditions'
-                                checked={allConditionsNeeded == true}
-                                onChange={() => setAllConditionsNeeded(true)} />
-                            <label htmlFor='allConditions'>Les produits doivent répondre à toutes les conditions</label>
-                        </div>
-                        <div className="div-radio-label">
-                            <input type='radio' name="condition" id='leastOnConditions'
-                                checked={allConditionsNeeded == false}
-                                onChange={() => setAllConditionsNeeded(false)}
-                            />
-                            <label htmlFor='leastOnConditions'>Les produits doivent répondre à au moins une condition</label>
-                        </div>
-                    </div>
-
-                    {/* inputs conditions */}
-                    <div className="sub-div-vert-align">
-                        {conditions.map((item, i) => (
-                            <ConditionCollection
-                                key={i}
-                                index={i}
-                                handleChangeParam={handleChangeParam}
-                                handleChangeOperator={handleChangeOperator} handleChangeValue={handleChangeValue}
-                                condition={item}
-                            />))}
-                        <button className="btn-bcknd" onClick={addCondition}>Ajouter une condition</button>
-                    </div>
-                </div>}
 
                 {/* résultat sur les moteurs de recherche */}
                 <div className="div-vert-align">
-                    <h2>Optimisation pour les moteurs de reherche.</h2>
-                    <h4>Coup d'oeil sur le résultat affiché par les moteurs de recherche</h4>
-                    <div>
-                        <h3>{apercuMetaTitle}</h3>
-                        <span>{metaUrl}</span>
-                        <p>{apercuMetaDescription}</p>
+                    <div className="sub-div-horiz-align">
+                        <h2>Optimiser pour les moteurs de reherche.</h2>
+                        <input type='checkbox'
+                            className="cm-toggle"
+                            checked={isShowOptimisation == true}
+                            onChange={showHideOptimisation} />
                     </div>
-                    <div className="div-label-inputTxt">
-                        <div className="sub-div-horiz-align">
-                            <label>
-                                Méta-titre de la page de cette collection
-                            </label>
-                            <i className="fas fa-question-circle tooltip">
-                                <span className="tooltiptext">Le méta-titre est très important pour le référencement d'une page web et peut contenir jusqu'à 255 caractères. Toutefois, les moteurs de recherche n'afficheront que les 70 premiers. Veillez à ce que votre titre commence par des mots clés pertinants pour l'internaute afin d'améliorer le taux de clics vers votre page.</span>
-                            </i>
-                        </div>
-                        <input type='text'
-                            value={metaTitle}
-                            onChange={handleMetaTitle}
-                            placeholder="Ce titre sera affiché dans les résultats des moteurs de recherche."
-                            maxLength="255"
-                        />
-                    </div>
+                    {isShowOptimisation &&
+                        <div className="sub-div-vert-align-border-top">
+                            <h4>Coup d'oeil sur le résultat affiché par les moteurs de recherche</h4>
+                            <div>
+                                <h3>{apercuMetaTitle}</h3>
+                                <span>{metaUrl}</span>
+                                <p>{apercuMetaDescription}</p>
+                            </div>
+                            <div className="div-label-inputTxt">
+                                <div className="sub-div-horiz-align">
+                                    <label>
+                                        Méta-titre de la page de cette collection
+                                    </label>
+                                    <i className="fas fa-question-circle tooltip">
+                                        <span className="tooltiptext">Le méta-titre est très important pour le référencement d'une page web et peut contenir jusqu'à 255 caractères. Toutefois, les moteurs de recherche n'afficheront que les 70 premiers. Veillez à ce que votre titre commence par des mots clés pertinants pour l'internaute afin d'améliorer le taux de clics vers votre page.</span>
+                                    </i>
+                                </div>
+                                <input type='text'
+                                    value={metaTitle}
+                                    onChange={handleMetaTitle}
+                                    placeholder="Ce titre sera affiché dans les résultats des moteurs de recherche."
+                                    maxLength="255"
+                                />
+                            </div>
 
-                    <div className="div-label-inputTxt">
-                        <label>Méta-déscription de cette collection:</label>
-                        <textarea
-                            value={metaDescription}
-                            onChange={handleMetaDescription}
-                            placeholder="Cette déscription sera utilisée pour décrire le contenu de cette page. Elle s’affichera sous le titre et l’URL de votre page dans les résultats des moteurs de recherche. Veillez à ne pas dépasser les 140-160 caractères pour qu'elle soit entièrement visibles dans les résultats de Google"
-                            maxLength="320">
-                        </textarea>
-                    </div>
+                            <div className="div-label-inputTxt">
+                                <label>Méta-déscription de cette collection:</label>
+                                <textarea
+                                    value={metaDescription}
+                                    onChange={handleMetaDescription}
+                                    placeholder="Cette déscription sera utilisée pour décrire le contenu de cette page. Elle s’affichera sous le titre et l’URL de votre page dans les résultats des moteurs de recherche. Veillez à ne pas dépasser les 140-160 caractères pour qu'elle soit entièrement visibles dans les résultats de Google"
+                                    maxLength="320">
+                                </textarea>
+                            </div>
+                        </div>
+                    }
                 </div>
+
 
                 {/* submit */}
-                <div className="div-vert-align">
-                    <div className="div-label-inputTxt">
-                        <button className="btn-bcknd" onClick={handleSubmit}>
-                            Enregistrer
-                        </button>
-                    </div>
+                <div className="div-label-inputTxt">
+                    <button className="btn-submit" onClick={handleSubmit}>
+                        Enregistrer
+                    </button>
                 </div>
-
             </div>
 
             {/* ----------  side  ---------- */}
