@@ -76,6 +76,10 @@
   font-weight: 600;
   margin: 15px 0;
 }
+.div-vert-align h3 {
+  font-size: 18px;
+  font-weight: 600;
+}
 .div-vert-align p {
   margin-top: 5px;
   margin-bottom: 5px;
@@ -194,7 +198,7 @@
   width: 25px;
 }
 
-.sub-div-horiz-align .fa-question-circle {
+.collection-main-container .fa-question-circle {
   font-size: 16px;
   color: #757575;
   margin-left: 6px;
@@ -205,7 +209,7 @@
 }
 
 /* Tooltip text */
-.sub-div-horiz-align .tooltip .tooltiptext {
+.collection-main-container .tooltip .tooltiptext {
   visibility: hidden;
   min-width: 200px;
   width: 300px;
@@ -225,7 +229,7 @@
 }
 
 /* Show the tooltip text when you mouse over the tooltip container */
-.sub-div-horiz-align .tooltip:hover .tooltiptext {
+.collection-main-container .tooltip:hover .tooltiptext {
   visibility: visible;
   -webkit-animation: scale-in-center 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   animation: scale-in-center 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
@@ -289,4 +293,13 @@
   -webkit-transition: ease 0.3s;
   -moz-transition: ease 0.3s;
   -o-transition: ease 0.3s;
+}
+
+.apercuMetaTitle2 {
+  color: #bbbbbb;
+}
+
+.inRed {
+  font-size: 14px;
+  color: red;
 }

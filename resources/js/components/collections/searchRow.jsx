@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 });
 
 // affiche les rows dans list.jsx
-const SearchRow = (props) => {
+const RowListCollections = (props) => {
     const classes = useStyles();
 
     return (
@@ -26,4 +26,4 @@ const SearchRow = (props) => {
     );
 }
 
-export default SearchRow;
+export default RowListCollections;

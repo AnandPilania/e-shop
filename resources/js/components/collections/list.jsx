@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
-import SearchRow from './searchRow';
+import RowListCollections from './searchRow';
 
 const ListCollections = () => {
     const [listCollections, setListCollections] = useState([]);
@@ -25,7 +25,7 @@ const ListCollections = () => {
         </div>
             
             {listCollections.map(item => 
-                  <SearchRow key={item.id} collection={item} />
+                  <RowListCollections key={item.id} collection={item} />
             )}
 
         </div>

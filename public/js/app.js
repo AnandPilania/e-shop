@@ -22443,21 +22443,45 @@ var CreateCollection = function CreateCollection() {
 
   var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState30 = _slicedToArray(_useState29, 2),
-      metaDescription = _useState30[0],
-      setMetaDescription = _useState30[1];
+      apercuMetaTitle2 = _useState30[0],
+      setApercuMetaTitle2 = _useState30[1];
 
-  var _useState31 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState31 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState32 = _slicedToArray(_useState31, 2),
-      apercuMetaDescription = _useState32[0],
-      setApercuMetaDescription = _useState32[1];
+      biggerThan60 = _useState32[0],
+      setBiggerThan60 = _useState32[1];
 
   var _useState33 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState34 = _slicedToArray(_useState33, 2),
-      metaUrl = _useState34[0],
-      setMetaUrl = _useState34[1];
+      metaDescription = _useState34[0],
+      setMetaDescription = _useState34[1];
 
-  var isEmptyMetaTitle = true;
-  var isEmptyMetaDescription = true;
+  var _useState35 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState36 = _slicedToArray(_useState35, 2),
+      apercuMetaDescription = _useState36[0],
+      setApercuMetaDescription = _useState36[1];
+
+  var _useState37 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.location.origin + '/'),
+      _useState38 = _slicedToArray(_useState37, 2),
+      metaUrl = _useState38[0],
+      setMetaUrl = _useState38[1];
+
+  var _useState39 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.location.origin),
+      _useState40 = _slicedToArray(_useState39, 2),
+      apercuMetaUrl = _useState40[0],
+      setApercuMetaUrl = _useState40[1];
+
+  var _useState41 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+      _useState42 = _slicedToArray(_useState41, 2),
+      isEmptyMetaDescription = _useState42[0],
+      setIsEmptyMetaDescription = _useState42[1];
+
+  var _useState43 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+      _useState44 = _slicedToArray(_useState43, 2),
+      isEmptyMetaTitle = _useState44[0],
+      setIsEmptyMetaTitle = _useState44[1];
+
+  var isEmptyMetaUrl = true;
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // chargement des collections
     axios__WEBPACK_IMPORTED_MODULE_4___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
@@ -22531,11 +22555,56 @@ var CreateCollection = function CreateCollection() {
   };
 
   var handleNameCollection = function handleNameCollection(e) {
-    setNameCollection(e.target.value); // if metaTitle field is not used then we can 
+    var name = e.target.value;
+    var urlName = normalizUrl(e.target.value); // limit la taille de l'url à 255 caracères
+
+    var urlLength = 254 - window.location.origin.length;
+    setNameCollection(name); // if metaTitle field is not used then we can 
     // fill apercuMetaTitle with the name field 
 
     if (isEmptyMetaTitle == true) {
-      setApercuMetaTitle(e.target.value);
+      // affiche en rouge un avertissement sur la longeur du title
+      if (name.length > 60) {
+        setBiggerThan60(true);
+      } else {
+        setBiggerThan60(false);
+      }
+
+      setApercuMetaTitle(name.substring(0, 60));
+      setApercuMetaTitle2(name.substring(61, 5000));
+    }
+
+    if (metaUrl.length == 0) {
+      setApercuMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
+    }
+  };
+
+  var normalizUrl = function normalizUrl(str) {
+    // remove caracteres unauthorized for url
+    var urlName = str.replaceAll(' ', '-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    urlName = urlName.replaceAll(/-{2,}/g, '-');
+    urlName = urlName.replace(/[<>\?\.\[\]'"°@\|\\§.,\/#\!\$%\^&\*;:\{\}=\+_`~\(\)]/g, "").replaceAll(/-{2,}/g, '-'); // <-- all ist ok 
+
+    return urlName;
+  };
+
+  var handleMetaTitle = function handleMetaTitle(e) {
+    var name = e.target.value;
+    setMetaTitle(name);
+    setIsEmptyMetaTitle(false);
+    setApercuMetaTitle(name.substring(0, 60));
+    setApercuMetaTitle2(name.substring(61, 5000)); // affiche en rouge un avertissement sur la longeur du title
+
+    if (name.length > 60) {
+      setBiggerThan60(true);
+    } else {
+      setBiggerThan60(false);
+    }
+
+    if (e.target.value == '') {
+      setIsEmptyMetaTitle(true);
+      setApercuMetaTitle(nameCollection.substring(0, 60));
+      setApercuMetaTitle2(nameCollection.substring(61, 5000));
     }
   };
 
@@ -22544,10 +22613,11 @@ var CreateCollection = function CreateCollection() {
     return doc.body.textContent || "";
   }
 
+  ;
+
   var handleDescriptionCollection = function handleDescriptionCollection(description) {
-    // console.log(description);
-    // if metaDescription field is not used then we can 
-    // fill apercuMetaDescription with the description field 
+    // descriptionCollection est seté dans le componot ckeditor donc pas besoin ici
+    // if metaDescription field is not used then we can fill apercuMetaDescription with the description field 
     if (isEmptyMetaDescription == true) {
       // on remplace les balises de ckeditor par un espace pour que les mots ne soient pas collés dans l'apérçu
       var htmlDescriptionText = description.replaceAll(/<[a-zA-Z0-9]*>/gi, " ");
@@ -22558,15 +22628,32 @@ var CreateCollection = function CreateCollection() {
   var handleMetaDescription = function handleMetaDescription(e) {
     setMetaDescription('');
     setMetaDescription(e.target.value);
-    isEmptyMetaDescription = false;
+    setIsEmptyMetaDescription(false);
     setApercuMetaDescription(e.target.value);
 
     if (e.target.value == '') {
-      isEmptyMetaDescription = true; // on remplace les balises de ckeditor par un espace pour que les mots ne soient pas collés dans l'apérçu lorsqu'on efface la meta description !!! 2eme nettoyage 
+      setIsEmptyMetaDescription(true); // on remplace les balises de ckeditor par un espace pour que les mots ne soient pas collés dans l'apérçu lorsqu'on efface la meta description !!! 2eme nettoyage 
 
       var htmlDescriptionText = descriptionCollection.replaceAll(/<[\/a-zA-Z0-9]*>/gi, " ");
-      console.log(htmlDescriptionText);
       setApercuMetaDescription(htmlDescriptionText);
+    }
+  };
+
+  var handleMetaUrl = function handleMetaUrl(e) {
+    // limit la taille de l'url à 255 caracères
+    var urlLength = 254 - window.location.origin.length;
+    var urlName = normalizUrl(e.target.value.substring(window.location.origin.length, 255));
+    setMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
+    isEmptyMetaUrl = false;
+    setApercuMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
+
+    if (e.target.value == window.location.origin + '/') {
+      isEmptyMetaUrl = true;
+
+      var _urlName = normalizUrl(nameCollection);
+
+      setMetaUrl(window.location.origin + '/' + _urlName.substring(0, urlLength));
+      setApercuMetaUrl(window.location.origin + '/' + _urlName.substring(0, urlLength));
     }
   };
 
@@ -22578,21 +22665,6 @@ var CreateCollection = function CreateCollection() {
     setAlt(e.target.value);
   };
 
-  var handleMetaTitle = function handleMetaTitle(e) {
-    setMetaTitle(e.target.value);
-    isEmptyMetaTitle = false;
-    setApercuMetaTitle(e.target.value);
-
-    if (e.target.value == '') {
-      isEmptyMetaTitle = true;
-      setApercuMetaTitle(nameCollection);
-    }
-  };
-
-  var handleMetaUrl = function handleMetaUrl(e) {
-    setMetaUrl(e.target.value);
-  };
-
   var formData = new FormData();
   var objConditions = JSON.stringify(conditions);
 
@@ -22600,6 +22672,7 @@ var CreateCollection = function CreateCollection() {
     formData.append('image[]', image[0]);
   }
 
+  ;
   formData.append("name", nameCollection);
   formData.append("description", descriptionCollection);
   formData.append("automatise", isToggleOn);
@@ -22654,11 +22727,6 @@ var CreateCollection = function CreateCollection() {
           onChange: function onChange(event, editor) {
             setDescriptionCollection(editor.getData());
             handleDescriptionCollection(editor.getData());
-            console.log({
-              event: event,
-              editor: editor,
-              descriptionCollection: descriptionCollection
-            });
           },
           onBlur: function onBlur(event, editor) {
             editor.ui.view.editable.element.style.minHeight = "150px";
@@ -22815,13 +22883,22 @@ var CreateCollection = function CreateCollection() {
           })]
         }), isShowOptimisation && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
           className: "sub-div-vert-align-border-top",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h4", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h3", {
             children: "Coup d'oeil sur le r\xE9sultat affich\xE9 par les moteurs de recherche"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h3", {
-              children: apercuMetaTitle
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-              children: metaUrl
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+              children: apercuMetaUrl
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+              className: "sub-div-horiz-align",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("h3", {
+                children: [apercuMetaTitle, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                  className: "apercuMetaTitle2",
+                  children: apercuMetaTitle2
+                }), " ", biggerThan60 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                  className: "inRed",
+                  children: "Seul les 60 premiers caract\xE8res seront visibles"
+                })]
+              })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
               children: apercuMetaDescription
             })]
@@ -22835,7 +22912,7 @@ var CreateCollection = function CreateCollection() {
                 className: "fas fa-question-circle tooltip",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
                   className: "tooltiptext",
-                  children: "Le m\xE9ta-titre est tr\xE8s important pour le r\xE9f\xE9rencement d'une page web et peut contenir jusqu'\xE0 255 caract\xE8res. Toutefois, les moteurs de recherche n'afficheront que les 70 premiers. Veillez \xE0 ce que votre titre commence par des mots cl\xE9s pertinants pour l'internaute afin d'am\xE9liorer le taux de clics vers votre page."
+                  children: "Le m\xE9ta-titre est important pour le r\xE9f\xE9rencement d'une page web. Sa longueur id\xE9al se situe entre 30 et 60 caract\xE8res mais il peut \xEAtre plus long pour donner plus d'informations sur le contenu de la page. Toutefois, les moteurs de recherche n'afficheront pas plus de 70 caract\xE8res, c'est pourquoi il est important de commence par des mots cl\xE9s pertinants pour l'internaute afin d'am\xE9liorer le taux de clics vers votre page."
                 })
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
@@ -22855,6 +22932,26 @@ var CreateCollection = function CreateCollection() {
               placeholder: "Cette d\xE9scription sera utilis\xE9e pour d\xE9crire le contenu de cette page. Elle s\u2019affichera sous le titre et l\u2019URL de votre page dans les r\xE9sultats des moteurs de recherche. Veillez \xE0 ne pas d\xE9passer les 140-160 caract\xE8res pour qu'elle soit enti\xE8rement visibles dans les r\xE9sultats de Google",
               maxLength: "320"
             })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+            className: "div-label-inputTxt",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+              className: "sub-div-horiz-align",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+                children: "Url de la page de cette collection"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+                className: "fas fa-question-circle tooltip",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                  className: "tooltiptext",
+                  children: "Utilisez des mots cl\xE9s en rapport avec le contenu de cette collection"
+                })
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+              type: "text",
+              value: metaUrl,
+              onChange: handleMetaUrl,
+              placeholder: "Url de cette collection",
+              maxLength: "255"
+            })]
           })]
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
@@ -22867,27 +22964,46 @@ var CreateCollection = function CreateCollection() {
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
       className: "side-create-collection",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         className: "div-vert-align",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
           className: "div-label-inputTxt",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
-            children: "Activation"
+            children: "Image"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
-            children: "Date d'activation."
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
-            id: "activationDate",
-            type: "datetime-local",
-            value: datetimeField,
-            min: datetimeField,
-            onChange: handleDateChange
+            children: "Ajouter une image pour cette collection. (*optionnel)"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tools_dropZone__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            multiple: false,
+            setImage: setImage
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
               href: "#",
-              children: "Plus d'informations sur l'activation des collections."
+              children: "Comment bien choisir son image ?"
             })
           })]
-        })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+          className: "sub-div-vert-align",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+            className: "div-label-inputTxt",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+              className: "sub-div-horiz-align",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+                children: "Texte alternatif (*optionnel) "
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+                className: "fas fa-question-circle tooltip",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                  className: "tooltiptext",
+                  children: "Ajouter une br\xE8ve description de l'image ex. \"Jeans noir avec fermeture \xE9clair\". Ceci am\xE9liorera l'accessibilit\xE9 et le r\xE9f\xE9rencement de votre boutique."
+                })
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+              type: "text",
+              name: "alt",
+              value: alt,
+              onChange: handleAlt
+            })]
+          })
+        })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
         className: "div-vert-align",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
@@ -22923,32 +23039,20 @@ var CreateCollection = function CreateCollection() {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
           className: "div-label-inputTxt",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
-            children: "Image"
+            children: "Activation"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
-            children: "Ajouter une image pour cette collection. (*optionnel)"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tools_dropZone__WEBPACK_IMPORTED_MODULE_5__["default"], {
-            multiple: false,
-            setImage: setImage
+            children: "Date d'activation."
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+            id: "activationDate",
+            type: "datetime-local",
+            value: datetimeField,
+            min: datetimeField,
+            onChange: handleDateChange
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
               href: "#",
-              children: "Comment bien choisir son image ?"
+              children: "Plus d'informations sur l'activation des collections."
             })
-          })]
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-        className: "div-vert-align",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-          className: "div-label-inputTxt",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
-            children: "R\xE9f\xE9rencement"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
-            children: "Ajouter une br\xE8ve description de l'image ex. \"Jeans noir avec fermeture \xE9clair\". Ceci am\xE9liorera l'accessibilit\xE9 et le r\xE9f\xE9rencement de votre boutique. (*optionnel) "
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
-            type: "text",
-            name: "alt",
-            value: alt,
-            onChange: handleAlt
           })]
         })
       })]
@@ -23065,7 +23169,7 @@ var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_2__["default"])(
   }
 }); // affiche les rows dans list.jsx
 
-var SearchRow = function SearchRow(props) {
+var RowListCollections = function RowListCollections(props) {
   var classes = useStyles();
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
     className: classes.inputText,
@@ -23076,7 +23180,7 @@ var SearchRow = function SearchRow(props) {
   });
 };
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SearchRow);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RowListCollections);
 
 /***/ }),
 

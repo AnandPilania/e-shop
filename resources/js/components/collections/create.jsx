@@ -24,11 +24,16 @@ const CreateCollection = () => {
     const [image, setImage] = useState([]);
     const [metaTitle, setMetaTitle] = useState('');
     const [apercuMetaTitle, setApercuMetaTitle] = useState('');
+    const [apercuMetaTitle2, setApercuMetaTitle2] = useState('');
+    const [biggerThan60, setBiggerThan60] = useState(false);
     const [metaDescription, setMetaDescription] = useState('');
     const [apercuMetaDescription, setApercuMetaDescription] = useState('');
-    const [metaUrl, setMetaUrl] = useState('');
-    var isEmptyMetaTitle = true;
-    var isEmptyMetaDescription = true;
+    const [metaUrl, setMetaUrl] = useState(window.location.origin + '/');
+    const [apercuMetaUrl, setApercuMetaUrl] = useState(window.location.origin);
+    const [isEmptyMetaDescription, setIsEmptyMetaDescription] = useState(true);
+    const [isEmptyMetaTitle, setIsEmptyMetaTitle] = useState(true);
+
+    var isEmptyMetaUrl = true;
 
 
     useEffect(() => {
@@ -73,25 +78,25 @@ const CreateCollection = () => {
                 value: ''
             }
         ]);
-    }
+    };
 
     const handleChangeParam = (param, index) => {
         let tmp_conditions = [...conditions];
         tmp_conditions[index].parameter = param;
         setConditions(tmp_conditions);
-    }
+    };
 
     const handleChangeOperator = (e, index) => {
         let tmp_conditions = [...conditions];
         tmp_conditions[index].operator = e.target.value;
         setConditions(tmp_conditions);
-    }
+    };
 
     const handleChangeValue = (e, index) => {
         let tmp_conditions = [...conditions];
         tmp_conditions[index].value = e.target.value;
         setConditions(tmp_conditions);
-    }
+    };
 
     const showHideConditions = (auto) => {
         if (auto) {
@@ -99,38 +104,84 @@ const CreateCollection = () => {
         } else {
             setIsToggleOn(false);
         }
-    }
+    };
 
     const showHideOptimisation = () => {
         setIsShowOptimisation(!isShowOptimisation);
-    }
+    };
 
     const includePrevProducts = (includ) => {
         setIncludePrevProduct(includ);
-    }
+    };
 
     const handleDateChange = (e) => {
         setDatetimeField(e.target.value);
     };
 
     const handleNameCollection = (e) => {
-        setNameCollection(e.target.value);
+        let name = e.target.value;
+        let urlName = normalizUrl(e.target.value);
+        // limit la taille de l'url à 255 caracères
+        let urlLength = 254 - window.location.origin.length;
+
+        setNameCollection(name);
         // if metaTitle field is not used then we can 
         // fill apercuMetaTitle with the name field 
         if (isEmptyMetaTitle == true) {
-            setApercuMetaTitle(e.target.value);
+            // affiche en rouge un avertissement sur la longeur du title
+            if (name.length > 60) {
+                setBiggerThan60(true);
+            } else {
+                setBiggerThan60(false);
+            }
+            setApercuMetaTitle(name.substring(0, 60));
+            setApercuMetaTitle2(name.substring(61, 5000));
+        }
+        
+        if (metaUrl.length == 0) {
+            setApercuMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
+        }
+    };
+
+    const normalizUrl = (str) => {
+        // remove caracteres unauthorized for url
+        let urlName = str.replaceAll(' ', '-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        urlName = urlName.replaceAll(/-{2,}/g, '-');
+        urlName = urlName.replace(/[<>\?\.\[\]'"°@\|\\§.,\/#\!\$%\^&\*;:\{\}=\+_`~\(\)]/g, "").replaceAll(/-{2,}/g, '-'); // <-- all ist ok 
+
+        return urlName;
+    };
+
+    const handleMetaTitle = (e) => {
+        let name = e.target.value;
+        setMetaTitle(name);
+
+        setIsEmptyMetaTitle(false);
+        setApercuMetaTitle(name.substring(0, 60));
+        setApercuMetaTitle2(name.substring(61, 5000));
+
+        // affiche en rouge un avertissement sur la longeur du title
+        if (name.length > 60) {
+            setBiggerThan60(true);
+        } else {
+            setBiggerThan60(false);
+        }
+
+        if (e.target.value == '') {
+            setIsEmptyMetaTitle(true);
+            setApercuMetaTitle(nameCollection.substring(0, 60));
+            setApercuMetaTitle2(nameCollection.substring(61, 5000));
         }
     };
 
     function strip(htmlText) {
         let doc = new DOMParser().parseFromString(htmlText, 'text/html');
         return doc.body.textContent || "";
-    }
+    };
 
     const handleDescriptionCollection = (description) => {
-        // console.log(description);
-        // if metaDescription field is not used then we can 
-        // fill apercuMetaDescription with the description field 
+        // descriptionCollection est seté dans le componot ckeditor donc pas besoin ici
+        // if metaDescription field is not used then we can fill apercuMetaDescription with the description field 
         if (isEmptyMetaDescription == true) {
             // on remplace les balises de ckeditor par un espace pour que les mots ne soient pas collés dans l'apérçu
             let htmlDescriptionText = description.replaceAll(/<[a-zA-Z0-9]*>/gi, " ");
@@ -141,15 +192,31 @@ const CreateCollection = () => {
     const handleMetaDescription = (e) => {
         setMetaDescription('');
         setMetaDescription(e.target.value);
-        isEmptyMetaDescription = false;
+        setIsEmptyMetaDescription(false);
         setApercuMetaDescription(e.target.value);
 
         if (e.target.value == '') {
-            isEmptyMetaDescription = true;
+            setIsEmptyMetaDescription(true);
             // on remplace les balises de ckeditor par un espace pour que les mots ne soient pas collés dans l'apérçu lorsqu'on efface la meta description !!! 2eme nettoyage 
             let htmlDescriptionText = descriptionCollection.replaceAll(/<[\/a-zA-Z0-9]*>/gi, " ");
-            console.log(htmlDescriptionText);
             setApercuMetaDescription(htmlDescriptionText);
+        }
+    };
+
+    const handleMetaUrl = (e) => {
+        // limit la taille de l'url à 255 caracères
+        let urlLength = 254 - window.location.origin.length;
+        let urlName = normalizUrl(e.target.value.substring(window.location.origin.length, 255));
+
+        setMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
+        isEmptyMetaUrl = false;
+        setApercuMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
+
+        if (e.target.value == window.location.origin + '/') {
+            isEmptyMetaUrl = true;
+            let urlName = normalizUrl(nameCollection);
+            setMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
+            setApercuMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
         }
     };
 
@@ -161,27 +228,13 @@ const CreateCollection = () => {
         setAlt(e.target.value);
     };
 
-    const handleMetaTitle = (e) => {
-        setMetaTitle(e.target.value);
-        isEmptyMetaTitle = false;
-        setApercuMetaTitle(e.target.value);
-
-        if (e.target.value == '') {
-            isEmptyMetaTitle = true;
-            setApercuMetaTitle(nameCollection);
-        }
-    };
-
-    const handleMetaUrl = (e) => {
-        setMetaUrl(e.target.value);
-    };
 
     var formData = new FormData;
     var objConditions = JSON.stringify(conditions);
 
     if (image) {
         formData.append('image[]', image[0]);
-    }
+    };
 
     formData.append("name", nameCollection);
     formData.append("description", descriptionCollection);
@@ -237,7 +290,6 @@ const CreateCollection = () => {
                         onChange={(event, editor) => {
                             setDescriptionCollection(editor.getData());
                             handleDescriptionCollection(editor.getData());
-                            console.log({ event, editor, descriptionCollection });
                         }}
                         onBlur={(event, editor) => {
                             editor.ui.view.editable.element.style.minHeight = "150px";
@@ -337,19 +389,23 @@ const CreateCollection = () => {
                     </div>
                     {isShowOptimisation &&
                         <div className="sub-div-vert-align-border-top">
-                            <h4>Coup d'oeil sur le résultat affiché par les moteurs de recherche</h4>
+                            <h3>Coup d'oeil sur le résultat affiché par les moteurs de recherche</h3>
                             <div>
-                                <h3>{apercuMetaTitle}</h3>
-                                <span>{metaUrl}</span>
+                                <span>{apercuMetaUrl}</span>
+                                <div className="sub-div-horiz-align">
+                                    <h3>{apercuMetaTitle}<span className="apercuMetaTitle2">{apercuMetaTitle2}</span> {biggerThan60 && <span className="inRed">Seul les 60 premiers caractères seront visibles</span>}</h3>
+                                </div>
                                 <p>{apercuMetaDescription}</p>
                             </div>
+
+                            {/* meta-titre */}
                             <div className="div-label-inputTxt">
                                 <div className="sub-div-horiz-align">
                                     <label>
                                         Méta-titre de la page de cette collection
                                     </label>
                                     <i className="fas fa-question-circle tooltip">
-                                        <span className="tooltiptext">Le méta-titre est très important pour le référencement d'une page web et peut contenir jusqu'à 255 caractères. Toutefois, les moteurs de recherche n'afficheront que les 70 premiers. Veillez à ce que votre titre commence par des mots clés pertinants pour l'internaute afin d'améliorer le taux de clics vers votre page.</span>
+                                        <span className="tooltiptext">Le méta-titre est important pour le référencement d'une page web. Sa longueur idéal se situe entre 30 et 60 caractères mais il peut être plus long pour donner plus d'informations sur le contenu de la page. Toutefois, les moteurs de recherche n'afficheront pas plus de 70 caractères, c'est pourquoi il est important de commence par des mots clés pertinants pour l'internaute afin d'améliorer le taux de clics vers votre page.</span>
                                     </i>
                                 </div>
                                 <input type='text'
@@ -360,6 +416,7 @@ const CreateCollection = () => {
                                 />
                             </div>
 
+                            {/* meta-description */}
                             <div className="div-label-inputTxt">
                                 <label>Méta-déscription de cette collection:</label>
                                 <textarea
@@ -368,6 +425,24 @@ const CreateCollection = () => {
                                     placeholder="Cette déscription sera utilisée pour décrire le contenu de cette page. Elle s’affichera sous le titre et l’URL de votre page dans les résultats des moteurs de recherche. Veillez à ne pas dépasser les 140-160 caractères pour qu'elle soit entièrement visibles dans les résultats de Google"
                                     maxLength="320">
                                 </textarea>
+                            </div>
+
+                            {/* meta-url */}
+                            <div className="div-label-inputTxt">
+                                <div className="sub-div-horiz-align">
+                                    <label>
+                                        Url de la page de cette collection
+                                    </label>
+                                    <i className="fas fa-question-circle tooltip">
+                                        <span className="tooltiptext">Utilisez des mots clés en rapport avec le contenu de cette collection</span>
+                                    </i>
+                                </div>
+                                <input type='text'
+                                    value={metaUrl}
+                                    onChange={handleMetaUrl}
+                                    placeholder="Url de cette collection"
+                                    maxLength="255"
+                                />
                             </div>
                         </div>
                     }
@@ -385,13 +460,26 @@ const CreateCollection = () => {
             {/* ----------  side  ---------- */}
             <div className='side-create-collection'>
 
-                {/* Date d'activation */}
+                {/* image */}
                 <div className="div-vert-align">
                     <div className="div-label-inputTxt">
-                        <h2>Activation</h2>
-                        <p>Date d'activation.</p>
-                        <input id="activationDate" type="datetime-local" value={datetimeField} min={datetimeField} onChange={handleDateChange} />
-                        <p><a href='#'>Plus d'informations sur l'activation des collections.</a></p>
+                        <h2>Image</h2>
+                        <p>Ajouter une image pour cette collection. (*optionnel)</p>
+                        <DropZone multiple={false} setImage={setImage} />
+                        <p><a href="#">Comment bien choisir son image ?</a></p>
+                    </div>
+
+                    {/* Référencement */}
+                    <div className="sub-div-vert-align">
+                        <div className="div-label-inputTxt">
+                            <div className="sub-div-horiz-align">
+                                <label>Texte alternatif (*optionnel) </label>
+                                <i className="fas fa-question-circle tooltip">
+                                    <span className="tooltiptext">Ajouter une brève description de l'image ex. "Jeans noir avec fermeture éclair". Ceci améliorera l'accessibilité et le référencement de votre boutique.</span>
+                                </i>
+                            </div>
+                            <input type="text" name="alt" value={alt} onChange={handleAlt} />
+                        </div>
                     </div>
                 </div>
 
@@ -408,22 +496,13 @@ const CreateCollection = () => {
                     </div>
                 </div>
 
-                {/* image */}
+                {/* Date d'activation */}
                 <div className="div-vert-align">
                     <div className="div-label-inputTxt">
-                        <h2>Image</h2>
-                        <p>Ajouter une image pour cette collection. (*optionnel)</p>
-                        <DropZone multiple={false} setImage={setImage} />
-                        <p><a href="#">Comment bien choisir son image ?</a></p>
-                    </div>
-                </div>
-
-                {/* Référencement */}
-                <div className="div-vert-align">
-                    <div className="div-label-inputTxt">
-                        <h2>Référencement</h2>
-                        <label>Ajouter une brève description de l'image ex. "Jeans noir avec fermeture éclair". Ceci améliorera l'accessibilité et le référencement de votre boutique. (*optionnel) </label><br></br>
-                        <input type="text" name="alt" value={alt} onChange={handleAlt} />
+                        <h2>Activation</h2>
+                        <p>Date d'activation.</p>
+                        <input id="activationDate" type="datetime-local" value={datetimeField} min={datetimeField} onChange={handleDateChange} />
+                        <p><a href='#'>Plus d'informations sur l'activation des collections.</a></p>
                     </div>
                 </div>
 
