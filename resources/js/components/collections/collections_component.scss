@@ -37,6 +37,7 @@
     padding: 20px 20px 35px 20px;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
         rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    position: relative;
     // border: solid 1px rgb(52, 184, 0);
 
     label {
@@ -328,7 +329,7 @@
 	-moz-transition: ease .3s;
 	-o-transition: ease .3s;
 }
-//----------------------------------toogle button
+//----------------------------------------toogle button
 
 .apercuMetaTitle2 {
     color: rgb(187, 187, 187);
@@ -337,4 +338,125 @@
 .inRed {
     font-size: 14px;
     color: red;
+}
+
+
+// category --------------------------------------
+.pos-abs-bot-rig-15 {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+}
+
+.categorySelect {
+    width: 100%;
+    border-radius: 5px 5px 0 0;
+}
+
+.btn-select-category {
+    height: 50px;
+    width: 100%;
+    padding: 0 10px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    color: rgb(99, 99, 99);
+    border-radius: 5px 5px 0 0;
+    border: solid 1px rgb(220, 220, 220);
+    transition: ease-in-out 0.15s;
+}
+
+.btn-select-category:hover {
+    cursor: pointer;
+    color: rgb(90, 90, 90);
+    background-color: rgb(250, 250, 250);
+    border: solid 1px rgb(19, 82, 255);
+}
+
+.ul-category {
+    max-height: 250px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    list-style-type: none;
+    padding-top: 5px;
+    border-radius: 0 0 5px 5px;
+    border: rgb(220, 220, 220) solid 1px;
+}
+
+.ul-category::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+.ul-category::-webkit-scrollbar {
+	width: 9px;
+	background-color: #F5F5F5;
+}
+
+.ul-category::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: rgb(19, 82, 255);
+}
+
+.li-category {
+    min-width: 250px;
+    height: 40px;
+    padding: 0 10px;
+    border-bottom: rgb(220, 220, 220) solid 1px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.li-category:hover{
+    cursor: pointer;
+    background-color: rgb(218, 229, 255);
+}
+
+.li-category:first-child {
+    border-top: none;
+}
+
+.li-category:last-child {
+    border-bottom: none;
+}
+
+.li-category:hover span {
+    cursor: pointer;
+    color: rgb(52, 115, 252);
+    font-weight: bold;
+}
+
+.li-category span:hover{
+    cursor: pointer;
+    color: rgb(52, 115, 252);
+    font-weight: bold;
+}
+
+.collection-main-container .fa-trash-alt {
+    transition: ease-in-out .15s;
+}
+
+.collection-main-container .fa-trash-alt:hover {
+    cursor: pointer;
+    color: rgb(224, 0, 0);
+    font-weight: bold;
+    transform: scale(1.3);
+}
+
+.collection-main-container .fa-exchange-alt {
+    margin-right: 10px;
+    transition: ease-in-out .15s;
+}
+
+.collection-main-container .fa-exchange-alt:hover {
+    cursor: pointer;
+    color: rgb(65, 147, 255);
+    font-weight: bold;
+    transform: scale(1.3);
 }

@@ -19,7 +19,11 @@ const CreateCollection = () => {
     const [allConditionsNeeded, setAllConditionsNeeded] = useState(true);
     const [nameCollection, setNameCollection] = useState('');
     const [descriptionCollection, setDescriptionCollection] = useState('');
-    const [category, setCategory] = useState('');
+    const [category, setCategory] = useState();
+    const [categoryName, setCategoryName] = useState('Aucune catégorie');
+    const [newCategoryName, setNewCategoryName] = useState('');
+    const [showCreateCategory, setShowCreateCategory] = useState(false);
+    const [linkCreateCategory, setLinkCreateCategory] = useState('Créer une nouvelle catégorie.');
     const [alt, setAlt] = useState('');
     const [image, setImage] = useState([]);
     const [metaTitle, setMetaTitle] = useState('');
@@ -32,6 +36,7 @@ const CreateCollection = () => {
     const [apercuMetaUrl, setApercuMetaUrl] = useState(window.location.origin);
     const [isEmptyMetaDescription, setIsEmptyMetaDescription] = useState(true);
     const [isEmptyMetaTitle, setIsEmptyMetaTitle] = useState(true);
+    const [showCategorySelect, setShowCategorySelect] = useState(false);
 
     var isEmptyMetaUrl = true;
 
@@ -137,7 +142,7 @@ const CreateCollection = () => {
             setApercuMetaTitle(name.substring(0, 60));
             setApercuMetaTitle2(name.substring(61, 5000));
         }
-        
+
         if (metaUrl.length == 0) {
             setApercuMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
         }
@@ -220,14 +225,106 @@ const CreateCollection = () => {
         }
     };
 
-    const handleCategory = (e) => {
-        setCategory(e.target.value);
+
+    // CATEGORY ----------------------------------------------------------------
+    // show hide select menu
+    const showHideCategorySelect = () => {
+        setShowCategorySelect(!showCategorySelect);
+    }
+
+    // get id for back-end
+    const handleCategory = (cat_id) => {
+        setCategory(cat_id);
+        setShowCategorySelect(false);
+    };
+
+    // nom affiché dans le select
+    const handleCategoryName = (cat_name) => {
+        setCategoryName(cat_name);
     };
 
     const handleAlt = (e) => {
         setAlt(e.target.value);
     };
 
+    // show/hide input create new category
+    const handleShowCreateCategory = (e) => {
+        e.preventDefault();
+        // test du toggle avant le setShowCreateCategory pcq il faut se baser sur le précédent état de showCreateCategory qui a un temps de retard au moment où on exécute cette fonction
+        if (showCreateCategory == false) { // au lieu de true
+            setLinkCreateCategory('Annuler');
+        }
+
+        if (showCreateCategory == true) { // au lieu de false
+            setLinkCreateCategory('Créer une nouvelle catégorie.');
+        }
+
+        setShowCreateCategory(!showCreateCategory);
+    }
+
+    const handleNewCategoryName = (e) => {
+        setNewCategoryName(e.target.value);
+    }
+
+    // add one category
+    const saveNewCategory = () => {
+        Axios.post(`http://127.0.0.1:8000/categories`, { name: newCategoryName })
+            .then(res => {
+                setShowCreateCategory(false)
+                setLinkCreateCategory('Créer une nouvelle catégorie.');
+                setNewCategoryName('');
+                console.log('res.data  --->  ok');
+            }).catch(function (error) {
+                console.log('error:   ' + error);
+            });
+
+        // chargement des collections
+        Axios.get(`http://127.0.0.1:8000/getCategories`)
+            .then(res => {
+                setCategories(res.data);
+            }).catch(function (error) {
+                console.log('error:   ' + error);
+            });
+    }
+
+    // delete one category
+    const deleteCategory = (cat_id) => {
+        Axios.delete(`http://127.0.0.1:8000/categories/${cat_id}`)
+            .then(res => {
+
+                console.log('res.data  --->  ok');
+                setShowCategorySelect(false);
+                // chargement des collections
+                Axios.get(`http://127.0.0.1:8000/getCategories`)
+                    .then(res => {
+                        setCategories(res.data);
+                    }).catch(function (error) {
+                        console.log('error:   ' + error);
+                    });
+                setCategoryName('Aucune catégorie');
+
+            }).catch(function (error) {
+                console.log('error:   ' + error);
+            });
+    }
+
+    document.addEventListener("click", (evt) => {
+        const categorySelectElement = document.getElementById("categorySelect");
+        let targetElement = evt.target; // clicked element
+
+        do {
+            if (targetElement == categorySelectElement) {
+                // click inside
+                return;
+            }
+            // Go up the DOM
+            targetElement = targetElement.parentNode;
+        } while (targetElement);
+
+        // click outside.
+        setShowCategorySelect(false);
+    });
+    //------------------------------------------------------------------Category
 
     var formData = new FormData;
     var objConditions = JSON.stringify(conditions);
@@ -484,17 +581,92 @@ const CreateCollection = () => {
                 </div>
 
                 {/* catégorie */}
-                <div className="div-vert-align">
+                {/* <div className="div-vert-align">
                     <div className="div-label-inputTxt">
                         <h2>Catégorie</h2>
                         <p>Attribuer une catégorie à cette collection. (<strong>*optionnel</strong>)</p>
                         <select id='category' value={category} onChange={handleCategory} >
                             <option value="none">Aucune catégorie</option>
-                            {categories.map((category, index) => (<option key={index} value={category.id}>{category.name}</option>))}
+                            {categories.map((category, index) => (<option key={index} value={category.id}>{category.name} `<i class="far fa-trash-alt"></i>`</option>))}
                         </select>
                         <p><a href='#'>Plus d'informations sur les catégories.</a></p>
                     </div>
+                    <p className='pos-abs-bot-rig-15' onClick={handleShowCreateCategory}><a href=''>{linkCreateCategory}</a></p>
+                    {showCreateCategory && <div className='sub-div-vert-alogn'>
+                        <label>Nom de la catégorie</label>
+                        <input type='text'
+                            value={newCategoryName}
+                            onChange={handleNewCategoryName}
+                            maxLength="255"
+                        />
+                        <button className='btn-bcknd' onClick={saveNewCategory}>
+                            Sauvegarder
+                        </button>
+                    </div>}
+                </div> */}
+
+
+                {/* catégorie */}
+                <div className="div-vert-align">
+                    <div className="div-label-inputTxt">
+                        <h2>Catégorie</h2>
+                        <p>Attribuer une catégorie à cette collection.
+                            (<strong>*optionnel</strong>)</p>
+
+
+                        <div className="categorySelect" id="categorySelect">
+                            <button className='btn-select-category' onClick={showHideCategorySelect}>
+                                {categoryName}<i className="fas fa-caret-down"></i>
+                            </button>
+                            {showCategorySelect && <ul className='ul-category'>
+                                <li className="li-category"
+                                    onClick={() => {
+                                        handleCategory(0),
+                                            handleCategoryName('Aucune catégorie')
+                                    }}
+                                >Aucune catégorie
+                                </li>
+                                {categories.map((cat, index) => (
+                                    <li className="li-category"
+                                        key={index}
+                                        onClick={() => {
+                                            handleCategory(cat.id),
+                                                handleCategoryName(cat.name)
+                                        }} >
+                                        <span>{cat.name}</span>
+                                        <div>
+                                            <i class="fas fa-exchange-alt"></i>
+                                            <i className="far fa-trash-alt"
+                                                onClick={() => deleteCategory(cat.id)}></i>
+                                        </div>
+                                    </li>))}
+                            </ul>}
+                        </div>
+
+
+
+
+                        {/* <select id='category' value={category} onChange={handleCategory} >
+                            <option value="none">Aucune catégorie</option>
+                            {categories.map((category, index) => (<option key={index} value={category.id}>{category.name} `<i class="far fa-trash-alt"></i>`</option>))}
+                        </select> */}
+                        <p><a href='#'>Plus d'informations sur les catégories.</a></p>
+                    </div>
+                    <p className='pos-abs-bot-rig-15' onClick={handleShowCreateCategory}><a href=''>{linkCreateCategory}</a></p>
+                    {showCreateCategory && <div className='sub-div-vert-alogn'>
+                        <label>Nom de la catégorie</label>
+                        <input type='text'
+                            value={newCategoryName}
+                            onChange={handleNewCategoryName}
+                            maxLength="255"
+                        />
+                        <button className='btn-bcknd' onClick={saveNewCategory}>
+                            Sauvegarder
+                        </button>
+                    </div>}
                 </div>
+
+
 
                 {/* Date d'activation */}
                 <div className="div-vert-align">

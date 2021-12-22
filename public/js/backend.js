@@ -22404,70 +22404,95 @@ var CreateCollection = function CreateCollection() {
       descriptionCollection = _useState18[0],
       setDescriptionCollection = _useState18[1];
 
-  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
       _useState20 = _slicedToArray(_useState19, 2),
       category = _useState20[0],
       setCategory = _useState20[1];
 
-  var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Aucune catégorie'),
       _useState22 = _slicedToArray(_useState21, 2),
-      alt = _useState22[0],
-      setAlt = _useState22[1];
+      categoryName = _useState22[0],
+      setCategoryName = _useState22[1];
 
-  var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState24 = _slicedToArray(_useState23, 2),
-      image = _useState24[0],
-      setImage = _useState24[1];
+      newCategoryName = _useState24[0],
+      setNewCategoryName = _useState24[1];
 
-  var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState26 = _slicedToArray(_useState25, 2),
-      metaTitle = _useState26[0],
-      setMetaTitle = _useState26[1];
+      showCreateCategory = _useState26[0],
+      setShowCreateCategory = _useState26[1];
 
-  var _useState27 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState27 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Créer une nouvelle catégorie.'),
       _useState28 = _slicedToArray(_useState27, 2),
-      apercuMetaTitle = _useState28[0],
-      setApercuMetaTitle = _useState28[1];
+      linkCreateCategory = _useState28[0],
+      setLinkCreateCategory = _useState28[1];
 
   var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState30 = _slicedToArray(_useState29, 2),
-      apercuMetaTitle2 = _useState30[0],
-      setApercuMetaTitle2 = _useState30[1];
+      alt = _useState30[0],
+      setAlt = _useState30[1];
 
-  var _useState31 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState31 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState32 = _slicedToArray(_useState31, 2),
-      biggerThan60 = _useState32[0],
-      setBiggerThan60 = _useState32[1];
+      image = _useState32[0],
+      setImage = _useState32[1];
 
   var _useState33 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState34 = _slicedToArray(_useState33, 2),
-      metaDescription = _useState34[0],
-      setMetaDescription = _useState34[1];
+      metaTitle = _useState34[0],
+      setMetaTitle = _useState34[1];
 
   var _useState35 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState36 = _slicedToArray(_useState35, 2),
-      apercuMetaDescription = _useState36[0],
-      setApercuMetaDescription = _useState36[1];
+      apercuMetaTitle = _useState36[0],
+      setApercuMetaTitle = _useState36[1];
 
-  var _useState37 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.location.origin + '/'),
+  var _useState37 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState38 = _slicedToArray(_useState37, 2),
-      metaUrl = _useState38[0],
-      setMetaUrl = _useState38[1];
+      apercuMetaTitle2 = _useState38[0],
+      setApercuMetaTitle2 = _useState38[1];
 
-  var _useState39 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.location.origin),
+  var _useState39 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState40 = _slicedToArray(_useState39, 2),
-      apercuMetaUrl = _useState40[0],
-      setApercuMetaUrl = _useState40[1];
+      biggerThan60 = _useState40[0],
+      setBiggerThan60 = _useState40[1];
 
-  var _useState41 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState41 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState42 = _slicedToArray(_useState41, 2),
-      isEmptyMetaDescription = _useState42[0],
-      setIsEmptyMetaDescription = _useState42[1];
+      metaDescription = _useState42[0],
+      setMetaDescription = _useState42[1];
 
-  var _useState43 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState43 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState44 = _slicedToArray(_useState43, 2),
-      isEmptyMetaTitle = _useState44[0],
-      setIsEmptyMetaTitle = _useState44[1];
+      apercuMetaDescription = _useState44[0],
+      setApercuMetaDescription = _useState44[1];
+
+  var _useState45 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.location.origin + '/'),
+      _useState46 = _slicedToArray(_useState45, 2),
+      metaUrl = _useState46[0],
+      setMetaUrl = _useState46[1];
+
+  var _useState47 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.location.origin),
+      _useState48 = _slicedToArray(_useState47, 2),
+      apercuMetaUrl = _useState48[0],
+      setApercuMetaUrl = _useState48[1];
+
+  var _useState49 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+      _useState50 = _slicedToArray(_useState49, 2),
+      isEmptyMetaDescription = _useState50[0],
+      setIsEmptyMetaDescription = _useState50[1];
+
+  var _useState51 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+      _useState52 = _slicedToArray(_useState51, 2),
+      isEmptyMetaTitle = _useState52[0],
+      setIsEmptyMetaTitle = _useState52[1];
+
+  var _useState53 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState54 = _slicedToArray(_useState53, 2),
+      showCategorySelect = _useState54[0],
+      setShowCategorySelect = _useState54[1];
 
   var isEmptyMetaUrl = true;
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
@@ -22643,15 +22668,104 @@ var CreateCollection = function CreateCollection() {
       setMetaUrl(window.location.origin + '/' + _urlName.substring(0, urlLength));
       setApercuMetaUrl(window.location.origin + '/' + _urlName.substring(0, urlLength));
     }
-  };
+  }; // CATEGORY ----------------------------------------------------------------
+  // show hide select menu
 
-  var handleCategory = function handleCategory(e) {
-    setCategory(e.target.value);
+
+  var showHideCategorySelect = function showHideCategorySelect() {
+    setShowCategorySelect(!showCategorySelect);
+  }; // get id for back-end
+
+
+  var handleCategory = function handleCategory(cat_id) {
+    setCategory(cat_id);
+    setShowCategorySelect(false);
+  }; // nom affiché dans le select
+
+
+  var handleCategoryName = function handleCategoryName(cat_name) {
+    setCategoryName(cat_name);
   };
 
   var handleAlt = function handleAlt(e) {
     setAlt(e.target.value);
+  }; // show/hide input create new category
+
+
+  var handleShowCreateCategory = function handleShowCreateCategory(e) {
+    e.preventDefault(); // test du toggle avant le setShowCreateCategory pcq il faut se baser sur le précédent état de showCreateCategory qui a un temps de retard au moment où on exécute cette fonction
+
+    if (showCreateCategory == false) {
+      // au lieu de true
+      setLinkCreateCategory('Annuler');
+    }
+
+    if (showCreateCategory == true) {
+      // au lieu de false
+      setLinkCreateCategory('Créer une nouvelle catégorie.');
+    }
+
+    setShowCreateCategory(!showCreateCategory);
   };
+
+  var handleNewCategoryName = function handleNewCategoryName(e) {
+    setNewCategoryName(e.target.value);
+  }; // add one category
+
+
+  var saveNewCategory = function saveNewCategory() {
+    axios__WEBPACK_IMPORTED_MODULE_4___default().post("http://127.0.0.1:8000/categories", {
+      name: newCategoryName
+    }).then(function (res) {
+      setShowCreateCategory(false);
+      setLinkCreateCategory('Créer une nouvelle catégorie.');
+      setNewCategoryName('');
+      console.log('res.data  --->  ok');
+    })["catch"](function (error) {
+      console.log('error:   ' + error);
+    }); // chargement des collections
+
+    axios__WEBPACK_IMPORTED_MODULE_4___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
+      setCategories(res.data);
+    })["catch"](function (error) {
+      console.log('error:   ' + error);
+    });
+  }; // delete one category
+
+
+  var deleteCategory = function deleteCategory(cat_id) {
+    axios__WEBPACK_IMPORTED_MODULE_4___default()["delete"]("http://127.0.0.1:8000/categories/".concat(cat_id)).then(function (res) {
+      console.log('res.data  --->  ok');
+      setShowCategorySelect(false); // chargement des collections
+
+      axios__WEBPACK_IMPORTED_MODULE_4___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
+        setCategories(res.data);
+      })["catch"](function (error) {
+        console.log('error:   ' + error);
+      });
+      setCategoryName('Aucune catégorie');
+    })["catch"](function (error) {
+      console.log('error:   ' + error);
+    });
+  };
+
+  document.addEventListener("click", function (evt) {
+    var categorySelectElement = document.getElementById("categorySelect");
+    var targetElement = evt.target; // clicked element
+
+    do {
+      if (targetElement == categorySelectElement) {
+        // click inside
+        return;
+      } // Go up the DOM
+
+
+      targetElement = targetElement.parentNode;
+    } while (targetElement); // click outside.
+
+
+    setShowCategorySelect(false);
+  }); //------------------------------------------------------------------Category
 
   var formData = new FormData();
   var objConditions = JSON.stringify(conditions);
@@ -22992,9 +23106,9 @@ var CreateCollection = function CreateCollection() {
             })]
           })
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         className: "div-vert-align",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
           className: "div-label-inputTxt",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
             children: "Cat\xE9gorie"
@@ -23002,18 +23116,43 @@ var CreateCollection = function CreateCollection() {
             children: ["Attribuer une cat\xE9gorie \xE0 cette collection. (", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("strong", {
               children: "*optionnel"
             }), ")"]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("select", {
-            id: "category",
-            value: category,
-            onChange: handleCategory,
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("option", {
-              value: "none",
-              children: "Aucune cat\xE9gorie"
-            }), categories.map(function (category, index) {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("option", {
-                value: category.id,
-                children: category.name
-              }, index);
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+            className: "categorySelect",
+            id: "categorySelect",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("button", {
+              className: "btn-select-category",
+              onClick: showHideCategorySelect,
+              children: [categoryName, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+                className: "fas fa-caret-down"
+              })]
+            }), showCategorySelect && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("ul", {
+              className: "ul-category",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("li", {
+                className: "li-category",
+                onClick: function onClick() {
+                  handleCategory(0), handleCategoryName('Aucune catégorie');
+                },
+                children: "Aucune cat\xE9gorie"
+              }), categories.map(function (cat, index) {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("li", {
+                  className: "li-category",
+                  onClick: function onClick() {
+                    handleCategory(cat.id), handleCategoryName(cat.name);
+                  },
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                    children: cat.name
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+                      "class": "fas fa-exchange-alt"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+                      className: "far fa-trash-alt",
+                      onClick: function onClick() {
+                        return deleteCategory(cat.id);
+                      }
+                    })]
+                  })]
+                }, index);
+              })]
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
@@ -23021,7 +23160,28 @@ var CreateCollection = function CreateCollection() {
               children: "Plus d'informations sur les cat\xE9gories."
             })
           })]
-        })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+          className: "pos-abs-bot-rig-15",
+          onClick: handleShowCreateCategory,
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
+            href: "",
+            children: linkCreateCategory
+          })
+        }), showCreateCategory && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          className: "sub-div-vert-alogn",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+            children: "Nom de la cat\xE9gorie"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+            type: "text",
+            value: newCategoryName,
+            onChange: handleNewCategoryName,
+            maxLength: "255"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            className: "btn-bcknd",
+            onClick: saveNewCategory,
+            children: "Sauvegarder"
+          })]
+        })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
         className: "div-vert-align",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
