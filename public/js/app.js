@@ -22892,7 +22892,7 @@ var CreateCollection = function CreateCollection() {
               children: "Automatis\xE9"
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("p", {
-            children: ["Ajouter automatiquement les produits lorsqu'ils correspondent aux r\xE8gles d\xE9finies. Y compris les produits d\xE9j\xE0 enregistr\xE9s. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
+            children: ["Ajouter automatiquement les produits lorsqu'ils correspondent aux r\xE8gles d\xE9finies. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
               href: "#",
               children: "Plus d'informations sur les collections automatis\xE9es."
             })]
@@ -23135,11 +23135,11 @@ var CreateCollection = function CreateCollection() {
               className: "btn-select-category",
               onClick: showHideCategorySelect,
               children: [categoryName, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
-                className: "fas fa-caret-down"
+                "class": "fas fa-angle-down"
               })]
             }), showCategorySelect && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("ul", {
               className: "ul-category",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("li", {
+              children: [categoryName != 'Aucune catégorie' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("li", {
                 className: "li-category",
                 onClick: function onClick() {
                   handleCategory(0), handleCategoryName('Aucune catégorie');
@@ -23155,7 +23155,7 @@ var CreateCollection = function CreateCollection() {
                     children: cat.name
                   }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
                     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
-                      "class": "fas fa-exchange-alt"
+                      "class": "fas fa-recycle"
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
                       className: "far fa-trash-alt",
                       onClick: function onClick() {

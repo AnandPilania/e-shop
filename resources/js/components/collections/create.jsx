@@ -422,7 +422,7 @@ const CreateCollection = () => {
                                 Automatisé
                             </label>
                         </div>
-                        <p>Ajouter automatiquement les produits lorsqu'ils correspondent aux règles définies. Y compris les produits déjà enregistrés. <a href='#'>Plus d'informations sur les collections automatisées.</a></p>
+                        <p>Ajouter automatiquement les produits lorsqu'ils correspondent aux règles définies. <a href='#'>Plus d'informations sur les collections automatisées.</a></p>
                         {isToggleOn && <div className="sub-div-horiz-align">
                             <div className="div-radio-label">
                                 <input type='radio'
@@ -581,32 +581,6 @@ const CreateCollection = () => {
                 </div>
 
                 {/* catégorie */}
-                {/* <div className="div-vert-align">
-                    <div className="div-label-inputTxt">
-                        <h2>Catégorie</h2>
-                        <p>Attribuer une catégorie à cette collection. (<strong>*optionnel</strong>)</p>
-                        <select id='category' value={category} onChange={handleCategory} >
-                            <option value="none">Aucune catégorie</option>
-                            {categories.map((category, index) => (<option key={index} value={category.id}>{category.name} `<i class="far fa-trash-alt"></i>`</option>))}
-                        </select>
-                        <p><a href='#'>Plus d'informations sur les catégories.</a></p>
-                    </div>
-                    <p className='pos-abs-bot-rig-15' onClick={handleShowCreateCategory}><a href=''>{linkCreateCategory}</a></p>
-                    {showCreateCategory && <div className='sub-div-vert-alogn'>
-                        <label>Nom de la catégorie</label>
-                        <input type='text'
-                            value={newCategoryName}
-                            onChange={handleNewCategoryName}
-                            maxLength="255"
-                        />
-                        <button className='btn-bcknd' onClick={saveNewCategory}>
-                            Sauvegarder
-                        </button>
-                    </div>}
-                </div> */}
-
-
-                {/* catégorie */}
                 <div className="div-vert-align">
                     <div className="div-label-inputTxt">
                         <h2>Catégorie</h2>
@@ -616,16 +590,16 @@ const CreateCollection = () => {
 
                         <div className="categorySelect" id="categorySelect">
                             <button className='btn-select-category' onClick={showHideCategorySelect}>
-                                {categoryName}<i className="fas fa-caret-down"></i>
+                                {categoryName}<i class="fas fa-angle-down"></i>
                             </button>
                             {showCategorySelect && <ul className='ul-category'>
-                                <li className="li-category"
+                                {categoryName != 'Aucune catégorie' && <li className="li-category"
                                     onClick={() => {
                                         handleCategory(0),
                                             handleCategoryName('Aucune catégorie')
                                     }}
                                 >Aucune catégorie
-                                </li>
+                                </li>}
                                 {categories.map((cat, index) => (
                                     <li className="li-category"
                                         key={index}
@@ -635,21 +609,13 @@ const CreateCollection = () => {
                                         }} >
                                         <span>{cat.name}</span>
                                         <div>
-                                            <i class="fas fa-exchange-alt"></i>
+                                            <i class="fas fa-recycle"></i>
                                             <i className="far fa-trash-alt"
                                                 onClick={() => deleteCategory(cat.id)}></i>
                                         </div>
                                     </li>))}
                             </ul>}
                         </div>
-
-
-
-
-                        {/* <select id='category' value={category} onChange={handleCategory} >
-                            <option value="none">Aucune catégorie</option>
-                            {categories.map((category, index) => (<option key={index} value={category.id}>{category.name} `<i class="far fa-trash-alt"></i>`</option>))}
-                        </select> */}
                         <p><a href='#'>Plus d'informations sur les catégories.</a></p>
                     </div>
                     <p className='pos-abs-bot-rig-15' onClick={handleShowCreateCategory}><a href=''>{linkCreateCategory}</a></p>
