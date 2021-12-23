@@ -22336,7 +22336,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _tools_dropZone__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../tools/dropZone */ "./resources/js/components/tools/dropZone.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _modal_modal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../modal/modal */ "./resources/js/components/modal/modal.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -22356,6 +22357,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -22441,70 +22443,113 @@ var CreateCollection = function CreateCollection() {
       linkCreateCategory = _useState28[0],
       setLinkCreateCategory = _useState28[1];
 
-  var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState30 = _slicedToArray(_useState29, 2),
-      alt = _useState30[0],
-      setAlt = _useState30[1];
+      newCategorySucces = _useState30[0],
+      setNewCategorySucces = _useState30[1];
 
-  var _useState31 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState31 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState32 = _slicedToArray(_useState31, 2),
-      image = _useState32[0],
-      setImage = _useState32[1];
+      alt = _useState32[0],
+      setAlt = _useState32[1];
 
-  var _useState33 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState33 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState34 = _slicedToArray(_useState33, 2),
-      metaTitle = _useState34[0],
-      setMetaTitle = _useState34[1];
+      image = _useState34[0],
+      setImage = _useState34[1];
 
   var _useState35 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState36 = _slicedToArray(_useState35, 2),
-      apercuMetaTitle = _useState36[0],
-      setApercuMetaTitle = _useState36[1];
+      metaTitle = _useState36[0],
+      setMetaTitle = _useState36[1];
 
   var _useState37 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState38 = _slicedToArray(_useState37, 2),
-      apercuMetaTitle2 = _useState38[0],
-      setApercuMetaTitle2 = _useState38[1];
+      apercuMetaTitle = _useState38[0],
+      setApercuMetaTitle = _useState38[1];
 
-  var _useState39 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState39 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState40 = _slicedToArray(_useState39, 2),
-      biggerThan60 = _useState40[0],
-      setBiggerThan60 = _useState40[1];
+      apercuMetaTitle2 = _useState40[0],
+      setApercuMetaTitle2 = _useState40[1];
 
-  var _useState41 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState41 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState42 = _slicedToArray(_useState41, 2),
-      metaDescription = _useState42[0],
-      setMetaDescription = _useState42[1];
+      biggerThan60 = _useState42[0],
+      setBiggerThan60 = _useState42[1];
 
   var _useState43 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState44 = _slicedToArray(_useState43, 2),
-      apercuMetaDescription = _useState44[0],
-      setApercuMetaDescription = _useState44[1];
+      metaDescription = _useState44[0],
+      setMetaDescription = _useState44[1];
 
-  var _useState45 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.location.origin + '/'),
+  var _useState45 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState46 = _slicedToArray(_useState45, 2),
-      metaUrl = _useState46[0],
-      setMetaUrl = _useState46[1];
+      apercuMetaDescription = _useState46[0],
+      setApercuMetaDescription = _useState46[1];
 
-  var _useState47 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.location.origin),
+  var _useState47 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.location.origin + '/'),
       _useState48 = _slicedToArray(_useState47, 2),
-      apercuMetaUrl = _useState48[0],
-      setApercuMetaUrl = _useState48[1];
+      metaUrl = _useState48[0],
+      setMetaUrl = _useState48[1];
 
-  var _useState49 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState49 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.location.origin),
       _useState50 = _slicedToArray(_useState49, 2),
-      isEmptyMetaDescription = _useState50[0],
-      setIsEmptyMetaDescription = _useState50[1];
+      apercuMetaUrl = _useState50[0],
+      setApercuMetaUrl = _useState50[1];
 
   var _useState51 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState52 = _slicedToArray(_useState51, 2),
-      isEmptyMetaTitle = _useState52[0],
-      setIsEmptyMetaTitle = _useState52[1];
+      isEmptyMetaDescription = _useState52[0],
+      setIsEmptyMetaDescription = _useState52[1];
 
-  var _useState53 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState53 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState54 = _slicedToArray(_useState53, 2),
-      showCategorySelect = _useState54[0],
-      setShowCategorySelect = _useState54[1];
+      isEmptyMetaTitle = _useState54[0],
+      setIsEmptyMetaTitle = _useState54[1];
+
+  var _useState55 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState56 = _slicedToArray(_useState55, 2),
+      isCreateCategory = _useState56[0],
+      setIsCreateCategory = _useState56[1];
+
+  var _useState57 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState58 = _slicedToArray(_useState57, 2),
+      isUpdateCategory = _useState58[0],
+      setIsUpdateCategory = _useState58[1];
+
+  var _useState59 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState60 = _slicedToArray(_useState59, 2),
+      showCategorySelect = _useState60[0],
+      setShowCategorySelect = _useState60[1];
+
+  var _useState61 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState62 = _slicedToArray(_useState61, 2),
+      showModal = _useState62[0],
+      setShowModal = _useState62[1];
+
+  var _useState63 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState64 = _slicedToArray(_useState63, 2),
+      messageModal = _useState64[0],
+      setMessageModal = _useState64[1];
+
+  var _useState65 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState66 = _slicedToArray(_useState65, 2),
+      sender = _useState66[0],
+      setSender = _useState66[1]; // for modal
+
+
+  var _useState67 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
+      _useState68 = _slicedToArray(_useState67, 2),
+      tmp_parameter = _useState68[0],
+      setTmp_parameter = _useState68[1]; // pour stocker provisoirement une variable
+
+
+  var _useState69 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState70 = _slicedToArray(_useState69, 2),
+      newCategoryNameUseInMessage = _useState70[0],
+      setNewCategoryNameUseInMessage = _useState70[1]; // pour stocker le nom de la catégoie qui doit être afficher dans le message de confirmation de la creation de la catégorie
+
 
   var isEmptyMetaUrl = true;
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
@@ -22722,6 +22767,19 @@ var CreateCollection = function CreateCollection() {
 
   var handleNewCategoryName = function handleNewCategoryName(e) {
     setNewCategoryName(e.target.value);
+  };
+
+  var handleSetIsCreateCategory = function handleSetIsCreateCategory() {
+    alert('create');
+    setIsUpdateCategory(false);
+    setIsCreateCategory(true);
+  };
+
+  console.log(isCreateCategory);
+
+  var handleSetIsUpdateCategory = function handleSetIsUpdateCategory() {
+    setIsCreateCategory(false);
+    setIsUpdateCategory(true);
   }; // add one category
 
 
@@ -22729,9 +22787,12 @@ var CreateCollection = function CreateCollection() {
     axios__WEBPACK_IMPORTED_MODULE_4___default().post("http://127.0.0.1:8000/categories", {
       name: newCategoryName
     }).then(function (res) {
+      setNewCategoryNameUseInMessage(newCategoryName);
       setShowCreateCategory(false);
       setLinkCreateCategory('Créer une nouvelle catégorie.');
       setNewCategoryName('');
+      setNewCategorySucces(true);
+      setTimeout(hideMessageSucces, 4000);
       console.log('res.data  --->  ok');
     })["catch"](function (error) {
       console.log('error:   ' + error);
@@ -22742,6 +22803,19 @@ var CreateCollection = function CreateCollection() {
     })["catch"](function (error) {
       console.log('error:   ' + error);
     });
+  }; // hide les méssages de succes apès 4 secondes
+
+
+  var hideMessageSucces = function hideMessageSucces() {
+    setNewCategorySucces(false);
+  }; // confirm delete one category
+
+
+  var confirmDeleteCategory = function confirmDeleteCategory(cat_id, cat_name) {
+    setMessageModal('Supprimer la catégorie "' + cat_name + '" ?');
+    setSender('deleteCategory');
+    setTmp_parameter(cat_id);
+    setShowModal(true);
   }; // delete one category
 
 
@@ -22759,7 +22833,31 @@ var CreateCollection = function CreateCollection() {
     })["catch"](function (error) {
       console.log('error:   ' + error);
     });
-  };
+  }; // update one category
+
+
+  var updateCategory = function updateCategory() {
+    axios__WEBPACK_IMPORTED_MODULE_4___default().put("http://127.0.0.1:8000/categories/".concat(category), {
+      name: newCategoryName
+    }).then(function (res) {
+      setNewCategoryNameUseInMessage(newCategoryName);
+      setShowCreateCategory(false);
+      setLinkCreateCategory('Créer une nouvelle catégorie.');
+      setNewCategoryName('');
+      setNewCategorySucces(true);
+      setTimeout(hideMessageSucces, 4000);
+      console.log('res.data  --->  ok');
+    })["catch"](function (error) {
+      console.log('error:   ' + error);
+    }); // chargement des collections
+
+    axios__WEBPACK_IMPORTED_MODULE_4___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
+      setCategories(res.data);
+    })["catch"](function (error) {
+      console.log('error:   ' + error);
+    });
+  }; // ferme le select de category quand on click en dehors du select
+
 
   document.addEventListener("click", function (evt) {
     var categorySelectElement = document.getElementById("categorySelect");
@@ -22778,6 +22876,30 @@ var CreateCollection = function CreateCollection() {
 
     setShowCategorySelect(false);
   }); //------------------------------------------------------------------Category
+  //Modal---------------------------------------------------------------------
+
+  var handleModalConfirm = function handleModalConfirm() {
+    setShowModal(false);
+
+    switch (sender) {
+      case 'deleteCategory':
+        deleteCategory(tmp_parameter);
+        break;
+
+      case 'Papayas':
+        console.log('Mangoes and papayas are $2.79 a pound.'); // expected output: "Mangoes and papayas are $2.79 a pound."
+
+        break;
+
+      default:
+        '';
+    }
+  };
+
+  var handleModalCancel = function handleModalCancel() {
+    setShowModal(false);
+  }; //-------------------------------------------------------------------Modal
+
 
   var formData = new FormData();
   var objConditions = JSON.stringify(conditions);
@@ -22807,29 +22929,29 @@ var CreateCollection = function CreateCollection() {
     });
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
     className: "collection-main-container",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
       className: "collection-block-container",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
         className: "div-vert-align",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "div-label-inputTxt",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h2", {
             children: "Nom de la collection"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
             type: "text",
             id: "titreCollection",
             value: nameCollection,
             onChange: handleNameCollection,
             placeholder: "ex. Robes, Op\xE9ration d\xE9stockage, Collection hiver"
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
           className: "div-label-inputTxt",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h2", {
             children: "Description (optionnel)"
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_ckeditor_ckeditor5_react__WEBPACK_IMPORTED_MODULE_2__.CKEditor, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_ckeditor_ckeditor5_react__WEBPACK_IMPORTED_MODULE_2__.CKEditor, {
           editor: (_ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_3___default()),
           data: "",
           onReady: function onReady(editor) {
@@ -22849,78 +22971,78 @@ var CreateCollection = function CreateCollection() {
             editor.ui.view.editable.element.style.minHeight = "150px";
           }
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
         className: "div-vert-align",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h2", {
           children: "Type de collection"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "sub-div-vert-align",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "div-radio-label",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
               type: "radio",
               checked: isToggleOn == false,
               onChange: function onChange() {
                 return showHideConditions(false);
               }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
               onClick: function onClick() {
                 return showHideConditions(false);
               },
               children: "Manuel"
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("p", {
-            children: ["Ajouter un produit \xE0 la fois dans cette collection. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("p", {
+            children: ["Ajouter un produit \xE0 la fois dans cette collection. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("a", {
               href: "#",
               children: "Plus d'informations sur les collections manuelles."
             })]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "sub-div-vert-align",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "div-radio-label",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
               type: "radio",
               checked: isToggleOn == true,
               onChange: function onChange() {
                 return showHideConditions(true);
               }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
               onClick: function onClick() {
                 return showHideConditions(true);
               },
               children: "Automatis\xE9"
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("p", {
-            children: ["Ajouter automatiquement les produits lorsqu'ils correspondent aux r\xE8gles d\xE9finies. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("p", {
+            children: ["Ajouter automatiquement les produits lorsqu'ils correspondent aux r\xE8gles d\xE9finies. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("a", {
               href: "#",
               children: "Plus d'informations sur les collections automatis\xE9es."
             })]
-          }), isToggleOn && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          }), isToggleOn && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "sub-div-horiz-align",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
               className: "div-radio-label",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
                 type: "radio",
                 checked: includePrevProduct == true,
                 onChange: function onChange() {
                   return includePrevProducts(true);
                 }
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
                 onClick: function onClick() {
                   return includePrevProducts(true);
                 },
                 children: "Inclure les produits d\xE9j\xE0 enregistr\xE9s"
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
               className: "div-radio-label",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
                 type: "radio",
                 checked: includePrevProduct == false,
                 onChange: function onChange() {
                   return includePrevProducts(false);
                 }
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
                 onClick: function onClick() {
                   return includePrevProducts(false);
                 },
@@ -22928,18 +23050,18 @@ var CreateCollection = function CreateCollection() {
               })]
             })]
           })]
-        }), isToggleOn && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        }), isToggleOn && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "sub-div-vert-align-border-top",
           id: "conditions_collection",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h2", {
             children: "Condition(s)"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h4", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h4", {
             children: "D\xE9finissez une ou plusieurs r\xE8gles. Ex. Prix du produit est inf\xE9rieur \xE0 50 \u20AC, Nom du produit contient Robe, etc. Seuls les produits correspondants \xE0 vos r\xE8gles seront int\xE9gr\xE9s dans cette collection. "
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "sub-div-horiz-align",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
               className: "div-radio-label",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
                 type: "radio",
                 name: "condition",
                 id: "allConditions",
@@ -22947,13 +23069,13 @@ var CreateCollection = function CreateCollection() {
                 onChange: function onChange() {
                   return setAllConditionsNeeded(true);
                 }
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
                 htmlFor: "allConditions",
                 children: "Les produits doivent r\xE9pondre \xE0 toutes les conditions"
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
               className: "div-radio-label",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
                 type: "radio",
                 name: "condition",
                 id: "leastOnConditions",
@@ -22961,105 +23083,105 @@ var CreateCollection = function CreateCollection() {
                 onChange: function onChange() {
                   return setAllConditionsNeeded(false);
                 }
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
                 htmlFor: "leastOnConditions",
                 children: "Les produits doivent r\xE9pondre \xE0 au moins une condition"
               })]
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "sub-div-vert-align",
             children: [conditions.map(function (item, i) {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_conditionCollection__WEBPACK_IMPORTED_MODULE_1__["default"], {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_conditionCollection__WEBPACK_IMPORTED_MODULE_1__["default"], {
                 index: i,
                 handleChangeParam: handleChangeParam,
                 handleChangeOperator: handleChangeOperator,
                 handleChangeValue: handleChangeValue,
                 condition: item
               }, i);
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
               className: "btn-bcknd",
               onClick: addCondition,
               children: "Ajouter une condition"
             })]
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
         className: "div-vert-align",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "sub-div-horiz-align",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h2", {
             children: "Optimiser pour les moteurs de reherche."
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
             type: "checkbox",
             className: "cm-toggle",
             checked: isShowOptimisation == true,
             onChange: showHideOptimisation
           })]
-        }), isShowOptimisation && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        }), isShowOptimisation && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "sub-div-vert-align-border-top",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h3", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h3", {
             children: "Coup d'oeil sur le r\xE9sultat affich\xE9 par les moteurs de recherche"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
               children: apercuMetaUrl
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
               className: "sub-div-horiz-align",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("h3", {
-                children: [apercuMetaTitle, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("h3", {
+                children: [apercuMetaTitle, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
                   className: "apercuMetaTitle2",
                   children: apercuMetaTitle2
-                }), " ", biggerThan60 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                }), " ", biggerThan60 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
                   className: "inRed",
                   children: "Seul les 60 premiers caract\xE8res seront visibles"
                 })]
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
               children: apercuMetaDescription
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "div-label-inputTxt",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
               className: "sub-div-horiz-align",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
                 children: "M\xE9ta-titre de la page de cette collection"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("i", {
                 className: "fas fa-question-circle tooltip",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
                   className: "tooltiptext",
                   children: "Le m\xE9ta-titre est important pour le r\xE9f\xE9rencement d'une page web. Sa longueur id\xE9al se situe entre 30 et 60 caract\xE8res mais il peut \xEAtre plus long pour donner plus d'informations sur le contenu de la page. Toutefois, les moteurs de recherche n'afficheront pas plus de 70 caract\xE8res, c'est pourquoi il est important de commence par des mots cl\xE9s pertinants pour l'internaute afin d'am\xE9liorer le taux de clics vers votre page."
                 })
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
               type: "text",
               value: metaTitle,
               onChange: handleMetaTitle,
               placeholder: "Ce titre sera affich\xE9 dans les r\xE9sultats des moteurs de recherche.",
               maxLength: "255"
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "div-label-inputTxt",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
               children: "M\xE9ta-d\xE9scription de cette collection:"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("textarea", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("textarea", {
               value: metaDescription,
               onChange: handleMetaDescription,
               placeholder: "Cette d\xE9scription sera utilis\xE9e pour d\xE9crire le contenu de cette page. Elle s\u2019affichera sous le titre et l\u2019URL de votre page dans les r\xE9sultats des moteurs de recherche. Veillez \xE0 ne pas d\xE9passer les 140-160 caract\xE8res pour qu'elle soit enti\xE8rement visibles dans les r\xE9sultats de Google",
               maxLength: "320"
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "div-label-inputTxt",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
               className: "sub-div-horiz-align",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
                 children: "Url de la page de cette collection"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("i", {
                 className: "fas fa-question-circle tooltip",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
                   className: "tooltiptext",
                   children: "Utilisez des mots cl\xE9s en rapport avec le contenu de cette collection"
                 })
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
               type: "text",
               value: metaUrl,
               onChange: handleMetaUrl,
@@ -23068,49 +23190,49 @@ var CreateCollection = function CreateCollection() {
             })]
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
         className: "div-label-inputTxt",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
           className: "btn-submit",
           onClick: handleSubmit,
           children: "Enregistrer"
         })
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
       className: "side-create-collection",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
         className: "div-vert-align",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "div-label-inputTxt",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h2", {
             children: "Image"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
             children: "Ajouter une image pour cette collection. (*optionnel)"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tools_dropZone__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_tools_dropZone__WEBPACK_IMPORTED_MODULE_5__["default"], {
             multiple: false,
             setImage: setImage
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("a", {
               href: "#",
               children: "Comment bien choisir son image ?"
             })
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
           className: "sub-div-vert-align",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "div-label-inputTxt",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
               className: "sub-div-horiz-align",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
                 children: "Texte alternatif (*optionnel) "
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("i", {
                 className: "fas fa-question-circle tooltip",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
                   className: "tooltiptext",
                   children: "Ajouter une br\xE8ve description de l'image ex. \"Jeans noir avec fermeture \xE9clair\". Ceci am\xE9liorera l'accessibilit\xE9 et le r\xE9f\xE9rencement de votre boutique."
                 })
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
               type: "text",
               name: "alt",
               value: alt,
@@ -23118,102 +23240,127 @@ var CreateCollection = function CreateCollection() {
             })]
           })
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
         className: "div-vert-align",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "div-label-inputTxt",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h2", {
             children: "Cat\xE9gorie"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("p", {
-            children: ["Attribuer une cat\xE9gorie \xE0 cette collection. (", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("strong", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("p", {
+            children: ["Attribuer une cat\xE9gorie \xE0 cette collection. (", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("strong", {
               children: "*optionnel"
             }), ")"]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "categorySelect",
             id: "categorySelect",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("button", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("button", {
               className: "btn-select-category",
               onClick: showHideCategorySelect,
-              children: [categoryName, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
-                "class": "fas fa-angle-down"
+              children: [categoryName.length > 25 ? categoryName.substring(0, 25) + '...' : categoryName, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("i", {
+                className: "fas fa-angle-down"
               })]
-            }), showCategorySelect && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("ul", {
+            }), showCategorySelect && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("ul", {
               className: "ul-category",
-              children: [categoryName != 'Aucune catégorie' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("li", {
+              children: [categoryName != 'Aucune catégorie' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("li", {
                 className: "li-category",
                 onClick: function onClick() {
                   handleCategory(0), handleCategoryName('Aucune catégorie');
                 },
                 children: "Aucune cat\xE9gorie"
               }), categories.map(function (cat, index) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("li", {
+                return cat.name != categoryName && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("li", {
                   className: "li-category",
                   onClick: function onClick() {
                     handleCategory(cat.id), handleCategoryName(cat.name);
                   },
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                  children: [cat.name.length > 25 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+                    children: cat.name.substring(0, 25) + '...'
+                  }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
                     children: cat.name
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
-                      "class": "fas fa-recycle"
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("i", {
+                      className: "fas fa-recycle",
+                      onClick: function onClick(e) {
+                        handleShowCreateCategory(e);
+                        handleSetIsUpdateCategory();
+                      }
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("i", {
                       className: "far fa-trash-alt",
                       onClick: function onClick() {
-                        return deleteCategory(cat.id);
+                        return confirmDeleteCategory(cat.id, cat.name);
                       }
                     })]
                   })]
                 }, index);
               })]
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("a", {
               href: "#",
               children: "Plus d'informations sur les cat\xE9gories."
             })
+          }), newCategorySucces && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("p", {
+            className: "succesMessage",
+            children: ["La cat\xE9gorie ", newCategoryNameUseInMessage, " a \xE9t\xE9 ajout\xE9e"]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
           className: "pos-abs-bot-rig-15",
-          onClick: handleShowCreateCategory,
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
+          onClick: function onClick(e) {
+            handleSetIsCreateCategory();
+            handleShowCreateCategory(e);
+          },
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("a", {
             href: "",
             children: linkCreateCategory
           })
-        }), showCreateCategory && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        }), showCreateCategory && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "sub-div-vert-alogn",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
             children: "Nom de la cat\xE9gorie"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
             type: "text",
             value: newCategoryName,
             onChange: handleNewCategoryName,
-            maxLength: "255"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            maxLength: "255",
+            placeholder: "Entrez un nom"
+          }), isCreateCategory && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
             className: "btn-bcknd",
             onClick: saveNewCategory,
             children: "Sauvegarder"
+          }), isUpdateCategory && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+            className: "btn-bcknd",
+            onClick: updateCategory,
+            children: "Modifier"
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
         className: "div-vert-align",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "div-label-inputTxt",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h2", {
             children: "Activation"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
             children: "Date d'activation."
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
             id: "activationDate",
             type: "datetime-local",
             value: datetimeField,
             min: datetimeField,
             onChange: handleDateChange
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("a", {
               href: "#",
               children: "Plus d'informations sur l'activation des collections."
             })
           })]
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_modal_modal__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        show: showModal,
+        handleModalConfirm: handleModalConfirm,
+        handleModalCancel: handleModalCancel,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h2", {
+          className: "childrenModal",
+          children: messageModal
         })
       })]
     })]
@@ -25813,6 +25960,139 @@ var SelectType = function SelectType(props) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SelectType);
+
+/***/ }),
+
+/***/ "./resources/js/components/modal/modal.jsx":
+/*!*************************************************!*\
+  !*** ./resources/js/components/modal/modal.jsx ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_2__["default"])({
+  modal: {
+    position: 'fixed',
+    top: '0',
+    left: '0',
+    width: '100%',
+    height: ' 100%',
+    background: 'rgba(0, 0, 0, 0.6)'
+  },
+  modalMain: {
+    position: 'fixed',
+    background: 'white',
+    width: '30%',
+    minWidth: '300px',
+    padding: '50px',
+    top: ' 50%',
+    left: '50%',
+    transform: 'translate(-50%,-50%)',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    borderRadius: '5px'
+  },
+  BlockButtons: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '30px'
+  },
+  btnModal: {
+    width: '150px',
+    height: '50px',
+    padding: '0 25px',
+    margin: '20px 0',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgb(52, 115, 252)',
+    color: 'white',
+    fontSize: '20px',
+    borderRadius: '5px',
+    border: 'solid 1px rgb(220, 220, 220)',
+    transition: 'ease-in-out 0.15s',
+    '&:hover': {
+      cursor: 'pointer',
+      color: '#eeeeee'
+    }
+  },
+  close: {
+    position: 'absolute',
+    top: '0px',
+    right: '0px',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    paddingRight: '25px',
+    paddingTop: '25px'
+  },
+  image: {
+    margin: '20px 0'
+  },
+  faTimes: {
+    fontSize: '26px',
+    transition: 'ease-in-out .15s',
+    color: '#333333',
+    '&:hover': {
+      cursor: 'pointer',
+      transform: 'scale(1.15)'
+    }
+  },
+  displayBlock: {
+    display: 'block'
+  },
+  displayNone: {
+    display: 'none'
+  }
+});
+
+var Modal = function Modal(_ref) {
+  var handleModalConfirm = _ref.handleModalConfirm,
+      handleModalCancel = _ref.handleModalCancel,
+      show = _ref.show,
+      children = _ref.children;
+  var classes = useStyles();
+  var showHideClassName = show ? classes.displayBlock : classes.displayNone;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    className: classes.modal + ' ' + showHideClassName,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("section", {
+      className: classes.modalMain,
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: classes.close,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+          className: classes.faTimes + ' ' + "fas fa-times",
+          onClick: handleModalCancel
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
+        src: "../images/icons/trash.png"
+      }), children, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: classes.BlockButtons,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+          className: classes.btnModal,
+          onClick: handleModalConfirm,
+          children: "Confirmer"
+        })
+      })]
+    })
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Modal);
 
 /***/ }),
 

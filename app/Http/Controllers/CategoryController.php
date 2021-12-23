@@ -85,6 +85,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($id, $request);
         $this->validate($request, ['name' => 'required']);
 
         $category =  Category::find($id);
@@ -92,7 +93,8 @@ class CategoryController extends Controller
 
         $category->save();
 
-        return redirect('/categories')->with('status', 'La modification a été éffectuée');
+        return 'ok';
+        // return redirect('/categories')->with('status', 'La modification a été éffectuée');
     }
 
     /**

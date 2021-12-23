@@ -305,6 +305,12 @@
   color: red;
 }
 
+.succesMessage {
+  display: block;
+  font-size: 18px;
+  color: #0bb30b;
+}
+
 .pos-abs-bot-rig-15 {
   position: absolute;
   bottom: 15px;
@@ -352,12 +358,12 @@
 .ul-category::-webkit-scrollbar-track {
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
 }
 
 .ul-category::-webkit-scrollbar {
   width: 9px;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
 }
 
 .ul-category::-webkit-scrollbar-thumb {
@@ -369,6 +375,7 @@
 .li-category {
   min-width: 250px;
   height: 40px;
+  width: 100%;
   padding: 0 10px;
   border-bottom: gainsboro solid 1px;
   display: flex;
@@ -402,6 +409,8 @@
 }
 
 .collection-main-container .fa-trash-alt {
+  display: none;
+  font-size: 18px;
   transition: ease-in-out 0.15s;
 }
 
@@ -409,17 +418,32 @@
   cursor: pointer;
   color: #e00000;
   font-weight: bold;
-  transform: scale(1.3);
 }
 
 .collection-main-container .fa-recycle {
+  display: none;
+  font-size: 18px;
   margin-right: 10px;
   transition: ease-in-out 0.15s;
 }
 
 .collection-main-container .fa-recycle:hover {
   cursor: pointer;
-  color: #4373f7;
+  color: #75c1ff;
   font-weight: bold;
-  transform: scale(1.3);
+}
+
+.li-category:hover .fa-recycle {
+  display: inline;
+}
+
+.li-category:hover .fa-trash-alt {
+  display: inline;
+}
+
+.childrenModal {
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 32px;
+  margin: 30px 0 0 0;
 }

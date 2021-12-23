@@ -4,6 +4,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Axios from 'axios';
 import DropZone from '../tools/dropZone';
+import Modal from '../modal/modal';
 
 const CreateCollection = () => {
     const [conditions, setConditions] = useState([{
@@ -24,6 +25,7 @@ const CreateCollection = () => {
     const [newCategoryName, setNewCategoryName] = useState('');
     const [showCreateCategory, setShowCreateCategory] = useState(false);
     const [linkCreateCategory, setLinkCreateCategory] = useState('Créer une nouvelle catégorie.');
+    const [newCategorySucces, setNewCategorySucces] = useState(false);
     const [alt, setAlt] = useState('');
     const [image, setImage] = useState([]);
     const [metaTitle, setMetaTitle] = useState('');
@@ -36,7 +38,14 @@ const CreateCollection = () => {
     const [apercuMetaUrl, setApercuMetaUrl] = useState(window.location.origin);
     const [isEmptyMetaDescription, setIsEmptyMetaDescription] = useState(true);
     const [isEmptyMetaTitle, setIsEmptyMetaTitle] = useState(true);
+    const [isCreateCategory, setIsCreateCategory] = useState(false);
+    const [isUpdateCategory, setIsUpdateCategory] = useState(false);
     const [showCategorySelect, setShowCategorySelect] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [messageModal, setMessageModal] = useState('');
+    const [sender, setSender] = useState(''); // for modal
+    const [tmp_parameter, setTmp_parameter] = useState(); // pour stocker provisoirement une variable
+    const [newCategoryNameUseInMessage, setNewCategoryNameUseInMessage] = useState(''); // pour stocker le nom de la catégoie qui doit être afficher dans le message de confirmation de la creation de la catégorie
 
     var isEmptyMetaUrl = true;
 
@@ -266,13 +275,31 @@ const CreateCollection = () => {
         setNewCategoryName(e.target.value);
     }
 
+    const handleSetIsCreateCategory = () => {
+        alert('create');
+        setIsUpdateCategory(false);
+        setIsCreateCategory(true);
+    }
+    console.log(isCreateCategory);
+
+    const handleSetIsUpdateCategory = () => {
+        setIsCreateCategory(false);
+        setIsUpdateCategory(true);
+    }
+
+
+
     // add one category
     const saveNewCategory = () => {
         Axios.post(`http://127.0.0.1:8000/categories`, { name: newCategoryName })
             .then(res => {
+                setNewCategoryNameUseInMessage(newCategoryName);
                 setShowCreateCategory(false)
                 setLinkCreateCategory('Créer une nouvelle catégorie.');
                 setNewCategoryName('');
+                setNewCategorySucces(true);
+                setTimeout(hideMessageSucces, 4000);
+
                 console.log('res.data  --->  ok');
             }).catch(function (error) {
                 console.log('error:   ' + error);
@@ -285,6 +312,20 @@ const CreateCollection = () => {
             }).catch(function (error) {
                 console.log('error:   ' + error);
             });
+    }
+
+    // hide les méssages de succes apès 4 secondes
+    const hideMessageSucces = () => {
+        setNewCategorySucces(false);
+    }
+
+    // confirm delete one category
+    const confirmDeleteCategory = (cat_id, cat_name) => {
+        setMessageModal('Supprimer la catégorie "' + cat_name + '" ?')
+        setSender('deleteCategory');
+        setTmp_parameter(cat_id);
+        setShowModal(true);
+
     }
 
     // delete one category
@@ -308,6 +349,32 @@ const CreateCollection = () => {
             });
     }
 
+    // update one category
+    const updateCategory = () => {
+        Axios.put(`http://127.0.0.1:8000/categories/${category}`, { name: newCategoryName })
+            .then(res => {
+                setNewCategoryNameUseInMessage(newCategoryName);
+                setShowCreateCategory(false)
+                setLinkCreateCategory('Créer une nouvelle catégorie.');
+                setNewCategoryName('');
+                setNewCategorySucces(true);
+                setTimeout(hideMessageSucces, 4000);
+
+                console.log('res.data  --->  ok');
+            }).catch(function (error) {
+                console.log('error:   ' + error);
+            });
+
+        // chargement des collections
+        Axios.get(`http://127.0.0.1:8000/getCategories`)
+            .then(res => {
+                setCategories(res.data);
+            }).catch(function (error) {
+                console.log('error:   ' + error);
+            });
+    }
+
+    // ferme le select de category quand on click en dehors du select
     document.addEventListener("click", (evt) => {
         const categorySelectElement = document.getElementById("categorySelect");
         let targetElement = evt.target; // clicked element
@@ -325,6 +392,30 @@ const CreateCollection = () => {
         setShowCategorySelect(false);
     });
     //------------------------------------------------------------------Category
+
+    //Modal---------------------------------------------------------------------
+    const handleModalConfirm = () => {
+        setShowModal(false);
+
+        switch (sender) {
+            case 'deleteCategory':
+                deleteCategory(tmp_parameter);
+                break;
+            case 'Papayas':
+                console.log('Mangoes and papayas are $2.79 a pound.');
+                // expected output: "Mangoes and papayas are $2.79 a pound."
+                break;
+            default:
+                '';
+        }
+    };
+
+    const handleModalCancel = () => {
+        setShowModal(false);
+    };
+
+    //-------------------------------------------------------------------Modal
+
 
     var formData = new FormData;
     var objConditions = JSON.stringify(conditions);
@@ -589,50 +680,76 @@ const CreateCollection = () => {
 
 
                         <div className="categorySelect" id="categorySelect">
-                            <button className='btn-select-category' onClick={showHideCategorySelect}>
-                                {categoryName}<i class="fas fa-angle-down"></i>
+                            <button
+                                className='btn-select-category'
+                                onClick={showHideCategorySelect}>
+                                {categoryName.length > 25 ? categoryName.substring(0, 25) + '...' : categoryName}
+                                <i className="fas fa-angle-down"></i>
                             </button>
                             {showCategorySelect && <ul className='ul-category'>
-                                {categoryName != 'Aucune catégorie' && <li className="li-category"
-                                    onClick={() => {
-                                        handleCategory(0),
-                                            handleCategoryName('Aucune catégorie')
-                                    }}
-                                >Aucune catégorie
-                                </li>}
+                                {categoryName != 'Aucune catégorie' &&
+                                    <li className="li-category"
+                                        onClick={() => {
+                                            handleCategory(0),
+                                                handleCategoryName('Aucune catégorie')
+                                        }}
+                                    >Aucune catégorie
+                                    </li>}
                                 {categories.map((cat, index) => (
+                                    cat.name != categoryName &&
                                     <li className="li-category"
                                         key={index}
                                         onClick={() => {
                                             handleCategory(cat.id),
                                                 handleCategoryName(cat.name)
                                         }} >
-                                        <span>{cat.name}</span>
+                                        {cat.name.length > 25 ? <span>{cat.name.substring(0, 25) + '...'}</span> : <span>{cat.name}</span>}
                                         <div>
-                                            <i class="fas fa-recycle"></i>
+                                            <i className="fas fa-recycle"
+                                                onClick=
+                                                {(e) => {
+                                                    handleShowCreateCategory(e); handleSetIsUpdateCategory();
+                                                }}>
+                                            </i>
                                             <i className="far fa-trash-alt"
-                                                onClick={() => deleteCategory(cat.id)}></i>
+                                                onClick={() => confirmDeleteCategory(cat.id, cat.name)}></i>
                                         </div>
                                     </li>))}
                             </ul>}
                         </div>
-                        <p><a href='#'>Plus d'informations sur les catégories.</a></p>
+                        <p>
+                            <a href='#'>Plus d'informations sur les catégories.</a>
+                        </p>
+                        {newCategorySucces &&
+                            <p className='succesMessage'>
+                                La catégorie {newCategoryNameUseInMessage} a été ajoutée
+                            </p>}
                     </div>
-                    <p className='pos-abs-bot-rig-15' onClick={handleShowCreateCategory}><a href=''>{linkCreateCategory}</a></p>
+                    <p className='pos-abs-bot-rig-15'
+                        onClick={(e) => {
+                            handleSetIsCreateCategory();
+                            handleShowCreateCategory(e);
+                        }
+                        }>
+                        <a href=''>{linkCreateCategory}</a>
+                    </p>
                     {showCreateCategory && <div className='sub-div-vert-alogn'>
                         <label>Nom de la catégorie</label>
                         <input type='text'
                             value={newCategoryName}
                             onChange={handleNewCategoryName}
                             maxLength="255"
+                            placeholder='Entrez un nom'
                         />
-                        <button className='btn-bcknd' onClick={saveNewCategory}>
-                            Sauvegarder
-                        </button>
+                        {isCreateCategory &&
+                            <button className='btn-bcknd' onClick={saveNewCategory}>
+                                Sauvegarder
+                            </button>}
+                        {isUpdateCategory && <button className='btn-bcknd' onClick={updateCategory}>
+                            Modifier
+                        </button>}
                     </div>}
                 </div>
-
-
 
                 {/* Date d'activation */}
                 <div className="div-vert-align">
@@ -643,6 +760,14 @@ const CreateCollection = () => {
                         <p><a href='#'>Plus d'informations sur l'activation des collections.</a></p>
                     </div>
                 </div>
+
+                {/* modal for confirmation */}
+                <Modal
+                    show={showModal}
+                    handleModalConfirm={handleModalConfirm}
+                    handleModalCancel={handleModalCancel}>
+                    <h2 className="childrenModal">{messageModal}</h2>
+                </Modal>
 
             </div>
         </div>
