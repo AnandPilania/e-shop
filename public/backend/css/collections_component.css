@@ -429,7 +429,7 @@
 
 .collection-main-container .fa-recycle:hover {
   cursor: pointer;
-  color: #75c1ff;
+  color: #5bb5ff;
   font-weight: bold;
 }
 
@@ -446,4 +446,8 @@
   font-weight: bold;
   line-height: 32px;
   margin: 30px 0 0 0;
+}
+
+@media only screen and (hover: none) and (pointer: coarse) {
+  /* Regular CSS rules here*/
 }

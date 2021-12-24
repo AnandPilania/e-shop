@@ -38,7 +38,7 @@ const useStyles = makeStyles({
         width: '150px',
         height: '50px',
         padding: '0 25px',
-        margin: '20px 0',
+        margin: '10px 0',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
@@ -80,6 +80,15 @@ const useStyles = makeStyles({
         },
     },
 
+    inputTextModify: {
+        width: '100%',
+        height: '50px',
+        padding: '0 20px',
+        margin: '20px 0 0 0',
+        borderRadius: '5px',
+        border: 'solid 1px rgb(220, 220, 220)',
+    },
+
     displayBlock: {
         display: 'block',
     },
@@ -90,10 +99,13 @@ const useStyles = makeStyles({
 });
 
 
-const Modal = ({ handleModalConfirm, handleModalCancel, show, children }) => {
+const ModalInput = ({ inputTextModify, setInputTextModify, updateCategory, handleModalCancel, show, image, children }) => {
     const classes = useStyles();
     const showHideClassName = show ? classes.displayBlock : classes.displayNone;
 
+    const handleinputTextModify = (e) => {
+        setInputTextModify(e.target.value);
+    }
 
     return (
         <div className={classes.modal + ' ' + showHideClassName}>
@@ -101,12 +113,14 @@ const Modal = ({ handleModalConfirm, handleModalCancel, show, children }) => {
 
                 <div className={classes.close}><i className={classes.faTimes + ' ' + "fas fa-times"} onClick={handleModalCancel}></i></div>
 
-                <img src='../images/icons/trash.png' />
+                <img src={image} />
 
                 {children}
 
+                <input type='text' className={classes.inputTextModify} value={inputTextModify} onChange={handleinputTextModify} />
+
                 <div className={classes.BlockButtons}>
-                    <button className={classes.btnModal} onClick={handleModalConfirm}>
+                    <button className={classes.btnModal} onClick={updateCategory}>
                         Confirmer
                     </button>
                 </div>
@@ -116,4 +130,4 @@ const Modal = ({ handleModalConfirm, handleModalCancel, show, children }) => {
     );
 };
 
-export default Modal;
+export default ModalInput;

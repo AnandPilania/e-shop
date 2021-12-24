@@ -461,7 +461,7 @@
 
 .collection-main-container .fa-recycle:hover {
     cursor: pointer;
-    color: rgb(117, 193, 255);
+    color: rgb(91, 181, 255);
     font-weight: bold;
 }
 
@@ -479,3 +479,10 @@
     line-height: 32px;
     margin: 30px 0 0 0;
 }
+
+// detect smartphone and tablette screen
+@media only screen and (hover: none) and (pointer: coarse){
+
+    /* Regular CSS rules here*/
+    
+    }

@@ -4,7 +4,8 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Axios from 'axios';
 import DropZone from '../tools/dropZone';
-import Modal from '../modal/modal';
+import ModalConfirm from '../modal/modalConfirm';
+import ModalInput from '../modal/modalInput';
 
 const CreateCollection = () => {
     const [conditions, setConditions] = useState([{
@@ -38,14 +39,14 @@ const CreateCollection = () => {
     const [apercuMetaUrl, setApercuMetaUrl] = useState(window.location.origin);
     const [isEmptyMetaDescription, setIsEmptyMetaDescription] = useState(true);
     const [isEmptyMetaTitle, setIsEmptyMetaTitle] = useState(true);
-    const [isCreateCategory, setIsCreateCategory] = useState(false);
-    const [isUpdateCategory, setIsUpdateCategory] = useState(false);
     const [showCategorySelect, setShowCategorySelect] = useState(false);
-    const [showModal, setShowModal] = useState(false);
+    const [showModalConfirm, setShowModalConfirm] = useState(false);
+    const [showModalInput, setShowModalInput] = useState(false);
     const [messageModal, setMessageModal] = useState('');
     const [sender, setSender] = useState(''); // for modal
     const [tmp_parameter, setTmp_parameter] = useState(); // pour stocker provisoirement une variable
-    const [newCategoryNameUseInMessage, setNewCategoryNameUseInMessage] = useState(''); // pour stocker le nom de la catégoie qui doit être afficher dans le message de confirmation de la creation de la catégorie
+    const [newCategoryNameUseInMessage, setNewCategoryNameUseInMessage] = useState(''); // pour stocker le nom de la catégorie qui doit être afficher dans le message de confirmation de la creation de la catégorie
+    const [inputTextModify, setInputTextModify] = useState('');
 
     var isEmptyMetaUrl = true;
 
@@ -271,29 +272,24 @@ const CreateCollection = () => {
         setShowCreateCategory(!showCreateCategory);
     }
 
+    // show modalInput
+    const handleShowModalInput = () => {
+        setMessageModal('Entrez le nouveau nom de la catégorie')
+        setShowModalInput(!showModalInput);
+    }
+
     const handleNewCategoryName = (e) => {
         setNewCategoryName(e.target.value);
-    }
-
-    const handleSetIsCreateCategory = () => {
-        alert('create');
-        setIsUpdateCategory(false);
-        setIsCreateCategory(true);
-    }
-    console.log(isCreateCategory);
-
-    const handleSetIsUpdateCategory = () => {
-        setIsCreateCategory(false);
-        setIsUpdateCategory(true);
     }
 
 
 
     // add one category
     const saveNewCategory = () => {
+        if (newCategoryName != '' && newCategoryName.length >= 3) { // au cas où le nouveau nom est vide ou < 3
         Axios.post(`http://127.0.0.1:8000/categories`, { name: newCategoryName })
             .then(res => {
-                setNewCategoryNameUseInMessage(newCategoryName);
+                setNewCategoryNameUseInMessage(newCategoryName + ' à été ajoutée');
                 setShowCreateCategory(false)
                 setLinkCreateCategory('Créer une nouvelle catégorie.');
                 setNewCategoryName('');
@@ -312,6 +308,12 @@ const CreateCollection = () => {
             }).catch(function (error) {
                 console.log('error:   ' + error);
             });
+
+        } else { // warning new category name is empty
+
+            setMessageModal('Le nouveau nom de catégorie doit contenir au moins trois caractères');
+            setShowModalConfirm(true);
+        }
     }
 
     // hide les méssages de succes apès 4 secondes
@@ -324,8 +326,7 @@ const CreateCollection = () => {
         setMessageModal('Supprimer la catégorie "' + cat_name + '" ?')
         setSender('deleteCategory');
         setTmp_parameter(cat_id);
-        setShowModal(true);
-
+        setShowModalConfirm(true);
     }
 
     // delete one category
@@ -351,27 +352,37 @@ const CreateCollection = () => {
 
     // update one category
     const updateCategory = () => {
-        Axios.put(`http://127.0.0.1:8000/categories/${category}`, { name: newCategoryName })
-            .then(res => {
-                setNewCategoryNameUseInMessage(newCategoryName);
-                setShowCreateCategory(false)
-                setLinkCreateCategory('Créer une nouvelle catégorie.');
-                setNewCategoryName('');
-                setNewCategorySucces(true);
-                setTimeout(hideMessageSucces, 4000);
+        if (inputTextModify != '' && inputTextModify.length >= 3) { // au cas où le nouveau nom est vide ou < 3
+            Axios.put(`http://127.0.0.1:8000/categories/${category}`, { name: inputTextModify })
+                .then(res => {
+                    setNewCategoryNameUseInMessage(inputTextModify + ' à été enregistrée');
+                    setShowCreateCategory(false)
+                    setLinkCreateCategory('Créer une nouvelle catégorie.');
+                    setNewCategoryName('');
+                    setNewCategorySucces(true);
+                    setTimeout(hideMessageSucces, 4000);
 
-                console.log('res.data  --->  ok');
-            }).catch(function (error) {
-                console.log('error:   ' + error);
-            });
+                    console.log('res.data  --->  ok');
+                }).catch(function (error) {
+                    console.log('error:   ' + error);
+                });
 
-        // chargement des collections
-        Axios.get(`http://127.0.0.1:8000/getCategories`)
-            .then(res => {
-                setCategories(res.data);
-            }).catch(function (error) {
-                console.log('error:   ' + error);
-            });
+            // chargement des collections
+            Axios.get(`http://127.0.0.1:8000/getCategories`)
+                .then(res => {
+                    setCategories(res.data);
+                }).catch(function (error) {
+                    console.log('error:   ' + error);
+                });
+
+            setShowModalInput(false);
+            setCategoryName('Aucune catégorie');
+            setInputTextModify('');
+
+        } else { // warning new category name is empty
+
+            setMessageModal('Le nouveau nom de catégorie doit contenir au moins trois caractères');
+        }
     }
 
     // ferme le select de category quand on click en dehors du select
@@ -393,28 +404,28 @@ const CreateCollection = () => {
     });
     //------------------------------------------------------------------Category
 
-    //Modal---------------------------------------------------------------------
+    //ModalConfirm--------------------------------------------------------------
     const handleModalConfirm = () => {
-        setShowModal(false);
+        setShowModalConfirm(false);
 
         switch (sender) {
             case 'deleteCategory':
                 deleteCategory(tmp_parameter);
                 break;
-            case 'Papayas':
-                console.log('Mangoes and papayas are $2.79 a pound.');
-                // expected output: "Mangoes and papayas are $2.79 a pound."
-                break;
+            // case 'warningEmptyNewCategoryName':
+            //     setShowModalInput(false);
+            //     break;
             default:
                 '';
         }
     };
 
     const handleModalCancel = () => {
-        setShowModal(false);
+        setShowModalConfirm(false);
+        setShowModalInput(false);
     };
 
-    //-------------------------------------------------------------------Modal
+    //--------------------------------------------------------------ModalConfirm
 
 
     var formData = new FormData;
@@ -700,15 +711,15 @@ const CreateCollection = () => {
                                     <li className="li-category"
                                         key={index}
                                         onClick={() => {
-                                            handleCategory(cat.id),
-                                                handleCategoryName(cat.name)
+                                            handleCategory(cat.id);
+                                            handleCategoryName(cat.name);
                                         }} >
                                         {cat.name.length > 25 ? <span>{cat.name.substring(0, 25) + '...'}</span> : <span>{cat.name}</span>}
                                         <div>
                                             <i className="fas fa-recycle"
-                                                onClick=
-                                                {(e) => {
-                                                    handleShowCreateCategory(e); handleSetIsUpdateCategory();
+                                                onClick={() => {
+                                                    handleCategory(cat.id);
+                                                    handleShowModalInput();
                                                 }}>
                                             </i>
                                             <i className="far fa-trash-alt"
@@ -722,12 +733,11 @@ const CreateCollection = () => {
                         </p>
                         {newCategorySucces &&
                             <p className='succesMessage'>
-                                La catégorie {newCategoryNameUseInMessage} a été ajoutée
+                                La catégorie {newCategoryNameUseInMessage}
                             </p>}
                     </div>
                     <p className='pos-abs-bot-rig-15'
                         onClick={(e) => {
-                            handleSetIsCreateCategory();
                             handleShowCreateCategory(e);
                         }
                         }>
@@ -741,13 +751,9 @@ const CreateCollection = () => {
                             maxLength="255"
                             placeholder='Entrez un nom'
                         />
-                        {isCreateCategory &&
-                            <button className='btn-bcknd' onClick={saveNewCategory}>
-                                Sauvegarder
-                            </button>}
-                        {isUpdateCategory && <button className='btn-bcknd' onClick={updateCategory}>
-                            Modifier
-                        </button>}
+                        <button className='btn-bcknd' onClick={saveNewCategory}>
+                            Sauvegarder
+                        </button>
                     </div>}
                 </div>
 
@@ -762,12 +768,24 @@ const CreateCollection = () => {
                 </div>
 
                 {/* modal for confirmation */}
-                <Modal
-                    show={showModal}
+                <ModalConfirm
+                    show={showModalConfirm}
                     handleModalConfirm={handleModalConfirm}
-                    handleModalCancel={handleModalCancel}>
+                    handleModalCancel={handleModalCancel}
+                    image={'../images/icons/trash.png'}>
                     <h2 className="childrenModal">{messageModal}</h2>
-                </Modal>
+                </ModalConfirm>
+
+                {/* modal for modify category name */}
+                <ModalInput
+                    show={showModalInput}
+                    updateCategory={updateCategory}
+                    handleModalCancel={handleModalCancel}
+                    setInputTextModify={setInputTextModify}
+                    inputTextModify={inputTextModify}
+                    image={'../images/icons/changeCategory.png'}>
+                    <h2 className="childrenModal">{messageModal}</h2>
+                </ModalInput>
 
             </div>
         </div>
