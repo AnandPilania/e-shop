@@ -197,8 +197,9 @@
 .block-select-conditions {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr) 30px;
     column-gap: 10px;
+    align-content: center;
     margin-bottom: 15px;
 
     // for input & span
@@ -209,10 +210,25 @@
         justify-content: flex-start;
         align-items: center;
     }
-    .w30 {
-        width: 30px;
+    .typeValue {
+        width: 35px;
         padding-left: 3px;
         text-align: center;
+    }
+
+    .remove-condition {
+        width: 30px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .trashRemoveCondition {
+        display: inline !important;
+        font-size: 28px;
+        color: black;
+        margin: 0;
     }
 }
 
@@ -460,6 +476,18 @@
 }
 
 .collection-main-container .fa-recycle:hover {
+    cursor: pointer;
+    color: rgb(91, 181, 255);
+    font-weight: bold;
+}
+
+.btn-select-category .fa-trash-alt:hover {
+    cursor: pointer;
+    color: rgb(224, 0, 0);
+    font-weight: bold;
+}
+
+.btn-select-category .fa-recycle:hover {
     cursor: pointer;
     color: rgb(91, 181, 255);
     font-weight: bold;

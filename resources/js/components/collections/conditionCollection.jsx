@@ -21,6 +21,7 @@ const ConditionCollection = (props) => {
     useEffect(() => {
         // met dabord à hide partout
         hideUselessOperatorReset();
+        
         setHideOp1('show');
         setHideOp2('show');
         setHideOp5('show');
@@ -147,13 +148,25 @@ const ConditionCollection = (props) => {
             </div>
             {/* value */}
             <div className="input-span">
-                <input type={inputType} step={inputStep} min="0" value={inputValue} onChange={(e) => props.handleChangeValue(e, props.index),
-                handleInputValue} />
-                {typeValue != '' && <span className="w30"> 
+                <input 
+                type={inputType} 
+                step={inputStep}
+                min="0" 
+                value={inputValue} 
+                onChange={(e) => {
+                props.handleChangeValue(e, props.index);
+                handleInputValue(e);
+                }} />
+                {typeValue != '' && <span className="typeValue"> 
                     {typeValue}
                 </span>}
                 {/* <img className="settings" src="../images/icons/settings.png" alt="modifier les paramètres" /> */}
             </div>
+            {/* Annuler */}
+            <div className="remove-condition">
+            <i className="fas fa-trash-alt trashRemoveCondition"></i>
+            </div>
+            
         </div>
     );
 }

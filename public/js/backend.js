@@ -22289,13 +22289,19 @@ var ConditionCollection = function ConditionCollection(props) {
         step: inputStep,
         min: "0",
         value: inputValue,
-        onChange: (function (e) {
-          return props.handleChangeValue(e, props.index);
-        }, handleInputValue)
+        onChange: function onChange(e) {
+          props.handleChangeValue(e, props.index);
+          handleInputValue(e);
+        }
       }), typeValue != '' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-        className: "w30",
+        className: "typeValue",
         children: typeValue
       })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: "remove-condition",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+        className: "fas fa-trash-alt trashRemoveCondition"
+      })
     })]
   });
 };
@@ -22541,6 +22547,16 @@ var CreateCollection = function CreateCollection() {
       inputTextModify = _useState70[0],
       setInputTextModify = _useState70[1];
 
+  var _useState71 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
+      _useState72 = _slicedToArray(_useState71, 2),
+      textButtonConfirm = _useState72[0],
+      setTextButtonConfirm = _useState72[1];
+
+  var _useState73 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState74 = _slicedToArray(_useState73, 2),
+      imageConfirm = _useState74[0],
+      setImageConfirm = _useState74[1];
+
   var isEmptyMetaUrl = true;
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // chargement des collections
@@ -22772,12 +22788,18 @@ var CreateCollection = function CreateCollection() {
       axios__WEBPACK_IMPORTED_MODULE_4___default().post("http://127.0.0.1:8000/categories", {
         name: newCategoryName
       }).then(function (res) {
-        setNewCategoryNameUseInMessage(newCategoryName + ' à été ajoutée');
-        setShowCreateCategory(false);
-        setLinkCreateCategory('Créer une nouvelle catégorie.');
-        setNewCategoryName('');
-        setNewCategorySucces(true);
-        setTimeout(hideMessageSucces, 4000);
+        setNewCategoryNameUseInMessage(newCategoryName + ' à été ajoutée'); // message affiché après création de la category
+
+        setShowCreateCategory(false); // hide input create new category
+
+        setLinkCreateCategory('Créer une nouvelle catégorie.'); // text link create new category
+
+        setNewCategoryName(''); // reset newCategoryName
+
+        setNewCategorySucces(true); // show succes message
+
+        setTimeout(hideMessageSucces, 4000); // during 4 secondes
+
         console.log('res.data  --->  ok');
       })["catch"](function (error) {
         console.log('error:   ' + error);
@@ -22791,7 +22813,7 @@ var CreateCollection = function CreateCollection() {
     } else {
       // warning new category name is empty
       setMessageModal('Le nouveau nom de catégorie doit contenir au moins trois caractères');
-      setShowModalConfirm(true);
+      setShowModalConfirm(true); // show modalConfirm
     }
   }; // hide les méssages de succes apès 4 secondes
 
@@ -22803,6 +22825,8 @@ var CreateCollection = function CreateCollection() {
 
   var confirmDeleteCategory = function confirmDeleteCategory(cat_id, cat_name) {
     setMessageModal('Supprimer la catégorie "' + cat_name + '" ?');
+    setTextButtonConfirm('Confirmer');
+    setImageConfirm('../images/icons/trash_dirty.png');
     setSender('deleteCategory');
     setTmp_parameter(cat_id);
     setShowModalConfirm(true);
@@ -22811,8 +22835,11 @@ var CreateCollection = function CreateCollection() {
 
   var deleteCategory = function deleteCategory(cat_id) {
     axios__WEBPACK_IMPORTED_MODULE_4___default()["delete"]("http://127.0.0.1:8000/categories/".concat(cat_id)).then(function (res) {
-      console.log('res.data  --->  ok');
-      setShowCategorySelect(false); // chargement des collections
+      setShowCategorySelect(false);
+      setMessageModal('Suppression réussie');
+      setTextButtonConfirm('Fermer');
+      setImageConfirm('../images/icons/trash.png');
+      setShowModalConfirm(true); // chargement des collections
 
       axios__WEBPACK_IMPORTED_MODULE_4___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
         setCategories(res.data);
@@ -22832,10 +22859,8 @@ var CreateCollection = function CreateCollection() {
       axios__WEBPACK_IMPORTED_MODULE_4___default().put("http://127.0.0.1:8000/categories/".concat(category), {
         name: inputTextModify
       }).then(function (res) {
-        setNewCategoryNameUseInMessage(inputTextModify + ' à été enregistrée');
-        setShowCreateCategory(false);
-        setLinkCreateCategory('Créer une nouvelle catégorie.');
-        setNewCategoryName('');
+        setNewCategoryNameUseInMessage(inputTextModify + ' à été enregistrée'); // message affiché après modification de la category
+
         setNewCategorySucces(true);
         setTimeout(hideMessageSucces, 4000);
         console.log('res.data  --->  ok');
@@ -22852,7 +22877,7 @@ var CreateCollection = function CreateCollection() {
       setCategoryName('Aucune catégorie');
       setInputTextModify('');
     } else {
-      // warning new category name is empty
+      // warning new modified category name is empty
       setMessageModal('Le nouveau nom de catégorie doit contenir au moins trois caractères');
     }
   }; // ferme le select de category quand on click en dehors du select
@@ -22882,6 +22907,7 @@ var CreateCollection = function CreateCollection() {
 
     switch (sender) {
       case 'deleteCategory':
+        // if confirm delete
         deleteCategory(tmp_parameter);
         break;
       // case 'warningEmptyNewCategoryName':
@@ -22901,6 +22927,7 @@ var CreateCollection = function CreateCollection() {
 
   var formData = new FormData();
   var objConditions = JSON.stringify(conditions);
+  console.log(objConditions);
 
   if (image) {
     formData.append('image[]', image[0]);
@@ -23352,7 +23379,8 @@ var CreateCollection = function CreateCollection() {
         show: showModalConfirm,
         handleModalConfirm: handleModalConfirm,
         handleModalCancel: handleModalCancel,
-        image: '../images/icons/trash.png',
+        textButtonConfirm: textButtonConfirm,
+        image: imageConfirm,
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h2", {
           className: "childrenModal",
           children: messageModal
@@ -26070,6 +26098,7 @@ var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_2__["default"])(
 var ModalConfirm = function ModalConfirm(_ref) {
   var handleModalConfirm = _ref.handleModalConfirm,
       handleModalCancel = _ref.handleModalCancel,
+      textButtonConfirm = _ref.textButtonConfirm,
       show = _ref.show,
       image = _ref.image,
       children = _ref.children;
@@ -26092,7 +26121,7 @@ var ModalConfirm = function ModalConfirm(_ref) {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
           className: classes.btnModal,
           onClick: handleModalConfirm,
-          children: "Confirmer"
+          children: textButtonConfirm
         })
       })]
     })

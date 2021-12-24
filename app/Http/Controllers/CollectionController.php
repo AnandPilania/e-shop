@@ -104,7 +104,7 @@ class CollectionController extends Controller
 
     public function storeAndAssign(Request $request)
     {
-        // dd(json_decode($request->objConditions));
+        dd(json_decode($request->objConditions));
         // $this->validate($request, ['name' => 'required', 'category' => 'required', 'image' => 'required', 'alt' => 'required']);
 
         $conditions = json_decode($request->objConditions);
@@ -112,7 +112,7 @@ class CollectionController extends Controller
         foreach ($conditions as $condition) {
 
             $field = '';
-
+            // check de quel paramètre il s'agit
             switch ($condition->parameter) {
                 case '1':
                     $field = 'name';
@@ -145,8 +145,8 @@ class CollectionController extends Controller
                     $field = 'name';
                     break;
             }
-        // $test = $field . ' like ' . '%'.$condition->value;
-        // dd($test);
+
+        // check de quel operator il s'agit
             switch ($condition->operator) {
                 case '1':
                     $list_match[] = Product::where($field, $condition->value)->get();

@@ -47,6 +47,8 @@ const CreateCollection = () => {
     const [tmp_parameter, setTmp_parameter] = useState(); // pour stocker provisoirement une variable
     const [newCategoryNameUseInMessage, setNewCategoryNameUseInMessage] = useState(''); // pour stocker le nom de la catégorie qui doit être afficher dans le message de confirmation de la creation de la catégorie
     const [inputTextModify, setInputTextModify] = useState('');
+    const [textButtonConfirm, setTextButtonConfirm] = useState('Confirmer');
+    const [imageConfirm, setImageConfirm] = useState('');
 
     var isEmptyMetaUrl = true;
 
@@ -287,32 +289,32 @@ const CreateCollection = () => {
     // add one category
     const saveNewCategory = () => {
         if (newCategoryName != '' && newCategoryName.length >= 3) { // au cas où le nouveau nom est vide ou < 3
-        Axios.post(`http://127.0.0.1:8000/categories`, { name: newCategoryName })
-            .then(res => {
-                setNewCategoryNameUseInMessage(newCategoryName + ' à été ajoutée');
-                setShowCreateCategory(false)
-                setLinkCreateCategory('Créer une nouvelle catégorie.');
-                setNewCategoryName('');
-                setNewCategorySucces(true);
-                setTimeout(hideMessageSucces, 4000);
+            Axios.post(`http://127.0.0.1:8000/categories`, { name: newCategoryName })
+                .then(res => {
+                    setNewCategoryNameUseInMessage(newCategoryName + ' à été ajoutée'); // message affiché après création de la category
+                    setShowCreateCategory(false) // hide input create new category
+                    setLinkCreateCategory('Créer une nouvelle catégorie.'); // text link create new category
+                    setNewCategoryName(''); // reset newCategoryName
+                    setNewCategorySucces(true); // show succes message
+                    setTimeout(hideMessageSucces, 4000); // during 4 secondes
 
-                console.log('res.data  --->  ok');
-            }).catch(function (error) {
-                console.log('error:   ' + error);
-            });
+                    console.log('res.data  --->  ok');
+                }).catch(function (error) {
+                    console.log('error:   ' + error);
+                });
 
-        // chargement des collections
-        Axios.get(`http://127.0.0.1:8000/getCategories`)
-            .then(res => {
-                setCategories(res.data);
-            }).catch(function (error) {
-                console.log('error:   ' + error);
-            });
+            // chargement des collections
+            Axios.get(`http://127.0.0.1:8000/getCategories`)
+                .then(res => {
+                    setCategories(res.data);
+                }).catch(function (error) {
+                    console.log('error:   ' + error);
+                });
 
         } else { // warning new category name is empty
 
             setMessageModal('Le nouveau nom de catégorie doit contenir au moins trois caractères');
-            setShowModalConfirm(true);
+            setShowModalConfirm(true); // show modalConfirm
         }
     }
 
@@ -324,6 +326,8 @@ const CreateCollection = () => {
     // confirm delete one category
     const confirmDeleteCategory = (cat_id, cat_name) => {
         setMessageModal('Supprimer la catégorie "' + cat_name + '" ?')
+        setTextButtonConfirm('Confirmer');
+        setImageConfirm('../images/icons/trash_dirty.png');
         setSender('deleteCategory');
         setTmp_parameter(cat_id);
         setShowModalConfirm(true);
@@ -333,9 +337,13 @@ const CreateCollection = () => {
     const deleteCategory = (cat_id) => {
         Axios.delete(`http://127.0.0.1:8000/categories/${cat_id}`)
             .then(res => {
-
-                console.log('res.data  --->  ok');
                 setShowCategorySelect(false);
+                setMessageModal('Suppression réussie')
+                setTextButtonConfirm('Fermer');
+                setImageConfirm('../images/icons/trash.png');
+                setShowModalConfirm(true);
+
+
                 // chargement des collections
                 Axios.get(`http://127.0.0.1:8000/getCategories`)
                     .then(res => {
@@ -355,10 +363,7 @@ const CreateCollection = () => {
         if (inputTextModify != '' && inputTextModify.length >= 3) { // au cas où le nouveau nom est vide ou < 3
             Axios.put(`http://127.0.0.1:8000/categories/${category}`, { name: inputTextModify })
                 .then(res => {
-                    setNewCategoryNameUseInMessage(inputTextModify + ' à été enregistrée');
-                    setShowCreateCategory(false)
-                    setLinkCreateCategory('Créer une nouvelle catégorie.');
-                    setNewCategoryName('');
+                    setNewCategoryNameUseInMessage(inputTextModify + ' à été enregistrée'); // message affiché après modification de la category
                     setNewCategorySucces(true);
                     setTimeout(hideMessageSucces, 4000);
 
@@ -379,7 +384,7 @@ const CreateCollection = () => {
             setCategoryName('Aucune catégorie');
             setInputTextModify('');
 
-        } else { // warning new category name is empty
+        } else { // warning new modified category name is empty
 
             setMessageModal('Le nouveau nom de catégorie doit contenir au moins trois caractères');
         }
@@ -409,7 +414,7 @@ const CreateCollection = () => {
         setShowModalConfirm(false);
 
         switch (sender) {
-            case 'deleteCategory':
+            case 'deleteCategory': // if confirm delete
                 deleteCategory(tmp_parameter);
                 break;
             // case 'warningEmptyNewCategoryName':
@@ -430,7 +435,7 @@ const CreateCollection = () => {
 
     var formData = new FormData;
     var objConditions = JSON.stringify(conditions);
-
+console.log(objConditions);
     if (image) {
         formData.append('image[]', image[0]);
     };
@@ -772,7 +777,8 @@ const CreateCollection = () => {
                     show={showModalConfirm}
                     handleModalConfirm={handleModalConfirm}
                     handleModalCancel={handleModalCancel}
-                    image={'../images/icons/trash.png'}>
+                    textButtonConfirm={textButtonConfirm}
+                    image={imageConfirm}>
                     <h2 className="childrenModal">{messageModal}</h2>
                 </ModalConfirm>
 
