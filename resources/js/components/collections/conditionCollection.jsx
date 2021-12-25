@@ -15,19 +15,19 @@ const ConditionCollection = (props) => {
     const [typeValue, setTypeValue] = useState('');
     const [inputType, setInputType] = useState('text');
     const [inputStep, setInputStep] = useState('0.01');
-    const [inputValue, setInputValue] = useState('');
 
     // initialise à show les operators qui correspondent à "Nom du produit"
     useEffect(() => {
         // met dabord à hide partout
         hideUselessOperatorReset();
-        
+
         setHideOp1('show');
         setHideOp2('show');
         setHideOp5('show');
         setHideOp6('show');
         setHideOp7('show');
         setHideOp8('show');
+
 
     }, []);
 
@@ -103,20 +103,18 @@ const ConditionCollection = (props) => {
     // récup le param et l'envoi à handleChangeParam pour mettre à jours l'obj conditions + l'envoi à showOnlyUsableOperator pour détermine quelle liste d'opérators afficher
     const changeParamValue = (e) => {
         let param = e.target.value;
-        props.handleChangeParam(param, props.index);
+        props.handleChangeParam(param, props.condition.id);
         showOnlyUsableOperator(param);
-        setInputValue('');
-    }    
-    
-    const handleInputValue = (e) => {
-        setInputValue(e.target.value);
     }
+
 
     return (
         <div className="block-select-conditions">
+
             {/* parameters */}
             <div>
                 <select
+                    value={props.condition.parameter}
                     onChange={changeParamValue}>
                     <option value="1">Nom du produit</option>
                     <option value="2">Type du produit</option>
@@ -131,9 +129,12 @@ const ConditionCollection = (props) => {
                     <option value="11">Date modification produit &nbsp;&nbsp; </option>
                 </select>
             </div>
+
             {/* operator */}
             <div>
-                <select value={props.condition.operator} onChange={(e) => props.handleChangeOperator(e, props.index)} >
+                <select
+                    value={props.condition.operator}
+                    onChange={(e) => props.handleChangeOperator(e, props.condition.id)} >
                     {HideOp1 == 'show' && <option value="1">est égale à</option>} {/* = */}
                     {HideOp2 == 'show' && <option value="2">n'est pas égale à</option>} {/* != */}
                     {HideOp3 == 'show' && <option value="3">est suppérieur à</option>} {/* > */}
@@ -146,27 +147,28 @@ const ConditionCollection = (props) => {
                     {HideOp10 == 'show' && <option value="10">est vide</option>} {/* null_empty */}
                 </select>
             </div>
+
             {/* value */}
             <div className="input-span">
-                <input 
-                type={inputType} 
-                step={inputStep}
-                min="0" 
-                value={inputValue} 
-                onChange={(e) => {
-                props.handleChangeValue(e, props.index);
-                handleInputValue(e);
-                }} />
-                {typeValue != '' && <span className="typeValue"> 
+                <input
+                    type={inputType}
+                    step={inputStep}
+                    min="0"
+                    value={props.condition.value}
+                    onChange={(e) => props.handleChangeValue(e, props.condition.id)} />
+                {typeValue != '' && <span className="typeValue">
                     {typeValue}
                 </span>}
-                {/* <img className="settings" src="../images/icons/settings.png" alt="modifier les paramètres" /> */}
             </div>
+
             {/* Annuler */}
             <div className="remove-condition">
-            <i className="fas fa-trash-alt trashRemoveCondition"></i>
+                <i className="fas fa-trash-alt trashRemoveCondition"
+                    onClick={() => props.deleteCondition(props.condition.id)}>
+
+                </i>
             </div>
-            
+
         </div>
     );
 }

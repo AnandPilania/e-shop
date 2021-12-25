@@ -22102,12 +22102,7 @@ var ConditionCollection = function ConditionCollection(props) {
   var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('0.01'),
       _useState26 = _slicedToArray(_useState25, 2),
       inputStep = _useState26[0],
-      setInputStep = _useState26[1];
-
-  var _useState27 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState28 = _slicedToArray(_useState27, 2),
-      inputValue = _useState28[0],
-      setInputValue = _useState28[1]; // initialise à show les operators qui correspondent à "Nom du produit"
+      setInputStep = _useState26[1]; // initialise à show les operators qui correspondent à "Nom du produit"
 
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
@@ -22195,19 +22190,15 @@ var ConditionCollection = function ConditionCollection(props) {
 
   var changeParamValue = function changeParamValue(e) {
     var param = e.target.value;
-    props.handleChangeParam(param, props.index);
+    props.handleChangeParam(param, props.condition.id);
     showOnlyUsableOperator(param);
-    setInputValue('');
-  };
-
-  var handleInputValue = function handleInputValue(e) {
-    setInputValue(e.target.value);
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
     className: "block-select-conditions",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("select", {
+        value: props.condition.parameter,
         onChange: changeParamValue,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
           value: "1",
@@ -22248,7 +22239,7 @@ var ConditionCollection = function ConditionCollection(props) {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("select", {
         value: props.condition.operator,
         onChange: function onChange(e) {
-          return props.handleChangeOperator(e, props.index);
+          return props.handleChangeOperator(e, props.condition.id);
         },
         children: [HideOp1 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
           value: "1",
@@ -22288,10 +22279,9 @@ var ConditionCollection = function ConditionCollection(props) {
         type: inputType,
         step: inputStep,
         min: "0",
-        value: inputValue,
+        value: props.condition.value,
         onChange: function onChange(e) {
-          props.handleChangeValue(e, props.index);
-          handleInputValue(e);
+          return props.handleChangeValue(e, props.condition.id);
         }
       }), typeValue != '' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
         className: "typeValue",
@@ -22300,7 +22290,10 @@ var ConditionCollection = function ConditionCollection(props) {
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
       className: "remove-condition",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
-        className: "fas fa-trash-alt trashRemoveCondition"
+        className: "fas fa-trash-alt trashRemoveCondition",
+        onClick: function onClick() {
+          return props.deleteCondition(props.condition.id);
+        }
       })
     })]
   });
@@ -22366,8 +22359,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var CreateCollection = function CreateCollection() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
+    id: 0,
     parameter: '1',
-    operator: '=',
+    operator: '1',
     value: ''
   }]),
       _useState2 = _slicedToArray(_useState, 2),
@@ -22557,6 +22551,11 @@ var CreateCollection = function CreateCollection() {
       imageConfirm = _useState74[0],
       setImageConfirm = _useState74[1];
 
+  var _useState75 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState76 = _slicedToArray(_useState75, 2),
+      isDirtyPage = _useState76[0],
+      setIsDirtyPage = _useState76[1];
+
   var isEmptyMetaUrl = true;
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // chargement des collections
@@ -22579,36 +22578,99 @@ var CreateCollection = function CreateCollection() {
     // tmp_metaTitle[0] = '';
     // tmp_metaTitle[1] = 'can_touch';
     // setMetaTitle(...tmp_metaTitle);
-  }, []); // var lastCondition = conditions.slice(-1)[0];
+  }, []); // conditions.length > 0 && console.log(conditions.length);
+  // image.length > 0 && console.log(image.length)
+  // nameCollection.length > 0 && console.log(nameCollection.length);
+  // descriptionCollection.length > 0 && console.log(descriptionCollection.length);
+  // isToggleOn.length > 0 && console.log(isToggleOn.length);
+  // includePrevProduct.length > 0 && console.log(includePrevProduct.length);
+  // allConditionsNeeded.length > 0 && console.log(allConditionsNeeded.length);
+  // alt.length > 0 && console.log(alt.length);
+  // window.addEventListener('beforeunload', function (e) {
+  //     var myPageIsDirty = true; //you implement this logic...
+  //     if (
+  //         conditions[0].value != '' ||
+  //         // image.length > 0 || 
+  //         nameCollection != '' ||
+  //         descriptionCollection != '' ||
+  //         alt != ''
+  //     ) {
+  //         console.log(nameCollection.length);
+  //         //following two lines will cause the browser to ask the user if they
+  //         //want to leave. The text of this dialog is controlled by the browser.
+  //         e.preventDefault(); //per the standard
+  //         e.returnValue = ''; //required for Chrome
+  //     }
+  //     //else: user is allowed to leave without a warning dialog
+  // });
+
+  var checkIfLeaveWithoutSave = function checkIfLeaveWithoutSave() {};
+
+  window.addEventListener('popstate', function () {
+    alert('Back button was pressed.');
+  }); // var lastCondition = conditions.slice(-1)[0];
 
   var addCondition = function addCondition() {
+    // get bigger id for define the next id to insert in conditions
+    var arr = _toConsumableArray(conditions);
+
+    var BiggerId = arr.reduce(function (acc, current) {
+      return acc = acc > current.id ? acc : current.id;
+    }, 0);
+    var condition_id = BiggerId + 1;
     setConditions([].concat(_toConsumableArray(conditions), [{
+      id: condition_id,
       parameter: '1',
-      operator: '=',
+      operator: '1',
       value: ''
     }]));
   };
 
-  var handleChangeParam = function handleChangeParam(param, index) {
+  console.log(conditions); // delete un détail dans le detailx correspondant à id
+
+  var deleteCondition = function deleteCondition(id) {
+    var arr = _toConsumableArray(conditions);
+
+    var index_arr = arr.findIndex(function (obj) {
+      return obj.id == id;
+    });
+    arr.splice(index_arr, 1);
+    setConditions(_toConsumableArray(arr));
+  }; // gère le paramètre à changer dans les conditions automatiques
+
+
+  var handleChangeParam = function handleChangeParam(param, id) {
     var tmp_conditions = _toConsumableArray(conditions);
 
-    tmp_conditions[index].parameter = param;
+    var index_arr = tmp_conditions.findIndex(function (obj) {
+      return obj.id == id;
+    });
+    tmp_conditions[index_arr].parameter = param;
     setConditions(tmp_conditions);
-  };
+  }; // gère le type d'opérations à éffectuer dans les conditons automatiques
 
-  var handleChangeOperator = function handleChangeOperator(e, index) {
+
+  var handleChangeOperator = function handleChangeOperator(e, id) {
     var tmp_conditions = _toConsumableArray(conditions);
 
-    tmp_conditions[index].operator = e.target.value;
+    var index_arr = tmp_conditions.findIndex(function (obj) {
+      return obj.id == id;
+    });
+    tmp_conditions[index_arr].operator = e.target.value;
     setConditions(tmp_conditions);
-  };
+  }; // gère la valeur entrée dans les conditions automatiques
 
-  var handleChangeValue = function handleChangeValue(e, index) {
+
+  var handleChangeValue = function handleChangeValue(e, id) {
     var tmp_conditions = _toConsumableArray(conditions);
 
-    tmp_conditions[index].value = e.target.value;
+    var index_arr = tmp_conditions.findIndex(function (obj) {
+      return obj.id == id;
+    });
+    tmp_conditions[index_arr].value = e.target.value;
     setConditions(tmp_conditions);
-  };
+  }; // show / hide conditions
+
 
   var showHideConditions = function showHideConditions(auto) {
     if (auto) {
@@ -22616,15 +22678,18 @@ var CreateCollection = function CreateCollection() {
     } else {
       setIsToggleOn(false);
     }
-  };
+  }; // show / hide optimisation title & description
+
 
   var showHideOptimisation = function showHideOptimisation() {
     setIsShowOptimisation(!isShowOptimisation);
-  };
+  }; // détermine si on inclus les produits déjà enregistrer dans la nouvelle collection
+
 
   var includePrevProducts = function includePrevProducts(includ) {
     setIncludePrevProduct(includ);
-  };
+  }; // date à laquelle la collection est activée
+
 
   var handleDateChange = function handleDateChange(e) {
     setDatetimeField(e.target.value);
@@ -22653,10 +22718,10 @@ var CreateCollection = function CreateCollection() {
     if (metaUrl.length == 0) {
       setApercuMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
     }
-  };
+  }; // remove caracteres unauthorized for url
+
 
   var normalizUrl = function normalizUrl(str) {
-    // remove caracteres unauthorized for url
     var urlName = str.replaceAll(' ', '-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     urlName = urlName.replaceAll(/-{2,}/g, '-');
     urlName = urlName.replace(/[<>\?\.\[\]'"°@\|\\§.,\/#\!\$%\^&\*;:\{\}=\+_`~\(\)]/g, "").replaceAll(/-{2,}/g, '-'); // <-- all ist ok 
@@ -22692,7 +22757,7 @@ var CreateCollection = function CreateCollection() {
   ;
 
   var handleDescriptionCollection = function handleDescriptionCollection(description) {
-    // descriptionCollection est seté dans le componot ckeditor donc pas besoin ici
+    // descriptionCollection est set dans le component ckeditor donc pas besoin ici
     // if metaDescription field is not used then we can fill apercuMetaDescription with the description field 
     if (isEmptyMetaDescription == true) {
       // on remplace les balises de ckeditor par un espace pour que les mots ne soient pas collés dans l'apérçu
@@ -22927,7 +22992,6 @@ var CreateCollection = function CreateCollection() {
 
   var formData = new FormData();
   var objConditions = JSON.stringify(conditions);
-  console.log(objConditions);
 
   if (image) {
     formData.append('image[]', image[0]);
@@ -23117,11 +23181,11 @@ var CreateCollection = function CreateCollection() {
             className: "sub-div-vert-align",
             children: [conditions.map(function (item, i) {
               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_conditionCollection__WEBPACK_IMPORTED_MODULE_1__["default"], {
-                index: i,
                 handleChangeParam: handleChangeParam,
                 handleChangeOperator: handleChangeOperator,
                 handleChangeValue: handleChangeValue,
-                condition: item
+                condition: item,
+                deleteCondition: deleteCondition
               }, i);
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("button", {
               className: "btn-bcknd",
@@ -26323,7 +26387,8 @@ var Navbar = function Navbar() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
       isActive = _useState2[0],
-      setIsActive = _useState2[1];
+      setIsActive = _useState2[1]; // gère le menu déroulant
+
 
   var handleMenu = function handleMenu(i) {
     var acc = document.getElementsByClassName("accordion")[i];
@@ -26335,6 +26400,10 @@ var Navbar = function Navbar() {
     } else {
       panel.style.maxHeight = panel.scrollHeight + "px";
     }
+  };
+
+  var tst = function tst() {
+    alert('ok');
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("nav", {
@@ -26354,6 +26423,7 @@ var Navbar = function Navbar() {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
           className: "link",
           to: "/listProduct",
+          onClick: tst,
           children: "Tous les produits"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
           className: "link",

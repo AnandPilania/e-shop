@@ -9,8 +9,9 @@ import ModalInput from '../modal/modalInput';
 
 const CreateCollection = () => {
     const [conditions, setConditions] = useState([{
+        id: 0,
         parameter: '1',
-        operator: '=',
+        operator: '1',
         value: ''
     }]);
     const [isToggleOn, setIsToggleOn] = useState(true);
@@ -49,6 +50,7 @@ const CreateCollection = () => {
     const [inputTextModify, setInputTextModify] = useState('');
     const [textButtonConfirm, setTextButtonConfirm] = useState('Confirmer');
     const [imageConfirm, setImageConfirm] = useState('');
+    const [isDirtyPage, setIsDirtyPage] = useState(false);
 
     var isEmptyMetaUrl = true;
 
@@ -85,36 +87,100 @@ const CreateCollection = () => {
         // setMetaTitle(...tmp_metaTitle);
     }, []);
 
+
+    // conditions.length > 0 && console.log(conditions.length);
+    // image.length > 0 && console.log(image.length)
+    // nameCollection.length > 0 && console.log(nameCollection.length);
+    // descriptionCollection.length > 0 && console.log(descriptionCollection.length);
+    // isToggleOn.length > 0 && console.log(isToggleOn.length);
+    // includePrevProduct.length > 0 && console.log(includePrevProduct.length);
+    // allConditionsNeeded.length > 0 && console.log(allConditionsNeeded.length);
+    // alt.length > 0 && console.log(alt.length);
+
+
+    // window.addEventListener('beforeunload', function (e) {
+    //     var myPageIsDirty = true; //you implement this logic...
+    //     if (
+    //         conditions[0].value != '' ||
+    //         // image.length > 0 || 
+    //         nameCollection != '' ||
+    //         descriptionCollection != '' ||
+    //         alt != ''
+    //     ) {
+    //         console.log(nameCollection.length);
+    //         //following two lines will cause the browser to ask the user if they
+    //         //want to leave. The text of this dialog is controlled by the browser.
+    //         e.preventDefault(); //per the standard
+    //         e.returnValue = ''; //required for Chrome
+    //     }
+    //     //else: user is allowed to leave without a warning dialog
+    // });
+
+    const checkIfLeaveWithoutSave = () => {
+        
+    }
+    window.addEventListener('popstate', function() {
+        alert('Back button was pressed.');
+      });
+
+
     // var lastCondition = conditions.slice(-1)[0];
 
     const addCondition = () => {
+        // get bigger id for define the next id to insert in conditions
+        var arr = [...conditions];
+        const BiggerId = arr.reduce((acc, current) => acc = acc > current.id ? acc : current.id, 0);
+        var condition_id = BiggerId + 1;
+
         setConditions([
             ...conditions, {
+                id: condition_id,
                 parameter: '1',
-                operator: '=',
+                operator: '1',
                 value: ''
             }
         ]);
     };
 
-    const handleChangeParam = (param, index) => {
+    console.log(conditions);
+
+
+    // delete un détail dans le detailx correspondant à id
+    const deleteCondition = (id) => {
+
+        var arr = [...conditions];
+        var index_arr = arr.findIndex(obj => obj.id == id);
+
+        arr.splice(index_arr, 1);
+
+        setConditions([...arr]);
+    }
+
+    // gère le paramètre à changer dans les conditions automatiques
+    const handleChangeParam = (param, id) => {
         let tmp_conditions = [...conditions];
-        tmp_conditions[index].parameter = param;
+        var index_arr = tmp_conditions.findIndex(obj => obj.id == id);
+        tmp_conditions[index_arr].parameter = param;
         setConditions(tmp_conditions);
     };
 
-    const handleChangeOperator = (e, index) => {
+    // gère le type d'opérations à éffectuer dans les conditons automatiques
+    const handleChangeOperator = (e, id) => {
         let tmp_conditions = [...conditions];
-        tmp_conditions[index].operator = e.target.value;
+        var index_arr = tmp_conditions.findIndex(obj => obj.id == id);
+        tmp_conditions[index_arr].operator = e.target.value;
         setConditions(tmp_conditions);
     };
 
-    const handleChangeValue = (e, index) => {
+    // gère la valeur entrée dans les conditions automatiques
+    const handleChangeValue = (e, id) => {
         let tmp_conditions = [...conditions];
-        tmp_conditions[index].value = e.target.value;
+        var index_arr = tmp_conditions.findIndex(obj => obj.id == id);
+        tmp_conditions[index_arr].value = e.target.value;
         setConditions(tmp_conditions);
     };
 
+    // show / hide conditions
     const showHideConditions = (auto) => {
         if (auto) {
             setIsToggleOn(true);
@@ -123,14 +189,17 @@ const CreateCollection = () => {
         }
     };
 
+    // show / hide optimisation title & description
     const showHideOptimisation = () => {
         setIsShowOptimisation(!isShowOptimisation);
     };
 
+    // détermine si on inclus les produits déjà enregistrer dans la nouvelle collection
     const includePrevProducts = (includ) => {
         setIncludePrevProduct(includ);
     };
 
+    // date à laquelle la collection est activée
     const handleDateChange = (e) => {
         setDatetimeField(e.target.value);
     };
@@ -160,8 +229,8 @@ const CreateCollection = () => {
         }
     };
 
+    // remove caracteres unauthorized for url
     const normalizUrl = (str) => {
-        // remove caracteres unauthorized for url
         let urlName = str.replaceAll(' ', '-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         urlName = urlName.replaceAll(/-{2,}/g, '-');
         urlName = urlName.replace(/[<>\?\.\[\]'"°@\|\\§.,\/#\!\$%\^&\*;:\{\}=\+_`~\(\)]/g, "").replaceAll(/-{2,}/g, '-'); // <-- all ist ok 
@@ -197,7 +266,7 @@ const CreateCollection = () => {
     };
 
     const handleDescriptionCollection = (description) => {
-        // descriptionCollection est seté dans le componot ckeditor donc pas besoin ici
+        // descriptionCollection est set dans le component ckeditor donc pas besoin ici
         // if metaDescription field is not used then we can fill apercuMetaDescription with the description field 
         if (isEmptyMetaDescription == true) {
             // on remplace les balises de ckeditor par un espace pour que les mots ne soient pas collés dans l'apérçu
@@ -435,7 +504,7 @@ const CreateCollection = () => {
 
     var formData = new FormData;
     var objConditions = JSON.stringify(conditions);
-console.log(objConditions);
+
     if (image) {
         formData.append('image[]', image[0]);
     };
@@ -571,10 +640,10 @@ console.log(objConditions);
                                 {conditions.map((item, i) => (
                                     <ConditionCollection
                                         key={i}
-                                        index={i}
                                         handleChangeParam={handleChangeParam}
                                         handleChangeOperator={handleChangeOperator} handleChangeValue={handleChangeValue}
                                         condition={item}
+                                        deleteCondition={deleteCondition}
                                     />))}
                                 <button className="btn-bcknd" onClick={addCondition}>Ajouter une condition</button>
                             </div>
