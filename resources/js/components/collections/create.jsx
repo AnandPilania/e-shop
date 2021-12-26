@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from 'react';
+import { React, useState, useEffect, useContext } from 'react';
 import ConditionCollection from './conditionCollection';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -6,37 +6,27 @@ import Axios from 'axios';
 import DropZone from '../tools/dropZone';
 import ModalConfirm from '../modal/modalConfirm';
 import ModalInput from '../modal/modalInput';
+import AppContext from '../contexts/AppContext';
+
 
 const CreateCollection = () => {
-    const [conditions, setConditions] = useState([{
-        id: 0,
-        parameter: '1',
-        operator: '1',
-        value: ''
-    }]);
     const [isToggleOn, setIsToggleOn] = useState(true);
     const [isShowOptimisation, setIsShowOptimisation] = useState(true);
     const [includePrevProduct, setIncludePrevProduct] = useState(true);
     const [categories, setCategories] = useState([]);
     const [datetimeField, setDatetimeField] = useState(new Date());
     const [allConditionsNeeded, setAllConditionsNeeded] = useState(true);
-    const [nameCollection, setNameCollection] = useState('');
-    const [descriptionCollection, setDescriptionCollection] = useState('');
     const [category, setCategory] = useState();
     const [categoryName, setCategoryName] = useState('Aucune catégorie');
     const [newCategoryName, setNewCategoryName] = useState('');
     const [showCreateCategory, setShowCreateCategory] = useState(false);
     const [linkCreateCategory, setLinkCreateCategory] = useState('Créer une nouvelle catégorie.');
     const [newCategorySucces, setNewCategorySucces] = useState(false);
-    const [alt, setAlt] = useState('');
     const [image, setImage] = useState([]);
-    const [metaTitle, setMetaTitle] = useState('');
     const [apercuMetaTitle, setApercuMetaTitle] = useState('');
     const [apercuMetaTitle2, setApercuMetaTitle2] = useState('');
     const [biggerThan60, setBiggerThan60] = useState(false);
-    const [metaDescription, setMetaDescription] = useState('');
     const [apercuMetaDescription, setApercuMetaDescription] = useState('');
-    const [metaUrl, setMetaUrl] = useState(window.location.origin + '/');
     const [apercuMetaUrl, setApercuMetaUrl] = useState(window.location.origin);
     const [isEmptyMetaDescription, setIsEmptyMetaDescription] = useState(true);
     const [isEmptyMetaTitle, setIsEmptyMetaTitle] = useState(true);
@@ -50,7 +40,11 @@ const CreateCollection = () => {
     const [inputTextModify, setInputTextModify] = useState('');
     const [textButtonConfirm, setTextButtonConfirm] = useState('Confirmer');
     const [imageConfirm, setImageConfirm] = useState('');
-    const [isDirtyPage, setIsDirtyPage] = useState(false);
+
+
+   
+    const {conditions, setConditions, nameCollection, setNameCollection, descriptionCollection, setDescriptionCollection, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, alt, setAlt} = useContext(AppContext);
+
 
     var isEmptyMetaUrl = true;
 
@@ -78,24 +72,11 @@ const CreateCollection = () => {
             (hour < 10 ? "0" + hour.toString() : hour) + ":" +
             (minute < 10 ? "0" + minute.toString() : minute);
         setDatetimeField(localDatetime);
-        ;
+        
+        // évite error quand on passe à un autre component
+        return <>{categories ? categories : ''}</>
 
-        // pour autoriser handleNameCollection à setMetaTitle
-        // let tmp_metaTitle = [...metaTitle];
-        // tmp_metaTitle[0] = '';
-        // tmp_metaTitle[1] = 'can_touch';
-        // setMetaTitle(...tmp_metaTitle);
     }, []);
-
-
-    // conditions.length > 0 && console.log(conditions.length);
-    // image.length > 0 && console.log(image.length)
-    // nameCollection.length > 0 && console.log(nameCollection.length);
-    // descriptionCollection.length > 0 && console.log(descriptionCollection.length);
-    // isToggleOn.length > 0 && console.log(isToggleOn.length);
-    // includePrevProduct.length > 0 && console.log(includePrevProduct.length);
-    // allConditionsNeeded.length > 0 && console.log(allConditionsNeeded.length);
-    // alt.length > 0 && console.log(alt.length);
 
 
     // window.addEventListener('beforeunload', function (e) {
@@ -116,14 +97,12 @@ const CreateCollection = () => {
     //     //else: user is allowed to leave without a warning dialog
     // });
 
-    const checkIfLeaveWithoutSave = () => {
-        
-    }
-    window.addEventListener('popstate', function() {
-        alert('Back button was pressed.');
-      });
 
+    // window.addEventListener('popstate', function() {
+    //     alert('Back button was pressed.');
+    //   });
 
+    //   debugger;
     // var lastCondition = conditions.slice(-1)[0];
 
     const addCondition = () => {

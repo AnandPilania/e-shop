@@ -16,12 +16,12 @@ class CreateCollectionsTable extends Migration
         Schema::create('collections', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('image');
-            $table->string('alt');
+            $table->string('image')->nullable();
+            $table->string('alt')->nullable();
             $table->string('link');
-            $table->longText('description');
-            $table->longText('meta_title');
-            $table->longText('meta_description');
+            $table->longText('description')->nullable();
+            $table->longText('meta_title')->nullable();
+            $table->longText('meta_description')->nullable();
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->timestamps();

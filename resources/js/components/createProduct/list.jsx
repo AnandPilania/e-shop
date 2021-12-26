@@ -22,9 +22,6 @@ const List = () => {
             });
     }, []);
 
-    products.map(element => {
-        console.log(element);
-    });
 
 
     var check = false;

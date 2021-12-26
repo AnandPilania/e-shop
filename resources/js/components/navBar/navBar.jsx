@@ -1,10 +1,12 @@
-import { React, useState } from 'react';
+import { React, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import './menu_accordion.scss';
+import AppContext from '../contexts/AppContext';
+
 
 const Navbar = () => {
   const [isActive, setIsActive] = useState(false);
-
+  const { checkLeave } = useContext(AppContext);
 
   // gère le menu déroulant
   const handleMenu = (i) => {
@@ -20,15 +22,13 @@ const Navbar = () => {
     }
   }
 
-  const tst = () => {
-    alert('ok');
-  }
+  
   return (
     <nav>
       <div className={"accordion ${isActive && 'active'}"} onClick={() => handleMenu(0)} ><img className="barcodeIcon" src="../images\icons\icons8-label-128.png" />Produit</div>
       <div className="panel">
         <div className="panel_elements">
-          <Link className="link" to="/listProduct" onClick={tst}>Tous les produits</Link>
+          <Link className="link" to="/listProduct" onClick={checkLeave}>Tous les produits</Link>
           <Link className="link" to="/addProduct">Ajouter un produit</Link>
           <Link className="link" to="/editProduct/1">Modifier un produit</Link>
           <Link className="link" to="/collections-list">Collections</Link>
