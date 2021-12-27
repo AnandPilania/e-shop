@@ -22,7 +22,6 @@ const CreateCollection = () => {
     const [showCreateCategory, setShowCreateCategory] = useState(false);
     const [linkCreateCategory, setLinkCreateCategory] = useState('Créer une nouvelle catégorie.');
     const [newCategorySucces, setNewCategorySucces] = useState(false);
-    const [image, setImage] = useState([]);
     const [apercuMetaTitle, setApercuMetaTitle] = useState('');
     const [apercuMetaTitle2, setApercuMetaTitle2] = useState('');
     const [biggerThan60, setBiggerThan60] = useState(false);
@@ -42,8 +41,9 @@ const CreateCollection = () => {
     const [imageConfirm, setImageConfirm] = useState('');
 
 
-   
-    const {conditions, setConditions, nameCollection, setNameCollection, descriptionCollection, setDescriptionCollection, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, alt, setAlt} = useContext(AppContext);
+
+
+    const { conditions, setConditions, nameCollection, setNameCollection, descriptionCollection, setDescriptionCollection, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, alt, setAlt, image, setImage } = useContext(AppContext);
 
 
     var isEmptyMetaUrl = true;
@@ -72,7 +72,7 @@ const CreateCollection = () => {
             (hour < 10 ? "0" + hour.toString() : hour) + ":" +
             (minute < 10 ? "0" + minute.toString() : minute);
         setDatetimeField(localDatetime);
-        
+
         // évite error quand on passe à un autre component
         return <>{categories ? categories : ''}</>
 
@@ -285,6 +285,11 @@ const CreateCollection = () => {
         }
     };
 
+    // IMAGE -------------------------------------------------------------------
+    const handleAlt = (e) => {
+        setAlt(e.target.value);
+    };
+    //---------------------------------------------------------------------IMAGE
 
     // CATEGORY ----------------------------------------------------------------
     // show hide select menu
@@ -301,10 +306,6 @@ const CreateCollection = () => {
     // nom affiché dans le select
     const handleCategoryName = (cat_name) => {
         setCategoryName(cat_name);
-    };
-
-    const handleAlt = (e) => {
-        setAlt(e.target.value);
     };
 
     // show/hide input create new category
@@ -718,7 +719,7 @@ const CreateCollection = () => {
                         <h2>Image</h2>
                         <p>Ajouter une image pour cette collection. (*optionnel)</p>
                         <DropZone multiple={false} setImage={setImage} />
-                        <p><a href="#">Comment bien choisir son image ?</a></p>
+                         <p><a href="#">Comment bien choisir son image ?</a></p>
                     </div>
 
                     {/* Référencement */}
@@ -822,7 +823,7 @@ const CreateCollection = () => {
 
                 {/* modal for confirmation */}
                 <ModalConfirm
-                    show={showModalConfirm}
+                    show={showModalConfirm} // true/false show modal
                     handleModalConfirm={handleModalConfirm}
                     handleModalCancel={handleModalCancel}
                     textButtonConfirm={textButtonConfirm}

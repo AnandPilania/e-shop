@@ -16,7 +16,8 @@ export default React.createContext({
     setMetaUrl: () => {}, 
     alt: '',
     setAlt: () => {},
+    image: '', 
+    setImage: () => {},
 
-    
     checkLeave: () => {},
 });

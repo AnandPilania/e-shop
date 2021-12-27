@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from 'react';
+import { React, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles({
@@ -15,7 +15,11 @@ const useStyles = makeStyles({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         flexWrap: 'nowrap',
-        backgroundColor: '#f6f6f7',
+        backgroundColor: '#fff',
+
+        '&:hover': {
+            border: 'rgb(19, 82, 255) dashed 5px',
+        },
     },
     drop_region: {
         backgroundColor: '#fff',
@@ -30,8 +34,17 @@ const useStyles = makeStyles({
         cursor: 'pointer',
         transition: '0.3s',
     },
-    drop_region_hover: {
-        border: 'rgb(19, 82, 255) dashed 5px',
+    removeImage: {
+        marginTop: '0',
+        padding: '0',
+        width: '100%',
+        textAlign: 'right',
+        textDecoration: 'underline',
+
+        '&:hover': {
+            cursor: 'pointer',
+            fontWeight: 'bold',
+        },
     }
 });
 
@@ -41,8 +54,6 @@ const useStyles = makeStyles({
 
 const DropZone = (props) => {
     const classes = useStyles();
-    const [imageFiles, setImageFiles] = useState([]);
-    const [isHover, setIsHover] = useState(false);
 
     var dropRegion = null;
     var imagePreviewRegion = null;
@@ -61,6 +72,10 @@ const DropZone = (props) => {
         // open files exploratore when click on dropRegion
         dropRegion.addEventListener('click', function () {
             fakeInput.click();
+        });
+
+        fakeInput.addEventListener("click", function (e) {
+            e.target.value = '';
         });
 
         fakeInput.addEventListener("change", function () {
@@ -146,6 +161,7 @@ const DropZone = (props) => {
 
     // affiche et sauvegarde les images
     function handleFiles(files) {
+
         if (props.multiple === false) {
             tab = files;
         }
@@ -154,7 +170,6 @@ const DropZone = (props) => {
         }
         for (var i = 0; i < files.length; i++) {
             if (validateImage(files[i])) {
-                setImageFiles(tab);
                 props.setImage(tab);
                 previewImage(files[i]);
             }
@@ -182,6 +197,7 @@ const DropZone = (props) => {
 
     function previewImage(image) {
 
+        // retire l'image de fond
         document.getElementById('drop-region').style.background = 'none';
         document.getElementById('drop-region').style.backgroundColor = '#FFFFFF';
 
@@ -226,6 +242,23 @@ const DropZone = (props) => {
         reader.readAsDataURL(image);
     }
 
+    function removeImagePreview() {
+        var imagesToRemove = document.getElementsByClassName('image-view') && document.getElementsByClassName('image-view');
+
+        if (imagesToRemove.length > 0) {
+            for (let i = 0; i < imagesToRemove.length; i++) {
+                imagesToRemove[i].remove();
+            }
+
+            props.setImage([]);
+
+            // remet l'image de fond
+            document.getElementById('drop-region').style.backgroundColor = 'none';
+            document.getElementById('drop-region').style.background = 'no-repeat url("../images/icons/backgroundDropZone.png")';
+            document.getElementById('drop-region').style.backgroundPosition = 'center 90%';
+        }
+    }
+
 
     function detectDragDrop() {
         var div = document.createElement('div');
@@ -234,18 +267,17 @@ const DropZone = (props) => {
 
 
     return (
-        <div
-            className={`${classes.wrapperForm} ${isHover && classes.drop_region_hover}`}
-            onMouseEnter={() => setIsHover(true)}
-            onMouseLeave={() => setIsHover(false)}
-        >
-            <div id="drop-region" className={classes.drop_region}>
-                <div className="drop-message">
-                    Déposez ici une image <br></br>ou cliquez pour charger une image
+        <>
+            <div className={classes.wrapperForm}>
+                <div id="drop-region" className={classes.drop_region}>
+                    <div className="drop-message">
+                        Déposez ici une image <br></br>ou cliquez pour charger une image
+                    </div>
+                    <div id="image-preview"></div>
                 </div>
-                <div id="image-preview"></div>
             </div>
-        </div>
+            <span className={classes.removeImage} onClick={removeImagePreview}>Supprimer l'image</span>
+        </>
     )
 }
 

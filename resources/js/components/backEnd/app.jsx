@@ -8,14 +8,10 @@ import List from '../createProduct/list';
 import ListCollections from '../collections/list';
 import CreateCollection from '../collections/create';
 import AppContext from '../contexts/AppContext';
+import ModalApp from '../modal/modalApp';
 
 
-
-
-
-
-
-const App = (props) => {
+const App = () => {
     const [conditions, setConditions] = useState([{
         id: 0,
         parameter: '1',
@@ -28,26 +24,65 @@ const App = (props) => {
     const [metaDescription, setMetaDescription] = useState('');
     const [metaUrl, setMetaUrl] = useState(window.location.origin + '/');
     const [alt, setAlt] = useState('');
+    const [image, setImage] = useState([]);
+    const [showModalApp, setShowModalApp] = useState(false);
+    const [textButtonModalApp, setTextButtonModalApp] = useState('Confirmer');
+    const [textButtonModalApp2, setTextButtonModalApp2] = useState('Confirmer');
+    const [imageModalApp, setImageModalApp] = useState('');
+    const [messageModalApp, setMessageModalApp] = useState('');
+    const [followThisLink, setFollowThisLink] = useState('');
 
-    
 
+    // check if form is dirty
     const checkIfLeaveWithoutSave = (e) => {
-        e.preventDefault();
-        // var navTo = useNavigate();
-        // if (
-        //     conditions[0].value != '' ||
-        //     // image.length > 0 || 
-        //     nameCollection != '' ||
-        //     descriptionCollection != '' ||
-        //     alt != ''
-        // ) {
-        //     // navTo(`/addProduct`);
-        // }
-       alert('okokokoki');
-       console.log(nameCollection)
+        // check conditions array
+        var conditonDirty = false;
+        conditions.forEach(condition => {
+            if (condition.value != '') {
+                conditonDirty = true;
+            }
+        })
+
+        if (
+            image.length > 0 ||
+            nameCollection != '' ||
+            descriptionCollection != '' ||
+            alt != '' ||
+            conditonDirty == true
+        ) {
+            e.preventDefault();
+            const anchor = e.target.closest("a");   
+            if (!anchor) return;     
+            var link = anchor.href.replace('http://127.0.0.1:8000/admin', '');                 
+            setTextButtonModalApp('Quitter');
+            setTextButtonModalApp2('Annuler');
+            setMessageModalApp('Quitter cette page sans sauvegarder vos données ?');
+            setImageModalApp('../images/icons/exit.png');
+            setFollowThisLink(link);
+            setShowModalApp(true);
+        }
     }
 
-     
+    const handleModalApp = () => {
+        setShowModalApp(false);
+        // alert('model closed')
+        // switch (sender) {
+        //     case 'deleteCategory': // if confirm delete
+        //         deleteCategory(tmp_parameter);
+        //         break;
+        //     // case 'warningEmptyNewCategoryName':
+        //     //     setShowModalInput(false);
+        //     //     break;
+        //     default:
+        //         '';
+        // }
+    };
+
+    const handleModalAppCancel = () => {
+        setShowModalApp(false);
+    };
+
+
     const contextValue = {
         conditions, setConditions,
         nameCollection, setNameCollection,
@@ -56,8 +91,10 @@ const App = (props) => {
         metaDescription, setMetaDescription,
         metaUrl, setMetaUrl,
         alt, setAlt,
+        image, setImage,
         checkLeave: checkIfLeaveWithoutSave,
     }
+
 
     return (
         <div className="App">
@@ -65,13 +102,32 @@ const App = (props) => {
                 <BrowserRouter basename='/admin'>
                     <Navbar />
                     <Routes>
-                        <Route path="/listProduct" element={nameCollection == 'a' ?  <List /> : checkIfLeaveWithoutSave} />
+                        <Route path="/listProduct" element={<List />} />
                         <Route path="/addProduct" element={<FormProduct />} />
                         <Route path="/editProduct/:productId" element={<EditProduct />} />
                         <Route path="/editImagesProduct/:product_id" element={<EditImages />} />
                         <Route path="/collections-list" element={<ListCollections />} />
                         <Route path="/add-collection" element={<CreateCollection />} />
+                        <Route
+                            path="*"
+                            element={
+                                <main style={{ padding: "1rem" }}>
+                                    <p>There's nothing here!</p>
+                                </main>
+                            }
+                        />
                     </Routes>
+                    {/* modal for confirmation */}
+                    <ModalApp
+                        show={showModalApp} // true/false show modal
+                        handleModalApp={handleModalApp}
+                        handleModalAppCancel={handleModalAppCancel}
+                        textButtonModalApp={textButtonModalApp}
+                        textButtonModalApp2={textButtonModalApp2}
+                        image={imageModalApp}
+                        followThisLink={followThisLink}>
+                        <h2 className="childrenModal">{messageModalApp}</h2>
+                    </ModalApp>
                 </BrowserRouter>
             </AppContext.Provider>
         </div>

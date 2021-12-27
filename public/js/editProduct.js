@@ -22520,23 +22520,18 @@ var EditProduct = function EditProduct() {
 
   var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState10 = _slicedToArray(_useState9, 2),
-      productIdAliExpress = _useState10[0],
-      setProductIdAliExpress = _useState10[1];
+      productPrice = _useState10[0],
+      setProductPrice = _useState10[1];
 
   var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState12 = _slicedToArray(_useState11, 2),
-      productPrice = _useState12[0],
-      setProductPrice = _useState12[1];
+      productDescription = _useState12[0],
+      setProductDescription = _useState12[1];
 
   var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState14 = _slicedToArray(_useState13, 2),
-      productDescription = _useState14[0],
-      setProductDescription = _useState14[1];
-
-  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState16 = _slicedToArray(_useState15, 2),
-      sheet = _useState16[0],
-      setSheet = _useState16[1];
+      sheet = _useState14[0],
+      setSheet = _useState14[1];
 
   var _useParams = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_10__.useParams)(),
       productId = _useParams.productId;
@@ -22546,8 +22541,6 @@ var EditProduct = function EditProduct() {
     // récupére toutes les données d'un produit pour être éditées
     axios__WEBPACK_IMPORTED_MODULE_4___default().get("http://127.0.0.1:8000/editProduct/".concat(productId)).then(function (res) {
       setProductName(res.data.product.name);
-      var id_ali = res.data.product.id_ali_express == null && 'none';
-      setProductIdAliExpress(id_ali);
       setProductPrice(res.data.product.price);
       setProductDescription(res.data.product.description);
       setSheet(res.data.sheet);
@@ -22560,7 +22553,6 @@ var EditProduct = function EditProduct() {
     e.preventDefault();
     formData.append("id", productId);
     formData.append("name", document.getElementById("name").value);
-    formData.append("id_ali_express", document.getElementById("id_ali_express").value);
     formData.append("price", document.getElementById("price").value);
     formData.append("collection", collection);
     formData.append("description", document.getElementById("description").value);

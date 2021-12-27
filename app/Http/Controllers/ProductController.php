@@ -392,7 +392,6 @@ class ProductController extends Controller
 
         $product =  Product::find($request->id);
         $product->name = $request->name;
-        $product->id_ali_express = $request->id_ali_express;
         $product->price = $request->price;
         $product->description = $request->description;
 

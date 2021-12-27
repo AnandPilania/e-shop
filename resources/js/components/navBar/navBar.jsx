@@ -6,7 +6,7 @@ import AppContext from '../contexts/AppContext';
 
 const Navbar = () => {
   const [isActive, setIsActive] = useState(false);
-  const { checkLeave } = useContext(AppContext);
+  const { checkLeave, nameCollection } = useContext(AppContext);
 
   // gère le menu déroulant
   const handleMenu = (i) => {
@@ -29,9 +29,9 @@ const Navbar = () => {
       <div className="panel">
         <div className="panel_elements">
           <Link className="link" to="/listProduct" onClick={checkLeave}>Tous les produits</Link>
-          <Link className="link" to="/addProduct">Ajouter un produit</Link>
-          <Link className="link" to="/editProduct/1">Modifier un produit</Link>
-          <Link className="link" to="/collections-list">Collections</Link>
+          <Link className="link" to="/addProduct" onClick={checkLeave}>Ajouter un produit</Link>
+          <Link className="link" to="/editProduct/1" onClick={checkLeave}>Modifier un produit</Link>
+          <Link className="link" to="/collections-list" onClick={checkLeave}>Collections</Link>
         </div>
       </div>
 

@@ -84,7 +84,6 @@ const EditProduct = () => {
     const [collection, setCollection] = useState([]);
     const [technicalSheet, setTechnicalSheet] = useState('');
     const [productName, setProductName] = useState('');
-    const [productIdAliExpress, setProductIdAliExpress] = useState('');
     const [productPrice, setProductPrice] = useState('');
     const [productDescription, setProductDescription] = useState('');
     const [sheet, setSheet] = useState('');
@@ -97,8 +96,6 @@ const EditProduct = () => {
         Axios.get(`http://127.0.0.1:8000/editProduct/${productId}`)
             .then(res => {
                 setProductName(res.data.product.name);
-                let id_ali = res.data.product.id_ali_express == null &&  'none'; 
-                setProductIdAliExpress(id_ali);
                 setProductPrice(res.data.product.price);
                 setProductDescription(res.data.product.description);
                 setSheet(res.data.sheet);
@@ -114,7 +111,6 @@ const EditProduct = () => {
 
         formData.append("id", productId);
         formData.append("name", document.getElementById("name").value);
-        formData.append("id_ali_express", document.getElementById("id_ali_express").value);
         formData.append("price", document.getElementById("price").value);
         formData.append("collection", collection);
         formData.append("description", document.getElementById("description").value);
