@@ -22077,10 +22077,46 @@ var App = function App() {
   var _useState27 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState28 = _slicedToArray(_useState27, 2),
       followThisLink = _useState28[0],
-      setFollowThisLink = _useState28[1]; // check if form is dirty
+      setFollowThisLink = _useState28[1];
+
+  var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.location.pathname),
+      _useState30 = _slicedToArray(_useState29, 2),
+      previousUrl = _useState30[0],
+      setPreviousUrl = _useState30[1]; // si on clique sur la fléche back du navigateur un message d'avertissement pour la sauvegarde des données apparait
 
 
-  var checkIfLeaveWithoutSave = function checkIfLeaveWithoutSave(e) {
+  window.history.pushState(null, null, document.URL);
+
+  window.onpopstate = function (event) {
+    var conditonDirty = false;
+    conditions.forEach(function (condition) {
+      if (condition.value != '') {
+        conditonDirty = true;
+      }
+    });
+
+    if (image.length > 0 || nameCollection != '' || descriptionCollection != '' || alt != '' || conditonDirty == true) {
+      event.preventDefault();
+      setTextButtonModalApp('Quitter');
+      setTextButtonModalApp2('Annuler');
+      setMessageModalApp('Quitter cette page sans sauvegarder vos données ?');
+      setImageModalApp('../images/icons/exit.png');
+      var link = previousUrl.replace('/admin', '');
+      setFollowThisLink(link);
+      setShowModalApp(true);
+      setPreviousUrl(window.location.pathname);
+      console.log('previousUrl  ' + previousUrl);
+      console.log('location.pathname  ' + window.location.pathname);
+    }
+  }; //  document.onmouseleave = function() {
+  //     //User's mouse has left the page.
+  //     window.innerDocClick = false;
+  //     alert("mouse leave!");
+  //  }
+  // si on change de site un message d'avertissement pour la sauvegarde des données apparait
+
+
+  window.addEventListener('beforeunload', function (e) {
     // check conditions array
     var conditonDirty = false;
     conditions.forEach(function (condition) {
@@ -22091,6 +22127,25 @@ var App = function App() {
 
     if (image.length > 0 || nameCollection != '' || descriptionCollection != '' || alt != '' || conditonDirty == true) {
       e.preventDefault();
+      e.returnValue = '';
+    }
+  }); // check if form is dirty
+
+  var checkIfLeaveWithoutSave = function checkIfLeaveWithoutSave(e) {
+    setPreviousUrl(window.location.pathname); // check conditions array
+
+    var conditonDirty = false;
+    conditions.forEach(function (condition) {
+      if (condition.value != '') {
+        conditonDirty = true;
+      }
+    });
+
+    if (image.length > 0 || nameCollection != '' || descriptionCollection != '' || alt != '' || conditonDirty == true) {
+      e.preventDefault(); // autorise le popstate
+
+      setCanPopstate(true); // récupère le lien clické dans Link
+
       var anchor = e.target.closest("a");
       if (!anchor) return;
       var link = anchor.href.replace('http://127.0.0.1:8000/admin', '');
@@ -22104,7 +22159,16 @@ var App = function App() {
   };
 
   var handleModalApp = function handleModalApp() {
-    setShowModalApp(false); // alert('model closed')
+    setShowModalApp(false);
+    window.history.back(); // VIDAGE DES STATES DU FORM !!! 
+
+    setNameCollection('');
+    setDescriptionCollection('');
+    setMetaTitle('');
+    setMetaDescription('');
+    setMetaUrl(window.location.origin + '/');
+    setAlt('');
+    setImage([]); // alert('model closed')
     // switch (sender) {
     //     case 'deleteCategory': // if confirm delete
     //         deleteCategory(tmp_parameter);
@@ -22738,28 +22802,7 @@ var CreateCollection = function CreateCollection() {
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.Fragment, {
       children: categories ? categories : ''
     });
-  }, []); // window.addEventListener('beforeunload', function (e) {
-  //     var myPageIsDirty = true; //you implement this logic...
-  //     if (
-  //         conditions[0].value != '' ||
-  //         // image.length > 0 || 
-  //         nameCollection != '' ||
-  //         descriptionCollection != '' ||
-  //         alt != ''
-  //     ) {
-  //         console.log(nameCollection.length);
-  //         //following two lines will cause the browser to ask the user if they
-  //         //want to leave. The text of this dialog is controlled by the browser.
-  //         e.preventDefault(); //per the standard
-  //         e.returnValue = ''; //required for Chrome
-  //     }
-  //     //else: user is allowed to leave without a warning dialog
-  // });
-  // window.addEventListener('popstate', function() {
-  //     alert('Back button was pressed.');
-  //   });
-  //   debugger;
-  // var lastCondition = conditions.slice(-1)[0];
+  }, []); // var lastCondition = conditions.slice(-1)[0];
 
   var addCondition = function addCondition() {
     // get bigger id for define the next id to insert in conditions
@@ -23635,11 +23678,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _searchRow__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./searchRow */ "./resources/js/components/collections/searchRow.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -23659,11 +23703,16 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var ListCollections = function ListCollections() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
       listCollections = _useState2[0],
       setListCollections = _useState2[1];
+
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_3__["default"]),
+      checkLeave = _useContext.checkLeave,
+      nameCollection = _useContext.nameCollection;
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // chargement des collections
@@ -23673,20 +23722,21 @@ var ListCollections = function ListCollections() {
       console.log('error:   ' + error);
     });
   }, []);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
         type: "text",
         placeholder: "Filtrer les collections"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
           className: "link",
           to: "/add-collection",
+          onClick: checkLeave,
           children: "Ajouter une collection"
         })
       })]
     }), listCollections.map(function (item) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_searchRow__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_searchRow__WEBPACK_IMPORTED_MODULE_2__["default"], {
         collection: item
       }, item.id);
     })]

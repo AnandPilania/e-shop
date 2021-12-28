@@ -79,30 +79,7 @@ const CreateCollection = () => {
     }, []);
 
 
-    // window.addEventListener('beforeunload', function (e) {
-    //     var myPageIsDirty = true; //you implement this logic...
-    //     if (
-    //         conditions[0].value != '' ||
-    //         // image.length > 0 || 
-    //         nameCollection != '' ||
-    //         descriptionCollection != '' ||
-    //         alt != ''
-    //     ) {
-    //         console.log(nameCollection.length);
-    //         //following two lines will cause the browser to ask the user if they
-    //         //want to leave. The text of this dialog is controlled by the browser.
-    //         e.preventDefault(); //per the standard
-    //         e.returnValue = ''; //required for Chrome
-    //     }
-    //     //else: user is allowed to leave without a warning dialog
-    // });
 
-
-    // window.addEventListener('popstate', function() {
-    //     alert('Back button was pressed.');
-    //   });
-
-    //   debugger;
     // var lastCondition = conditions.slice(-1)[0];
 
     const addCondition = () => {

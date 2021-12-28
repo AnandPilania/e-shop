@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import Navbar from '../navBar/navBar';
 import FormProduct from '../createProduct/formProduct';
@@ -31,10 +31,51 @@ const App = () => {
     const [imageModalApp, setImageModalApp] = useState('');
     const [messageModalApp, setMessageModalApp] = useState('');
     const [followThisLink, setFollowThisLink] = useState('');
+    const [previousUrl, setPreviousUrl] = useState(window.location.pathname);
 
 
-    // check if form is dirty
-    const checkIfLeaveWithoutSave = (e) => {
+    // si on clique sur la fléche back du navigateur un message d'avertissement pour la sauvegarde des données apparait
+    window.history.pushState(null, null, document.URL);
+    window.onpopstate = function (event) {
+        var conditonDirty = false;
+        conditions.forEach(condition => {
+            if (condition.value != '') {
+                conditonDirty = true;
+            }
+        })
+
+        if (
+            (image.length > 0 ||
+                nameCollection != '' ||
+                descriptionCollection != '' ||
+                alt != '' ||
+                conditonDirty == true)
+        ) {
+            event.preventDefault();
+            setTextButtonModalApp('Quitter');
+            setTextButtonModalApp2('Annuler');
+            setMessageModalApp('Quitter cette page sans sauvegarder vos données ?');
+            setImageModalApp('../images/icons/exit.png');
+            var link = previousUrl.replace('/admin', '');
+            setFollowThisLink(link);
+            setShowModalApp(true);
+
+            setPreviousUrl(window.location.pathname);
+            console.log('previousUrl  ' + previousUrl);
+            console.log('location.pathname  ' + window.location.pathname);
+        }
+    };
+
+
+
+    //  document.onmouseleave = function() {
+    //     //User's mouse has left the page.
+    //     window.innerDocClick = false;
+    //     alert("mouse leave!");
+    //  }
+
+    // si on change de site un message d'avertissement pour la sauvegarde des données apparait
+    window.addEventListener('beforeunload', function (e) {
         // check conditions array
         var conditonDirty = false;
         conditions.forEach(condition => {
@@ -51,9 +92,37 @@ const App = () => {
             conditonDirty == true
         ) {
             e.preventDefault();
-            const anchor = e.target.closest("a");   
-            if (!anchor) return;     
-            var link = anchor.href.replace('http://127.0.0.1:8000/admin', '');                 
+            e.returnValue = '';
+        }
+    });
+
+
+    // check if form is dirty
+    const checkIfLeaveWithoutSave = (e) => {
+        setPreviousUrl(window.location.pathname);
+        // check conditions array
+        var conditonDirty = false;
+        conditions.forEach(condition => {
+            if (condition.value != '') {
+                conditonDirty = true;
+            }
+        })
+
+        if (
+            image.length > 0 ||
+            nameCollection != '' ||
+            descriptionCollection != '' ||
+            alt != '' ||
+            conditonDirty == true
+        ) {
+            e.preventDefault();
+            // autorise le popstate
+            setCanPopstate(true);
+            // récupère le lien clické dans Link
+            const anchor = e.target.closest("a");
+            if (!anchor) return;
+            var link = anchor.href.replace('http://127.0.0.1:8000/admin', '');
+
             setTextButtonModalApp('Quitter');
             setTextButtonModalApp2('Annuler');
             setMessageModalApp('Quitter cette page sans sauvegarder vos données ?');
@@ -65,6 +134,16 @@ const App = () => {
 
     const handleModalApp = () => {
         setShowModalApp(false);
+window.history.back();
+        // VIDAGE DES STATES DU FORM !!! 
+        setNameCollection('');
+        setDescriptionCollection('');
+        setMetaTitle('');
+        setMetaDescription('');
+        setMetaUrl(window.location.origin + '/');
+        setAlt('');
+        setImage([]);
+
         // alert('model closed')
         // switch (sender) {
         //     case 'deleteCategory': // if confirm delete

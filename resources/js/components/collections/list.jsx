@@ -1,10 +1,14 @@
-import { React, useState, useEffect } from 'react';
+import { React, useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
 import RowListCollections from './searchRow';
+import AppContext from '../contexts/AppContext';
+
 
 const ListCollections = () => {
     const [listCollections, setListCollections] = useState([]);
+    const { checkLeave, nameCollection } = useContext(AppContext);
+
 
     useEffect(() => {
         // chargement des collections
@@ -21,7 +25,7 @@ const ListCollections = () => {
         <div>
         <div>
         <input type='text' placeholder='Filtrer les collections' />
-        <button><Link className="link" to="/add-collection">Ajouter une collection</Link></button>
+        <button><Link className="link" to="/add-collection" onClick={checkLeave}>Ajouter une collection</Link></button>
         </div>
             
             {listCollections.map(item => 
