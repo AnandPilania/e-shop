@@ -10,7 +10,7 @@ import AppContext from '../contexts/AppContext';
 
 
 const CreateCollection = () => {
-    const [isToggleOn, setIsToggleOn] = useState(true);
+    const [isAutoConditions, setIsAutoConditions] = useState(true);
     const [isShowOptimisation, setIsShowOptimisation] = useState(true);
     const [includePrevProduct, setIncludePrevProduct] = useState(true);
     const [categories, setCategories] = useState([]);
@@ -139,9 +139,9 @@ const CreateCollection = () => {
     // show / hide conditions
     const showHideConditions = (auto) => {
         if (auto) {
-            setIsToggleOn(true);
+            setIsAutoConditions(true);
         } else {
-            setIsToggleOn(false);
+            setIsAutoConditions(false);
         }
     };
 
@@ -468,13 +468,15 @@ const CreateCollection = () => {
 
     formData.append("name", nameCollection);
     formData.append("description", descriptionCollection);
-    formData.append("automatise", isToggleOn);
+    formData.append("automatise", isAutoConditions);
     formData.append("includePrevProduct", includePrevProduct);
     formData.append("allConditionsNeeded", allConditionsNeeded);
     formData.append("objConditions", objConditions);
     formData.append("dateActivation", datetimeField);
     formData.append("category", category);
     formData.append("alt", alt);
+
+    
 
     const handleSubmit = () => {
         Axios.post(`http://127.0.0.1:8000/save-collection`, formData,
@@ -536,7 +538,7 @@ const CreateCollection = () => {
                     <div className="sub-div-vert-align">
                         <div className="div-radio-label">
                             <input type='radio'
-                                checked={isToggleOn == false}
+                                checked={isAutoConditions == false}
                                 onChange={() => showHideConditions(false)} />
                             <label
                                 onClick={() => showHideConditions(false)}>
@@ -548,7 +550,7 @@ const CreateCollection = () => {
                     <div className="sub-div-vert-align">
                         <div className="div-radio-label">
                             <input type='radio'
-                                checked={isToggleOn == true}
+                                checked={isAutoConditions == true}
                                 onChange={() => showHideConditions(true)} />
                             <label
                                 onClick={() => showHideConditions(true)}>
@@ -556,7 +558,7 @@ const CreateCollection = () => {
                             </label>
                         </div>
                         <p>Ajouter automatiquement les produits lorsqu'ils correspondent aux règles définies. <a href='#'>Plus d'informations sur les collections automatisées.</a></p>
-                        {isToggleOn && <div className="sub-div-horiz-align">
+                        {isAutoConditions && <div className="sub-div-horiz-align">
                             <div className="div-radio-label">
                                 <input type='radio'
                                     checked={includePrevProduct == true}
@@ -572,7 +574,7 @@ const CreateCollection = () => {
                         </div>}
                     </div>
                     {/* conditions */}
-                    {isToggleOn &&
+                    {isAutoConditions &&
                         <div className="sub-div-vert-align-border-top" id="conditions_collection">
                             <h2>Condition(s)</h2>
                             <h4>Définissez une ou plusieurs règles. Ex. Prix du produit est inférieur à 50 €, Nom du produit contient Robe, etc. Seuls les produits correspondants à vos règles seront intégrés dans cette collection. </h4>

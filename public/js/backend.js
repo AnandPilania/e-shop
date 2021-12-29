@@ -22062,18 +22062,15 @@ var App = function App() {
       messageModalApp = _useState26[0],
       setMessageModalApp = _useState26[1];
 
-  var _useState27 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState27 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState28 = _slicedToArray(_useState27, 2),
       followThisLink = _useState28[0],
-      setFollowThisLink = _useState28[1];
-
-  var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.location.pathname),
-      _useState30 = _slicedToArray(_useState29, 2),
-      previousUrl = _useState30[0],
-      setPreviousUrl = _useState30[1]; // si on clique sur la fléche back du navigateur un message d'avertissement pour la sauvegarde des données apparait
+      setFollowThisLink = _useState28[1]; // si on clique sur la fléche back du navigateur un message d'avertissement pour la sauvegarde des données apparait
 
 
-  window.history.pushState(null, null, document.URL);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    window.history.pushState(null, null, document.URL);
+  }, [document.URL]); // handle browser back button 
 
   window.onpopstate = function (event) {
     var conditonDirty = false;
@@ -22088,13 +22085,9 @@ var App = function App() {
       setTextButtonModalApp('Quitter');
       setTextButtonModalApp2('Annuler');
       setMessageModalApp('Quitter cette page sans sauvegarder vos données ?');
-      setImageModalApp('../images/icons/exit.png');
-      var link = previousUrl.replace('/admin', '');
-      setFollowThisLink(link);
+      setImageModalApp('../images/icons/warning.png');
+      setFollowThisLink(-1);
       setShowModalApp(true);
-      setPreviousUrl(window.location.pathname);
-      console.log('previousUrl  ' + previousUrl);
-      console.log('location.pathname  ' + window.location.pathname);
     }
   }; //  document.onmouseleave = function() {
   //     //User's mouse has left the page.
@@ -22120,8 +22113,7 @@ var App = function App() {
   }); // check if form is dirty
 
   var checkIfLeaveWithoutSave = function checkIfLeaveWithoutSave(e) {
-    setPreviousUrl(window.location.pathname); // check conditions array
-
+    // check conditions array
     var conditonDirty = false;
     conditions.forEach(function (condition) {
       if (condition.value != '') {
@@ -22130,9 +22122,7 @@ var App = function App() {
     });
 
     if (image.length > 0 || nameCollection != '' || descriptionCollection != '' || alt != '' || conditonDirty == true) {
-      e.preventDefault(); // autorise le popstate
-
-      setCanPopstate(true); // récupère le lien clické dans Link
+      e.preventDefault(); // récupère le lien clické dans Link
 
       var anchor = e.target.closest("a");
       if (!anchor) return;
@@ -22140,15 +22130,14 @@ var App = function App() {
       setTextButtonModalApp('Quitter');
       setTextButtonModalApp2('Annuler');
       setMessageModalApp('Quitter cette page sans sauvegarder vos données ?');
-      setImageModalApp('../images/icons/exit.png');
+      setImageModalApp('../images/icons/warning.png');
       setFollowThisLink(link);
       setShowModalApp(true);
     }
   };
 
   var handleModalApp = function handleModalApp() {
-    setShowModalApp(false);
-    window.history.back(); // VIDAGE DES STATES DU FORM !!! 
+    setShowModalApp(false); // réinitialisation des states du form de add-collection !!!
 
     setNameCollection('');
     setDescriptionCollection('');
@@ -22156,17 +22145,7 @@ var App = function App() {
     setMetaDescription('');
     setMetaUrl(window.location.origin + '/');
     setAlt('');
-    setImage([]); // alert('model closed')
-    // switch (sender) {
-    //     case 'deleteCategory': // if confirm delete
-    //         deleteCategory(tmp_parameter);
-    //         break;
-    //     // case 'warningEmptyNewCategoryName':
-    //     //     setShowModalInput(false);
-    //     //     break;
-    //     default:
-    //         '';
-    // }
+    setImage([]);
   };
 
   var handleModalAppCancel = function handleModalAppCancel() {
@@ -22605,8 +22584,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var CreateCollection = function CreateCollection() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState2 = _slicedToArray(_useState, 2),
-      isToggleOn = _useState2[0],
-      setIsToggleOn = _useState2[1];
+      isAutoConditions = _useState2[0],
+      setIsAutoConditions = _useState2[1];
 
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState4 = _slicedToArray(_useState3, 2),
@@ -22856,9 +22835,9 @@ var CreateCollection = function CreateCollection() {
 
   var showHideConditions = function showHideConditions(auto) {
     if (auto) {
-      setIsToggleOn(true);
+      setIsAutoConditions(true);
     } else {
-      setIsToggleOn(false);
+      setIsAutoConditions(false);
     }
   }; // show / hide optimisation title & description
 
@@ -23184,7 +23163,7 @@ var CreateCollection = function CreateCollection() {
   ;
   formData.append("name", nameCollection);
   formData.append("description", descriptionCollection);
-  formData.append("automatise", isToggleOn);
+  formData.append("automatise", isAutoConditions);
   formData.append("includePrevProduct", includePrevProduct);
   formData.append("allConditionsNeeded", allConditionsNeeded);
   formData.append("objConditions", objConditions);
@@ -23254,7 +23233,7 @@ var CreateCollection = function CreateCollection() {
             className: "div-radio-label",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
               type: "radio",
-              checked: isToggleOn == false,
+              checked: isAutoConditions == false,
               onChange: function onChange() {
                 return showHideConditions(false);
               }
@@ -23276,7 +23255,7 @@ var CreateCollection = function CreateCollection() {
             className: "div-radio-label",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
               type: "radio",
-              checked: isToggleOn == true,
+              checked: isAutoConditions == true,
               onChange: function onChange() {
                 return showHideConditions(true);
               }
@@ -23291,7 +23270,7 @@ var CreateCollection = function CreateCollection() {
               href: "#",
               children: "Plus d'informations sur les collections automatis\xE9es."
             })]
-          }), isToggleOn && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+          }), isAutoConditions && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
             className: "sub-div-horiz-align",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
               className: "div-radio-label",
@@ -23323,7 +23302,7 @@ var CreateCollection = function CreateCollection() {
               })]
             })]
           })]
-        }), isToggleOn && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
+        }), isAutoConditions && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
           className: "sub-div-vert-align-border-top",
           id: "conditions_collection",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("h2", {
@@ -26305,7 +26284,8 @@ var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_2__["default"])(
     left: '0',
     width: '100%',
     height: ' 100%',
-    background: 'rgba(0, 0, 0, 0.6)'
+    background: 'rgba(0, 0, 0, 0.7)',
+    zindex: '10'
   },
   modalMain: {
     position: 'fixed',
@@ -26313,14 +26293,15 @@ var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_2__["default"])(
     width: '30%',
     minWidth: '300px',
     padding: '50px',
-    top: ' 50%',
+    top: '50%',
     left: '50%',
     transform: 'translate(-50%,-50%)',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    borderRadius: '5px'
+    borderRadius: '5px',
+    zindex: '10'
   },
   BlockButtons: {
     display: 'flex',
@@ -26349,14 +26330,12 @@ var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_2__["default"])(
     }
   },
   close: {
-    position: 'absolute',
-    top: '0px',
-    right: '0px',
     width: '100%',
     display: 'flex',
     justifyContent: 'flex-end',
     paddingRight: '25px',
-    paddingTop: '25px'
+    paddingTop: '25px',
+    marginBottom: 'auto'
   },
   image: {
     margin: '20px 0'
@@ -26397,7 +26376,7 @@ var ModalApp = function ModalApp(_ref) {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
         className: classes.close,
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
-          className: classes.faTimes + ' ' + "fas fa-times",
+          className: classes.faTimes + " fas fa-times",
           onClick: handleModalAppCancel
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {

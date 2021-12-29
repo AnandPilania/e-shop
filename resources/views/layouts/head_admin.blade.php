@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Dashboard</title>
+    <title>Back-end</title>
     <!-- plugins:css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/getTypeDetailsProduct_JS.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/back-end.css') }}" />

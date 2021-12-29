@@ -9,7 +9,8 @@ const useStyles = makeStyles({
         left: '0',
         width: '100%',
         height: ' 100%',
-        background: 'rgba(0, 0, 0, 0.6)',
+        background: 'rgba(0, 0, 0, 0.7)',
+        zindex: '10',
     },
 
     modalMain: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles({
         width: '30%',
         minWidth: '300px',
         padding: '50px',
-        top: ' 50%',
+        top: '50%',
         left: '50%',
         transform: 'translate(-50%,-50%)',
         display: 'flex',
@@ -26,6 +27,7 @@ const useStyles = makeStyles({
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         borderRadius: '5px',
+        zindex: '10',
     },
 
     BlockButtons: {
@@ -57,14 +59,12 @@ const useStyles = makeStyles({
     },
 
     close: {
-        position: 'absolute',
-        top: '0px',
-        right: '0px',
         width: '100%',
         display: 'flex',
         justifyContent: 'flex-end',
         paddingRight: '25px',
         paddingTop: '25px',
+        marginBottom: 'auto',
     },
 
     image: {
@@ -100,7 +100,7 @@ const ModalApp = ({ followThisLink, handleModalApp, handleModalAppCancel, textBu
         <div className={classes.modal + ' ' + showHideClassName}>
             <section className={classes.modalMain}>
 
-                <div className={classes.close}><i className={classes.faTimes + ' ' + "fas fa-times"} onClick={handleModalAppCancel}></i></div>
+                <div className={classes.close}><i className={classes.faTimes + " fas fa-times"} onClick={handleModalAppCancel}></i></div>
 
                 <img src={image} />
 
@@ -110,7 +110,7 @@ const ModalApp = ({ followThisLink, handleModalApp, handleModalAppCancel, textBu
                     <button 
                     className={classes.btnModal} 
                     onClick={() => {
-                        handleModalApp();
+                        handleModalApp();                    
                         navigate(followThisLink);
                     }}>
                         {textButtonModalApp}

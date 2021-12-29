@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from '../navBar/navBar';
 import FormProduct from '../createProduct/formProduct';
 import EditProduct from '../createProduct/editProduct';
@@ -9,6 +9,9 @@ import ListCollections from '../collections/list';
 import CreateCollection from '../collections/create';
 import AppContext from '../contexts/AppContext';
 import ModalApp from '../modal/modalApp';
+
+
+
 
 
 const App = () => {
@@ -30,12 +33,18 @@ const App = () => {
     const [textButtonModalApp2, setTextButtonModalApp2] = useState('Confirmer');
     const [imageModalApp, setImageModalApp] = useState('');
     const [messageModalApp, setMessageModalApp] = useState('');
-    const [followThisLink, setFollowThisLink] = useState('');
-    const [previousUrl, setPreviousUrl] = useState(window.location.pathname);
+    const [followThisLink, setFollowThisLink] = useState(null);
+
 
 
     // si on clique sur la fléche back du navigateur un message d'avertissement pour la sauvegarde des données apparait
-    window.history.pushState(null, null, document.URL);
+    useEffect(() => {
+        window.history.pushState(null, null, document.URL);
+    }, [document.URL]);
+
+
+    // handle browser back button 
+  
     window.onpopstate = function (event) {
         var conditonDirty = false;
         conditions.forEach(condition => {
@@ -43,7 +52,6 @@ const App = () => {
                 conditonDirty = true;
             }
         })
-
         if (
             (image.length > 0 ||
                 nameCollection != '' ||
@@ -55,15 +63,11 @@ const App = () => {
             setTextButtonModalApp('Quitter');
             setTextButtonModalApp2('Annuler');
             setMessageModalApp('Quitter cette page sans sauvegarder vos données ?');
-            setImageModalApp('../images/icons/exit.png');
-            var link = previousUrl.replace('/admin', '');
-            setFollowThisLink(link);
+            setImageModalApp('../images/icons/warning.png');
+            setFollowThisLink(-1);
             setShowModalApp(true);
-
-            setPreviousUrl(window.location.pathname);
-            console.log('previousUrl  ' + previousUrl);
-            console.log('location.pathname  ' + window.location.pathname);
         }
+        
     };
 
 
@@ -96,10 +100,10 @@ const App = () => {
         }
     });
 
+    
 
     // check if form is dirty
     const checkIfLeaveWithoutSave = (e) => {
-        setPreviousUrl(window.location.pathname);
         // check conditions array
         var conditonDirty = false;
         conditions.forEach(condition => {
@@ -116,8 +120,6 @@ const App = () => {
             conditonDirty == true
         ) {
             e.preventDefault();
-            // autorise le popstate
-            setCanPopstate(true);
             // récupère le lien clické dans Link
             const anchor = e.target.closest("a");
             if (!anchor) return;
@@ -126,7 +128,7 @@ const App = () => {
             setTextButtonModalApp('Quitter');
             setTextButtonModalApp2('Annuler');
             setMessageModalApp('Quitter cette page sans sauvegarder vos données ?');
-            setImageModalApp('../images/icons/exit.png');
+            setImageModalApp('../images/icons/warning.png');
             setFollowThisLink(link);
             setShowModalApp(true);
         }
@@ -134,8 +136,7 @@ const App = () => {
 
     const handleModalApp = () => {
         setShowModalApp(false);
-window.history.back();
-        // VIDAGE DES STATES DU FORM !!! 
+        // réinitialisation des states du form de add-collection !!!
         setNameCollection('');
         setDescriptionCollection('');
         setMetaTitle('');
@@ -143,18 +144,6 @@ window.history.back();
         setMetaUrl(window.location.origin + '/');
         setAlt('');
         setImage([]);
-
-        // alert('model closed')
-        // switch (sender) {
-        //     case 'deleteCategory': // if confirm delete
-        //         deleteCategory(tmp_parameter);
-        //         break;
-        //     // case 'warningEmptyNewCategoryName':
-        //     //     setShowModalInput(false);
-        //     //     break;
-        //     default:
-        //         '';
-        // }
     };
 
     const handleModalAppCancel = () => {
