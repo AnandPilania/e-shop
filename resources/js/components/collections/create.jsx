@@ -7,9 +7,26 @@ import DropZone from '../tools/dropZone';
 import ModalConfirm from '../modal/modalConfirm';
 import ModalInput from '../modal/modalInput';
 import AppContext from '../contexts/AppContext';
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 
 const CreateCollection = () => {
+    // fields 
+    // const [conditions, setConditions] = useState([{
+    //     id: 0,
+    //     parameter: '1',
+    //     operator: '1',
+    //     value: ''
+    // }]);
+    const [conditions, setConditions] = useLocalStorage("conditions", "");
+    const [nameCollection, setNameCollection] = useLocalStorage("nameCollection", "");
+    const [descriptionCollection, setDescriptionCollection] = useLocalStorage("descriptionCollection", "");
+    const [metaTitle, setMetaTitle] = useLocalStorage("metaTitle", "");
+    const [metaDescription, setMetaDescription] = useLocalStorage("metaDescription", "");
+    const [metaUrl, setMetaUrl] = useLocalStorage("metaUrl", window.location.origin + '/');
+    const [alt, setAlt] = useLocalStorage("alt", "");
+    const [image, setImage] = useState([]);
+
     const [isAutoConditions, setIsAutoConditions] = useState(true);
     const [isShowOptimisation, setIsShowOptimisation] = useState(true);
     const [includePrevProduct, setIncludePrevProduct] = useState(true);
@@ -43,12 +60,12 @@ const CreateCollection = () => {
 
 
 
-    const { conditions, setConditions, nameCollection, setNameCollection, descriptionCollection, setDescriptionCollection, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, alt, setAlt, image, setImage } = useContext(AppContext);
+    const { isDirtyCollection, setIsDirtyCollection } = useContext(AppContext);
 
 
     var isEmptyMetaUrl = true;
 
-
+    console.log(image);
     useEffect(() => {
         // chargement des collections
         Axios.get(`http://127.0.0.1:8000/getCategories`)
@@ -82,6 +99,8 @@ const CreateCollection = () => {
 
     // var lastCondition = conditions.slice(-1)[0];
 
+
+    // CONDITIONS---------------------------------------------------------------
     const addCondition = () => {
         // get bigger id for define the next id to insert in conditions
         var arr = [...conditions];
@@ -98,17 +117,11 @@ const CreateCollection = () => {
         ]);
     };
 
-    console.log(conditions);
-
-
-    // delete un détail dans le detailx correspondant à id
+    // delete la condition dont l'id correspond à l'id transmis
     const deleteCondition = (id) => {
-
         var arr = [...conditions];
         var index_arr = arr.findIndex(obj => obj.id == id);
-
         arr.splice(index_arr, 1);
-
         setConditions([...arr]);
     }
 
@@ -145,6 +158,11 @@ const CreateCollection = () => {
         }
     };
 
+    useEffect(() => {
+        localStorage.setItem("conditions", JSON.stringify(conditions));
+    }, [conditions]);
+    // ---------------------------------------------------------------CONDITIONS
+
     // show / hide optimisation title & description
     const showHideOptimisation = () => {
         setIsShowOptimisation(!isShowOptimisation);
@@ -167,6 +185,8 @@ const CreateCollection = () => {
         let urlLength = 254 - window.location.origin.length;
 
         setNameCollection(name);
+        localStorage.setItem("nameCollection", e.target.value);
+
         // if metaTitle field is not used then we can 
         // fill apercuMetaTitle with the name field 
         if (isEmptyMetaTitle == true) {
@@ -197,6 +217,7 @@ const CreateCollection = () => {
     const handleMetaTitle = (e) => {
         let name = e.target.value;
         setMetaTitle(name);
+        localStorage.setItem("metaTitle", e.target.value);
 
         setIsEmptyMetaTitle(false);
         setApercuMetaTitle(name.substring(0, 60));
@@ -222,6 +243,7 @@ const CreateCollection = () => {
     };
 
     const handleDescriptionCollection = (description) => {
+        localStorage.setItem("descriptionCollection", description);
         // descriptionCollection est set dans le component ckeditor donc pas besoin ici
         // if metaDescription field is not used then we can fill apercuMetaDescription with the description field 
         if (isEmptyMetaDescription == true) {
@@ -234,11 +256,13 @@ const CreateCollection = () => {
     const handleMetaDescription = (e) => {
         setMetaDescription('');
         setMetaDescription(e.target.value);
+        localStorage.setItem("metaDescription", e.target.value);
         setIsEmptyMetaDescription(false);
         setApercuMetaDescription(e.target.value);
 
         if (e.target.value == '') {
             setIsEmptyMetaDescription(true);
+
             // on remplace les balises de ckeditor par un espace pour que les mots ne soient pas collés dans l'apérçu lorsqu'on efface la meta description !!! 2eme nettoyage 
             let htmlDescriptionText = descriptionCollection.replaceAll(/<[\/a-zA-Z0-9]*>/gi, " ");
             setApercuMetaDescription(htmlDescriptionText);
@@ -251,6 +275,8 @@ const CreateCollection = () => {
         let urlName = normalizUrl(e.target.value.substring(window.location.origin.length, 255));
 
         setMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
+        localStorage.setItem("metaUrl", window.location.origin + '/' + urlName.substring(0, urlLength));
+
         isEmptyMetaUrl = false;
         setApercuMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
 
@@ -263,9 +289,31 @@ const CreateCollection = () => {
     };
 
     // IMAGE -------------------------------------------------------------------
+    // save image from dirty page in temporary_storages db
+    useEffect(() => {
+        var tmp_Data = new FormData;
+        if (image) {
+            tmp_Data.append('key', 'tmp_imageCollection');
+            tmp_Data.append('value[]', image[0]);
+        };
+        Axios.post(`http://127.0.0.1:8000/temporaryStoreImages`, tmp_Data,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then(res => {
+                console.log('res.data  --->  ok');
+
+            });
+    }, [image]);
+
+
     const handleAlt = (e) => {
         setAlt(e.target.value);
+        localStorage.setItem("altCollection", e.target.value);
     };
+    // console.log(image);
     //---------------------------------------------------------------------IMAGE
 
     // CATEGORY ----------------------------------------------------------------
@@ -278,11 +326,13 @@ const CreateCollection = () => {
     const handleCategory = (cat_id) => {
         setCategory(cat_id);
         setShowCategorySelect(false);
+        localStorage.setItem("altCollection", cat_id);
     };
 
     // nom affiché dans le select
     const handleCategoryName = (cat_name) => {
         setCategoryName(cat_name);
+        localStorage.setItem("altCollection", cat_name);
     };
 
     // show/hide input create new category
@@ -308,6 +358,7 @@ const CreateCollection = () => {
 
     const handleNewCategoryName = (e) => {
         setNewCategoryName(e.target.value);
+        localStorage.setItem("newCategoryName", e.target.value);
     }
 
 
@@ -458,6 +509,18 @@ const CreateCollection = () => {
 
     //--------------------------------------------------------------ModalConfirm
 
+    // Reset Form---------------------------------------------------------------
+    // réinitialisation des states du form 
+    const resetForm = () => {
+        setNameCollection('');
+        setDescriptionCollection('');
+        setMetaTitle('');
+        setMetaDescription('');
+        setMetaUrl(window.location.origin + '/');
+        setAlt('');
+        setImage([]);
+    }
+    //----------------------------------------------------------------Reset Form
 
     var formData = new FormData;
     var objConditions = JSON.stringify(conditions);
@@ -476,9 +539,12 @@ const CreateCollection = () => {
     formData.append("category", category);
     formData.append("alt", alt);
 
-    
+
 
     const handleSubmit = () => {
+
+        // VALIDATION !!!
+
         Axios.post(`http://127.0.0.1:8000/save-collection`, formData,
             {
                 headers: {
@@ -495,7 +561,6 @@ const CreateCollection = () => {
     return (
         <div className="collection-main-container">
             <div className="collection-block-container">
-
                 {/* nom */}
                 <div className="div-vert-align">
                     <div className="div-label-inputTxt">
@@ -512,7 +577,7 @@ const CreateCollection = () => {
                     </div>
                     <CKEditor
                         editor={ClassicEditor}
-                        data=""
+                        data={descriptionCollection}
                         onReady={editor => {
                             editor.ui.view.element.style.marginBottom = "20px";
                             editor.ui.view.element.style.width = "100%";
@@ -596,12 +661,12 @@ const CreateCollection = () => {
 
                             {/* inputs conditions */}
                             <div className="sub-div-vert-align">
-                                {conditions.map((item, i) => (
+                                {conditions.map((condition, i) => (
                                     <ConditionCollection
                                         key={i}
                                         handleChangeParam={handleChangeParam}
                                         handleChangeOperator={handleChangeOperator} handleChangeValue={handleChangeValue}
-                                        condition={item}
+                                        condition={condition}
                                         deleteCondition={deleteCondition}
                                     />))}
                                 <button className="btn-bcknd" onClick={addCondition}>Ajouter une condition</button>
@@ -698,7 +763,7 @@ const CreateCollection = () => {
                         <h2>Image</h2>
                         <p>Ajouter une image pour cette collection. (*optionnel)</p>
                         <DropZone multiple={false} setImage={setImage} />
-                         <p><a href="#">Comment bien choisir son image ?</a></p>
+                        <p><a href="#">Comment bien choisir son image ?</a></p>
                     </div>
 
                     {/* Référencement */}

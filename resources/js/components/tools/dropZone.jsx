@@ -1,5 +1,7 @@
 import { React, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
+import Axios from 'axios';
+
 
 const useStyles = makeStyles({
     wrapperForm: {
@@ -102,6 +104,25 @@ const DropZone = (props) => {
         dropRegion.addEventListener('dragleave', unhighlight, false);
         dropRegion.addEventListener('drop', unhighlight, false);
 
+        // get dirty page image from temporary_storages db if exist
+        try {
+            Axios.get(`http://127.0.0.1:8000/getTemporaryImage`)
+                .then(res => {
+                    if (res.data) {
+                        fetch('../' + res.data)
+                            .then(function (response) {
+                                return response.blob();
+                            })
+                            .then(function (BlobImage) {
+                                previewImage(BlobImage)
+                            });
+                    }
+                });
+        } catch (error) {
+            console.error('error  ' + error);
+        }
+
+
     }, []);
 
     function highlight() {
@@ -195,6 +216,7 @@ const DropZone = (props) => {
         return true;
     }
 
+
     function previewImage(image) {
 
         // retire l'image de fond
@@ -215,9 +237,9 @@ const DropZone = (props) => {
             imgView.appendChild(img);
 
             // progress overlay
-            var overlay = document.createElement("div");
-            overlay.className = "overlay";
-            imgView.appendChild(overlay);
+            // var overlay = document.createElement("div");
+            // overlay.className = "overlay";
+            // imgView.appendChild(overlay);
         }
 
         // if multiple == false
@@ -229,9 +251,9 @@ const DropZone = (props) => {
             var img = document.getElementsByClassName('imagesPreview')[0];
             imgView.appendChild(img);
 
-            // progress overlay
-            var overlay = document.getElementsByClassName('overlay')[0];
-            imgView.appendChild(overlay);
+            // // progress overlay
+            // var overlay = document.getElementsByClassName('overlay')[0];
+            // imgView.appendChild(overlay);
         }
 
         // read the image...

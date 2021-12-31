@@ -12,39 +12,18 @@ import ModalApp from '../modal/modalApp';
 
 
 
-
-
 const App = () => {
-    const [conditions, setConditions] = useState([{
-        id: 0,
-        parameter: '1',
-        operator: '1',
-        value: ''
-    }]);
-    const [nameCollection, setNameCollection] = useState('');
-    const [descriptionCollection, setDescriptionCollection] = useState('');
-    const [metaTitle, setMetaTitle] = useState('');
-    const [metaDescription, setMetaDescription] = useState('');
-    const [metaUrl, setMetaUrl] = useState(window.location.origin + '/');
-    const [alt, setAlt] = useState('');
-    const [image, setImage] = useState([]);
+
     const [showModalApp, setShowModalApp] = useState(false);
     const [textButtonModalApp, setTextButtonModalApp] = useState('Confirmer');
     const [textButtonModalApp2, setTextButtonModalApp2] = useState('Confirmer');
     const [imageModalApp, setImageModalApp] = useState('');
     const [messageModalApp, setMessageModalApp] = useState('');
     const [followThisLink, setFollowThisLink] = useState(null);
+    const [darkMode, setDarkMode] = useState(false);
 
 
 
-    // si on clique sur la fléche back du navigateur un message d'avertissement pour la sauvegarde des données apparait
-    useEffect(() => {
-        window.history.pushState(null, null, document.URL);
-    }, [document.URL]);
-
-
-    // handle browser back button 
-  
     window.onpopstate = function (event) {
         var conditonDirty = false;
         conditions.forEach(condition => {
@@ -67,7 +46,7 @@ const App = () => {
             setFollowThisLink(-1);
             setShowModalApp(true);
         }
-        
+
     };
 
 
@@ -78,72 +57,11 @@ const App = () => {
     //     alert("mouse leave!");
     //  }
 
-    // si on change de site un message d'avertissement pour la sauvegarde des données apparait
-    window.addEventListener('beforeunload', function (e) {
-        // check conditions array
-        var conditonDirty = false;
-        conditions.forEach(condition => {
-            if (condition.value != '') {
-                conditonDirty = true;
-            }
-        })
-
-        if (
-            image.length > 0 ||
-            nameCollection != '' ||
-            descriptionCollection != '' ||
-            alt != '' ||
-            conditonDirty == true
-        ) {
-            e.preventDefault();
-            e.returnValue = '';
-        }
-    });
-
-    
-
-    // check if form is dirty
-    const checkIfLeaveWithoutSave = (e) => {
-        // check conditions array
-        var conditonDirty = false;
-        conditions.forEach(condition => {
-            if (condition.value != '') {
-                conditonDirty = true;
-            }
-        })
-
-        if (
-            image.length > 0 ||
-            nameCollection != '' ||
-            descriptionCollection != '' ||
-            alt != '' ||
-            conditonDirty == true
-        ) {
-            e.preventDefault();
-            // récupère le lien clické dans Link
-            const anchor = e.target.closest("a");
-            if (!anchor) return;
-            var link = anchor.href.replace('http://127.0.0.1:8000/admin', '');
-
-            setTextButtonModalApp('Quitter');
-            setTextButtonModalApp2('Annuler');
-            setMessageModalApp('Quitter cette page sans sauvegarder vos données ?');
-            setImageModalApp('../images/icons/warning.png');
-            setFollowThisLink(link);
-            setShowModalApp(true);
-        }
-    }
 
     const handleModalApp = () => {
         setShowModalApp(false);
-        // réinitialisation des states du form de add-collection !!!
-        setNameCollection('');
-        setDescriptionCollection('');
-        setMetaTitle('');
-        setMetaDescription('');
-        setMetaUrl(window.location.origin + '/');
-        setAlt('');
-        setImage([]);
+
+
     };
 
     const handleModalAppCancel = () => {
@@ -152,15 +70,7 @@ const App = () => {
 
 
     const contextValue = {
-        conditions, setConditions,
-        nameCollection, setNameCollection,
-        descriptionCollection, setDescriptionCollection,
-        metaTitle, setMetaTitle,
-        metaDescription, setMetaDescription,
-        metaUrl, setMetaUrl,
-        alt, setAlt,
-        image, setImage,
-        checkLeave: checkIfLeaveWithoutSave,
+        darkMode, setDarkMode,
     }
 
 
@@ -203,3 +113,10 @@ const App = () => {
 }
 
 export default App;
+
+    //setTextButtonModalApp('Quitter');
+    //setTextButtonModalApp2('Annuler');
+    //setMessageModalApp('Quitter cette page sans sauvegarder vos données ?');
+    //setImageModalApp('../images/icons/warning.png');
+    //setFollowThisLink(-1);
+    //setShowModalApp(true);

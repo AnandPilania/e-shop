@@ -98,7 +98,7 @@
   max-height: 100px;
 }
 
-#image-preview .overlay {
+/* #image-preview .overlay {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -106,7 +106,7 @@
   right: 0;
   z-index: 2;
   background: rgba(255, 255, 255, 0.5);
-}
+} */
 
 .highlighted {
   background-color: grey;
@@ -149,7 +149,7 @@
   height: auto;
 }
 
-#image-preview-edit .overlay {
+/* #image-preview-edit .overlay {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -157,7 +157,7 @@
   right: 0;
   z-index: 2;
   background: rgba(255, 255, 255, 0.5);
-}
+} */
 
 .highlighted {
   background-color: grey;

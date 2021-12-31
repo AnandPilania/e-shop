@@ -25,6 +25,7 @@ use App\Http\Controllers\AliExpressController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ProductSheetController;
 use App\Http\Controllers\ProductDetailController;
+use App\Http\Controllers\TemporaryStorageController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Type_detail_productController;
 
@@ -75,7 +76,11 @@ Route::post('/save-collection', [CollectionController::class, 'storeAndAssign'])
 // cette route remplace Route::resource('/collections INDEX car j'ai besoin de l'URL collections pour le front end pour le SEO
 Route::get('/collections-list-back-end', [CollectionController::class, 'collectionsListBackEnd']);
 
+// stocke temporairement dans temporary_storages une ou plusieurs images
+Route::post('/temporaryStoreImages', [TemporaryStorageController::class, 'temporaryStoreImages']);
 
+// get temporary collection image
+Route::get('/getTemporaryImage', [TemporaryStorageController::class, 'getTemporaryImage']);
 
 Route::get('/listtype', [Type_detail_productController::class, 'listtype']);
 

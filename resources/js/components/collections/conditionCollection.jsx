@@ -21,6 +21,7 @@ const ConditionCollection = (props) => {
         // met dabord à hide partout
         hideUselessOperatorReset();
 
+        // met à show la première condition par défaut
         setHideOp1('show');
         setHideOp2('show');
         setHideOp5('show');
@@ -28,6 +29,8 @@ const ConditionCollection = (props) => {
         setHideOp7('show');
         setHideOp8('show');
 
+        // when data comes from localStorage it get only the operators needed to show
+        showOnlyUsableOperator(props.condition.parameter);
 
     }, []);
 
