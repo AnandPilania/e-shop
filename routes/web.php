@@ -82,6 +82,9 @@ Route::post('/temporaryStoreImages', [TemporaryStorageController::class, 'tempor
 // get temporary collection image
 Route::get('/getTemporaryImage', [TemporaryStorageController::class, 'getTemporaryImage']);
 
+// delete temporary collection image
+Route::post('/deleteTemporayStoredImages', [TemporaryStorageController::class, 'deleteTemporayStoredImages']);
+
 Route::get('/listtype', [Type_detail_productController::class, 'listtype']);
 
 // utilisé dans selectCollections.jsx 

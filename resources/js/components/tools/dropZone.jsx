@@ -278,6 +278,14 @@ const DropZone = (props) => {
             document.getElementById('drop-region').style.backgroundColor = 'none';
             document.getElementById('drop-region').style.background = 'no-repeat url("../images/icons/backgroundDropZone.png")';
             document.getElementById('drop-region').style.backgroundPosition = 'center 90%';
+
+            // supprime l'image temporaire dans la db et dans le dossier temporire
+            var formData = new FormData;
+            formData.append('key', 'tmp_imageCollection'); 
+            Axios.post(`http://127.0.0.1:8000/deleteTemporayStoredImages`, formData)
+            .then(res => {
+                console.log('res.data  --->  ok');
+            });
         }
     }
 

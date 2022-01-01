@@ -22027,30 +22027,6 @@ var App = function App() {
       darkMode = _useState14[0],
       setDarkMode = _useState14[1];
 
-  window.onpopstate = function (event) {
-    var conditonDirty = false;
-    conditions.forEach(function (condition) {
-      if (condition.value != '') {
-        conditonDirty = true;
-      }
-    });
-
-    if (image.length > 0 || nameCollection != '' || descriptionCollection != '' || alt != '' || conditonDirty == true) {
-      event.preventDefault();
-      setTextButtonModalApp('Quitter');
-      setTextButtonModalApp2('Annuler');
-      setMessageModalApp('Quitter cette page sans sauvegarder vos données ?');
-      setImageModalApp('../images/icons/warning.png');
-      setFollowThisLink(-1);
-      setShowModalApp(true);
-    }
-  }; //  document.onmouseleave = function() {
-  //     //User's mouse has left the page.
-  //     window.innerDocClick = false;
-  //     alert("mouse leave!");
-  //  }
-
-
   var handleModalApp = function handleModalApp() {
     setShowModalApp(false);
   };
@@ -22484,14 +22460,13 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var CreateCollection = function CreateCollection() {
-  // fields 
-  // const [conditions, setConditions] = useState([{
-  //     id: 0,
-  //     parameter: '1',
-  //     operator: '1',
-  //     value: ''
-  // }]);
-  var _useLocalStorage = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_9__.useLocalStorage)("conditions", ""),
+  // form-------------------------------------------------------------------
+  var _useLocalStorage = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_9__.useLocalStorage)("conditions", [{
+    id: 0,
+    parameter: '1',
+    operator: '1',
+    value: ''
+  }]),
       _useLocalStorage2 = _slicedToArray(_useLocalStorage, 2),
       conditions = _useLocalStorage2[0],
       setConditions = _useLocalStorage2[1];
@@ -22521,177 +22496,181 @@ var CreateCollection = function CreateCollection() {
       metaUrl = _useLocalStorage12[0],
       setMetaUrl = _useLocalStorage12[1];
 
-  var _useLocalStorage13 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_9__.useLocalStorage)("alt", ""),
+  var _useLocalStorage13 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_9__.useLocalStorage)("altCollection", ""),
       _useLocalStorage14 = _slicedToArray(_useLocalStorage13, 2),
       alt = _useLocalStorage14[0],
       setAlt = _useLocalStorage14[1];
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useLocalStorage15 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_9__.useLocalStorage)('categoryName', 'Aucune catégorie'),
+      _useLocalStorage16 = _slicedToArray(_useLocalStorage15, 2),
+      categoryName = _useLocalStorage16[0],
+      setCategoryName = _useLocalStorage16[1];
+
+  var _useLocalStorage17 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_9__.useLocalStorage)("categoryId", ""),
+      _useLocalStorage18 = _slicedToArray(_useLocalStorage17, 2),
+      categoryId = _useLocalStorage18[0],
+      setCategoryId = _useLocalStorage18[1];
+
+  var _useLocalStorage19 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_9__.useLocalStorage)("image", []),
+      _useLocalStorage20 = _slicedToArray(_useLocalStorage19, 2),
+      image = _useLocalStorage20[0],
+      setImage = _useLocalStorage20[1];
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState2 = _slicedToArray(_useState, 2),
-      image = _useState2[0],
-      setImage = _useState2[1];
+      apercuMetaTitle = _useState2[0],
+      setApercuMetaTitle = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState4 = _slicedToArray(_useState3, 2),
-      isAutoConditions = _useState4[0],
-      setIsAutoConditions = _useState4[1];
+      apercuMetaTitle2 = _useState4[0],
+      setApercuMetaTitle2 = _useState4[1];
 
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState6 = _slicedToArray(_useState5, 2),
-      isShowOptimisation = _useState6[0],
-      setIsShowOptimisation = _useState6[1];
+      apercuMetaDescription = _useState6[0],
+      setApercuMetaDescription = _useState6[1];
 
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.location.origin),
       _useState8 = _slicedToArray(_useState7, 2),
-      includePrevProduct = _useState8[0],
-      setIncludePrevProduct = _useState8[1];
+      apercuMetaUrl = _useState8[0],
+      setApercuMetaUrl = _useState8[1]; //--------------------------------------------------------------------Form
 
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState10 = _slicedToArray(_useState9, 2),
-      categories = _useState10[0],
-      setCategories = _useState10[1];
+      isAutoConditions = _useState10[0],
+      setIsAutoConditions = _useState10[1];
 
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(new Date()),
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState12 = _slicedToArray(_useState11, 2),
-      datetimeField = _useState12[0],
-      setDatetimeField = _useState12[1];
+      isShowOptimisation = _useState12[0],
+      setIsShowOptimisation = _useState12[1];
 
   var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState14 = _slicedToArray(_useState13, 2),
-      allConditionsNeeded = _useState14[0],
-      setAllConditionsNeeded = _useState14[1];
+      includePrevProduct = _useState14[0],
+      setIncludePrevProduct = _useState14[1];
 
-  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState16 = _slicedToArray(_useState15, 2),
-      category = _useState16[0],
-      setCategory = _useState16[1];
+      categoriesList = _useState16[0],
+      setCategoriesList = _useState16[1];
 
-  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Aucune catégorie'),
+  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(new Date()),
       _useState18 = _slicedToArray(_useState17, 2),
-      categoryName = _useState18[0],
-      setCategoryName = _useState18[1];
+      datetimeField = _useState18[0],
+      setDatetimeField = _useState18[1];
 
-  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState20 = _slicedToArray(_useState19, 2),
-      newCategoryName = _useState20[0],
-      setNewCategoryName = _useState20[1];
+      allConditionsNeeded = _useState20[0],
+      setAllConditionsNeeded = _useState20[1];
 
-  var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState22 = _slicedToArray(_useState21, 2),
-      showCreateCategory = _useState22[0],
-      setShowCreateCategory = _useState22[1];
+      newCategoryName = _useState22[0],
+      setNewCategoryName = _useState22[1];
 
-  var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Créer une nouvelle catégorie.'),
+  var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState24 = _slicedToArray(_useState23, 2),
-      linkCreateCategory = _useState24[0],
-      setLinkCreateCategory = _useState24[1];
+      showCreateCategory = _useState24[0],
+      setShowCreateCategory = _useState24[1];
 
-  var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Créer une nouvelle catégorie.'),
       _useState26 = _slicedToArray(_useState25, 2),
-      newCategorySucces = _useState26[0],
-      setNewCategorySucces = _useState26[1];
+      linkCreateCategory = _useState26[0],
+      setLinkCreateCategory = _useState26[1];
 
-  var _useState27 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState27 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState28 = _slicedToArray(_useState27, 2),
-      apercuMetaTitle = _useState28[0],
-      setApercuMetaTitle = _useState28[1];
+      newCategorySucces = _useState28[0],
+      setNewCategorySucces = _useState28[1];
 
-  var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState30 = _slicedToArray(_useState29, 2),
-      apercuMetaTitle2 = _useState30[0],
-      setApercuMetaTitle2 = _useState30[1];
+      biggerThan60 = _useState30[0],
+      setBiggerThan60 = _useState30[1];
 
-  var _useState31 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState31 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState32 = _slicedToArray(_useState31, 2),
-      biggerThan60 = _useState32[0],
-      setBiggerThan60 = _useState32[1];
+      isEmptyMetaDescription = _useState32[0],
+      setIsEmptyMetaDescription = _useState32[1];
 
-  var _useState33 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState33 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState34 = _slicedToArray(_useState33, 2),
-      apercuMetaDescription = _useState34[0],
-      setApercuMetaDescription = _useState34[1];
+      isEmptyMetaTitle = _useState34[0],
+      setIsEmptyMetaTitle = _useState34[1];
 
-  var _useState35 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.location.origin),
+  var _useState35 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState36 = _slicedToArray(_useState35, 2),
-      apercuMetaUrl = _useState36[0],
-      setApercuMetaUrl = _useState36[1];
+      showCategorySelect = _useState36[0],
+      setShowCategorySelect = _useState36[1];
 
-  var _useState37 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState37 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState38 = _slicedToArray(_useState37, 2),
-      isEmptyMetaDescription = _useState38[0],
-      setIsEmptyMetaDescription = _useState38[1];
+      showModalConfirm = _useState38[0],
+      setShowModalConfirm = _useState38[1];
 
-  var _useState39 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState39 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState40 = _slicedToArray(_useState39, 2),
-      isEmptyMetaTitle = _useState40[0],
-      setIsEmptyMetaTitle = _useState40[1];
+      showModalInput = _useState40[0],
+      setShowModalInput = _useState40[1];
 
-  var _useState41 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState41 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState42 = _slicedToArray(_useState41, 2),
-      showCategorySelect = _useState42[0],
-      setShowCategorySelect = _useState42[1];
+      messageModal = _useState42[0],
+      setMessageModal = _useState42[1];
 
-  var _useState43 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState43 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState44 = _slicedToArray(_useState43, 2),
-      showModalConfirm = _useState44[0],
-      setShowModalConfirm = _useState44[1];
+      sender = _useState44[0],
+      setSender = _useState44[1]; // for modal
 
-  var _useState45 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+
+  var _useState45 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
       _useState46 = _slicedToArray(_useState45, 2),
-      showModalInput = _useState46[0],
-      setShowModalInput = _useState46[1];
+      tmp_parameter = _useState46[0],
+      setTmp_parameter = _useState46[1]; // pour stocker provisoirement une variable
+
 
   var _useState47 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState48 = _slicedToArray(_useState47, 2),
-      messageModal = _useState48[0],
-      setMessageModal = _useState48[1];
+      newCategoryNameUseInMessage = _useState48[0],
+      setNewCategoryNameUseInMessage = _useState48[1]; // pour stocker le nom de la catégorie qui doit être afficher dans le message de confirmation de la creation de la catégorie
+
 
   var _useState49 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState50 = _slicedToArray(_useState49, 2),
-      sender = _useState50[0],
-      setSender = _useState50[1]; // for modal
+      inputTextModify = _useState50[0],
+      setInputTextModify = _useState50[1];
 
-
-  var _useState51 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
+  var _useState51 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
       _useState52 = _slicedToArray(_useState51, 2),
-      tmp_parameter = _useState52[0],
-      setTmp_parameter = _useState52[1]; // pour stocker provisoirement une variable
-
+      textButtonConfirm = _useState52[0],
+      setTextButtonConfirm = _useState52[1];
 
   var _useState53 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState54 = _slicedToArray(_useState53, 2),
-      newCategoryNameUseInMessage = _useState54[0],
-      setNewCategoryNameUseInMessage = _useState54[1]; // pour stocker le nom de la catégorie qui doit être afficher dans le message de confirmation de la creation de la catégorie
+      imageConfirm = _useState54[0],
+      setImageConfirm = _useState54[1];
 
-
-  var _useState55 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState55 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState56 = _slicedToArray(_useState55, 2),
-      inputTextModify = _useState56[0],
-      setInputTextModify = _useState56[1];
-
-  var _useState57 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
-      _useState58 = _slicedToArray(_useState57, 2),
-      textButtonConfirm = _useState58[0],
-      setTextButtonConfirm = _useState58[1];
-
-  var _useState59 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState60 = _slicedToArray(_useState59, 2),
-      imageConfirm = _useState60[0],
-      setImageConfirm = _useState60[1];
+      isDirty = _useState56[0],
+      setIsDirty = _useState56[1];
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_8__["default"]),
-      isDirtyCollection = _useContext.isDirtyCollection,
-      setIsDirtyCollection = _useContext.setIsDirtyCollection;
+      darkMode = _useContext.darkMode,
+      setDarkMode = _useContext.setDarkMode;
 
-  var isEmptyMetaUrl = true;
-  console.log(image);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // chargement des collections
     axios__WEBPACK_IMPORTED_MODULE_4___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
-      setCategories(res.data);
+      setCategoriesList(res.data);
     })["catch"](function (error) {
       console.log('error:   ' + error);
-    }); // current date & time
+    }); // configurationcurrent date & time
 
     var now = new Date();
     var year = now.getFullYear();
@@ -22700,13 +22679,24 @@ var CreateCollection = function CreateCollection() {
     var hour = now.getHours();
     var minute = now.getMinutes();
     var localDatetime = year + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + (day < 10 ? "0" + day.toString() : day) + "T" + (hour < 10 ? "0" + hour.toString() : hour) + ":" + (minute < 10 ? "0" + minute.toString() : minute);
-    setDatetimeField(localDatetime); // évite error quand on passe à un autre component
+    setDatetimeField(localDatetime); // check if form is dirty
+
+    var conditonDirty = false;
+    conditions.forEach(function (condition) {
+      if (condition.value != '') {
+        conditonDirty = true;
+      }
+    });
+
+    if (nameCollection != '' || descriptionCollection != '' || alt != '' || metaTitle != '' || metaDescription != '' || metaUrl != 'http://127.0.0.1:8000/' || image != '' || categoryName != 'Aucune catégorie' || categoryId != 0 || conditonDirty == true) {
+      setIsDirty(true);
+    } // évite error quand on passe à un autre component
+
 
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Fragment, {
-      children: categories ? categories : ''
+      children: categoriesList ? categoriesList : ''
     });
-  }, []); // var lastCondition = conditions.slice(-1)[0];
-  // CONDITIONS---------------------------------------------------------------
+  }, []); // CONDITIONS---------------------------------------------------------------
 
   var addCondition = function addCondition() {
     // get bigger id for define the next id to insert in conditions
@@ -22891,20 +22881,43 @@ var CreateCollection = function CreateCollection() {
     var urlName = normalizUrl(e.target.value.substring(window.location.origin.length, 255));
     setMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
     localStorage.setItem("metaUrl", window.location.origin + '/' + urlName.substring(0, urlLength));
-    isEmptyMetaUrl = false;
     setApercuMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
 
-    if (e.target.value == window.location.origin + '/') {
-      isEmptyMetaUrl = true;
-
+    if (e.target.value === window.location.origin + '/') {
       var _urlName = normalizUrl(nameCollection);
 
       setMetaUrl(window.location.origin + '/' + _urlName.substring(0, urlLength));
+      localStorage.setItem("metaUrl", window.location.origin + '/' + _urlName.substring(0, urlLength));
       setApercuMetaUrl(window.location.origin + '/' + _urlName.substring(0, urlLength));
     }
-  }; // IMAGE -------------------------------------------------------------------
-  // save image from dirty page in temporary_storages db
+  }; // init aperçus
 
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (metaTitle.length > 0) {
+      setApercuMetaTitle(metaTitle.substring(0, 60));
+      setApercuMetaTitle2(metaTitle.substring(61, 5000));
+    } else {
+      setApercuMetaTitle(nameCollection.substring(0, 60));
+      setApercuMetaTitle2(nameCollection.substring(61, 5000));
+    }
+
+    if (metaDescription.length > 0) {
+      setApercuMetaDescription(metaDescription);
+    } else {
+      var htmlDescriptionText = descriptionCollection.replaceAll(/<[\/a-zA-Z0-9]*>/gi, " ");
+      setApercuMetaDescription(htmlDescriptionText);
+    }
+
+    if (metaUrl.length > 0) {
+      setApercuMetaUrl(metaUrl);
+    } else {
+      var urlLength = 254 - window.location.origin.length;
+      var urlName = normalizUrl(nameCollection);
+      setApercuMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
+    }
+  }, []); // IMAGE -------------------------------------------------------------------
+  // save image from dirty page in temporary_storages db
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var tmp_Data = new FormData();
@@ -22927,8 +22940,7 @@ var CreateCollection = function CreateCollection() {
   var handleAlt = function handleAlt(e) {
     setAlt(e.target.value);
     localStorage.setItem("altCollection", e.target.value);
-  }; // console.log(image);
-  //---------------------------------------------------------------------IMAGE
+  }; //---------------------------------------------------------------------IMAGE
   // CATEGORY ----------------------------------------------------------------
   // show hide select menu
 
@@ -22939,15 +22951,15 @@ var CreateCollection = function CreateCollection() {
 
 
   var handleCategory = function handleCategory(cat_id) {
-    setCategory(cat_id);
+    setCategoryId(cat_id);
     setShowCategorySelect(false);
-    localStorage.setItem("altCollection", cat_id);
+    localStorage.setItem("categoryId", cat_id);
   }; // nom affiché dans le select
 
 
   var handleCategoryName = function handleCategoryName(cat_name) {
     setCategoryName(cat_name);
-    localStorage.setItem("altCollection", cat_name);
+    localStorage.setItem("categoryName", cat_name);
   }; // show/hide input create new category
 
 
@@ -22975,7 +22987,6 @@ var CreateCollection = function CreateCollection() {
 
   var handleNewCategoryName = function handleNewCategoryName(e) {
     setNewCategoryName(e.target.value);
-    localStorage.setItem("newCategoryName", e.target.value);
   }; // add one category
 
 
@@ -23003,7 +23014,7 @@ var CreateCollection = function CreateCollection() {
       }); // chargement des collections
 
       axios__WEBPACK_IMPORTED_MODULE_4___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
-        setCategories(res.data);
+        setCategoriesList(res.data);
       })["catch"](function (error) {
         console.log('error:   ' + error);
       });
@@ -23039,7 +23050,7 @@ var CreateCollection = function CreateCollection() {
       setShowModalConfirm(true); // chargement des collections
 
       axios__WEBPACK_IMPORTED_MODULE_4___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
-        setCategories(res.data);
+        setCategoriesList(res.data);
       })["catch"](function (error) {
         console.log('error:   ' + error);
       });
@@ -23053,7 +23064,7 @@ var CreateCollection = function CreateCollection() {
   var updateCategory = function updateCategory() {
     if (inputTextModify != '' && inputTextModify.length >= 3) {
       // au cas où le nouveau nom est vide ou < 3
-      axios__WEBPACK_IMPORTED_MODULE_4___default().put("http://127.0.0.1:8000/categories/".concat(category), {
+      axios__WEBPACK_IMPORTED_MODULE_4___default().put("http://127.0.0.1:8000/categories/".concat(categoryId), {
         name: inputTextModify
       }).then(function (res) {
         setNewCategoryNameUseInMessage(inputTextModify + ' à été enregistrée'); // message affiché après modification de la category
@@ -23066,7 +23077,7 @@ var CreateCollection = function CreateCollection() {
       }); // chargement des collections
 
       axios__WEBPACK_IMPORTED_MODULE_4___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
-        setCategories(res.data);
+        setCategoriesList(res.data);
       })["catch"](function (error) {
         console.log('error:   ' + error);
       });
@@ -23124,7 +23135,7 @@ var CreateCollection = function CreateCollection() {
   // réinitialisation des states du form 
 
 
-  var resetForm = function resetForm() {
+  var initCollectionForm = function initCollectionForm() {
     setNameCollection('');
     setDescriptionCollection('');
     setMetaTitle('');
@@ -23132,6 +23143,39 @@ var CreateCollection = function CreateCollection() {
     setMetaUrl(window.location.origin + '/');
     setAlt('');
     setImage([]);
+    setCategoryName('Aucune catégorie');
+    setCategoryId('');
+    setApercuMetaTitle('');
+    setApercuMetaTitle2('');
+    setApercuMetaDescription('');
+    setApercuMetaUrl(window.location.origin);
+    setIsDirty(false); // supprime l'image temporaire dans la db et dans le dossier temporaire
+
+    var imageData = new FormData();
+    imageData.append('key', 'tmp_imageCollection');
+    axios__WEBPACK_IMPORTED_MODULE_4___default().post("http://127.0.0.1:8000/deleteTemporayStoredImages", imageData).then(function (res) {
+      console.log('res.data  --->  ok');
+    }); // éfface l'image de la dropZone
+
+    var imagesToRemove = document.getElementsByClassName('image-view') && document.getElementsByClassName('image-view');
+
+    if (imagesToRemove.length > 0) {
+      for (var i = 0; i < imagesToRemove.length; i++) {
+        imagesToRemove[i].remove();
+      }
+    } // vide le localStorage
+
+
+    localStorage.removeItem('nameCollection');
+    localStorage.removeItem('descriptionCollection');
+    localStorage.removeItem('metaTitle');
+    localStorage.removeItem('metaDescription');
+    localStorage.removeItem('image');
+    localStorage.removeItem('altCollection');
+    localStorage.removeItem('metaUrl');
+    localStorage.removeItem('categoryName');
+    localStorage.removeItem('categoryId');
+    localStorage.removeItem('conditions');
   }; //----------------------------------------------------------------Reset Form
 
 
@@ -23150,7 +23194,7 @@ var CreateCollection = function CreateCollection() {
   formData.append("allConditionsNeeded", allConditionsNeeded);
   formData.append("objConditions", objConditions);
   formData.append("dateActivation", datetimeField);
-  formData.append("category", category);
+  formData.append("categoryId", categoryId);
   formData.append("alt", alt);
 
   var handleSubmit = function handleSubmit() {
@@ -23170,7 +23214,11 @@ var CreateCollection = function CreateCollection() {
       className: "collection-block-container",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
         className: "div-vert-align",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+        children: [isDirty && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("button", {
+          className: "btn-bcknd btn-effacer-tout",
+          onClick: initCollectionForm,
+          children: "R\xE9initialiser"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
           className: "div-label-inputTxt",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("h2", {
             children: "Nom de la collection"
@@ -23325,7 +23373,7 @@ var CreateCollection = function CreateCollection() {
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
             className: "sub-div-vert-align",
-            children: [conditions.map(function (condition, i) {
+            children: [conditions && conditions.map(function (condition, i) {
               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(_conditionCollection__WEBPACK_IMPORTED_MODULE_1__["default"], {
                 handleChangeParam: handleChangeParam,
                 handleChangeOperator: handleChangeOperator,
@@ -23502,7 +23550,7 @@ var CreateCollection = function CreateCollection() {
                   handleCategory(0), handleCategoryName('Aucune catégorie');
                 },
                 children: "Aucune cat\xE9gorie"
-              }), categories.map(function (cat, index) {
+              }), categoriesList.map(function (cat, index) {
                 return cat.name != categoryName && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("li", {
                   className: "li-category",
                   onClick: function onClick() {
@@ -27372,7 +27420,13 @@ var DropZone = function DropZone(props) {
 
       document.getElementById('drop-region').style.backgroundColor = 'none';
       document.getElementById('drop-region').style.background = 'no-repeat url("../images/icons/backgroundDropZone.png")';
-      document.getElementById('drop-region').style.backgroundPosition = 'center 90%';
+      document.getElementById('drop-region').style.backgroundPosition = 'center 90%'; // supprime l'image temporaire dans la db et dans le dossier temporire
+
+      var formData = new FormData();
+      formData.append('key', 'tmp_imageCollection');
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post("http://127.0.0.1:8000/deleteTemporayStoredImages", formData).then(function (res) {
+        console.log('res.data  --->  ok');
+      });
     }
   }
 

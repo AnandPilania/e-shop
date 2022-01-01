@@ -11,39 +11,39 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 
 
 const CreateCollection = () => {
-    // fields 
-    // const [conditions, setConditions] = useState([{
-    //     id: 0,
-    //     parameter: '1',
-    //     operator: '1',
-    //     value: ''
-    // }]);
-    const [conditions, setConditions] = useLocalStorage("conditions", "");
+    // form-------------------------------------------------------------------
+    const [conditions, setConditions] = useLocalStorage("conditions", [{
+        id: 0,
+        parameter: '1',
+        operator: '1',
+        value: ''
+    }]);
     const [nameCollection, setNameCollection] = useLocalStorage("nameCollection", "");
     const [descriptionCollection, setDescriptionCollection] = useLocalStorage("descriptionCollection", "");
     const [metaTitle, setMetaTitle] = useLocalStorage("metaTitle", "");
     const [metaDescription, setMetaDescription] = useLocalStorage("metaDescription", "");
     const [metaUrl, setMetaUrl] = useLocalStorage("metaUrl", window.location.origin + '/');
-    const [alt, setAlt] = useLocalStorage("alt", "");
-    const [image, setImage] = useState([]);
+    const [alt, setAlt] = useLocalStorage("altCollection", "");
+    const [categoryName, setCategoryName] = useLocalStorage('categoryName', 'Aucune catégorie');
+    const [categoryId, setCategoryId] = useLocalStorage("categoryId", "");
+    const [image, setImage] = useLocalStorage("image", []);
+    const [apercuMetaTitle, setApercuMetaTitle] = useState('');
+    const [apercuMetaTitle2, setApercuMetaTitle2] = useState('');
+    const [apercuMetaDescription, setApercuMetaDescription] = useState('');
+    const [apercuMetaUrl, setApercuMetaUrl] = useState(window.location.origin);
+    //--------------------------------------------------------------------Form
 
     const [isAutoConditions, setIsAutoConditions] = useState(true);
     const [isShowOptimisation, setIsShowOptimisation] = useState(true);
     const [includePrevProduct, setIncludePrevProduct] = useState(true);
-    const [categories, setCategories] = useState([]);
+    const [categoriesList, setCategoriesList] = useState([]);
     const [datetimeField, setDatetimeField] = useState(new Date());
     const [allConditionsNeeded, setAllConditionsNeeded] = useState(true);
-    const [category, setCategory] = useState();
-    const [categoryName, setCategoryName] = useState('Aucune catégorie');
     const [newCategoryName, setNewCategoryName] = useState('');
     const [showCreateCategory, setShowCreateCategory] = useState(false);
     const [linkCreateCategory, setLinkCreateCategory] = useState('Créer une nouvelle catégorie.');
     const [newCategorySucces, setNewCategorySucces] = useState(false);
-    const [apercuMetaTitle, setApercuMetaTitle] = useState('');
-    const [apercuMetaTitle2, setApercuMetaTitle2] = useState('');
     const [biggerThan60, setBiggerThan60] = useState(false);
-    const [apercuMetaDescription, setApercuMetaDescription] = useState('');
-    const [apercuMetaUrl, setApercuMetaUrl] = useState(window.location.origin);
     const [isEmptyMetaDescription, setIsEmptyMetaDescription] = useState(true);
     const [isEmptyMetaTitle, setIsEmptyMetaTitle] = useState(true);
     const [showCategorySelect, setShowCategorySelect] = useState(false);
@@ -56,27 +56,21 @@ const CreateCollection = () => {
     const [inputTextModify, setInputTextModify] = useState('');
     const [textButtonConfirm, setTextButtonConfirm] = useState('Confirmer');
     const [imageConfirm, setImageConfirm] = useState('');
+    const [isDirty, setIsDirty] = useState(false);
 
+    const { darkMode, setDarkMode } = useContext(AppContext);
 
-
-
-    const { isDirtyCollection, setIsDirtyCollection } = useContext(AppContext);
-
-
-    var isEmptyMetaUrl = true;
-
-    console.log(image);
     useEffect(() => {
         // chargement des collections
         Axios.get(`http://127.0.0.1:8000/getCategories`)
             .then(res => {
-                setCategories(res.data);
+                setCategoriesList(res.data);
             }).catch(function (error) {
                 console.log('error:   ' + error);
             });
 
 
-        // current date & time
+        // configurationcurrent date & time
         var now = new Date();
         var year = now.getFullYear();
         var month = now.getMonth() + 1;
@@ -90,14 +84,35 @@ const CreateCollection = () => {
             (minute < 10 ? "0" + minute.toString() : minute);
         setDatetimeField(localDatetime);
 
+
+        // check if form is dirty
+        var conditonDirty = false;
+        conditions.forEach(condition => {
+            if (condition.value != '') {
+                conditonDirty = true;
+            }
+        })
+        if (
+            nameCollection != '' ||
+            descriptionCollection != '' ||
+            alt != '' ||
+            metaTitle != '' ||
+            metaDescription != '' ||
+            metaUrl != 'http://127.0.0.1:8000/' ||
+            image != '' ||
+            categoryName != 'Aucune catégorie' ||
+            categoryId != 0 ||
+            conditonDirty == true
+        ) {
+            setIsDirty(true);
+        }
+
+
         // évite error quand on passe à un autre component
-        return <>{categories ? categories : ''}</>
+        return <>{categoriesList ? categoriesList : ''}</>
 
     }, []);
 
-
-
-    // var lastCondition = conditions.slice(-1)[0];
 
 
     // CONDITIONS---------------------------------------------------------------
@@ -262,7 +277,6 @@ const CreateCollection = () => {
 
         if (e.target.value == '') {
             setIsEmptyMetaDescription(true);
-
             // on remplace les balises de ckeditor par un espace pour que les mots ne soient pas collés dans l'apérçu lorsqu'on efface la meta description !!! 2eme nettoyage 
             let htmlDescriptionText = descriptionCollection.replaceAll(/<[\/a-zA-Z0-9]*>/gi, " ");
             setApercuMetaDescription(htmlDescriptionText);
@@ -277,16 +291,43 @@ const CreateCollection = () => {
         setMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
         localStorage.setItem("metaUrl", window.location.origin + '/' + urlName.substring(0, urlLength));
 
-        isEmptyMetaUrl = false;
         setApercuMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
 
-        if (e.target.value == window.location.origin + '/') {
-            isEmptyMetaUrl = true;
+        if (e.target.value === window.location.origin + '/') {
             let urlName = normalizUrl(nameCollection);
             setMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
+            localStorage.setItem("metaUrl", window.location.origin + '/' + urlName.substring(0, urlLength));
+
             setApercuMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
         }
     };
+
+    // init aperçus
+    useEffect(() => {
+        if (metaTitle.length > 0) {
+            setApercuMetaTitle(metaTitle.substring(0, 60));
+            setApercuMetaTitle2(metaTitle.substring(61, 5000));
+        } else {
+            setApercuMetaTitle(nameCollection.substring(0, 60));
+            setApercuMetaTitle2(nameCollection.substring(61, 5000));
+        }
+
+        if (metaDescription.length > 0) {
+            setApercuMetaDescription(metaDescription);
+        } else {
+            let htmlDescriptionText = descriptionCollection.replaceAll(/<[\/a-zA-Z0-9]*>/gi, " ");
+            setApercuMetaDescription(htmlDescriptionText);
+        }
+
+        if (metaUrl.length > 0) {
+            setApercuMetaUrl(metaUrl);
+        } else {
+            let urlLength = 254 - window.location.origin.length;
+            let urlName = normalizUrl(nameCollection);
+            setApercuMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
+        }
+    }, []);
+
 
     // IMAGE -------------------------------------------------------------------
     // save image from dirty page in temporary_storages db
@@ -313,7 +354,7 @@ const CreateCollection = () => {
         setAlt(e.target.value);
         localStorage.setItem("altCollection", e.target.value);
     };
-    // console.log(image);
+
     //---------------------------------------------------------------------IMAGE
 
     // CATEGORY ----------------------------------------------------------------
@@ -324,15 +365,15 @@ const CreateCollection = () => {
 
     // get id for back-end
     const handleCategory = (cat_id) => {
-        setCategory(cat_id);
+        setCategoryId(cat_id);
         setShowCategorySelect(false);
-        localStorage.setItem("altCollection", cat_id);
+        localStorage.setItem("categoryId", cat_id);
     };
 
     // nom affiché dans le select
     const handleCategoryName = (cat_name) => {
         setCategoryName(cat_name);
-        localStorage.setItem("altCollection", cat_name);
+        localStorage.setItem("categoryName", cat_name);
     };
 
     // show/hide input create new category
@@ -358,7 +399,6 @@ const CreateCollection = () => {
 
     const handleNewCategoryName = (e) => {
         setNewCategoryName(e.target.value);
-        localStorage.setItem("newCategoryName", e.target.value);
     }
 
 
@@ -383,7 +423,7 @@ const CreateCollection = () => {
             // chargement des collections
             Axios.get(`http://127.0.0.1:8000/getCategories`)
                 .then(res => {
-                    setCategories(res.data);
+                    setCategoriesList(res.data);
                 }).catch(function (error) {
                     console.log('error:   ' + error);
                 });
@@ -424,7 +464,7 @@ const CreateCollection = () => {
                 // chargement des collections
                 Axios.get(`http://127.0.0.1:8000/getCategories`)
                     .then(res => {
-                        setCategories(res.data);
+                        setCategoriesList(res.data);
                     }).catch(function (error) {
                         console.log('error:   ' + error);
                     });
@@ -438,7 +478,7 @@ const CreateCollection = () => {
     // update one category
     const updateCategory = () => {
         if (inputTextModify != '' && inputTextModify.length >= 3) { // au cas où le nouveau nom est vide ou < 3
-            Axios.put(`http://127.0.0.1:8000/categories/${category}`, { name: inputTextModify })
+            Axios.put(`http://127.0.0.1:8000/categories/${categoryId}`, { name: inputTextModify })
                 .then(res => {
                     setNewCategoryNameUseInMessage(inputTextModify + ' à été enregistrée'); // message affiché après modification de la category
                     setNewCategorySucces(true);
@@ -452,7 +492,7 @@ const CreateCollection = () => {
             // chargement des collections
             Axios.get(`http://127.0.0.1:8000/getCategories`)
                 .then(res => {
-                    setCategories(res.data);
+                    setCategoriesList(res.data);
                 }).catch(function (error) {
                     console.log('error:   ' + error);
                 });
@@ -511,7 +551,7 @@ const CreateCollection = () => {
 
     // Reset Form---------------------------------------------------------------
     // réinitialisation des states du form 
-    const resetForm = () => {
+    const initCollectionForm = () => {
         setNameCollection('');
         setDescriptionCollection('');
         setMetaTitle('');
@@ -519,6 +559,43 @@ const CreateCollection = () => {
         setMetaUrl(window.location.origin + '/');
         setAlt('');
         setImage([]);
+        setCategoryName('Aucune catégorie');
+        setCategoryId('');
+        setApercuMetaTitle('');
+        setApercuMetaTitle2('');
+        setApercuMetaDescription('');
+        setApercuMetaUrl(window.location.origin);
+        setIsDirty(false);
+
+        // supprime l'image temporaire dans la db et dans le dossier temporaire
+        var imageData = new FormData;
+        imageData.append('key', 'tmp_imageCollection');
+        Axios.post(`http://127.0.0.1:8000/deleteTemporayStoredImages`, imageData)
+            .then(res => {
+                console.log('res.data  --->  ok');
+            });
+
+        // éfface l'image de la dropZone
+        var imagesToRemove = document.getElementsByClassName('image-view') && document.getElementsByClassName('image-view');
+        if (imagesToRemove.length > 0) {
+            for (let i = 0; i < imagesToRemove.length; i++) {
+                imagesToRemove[i].remove();
+            }
+
+        }
+
+        // vide le localStorage
+        localStorage.removeItem('nameCollection');
+        localStorage.removeItem('descriptionCollection');
+        localStorage.removeItem('metaTitle');
+        localStorage.removeItem('metaDescription');
+        localStorage.removeItem('image');
+        localStorage.removeItem('altCollection');
+        localStorage.removeItem('metaUrl');
+        localStorage.removeItem('categoryName');
+        localStorage.removeItem('categoryId');
+        localStorage.removeItem('conditions');
+
     }
     //----------------------------------------------------------------Reset Form
 
@@ -536,7 +613,7 @@ const CreateCollection = () => {
     formData.append("allConditionsNeeded", allConditionsNeeded);
     formData.append("objConditions", objConditions);
     formData.append("dateActivation", datetimeField);
-    formData.append("category", category);
+    formData.append("categoryId", categoryId);
     formData.append("alt", alt);
 
 
@@ -563,6 +640,10 @@ const CreateCollection = () => {
             <div className="collection-block-container">
                 {/* nom */}
                 <div className="div-vert-align">
+                    {isDirty && (<button className='btn-bcknd btn-effacer-tout'
+                        onClick={initCollectionForm}>
+                        Réinitialiser
+                    </button>)}
                     <div className="div-label-inputTxt">
                         <h2>Nom de la collection</h2>
                         <input type='text' id='titreCollection'
@@ -661,7 +742,7 @@ const CreateCollection = () => {
 
                             {/* inputs conditions */}
                             <div className="sub-div-vert-align">
-                                {conditions.map((condition, i) => (
+                                {conditions && conditions.map((condition, i) => (
                                     <ConditionCollection
                                         key={i}
                                         handleChangeParam={handleChangeParam}
@@ -795,36 +876,37 @@ const CreateCollection = () => {
                                 {categoryName.length > 25 ? categoryName.substring(0, 25) + '...' : categoryName}
                                 <i className="fas fa-angle-down"></i>
                             </button>
-                            {showCategorySelect && <ul className='ul-category'>
-                                {categoryName != 'Aucune catégorie' &&
-                                    <li className="li-category"
-                                        onClick={() => {
-                                            handleCategory(0),
-                                                handleCategoryName('Aucune catégorie')
-                                        }}
-                                    >Aucune catégorie
-                                    </li>}
-                                {categories.map((cat, index) => (
-                                    cat.name != categoryName &&
-                                    <li className="li-category"
-                                        key={index}
-                                        onClick={() => {
-                                            handleCategory(cat.id);
-                                            handleCategoryName(cat.name);
-                                        }} >
-                                        {cat.name.length > 25 ? <span>{cat.name.substring(0, 25) + '...'}</span> : <span>{cat.name}</span>}
-                                        <div>
-                                            <i className="fas fa-recycle"
-                                                onClick={() => {
-                                                    handleCategory(cat.id);
-                                                    handleShowModalInput();
-                                                }}>
-                                            </i>
-                                            <i className="far fa-trash-alt"
-                                                onClick={() => confirmDeleteCategory(cat.id, cat.name)}></i>
-                                        </div>
-                                    </li>))}
-                            </ul>}
+                            {showCategorySelect &&
+                                <ul className='ul-category'>
+                                    {categoryName != 'Aucune catégorie' &&
+                                        <li className="li-category"
+                                            onClick={() => {
+                                                handleCategory(0),
+                                                    handleCategoryName('Aucune catégorie')
+                                            }}
+                                        >Aucune catégorie
+                                        </li>}
+                                    {categoriesList.map((cat, index) => (
+                                        cat.name != categoryName &&
+                                        <li className="li-category"
+                                            key={index}
+                                            onClick={() => {
+                                                handleCategory(cat.id);
+                                                handleCategoryName(cat.name);
+                                            }} >
+                                            {cat.name.length > 25 ? <span>{cat.name.substring(0, 25) + '...'}</span> : <span>{cat.name}</span>}
+                                            <div>
+                                                <i className="fas fa-recycle"
+                                                    onClick={() => {
+                                                        handleCategory(cat.id);
+                                                        handleShowModalInput();
+                                                    }}>
+                                                </i>
+                                                <i className="far fa-trash-alt"
+                                                    onClick={() => confirmDeleteCategory(cat.id, cat.name)}></i>
+                                            </div>
+                                        </li>))}
+                                </ul>}
                         </div>
                         <p>
                             <a href='#'>Plus d'informations sur les catégories.</a>

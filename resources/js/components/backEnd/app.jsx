@@ -23,45 +23,8 @@ const App = () => {
     const [darkMode, setDarkMode] = useState(false);
 
 
-
-    window.onpopstate = function (event) {
-        var conditonDirty = false;
-        conditions.forEach(condition => {
-            if (condition.value != '') {
-                conditonDirty = true;
-            }
-        })
-        if (
-            (image.length > 0 ||
-                nameCollection != '' ||
-                descriptionCollection != '' ||
-                alt != '' ||
-                conditonDirty == true)
-        ) {
-            event.preventDefault();
-            setTextButtonModalApp('Quitter');
-            setTextButtonModalApp2('Annuler');
-            setMessageModalApp('Quitter cette page sans sauvegarder vos données ?');
-            setImageModalApp('../images/icons/warning.png');
-            setFollowThisLink(-1);
-            setShowModalApp(true);
-        }
-
-    };
-
-
-
-    //  document.onmouseleave = function() {
-    //     //User's mouse has left the page.
-    //     window.innerDocClick = false;
-    //     alert("mouse leave!");
-    //  }
-
-
     const handleModalApp = () => {
         setShowModalApp(false);
-
-
     };
 
     const handleModalAppCancel = () => {

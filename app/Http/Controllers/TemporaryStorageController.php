@@ -14,7 +14,7 @@ class TemporaryStorageController extends Controller
     {
         $tmp_img = Temporary_storage::where('key', 'tmp_imageCollection')->first();
 
-        return $tmp_img->value;
+        if (isset($tmp_img->value)) return $tmp_img->value;
     }
 
     // Ajoute des images pour un produit donné
@@ -52,13 +52,12 @@ class TemporaryStorageController extends Controller
         }
     }
 
-    public function deleteTemporayStoredImages($key)
+    public function deleteTemporayStoredImages(Request $request)
     {
-        $tmp_storage = Temporary_storage::where('key', $key)->get();
-
+        $tmp_storage = Temporary_storage::where('key', $request->key)->get();
+ 
         foreach ($tmp_storage as $toDelete) {
-            // value contien le chemin du stockage de l'image
-            File::delete($tmp_storage->value);
+            File::delete($toDelete->value);
             Temporary_storage::destroy($toDelete->id);
         }
 
