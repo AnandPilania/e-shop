@@ -10,6 +10,7 @@ import AppContext from '../contexts/AppContext';
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
 
+
 const CreateCollection = () => {
     // form-------------------------------------------------------------------
     const [conditions, setConditions] = useLocalStorage("conditions", [{
@@ -31,13 +32,14 @@ const CreateCollection = () => {
     const [apercuMetaTitle2, setApercuMetaTitle2] = useState('');
     const [apercuMetaDescription, setApercuMetaDescription] = useState('');
     const [apercuMetaUrl, setApercuMetaUrl] = useState(window.location.origin);
+    const [dateField, setDateField] = useLocalStorage("dateActivation", Date.now());
+    const [hourField, setHourField] = useState(0);
     //--------------------------------------------------------------------Form
 
     const [isAutoConditions, setIsAutoConditions] = useState(true);
     const [isShowOptimisation, setIsShowOptimisation] = useState(true);
     const [includePrevProduct, setIncludePrevProduct] = useState(true);
     const [categoriesList, setCategoriesList] = useState([]);
-    const [datetimeField, setDatetimeField] = useState(new Date());
     const [allConditionsNeeded, setAllConditionsNeeded] = useState(true);
     const [newCategoryName, setNewCategoryName] = useState('');
     const [showCreateCategory, setShowCreateCategory] = useState(false);
@@ -72,17 +74,18 @@ const CreateCollection = () => {
 
         // configurationcurrent date & time
         var now = new Date();
-        var year = now.getFullYear();
-        var month = now.getMonth() + 1;
-        var day = now.getDate();
-        var hour = now.getHours();
-        var minute = now.getMinutes();
-        var localDatetime = year + "-" +
-            (month < 10 ? "0" + month.toString() : month) + "-" +
-            (day < 10 ? "0" + day.toString() : day) + "T" +
-            (hour < 10 ? "0" + hour.toString() : hour) + ":" +
-            (minute < 10 ? "0" + minute.toString() : minute);
-        setDatetimeField(localDatetime);
+        // var year = now.getFullYear();
+        // var month = now.getMonth() + 1;
+        // var day = now.getDate();
+        // var hour = now.getHours();
+        // var minute = now.getMinutes(0);
+        // var localDatetime = year + "-" +
+        //     (month < 10 ? "0" + month.toString() : month) + "-" +
+        //     (day < 10 ? "0" + day.toString() : day) + "T" +
+        //     (hour < 10 ? "0" + hour.toString() : hour) + ":" +
+        //     (minute < 30 ? "00" : "30");
+        // (minute < 10 ? "0" + minute.toString() : minute);
+        setDateField(getActivationDate(now));
 
 
         // check if form is dirty
@@ -114,6 +117,19 @@ const CreateCollection = () => {
     }, []);
 
 
+    // format la date reçu en param
+    const getActivationDate = (activationDate) => {
+        var now = activationDate;
+        var year = now.getFullYear();
+        var month = now.getMonth() + 1;
+        var day = now.getDate();
+        var localDatetime = year + "-" +
+            (month < 10 ? "0" + month.toString() : month) + "-" +
+            (day < 10 ? "0" + day.toString() : day);
+
+        return localDatetime;
+    }    
+    
 
     // CONDITIONS---------------------------------------------------------------
     const addCondition = () => {
@@ -190,7 +206,12 @@ const CreateCollection = () => {
 
     // date à laquelle la collection est activée
     const handleDateChange = (e) => {
-        setDatetimeField(e.target.value);
+        setDateField(getActivationDate(new Date(e.target.value)));
+    };    
+    console.log(dateField)
+    // heure à laquelle la collection est activée
+    const handleHourChange = (e) => {
+        setHourField(e.target.value);
     };
 
     const handleNameCollection = (e) => {
@@ -566,6 +587,12 @@ const CreateCollection = () => {
         setApercuMetaDescription('');
         setApercuMetaUrl(window.location.origin);
         setIsDirty(false);
+        setConditions([{
+            id: 0,
+            parameter: '1',
+            operator: '1',
+            value: ''
+        }])
 
         // supprime l'image temporaire dans la db et dans le dossier temporaire
         var imageData = new FormData;
@@ -612,7 +639,7 @@ const CreateCollection = () => {
     formData.append("includePrevProduct", includePrevProduct);
     formData.append("allConditionsNeeded", allConditionsNeeded);
     formData.append("objConditions", objConditions);
-    formData.append("dateActivation", datetimeField);
+    formData.append("dateActivation", dateField);
     formData.append("categoryId", categoryId);
     formData.append("alt", alt);
 
@@ -941,8 +968,48 @@ const CreateCollection = () => {
                 <div className="div-vert-align">
                     <div className="div-label-inputTxt">
                         <h2>Activation</h2>
-                        <p>Date d'activation.</p>
-                        <input id="activationDate" type="datetime-local" value={datetimeField} min={datetimeField} onChange={handleDateChange} />
+                        <div className='sub-div-horiz-align'>
+                            <div className='sub-div-vert-align'> 
+                                <p>Date</p>
+                                <input id="activationDate"
+                                    type="date"
+                                    // type="datetime-local"
+                                    value={dateField}
+                                    min={dateField}
+                                    onChange={handleDateChange} />
+                            </div>
+                            <div className='sub-div-vert-align'>
+                                <p>Heure</p>
+                                <select name="from" id="from" 
+                                value={hourField}
+                                onChange={handleHourChange}>
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                    <option value="21">21</option>
+                                    <option value="22">22</option>
+                                    <option value="23">23</option>
+                                </select>
+                            </div>
+                        </div>
                         <p><a href='#'>Plus d'informations sur l'activation des collections.</a></p>
                     </div>
                 </div>

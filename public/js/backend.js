@@ -22534,33 +22534,38 @@ var CreateCollection = function CreateCollection() {
   var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.location.origin),
       _useState8 = _slicedToArray(_useState7, 2),
       apercuMetaUrl = _useState8[0],
-      setApercuMetaUrl = _useState8[1]; //--------------------------------------------------------------------Form
+      setApercuMetaUrl = _useState8[1];
 
+  var _useLocalStorage21 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_9__.useLocalStorage)("dateActivation", Date.now()),
+      _useLocalStorage22 = _slicedToArray(_useLocalStorage21, 2),
+      dateField = _useLocalStorage22[0],
+      setDateField = _useLocalStorage22[1];
 
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
       _useState10 = _slicedToArray(_useState9, 2),
-      isAutoConditions = _useState10[0],
-      setIsAutoConditions = _useState10[1];
+      hourField = _useState10[0],
+      setHourField = _useState10[1]; //--------------------------------------------------------------------Form
+
 
   var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState12 = _slicedToArray(_useState11, 2),
-      isShowOptimisation = _useState12[0],
-      setIsShowOptimisation = _useState12[1];
+      isAutoConditions = _useState12[0],
+      setIsAutoConditions = _useState12[1];
 
   var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState14 = _slicedToArray(_useState13, 2),
-      includePrevProduct = _useState14[0],
-      setIncludePrevProduct = _useState14[1];
+      isShowOptimisation = _useState14[0],
+      setIsShowOptimisation = _useState14[1];
 
-  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState16 = _slicedToArray(_useState15, 2),
-      categoriesList = _useState16[0],
-      setCategoriesList = _useState16[1];
+      includePrevProduct = _useState16[0],
+      setIncludePrevProduct = _useState16[1];
 
-  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(new Date()),
+  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState18 = _slicedToArray(_useState17, 2),
-      datetimeField = _useState18[0],
-      setDatetimeField = _useState18[1];
+      categoriesList = _useState18[0],
+      setCategoriesList = _useState18[1];
 
   var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState20 = _slicedToArray(_useState19, 2),
@@ -22672,14 +22677,19 @@ var CreateCollection = function CreateCollection() {
       console.log('error:   ' + error);
     }); // configurationcurrent date & time
 
-    var now = new Date();
-    var year = now.getFullYear();
-    var month = now.getMonth() + 1;
-    var day = now.getDate();
-    var hour = now.getHours();
-    var minute = now.getMinutes();
-    var localDatetime = year + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + (day < 10 ? "0" + day.toString() : day) + "T" + (hour < 10 ? "0" + hour.toString() : hour) + ":" + (minute < 10 ? "0" + minute.toString() : minute);
-    setDatetimeField(localDatetime); // check if form is dirty
+    var now = new Date(); // var year = now.getFullYear();
+    // var month = now.getMonth() + 1;
+    // var day = now.getDate();
+    // var hour = now.getHours();
+    // var minute = now.getMinutes(0);
+    // var localDatetime = year + "-" +
+    //     (month < 10 ? "0" + month.toString() : month) + "-" +
+    //     (day < 10 ? "0" + day.toString() : day) + "T" +
+    //     (hour < 10 ? "0" + hour.toString() : hour) + ":" +
+    //     (minute < 30 ? "00" : "30");
+    // (minute < 10 ? "0" + minute.toString() : minute);
+
+    setDateField(getActivationDate(now)); // check if form is dirty
 
     var conditonDirty = false;
     conditions.forEach(function (condition) {
@@ -22696,7 +22706,17 @@ var CreateCollection = function CreateCollection() {
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.Fragment, {
       children: categoriesList ? categoriesList : ''
     });
-  }, []); // CONDITIONS---------------------------------------------------------------
+  }, []); // format la date reçu en param
+
+  var getActivationDate = function getActivationDate(activationDate) {
+    var now = activationDate;
+    var year = now.getFullYear();
+    var month = now.getMonth() + 1;
+    var day = now.getDate();
+    var localDatetime = year + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + (day < 10 ? "0" + day.toString() : day);
+    return localDatetime;
+  }; // CONDITIONS---------------------------------------------------------------
+
 
   var addCondition = function addCondition() {
     // get bigger id for define the next id to insert in conditions
@@ -22783,7 +22803,13 @@ var CreateCollection = function CreateCollection() {
 
 
   var handleDateChange = function handleDateChange(e) {
-    setDatetimeField(e.target.value);
+    setDateField(getActivationDate(new Date(e.target.value)));
+  };
+
+  console.log(dateField); // heure à laquelle la collection est activée
+
+  var handleHourChange = function handleHourChange(e) {
+    setHourField(e.target.value);
   };
 
   var handleNameCollection = function handleNameCollection(e) {
@@ -23149,7 +23175,13 @@ var CreateCollection = function CreateCollection() {
     setApercuMetaTitle2('');
     setApercuMetaDescription('');
     setApercuMetaUrl(window.location.origin);
-    setIsDirty(false); // supprime l'image temporaire dans la db et dans le dossier temporaire
+    setIsDirty(false);
+    setConditions([{
+      id: 0,
+      parameter: '1',
+      operator: '1',
+      value: ''
+    }]); // supprime l'image temporaire dans la db et dans le dossier temporaire
 
     var imageData = new FormData();
     imageData.append('key', 'tmp_imageCollection');
@@ -23193,7 +23225,7 @@ var CreateCollection = function CreateCollection() {
   formData.append("includePrevProduct", includePrevProduct);
   formData.append("allConditionsNeeded", allConditionsNeeded);
   formData.append("objConditions", objConditions);
-  formData.append("dateActivation", datetimeField);
+  formData.append("dateActivation", dateField);
   formData.append("categoryId", categoryId);
   formData.append("alt", alt);
 
@@ -23618,14 +23650,104 @@ var CreateCollection = function CreateCollection() {
           className: "div-label-inputTxt",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("h2", {
             children: "Activation"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
-            children: "Date d'activation."
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
-            id: "activationDate",
-            type: "datetime-local",
-            value: datetimeField,
-            min: datetimeField,
-            onChange: handleDateChange
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+            className: "sub-div-horiz-align",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+              className: "sub-div-vert-align",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
+                children: "Date"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
+                id: "activationDate",
+                type: "date" // type="datetime-local"
+                ,
+                value: dateField,
+                min: dateField,
+                onChange: handleDateChange
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+              className: "sub-div-vert-align",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
+                children: "Heure"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("select", {
+                name: "from",
+                id: "from",
+                value: hourField,
+                onChange: handleHourChange,
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
+                  value: "0",
+                  children: "0"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
+                  value: "1",
+                  children: "1"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
+                  value: "2",
+                  children: "2"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
+                  value: "3",
+                  children: "3"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
+                  value: "4",
+                  children: "4"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
+                  value: "5",
+                  children: "5"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
+                  value: "6",
+                  children: "6"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
+                  value: "7",
+                  children: "7"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
+                  value: "8",
+                  children: "8"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
+                  value: "9",
+                  children: "9"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
+                  value: "10",
+                  children: "10"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
+                  value: "11",
+                  children: "11"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
+                  value: "12",
+                  children: "12"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
+                  value: "13",
+                  children: "13"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
+                  value: "14",
+                  children: "14"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
+                  value: "15",
+                  children: "15"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
+                  value: "16",
+                  children: "16"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
+                  value: "17",
+                  children: "17"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
+                  value: "18",
+                  children: "18"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
+                  value: "19",
+                  children: "19"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
+                  value: "20",
+                  children: "20"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
+                  value: "21",
+                  children: "21"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
+                  value: "22",
+                  children: "22"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
+                  value: "23",
+                  children: "23"
+                })]
+              })]
+            })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("a", {
               href: "#",
