@@ -22546,136 +22546,137 @@ var CreateCollection = function CreateCollection() {
   var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.location.origin),
       _useState8 = _slicedToArray(_useState7, 2),
       apercuMetaUrl = _useState8[0],
-      setApercuMetaUrl = _useState8[1];
+      setApercuMetaUrl = _useState8[1]; // const [dateField, setDateField] = useLocalStorage("dateActivation", Date.now());
 
-  var _useLocalStorage21 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_9__.useLocalStorage)("dateActivation", Date.now()),
-      _useLocalStorage22 = _slicedToArray(_useLocalStorage21, 2),
-      dateField = _useLocalStorage22[0],
-      setDateField = _useLocalStorage22[1];
 
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(Date.now()),
       _useState10 = _slicedToArray(_useState9, 2),
-      hourField = _useState10[0],
-      setHourField = _useState10[1]; //--------------------------------------------------------------------Form
+      dateField = _useState10[0],
+      setDateField = _useState10[1];
 
-
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
       _useState12 = _slicedToArray(_useState11, 2),
-      isAutoConditions = _useState12[0],
-      setIsAutoConditions = _useState12[1];
+      hourField = _useState12[0],
+      setHourField = _useState12[1]; //--------------------------------------------------------------------Form
+
 
   var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState14 = _slicedToArray(_useState13, 2),
-      isShowOptimisation = _useState14[0],
-      setIsShowOptimisation = _useState14[1];
+      isAutoConditions = _useState14[0],
+      setIsAutoConditions = _useState14[1];
 
   var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState16 = _slicedToArray(_useState15, 2),
-      includePrevProduct = _useState16[0],
-      setIncludePrevProduct = _useState16[1];
+      isShowOptimisation = _useState16[0],
+      setIsShowOptimisation = _useState16[1];
 
-  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState18 = _slicedToArray(_useState17, 2),
-      categoriesList = _useState18[0],
-      setCategoriesList = _useState18[1];
+      includePrevProduct = _useState18[0],
+      setIncludePrevProduct = _useState18[1];
 
-  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState20 = _slicedToArray(_useState19, 2),
-      allConditionsNeeded = _useState20[0],
-      setAllConditionsNeeded = _useState20[1];
+      categoriesList = _useState20[0],
+      setCategoriesList = _useState20[1];
 
-  var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState22 = _slicedToArray(_useState21, 2),
-      newCategoryName = _useState22[0],
-      setNewCategoryName = _useState22[1];
+      allConditionsNeeded = _useState22[0],
+      setAllConditionsNeeded = _useState22[1];
 
-  var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState24 = _slicedToArray(_useState23, 2),
-      showCreateCategory = _useState24[0],
-      setShowCreateCategory = _useState24[1];
+      newCategoryName = _useState24[0],
+      setNewCategoryName = _useState24[1];
 
-  var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Créer une nouvelle catégorie.'),
+  var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState26 = _slicedToArray(_useState25, 2),
-      linkCreateCategory = _useState26[0],
-      setLinkCreateCategory = _useState26[1];
+      showCreateCategory = _useState26[0],
+      setShowCreateCategory = _useState26[1];
 
-  var _useState27 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState27 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Créer une nouvelle catégorie.'),
       _useState28 = _slicedToArray(_useState27, 2),
-      newCategorySucces = _useState28[0],
-      setNewCategorySucces = _useState28[1];
+      linkCreateCategory = _useState28[0],
+      setLinkCreateCategory = _useState28[1];
 
   var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState30 = _slicedToArray(_useState29, 2),
-      biggerThan60 = _useState30[0],
-      setBiggerThan60 = _useState30[1];
+      newCategorySucces = _useState30[0],
+      setNewCategorySucces = _useState30[1];
 
-  var _useState31 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState31 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState32 = _slicedToArray(_useState31, 2),
-      isEmptyMetaDescription = _useState32[0],
-      setIsEmptyMetaDescription = _useState32[1];
+      biggerThan60 = _useState32[0],
+      setBiggerThan60 = _useState32[1];
 
   var _useState33 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState34 = _slicedToArray(_useState33, 2),
-      isEmptyMetaTitle = _useState34[0],
-      setIsEmptyMetaTitle = _useState34[1];
+      isEmptyMetaDescription = _useState34[0],
+      setIsEmptyMetaDescription = _useState34[1];
 
-  var _useState35 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState35 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState36 = _slicedToArray(_useState35, 2),
-      showCategorySelect = _useState36[0],
-      setShowCategorySelect = _useState36[1];
+      isEmptyMetaTitle = _useState36[0],
+      setIsEmptyMetaTitle = _useState36[1];
 
   var _useState37 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState38 = _slicedToArray(_useState37, 2),
-      showModalConfirm = _useState38[0],
-      setShowModalConfirm = _useState38[1];
+      showCategorySelect = _useState38[0],
+      setShowCategorySelect = _useState38[1];
 
   var _useState39 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState40 = _slicedToArray(_useState39, 2),
-      showModalInput = _useState40[0],
-      setShowModalInput = _useState40[1];
+      showModalConfirm = _useState40[0],
+      setShowModalConfirm = _useState40[1];
 
-  var _useState41 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState41 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState42 = _slicedToArray(_useState41, 2),
-      messageModal = _useState42[0],
-      setMessageModal = _useState42[1];
+      showModalInput = _useState42[0],
+      setShowModalInput = _useState42[1];
 
   var _useState43 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState44 = _slicedToArray(_useState43, 2),
-      sender = _useState44[0],
-      setSender = _useState44[1]; // for modal
+      messageModal = _useState44[0],
+      setMessageModal = _useState44[1];
 
-
-  var _useState45 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
+  var _useState45 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState46 = _slicedToArray(_useState45, 2),
-      tmp_parameter = _useState46[0],
-      setTmp_parameter = _useState46[1]; // pour stocker provisoirement une variable
+      sender = _useState46[0],
+      setSender = _useState46[1]; // for modal
 
 
-  var _useState47 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState47 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
       _useState48 = _slicedToArray(_useState47, 2),
-      newCategoryNameUseInMessage = _useState48[0],
-      setNewCategoryNameUseInMessage = _useState48[1]; // pour stocker le nom de la catégorie qui doit être afficher dans le message de confirmation de la creation de la catégorie
+      tmp_parameter = _useState48[0],
+      setTmp_parameter = _useState48[1]; // pour stocker provisoirement une variable
 
 
   var _useState49 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState50 = _slicedToArray(_useState49, 2),
-      inputTextModify = _useState50[0],
-      setInputTextModify = _useState50[1];
+      newCategoryNameUseInMessage = _useState50[0],
+      setNewCategoryNameUseInMessage = _useState50[1]; // pour stocker le nom de la catégorie qui doit être afficher dans le message de confirmation de la creation de la catégorie
 
-  var _useState51 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
+
+  var _useState51 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState52 = _slicedToArray(_useState51, 2),
-      textButtonConfirm = _useState52[0],
-      setTextButtonConfirm = _useState52[1];
+      inputTextModify = _useState52[0],
+      setInputTextModify = _useState52[1];
 
-  var _useState53 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState53 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
       _useState54 = _slicedToArray(_useState53, 2),
-      imageConfirm = _useState54[0],
-      setImageConfirm = _useState54[1];
+      textButtonConfirm = _useState54[0],
+      setTextButtonConfirm = _useState54[1];
 
-  var _useState55 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState55 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState56 = _slicedToArray(_useState55, 2),
-      isDirty = _useState56[0],
-      setIsDirty = _useState56[1];
+      imageConfirm = _useState56[0],
+      setImageConfirm = _useState56[1];
+
+  var _useState57 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState58 = _slicedToArray(_useState57, 2),
+      isDirty = _useState58[0],
+      setIsDirty = _useState58[1];
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_8__["default"]),
       darkMode = _useContext.darkMode,
@@ -22689,19 +22690,18 @@ var CreateCollection = function CreateCollection() {
       console.log('error:   ' + error);
     }); // configurationcurrent date & time
 
-    var now = new Date(); // var year = now.getFullYear();
-    // var month = now.getMonth() + 1;
-    // var day = now.getDate();
-    // var hour = now.getHours();
+    var now = new Date();
+    var year = now.getFullYear();
+    var month = now.getMonth() + 1;
+    var day = now.getDate(); // var hour = now.getHours();
     // var minute = now.getMinutes(0);
-    // var localDatetime = year + "-" +
-    //     (month < 10 ? "0" + month.toString() : month) + "-" +
-    //     (day < 10 ? "0" + day.toString() : day) + "T" +
-    //     (hour < 10 ? "0" + hour.toString() : hour) + ":" +
+
+    var localDatetime = year + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + (day < 10 ? "0" + day.toString() : day); //     (hour < 10 ? "0" + hour.toString() : hour) + ":" +
     //     (minute < 30 ? "00" : "30");
     // (minute < 10 ? "0" + minute.toString() : minute);
 
-    setDateField(getActivationDate(now)); // check if form is dirty
+    setDateField(localDatetime); // setDateField(getActivationDate(now));
+    // check if form is dirty
 
     var conditonDirty = false;
     conditions.forEach(function (condition) {
@@ -22724,8 +22724,13 @@ var CreateCollection = function CreateCollection() {
     var now = activationDate;
     var year = now.getFullYear();
     var month = now.getMonth() + 1;
-    var day = now.getDate();
-    var localDatetime = year + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + (day < 10 ? "0" + day.toString() : day);
+    var day = now.getDate(); // var hour = now.getHours();
+    // var minute = now.getMinutes(0);
+
+    var localDatetime = year + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + (day < 10 ? "0" + day.toString() : day); //     (hour < 10 ? "0" + hour.toString() : hour) + ":" +
+    //     (minute < 30 ? "00" : "30");
+    // (minute < 10 ? "0" + minute.toString() : minute);
+
     return localDatetime;
   }; // CONDITIONS---------------------------------------------------------------
 
@@ -22814,8 +22819,8 @@ var CreateCollection = function CreateCollection() {
   }; // date à laquelle la collection est activée
 
 
-  var handleDateChange = function handleDateChange(e) {
-    setDateField(getActivationDate(new Date(e.target.value)));
+  var handleDateChange = function handleDateChange(e) {// setDateField(getActivationDate(new Date(e.target.value)));
+    // setDateField(e.target.value);
   };
 
   console.log(dateField); // heure à laquelle la collection est activée
@@ -23662,104 +23667,23 @@ var CreateCollection = function CreateCollection() {
           className: "div-label-inputTxt",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("h2", {
             children: "Activation"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("div", {
             className: "sub-div-horiz-align",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
               className: "sub-div-vert-align",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
                 children: "Date"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("input", {
                 id: "activationDate",
-                type: "date" // type="datetime-local"
+                type: "date" // onKeyDown={(e) => e.preventDefault()}
+                // type="datetime-local"
                 ,
-                value: dateField,
+                defaultValue: dateField,
                 min: dateField,
-                onChange: handleDateChange
+                max: "9999-12-31" // onChange={handleDateChange} 
+
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("div", {
-              className: "sub-div-vert-align",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
-                children: "Heure"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsxs)("select", {
-                name: "from",
-                id: "from",
-                value: hourField,
-                onChange: handleHourChange,
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
-                  value: "0",
-                  children: "0"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
-                  value: "1",
-                  children: "1"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
-                  value: "2",
-                  children: "2"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
-                  value: "3",
-                  children: "3"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
-                  value: "4",
-                  children: "4"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
-                  value: "5",
-                  children: "5"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
-                  value: "6",
-                  children: "6"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
-                  value: "7",
-                  children: "7"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
-                  value: "8",
-                  children: "8"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
-                  value: "9",
-                  children: "9"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
-                  value: "10",
-                  children: "10"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
-                  value: "11",
-                  children: "11"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
-                  value: "12",
-                  children: "12"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
-                  value: "13",
-                  children: "13"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
-                  value: "14",
-                  children: "14"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
-                  value: "15",
-                  children: "15"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
-                  value: "16",
-                  children: "16"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
-                  value: "17",
-                  children: "17"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
-                  value: "18",
-                  children: "18"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
-                  value: "19",
-                  children: "19"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
-                  value: "20",
-                  children: "20"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
-                  value: "21",
-                  children: "21"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
-                  value: "22",
-                  children: "22"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("option", {
-                  value: "23",
-                  children: "23"
-                })]
-              })]
-            })]
+            })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("p", {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_10__.jsx)("a", {
               href: "#",

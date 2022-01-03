@@ -9,8 +9,6 @@ import ModalInput from '../modal/modalInput';
 import AppContext from '../contexts/AppContext';
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
-
-
 const CreateCollection = () => {
     // form-------------------------------------------------------------------
     const [conditions, setConditions] = useLocalStorage("conditions", [{
@@ -32,7 +30,8 @@ const CreateCollection = () => {
     const [apercuMetaTitle2, setApercuMetaTitle2] = useState('');
     const [apercuMetaDescription, setApercuMetaDescription] = useState('');
     const [apercuMetaUrl, setApercuMetaUrl] = useState(window.location.origin);
-    const [dateField, setDateField] = useLocalStorage("dateActivation", Date.now());
+    // const [dateField, setDateField] = useLocalStorage("dateActivation", Date.now());
+    const [dateField, setDateField] = useState(Date.now());
     const [hourField, setHourField] = useState(0);
     //--------------------------------------------------------------------Form
 
@@ -74,18 +73,19 @@ const CreateCollection = () => {
 
         // configurationcurrent date & time
         var now = new Date();
-        // var year = now.getFullYear();
-        // var month = now.getMonth() + 1;
-        // var day = now.getDate();
+        var year = now.getFullYear();
+        var month = now.getMonth() + 1;
+        var day = now.getDate();
         // var hour = now.getHours();
         // var minute = now.getMinutes(0);
-        // var localDatetime = year + "-" +
-        //     (month < 10 ? "0" + month.toString() : month) + "-" +
-        //     (day < 10 ? "0" + day.toString() : day) + "T" +
+        var localDatetime = year + "-" +
+            (month < 10 ? "0" + month.toString() : month) + "-" +
+            (day < 10 ? "0" + day.toString() : day);
         //     (hour < 10 ? "0" + hour.toString() : hour) + ":" +
         //     (minute < 30 ? "00" : "30");
         // (minute < 10 ? "0" + minute.toString() : minute);
-        setDateField(getActivationDate(now));
+        setDateField(localDatetime);
+        // setDateField(getActivationDate(now));
 
 
         // check if form is dirty
@@ -123,13 +123,18 @@ const CreateCollection = () => {
         var year = now.getFullYear();
         var month = now.getMonth() + 1;
         var day = now.getDate();
+        // var hour = now.getHours();
+        // var minute = now.getMinutes(0);
         var localDatetime = year + "-" +
             (month < 10 ? "0" + month.toString() : month) + "-" +
             (day < 10 ? "0" + day.toString() : day);
+        //     (hour < 10 ? "0" + hour.toString() : hour) + ":" +
+        //     (minute < 30 ? "00" : "30");
+        // (minute < 10 ? "0" + minute.toString() : minute);
 
         return localDatetime;
-    }    
-    
+    }
+
 
     // CONDITIONS---------------------------------------------------------------
     const addCondition = () => {
@@ -206,8 +211,9 @@ const CreateCollection = () => {
 
     // date à laquelle la collection est activée
     const handleDateChange = (e) => {
-        setDateField(getActivationDate(new Date(e.target.value)));
-    };    
+        // setDateField(getActivationDate(new Date(e.target.value)));
+        // setDateField(e.target.value);
+    };
     console.log(dateField)
     // heure à laquelle la collection est activée
     const handleHourChange = (e) => {
@@ -969,20 +975,23 @@ const CreateCollection = () => {
                     <div className="div-label-inputTxt">
                         <h2>Activation</h2>
                         <div className='sub-div-horiz-align'>
-                            <div className='sub-div-vert-align'> 
+                            <div className='sub-div-vert-align'>
                                 <p>Date</p>
                                 <input id="activationDate"
                                     type="date"
+                                    // onKeyDown={(e) => e.preventDefault()}
                                     // type="datetime-local"
-                                    value={dateField}
+                                    defaultValue={dateField}
                                     min={dateField}
-                                    onChange={handleDateChange} />
+                                    max='9999-12-31'
+                                // onChange={handleDateChange} 
+                                />
                             </div>
-                            <div className='sub-div-vert-align'>
+                            {/* <div className='sub-div-vert-align'>
                                 <p>Heure</p>
-                                <select name="from" id="from" 
-                                value={hourField}
-                                onChange={handleHourChange}>
+                                <select name="from" id="from"
+                                    value={hourField}
+                                >
                                     <option value="0">0</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -1008,7 +1017,7 @@ const CreateCollection = () => {
                                     <option value="22">22</option>
                                     <option value="23">23</option>
                                 </select>
-                            </div>
+                            </div> */}
                         </div>
                         <p><a href='#'>Plus d'informations sur l'activation des collections.</a></p>
                     </div>
