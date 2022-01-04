@@ -140,7 +140,7 @@
   position: relative;
   top: -10px;
   background-color: white;
-  border: #d10000 solid 3px;
+  border: #d10000 solid 2px;
   color: #dd0000;
   border-radius: 25px;
   font-size: 17px;
@@ -149,7 +149,7 @@
 .btn-effacer-tout:hover {
   cursor: pointer;
   background-color: white;
-  border: #d10000 solid 3px;
+  border: #d10000 solid 2px;
   color: #dd0000;
   border-radius: 25px;
   box-shadow: 1px 1px 3px rgba(88, 88, 88, 0.6);

@@ -45,7 +45,6 @@ const useStyles = makeStyles({
 
         '&:hover': {
             cursor: 'pointer',
-            fontWeight: 'bold',
         },
     }
 });
