@@ -5,17 +5,15 @@ import Axios from 'axios';
 
 const useStyles = makeStyles({
     wrapperForm: {
-        marginTop: '20px',
-        marginBottom: '20px',
         width: '100%',
-        overflow: 'auto',
-        padding: '10px',
+        overflow: 'hidden',
         border: '#DCDCDB dashed 5px',
         borderRadius: '5px',
         height: 'auto',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
+        alignItems: 'center',
         flexWrap: 'nowrap',
         backgroundColor: '#fff',
 
@@ -31,10 +29,19 @@ const useStyles = makeStyles({
         boxShadow: '0 0 35px rgba(0, 0, 0, 0.05)',
         width: '100%',
         minHeight: '200px',
-        padding: '20px',
+        maxHeight: '200px',
+        height: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
         textAlign: 'center',
         cursor: 'pointer',
         transition: '0.3s',
+    },
+    drop_message: {
+        marginTop: '25px',
+        marginBottom: 'auto',
     },
     removeImage: {
         marginTop: '0',
@@ -61,8 +68,8 @@ const DropZone = (props) => {
     var tab = [];
 
     useEffect(() => {
-        dropRegion = document.getElementById("drop-region");
-        imagePreviewRegion = document.getElementById("image-preview");
+        dropRegion = document.getElementById("drop-region-dropZone");
+        imagePreviewRegion = document.getElementById("image-preview-dropZone");
 
 
         // open file selector when clicked on the drop region
@@ -95,7 +102,7 @@ const DropZone = (props) => {
         // change the message if doesn't support drag & drop
         var dragSupported = detectDragDrop();
         if (!dragSupported) {
-            document.getElementsByClassName("drop-message")[0].innerHTML = 'Click to upload';
+            document.getElementById("drop-message-dropZone").innerHTML = 'Click to upload';
         }
 
         dropRegion.addEventListener('dragenter', highlight, false);
@@ -219,40 +226,49 @@ const DropZone = (props) => {
     function previewImage(image) {
 
         // retire l'image de fond
-        document.getElementById('drop-region').style.background = 'none';
-        document.getElementById('drop-region').style.backgroundColor = '#FFFFFF';
+        document.getElementById('drop-region-dropZone').style.background = 'none';
+        document.getElementById('drop-region-dropZone').style.backgroundColor = '#FFFFFF';
 
-        let checkImgViewExist = document.getElementsByClassName('image-view');
+        let checkImgViewExist = document.getElementsByClassName('image-view-dropZone');
         // if multiple == true or is first preview
         if (props.multiple === true || (props.multiple === false && checkImgViewExist.length == 0)) {
             // container
             var imgView = document.createElement("div");
-            imgView.className = "image-view";
+            imgView.className = "image-view-dropZone";
             imagePreviewRegion.appendChild(imgView);
 
             // previewing image
             var img = document.createElement("img");
-            img.className = 'imagesPreview';
+            img.className = 'imagesPreview-dropZone';
             imgView.appendChild(img);
 
-            // progress overlay
-            // var overlay = document.createElement("div");
-            // overlay.className = "overlay";
-            // imgView.appendChild(overlay);
         }
 
         // if multiple == false
         if (props.multiple === false) {
             // container
-            var imgView = document.getElementsByClassName('image-view')[0];
+            var imgView = document.getElementsByClassName('image-view-dropZone')[0];
 
             // previewing image
-            var img = document.getElementsByClassName('imagesPreview')[0];
+            var img = document.getElementsByClassName('imagesPreview-dropZone')[0];
             imgView.appendChild(img);
 
-            // // progress overlay
-            // var overlay = document.getElementsByClassName('overlay')[0];
-            // imgView.appendChild(overlay);
+
+            document.getElementById("drop-message-dropZone").style.display = 'none';
+        }
+
+        // cadrage de l'image
+        img.onload = () => {
+            var width = img.clientWidth;
+            var height = img.clientHeight;
+            img.style.margin = '0';
+            if (width > height) {
+                img.style.width = '100%';
+                img.style.maxWidth = '270px';
+            } else {
+                img.style.height = '100%';
+                img.style.maxHeight = '200px';
+            }
         }
 
         // read the image...
@@ -261,10 +277,11 @@ const DropZone = (props) => {
             img.src = e.target.result;
         }
         reader.readAsDataURL(image);
+
     }
 
     function removeImagePreview() {
-        var imagesToRemove = document.getElementsByClassName('image-view') && document.getElementsByClassName('image-view');
+        var imagesToRemove = document.getElementsByClassName('image-view-dropZone') && document.getElementsByClassName('image-view-dropZone');
 
         if (imagesToRemove.length > 0) {
             for (let i = 0; i < imagesToRemove.length; i++) {
@@ -274,17 +291,19 @@ const DropZone = (props) => {
             props.setImage([]);
 
             // remet l'image de fond
-            document.getElementById('drop-region').style.backgroundColor = 'none';
-            document.getElementById('drop-region').style.background = 'no-repeat url("../images/icons/backgroundDropZone.png")';
-            document.getElementById('drop-region').style.backgroundPosition = 'center 90%';
+            document.getElementById('drop-region-dropZone').style.backgroundColor = 'none';
+            document.getElementById('drop-region-dropZone').style.background = 'no-repeat url("../images/icons/backgroundDropZone.png")';
+            document.getElementById('drop-region-dropZone').style.backgroundPosition = 'center 90%';
+
+            document.getElementById("drop-message-dropZone").style.display = 'block';
 
             // supprime l'image temporaire dans la db et dans le dossier temporire
             var formData = new FormData;
-            formData.append('key', 'tmp_imageCollection'); 
+            formData.append('key', 'tmp_imageCollection');
             Axios.post(`http://127.0.0.1:8000/deleteTemporayStoredImages`, formData)
-            .then(res => {
-                console.log('res.data  --->  ok');
-            });
+                .then(res => {
+                    console.log('res.data  --->  ok');
+                });
         }
     }
 
@@ -298,11 +317,11 @@ const DropZone = (props) => {
     return (
         <>
             <div className={classes.wrapperForm}>
-                <div id="drop-region" className={classes.drop_region}>
-                    <div className="drop-message">
+                <div id="drop-region-dropZone" className={classes.drop_region}>
+                    <div className={classes.drop_message} id='drop-message-dropZone'>
                         Déposez ici une image <br></br>ou cliquez pour charger une image
                     </div>
-                    <div id="image-preview"></div>
+                    <div id="image-preview-dropZone"></div>
                 </div>
             </div>
             <span className={classes.removeImage} onClick={removeImagePreview}>Supprimer l'image</span>

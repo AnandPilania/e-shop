@@ -32,6 +32,7 @@ const Navbar = () => {
           <Link className="link" to="/addProduct">Ajouter un produit</Link>
           <Link className="link" to="/editProduct/1">Modifier un produit</Link>
           <Link className="link" to="/collections-list">Collections</Link>
+          <Link className="link" to="/modalCrop">Modal Croppe</Link>
         </div>
       </div>
 

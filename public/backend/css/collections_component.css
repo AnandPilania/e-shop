@@ -51,6 +51,9 @@
   border-radius: 5px;
   border: solid 1px gainsboro;
 }
+.div-vert-align select.flatpickr-monthDropdown-month:hover {
+  background-color: #005ac5 !important;
+}
 .div-vert-align select:hover {
   cursor: pointer;
 }

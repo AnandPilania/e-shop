@@ -43,6 +43,7 @@
         "@mui/styles": "^5.2.1",
         "ckeditor5-custom-build": "file:ckeditor5",
         "material-ui": "^0.15.0",
+        "react-cropper": "^2.1.8",
         "react-datetime-picker": "^3.4.3",
         "react-dropzone": "^11.4.2",
         "react-flatpickr": "^3.10.7",

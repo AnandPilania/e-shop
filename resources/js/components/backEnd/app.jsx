@@ -9,6 +9,7 @@ import ListCollections from '../collections/list';
 import CreateCollection from '../collections/create';
 import AppContext from '../contexts/AppContext';
 import ModalApp from '../modal/modalApp';
+import ModalCroppeImage from '../modal/modalCroppeImage';
 
 
 
@@ -49,6 +50,7 @@ const App = () => {
                         <Route path="/editImagesProduct/:product_id" element={<EditImages />} />
                         <Route path="/collections-list" element={<ListCollections />} />
                         <Route path="/add-collection" element={<CreateCollection />} />
+                        <Route path="/modalCrop" element={<ModalCroppeImage />} />
                         <Route
                             path="*"
                             element={

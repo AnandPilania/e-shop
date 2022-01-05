@@ -9,8 +9,11 @@ import ModalInput from '../modal/modalInput';
 import AppContext from '../contexts/AppContext';
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import "flatpickr/dist/themes/material_blue.css";
-
 import Flatpickr from "react-flatpickr";
+import ModalCroppeImage from '../modal/modalCroppeImage';
+
+
+
 
 const CreateCollection = () => {
     // form-------------------------------------------------------------------
@@ -37,7 +40,7 @@ const CreateCollection = () => {
     //--------------------------------------------------------------------Form
 
     const [isAutoConditions, setIsAutoConditions] = useState(true);
-    const [isShowOptimisation, setIsShowOptimisation] =  useState(true);
+    const [isShowOptimisation, setIsShowOptimisation] = useState(true);
     const [includePrevProduct, setIncludePrevProduct] = useState(true);
     const [categoriesList, setCategoriesList] = useState([]);
     const [allConditionsNeeded, setAllConditionsNeeded] = useState(true);
@@ -50,6 +53,7 @@ const CreateCollection = () => {
     const [isEmptyMetaTitle, setIsEmptyMetaTitle] = useState(true);
     const [showCategorySelect, setShowCategorySelect] = useState(false);
     const [showModalConfirm, setShowModalConfirm] = useState(false);
+    const [showModalCroppeImage, setShowModalCroppeImage] = useState(false);
     const [showModalInput, setShowModalInput] = useState(false);
     const [messageModal, setMessageModal] = useState('');
     const [sender, setSender] = useState(''); // for modal
@@ -84,6 +88,14 @@ const CreateCollection = () => {
             }
         }
 
+        // détermine si on montre le block conditions
+        if (localStorage.getItem('isAutoConditions')) {
+            if (localStorage.getItem('isAutoConditions') == 'false') {
+                setIsAutoConditions(false);
+            } else {
+                setIsAutoConditions(true);
+            }
+        }
 
         // check if form is dirty
         var conditonDirty = false;
@@ -119,7 +131,7 @@ const CreateCollection = () => {
     console.log('isShowOptimisation  ' + isShowOptimisation);
 
 
-    // récupère et format la date et l'heure de maintenant
+    // récupère et formatte la date et l'heure de maintenant
     const getNow = () => {
         var now = new Date();
         var year = now.getFullYear();
@@ -188,8 +200,10 @@ const CreateCollection = () => {
     // show / hide conditions
     const showHideConditions = (auto) => {
         if (auto) {
+            localStorage.setItem('isAutoConditions', true);
             setIsAutoConditions(true);
         } else {
+            localStorage.setItem('isAutoConditions', false);
             setIsAutoConditions(false);
         }
     };
@@ -565,6 +579,17 @@ const CreateCollection = () => {
         setShowModalInput(false);
     };
 
+
+    //ModalCropImage------------------------------------------------------------
+    const handleModalCroppeImage = () => {
+        setShowModalCroppeImage(true);
+    };
+
+    const handleModalCroppeImageCancel = () => {
+        setShowModalCroppeImage(false);
+    };
+    //------------------------------------------------------------ModalCropImage
+
     //--------------------------------------------------------------ModalConfirm
 
     // Reset Form---------------------------------------------------------------
@@ -870,7 +895,7 @@ const CreateCollection = () => {
                         <h2>Image</h2>
                         <p>Ajouter une image pour cette collection. (*optionnel)</p>
                         <DropZone multiple={false} setImage={setImage} />
-                        <p><a href="#">Comment bien choisir son image ?</a></p>
+                        <p><a href="#" onClick={handleModalCroppeImage}>Recadrer l'image</a></p>
                     </div>
 
                     {/* Référencement */}
@@ -974,12 +999,18 @@ const CreateCollection = () => {
                                     id="activationDate"
                                     data-enable-time
                                     placeholder={dateField}
+                                    position="auto center"
                                     options={{
                                         minDate: 'today',
                                         altInput: false,
+                                        disableMobile: "true",
                                         locale: {
                                             weekdays: {
                                                 shorthand: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"]
+                                            },
+                                            months: {
+                                                shorthand: ["Jan", "Fév", "Mars", "Avr", "Mai", "Juin", "Juil", "Aout", "Sep", "Oct", "Nov", "Déc"],
+                                                longhand: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"]
                                             },
                                             firstDayOfWeek: 0,
                                         },
@@ -993,12 +1024,10 @@ const CreateCollection = () => {
                                         let month = selectedDates[0].getMonth() + 1;
                                         let year = selectedDates[0].getFullYear();
                                         let hour = selectedDates[0].getHours();
-
                                         let dateActivation =
                                             (day < 10 ? "0" + day.toString() : day) + "-" +
                                             (month < 10 ? "0" + month.toString() : month) + "-" + year + "  " +
                                             (hour < 10 ? "0" + hour.toString() : hour);
-
                                         setDateField(dateActivation);
                                         localStorage.setItem("dateActivation", dateActivation);
                                     }}
@@ -1030,8 +1059,19 @@ const CreateCollection = () => {
                     <h2 className="childrenModal">{messageModal}</h2>
                 </ModalInput>
 
+                {/* crop image */}
+                <ModalCroppeImage
+                    show={showModalCroppeImage} // true/false show modal
+                    handleModalApp={handleModalCroppeImage}
+                    handleModalAppCancel={handleModalCroppeImageCancel}
+                    textButtonModalApp='text1'
+                    textButtonModalApp2='text2'
+                    image={'../images/icons/changeCategory.png'}
+                    followThisLink='myLink'>
+                    <h2 className="childrenModal">{messageModal}</h2>
+                </ModalCroppeImage>
             </div>
-        </div >
+        </div>
     );
 }
 

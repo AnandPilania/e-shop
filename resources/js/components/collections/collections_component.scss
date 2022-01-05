@@ -59,6 +59,10 @@
         border: solid 1px rgb(220, 220, 220);
     }
 
+    select.flatpickr-monthDropdown-month:hover {
+        background-color: #005ac5 !important;
+    }
+
     select:hover {
         cursor: pointer;
     }
