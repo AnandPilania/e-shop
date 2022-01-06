@@ -1,4 +1,5 @@
 import { React, useState, useEffect, useContext } from 'react';
+import { useNavigate } from "react-router-dom";
 import ConditionCollection from './conditionCollection';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -10,12 +11,12 @@ import AppContext from '../contexts/AppContext';
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import "flatpickr/dist/themes/material_blue.css";
 import Flatpickr from "react-flatpickr";
-import ModalCroppeImage from '../modal/modalCroppeImage';
 
 
 
 
 const CreateCollection = () => {
+    var navigate = useNavigate();
     // form-------------------------------------------------------------------
     const [conditions, setConditions] = useLocalStorage("conditions", [{
         id: 0,
@@ -63,7 +64,7 @@ const CreateCollection = () => {
     const [textButtonConfirm, setTextButtonConfirm] = useState('Confirmer');
     const [imageConfirm, setImageConfirm] = useState('');
     const [isDirty, setIsDirty] = useState(false);
-
+ 
     const { darkMode, setDarkMode } = useContext(AppContext);
 
     useEffect(() => {
@@ -578,18 +579,6 @@ const CreateCollection = () => {
         setShowModalConfirm(false);
         setShowModalInput(false);
     };
-
-
-    //ModalCropImage------------------------------------------------------------
-    const handleModalCroppeImage = () => {
-        setShowModalCroppeImage(true);
-    };
-
-    const handleModalCroppeImageCancel = () => {
-        setShowModalCroppeImage(false);
-    };
-    //------------------------------------------------------------ModalCropImage
-
     //--------------------------------------------------------------ModalConfirm
 
     // Reset Form---------------------------------------------------------------
@@ -895,7 +884,7 @@ const CreateCollection = () => {
                         <h2>Image</h2>
                         <p>Ajouter une image pour cette collection. (*optionnel)</p>
                         <DropZone multiple={false} setImage={setImage} />
-                        <p><a href="#" onClick={handleModalCroppeImage}>Recadrer l'image</a></p>
+                        <p><a href="#" onClick={() => navigate("/cropImage")}>Recadrer l'image</a></p>
                     </div>
 
                     {/* Référencement */}
@@ -1060,16 +1049,15 @@ const CreateCollection = () => {
                 </ModalInput>
 
                 {/* crop image */}
-                <ModalCroppeImage
+                {/* <ModalCroppeImage
                     show={showModalCroppeImage} // true/false show modal
-                    handleModalApp={handleModalCroppeImage}
-                    handleModalAppCancel={handleModalCroppeImageCancel}
-                    textButtonModalApp='text1'
-                    textButtonModalApp2='text2'
-                    image={'../images/icons/changeCategory.png'}
+                    handleModalCroppeImageCancel={handleModalCroppeImageCancel}
+                    textButtonModalcrop='text1'
+                    textButtonModalcrop2='text2'
+                    imagePath={imagePath}
                     followThisLink='myLink'>
                     <h2 className="childrenModal">{messageModal}</h2>
-                </ModalCroppeImage>
+                </ModalCroppeImage> */}
             </div>
         </div>
     );

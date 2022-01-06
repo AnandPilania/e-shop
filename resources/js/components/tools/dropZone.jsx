@@ -1,7 +1,7 @@
-import { React, useEffect } from 'react';
+import { React, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Axios from 'axios';
-
+import AppContext from '../contexts/AppContext';
 
 const useStyles = makeStyles({
     wrapperForm: {
@@ -62,6 +62,7 @@ const useStyles = makeStyles({
 
 const DropZone = (props) => {
     const classes = useStyles();
+    const { imagePath, setImagePath } = useContext(AppContext);
 
     var dropRegion = null;
     var imagePreviewRegion = null;
@@ -115,6 +116,9 @@ const DropZone = (props) => {
             Axios.get(`http://127.0.0.1:8000/getTemporaryImage`)
                 .then(res => {
                     if (res.data) {
+                        // get image path for crop
+                        setImagePath('../' + res.data);
+                        // get image for preview
                         fetch('../' + res.data)
                             .then(function (response) {
                                 return response.blob();

@@ -9,7 +9,7 @@ import ListCollections from '../collections/list';
 import CreateCollection from '../collections/create';
 import AppContext from '../contexts/AppContext';
 import ModalApp from '../modal/modalApp';
-import ModalCroppeImage from '../modal/modalCroppeImage';
+import CroppeImage from '../croppeJs/croppeJs';
 
 
 
@@ -21,6 +21,7 @@ const App = () => {
     const [imageModalApp, setImageModalApp] = useState('');
     const [messageModalApp, setMessageModalApp] = useState('');
     const [followThisLink, setFollowThisLink] = useState(null);
+    const [imagePath, setImagePath] = useState('');
     const [darkMode, setDarkMode] = useState(false);
 
 
@@ -34,6 +35,7 @@ const App = () => {
 
 
     const contextValue = {
+        imagePath, setImagePath,
         darkMode, setDarkMode,
     }
 
@@ -50,7 +52,7 @@ const App = () => {
                         <Route path="/editImagesProduct/:product_id" element={<EditImages />} />
                         <Route path="/collections-list" element={<ListCollections />} />
                         <Route path="/add-collection" element={<CreateCollection />} />
-                        <Route path="/modalCrop" element={<ModalCroppeImage />} />
+                        <Route path="/cropImage" element={<CroppeImage />} />
                         <Route
                             path="*"
                             element={
