@@ -1,18 +1,18 @@
 import React, { useState, useContext } from "react";
 import Cropper from "react-cropper";
-// import "./Demo.css";
 import "cropperjs/dist/cropper.css";
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from '@material-ui/styles';
 import AppContext from '../contexts/AppContext';
-
+import Axios from 'axios';
 
 const useStyles = makeStyles({
     modalMain: {
         position: 'fixed',
         background: 'white',
-        width: '50%',
+        width: '80%',
         height: 'auto',
+        maxHeight: '80vh',
         minWidth: '300px',
         padding: '50px',
         top: '50%',
@@ -24,24 +24,6 @@ const useStyles = makeStyles({
         alignItems: 'center',
         borderRadius: '5px',
         zindex: '20',
-    },
-    box: {
-        width: '50%',
-        // maxHeight: '250px',
-        boxSizing: 'border-box',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        overflow: 'hidden',
-        border: 'dashed 3px yellow',
-    },
-    BlockButtons: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        // marginTop: '30px',
-        backgroundColor: 'blue',
     },
     btnModal: {
         width: '150px',
@@ -87,19 +69,34 @@ const useStyles = makeStyles({
 });
 
 
-
-
 const CroppeImage = () => {
-    const { imagePath, setImagePath } = useContext(AppContext);
+    const { setImage, imagePath, followThisLink } = useContext(AppContext);
     const classes = useStyles();
     var navigate = useNavigate();
-
-    const [cropData, setCropData] = useState("#");
     const [cropper, setCropper] = useState();
 
     const getCropData = () => {
         if (typeof cropper !== "undefined") {
-            setCropData(cropper.getCroppedCanvas().toDataURL());
+            const imgurl = cropper.getCroppedCanvas().toDataURL();
+            const imgBlob = cropper.getCroppedCanvas().toBlob((blob) => {
+
+                var imgData = new FormData;
+                imgData.append('key', 'tmp_imageCollection');
+                imgData.append('value[]', blob);
+
+                Axios.post(`http://127.0.0.1:8000/temporaryStoreImages`, imgData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    })
+                    .then(res => {
+                        console.log('image has been changed');
+                    });
+
+                setImage(blob);
+                navigate(followThisLink);
+            });
         }
     };
 
@@ -109,7 +106,7 @@ const CroppeImage = () => {
                 <Cropper
                     style={{ height: 400, width: "100%", border: "dashed 2px yellow" }}
                     zoomTo={0}
-                    initialAspectRatio={1 / 1}
+                    // initialAspectRatio={1 / 1}
                     // preview=".img-preview"
                     src={imagePath}
                     viewMode={1}
@@ -123,17 +120,12 @@ const CroppeImage = () => {
                         setCropper(instance);
                     }}
                     guides={true}
+
                 />
-                <div>
-                    <div className={classes.box}>
-                        <img style={{ width: "100%" }} src={cropData} alt="cropped" />
-                    </div>
-                </div>
                 <button
                     className={classes.btnModal}
                     onClick={() => {
                         getCropData();
-                        // navigate(followThisLink);
                     }}>
                     Recadrer
                 </button>

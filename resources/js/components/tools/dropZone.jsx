@@ -57,12 +57,9 @@ const useStyles = makeStyles({
 });
 
 
-
-
-
 const DropZone = (props) => {
     const classes = useStyles();
-    const { imagePath, setImagePath } = useContext(AppContext);
+    const { image, setImage, setImagePath } = useContext(AppContext);
 
     var dropRegion = null;
     var imagePreviewRegion = null;
@@ -111,6 +108,9 @@ const DropZone = (props) => {
         dropRegion.addEventListener('dragleave', unhighlight, false);
         dropRegion.addEventListener('drop', unhighlight, false);
 
+    }, []);
+
+    useEffect(() => {
         // get dirty page image from temporary_storages db if exist
         try {
             Axios.get(`http://127.0.0.1:8000/getTemporaryImage`)
@@ -131,9 +131,8 @@ const DropZone = (props) => {
         } catch (error) {
             console.error('error  ' + error);
         }
+    }, [image]);
 
-
-    }, []);
 
     function highlight() {
         dropRegion.classList.add('highlighted');
@@ -201,7 +200,7 @@ const DropZone = (props) => {
         }
         for (var i = 0; i < files.length; i++) {
             if (validateImage(files[i])) {
-                props.setImage(tab);
+                setImage(tab);
                 previewImage(files[i]);
             }
         }
@@ -292,7 +291,7 @@ const DropZone = (props) => {
                 imagesToRemove[i].remove();
             }
 
-            props.setImage([]);
+            setImage([]);
 
             // remet l'image de fond
             document.getElementById('drop-region-dropZone').style.backgroundColor = 'none';
@@ -301,7 +300,7 @@ const DropZone = (props) => {
 
             document.getElementById("drop-message-dropZone").style.display = 'block';
 
-            // supprime l'image temporaire dans la db et dans le dossier temporire
+            // supprime l'image temporaire dans la db et dans le dossier temporaire
             var formData = new FormData;
             formData.append('key', 'tmp_imageCollection');
             Axios.post(`http://127.0.0.1:8000/deleteTemporayStoredImages`, formData)

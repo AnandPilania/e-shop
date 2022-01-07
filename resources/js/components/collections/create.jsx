@@ -32,7 +32,6 @@ const CreateCollection = () => {
     const [alt, setAlt] = useLocalStorage("altCollection", "");
     const [categoryName, setCategoryName] = useLocalStorage('categoryName', 'Aucune catégorie');
     const [categoryId, setCategoryId] = useLocalStorage("categoryId", "");
-    const [image, setImage] = useLocalStorage("image", []);
     const [apercuMetaTitle, setApercuMetaTitle] = useState('');
     const [apercuMetaTitle2, setApercuMetaTitle2] = useState('');
     const [apercuMetaDescription, setApercuMetaDescription] = useState('');
@@ -64,8 +63,8 @@ const CreateCollection = () => {
     const [textButtonConfirm, setTextButtonConfirm] = useState('Confirmer');
     const [imageConfirm, setImageConfirm] = useState('');
     const [isDirty, setIsDirty] = useState(false);
- 
-    const { darkMode, setDarkMode } = useContext(AppContext);
+
+    const { image, setImage, followThisLink, setFollowThisLink, darkMode, setDarkMode } = useContext(AppContext);
 
     useEffect(() => {
         // chargement des collections
@@ -121,15 +120,16 @@ const CreateCollection = () => {
             setIsDirty(true);
         }
 
+        // set le l'URL de cette page
+        let path = window.location.pathname.replace('admin/', '');
+        setFollowThisLink(path);
+
 
         // évite error quand on passe à un autre component
         return <>{categoriesList ? categoriesList : ''}</>
 
     }, []);
 
-
-
-    console.log('isShowOptimisation  ' + isShowOptimisation);
 
 
     // récupère et formatte la date et l'heure de maintenant
@@ -366,7 +366,7 @@ const CreateCollection = () => {
     // save image from dirty page in temporary_storages db
     useEffect(() => {
         var tmp_Data = new FormData;
-        if (image) {
+        if (image.length > 0) {
             tmp_Data.append('key', 'tmp_imageCollection');
             tmp_Data.append('value[]', image[0]);
         };
@@ -377,8 +377,7 @@ const CreateCollection = () => {
                 }
             })
             .then(res => {
-                console.log('res.data  --->  ok');
-
+                console.log('image has been changed');
             });
     }, [image]);
 
@@ -639,12 +638,24 @@ const CreateCollection = () => {
     }
     //----------------------------------------------------------------Reset Form
 
+
+
+    // CE QUI SUIT DOIT ALLER DANS LA FONCTION handleSubmit !!!!!!!!!!!!!!!!!!!!
     var formData = new FormData;
     var objConditions = JSON.stringify(conditions);
 
-    if (image) {
-        formData.append('image[]', image[0]);
-    };
+    // if (image.length > 0) {
+    //     console.log('image  ' + image[0]);
+    //     formData.append('image[]', image[0]);
+    // } else {
+    //     console.log('pas d image ???');
+    // };
+
+    // useEffect(() => {
+
+    //         console.log('image has been changed');
+
+    // }, [image]);
 
     formData.append("name", nameCollection);
     formData.append("description", descriptionCollection);
@@ -875,6 +886,7 @@ const CreateCollection = () => {
                 </div>
             </div>
 
+
             {/* ----------  side  ---------- */}
             <div className='side-create-collection'>
 
@@ -884,7 +896,7 @@ const CreateCollection = () => {
                         <h2>Image</h2>
                         <p>Ajouter une image pour cette collection. (*optionnel)</p>
                         <DropZone multiple={false} setImage={setImage} />
-                        <p><a href="#" onClick={() => navigate("/cropImage")}>Recadrer l'image</a></p>
+                        <p><a href="#" onClick={() => navigate('/cropImage')}>Recadrer l'image</a></p>
                     </div>
 
                     {/* Référencement */}

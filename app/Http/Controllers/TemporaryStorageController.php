@@ -20,6 +20,15 @@ class TemporaryStorageController extends Controller
     // Ajoute des images pour un produit donné
     public function temporaryStoreImages(Request $request)
     {
+        // dd($request);
+        // check and delete record and image if exist
+        $tmp_storage = Temporary_storage::where('key', $request->key)->first();
+        if ($tmp_storage != null) {
+            File::delete(public_path($tmp_storage->value));
+            Temporary_storage::destroy($tmp_storage->id);
+        }
+
+
         if ($request->hasFile('value')) {
             $images = $request->file('value');
             foreach ($images as $image) {
@@ -48,16 +57,17 @@ class TemporaryStorageController extends Controller
                 $tmp_storage->save();
             }
 
-            return 'ok';
+            return 'storred succes';
         }
     }
 
     public function deleteTemporayStoredImages(Request $request)
     {
+
         $tmp_storage = Temporary_storage::where('key', $request->key)->get();
- 
+
         foreach ($tmp_storage as $toDelete) {
-            File::delete($toDelete->value);
+            File::delete(public_path($toDelete->value));
             Temporary_storage::destroy($toDelete->id);
         }
 

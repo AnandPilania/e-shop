@@ -21953,8 +21953,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
 /* harmony import */ var _navBar_navBar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../navBar/navBar */ "./resources/js/components/navBar/navBar.jsx");
 /* harmony import */ var _createProduct_formProduct__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../createProduct/formProduct */ "./resources/js/components/createProduct/formProduct.jsx");
 /* harmony import */ var _createProduct_editProduct__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../createProduct/editProduct */ "./resources/js/components/createProduct/editProduct.jsx");
@@ -21962,10 +21962,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _createProduct_list__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../createProduct/list */ "./resources/js/components/createProduct/list.jsx");
 /* harmony import */ var _collections_list__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../collections/list */ "./resources/js/components/collections/list.jsx");
 /* harmony import */ var _collections_create__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../collections/create */ "./resources/js/components/collections/create.jsx");
-/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
-/* harmony import */ var _modal_modalApp__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../modal/modalApp */ "./resources/js/components/modal/modalApp.jsx");
-/* harmony import */ var _croppeJs_croppeJs__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../croppeJs/croppeJs */ "./resources/js/components/croppeJs/croppeJs.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../hooks/useLocalStorage */ "./resources/js/components/hooks/useLocalStorage.jsx");
+/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
+/* harmony import */ var _modal_modalApp__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../modal/modalApp */ "./resources/js/components/modal/modalApp.jsx");
+/* harmony import */ var _croppeJs_croppeJs__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../croppeJs/croppeJs */ "./resources/js/components/croppeJs/croppeJs.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -21977,6 +21978,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -22029,6 +22031,11 @@ var App = function App() {
       imagePath = _useState14[0],
       setImagePath = _useState14[1];
 
+  var _useLocalStorage = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_8__.useLocalStorage)("image", []),
+      _useLocalStorage2 = _slicedToArray(_useLocalStorage, 2),
+      image = _useLocalStorage2[0],
+      setImage = _useLocalStorage2[1];
+
   var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState16 = _slicedToArray(_useState15, 2),
       darkMode = _useState16[0],
@@ -22043,51 +22050,55 @@ var App = function App() {
   };
 
   var contextValue = {
+    image: image,
+    setImage: setImage,
     imagePath: imagePath,
     setImagePath: setImagePath,
+    followThisLink: followThisLink,
+    setFollowThisLink: setFollowThisLink,
     darkMode: darkMode,
     setDarkMode: setDarkMode
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
     className: "App",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_8__["default"].Provider, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_9__["default"].Provider, {
       value: contextValue,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.BrowserRouter, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.BrowserRouter, {
         basename: "/admin",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_navBar_navBar__WEBPACK_IMPORTED_MODULE_1__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Routes, {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_navBar_navBar__WEBPACK_IMPORTED_MODULE_1__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Routes, {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
             path: "/listProduct",
-            element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_createProduct_list__WEBPACK_IMPORTED_MODULE_5__["default"], {})
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+            element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_createProduct_list__WEBPACK_IMPORTED_MODULE_5__["default"], {})
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
             path: "/addProduct",
-            element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_createProduct_formProduct__WEBPACK_IMPORTED_MODULE_2__["default"], {})
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+            element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_createProduct_formProduct__WEBPACK_IMPORTED_MODULE_2__["default"], {})
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
             path: "/editProduct/:productId",
-            element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_createProduct_editProduct__WEBPACK_IMPORTED_MODULE_3__["default"], {})
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+            element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_createProduct_editProduct__WEBPACK_IMPORTED_MODULE_3__["default"], {})
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
             path: "/editImagesProduct/:product_id",
-            element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_createProduct_edit_images__WEBPACK_IMPORTED_MODULE_4__["default"], {})
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+            element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_createProduct_edit_images__WEBPACK_IMPORTED_MODULE_4__["default"], {})
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
             path: "/collections-list",
-            element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_collections_list__WEBPACK_IMPORTED_MODULE_6__["default"], {})
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+            element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_collections_list__WEBPACK_IMPORTED_MODULE_6__["default"], {})
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
             path: "/add-collection",
-            element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_collections_create__WEBPACK_IMPORTED_MODULE_7__["default"], {})
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+            element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_collections_create__WEBPACK_IMPORTED_MODULE_7__["default"], {})
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
             path: "/cropImage",
-            element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_croppeJs_croppeJs__WEBPACK_IMPORTED_MODULE_10__["default"], {})
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_13__.Route, {
+            element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_croppeJs_croppeJs__WEBPACK_IMPORTED_MODULE_11__["default"], {})
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
             path: "*",
-            element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("main", {
+            element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("main", {
               style: {
                 padding: "1rem"
               },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("p", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("p", {
                 children: "There's nothing here!"
               })
             })
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)(_modal_modalApp__WEBPACK_IMPORTED_MODULE_9__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_modal_modalApp__WEBPACK_IMPORTED_MODULE_10__["default"], {
           show: showModalApp // true/false show modal
           ,
           handleModalApp: handleModalApp,
@@ -22096,7 +22107,7 @@ var App = function App() {
           textButtonModalApp2: textButtonModalApp2,
           image: imageModalApp,
           followThisLink: followThisLink,
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_11__.jsx)("h2", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h2", {
             className: "childrenModal",
             children: messageModalApp
           })
@@ -22530,11 +22541,6 @@ var CreateCollection = function CreateCollection() {
       categoryId = _useLocalStorage18[0],
       setCategoryId = _useLocalStorage18[1];
 
-  var _useLocalStorage19 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_9__.useLocalStorage)("image", []),
-      _useLocalStorage20 = _slicedToArray(_useLocalStorage19, 2),
-      image = _useLocalStorage20[0],
-      setImage = _useLocalStorage20[1];
-
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState2 = _slicedToArray(_useState, 2),
       apercuMetaTitle = _useState2[0],
@@ -22685,6 +22691,10 @@ var CreateCollection = function CreateCollection() {
       setIsDirty = _useState58[1];
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_8__["default"]),
+      image = _useContext.image,
+      setImage = _useContext.setImage,
+      followThisLink = _useContext.followThisLink,
+      setFollowThisLink = _useContext.setFollowThisLink,
       darkMode = _useContext.darkMode,
       setDarkMode = _useContext.setDarkMode;
 
@@ -22725,14 +22735,16 @@ var CreateCollection = function CreateCollection() {
 
     if (nameCollection != '' || descriptionCollection != '' || alt != '' || metaTitle != '' || metaDescription != '' || metaUrl != 'http://127.0.0.1:8000/' || image != '' || categoryName != 'Aucune catégorie' || categoryId != 0 || localStorage.getItem('dateActivation') != null || conditonDirty == true) {
       setIsDirty(true);
-    } // évite error quand on passe à un autre component
+    } // set le l'URL de cette page
 
+
+    var path = window.location.pathname.replace('admin/', '');
+    setFollowThisLink(path); // évite error quand on passe à un autre component
 
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.Fragment, {
       children: categoriesList ? categoriesList : ''
     });
-  }, []);
-  console.log('isShowOptimisation  ' + isShowOptimisation); // récupère et formatte la date et l'heure de maintenant
+  }, []); // récupère et formatte la date et l'heure de maintenant
 
   var getNow = function getNow() {
     var now = new Date();
@@ -22968,7 +22980,7 @@ var CreateCollection = function CreateCollection() {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var tmp_Data = new FormData();
 
-    if (image) {
+    if (image.length > 0) {
       tmp_Data.append('key', 'tmp_imageCollection');
       tmp_Data.append('value[]', image[0]);
     }
@@ -22979,7 +22991,7 @@ var CreateCollection = function CreateCollection() {
         'Content-Type': 'multipart/form-data'
       }
     }).then(function (res) {
-      console.log('res.data  --->  ok');
+      console.log('image has been changed');
     });
   }, [image]);
 
@@ -23231,16 +23243,20 @@ var CreateCollection = function CreateCollection() {
     localStorage.removeItem('conditions');
     localStorage.removeItem('dateActivation');
   }; //----------------------------------------------------------------Reset Form
+  // CE QUI SUIT DOIT ALLER DANS LA FONCTION handleSubmit !!!!!!!!!!!!!!!!!!!!
 
 
   var formData = new FormData();
-  var objConditions = JSON.stringify(conditions);
+  var objConditions = JSON.stringify(conditions); // if (image.length > 0) {
+  //     console.log('image  ' + image[0]);
+  //     formData.append('image[]', image[0]);
+  // } else {
+  //     console.log('pas d image ???');
+  // };
+  // useEffect(() => {
+  //         console.log('image has been changed');
+  // }, [image]);
 
-  if (image) {
-    formData.append('image[]', image[0]);
-  }
-
-  ;
   formData.append("name", nameCollection);
   formData.append("description", descriptionCollection);
   formData.append("automatise", isAutoConditions);
@@ -23552,7 +23568,7 @@ var CreateCollection = function CreateCollection() {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("a", {
               href: "#",
               onClick: function onClick() {
-                return navigate("/cropImage");
+                return navigate('/cropImage');
               },
               children: "Recadrer l'image"
             })
@@ -23895,8 +23911,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createContext({
+  image: '',
+  setImage: function setImage() {},
   imagePath: '',
   setImagePath: function setImagePath() {},
+  followThisLink: '',
+  setFollowThisLink: function setFollowThisLink() {},
   darkMode: '',
   setDarkMode: function setDarkMode() {}
 }));
@@ -26378,10 +26398,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_cropper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-cropper */ "./node_modules/react-cropper/dist/react-cropper.es.js");
 /* harmony import */ var cropperjs_dist_cropper_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! cropperjs/dist/cropper.css */ "./node_modules/cropperjs/dist/cropper.css");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
-/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -26395,7 +26417,6 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
- // import "./Demo.css";
 
 
 
@@ -26404,12 +26425,14 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_5__["default"])({
+
+var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_6__["default"])({
   modalMain: {
     position: 'fixed',
     background: 'white',
-    width: '50%',
+    width: '80%',
     height: 'auto',
+    maxHeight: '80vh',
     minWidth: '300px',
     padding: '50px',
     top: '50%',
@@ -26421,24 +26444,6 @@ var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_5__["default"])(
     alignItems: 'center',
     borderRadius: '5px',
     zindex: '20'
-  },
-  box: {
-    width: '50%',
-    // maxHeight: '250px',
-    boxSizing: 'border-box',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    overflow: 'hidden',
-    border: 'dashed 3px yellow'
-  },
-  BlockButtons: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    // marginTop: '30px',
-    backgroundColor: 'blue'
   },
   btnModal: {
     width: '150px',
@@ -26485,39 +26490,49 @@ var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_5__["default"])(
 
 var CroppeImage = function CroppeImage() {
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_3__["default"]),
+      setImage = _useContext.setImage,
       imagePath = _useContext.imagePath,
-      setImagePath = _useContext.setImagePath;
+      followThisLink = _useContext.followThisLink;
 
   var classes = useStyles();
-  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_6__.useNavigate)();
+  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_7__.useNavigate)();
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("#"),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
       _useState2 = _slicedToArray(_useState, 2),
-      cropData = _useState2[0],
-      setCropData = _useState2[1];
-
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
-      _useState4 = _slicedToArray(_useState3, 2),
-      cropper = _useState4[0],
-      setCropper = _useState4[1];
+      cropper = _useState2[0],
+      setCropper = _useState2[1];
 
   var getCropData = function getCropData() {
     if (typeof cropper !== "undefined") {
-      setCropData(cropper.getCroppedCanvas().toDataURL());
+      var imgurl = cropper.getCroppedCanvas().toDataURL();
+      var imgBlob = cropper.getCroppedCanvas().toBlob(function (blob) {
+        var imgData = new FormData();
+        imgData.append('key', 'tmp_imageCollection');
+        imgData.append('value[]', blob);
+        axios__WEBPACK_IMPORTED_MODULE_4___default().post("http://127.0.0.1:8000/temporaryStoreImages", imgData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then(function (res) {
+          console.log('image has been changed');
+        });
+        setImage(blob);
+        navigate(followThisLink);
+      });
     }
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("section", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("section", {
       className: classes.modalMain,
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_cropper__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_cropper__WEBPACK_IMPORTED_MODULE_1__["default"], {
         style: {
           height: 400,
           width: "100%",
           border: "dashed 2px yellow"
         },
-        zoomTo: 0,
-        initialAspectRatio: 1 / 1 // preview=".img-preview"
+        zoomTo: 0 // initialAspectRatio={1 / 1}
+        // preview=".img-preview"
         ,
         src: imagePath,
         viewMode: 1,
@@ -26532,21 +26547,10 @@ var CroppeImage = function CroppeImage() {
           setCropper(instance);
         },
         guides: true
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-          className: classes.box,
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
-            style: {
-              width: "100%"
-            },
-            src: cropData,
-            alt: "cropped"
-          })
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
         className: classes.btnModal,
         onClick: function onClick() {
-          getCropData(); // navigate(followThisLink);
+          getCropData();
         },
         children: "Recadrer"
       })]
@@ -27513,7 +27517,8 @@ var DropZone = function DropZone(props) {
   var classes = useStyles();
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_2__["default"]),
-      imagePath = _useContext.imagePath,
+      image = _useContext.image,
+      setImage = _useContext.setImage,
       setImagePath = _useContext.setImagePath;
 
   var dropRegion = null;
@@ -27554,8 +27559,10 @@ var DropZone = function DropZone(props) {
     dropRegion.addEventListener('dragenter', highlight, false);
     dropRegion.addEventListener('dragover', highlight, false);
     dropRegion.addEventListener('dragleave', unhighlight, false);
-    dropRegion.addEventListener('drop', unhighlight, false); // get dirty page image from temporary_storages db if exist
-
+    dropRegion.addEventListener('drop', unhighlight, false);
+  }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // get dirty page image from temporary_storages db if exist
     try {
       axios__WEBPACK_IMPORTED_MODULE_1___default().get("http://127.0.0.1:8000/getTemporaryImage").then(function (res) {
         if (res.data) {
@@ -27572,7 +27579,7 @@ var DropZone = function DropZone(props) {
     } catch (error) {
       console.error('error  ' + error);
     }
-  }, []);
+  }, [image]);
 
   function highlight() {
     dropRegion.classList.add('highlighted');
@@ -27647,7 +27654,7 @@ var DropZone = function DropZone(props) {
 
     for (var i = 0; i < files.length; i++) {
       if (validateImage(files[i])) {
-        props.setImage(tab);
+        setImage(tab);
         previewImage(files[i]);
       }
     }
@@ -27733,12 +27740,12 @@ var DropZone = function DropZone(props) {
         imagesToRemove[i].remove();
       }
 
-      props.setImage([]); // remet l'image de fond
+      setImage([]); // remet l'image de fond
 
       document.getElementById('drop-region-dropZone').style.backgroundColor = 'none';
       document.getElementById('drop-region-dropZone').style.background = 'no-repeat url("../images/icons/backgroundDropZone.png")';
       document.getElementById('drop-region-dropZone').style.backgroundPosition = 'center 90%';
-      document.getElementById("drop-message-dropZone").style.display = 'block'; // supprime l'image temporaire dans la db et dans le dossier temporire
+      document.getElementById("drop-message-dropZone").style.display = 'block'; // supprime l'image temporaire dans la db et dans le dossier temporaire
 
       var formData = new FormData();
       formData.append('key', 'tmp_imageCollection');

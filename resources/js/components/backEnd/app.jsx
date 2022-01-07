@@ -7,6 +7,7 @@ import EditImages from '../createProduct/edit_images';
 import List from '../createProduct/list';
 import ListCollections from '../collections/list';
 import CreateCollection from '../collections/create';
+import { useLocalStorage } from "../hooks/useLocalStorage";
 import AppContext from '../contexts/AppContext';
 import ModalApp from '../modal/modalApp';
 import CroppeImage from '../croppeJs/croppeJs';
@@ -22,6 +23,7 @@ const App = () => {
     const [messageModalApp, setMessageModalApp] = useState('');
     const [followThisLink, setFollowThisLink] = useState(null);
     const [imagePath, setImagePath] = useState('');
+    const [image, setImage] = useLocalStorage("image", []);
     const [darkMode, setDarkMode] = useState(false);
 
 
@@ -35,7 +37,9 @@ const App = () => {
 
 
     const contextValue = {
+        image, setImage,
         imagePath, setImagePath,
+        followThisLink, setFollowThisLink,
         darkMode, setDarkMode,
     }
 
