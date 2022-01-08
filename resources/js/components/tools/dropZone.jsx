@@ -1,4 +1,5 @@
 import { React, useEffect, useContext } from 'react';
+import { useNavigate } from "react-router-dom";
 import { makeStyles } from '@material-ui/styles';
 import Axios from 'axios';
 import AppContext from '../contexts/AppContext';
@@ -45,11 +46,15 @@ const useStyles = makeStyles({
     },
     removeImage: {
         marginTop: '0',
-        padding: '0',
+        padding: '0 10px',
         width: '100%',
+        height: '35px',
         textAlign: 'right',
         textDecoration: 'underline',
-
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
         '&:hover': {
             cursor: 'pointer',
         },
@@ -60,7 +65,7 @@ const useStyles = makeStyles({
 const DropZone = (props) => {
     const classes = useStyles();
     const { image, setImage, setImagePath } = useContext(AppContext);
-
+    var navigate = useNavigate();
     var dropRegion = null;
     var imagePreviewRegion = null;
     var tab = [];
@@ -327,7 +332,13 @@ const DropZone = (props) => {
                     <div id="image-preview-dropZone"></div>
                 </div>
             </div>
-            <span className={classes.removeImage} onClick={removeImagePreview}>Supprimer l'image</span>
+            <span className={classes.removeImage}>
+                <i className="fas fa-crop tooltip" onClick={() => navigate('/cropImage')}> <span className="tooltiptext">Redimensionner l'image</span>
+                </i>
+                <i className="far fa-trash-alt trash-alt-dropZone tooltip" style={{ display: "block", marginLeft: "15px" }} onClick={removeImagePreview} >
+                <span className="tooltiptext">Supprimer l'image</span>
+                </i>
+            </span>
         </>
     )
 }

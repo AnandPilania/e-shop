@@ -28,7 +28,7 @@ const CreateCollection = () => {
     const [descriptionCollection, setDescriptionCollection] = useLocalStorage("descriptionCollection", "");
     const [metaTitle, setMetaTitle] = useLocalStorage("metaTitle", "");
     const [metaDescription, setMetaDescription] = useLocalStorage("metaDescription", "");
-    const [metaUrl, setMetaUrl] = useLocalStorage("metaUrl", window.location.origin + '/');
+    const [metaUrl, setMetaUrl] = useState(window.location.origin + '/');
     const [alt, setAlt] = useLocalStorage("altCollection", "");
     const [categoryName, setCategoryName] = useLocalStorage('categoryName', 'Aucune catégorie');
     const [categoryId, setCategoryId] = useLocalStorage("categoryId", "");
@@ -75,6 +75,9 @@ const CreateCollection = () => {
                 console.log('error:   ' + error);
             });
 
+
+        // init metaUrl, "useLocalStorage déclenche des erreurs "
+        localStorage.getItem('metaUrl') ? setMetaUrl(localStorage.getItem('metaUrl')) : setMetaUrl(window.location.origin + '/');
 
         // retrieve current date & time
         localStorage.getItem('dateActivation') ? setDateField(localStorage.getItem('dateActivation')) : setDateField(getNow());
@@ -263,13 +266,18 @@ const CreateCollection = () => {
     };
 
     const handleMetaTitle = (e) => {
+
         let name = e.target.value;
-        setMetaTitle(name);
-        localStorage.setItem("metaTitle", e.target.value);
+        setMetaTitle(name.trim());
+        localStorage.setItem("metaTitle", name);
 
         setIsEmptyMetaTitle(false);
-        setApercuMetaTitle(name.substring(0, 60));
-        setApercuMetaTitle2(name.substring(61, 5000));
+
+        /^[a-z]{1,10}$/
+        
+        setApercuMetaTitle(name);
+        // setApercuMetaTitle(name.substring(0, 60).trim());
+        setApercuMetaTitle2(name.substring(61, 5000).trim());
 
         // affiche en rouge un avertissement sur la longeur du title
         if (name.length > 60) {
@@ -278,10 +286,11 @@ const CreateCollection = () => {
             setBiggerThan60(false);
         }
 
-        if (e.target.value == '') {
+
+        if (name == '') {
             setIsEmptyMetaTitle(true);
-            setApercuMetaTitle(nameCollection.substring(0, 60));
-            setApercuMetaTitle2(nameCollection.substring(61, 5000));
+            setApercuMetaTitle(nameCollection.substring(0, 60).trim());
+            setApercuMetaTitle2(nameCollection.substring(61, 5000).trim());
         }
     };
 
@@ -310,7 +319,7 @@ const CreateCollection = () => {
 
         if (e.target.value == '') {
             setIsEmptyMetaDescription(true);
-            // on remplace les balises de ckeditor par un espace pour que les mots ne soient pas collés dans l'apérçu lorsqu'on efface la meta description !!! 2eme nettoyage 
+            // on remplace les balises de la description dans ckeditor par un espace pour que les mots ne soient pas collés dans l'apérçu de MetaDescription lorsqu'il n'y a pas de méta déscription
             let htmlDescriptionText = descriptionCollection.replaceAll(/<[\/a-zA-Z0-9]*>/gi, " ");
             setApercuMetaDescription(htmlDescriptionText);
         }
@@ -318,18 +327,24 @@ const CreateCollection = () => {
 
     const handleMetaUrl = (e) => {
         // limit la taille de l'url à 255 caracères
-        let urlLength = 254 - window.location.origin.length;
-        let urlName = normalizUrl(e.target.value.substring(window.location.origin.length, 255));
+        let urlLength = 253 - window.location.origin.length;
+        let urlName = normalizUrl(e.target.value.substring(window.location.origin.length, 253));
 
         setMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
         localStorage.setItem("metaUrl", window.location.origin + '/' + urlName.substring(0, urlLength));
 
         setApercuMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
 
+        // auto rempli le champ metaUrl après 15 secondes si il est vide
         if (e.target.value === window.location.origin + '/') {
+            localStorage.setItem("metaUrl", window.location.origin + '/' + urlName.substring(0, urlLength));
+            setTimeout(fillMetaUrl, 15000);
+        }
+
+        function fillMetaUrl() {
             let urlName = normalizUrl(nameCollection);
             setMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
-            localStorage.setItem("metaUrl", window.location.origin + '/' + urlName.substring(0, urlLength));
+            // localStorage.setItem("metaUrl", window.location.origin + '/' + urlName.substring(0, urlLength));
 
             setApercuMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
         }
@@ -583,6 +598,7 @@ const CreateCollection = () => {
     // Reset Form---------------------------------------------------------------
     // réinitialisation des states du form 
     const initCollectionForm = () => {
+
         setNameCollection('');
         setDescriptionCollection('');
         setMetaTitle('');
@@ -605,7 +621,6 @@ const CreateCollection = () => {
         }]);
         setDateField(getNow());
 
-
         // supprime l'image temporaire dans la db et dans le dossier temporaire
         var imageData = new FormData;
         imageData.append('key', 'tmp_imageCollection');
@@ -615,12 +630,11 @@ const CreateCollection = () => {
             });
 
         // éfface l'image de la dropZone
-        var imagesToRemove = document.getElementsByClassName('image-view') && document.getElementsByClassName('image-view');
+        var imagesToRemove = document.getElementsByClassName('image-view-dropZone') && document.getElementsByClassName('image-view-dropZone');
         if (imagesToRemove.length > 0) {
             for (let i = 0; i < imagesToRemove.length; i++) {
                 imagesToRemove[i].remove();
             }
-
         }
 
         // vide le localStorage
@@ -635,6 +649,7 @@ const CreateCollection = () => {
         localStorage.removeItem('categoryId');
         localStorage.removeItem('conditions');
         localStorage.removeItem('dateActivation');
+
     }
     //----------------------------------------------------------------Reset Form
 
@@ -819,10 +834,18 @@ const CreateCollection = () => {
                     {isShowOptimisation &&
                         <div className="sub-div-vert-align-border-top">
                             <h3>Coup d'oeil sur le résultat affiché par les moteurs de recherche</h3>
-                            <div>
+                            <div className="sub-div-vert-align">
                                 <span>{apercuMetaUrl}</span>
                                 <div className="sub-div-horiz-align">
-                                    <h3>{apercuMetaTitle}<span className="apercuMetaTitle2">{apercuMetaTitle2}</span> {biggerThan60 && <span className="inRed">Seul les 60 premiers caractères seront visibles</span>}</h3>
+                                    <p>
+                                        {apercuMetaTitle}
+                                        {/* <span className="apercuMetaTitle2">
+                                        {apercuMetaTitle2}
+                                        </span>*/}
+                                        {biggerThan60 &&
+                                            <span className="inRed">Seul les 60 premiers caractères seront visibles
+                                            </span>} 
+                                    </p>
                                 </div>
                                 <p>{apercuMetaDescription}</p>
                             </div>
@@ -849,6 +872,7 @@ const CreateCollection = () => {
                             <div className="div-label-inputTxt">
                                 <label>Méta-déscription de cette collection:</label>
                                 <textarea
+                                    style={{ opacity: "0.6" }}
                                     value={metaDescription}
                                     onChange={handleMetaDescription}
                                     placeholder="Cette déscription sera utilisée pour décrire le contenu de cette page. Elle s’affichera sous le titre et l’URL de votre page dans les résultats des moteurs de recherche. Veillez à ne pas dépasser les 140-160 caractères pour qu'elle soit entièrement visibles dans les résultats de Google"
@@ -896,7 +920,7 @@ const CreateCollection = () => {
                         <h2>Image</h2>
                         <p>Ajouter une image pour cette collection. (*optionnel)</p>
                         <DropZone multiple={false} setImage={setImage} />
-                        <p><a href="#" onClick={() => navigate('/cropImage')}>Recadrer l'image</a></p>
+                        {/* <p><a href="#" onClick={() => navigate('/cropImage')}><i className="fas fa-crop"></i></a></p> */}
                     </div>
 
                     {/* Référencement */}
@@ -918,9 +942,8 @@ const CreateCollection = () => {
                     <div className="div-label-inputTxt">
                         <h2>Catégorie</h2>
                         <p>Attribuer une catégorie à cette collection.
-                            (<strong>*optionnel</strong>)</p>
-
-
+                            (<strong>*optionnel</strong>)
+                        </p>
                         <div className="categorySelect" id="categorySelect">
                             <button
                                 className='btn-select-category'
