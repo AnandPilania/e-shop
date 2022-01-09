@@ -22543,152 +22543,127 @@ var CreateCollection = function CreateCollection() {
 
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState4 = _slicedToArray(_useState3, 2),
-      apercuMetaTitle = _useState4[0],
-      setApercuMetaTitle = _useState4[1];
+      dateField = _useState4[0],
+      setDateField = _useState4[1]; //--------------------------------------------------------------------Form
 
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState6 = _slicedToArray(_useState5, 2),
-      apercuMetaTitle2 = _useState6[0],
-      setApercuMetaTitle2 = _useState6[1];
+      isAutoConditions = _useState6[0],
+      setIsAutoConditions = _useState6[1];
 
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState8 = _slicedToArray(_useState7, 2),
-      apercuMetaDescription = _useState8[0],
-      setApercuMetaDescription = _useState8[1];
+      isShowOptimisation = _useState8[0],
+      setIsShowOptimisation = _useState8[1];
 
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.location.origin),
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState10 = _slicedToArray(_useState9, 2),
-      apercuMetaUrl = _useState10[0],
-      setApercuMetaUrl = _useState10[1];
+      includePrevProduct = _useState10[0],
+      setIncludePrevProduct = _useState10[1];
 
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState12 = _slicedToArray(_useState11, 2),
-      dateField = _useState12[0],
-      setDateField = _useState12[1]; //--------------------------------------------------------------------Form
-
+      categoriesList = _useState12[0],
+      setCategoriesList = _useState12[1];
 
   var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState14 = _slicedToArray(_useState13, 2),
-      isAutoConditions = _useState14[0],
-      setIsAutoConditions = _useState14[1];
+      allConditionsNeeded = _useState14[0],
+      setAllConditionsNeeded = _useState14[1];
 
-  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState16 = _slicedToArray(_useState15, 2),
-      isShowOptimisation = _useState16[0],
-      setIsShowOptimisation = _useState16[1];
+      newCategoryName = _useState16[0],
+      setNewCategoryName = _useState16[1];
 
-  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState18 = _slicedToArray(_useState17, 2),
-      includePrevProduct = _useState18[0],
-      setIncludePrevProduct = _useState18[1];
+      showCreateCategory = _useState18[0],
+      setShowCreateCategory = _useState18[1];
 
-  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Créer une nouvelle catégorie.'),
       _useState20 = _slicedToArray(_useState19, 2),
-      categoriesList = _useState20[0],
-      setCategoriesList = _useState20[1];
+      linkCreateCategory = _useState20[0],
+      setLinkCreateCategory = _useState20[1];
 
-  var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState22 = _slicedToArray(_useState21, 2),
-      allConditionsNeeded = _useState22[0],
-      setAllConditionsNeeded = _useState22[1];
+      newCategorySucces = _useState22[0],
+      setNewCategorySucces = _useState22[1];
 
-  var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState24 = _slicedToArray(_useState23, 2),
-      newCategoryName = _useState24[0],
-      setNewCategoryName = _useState24[1];
+      metaTitlebiggerThan50 = _useState24[0],
+      setMetaTitleBiggerThan50 = _useState24[1];
 
   var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState26 = _slicedToArray(_useState25, 2),
-      showCreateCategory = _useState26[0],
-      setShowCreateCategory = _useState26[1];
+      metaDescriptionbiggerThan130 = _useState26[0],
+      setMetaDescriptionbiggerThan130 = _useState26[1];
 
-  var _useState27 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Créer une nouvelle catégorie.'),
+  var _useState27 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState28 = _slicedToArray(_useState27, 2),
-      linkCreateCategory = _useState28[0],
-      setLinkCreateCategory = _useState28[1];
+      showCategorySelect = _useState28[0],
+      setShowCategorySelect = _useState28[1];
 
   var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState30 = _slicedToArray(_useState29, 2),
-      newCategorySucces = _useState30[0],
-      setNewCategorySucces = _useState30[1];
+      showModalConfirm = _useState30[0],
+      setShowModalConfirm = _useState30[1];
 
   var _useState31 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState32 = _slicedToArray(_useState31, 2),
-      biggerThan60 = _useState32[0],
-      setBiggerThan60 = _useState32[1];
+      showModalCroppeImage = _useState32[0],
+      setShowModalCroppeImage = _useState32[1];
 
-  var _useState33 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState33 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState34 = _slicedToArray(_useState33, 2),
-      isEmptyMetaDescription = _useState34[0],
-      setIsEmptyMetaDescription = _useState34[1];
+      showModalInput = _useState34[0],
+      setShowModalInput = _useState34[1];
 
-  var _useState35 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState35 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState36 = _slicedToArray(_useState35, 2),
-      isEmptyMetaTitle = _useState36[0],
-      setIsEmptyMetaTitle = _useState36[1];
+      messageModal = _useState36[0],
+      setMessageModal = _useState36[1];
 
-  var _useState37 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState37 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState38 = _slicedToArray(_useState37, 2),
-      showCategorySelect = _useState38[0],
-      setShowCategorySelect = _useState38[1];
+      sender = _useState38[0],
+      setSender = _useState38[1]; // for modal
 
-  var _useState39 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+
+  var _useState39 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
       _useState40 = _slicedToArray(_useState39, 2),
-      showModalConfirm = _useState40[0],
-      setShowModalConfirm = _useState40[1];
+      tmp_parameter = _useState40[0],
+      setTmp_parameter = _useState40[1]; // pour stocker provisoirement une variable
 
-  var _useState41 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+
+  var _useState41 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState42 = _slicedToArray(_useState41, 2),
-      showModalCroppeImage = _useState42[0],
-      setShowModalCroppeImage = _useState42[1];
+      newCategoryNameUseInMessage = _useState42[0],
+      setNewCategoryNameUseInMessage = _useState42[1]; // pour stocker le nom de la catégorie qui doit être afficher dans le message de confirmation de la creation de la catégorie
 
-  var _useState43 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+
+  var _useState43 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState44 = _slicedToArray(_useState43, 2),
-      showModalInput = _useState44[0],
-      setShowModalInput = _useState44[1];
+      inputTextModify = _useState44[0],
+      setInputTextModify = _useState44[1];
 
-  var _useState45 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState45 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
       _useState46 = _slicedToArray(_useState45, 2),
-      messageModal = _useState46[0],
-      setMessageModal = _useState46[1];
+      textButtonConfirm = _useState46[0],
+      setTextButtonConfirm = _useState46[1];
 
   var _useState47 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState48 = _slicedToArray(_useState47, 2),
-      sender = _useState48[0],
-      setSender = _useState48[1]; // for modal
+      imageConfirm = _useState48[0],
+      setImageConfirm = _useState48[1];
 
-
-  var _useState49 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
+  var _useState49 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState50 = _slicedToArray(_useState49, 2),
-      tmp_parameter = _useState50[0],
-      setTmp_parameter = _useState50[1]; // pour stocker provisoirement une variable
-
-
-  var _useState51 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState52 = _slicedToArray(_useState51, 2),
-      newCategoryNameUseInMessage = _useState52[0],
-      setNewCategoryNameUseInMessage = _useState52[1]; // pour stocker le nom de la catégorie qui doit être afficher dans le message de confirmation de la creation de la catégorie
-
-
-  var _useState53 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState54 = _slicedToArray(_useState53, 2),
-      inputTextModify = _useState54[0],
-      setInputTextModify = _useState54[1];
-
-  var _useState55 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
-      _useState56 = _slicedToArray(_useState55, 2),
-      textButtonConfirm = _useState56[0],
-      setTextButtonConfirm = _useState56[1];
-
-  var _useState57 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState58 = _slicedToArray(_useState57, 2),
-      imageConfirm = _useState58[0],
-      setImageConfirm = _useState58[1];
-
-  var _useState59 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState60 = _slicedToArray(_useState59, 2),
-      isDirty = _useState60[0],
-      setIsDirty = _useState60[1];
+      isDirty = _useState50[0],
+      setIsDirty = _useState50[1];
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_8__["default"]),
       image = _useContext.image,
@@ -22706,7 +22681,7 @@ var CreateCollection = function CreateCollection() {
       console.log('error:   ' + error);
     }); // init metaUrl, "useLocalStorage déclenche des erreurs "
 
-    localStorage.getItem('metaUrl') ? setMetaUrl(localStorage.getItem('metaUrl')) : setMetaUrl(window.location.origin + '/'); // retrieve current date & time
+    localStorage.getItem('metaUrl') ? setMetaUrl(localStorage.getItem('metaUrl')) : setMetaUrl(window.location.origin + '/'); // set date field with localStorage Data
 
     localStorage.getItem('dateActivation') ? setDateField(localStorage.getItem('dateActivation')) : setDateField(getNow()); // détermine si on montre le block optimisation
 
@@ -22716,6 +22691,20 @@ var CreateCollection = function CreateCollection() {
       } else {
         setIsShowOptimisation(true);
       }
+    } // affiche en rouge un avertissement sur la longeur du méta title
+
+
+    if (localStorage.getItem('metaTitle').length > 50) {
+      setMetaTitleBiggerThan50(true);
+    } else {
+      setMetaTitleBiggerThan50(false);
+    } // affiche en rouge un avertissement sur la longeur du méta title
+
+
+    if (localStorage.getItem('metaDescription').length > 130) {
+      setMetaDescriptionbiggerThan130(true);
+    } else {
+      setMetaDescriptionbiggerThan130(false);
     } // détermine si on montre le block conditions
 
 
@@ -22827,18 +22816,32 @@ var CreateCollection = function CreateCollection() {
       setIsAutoConditions(true);
     } else {
       localStorage.setItem('isAutoConditions', false);
-      setIsAutoConditions(false);
+      setIsAutoConditions(false); // réinitialise conditions
+
+      setConditions([{
+        id: 0,
+        parameter: '1',
+        operator: '1',
+        value: ''
+      }]);
     }
   };
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     localStorage.setItem("conditions", JSON.stringify(conditions));
   }, [conditions]); // ---------------------------------------------------------------CONDITIONS
-  // show / hide optimisation title & description
+  // show / hide optimisation title & description & url
 
   var showHideOptimisation = function showHideOptimisation() {
     localStorage.setItem("isShowOptimisation", !isShowOptimisation);
-    setIsShowOptimisation(!isShowOptimisation);
+    setIsShowOptimisation(!isShowOptimisation); // clean fields
+
+    setMetaTitle('');
+    setMetaDescription('');
+    setMetaUrl(window.location.origin + '/');
+    localStorage.removeItem('metaTitle');
+    localStorage.removeItem('metaDescription');
+    localStorage.removeItem('metaUrl');
   }; // détermine si on inclus les produits déjà enregistrer dans la nouvelle collection
 
 
@@ -22847,29 +22850,49 @@ var CreateCollection = function CreateCollection() {
   };
 
   var handleNameCollection = function handleNameCollection(e) {
-    var name = e.target.value;
-    var urlName = normalizUrl(e.target.value); // limit la taille de l'url à 255 caracères
+    setNameCollection(e.target.value);
+    localStorage.setItem("nameCollection", e.target.value);
+  }; // function strip(htmlText) {
+  //     let doc = new DOMParser().parseFromString(htmlText, 'text/html');
+  //     return doc.body.textContent || "";
+  // };
 
-    var urlLength = 254 - window.location.origin.length;
-    setNameCollection(name);
-    localStorage.setItem("nameCollection", e.target.value); // if metaTitle field is not used then we can 
-    // fill apercuMetaTitle with the name field 
 
-    if (isEmptyMetaTitle == true) {
-      // affiche en rouge un avertissement sur la longeur du title
-      if (name.length > 60) {
-        setBiggerThan60(true);
-      } else {
-        setBiggerThan60(false);
-      }
+  var handleDescriptionCollection = function handleDescriptionCollection(description) {
+    localStorage.setItem("descriptionCollection", description); // descriptionCollection est set dans le component ckeditor donc pas besoin ici
+  };
 
-      setApercuMetaTitle(name.substring(0, 60));
-      setApercuMetaTitle2(name.substring(61, 5000));
+  var handleMetaTitle = function handleMetaTitle(e) {
+    setMetaTitle(e.target.value.trim());
+    localStorage.setItem("metaTitle", e.target.value); // affiche en rouge un avertissement sur la longeur du méta title
+
+    if (e.target.value.length > 50) {
+      setMetaTitleBiggerThan50(true);
+    } else {
+      setMetaTitleBiggerThan50(false);
     }
+  };
 
-    if (metaUrl.length == 0) {
-      setApercuMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
-    }
+  var handleMetaDescription = function handleMetaDescription(e) {
+    setMetaDescription('');
+    setMetaDescription(e.target.value);
+    localStorage.setItem("metaDescription", e.target.value); // affiche en rouge un avertissement sur la longeur du méta title
+
+    if (e.target.value.length > 130) {
+      setMetaDescriptionbiggerThan130(true);
+    } else {
+      setMetaDescriptionbiggerThan130(false);
+    } // on remplace les balises de la description dans ckeditor par un espace pour que les mots ne soient pas collés dans l'apérçu de MetaDescription lorsqu'il n'y a pas de méta déscription
+    // let htmlDescriptionText = descriptionCollection.replaceAll(/<[\/a-zA-Z0-9]*>/gi, " ");
+
+  };
+
+  var handleMetaUrl = function handleMetaUrl(e) {
+    // limit la taille de l'url à 255 caracères
+    var urlLength = 2047 - window.location.origin.length;
+    var urlName = normalizUrl(e.target.value.substring(window.location.origin.length, 2047));
+    setMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
+    localStorage.setItem("metaUrl", window.location.origin + '/' + urlName.substring(0, urlLength));
   }; // remove caracteres unauthorized for url
 
 
@@ -22879,111 +22902,9 @@ var CreateCollection = function CreateCollection() {
     urlName = urlName.replace(/[<>\?\.\[\]'"°@\|\\§.,\/#\!\$%\^&\*;:\{\}=\+_`~\(\)]/g, "").replaceAll(/-{2,}/g, '-'); // <-- all ist ok 
 
     return urlName;
-  };
-
-  var handleMetaTitle = function handleMetaTitle(e) {
-    var name = e.target.value;
-    setMetaTitle(name.trim());
-    localStorage.setItem("metaTitle", name);
-    setIsEmptyMetaTitle(false);
-    /^[a-z]{1,10}$/;
-    setApercuMetaTitle(name); // setApercuMetaTitle(name.substring(0, 60).trim());
-
-    setApercuMetaTitle2(name.substring(61, 5000).trim()); // affiche en rouge un avertissement sur la longeur du title
-
-    if (name.length > 60) {
-      setBiggerThan60(true);
-    } else {
-      setBiggerThan60(false);
-    }
-
-    if (name == '') {
-      setIsEmptyMetaTitle(true);
-      setApercuMetaTitle(nameCollection.substring(0, 60).trim());
-      setApercuMetaTitle2(nameCollection.substring(61, 5000).trim());
-    }
-  };
-
-  function strip(htmlText) {
-    var doc = new DOMParser().parseFromString(htmlText, 'text/html');
-    return doc.body.textContent || "";
-  }
-
-  ;
-
-  var handleDescriptionCollection = function handleDescriptionCollection(description) {
-    localStorage.setItem("descriptionCollection", description); // descriptionCollection est set dans le component ckeditor donc pas besoin ici
-    // if metaDescription field is not used then we can fill apercuMetaDescription with the description field 
-
-    if (isEmptyMetaDescription == true) {
-      // on remplace les balises de ckeditor par un espace pour que les mots ne soient pas collés dans l'apérçu
-      var htmlDescriptionText = description.replaceAll(/<[a-zA-Z0-9]*>/gi, " ");
-      setApercuMetaDescription(strip(htmlDescriptionText));
-    }
-  };
-
-  var handleMetaDescription = function handleMetaDescription(e) {
-    setMetaDescription('');
-    setMetaDescription(e.target.value);
-    localStorage.setItem("metaDescription", e.target.value);
-    setIsEmptyMetaDescription(false);
-    setApercuMetaDescription(e.target.value);
-
-    if (e.target.value == '') {
-      setIsEmptyMetaDescription(true); // on remplace les balises de la description dans ckeditor par un espace pour que les mots ne soient pas collés dans l'apérçu de MetaDescription lorsqu'il n'y a pas de méta déscription
-
-      var htmlDescriptionText = descriptionCollection.replaceAll(/<[\/a-zA-Z0-9]*>/gi, " ");
-      setApercuMetaDescription(htmlDescriptionText);
-    }
-  };
-
-  var handleMetaUrl = function handleMetaUrl(e) {
-    // limit la taille de l'url à 255 caracères
-    var urlLength = 253 - window.location.origin.length;
-    var urlName = normalizUrl(e.target.value.substring(window.location.origin.length, 253));
-    setMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
-    localStorage.setItem("metaUrl", window.location.origin + '/' + urlName.substring(0, urlLength));
-    setApercuMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength)); // auto rempli le champ metaUrl après 15 secondes si il est vide
-
-    if (e.target.value === window.location.origin + '/') {
-      localStorage.setItem("metaUrl", window.location.origin + '/' + urlName.substring(0, urlLength));
-      setTimeout(fillMetaUrl, 15000);
-    }
-
-    function fillMetaUrl() {
-      var urlName = normalizUrl(nameCollection);
-      setMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength)); // localStorage.setItem("metaUrl", window.location.origin + '/' + urlName.substring(0, urlLength));
-
-      setApercuMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
-    }
-  }; // init aperçus
-
-
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    if (metaTitle.length > 0) {
-      setApercuMetaTitle(metaTitle.substring(0, 60));
-      setApercuMetaTitle2(metaTitle.substring(61, 5000));
-    } else {
-      setApercuMetaTitle(nameCollection.substring(0, 60));
-      setApercuMetaTitle2(nameCollection.substring(61, 5000));
-    }
-
-    if (metaDescription.length > 0) {
-      setApercuMetaDescription(metaDescription);
-    } else {
-      var htmlDescriptionText = descriptionCollection.replaceAll(/<[\/a-zA-Z0-9]*>/gi, " ");
-      setApercuMetaDescription(htmlDescriptionText);
-    }
-
-    if (metaUrl.length > 0) {
-      setApercuMetaUrl(metaUrl);
-    } else {
-      var urlLength = 254 - window.location.origin.length;
-      var urlName = normalizUrl(nameCollection);
-      setApercuMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
-    }
-  }, []); // IMAGE -------------------------------------------------------------------
+  }; // IMAGE -------------------------------------------------------------------
   // save image from dirty page in temporary_storages db
+
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var tmp_Data = new FormData();
@@ -23211,10 +23132,6 @@ var CreateCollection = function CreateCollection() {
     setImage([]);
     setCategoryName('Aucune catégorie');
     setCategoryId('');
-    setApercuMetaTitle('');
-    setApercuMetaTitle2('');
-    setApercuMetaDescription('');
-    setApercuMetaUrl(window.location.origin);
     setIsDirty(false);
     setConditions([{
       id: 0,
@@ -23250,6 +23167,16 @@ var CreateCollection = function CreateCollection() {
     localStorage.removeItem('categoryId');
     localStorage.removeItem('conditions');
     localStorage.removeItem('dateActivation');
+  }; // réinitialise les champs de l'optimisation seo
+
+
+  var initOptimisationForm = function initOptimisationForm() {
+    setMetaTitle('');
+    setMetaDescription('');
+    setMetaUrl(window.location.origin + '/');
+    localStorage.removeItem('metaTitle');
+    localStorage.removeItem('metaDescription');
+    localStorage.removeItem('metaUrl');
   }; //----------------------------------------------------------------Reset Form
   // CE QUI SUIT DOIT ALLER DANS LA FONCTION handleSubmit !!!!!!!!!!!!!!!!!!!!
 
@@ -23264,6 +23191,16 @@ var CreateCollection = function CreateCollection() {
   // useEffect(() => {
   //         console.log('image has been changed');
   // }, [image]);
+  // if (metaTitle.length === 0) {
+  //    // traitement
+  // }     
+  // if (metaDescription.length === 0) {
+  //    // traitement
+  // } 
+  // if (metaUrl.length > 0) {
+  // window.location.origin + '/'
+  //     // traitement
+  // } 
 
   formData.append("name", nameCollection);
   formData.append("description", descriptionCollection);
@@ -23470,66 +23407,42 @@ var CreateCollection = function CreateCollection() {
         className: "div-vert-align",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
           className: "sub-div-horiz-align",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h2", {
-            children: "Optimiser pour les moteurs de reherche."
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("input", {
-            type: "checkbox",
-            className: "cm-toggle",
-            checked: isShowOptimisation,
-            onChange: showHideOptimisation
-          })]
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+            className: "sub-div-horiz-align",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h2", {
+              children: "Optimisation SEO"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("input", {
+              type: "checkbox",
+              className: "cm-toggle",
+              checked: isShowOptimisation,
+              onChange: showHideOptimisation
+            })]
+          }), metaUrl.length > (window.location.origin.toString() + '/').length ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("button", {
+            style: {
+              marginBottom: "10px"
+            },
+            className: "btn-bcknd",
+            onClick: initOptimisationForm,
+            children: "Annuler"
+          }) : metaTitle.length > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("button", {
+            style: {
+              marginBottom: "10px"
+            },
+            className: "btn-bcknd",
+            onClick: initOptimisationForm,
+            children: "Annuler"
+          }) : metaDescription.length > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("button", {
+            style: {
+              marginBottom: "10px"
+            },
+            className: "btn-bcknd",
+            onClick: initOptimisationForm,
+            children: "Annuler"
+          }) : '']
         }), isShowOptimisation && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
           className: "sub-div-vert-align-border-top",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h3", {
             children: "Coup d'oeil sur le r\xE9sultat affich\xE9 par les moteurs de recherche"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
-            className: "sub-div-vert-align",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
-              children: apercuMetaUrl
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
-              className: "sub-div-horiz-align",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("p", {
-                children: [apercuMetaTitle, biggerThan60 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
-                  className: "inRed",
-                  children: "Seul les 60 premiers caract\xE8res seront visibles"
-                })]
-              })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("p", {
-              children: apercuMetaDescription
-            })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
-            className: "div-label-inputTxt",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
-              className: "sub-div-horiz-align",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("label", {
-                children: "M\xE9ta-titre de la page de cette collection"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("i", {
-                className: "fas fa-question-circle tooltip",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
-                  className: "tooltiptext",
-                  children: "Le m\xE9ta-titre est important pour le r\xE9f\xE9rencement d'une page web. Sa longueur id\xE9al se situe entre 30 et 60 caract\xE8res mais il peut \xEAtre plus long pour donner plus d'informations sur le contenu de la page. Toutefois, les moteurs de recherche n'afficheront pas plus de 70 caract\xE8res, c'est pourquoi il est important de commence par des mots cl\xE9s pertinants pour l'internaute afin d'am\xE9liorer le taux de clics vers votre page."
-                })
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("input", {
-              type: "text",
-              value: metaTitle,
-              onChange: handleMetaTitle,
-              placeholder: "Ce titre sera affich\xE9 dans les r\xE9sultats des moteurs de recherche.",
-              maxLength: "255"
-            })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
-            className: "div-label-inputTxt",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("label", {
-              children: "M\xE9ta-d\xE9scription de cette collection:"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("textarea", {
-              style: {
-                opacity: "0.6"
-              },
-              value: metaDescription,
-              onChange: handleMetaDescription,
-              placeholder: "Cette d\xE9scription sera utilis\xE9e pour d\xE9crire le contenu de cette page. Elle s\u2019affichera sous le titre et l\u2019URL de votre page dans les r\xE9sultats des moteurs de recherche. Veillez \xE0 ne pas d\xE9passer les 140-160 caract\xE8res pour qu'elle soit enti\xE8rement visibles dans les r\xE9sultats de Google",
-              maxLength: "320"
-            })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
             className: "div-label-inputTxt",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
@@ -23548,7 +23461,55 @@ var CreateCollection = function CreateCollection() {
               value: metaUrl,
               onChange: handleMetaUrl,
               placeholder: "Url de cette collection",
-              maxLength: "255"
+              maxLength: "2047"
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+            className: "div-label-inputTxt",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+              className: "sub-div-horiz-align",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("label", {
+                children: "M\xE9ta-titre de la page de cette collection"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("i", {
+                className: "fas fa-question-circle tooltip",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
+                  className: "tooltiptext",
+                  children: "Le m\xE9ta-titre est important pour le r\xE9f\xE9rencement d'une page web. Sa longueur id\xE9al se situe entre 30 et 60 caract\xE8res mais il peut \xEAtre plus long pour donner plus d'informations sur le contenu de la page. Toutefois, seuls les 50 premiers caract\xE8res \xE0 peu pr\xE8s seront affich\xE9s dans les r\xE9sultats des moteurs de recherche. C'est pourquoi il est important de commence par des mots cl\xE9s pertinants pour l'internaute afin d'am\xE9liorer le taux de clics vers votre page."
+                })
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("input", {
+              type: "text",
+              value: metaTitle,
+              onChange: handleMetaTitle
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+              className: "sub-div-vert-align",
+              children: [metaTitlebiggerThan50 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
+                className: "inRed",
+                children: " Seuls les 50 \xE0 60 premiers caract\xE8res seront affich\xE9s par les moteurs de recherche"
+              }), "Nombre de caract\xE8res: ", metaTitle.length]
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+            className: "div-label-inputTxt",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+              className: "sub-div-horiz-align",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("label", {
+                children: "M\xE9ta-d\xE9scription de cette collection:"
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("i", {
+                className: "fas fa-question-circle tooltip",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
+                  className: "tooltiptext",
+                  children: "Cette d\xE9scription sera utilis\xE9e pour d\xE9crire le contenu de cette page et donner des indications sur son contenu \xE0 l'internaute. Les moteurs de recherche affichent \xE0 peu pr\xE8s les 130 premiers caract\xE8res."
+                })
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("textarea", {
+              // style={{ opacity: "0.6" }}
+              value: metaDescription,
+              onChange: handleMetaDescription
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+              className: "sub-div-vert-align",
+              children: [metaDescriptionbiggerThan130 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
+                className: "inRed",
+                children: " Seuls les 120 \xE0 130 premiers caract\xE8res seront affich\xE9s par les moteurs de recherche"
+              }), "Nombre de caract\xE8res: ", metaDescription.length]
             })]
           })]
         })]

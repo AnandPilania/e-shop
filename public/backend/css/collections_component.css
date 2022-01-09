@@ -1,4 +1,4 @@
-* {
+*, ::before, ::after {
   font-family: "Source Sans 3", sans-serif;
   font-weight: 400;
   font-size: 1rem;
@@ -89,6 +89,7 @@
 .div-vert-align p {
   margin-top: 5px;
   margin-bottom: 5px;
+  overflow-wrap: break-word;
 }
 .div-vert-align strong {
   font-size: 15px;
@@ -165,7 +166,6 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  margin-bottom: 15px;
 }
 
 .sub-div-vert-align-border-top {
@@ -177,7 +177,6 @@
   margin-bottom: 15px;
   padding-top: 15px;
   border-top: gainsboro solid 1px;
-  border: solid 2px #07c55c;
 }
 
 .div-radio-label {
@@ -200,8 +199,12 @@
   align-items: center;
 }
 
-.sub-div-horiz-align p {
-  max-width: 100%;
+.sub-div-vert-align p,
+.sub-div-horiz-align p,
+.sub-div-vert-align span,
+.sub-div-horiz-align span {
+  width: 100%;
+  overflow-wrap: break-word;
 }
 
 .sub-div-horiz-align p {
@@ -347,6 +350,7 @@
 
 .apercuMetaTitle2 {
   color: #bbbbbb;
+  max-width: 100%;
 }
 
 .inRed {

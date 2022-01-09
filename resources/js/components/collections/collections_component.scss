@@ -1,4 +1,4 @@
-* {
+*, ::before,::after {
     // font-family: 'Poppins', sans-serif;
     font-family: "Source Sans 3", sans-serif;
     font-weight: 400;
@@ -105,6 +105,7 @@
     p {
         margin-top: 5px;
         margin-bottom: 5px;
+        overflow-wrap: break-word;
     }
 
     strong {
@@ -183,7 +184,6 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    margin-bottom: 15px;
     // border: solid 2px rgb(17, 120, 218);
 }
 
@@ -196,7 +196,6 @@
     margin-bottom: 15px;
     padding-top: 15px;
     border-top: rgb(220, 220, 220) solid 1px;
-    border: solid 2px rgb(7, 197, 92);
 }
 
 .div-radio-label {
@@ -204,7 +203,6 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    // border: solid 2px rgb(255, 0, 76);
 }
 
 .div-radio-label label:hover {
@@ -218,23 +216,19 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    // flex-wrap: wrap;
-    // border: solid 2px rgb(255, 0, 76);
+    // border: solid 1px red;
 }
 
-.sub-div-horiz-align p {
-    // display: flex;
-    // flex-direction: row;
-    // justify-content: flex-start;
-    // align-items: center;
-    // flex-wrap: wrap;
-    max-width: 100%;
-    // border: solid 2px rgb(0, 68, 255);
+.sub-div-vert-align p,
+.sub-div-horiz-align p,
+.sub-div-vert-align span,
+.sub-div-horiz-align span {
+    width: 100%;
+    overflow-wrap: break-word;
 }
 
 .sub-div-horiz-align p {
     max-width: 100%;
-    // border: solid 2px rgb(0, 68, 255);
 }
 
 .block-select-conditions {
@@ -389,6 +383,7 @@
 
 .apercuMetaTitle2 {
     color: rgb(187, 187, 187);
+    max-width: 100%;
 }
 
 .inRed {

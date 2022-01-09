@@ -32,10 +32,6 @@ const CreateCollection = () => {
     const [alt, setAlt] = useLocalStorage("altCollection", "");
     const [categoryName, setCategoryName] = useLocalStorage('categoryName', 'Aucune catégorie');
     const [categoryId, setCategoryId] = useLocalStorage("categoryId", "");
-    const [apercuMetaTitle, setApercuMetaTitle] = useState('');
-    const [apercuMetaTitle2, setApercuMetaTitle2] = useState('');
-    const [apercuMetaDescription, setApercuMetaDescription] = useState('');
-    const [apercuMetaUrl, setApercuMetaUrl] = useState(window.location.origin);
     const [dateField, setDateField] = useState('');
     //--------------------------------------------------------------------Form
 
@@ -48,9 +44,8 @@ const CreateCollection = () => {
     const [showCreateCategory, setShowCreateCategory] = useState(false);
     const [linkCreateCategory, setLinkCreateCategory] = useState('Créer une nouvelle catégorie.');
     const [newCategorySucces, setNewCategorySucces] = useState(false);
-    const [biggerThan60, setBiggerThan60] = useState(false);
-    const [isEmptyMetaDescription, setIsEmptyMetaDescription] = useState(true);
-    const [isEmptyMetaTitle, setIsEmptyMetaTitle] = useState(true);
+    const [metaTitlebiggerThan50, setMetaTitleBiggerThan50] = useState(false);
+    const [metaDescriptionbiggerThan130, setMetaDescriptionbiggerThan130] = useState(false);
     const [showCategorySelect, setShowCategorySelect] = useState(false);
     const [showModalConfirm, setShowModalConfirm] = useState(false);
     const [showModalCroppeImage, setShowModalCroppeImage] = useState(false);
@@ -79,7 +74,7 @@ const CreateCollection = () => {
         // init metaUrl, "useLocalStorage déclenche des erreurs "
         localStorage.getItem('metaUrl') ? setMetaUrl(localStorage.getItem('metaUrl')) : setMetaUrl(window.location.origin + '/');
 
-        // retrieve current date & time
+        // set date field with localStorage Data
         localStorage.getItem('dateActivation') ? setDateField(localStorage.getItem('dateActivation')) : setDateField(getNow());
 
         // détermine si on montre le block optimisation
@@ -90,6 +85,20 @@ const CreateCollection = () => {
                 setIsShowOptimisation(true);
             }
         }
+
+        // affiche en rouge un avertissement sur la longeur du méta title
+        if (localStorage.getItem('metaTitle').length > 50) {
+            setMetaTitleBiggerThan50(true);
+        } else {
+            setMetaTitleBiggerThan50(false);
+        }
+        // affiche en rouge un avertissement sur la longeur du méta title
+        if (localStorage.getItem('metaDescription').length > 130) {
+            setMetaDescriptionbiggerThan130(true);
+        } else {
+            setMetaDescriptionbiggerThan130(false);
+        }
+
 
         // détermine si on montre le block conditions
         if (localStorage.getItem('isAutoConditions')) {
@@ -209,6 +218,13 @@ const CreateCollection = () => {
         } else {
             localStorage.setItem('isAutoConditions', false);
             setIsAutoConditions(false);
+            // réinitialise conditions
+            setConditions([{
+                id: 0,
+                parameter: '1',
+                operator: '1',
+                value: ''
+            }]);
         }
     };
 
@@ -217,10 +233,18 @@ const CreateCollection = () => {
     }, [conditions]);
     // ---------------------------------------------------------------CONDITIONS
 
-    // show / hide optimisation title & description
+    // show / hide optimisation title & description & url
     const showHideOptimisation = () => {
         localStorage.setItem("isShowOptimisation", !isShowOptimisation);
         setIsShowOptimisation(!isShowOptimisation);
+        // clean fields
+        setMetaTitle('');
+        setMetaDescription('');
+        setMetaUrl(window.location.origin + '/');
+
+        localStorage.removeItem('metaTitle');
+        localStorage.removeItem('metaDescription');
+        localStorage.removeItem('metaUrl');
 
     };
 
@@ -230,30 +254,56 @@ const CreateCollection = () => {
     };
 
     const handleNameCollection = (e) => {
-        let name = e.target.value;
-        let urlName = normalizUrl(e.target.value);
-        // limit la taille de l'url à 255 caracères
-        let urlLength = 254 - window.location.origin.length;
-
-        setNameCollection(name);
+        setNameCollection(e.target.value);
         localStorage.setItem("nameCollection", e.target.value);
+    };
 
-        // if metaTitle field is not used then we can 
-        // fill apercuMetaTitle with the name field 
-        if (isEmptyMetaTitle == true) {
-            // affiche en rouge un avertissement sur la longeur du title
-            if (name.length > 60) {
-                setBiggerThan60(true);
-            } else {
-                setBiggerThan60(false);
-            }
-            setApercuMetaTitle(name.substring(0, 60));
-            setApercuMetaTitle2(name.substring(61, 5000));
+    // function strip(htmlText) {
+    //     let doc = new DOMParser().parseFromString(htmlText, 'text/html');
+    //     return doc.body.textContent || "";
+    // };
+
+    const handleDescriptionCollection = (description) => {
+        localStorage.setItem("descriptionCollection", description);
+        // descriptionCollection est set dans le component ckeditor donc pas besoin ici
+    };
+
+    const handleMetaTitle = (e) => {
+        setMetaTitle(e.target.value.trim());
+        localStorage.setItem("metaTitle", e.target.value);
+
+        // affiche en rouge un avertissement sur la longeur du méta title
+        if (e.target.value.length > 50) {
+            setMetaTitleBiggerThan50(true);
+        } else {
+            setMetaTitleBiggerThan50(false);
+        }
+    };
+
+    const handleMetaDescription = (e) => {
+        setMetaDescription('');
+        setMetaDescription(e.target.value);
+        localStorage.setItem("metaDescription", e.target.value);
+
+        // affiche en rouge un avertissement sur la longeur du méta title
+        if (e.target.value.length > 130) {
+            setMetaDescriptionbiggerThan130(true);
+        } else {
+            setMetaDescriptionbiggerThan130(false);
         }
 
-        if (metaUrl.length == 0) {
-            setApercuMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
-        }
+        // on remplace les balises de la description dans ckeditor par un espace pour que les mots ne soient pas collés dans l'apérçu de MetaDescription lorsqu'il n'y a pas de méta déscription
+        // let htmlDescriptionText = descriptionCollection.replaceAll(/<[\/a-zA-Z0-9]*>/gi, " ");
+
+    };
+
+    const handleMetaUrl = (e) => {
+        // limit la taille de l'url à 255 caracères
+        let urlLength = 2047 - window.location.origin.length;
+        let urlName = normalizUrl(e.target.value.substring(window.location.origin.length, 2047));
+
+        setMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
+        localStorage.setItem("metaUrl", window.location.origin + '/' + urlName.substring(0, urlLength));
     };
 
     // remove caracteres unauthorized for url
@@ -264,118 +314,6 @@ const CreateCollection = () => {
 
         return urlName;
     };
-
-    const handleMetaTitle = (e) => {
-
-        let name = e.target.value;
-        setMetaTitle(name.trim());
-        localStorage.setItem("metaTitle", name);
-
-        setIsEmptyMetaTitle(false);
-
-        /^[a-z]{1,10}$/
-        
-        setApercuMetaTitle(name);
-        // setApercuMetaTitle(name.substring(0, 60).trim());
-        setApercuMetaTitle2(name.substring(61, 5000).trim());
-
-        // affiche en rouge un avertissement sur la longeur du title
-        if (name.length > 60) {
-            setBiggerThan60(true);
-        } else {
-            setBiggerThan60(false);
-        }
-
-
-        if (name == '') {
-            setIsEmptyMetaTitle(true);
-            setApercuMetaTitle(nameCollection.substring(0, 60).trim());
-            setApercuMetaTitle2(nameCollection.substring(61, 5000).trim());
-        }
-    };
-
-    function strip(htmlText) {
-        let doc = new DOMParser().parseFromString(htmlText, 'text/html');
-        return doc.body.textContent || "";
-    };
-
-    const handleDescriptionCollection = (description) => {
-        localStorage.setItem("descriptionCollection", description);
-        // descriptionCollection est set dans le component ckeditor donc pas besoin ici
-        // if metaDescription field is not used then we can fill apercuMetaDescription with the description field 
-        if (isEmptyMetaDescription == true) {
-            // on remplace les balises de ckeditor par un espace pour que les mots ne soient pas collés dans l'apérçu
-            let htmlDescriptionText = description.replaceAll(/<[a-zA-Z0-9]*>/gi, " ");
-            setApercuMetaDescription(strip(htmlDescriptionText));
-        }
-    };
-
-    const handleMetaDescription = (e) => {
-        setMetaDescription('');
-        setMetaDescription(e.target.value);
-        localStorage.setItem("metaDescription", e.target.value);
-        setIsEmptyMetaDescription(false);
-        setApercuMetaDescription(e.target.value);
-
-        if (e.target.value == '') {
-            setIsEmptyMetaDescription(true);
-            // on remplace les balises de la description dans ckeditor par un espace pour que les mots ne soient pas collés dans l'apérçu de MetaDescription lorsqu'il n'y a pas de méta déscription
-            let htmlDescriptionText = descriptionCollection.replaceAll(/<[\/a-zA-Z0-9]*>/gi, " ");
-            setApercuMetaDescription(htmlDescriptionText);
-        }
-    };
-
-    const handleMetaUrl = (e) => {
-        // limit la taille de l'url à 255 caracères
-        let urlLength = 253 - window.location.origin.length;
-        let urlName = normalizUrl(e.target.value.substring(window.location.origin.length, 253));
-
-        setMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
-        localStorage.setItem("metaUrl", window.location.origin + '/' + urlName.substring(0, urlLength));
-
-        setApercuMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
-
-        // auto rempli le champ metaUrl après 15 secondes si il est vide
-        if (e.target.value === window.location.origin + '/') {
-            localStorage.setItem("metaUrl", window.location.origin + '/' + urlName.substring(0, urlLength));
-            setTimeout(fillMetaUrl, 15000);
-        }
-
-        function fillMetaUrl() {
-            let urlName = normalizUrl(nameCollection);
-            setMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
-            // localStorage.setItem("metaUrl", window.location.origin + '/' + urlName.substring(0, urlLength));
-
-            setApercuMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
-        }
-    };
-
-    // init aperçus
-    useEffect(() => {
-        if (metaTitle.length > 0) {
-            setApercuMetaTitle(metaTitle.substring(0, 60));
-            setApercuMetaTitle2(metaTitle.substring(61, 5000));
-        } else {
-            setApercuMetaTitle(nameCollection.substring(0, 60));
-            setApercuMetaTitle2(nameCollection.substring(61, 5000));
-        }
-
-        if (metaDescription.length > 0) {
-            setApercuMetaDescription(metaDescription);
-        } else {
-            let htmlDescriptionText = descriptionCollection.replaceAll(/<[\/a-zA-Z0-9]*>/gi, " ");
-            setApercuMetaDescription(htmlDescriptionText);
-        }
-
-        if (metaUrl.length > 0) {
-            setApercuMetaUrl(metaUrl);
-        } else {
-            let urlLength = 254 - window.location.origin.length;
-            let urlName = normalizUrl(nameCollection);
-            setApercuMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
-        }
-    }, []);
-
 
     // IMAGE -------------------------------------------------------------------
     // save image from dirty page in temporary_storages db
@@ -608,10 +546,6 @@ const CreateCollection = () => {
         setImage([]);
         setCategoryName('Aucune catégorie');
         setCategoryId('');
-        setApercuMetaTitle('');
-        setApercuMetaTitle2('');
-        setApercuMetaDescription('');
-        setApercuMetaUrl(window.location.origin);
         setIsDirty(false);
         setConditions([{
             id: 0,
@@ -651,6 +585,17 @@ const CreateCollection = () => {
         localStorage.removeItem('dateActivation');
 
     }
+
+    // réinitialise les champs de l'optimisation seo
+    const initOptimisationForm = () => {
+        setMetaTitle('');
+        setMetaDescription('');
+        setMetaUrl(window.location.origin + '/');
+
+        localStorage.removeItem('metaTitle');
+        localStorage.removeItem('metaDescription');
+        localStorage.removeItem('metaUrl');
+    }
     //----------------------------------------------------------------Reset Form
 
 
@@ -671,6 +616,19 @@ const CreateCollection = () => {
     //         console.log('image has been changed');
 
     // }, [image]);
+
+
+
+    // if (metaTitle.length === 0) {
+    //    // traitement
+    // }     
+    // if (metaDescription.length === 0) {
+    //    // traitement
+    // } 
+    // if (metaUrl.length > 0) {
+    // window.location.origin + '/'
+    //     // traitement
+    // } 
 
     formData.append("name", nameCollection);
     formData.append("description", descriptionCollection);
@@ -825,61 +783,38 @@ const CreateCollection = () => {
                 {/* résultat sur les moteurs de recherche */}
                 <div className="div-vert-align">
                     <div className="sub-div-horiz-align">
-                        <h2>Optimiser pour les moteurs de reherche.</h2>
-                        <input type='checkbox'
-                            className="cm-toggle"
-                            checked={isShowOptimisation}
-                            onChange={showHideOptimisation} />
+                        <div className="sub-div-horiz-align">
+                            <h2>Optimisation SEO</h2>
+                            <input type='checkbox'
+                                className="cm-toggle"
+                                checked={isShowOptimisation}
+                                onChange={showHideOptimisation} />
+                        </div>
+                        {metaUrl.length > (window.location.origin.toString() + '/').length ? 
+                            (<button 
+                        style={{ marginBottom: "10px" }}
+                        className='btn-bcknd'
+                            onClick={initOptimisationForm}>
+                            Annuler
+                        </button>) :
+                        metaTitle.length > 0 ? 
+                        (<button 
+                        style={{ marginBottom: "10px" }}
+                        className='btn-bcknd'
+                            onClick={initOptimisationForm}>
+                            Annuler
+                        </button>) : 
+                        metaDescription.length > 0 ? 
+                        (<button 
+                        style={{ marginBottom: "10px" }}
+                        className='btn-bcknd'
+                            onClick={initOptimisationForm}>
+                            Annuler
+                        </button>) : ''}
                     </div>
                     {isShowOptimisation &&
                         <div className="sub-div-vert-align-border-top">
                             <h3>Coup d'oeil sur le résultat affiché par les moteurs de recherche</h3>
-                            <div className="sub-div-vert-align">
-                                <span>{apercuMetaUrl}</span>
-                                <div className="sub-div-horiz-align">
-                                    <p>
-                                        {apercuMetaTitle}
-                                        {/* <span className="apercuMetaTitle2">
-                                        {apercuMetaTitle2}
-                                        </span>*/}
-                                        {biggerThan60 &&
-                                            <span className="inRed">Seul les 60 premiers caractères seront visibles
-                                            </span>} 
-                                    </p>
-                                </div>
-                                <p>{apercuMetaDescription}</p>
-                            </div>
-
-                            {/* meta-titre */}
-                            <div className="div-label-inputTxt">
-                                <div className="sub-div-horiz-align">
-                                    <label>
-                                        Méta-titre de la page de cette collection
-                                    </label>
-                                    <i className="fas fa-question-circle tooltip">
-                                        <span className="tooltiptext">Le méta-titre est important pour le référencement d'une page web. Sa longueur idéal se situe entre 30 et 60 caractères mais il peut être plus long pour donner plus d'informations sur le contenu de la page. Toutefois, les moteurs de recherche n'afficheront pas plus de 70 caractères, c'est pourquoi il est important de commence par des mots clés pertinants pour l'internaute afin d'améliorer le taux de clics vers votre page.</span>
-                                    </i>
-                                </div>
-                                <input type='text'
-                                    value={metaTitle}
-                                    onChange={handleMetaTitle}
-                                    placeholder="Ce titre sera affiché dans les résultats des moteurs de recherche."
-                                    maxLength="255"
-                                />
-                            </div>
-
-                            {/* meta-description */}
-                            <div className="div-label-inputTxt">
-                                <label>Méta-déscription de cette collection:</label>
-                                <textarea
-                                    style={{ opacity: "0.6" }}
-                                    value={metaDescription}
-                                    onChange={handleMetaDescription}
-                                    placeholder="Cette déscription sera utilisée pour décrire le contenu de cette page. Elle s’affichera sous le titre et l’URL de votre page dans les résultats des moteurs de recherche. Veillez à ne pas dépasser les 140-160 caractères pour qu'elle soit entièrement visibles dans les résultats de Google"
-                                    maxLength="320">
-                                </textarea>
-                            </div>
-
                             {/* meta-url */}
                             <div className="div-label-inputTxt">
                                 <div className="sub-div-horiz-align">
@@ -894,8 +829,51 @@ const CreateCollection = () => {
                                     value={metaUrl}
                                     onChange={handleMetaUrl}
                                     placeholder="Url de cette collection"
-                                    maxLength="255"
+                                    maxLength="2047"
                                 />
+                            </div>
+
+                            {/* meta-titre */}
+                            <div className="div-label-inputTxt">
+                                <div className="sub-div-horiz-align">
+                                    <label>
+                                        Méta-titre de la page de cette collection
+                                    </label>
+                                    <i className="fas fa-question-circle tooltip">
+                                        <span className="tooltiptext">Le méta-titre est important pour le référencement d'une page web. Sa longueur idéal se situe entre 30 et 60 caractères mais il peut être plus long pour donner plus d'informations sur le contenu de la page. Toutefois, seuls les 50 premiers caractères à peu près seront affichés dans les résultats des moteurs de recherche. C'est pourquoi il est important de commence par des mots clés pertinants pour l'internaute afin d'améliorer le taux de clics vers votre page.</span>
+                                    </i>
+                                </div>
+                                <input type='text'
+                                    value={metaTitle}
+                                    onChange={handleMetaTitle}
+                                />
+                                <div className='sub-div-vert-align'>
+                                    {metaTitlebiggerThan50 &&
+                                        <span className="inRed"> Seuls les 50 à 60 premiers caractères seront affichés par les moteurs de recherche
+                                        </span>}
+                                    Nombre de caractères: {metaTitle.length}
+                                </div>
+                            </div>
+
+                            {/* meta-description */}
+                            <div className="div-label-inputTxt">
+                                <div className="sub-div-horiz-align">
+                                    <label>Méta-déscription de cette collection:</label>
+                                    <i className="fas fa-question-circle tooltip">
+                                        <span className="tooltiptext">Cette déscription sera utilisée pour décrire le contenu de cette page et donner des indications sur son contenu à l'internaute. Les moteurs de recherche affichent à peu près les 130 premiers caractères.</span>
+                                    </i>
+                                </div>
+                                <textarea
+                                    // style={{ opacity: "0.6" }}
+                                    value={metaDescription}
+                                    onChange={handleMetaDescription}>
+                                </textarea>
+                                <div className='sub-div-vert-align'>
+                                    {metaDescriptionbiggerThan130 &&
+                                        <span className="inRed"> Seuls les 120 à 130 premiers caractères seront affichés par les moteurs de recherche
+                                        </span>}
+                                    Nombre de caractères: {metaDescription.length}
+                                </div>
                             </div>
                         </div>
                     }
