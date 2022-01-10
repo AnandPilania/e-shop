@@ -1,7 +1,7 @@
 @import "../../../sass/_variables";
 
 .accordion {
-  background-color: $backgroundAdminColor;
+  background-color: white; //$backgroundAdminColor;
   color: #444;
   cursor: pointer;
   padding: 10px 18px;
@@ -17,12 +17,12 @@
 }
 
 .active, .accordion:hover {
-  background-color: $backgroundAdminColor;
+  background-color: white; //$backgroundAdminColor;
 }
 
 .panel {
   padding: 0 18px;
-  background-color: $backgroundAdminColor;
+  background-color: white; //$backgroundAdminColor;
   max-height: 0;
   height: auto;
   overflow: hidden;

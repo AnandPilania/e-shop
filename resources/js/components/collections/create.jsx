@@ -11,12 +11,13 @@ import AppContext from '../contexts/AppContext';
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import "flatpickr/dist/themes/material_blue.css";
 import Flatpickr from "react-flatpickr";
-
+import '../css/dropDown.scss';
 
 
 
 const CreateCollection = () => {
     var navigate = useNavigate();
+
     // form-------------------------------------------------------------------
     const [conditions, setConditions] = useLocalStorage("conditions", [{
         id: 0,
@@ -37,7 +38,7 @@ const CreateCollection = () => {
 
     const [isAutoConditions, setIsAutoConditions] = useState(true);
     const [isShowOptimisation, setIsShowOptimisation] = useState(true);
-    const [includePrevProduct, setIncludePrevProduct] = useState(true);
+    const [notIncludePrevProduct, setNotIncludePrevProduct] = useState(false);
     const [categoriesList, setCategoriesList] = useState([]);
     const [allConditionsNeeded, setAllConditionsNeeded] = useState(true);
     const [newCategoryName, setNewCategoryName] = useState('');
@@ -137,6 +138,7 @@ const CreateCollection = () => {
         setFollowThisLink(path);
 
 
+
         // évite error quand on passe à un autre component
         return <>{categoriesList ? categoriesList : ''}</>
 
@@ -183,6 +185,7 @@ const CreateCollection = () => {
         var arr = [...conditions];
         var index_arr = arr.findIndex(obj => obj.id == id);
         arr.splice(index_arr, 1);
+
         setConditions([...arr]);
     }
 
@@ -226,11 +229,25 @@ const CreateCollection = () => {
                 value: ''
             }]);
         }
+
     };
 
     useEffect(() => {
         localStorage.setItem("conditions", JSON.stringify(conditions));
     }, [conditions]);
+
+    useEffect(() => {
+        
+        // dropDown
+        var acc = document.getElementsByClassName("accordion")[0];
+        // setIsActive(!isActive);
+        var panel = document.getElementById('conditions_collection');
+        if (panel.style.maxHeight) {
+            panel.style.maxHeight = null;
+        } else {
+            panel.style.maxHeight = panel.scrollHeight + "px";
+        }
+    }, [isAutoConditions]);
     // ---------------------------------------------------------------CONDITIONS
 
     // show / hide optimisation title & description & url
@@ -249,10 +266,10 @@ const CreateCollection = () => {
     };
 
     // détermine si on inclus les produits déjà enregistrer dans la nouvelle collection
-    const includePrevProducts = (includ) => {
-        setIncludePrevProduct(includ);
+    const notIncludePrevProducts = () => {
+        setNotIncludePrevProduct(!notIncludePrevProduct);
     };
-
+    console.log(notIncludePrevProduct)
     const handleNameCollection = (e) => {
         setNameCollection(e.target.value);
         localStorage.setItem("nameCollection", e.target.value);
@@ -633,7 +650,7 @@ const CreateCollection = () => {
     formData.append("name", nameCollection);
     formData.append("description", descriptionCollection);
     formData.append("automatise", isAutoConditions);
-    formData.append("includePrevProduct", includePrevProduct);
+    formData.append("notIncludePrevProduct", notIncludePrevProduct);
     formData.append("allConditionsNeeded", allConditionsNeeded);
     formData.append("objConditions", objConditions);
     formData.append("dateActivation", dateField);
@@ -704,48 +721,38 @@ const CreateCollection = () => {
 
                 {/* type de collection */}
                 <div className="div-vert-align">
-                    <h2>Type de collection</h2>
-                    <div className="sub-div-vert-align">
-                        <div className="div-radio-label">
-                            <input type='radio'
-                                checked={isAutoConditions == false}
-                                onChange={() => showHideConditions(false)} />
-                            <label
-                                onClick={() => showHideConditions(false)}>
-                                Manuel
-                            </label>
-                        </div>
-                        <p>Ajouter un produit à la fois dans cette collection. <a href='#'>Plus d'informations sur les collections manuelles.</a></p>
-                    </div>
-                    <div className="sub-div-vert-align">
-                        <div className="div-radio-label">
-                            <input type='radio'
-                                checked={isAutoConditions == true}
-                                onChange={() => showHideConditions(true)} />
-                            <label
-                                onClick={() => showHideConditions(true)}>
-                                Automatisé
-                            </label>
-                        </div>
-                        <p>Ajouter automatiquement les produits lorsqu'ils correspondent aux règles définies. <a href='#'>Plus d'informations sur les collections automatisées.</a></p>
-                        {isAutoConditions && <div className="sub-div-horiz-align">
+                    <div className="sub-div-vert-align accordion ${isAutoConditions && 'active'}">
+                        <h2>Type de collection</h2>
+                        <div className="sub-div-vert-align">
                             <div className="div-radio-label">
                                 <input type='radio'
-                                    checked={includePrevProduct == true}
-                                    onChange={() => includePrevProducts(true)} />
-                                <label onClick={() => includePrevProducts(true)}>Inclure les produits déjà enregistrés</label>
+                                    checked={isAutoConditions == false}
+                                    onChange={() => showHideConditions(false)} />
+                                <label
+                                    onClick={() => showHideConditions(false)}>
+                                    Manuel
+                                </label>
                             </div>
+                            <p>Ajouter un produit à la fois dans cette collection. <a href='#'>Plus d'informations sur les collections manuelles.</a></p>
+                        </div>
+                        <div className="sub-div-vert-align">
                             <div className="div-radio-label">
                                 <input type='radio'
-                                    checked={includePrevProduct == false}
-                                    onChange={() => includePrevProducts(false)} />
-                                <label onClick={() => includePrevProducts(false)}>Ne pas inclure les produits déjà enregistrés</label>
+                                    checked={isAutoConditions == true}
+                                    onChange={() => showHideConditions(true)} />
+                                <label
+                                    onClick={() => showHideConditions(true)}>
+                                    Automatisé
+                                </label>
                             </div>
-                        </div>}
+                            <p>Ajouter automatiquement les produits lorsqu'ils correspondent aux règles définies. <a href='#'>Plus d'informations sur les collections automatisées.</a></p>
+                        </div>
                     </div>
                     {/* conditions */}
-                    {isAutoConditions &&
-                        <div className="sub-div-vert-align-border-top" id="conditions_collection">
+                    {/* {isAutoConditions && */}
+                    <div className="sub-div-vert-align panel"
+                    id="conditions_collection">
+                        <div className="sub-div-vert-align-border-top">
                             <h2>Condition(s)</h2>
                             <h4>Définissez une ou plusieurs règles. Ex. Prix du produit est inférieur à 50 €, Nom du produit contient Robe, etc. Seuls les produits correspondants à vos règles seront intégrés dans cette collection. </h4>
                             <div className="sub-div-horiz-align">
@@ -774,10 +781,21 @@ const CreateCollection = () => {
                                         condition={condition}
                                         deleteCondition={deleteCondition}
                                     />))}
-                                <button className="btn-bcknd" onClick={addCondition}>Ajouter une condition</button>
+                                <button className="btn-bcknd mb15" onClick={addCondition}>Ajouter une condition</button>
+                            </div>
+                            <div className="sub-div-horiz-align">
+                                <div className="div-radio-label">
+                                    <input type='checkbox'
+                                        id="includOnlyNewProducts"
+                                        checked={notIncludePrevProduct}
+                                        onChange={notIncludePrevProducts} />
+                                    <label
+                                        onClick={notIncludePrevProducts} htmlFor='includOnlyNewProducts'>Ne pas inclure les produits déjà enregistrés</label>
+                                </div>
                             </div>
                         </div>
-                    }
+                    </div>
+                    {/* } */}
                 </div>
 
                 {/* résultat sur les moteurs de recherche */}
@@ -790,27 +808,27 @@ const CreateCollection = () => {
                                 checked={isShowOptimisation}
                                 onChange={showHideOptimisation} />
                         </div>
-                        {metaUrl.length > (window.location.origin.toString() + '/').length ? 
-                            (<button 
-                        style={{ marginBottom: "10px" }}
-                        className='btn-bcknd'
-                            onClick={initOptimisationForm}>
-                            Annuler
-                        </button>) :
-                        metaTitle.length > 0 ? 
-                        (<button 
-                        style={{ marginBottom: "10px" }}
-                        className='btn-bcknd'
-                            onClick={initOptimisationForm}>
-                            Annuler
-                        </button>) : 
-                        metaDescription.length > 0 ? 
-                        (<button 
-                        style={{ marginBottom: "10px" }}
-                        className='btn-bcknd'
-                            onClick={initOptimisationForm}>
-                            Annuler
-                        </button>) : ''}
+                        {metaUrl.length > (window.location.origin.toString() + '/').length ?
+                            (<button
+                                style={{ marginBottom: "10px" }}
+                                className='btn-bcknd'
+                                onClick={initOptimisationForm}>
+                                Annuler
+                            </button>) :
+                            metaTitle.length > 0 ?
+                                (<button
+                                    style={{ marginBottom: "10px" }}
+                                    className='btn-bcknd'
+                                    onClick={initOptimisationForm}>
+                                    Annuler
+                                </button>) :
+                                metaDescription.length > 0 ?
+                                    (<button
+                                        style={{ marginBottom: "10px" }}
+                                        className='btn-bcknd'
+                                        onClick={initOptimisationForm}>
+                                        Annuler
+                                    </button>) : ''}
                     </div>
                     {isShowOptimisation &&
                         <div className="sub-div-vert-align-border-top">

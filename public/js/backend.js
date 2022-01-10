@@ -22435,7 +22435,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
 /* harmony import */ var _conditionCollection__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./conditionCollection */ "./resources/js/components/collections/conditionCollection.jsx");
 /* harmony import */ var _ckeditor_ckeditor5_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ckeditor/ckeditor5-react */ "./node_modules/@ckeditor/ckeditor5-react/dist/ckeditor.js");
 /* harmony import */ var _ckeditor_ckeditor5_react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_ckeditor_ckeditor5_react__WEBPACK_IMPORTED_MODULE_2__);
@@ -22450,7 +22450,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../hooks/useLocalStorage */ "./resources/js/components/hooks/useLocalStorage.jsx");
 /* harmony import */ var flatpickr_dist_themes_material_blue_css__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! flatpickr/dist/themes/material_blue.css */ "./node_modules/flatpickr/dist/themes/material_blue.css");
 /* harmony import */ var react_flatpickr__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-flatpickr */ "./node_modules/react-flatpickr/build/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _css_dropDown_scss__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../css/dropDown.scss */ "./resources/js/components/css/dropDown.scss");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -22488,8 +22489,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var CreateCollection = function CreateCollection() {
-  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_13__.useNavigate)(); // form-------------------------------------------------------------------
+  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_14__.useNavigate)(); // form-------------------------------------------------------------------
 
   var _useLocalStorage = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_9__.useLocalStorage)("conditions", [{
     id: 0,
@@ -22557,10 +22559,10 @@ var CreateCollection = function CreateCollection() {
       isShowOptimisation = _useState8[0],
       setIsShowOptimisation = _useState8[1];
 
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState10 = _slicedToArray(_useState9, 2),
-      includePrevProduct = _useState10[0],
-      setIncludePrevProduct = _useState10[1];
+      notIncludePrevProduct = _useState10[0],
+      setNotIncludePrevProduct = _useState10[1];
 
   var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState12 = _slicedToArray(_useState11, 2),
@@ -22732,7 +22734,7 @@ var CreateCollection = function CreateCollection() {
     var path = window.location.pathname.replace('admin/', '');
     setFollowThisLink(path); // évite error quand on passe à un autre component
 
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.Fragment, {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.Fragment, {
       children: categoriesList ? categoriesList : ''
     });
   }, []); // récupère et formatte la date et l'heure de maintenant
@@ -22829,7 +22831,19 @@ var CreateCollection = function CreateCollection() {
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     localStorage.setItem("conditions", JSON.stringify(conditions));
-  }, [conditions]); // ---------------------------------------------------------------CONDITIONS
+  }, [conditions]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // dropDown
+    var acc = document.getElementsByClassName("accordion")[0]; // setIsActive(!isActive);
+
+    var panel = document.getElementById('conditions_collection');
+
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    }
+  }, [isAutoConditions]); // ---------------------------------------------------------------CONDITIONS
   // show / hide optimisation title & description & url
 
   var showHideOptimisation = function showHideOptimisation() {
@@ -22845,9 +22859,11 @@ var CreateCollection = function CreateCollection() {
   }; // détermine si on inclus les produits déjà enregistrer dans la nouvelle collection
 
 
-  var includePrevProducts = function includePrevProducts(includ) {
-    setIncludePrevProduct(includ);
+  var notIncludePrevProducts = function notIncludePrevProducts() {
+    setNotIncludePrevProduct(!notIncludePrevProduct);
   };
+
+  console.log(notIncludePrevProduct);
 
   var handleNameCollection = function handleNameCollection(e) {
     setNameCollection(e.target.value);
@@ -23205,7 +23221,7 @@ var CreateCollection = function CreateCollection() {
   formData.append("name", nameCollection);
   formData.append("description", descriptionCollection);
   formData.append("automatise", isAutoConditions);
-  formData.append("includePrevProduct", includePrevProduct);
+  formData.append("notIncludePrevProduct", notIncludePrevProduct);
   formData.append("allConditionsNeeded", allConditionsNeeded);
   formData.append("objConditions", objConditions);
   formData.append("dateActivation", dateField);
@@ -23223,33 +23239,33 @@ var CreateCollection = function CreateCollection() {
     });
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
     className: "collection-main-container",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
       className: "collection-block-container",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
         className: "div-vert-align",
-        children: [isDirty && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("button", {
+        children: [isDirty && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
           className: "btn-bcknd btn-effacer-tout",
           onClick: initCollectionForm,
           children: "R\xE9initialiser"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
           className: "div-label-inputTxt",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h2", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
             children: "Nom de la collection"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("input", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
             type: "text",
             id: "titreCollection",
             value: nameCollection,
             onChange: handleNameCollection,
             placeholder: "ex. Robes, Op\xE9ration d\xE9stockage, Collection hiver"
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
           className: "div-label-inputTxt",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h2", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
             children: "Description (optionnel)"
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_ckeditor_ckeditor5_react__WEBPACK_IMPORTED_MODULE_2__.CKEditor, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_ckeditor_ckeditor5_react__WEBPACK_IMPORTED_MODULE_2__.CKEditor, {
           editor: (_ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_3___default()),
           data: descriptionCollection,
           onReady: function onReady(editor) {
@@ -23269,169 +23285,159 @@ var CreateCollection = function CreateCollection() {
             editor.ui.view.editable.element.style.minHeight = "150px";
           }
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
         className: "div-vert-align",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h2", {
-          children: "Type de collection"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
-          className: "sub-div-vert-align",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
-            className: "div-radio-label",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("input", {
-              type: "radio",
-              checked: isAutoConditions == false,
-              onChange: function onChange() {
-                return showHideConditions(false);
-              }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("label", {
-              onClick: function onClick() {
-                return showHideConditions(false);
-              },
-              children: "Manuel"
-            })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("p", {
-            children: ["Ajouter un produit \xE0 la fois dans cette collection. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("a", {
-              href: "#",
-              children: "Plus d'informations sur les collections manuelles."
-            })]
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
-          className: "sub-div-vert-align",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
-            className: "div-radio-label",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("input", {
-              type: "radio",
-              checked: isAutoConditions == true,
-              onChange: function onChange() {
-                return showHideConditions(true);
-              }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("label", {
-              onClick: function onClick() {
-                return showHideConditions(true);
-              },
-              children: "Automatis\xE9"
-            })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("p", {
-            children: ["Ajouter automatiquement les produits lorsqu'ils correspondent aux r\xE8gles d\xE9finies. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("a", {
-              href: "#",
-              children: "Plus d'informations sur les collections automatis\xE9es."
-            })]
-          }), isAutoConditions && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
-            className: "sub-div-horiz-align",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
-              className: "div-radio-label",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("input", {
-                type: "radio",
-                checked: includePrevProduct == true,
-                onChange: function onChange() {
-                  return includePrevProducts(true);
-                }
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("label", {
-                onClick: function onClick() {
-                  return includePrevProducts(true);
-                },
-                children: "Inclure les produits d\xE9j\xE0 enregistr\xE9s"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
-              className: "div-radio-label",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("input", {
-                type: "radio",
-                checked: includePrevProduct == false,
-                onChange: function onChange() {
-                  return includePrevProducts(false);
-                }
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("label", {
-                onClick: function onClick() {
-                  return includePrevProducts(false);
-                },
-                children: "Ne pas inclure les produits d\xE9j\xE0 enregistr\xE9s"
-              })]
-            })]
-          })]
-        }), isAutoConditions && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
-          className: "sub-div-vert-align-border-top",
-          id: "conditions_collection",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h2", {
-            children: "Condition(s)"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h4", {
-            children: "D\xE9finissez une ou plusieurs r\xE8gles. Ex. Prix du produit est inf\xE9rieur \xE0 50 \u20AC, Nom du produit contient Robe, etc. Seuls les produits correspondants \xE0 vos r\xE8gles seront int\xE9gr\xE9s dans cette collection. "
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
-            className: "sub-div-horiz-align",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
-              className: "div-radio-label",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("input", {
-                type: "radio",
-                name: "condition",
-                id: "allConditions",
-                checked: allConditionsNeeded == true,
-                onChange: function onChange() {
-                  return setAllConditionsNeeded(true);
-                }
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("label", {
-                htmlFor: "allConditions",
-                children: "Les produits doivent r\xE9pondre \xE0 toutes les conditions"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
-              className: "div-radio-label",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("input", {
-                type: "radio",
-                name: "condition",
-                id: "leastOnConditions",
-                checked: allConditionsNeeded == false,
-                onChange: function onChange() {
-                  return setAllConditionsNeeded(false);
-                }
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("label", {
-                htmlFor: "leastOnConditions",
-                children: "Les produits doivent r\xE9pondre \xE0 au moins une condition"
-              })]
-            })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+          className: "sub-div-vert-align accordion ${isAutoConditions && 'active'}",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+            children: "Type de collection"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
             className: "sub-div-vert-align",
-            children: [conditions && conditions.map(function (condition, i) {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_conditionCollection__WEBPACK_IMPORTED_MODULE_1__["default"], {
-                handleChangeParam: handleChangeParam,
-                handleChangeOperator: handleChangeOperator,
-                handleChangeValue: handleChangeValue,
-                condition: condition,
-                deleteCondition: deleteCondition
-              }, i);
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("button", {
-              className: "btn-bcknd",
-              onClick: addCondition,
-              children: "Ajouter une condition"
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+              className: "div-radio-label",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+                type: "radio",
+                checked: isAutoConditions == false,
+                onChange: function onChange() {
+                  return showHideConditions(false);
+                }
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+                onClick: function onClick() {
+                  return showHideConditions(false);
+                },
+                children: "Manuel"
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("p", {
+              children: ["Ajouter un produit \xE0 la fois dans cette collection. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
+                href: "#",
+                children: "Plus d'informations sur les collections manuelles."
+              })]
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+            className: "sub-div-vert-align",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+              className: "div-radio-label",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+                type: "radio",
+                checked: isAutoConditions == true,
+                onChange: function onChange() {
+                  return showHideConditions(true);
+                }
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+                onClick: function onClick() {
+                  return showHideConditions(true);
+                },
+                children: "Automatis\xE9"
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("p", {
+              children: ["Ajouter automatiquement les produits lorsqu'ils correspondent aux r\xE8gles d\xE9finies. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
+                href: "#",
+                children: "Plus d'informations sur les collections automatis\xE9es."
+              })]
             })]
           })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+          className: "sub-div-vert-align panel",
+          id: "conditions_collection",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+            className: "sub-div-vert-align-border-top",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+              children: "Condition(s)"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h4", {
+              children: "D\xE9finissez une ou plusieurs r\xE8gles. Ex. Prix du produit est inf\xE9rieur \xE0 50 \u20AC, Nom du produit contient Robe, etc. Seuls les produits correspondants \xE0 vos r\xE8gles seront int\xE9gr\xE9s dans cette collection. "
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+              className: "sub-div-horiz-align",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                className: "div-radio-label",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+                  type: "radio",
+                  name: "condition",
+                  id: "allConditions",
+                  checked: allConditionsNeeded == true,
+                  onChange: function onChange() {
+                    return setAllConditionsNeeded(true);
+                  }
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+                  htmlFor: "allConditions",
+                  children: "Les produits doivent r\xE9pondre \xE0 toutes les conditions"
+                })]
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                className: "div-radio-label",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+                  type: "radio",
+                  name: "condition",
+                  id: "leastOnConditions",
+                  checked: allConditionsNeeded == false,
+                  onChange: function onChange() {
+                    return setAllConditionsNeeded(false);
+                  }
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+                  htmlFor: "leastOnConditions",
+                  children: "Les produits doivent r\xE9pondre \xE0 au moins une condition"
+                })]
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+              className: "sub-div-vert-align",
+              children: [conditions && conditions.map(function (condition, i) {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_conditionCollection__WEBPACK_IMPORTED_MODULE_1__["default"], {
+                  handleChangeParam: handleChangeParam,
+                  handleChangeOperator: handleChangeOperator,
+                  handleChangeValue: handleChangeValue,
+                  condition: condition,
+                  deleteCondition: deleteCondition
+                }, i);
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
+                className: "btn-bcknd mb15",
+                onClick: addCondition,
+                children: "Ajouter une condition"
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+              className: "sub-div-horiz-align",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                className: "div-radio-label",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+                  type: "checkbox",
+                  id: "includOnlyNewProducts",
+                  checked: notIncludePrevProduct,
+                  onChange: notIncludePrevProducts
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+                  onClick: notIncludePrevProducts,
+                  htmlFor: "includOnlyNewProducts",
+                  children: "Ne pas inclure les produits d\xE9j\xE0 enregistr\xE9s"
+                })]
+              })
+            })]
+          })
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
         className: "div-vert-align",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
           className: "sub-div-horiz-align",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
             className: "sub-div-horiz-align",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h2", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
               children: "Optimisation SEO"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("input", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
               type: "checkbox",
               className: "cm-toggle",
               checked: isShowOptimisation,
               onChange: showHideOptimisation
             })]
-          }), metaUrl.length > (window.location.origin.toString() + '/').length ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("button", {
+          }), metaUrl.length > (window.location.origin.toString() + '/').length ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
             style: {
               marginBottom: "10px"
             },
             className: "btn-bcknd",
             onClick: initOptimisationForm,
             children: "Annuler"
-          }) : metaTitle.length > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("button", {
+          }) : metaTitle.length > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
             style: {
               marginBottom: "10px"
             },
             className: "btn-bcknd",
             onClick: initOptimisationForm,
             children: "Annuler"
-          }) : metaDescription.length > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("button", {
+          }) : metaDescription.length > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
             style: {
               marginBottom: "10px"
             },
@@ -23439,118 +23445,118 @@ var CreateCollection = function CreateCollection() {
             onClick: initOptimisationForm,
             children: "Annuler"
           }) : '']
-        }), isShowOptimisation && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+        }), isShowOptimisation && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
           className: "sub-div-vert-align-border-top",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h3", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h3", {
             children: "Coup d'oeil sur le r\xE9sultat affich\xE9 par les moteurs de recherche"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
             className: "div-label-inputTxt",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
               className: "sub-div-horiz-align",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("label", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
                 children: "Url de la page de cette collection"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("i", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("i", {
                 className: "fas fa-question-circle tooltip",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("span", {
                   className: "tooltiptext",
                   children: "Utilisez des mots cl\xE9s en rapport avec le contenu de cette collection"
                 })
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("input", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
               type: "text",
               value: metaUrl,
               onChange: handleMetaUrl,
               placeholder: "Url de cette collection",
               maxLength: "2047"
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
             className: "div-label-inputTxt",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
               className: "sub-div-horiz-align",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("label", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
                 children: "M\xE9ta-titre de la page de cette collection"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("i", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("i", {
                 className: "fas fa-question-circle tooltip",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("span", {
                   className: "tooltiptext",
                   children: "Le m\xE9ta-titre est important pour le r\xE9f\xE9rencement d'une page web. Sa longueur id\xE9al se situe entre 30 et 60 caract\xE8res mais il peut \xEAtre plus long pour donner plus d'informations sur le contenu de la page. Toutefois, seuls les 50 premiers caract\xE8res \xE0 peu pr\xE8s seront affich\xE9s dans les r\xE9sultats des moteurs de recherche. C'est pourquoi il est important de commence par des mots cl\xE9s pertinants pour l'internaute afin d'am\xE9liorer le taux de clics vers votre page."
                 })
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("input", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
               type: "text",
               value: metaTitle,
               onChange: handleMetaTitle
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
               className: "sub-div-vert-align",
-              children: [metaTitlebiggerThan50 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
+              children: [metaTitlebiggerThan50 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("span", {
                 className: "inRed",
                 children: " Seuls les 50 \xE0 60 premiers caract\xE8res seront affich\xE9s par les moteurs de recherche"
               }), "Nombre de caract\xE8res: ", metaTitle.length]
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
             className: "div-label-inputTxt",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
               className: "sub-div-horiz-align",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("label", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
                 children: "M\xE9ta-d\xE9scription de cette collection:"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("i", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("i", {
                 className: "fas fa-question-circle tooltip",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("span", {
                   className: "tooltiptext",
                   children: "Cette d\xE9scription sera utilis\xE9e pour d\xE9crire le contenu de cette page et donner des indications sur son contenu \xE0 l'internaute. Les moteurs de recherche affichent \xE0 peu pr\xE8s les 130 premiers caract\xE8res."
                 })
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("textarea", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("textarea", {
               // style={{ opacity: "0.6" }}
               value: metaDescription,
               onChange: handleMetaDescription
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
               className: "sub-div-vert-align",
-              children: [metaDescriptionbiggerThan130 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
+              children: [metaDescriptionbiggerThan130 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("span", {
                 className: "inRed",
                 children: " Seuls les 120 \xE0 130 premiers caract\xE8res seront affich\xE9s par les moteurs de recherche"
               }), "Nombre de caract\xE8res: ", metaDescription.length]
             })]
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
         className: "div-label-inputTxt",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("button", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
           className: "btn-submit",
           onClick: handleSubmit,
           children: "Enregistrer"
         })
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
       className: "side-create-collection",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
         className: "div-vert-align",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
           className: "div-label-inputTxt",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h2", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
             children: "Image"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("p", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
             children: "Ajouter une image pour cette collection. (*optionnel)"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_tools_dropZone__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_tools_dropZone__WEBPACK_IMPORTED_MODULE_5__["default"], {
             multiple: false,
             setImage: setImage
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
           className: "sub-div-vert-align",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
             className: "div-label-inputTxt",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
               className: "sub-div-horiz-align",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("label", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
                 children: "Texte alternatif (*optionnel) "
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("i", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("i", {
                 className: "fas fa-question-circle tooltip",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("span", {
                   className: "tooltiptext",
                   children: "Ajouter une br\xE8ve description de l'image ex. \"Jeans noir avec fermeture \xE9clair\". Ceci am\xE9liorera l'accessibilit\xE9 et le r\xE9f\xE9rencement de votre boutique."
                 })
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("input", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
               type: "text",
               name: "alt",
               value: alt,
@@ -23558,52 +23564,52 @@ var CreateCollection = function CreateCollection() {
             })]
           })
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
         className: "div-vert-align",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
           className: "div-label-inputTxt",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h2", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
             children: "Cat\xE9gorie"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("p", {
-            children: ["Attribuer une cat\xE9gorie \xE0 cette collection. (", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("strong", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("p", {
+            children: ["Attribuer une cat\xE9gorie \xE0 cette collection. (", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("strong", {
               children: "*optionnel"
             }), ")"]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
             className: "categorySelect",
             id: "categorySelect",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("button", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("button", {
               className: "btn-select-category",
               onClick: showHideCategorySelect,
-              children: [categoryName.length > 25 ? categoryName.substring(0, 25) + '...' : categoryName, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("i", {
+              children: [categoryName.length > 25 ? categoryName.substring(0, 25) + '...' : categoryName, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("i", {
                 className: "fas fa-angle-down"
               })]
-            }), showCategorySelect && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("ul", {
+            }), showCategorySelect && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("ul", {
               className: "ul-category",
-              children: [categoryName != 'Aucune catégorie' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("li", {
+              children: [categoryName != 'Aucune catégorie' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("li", {
                 className: "li-category",
                 onClick: function onClick() {
                   handleCategory(0), handleCategoryName('Aucune catégorie');
                 },
                 children: "Aucune cat\xE9gorie"
               }), categoriesList.map(function (cat, index) {
-                return cat.name != categoryName && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("li", {
+                return cat.name != categoryName && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("li", {
                   className: "li-category",
                   onClick: function onClick() {
                     handleCategory(cat.id);
                     handleCategoryName(cat.name);
                   },
-                  children: [cat.name.length > 25 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
+                  children: [cat.name.length > 25 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("span", {
                     children: cat.name.substring(0, 25) + '...'
-                  }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
+                  }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("span", {
                     children: cat.name
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("i", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("i", {
                       className: "fas fa-recycle",
                       onClick: function onClick() {
                         handleCategory(cat.id);
                         handleShowModalInput();
                       }
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("i", {
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("i", {
                       className: "far fa-trash-alt",
                       onClick: function onClick() {
                         return confirmDeleteCategory(cat.id, cat.name);
@@ -23613,53 +23619,53 @@ var CreateCollection = function CreateCollection() {
                 }, index);
               })]
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("p", {
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("a", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
               href: "#",
               children: "Plus d'informations sur les cat\xE9gories."
             })
-          }), newCategorySucces && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("p", {
+          }), newCategorySucces && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("p", {
             className: "succesMessage",
             children: ["La cat\xE9gorie ", newCategoryNameUseInMessage]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("p", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
           className: "pos-abs-bot-rig-15",
           onClick: function onClick(e) {
             handleShowCreateCategory(e);
           },
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("a", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
             href: "",
             children: linkCreateCategory
           })
-        }), showCreateCategory && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+        }), showCreateCategory && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
           className: "sub-div-vert-alogn",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("label", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
             children: "Nom de la cat\xE9gorie"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("input", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
             type: "text",
             value: newCategoryName,
             onChange: handleNewCategoryName,
             maxLength: "255",
             placeholder: "Entrez un nom"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("button", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
             className: "btn-bcknd",
             onClick: saveNewCategory,
             children: "Sauvegarder"
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
         className: "div-vert-align",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
           className: "div-label-inputTxt",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h2", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
             children: "Activation"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
             className: "sub-div-horiz-align",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
               className: "sub-div-vert-align",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("p", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
                 children: "Date"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(react_flatpickr__WEBPACK_IMPORTED_MODULE_11__["default"], {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_flatpickr__WEBPACK_IMPORTED_MODULE_11__["default"], {
                 id: "activationDate",
                 "data-enable-time": true,
                 placeholder: dateField,
@@ -23694,32 +23700,32 @@ var CreateCollection = function CreateCollection() {
                 }
               })]
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("p", {
-            children: [" ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("a", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("p", {
+            children: [" ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
               href: "#",
               children: "Plus d'informations sur l'activation des collections."
             })]
           })]
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_modal_modalConfirm__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_modal_modalConfirm__WEBPACK_IMPORTED_MODULE_6__["default"], {
         show: showModalConfirm // true/false show modal
         ,
         handleModalConfirm: handleModalConfirm,
         handleModalCancel: handleModalCancel,
         textButtonConfirm: textButtonConfirm,
         image: imageConfirm,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h2", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
           className: "childrenModal",
           children: messageModal
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)(_modal_modalInput__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_modal_modalInput__WEBPACK_IMPORTED_MODULE_7__["default"], {
         show: showModalInput,
         updateCategory: updateCategory,
         handleModalCancel: handleModalCancel,
         setInputTextModify: setInputTextModify,
         inputTextModify: inputTextModify,
         image: '../images/icons/changeCategory.png',
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h2", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
           className: "childrenModal",
           children: messageModal
         })
@@ -27021,7 +27027,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
-/* harmony import */ var _menu_accordion_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./menu_accordion.scss */ "./resources/js/components/navBar/menu_accordion.scss");
+/* harmony import */ var _css_dropDown_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../css/dropDown.scss */ "./resources/js/components/css/dropDown.scss");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -38122,10 +38128,10 @@ var index = createJss();
 
 /***/ }),
 
-/***/ "./resources/js/components/navBar/menu_accordion.scss":
-/*!************************************************************!*\
-  !*** ./resources/js/components/navBar/menu_accordion.scss ***!
-  \************************************************************/
+/***/ "./resources/js/components/css/dropDown.scss":
+/*!***************************************************!*\
+  !*** ./resources/js/components/css/dropDown.scss ***!
+  \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -75000,7 +75006,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 		var installedChunks = {
 /******/ 			"/js/backEnd": 0,
 /******/ 			"css/createProduct_Js": 0,
-/******/ 			"backend/css/menu_accordion": 0
+/******/ 			"backend/css/dropDown": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -75050,7 +75056,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/menu_accordion"], () => (__webpack_require__("./resources/js/backEnd.js")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/dropDown"], () => (__webpack_require__("./resources/js/backEnd.js")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

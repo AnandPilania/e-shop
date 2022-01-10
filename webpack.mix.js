@@ -27,7 +27,7 @@ mix.js('resources/js/createProduct.js', 'public/js').react()
     .sass('resources/sass/payment.scss', 'public/frontend/css')
     .sass('resources/sass/fontawesome.scss', 'public/css')
     .sass('resources/sass/back-end.scss', 'public/backend/css')
-    .sass('resources/js/components/navBar/menu_accordion.scss', 'public/backend/css')
+    .sass('resources/js/components/css/dropDown.scss', 'public/backend/css')
     .sass('resources/js/components/collections/collections_component.scss', 'public/backend/css')
     .postCss('resources/css/app.css', 'public/css', [
         require('postcss-import'),
