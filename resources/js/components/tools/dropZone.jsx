@@ -64,7 +64,7 @@ const useStyles = makeStyles({
 
 const DropZone = (props) => {
     const classes = useStyles();
-    const { image, setImage, setImagePath } = useContext(AppContext);
+    const { image, setImage, setImagePath, setImageModal, setShowModalSimpleMessage, setMessageModal } = useContext(AppContext);
     var navigate = useNavigate();
     var dropRegion = null;
     var imagePreviewRegion = null;
@@ -216,14 +216,18 @@ const DropZone = (props) => {
         // check the type
         var validTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'];
         if (validTypes.indexOf(image.type) === -1) {
-            alert("Fichier non valide");
+            setMessageModal('Ce type de fichier est non valide')
+            setImageModal('../images/icons/trash_dirty.png');
+            setShowModalSimpleMessage(true);
             return false;
         }
 
         // check the size
         var maxSizeInBytes = 10e6; // 10MB
         if (image.size > maxSizeInBytes) {
-            alert("Votre fichier est trop grand");
+            setMessageModal('Votre fichier est trop grand')
+            setImageModal('../images/icons/trash_dirty.png');
+            setShowModalSimpleMessage(true);
             return false;
         }
 

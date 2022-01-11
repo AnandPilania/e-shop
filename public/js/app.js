@@ -22053,6 +22053,52 @@ var App = function App() {
       darkMode = _useState16[0],
       setDarkMode = _useState16[1];
 
+  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState18 = _slicedToArray(_useState17, 2),
+      showModalConfirm = _useState18[0],
+      setShowModalConfirm = _useState18[1];
+
+  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState20 = _slicedToArray(_useState19, 2),
+      showModalSimpleMessage = _useState20[0],
+      setShowModalSimpleMessage = _useState20[1];
+
+  var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState22 = _slicedToArray(_useState21, 2),
+      showModalCroppeImage = _useState22[0],
+      setShowModalCroppeImage = _useState22[1];
+
+  var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState24 = _slicedToArray(_useState23, 2),
+      showModalInput = _useState24[0],
+      setShowModalInput = _useState24[1];
+
+  var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState26 = _slicedToArray(_useState25, 2),
+      messageModal = _useState26[0],
+      setMessageModal = _useState26[1];
+
+  var _useState27 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState28 = _slicedToArray(_useState27, 2),
+      sender = _useState28[0],
+      setSender = _useState28[1]; // for modal
+
+
+  var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState30 = _slicedToArray(_useState29, 2),
+      inputTextModify = _useState30[0],
+      setInputTextModify = _useState30[1];
+
+  var _useState31 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
+      _useState32 = _slicedToArray(_useState31, 2),
+      textButtonConfirm = _useState32[0],
+      setTextButtonConfirm = _useState32[1];
+
+  var _useState33 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState34 = _slicedToArray(_useState33, 2),
+      imageModal = _useState34[0],
+      setImageModal = _useState34[1];
+
   var handleModalApp = function handleModalApp() {
     setShowModalApp(false);
   };
@@ -22068,6 +22114,24 @@ var App = function App() {
     setImagePath: setImagePath,
     followThisLink: followThisLink,
     setFollowThisLink: setFollowThisLink,
+    showModalConfirm: showModalConfirm,
+    setShowModalConfirm: setShowModalConfirm,
+    showModalSimpleMessage: showModalSimpleMessage,
+    setShowModalSimpleMessage: setShowModalSimpleMessage,
+    showModalCroppeImage: showModalCroppeImage,
+    setShowModalCroppeImage: setShowModalCroppeImage,
+    showModalInput: showModalInput,
+    setShowModalInput: setShowModalInput,
+    messageModal: messageModal,
+    setMessageModal: setMessageModal,
+    sender: sender,
+    setSender: setSender,
+    inputTextModify: inputTextModify,
+    setInputTextModify: setInputTextModify,
+    textButtonConfirm: textButtonConfirm,
+    setTextButtonConfirm: setTextButtonConfirm,
+    imageModal: imageModal,
+    setImageModal: setImageModal,
     darkMode: darkMode,
     setDarkMode: setDarkMode
   };
@@ -22457,12 +22521,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _tools_dropZone__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../tools/dropZone */ "./resources/js/components/tools/dropZone.jsx");
 /* harmony import */ var _modal_modalConfirm__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../modal/modalConfirm */ "./resources/js/components/modal/modalConfirm.jsx");
-/* harmony import */ var _modal_modalInput__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../modal/modalInput */ "./resources/js/components/modal/modalInput.jsx");
-/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
-/* harmony import */ var _hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../hooks/useLocalStorage */ "./resources/js/components/hooks/useLocalStorage.jsx");
-/* harmony import */ var flatpickr_dist_themes_material_blue_css__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! flatpickr/dist/themes/material_blue.css */ "./node_modules/flatpickr/dist/themes/material_blue.css");
-/* harmony import */ var react_flatpickr__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-flatpickr */ "./node_modules/react-flatpickr/build/index.js");
-/* harmony import */ var _css_dropDown_scss__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../css/dropDown.scss */ "./resources/js/components/css/dropDown.scss");
+/* harmony import */ var _modal_modalSimpleMessage__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../modal/modalSimpleMessage */ "./resources/js/components/modal/modalSimpleMessage.jsx");
+/* harmony import */ var _modal_modalInput__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../modal/modalInput */ "./resources/js/components/modal/modalInput.jsx");
+/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
+/* harmony import */ var _hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../hooks/useLocalStorage */ "./resources/js/components/hooks/useLocalStorage.jsx");
+/* harmony import */ var flatpickr_dist_themes_material_blue_css__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! flatpickr/dist/themes/material_blue.css */ "./node_modules/flatpickr/dist/themes/material_blue.css");
+/* harmony import */ var react_flatpickr__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-flatpickr */ "./node_modules/react-flatpickr/build/index.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -22505,7 +22569,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var CreateCollection = function CreateCollection() {
   var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_14__.useNavigate)(); // form-------------------------------------------------------------------
 
-  var _useLocalStorage = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_9__.useLocalStorage)("conditions", [{
+  var _useLocalStorage = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("conditions", [{
     id: 0,
     parameter: '1',
     operator: '1',
@@ -22515,22 +22579,22 @@ var CreateCollection = function CreateCollection() {
       conditions = _useLocalStorage2[0],
       setConditions = _useLocalStorage2[1];
 
-  var _useLocalStorage3 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_9__.useLocalStorage)("nameCollection", ""),
+  var _useLocalStorage3 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("nameCollection", ""),
       _useLocalStorage4 = _slicedToArray(_useLocalStorage3, 2),
       nameCollection = _useLocalStorage4[0],
       setNameCollection = _useLocalStorage4[1];
 
-  var _useLocalStorage5 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_9__.useLocalStorage)("descriptionCollection", ""),
+  var _useLocalStorage5 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("descriptionCollection", ""),
       _useLocalStorage6 = _slicedToArray(_useLocalStorage5, 2),
       descriptionCollection = _useLocalStorage6[0],
       setDescriptionCollection = _useLocalStorage6[1];
 
-  var _useLocalStorage7 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_9__.useLocalStorage)("metaTitle", ""),
+  var _useLocalStorage7 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("metaTitle", ""),
       _useLocalStorage8 = _slicedToArray(_useLocalStorage7, 2),
       metaTitle = _useLocalStorage8[0],
       setMetaTitle = _useLocalStorage8[1];
 
-  var _useLocalStorage9 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_9__.useLocalStorage)("metaDescription", ""),
+  var _useLocalStorage9 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("metaDescription", ""),
       _useLocalStorage10 = _slicedToArray(_useLocalStorage9, 2),
       metaDescription = _useLocalStorage10[0],
       setMetaDescription = _useLocalStorage10[1];
@@ -22540,20 +22604,25 @@ var CreateCollection = function CreateCollection() {
       metaUrl = _useState2[0],
       setMetaUrl = _useState2[1];
 
-  var _useLocalStorage11 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_9__.useLocalStorage)("altCollection", ""),
+  var _useLocalStorage11 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("imageName", ""),
       _useLocalStorage12 = _slicedToArray(_useLocalStorage11, 2),
-      alt = _useLocalStorage12[0],
-      setAlt = _useLocalStorage12[1];
+      imageName = _useLocalStorage12[0],
+      setImageName = _useLocalStorage12[1];
 
-  var _useLocalStorage13 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_9__.useLocalStorage)('categoryName', 'Aucune catégorie'),
+  var _useLocalStorage13 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("altCollection", ""),
       _useLocalStorage14 = _slicedToArray(_useLocalStorage13, 2),
-      categoryName = _useLocalStorage14[0],
-      setCategoryName = _useLocalStorage14[1];
+      alt = _useLocalStorage14[0],
+      setAlt = _useLocalStorage14[1];
 
-  var _useLocalStorage15 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_9__.useLocalStorage)("categoryId", ""),
+  var _useLocalStorage15 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)('categoryName', 'Aucune catégorie'),
       _useLocalStorage16 = _slicedToArray(_useLocalStorage15, 2),
-      categoryId = _useLocalStorage16[0],
-      setCategoryId = _useLocalStorage16[1];
+      categoryName = _useLocalStorage16[0],
+      setCategoryName = _useLocalStorage16[1];
+
+  var _useLocalStorage17 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("categoryId", ""),
+      _useLocalStorage18 = _slicedToArray(_useLocalStorage17, 2),
+      categoryId = _useLocalStorage18[0],
+      setCategoryId = _useLocalStorage18[1];
 
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState4 = _slicedToArray(_useState3, 2),
@@ -22621,69 +22690,46 @@ var CreateCollection = function CreateCollection() {
       showCategorySelect = _useState28[0],
       setShowCategorySelect = _useState28[1];
 
-  var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
       _useState30 = _slicedToArray(_useState29, 2),
-      showModalConfirm = _useState30[0],
-      setShowModalConfirm = _useState30[1];
+      tmp_parameter = _useState30[0],
+      setTmp_parameter = _useState30[1]; // pour stocker provisoirement une variable
 
-  var _useState31 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+
+  var _useState31 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState32 = _slicedToArray(_useState31, 2),
-      showModalCroppeImage = _useState32[0],
-      setShowModalCroppeImage = _useState32[1];
+      newCategoryNameUseInMessage = _useState32[0],
+      setNewCategoryNameUseInMessage = _useState32[1]; // pour stocker le nom de la catégorie qui doit être afficher dans le message de confirmation de la creation de la catégorie
+
 
   var _useState33 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState34 = _slicedToArray(_useState33, 2),
-      showModalInput = _useState34[0],
-      setShowModalInput = _useState34[1];
+      isDirty = _useState34[0],
+      setIsDirty = _useState34[1];
 
-  var _useState35 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState36 = _slicedToArray(_useState35, 2),
-      messageModal = _useState36[0],
-      setMessageModal = _useState36[1];
-
-  var _useState37 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState38 = _slicedToArray(_useState37, 2),
-      sender = _useState38[0],
-      setSender = _useState38[1]; // for modal
-
-
-  var _useState39 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
-      _useState40 = _slicedToArray(_useState39, 2),
-      tmp_parameter = _useState40[0],
-      setTmp_parameter = _useState40[1]; // pour stocker provisoirement une variable
-
-
-  var _useState41 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState42 = _slicedToArray(_useState41, 2),
-      newCategoryNameUseInMessage = _useState42[0],
-      setNewCategoryNameUseInMessage = _useState42[1]; // pour stocker le nom de la catégorie qui doit être afficher dans le message de confirmation de la creation de la catégorie
-
-
-  var _useState43 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState44 = _slicedToArray(_useState43, 2),
-      inputTextModify = _useState44[0],
-      setInputTextModify = _useState44[1];
-
-  var _useState45 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
-      _useState46 = _slicedToArray(_useState45, 2),
-      textButtonConfirm = _useState46[0],
-      setTextButtonConfirm = _useState46[1];
-
-  var _useState47 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState48 = _slicedToArray(_useState47, 2),
-      imageConfirm = _useState48[0],
-      setImageConfirm = _useState48[1];
-
-  var _useState49 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState50 = _slicedToArray(_useState49, 2),
-      isDirty = _useState50[0],
-      setIsDirty = _useState50[1];
-
-  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_8__["default"]),
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_9__["default"]),
       image = _useContext.image,
       setImage = _useContext.setImage,
       followThisLink = _useContext.followThisLink,
       setFollowThisLink = _useContext.setFollowThisLink,
+      showModalConfirm = _useContext.showModalConfirm,
+      setShowModalConfirm = _useContext.setShowModalConfirm,
+      showModalSimpleMessage = _useContext.showModalSimpleMessage,
+      setShowModalSimpleMessage = _useContext.setShowModalSimpleMessage,
+      showModalCroppeImage = _useContext.showModalCroppeImage,
+      setShowModalCroppeImage = _useContext.setShowModalCroppeImage,
+      showModalInput = _useContext.showModalInput,
+      setShowModalInput = _useContext.setShowModalInput,
+      messageModal = _useContext.messageModal,
+      setMessageModal = _useContext.setMessageModal,
+      sender = _useContext.sender,
+      setSender = _useContext.setSender,
+      inputTextModify = _useContext.inputTextModify,
+      setInputTextModify = _useContext.setInputTextModify,
+      textButtonConfirm = _useContext.textButtonConfirm,
+      setTextButtonConfirm = _useContext.setTextButtonConfirm,
+      imageModal = _useContext.imageModal,
+      setImageModal = _useContext.setImageModal,
       darkMode = _useContext.darkMode,
       setDarkMode = _useContext.setDarkMode;
 
@@ -22697,22 +22743,13 @@ var CreateCollection = function CreateCollection() {
 
     localStorage.getItem('metaUrl') ? setMetaUrl(localStorage.getItem('metaUrl')) : setMetaUrl(window.location.origin + '/'); // set date field with localStorage Data
 
-    localStorage.getItem('dateActivation') ? setDateField(localStorage.getItem('dateActivation')) : setDateField(getNow()); // détermine si on montre le block optimisation
-
-    if (localStorage.getItem('isShowOptimisation')) {
-      if (localStorage.getItem('isShowOptimisation') == 'false') {
-        setIsShowOptimisation(false);
-      } else {
-        setIsShowOptimisation(true);
-      }
-    } // affiche en rouge un avertissement sur la longeur du méta title
-
+    localStorage.getItem('dateActivation') ? setDateField(localStorage.getItem('dateActivation')) : setDateField(getNow()); // affiche en rouge un avertissement sur la longeur du méta title
 
     if (localStorage.getItem('metaTitle').length > 50) {
       setMetaTitleBiggerThan50(true);
     } else {
       setMetaTitleBiggerThan50(false);
-    } // affiche en rouge un avertissement sur la longeur du méta title
+    } // affiche en rouge un avertissement sur la longeur de la méta description
 
 
     if (localStorage.getItem('metaDescription').length > 130) {
@@ -22728,6 +22765,15 @@ var CreateCollection = function CreateCollection() {
       } else {
         setIsAutoConditions(true);
       }
+    } // détermine si on montre le block optimisation
+
+
+    if (localStorage.getItem('isShowOptimisation')) {
+      if (localStorage.getItem('isShowOptimisation') == 'false') {
+        setIsShowOptimisation(false);
+      } else {
+        setIsShowOptimisation(true);
+      }
     } // check if form is dirty
 
 
@@ -22738,7 +22784,7 @@ var CreateCollection = function CreateCollection() {
       }
     });
 
-    if (nameCollection != '' || descriptionCollection != '' || alt != '' || metaTitle != '' || metaDescription != '' || metaUrl != 'http://127.0.0.1:8000/' || image != '' || categoryName != 'Aucune catégorie' || categoryId != 0 || localStorage.getItem('dateActivation') != null || conditonDirty == true) {
+    if (nameCollection != '' || descriptionCollection != '' || alt != '' || imageName != '' || metaTitle != '' || metaDescription != '' || metaUrl != 'http://127.0.0.1:8000/' || image != '' || categoryName != 'Aucune catégorie' || categoryId != 0 || localStorage.getItem('dateActivation') != null || conditonDirty == true) {
       setIsDirty(true);
     } // set le l'URL de cette page
 
@@ -22776,7 +22822,10 @@ var CreateCollection = function CreateCollection() {
       parameter: '1',
       operator: '1',
       value: ''
-    }]));
+    }])); // dropDown
+
+    var dropable = document.getElementById('conditions_collection');
+    dropable.style.maxHeight = parseInt(dropable.scrollHeight + 60) + "px";
   }; // delete la condition dont l'id correspond à l'id transmis
 
 
@@ -22845,15 +22894,13 @@ var CreateCollection = function CreateCollection() {
     localStorage.setItem("conditions", JSON.stringify(conditions));
   }, [conditions]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    // dropDown
-    var acc = document.getElementsByClassName("accordion")[0]; // setIsActive(!isActive);
+    // dropDown conditions
+    var dropable = document.getElementById('conditions_collection');
 
-    var panel = document.getElementById('conditions_collection');
-
-    if (panel.style.maxHeight) {
-      panel.style.maxHeight = null;
+    if (dropable.style.maxHeight) {
+      dropable.style.maxHeight = null;
     } else {
-      panel.style.maxHeight = panel.scrollHeight + "px";
+      dropable.style.maxHeight = dropable.scrollHeight + "px";
     }
   }, [isAutoConditions]); // ---------------------------------------------------------------CONDITIONS
   // show / hide optimisation title & description & url
@@ -22868,14 +22915,22 @@ var CreateCollection = function CreateCollection() {
     localStorage.removeItem('metaTitle');
     localStorage.removeItem('metaDescription');
     localStorage.removeItem('metaUrl');
-  }; // détermine si on inclus les produits déjà enregistrer dans la nouvelle collection
+  };
 
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // dropDown optimisation
+    var dropable = document.getElementById('optimisation_collection');
+
+    if (!isShowOptimisation) {
+      dropable.style.maxHeight = null;
+    } else {
+      dropable.style.maxHeight = dropable.scrollHeight + "px";
+    }
+  }, [isShowOptimisation]); // détermine si on inclus les produits déjà enregistrer dans la nouvelle collection
 
   var notIncludePrevProducts = function notIncludePrevProducts() {
     setNotIncludePrevProduct(!notIncludePrevProduct);
   };
-
-  console.log(notIncludePrevProduct);
 
   var handleNameCollection = function handleNameCollection(e) {
     setNameCollection(e.target.value);
@@ -22891,7 +22946,7 @@ var CreateCollection = function CreateCollection() {
   };
 
   var handleMetaTitle = function handleMetaTitle(e) {
-    setMetaTitle(e.target.value.trim());
+    setMetaTitle(e.target.value);
     localStorage.setItem("metaTitle", e.target.value); // affiche en rouge un avertissement sur la longeur du méta title
 
     if (e.target.value.length > 50) {
@@ -22955,6 +23010,11 @@ var CreateCollection = function CreateCollection() {
   var handleAlt = function handleAlt(e) {
     setAlt(e.target.value);
     localStorage.setItem("altCollection", e.target.value);
+  };
+
+  var handleImageName = function handleImageName(e) {
+    setImageName(e.target.value);
+    localStorage.setItem("imageName", e.target.value);
   }; //---------------------------------------------------------------------IMAGE
   // CATEGORY ----------------------------------------------------------------
   // show hide select menu
@@ -22962,8 +23022,21 @@ var CreateCollection = function CreateCollection() {
 
   var showHideCategorySelect = function showHideCategorySelect() {
     setShowCategorySelect(!showCategorySelect);
-  }; // get id for back-end
+  };
 
+  console.log(showCategorySelect);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // dropDown optimisation
+    var dropable = document.getElementById('category_select');
+
+    if (!showCategorySelect) {
+      dropable.style.maxHeight = null;
+      dropable.style.paddingTop = 0;
+    } else {
+      dropable.style.maxHeight = "250px";
+      dropable.style.paddingTop = "5px";
+    }
+  }, [showCategorySelect]); // get id for back-end
 
   var handleCategory = function handleCategory(cat_id) {
     setCategoryId(cat_id);
@@ -23049,7 +23122,7 @@ var CreateCollection = function CreateCollection() {
   var confirmDeleteCategory = function confirmDeleteCategory(cat_id, cat_name) {
     setMessageModal('Supprimer la catégorie "' + cat_name + '" ?');
     setTextButtonConfirm('Confirmer');
-    setImageConfirm('../images/icons/trash_dirty.png');
+    setImageModal('../images/icons/trash_dirty.png');
     setSender('deleteCategory');
     setTmp_parameter(cat_id);
     setShowModalConfirm(true);
@@ -23061,7 +23134,7 @@ var CreateCollection = function CreateCollection() {
       setShowCategorySelect(false);
       setMessageModal('Suppression réussie');
       setTextButtonConfirm('Fermer');
-      setImageConfirm('../images/icons/trash.png');
+      setImageModal('../images/icons/trash.png');
       setShowModalConfirm(true); // chargement des collections
 
       axios__WEBPACK_IMPORTED_MODULE_4___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
@@ -23133,9 +23206,10 @@ var CreateCollection = function CreateCollection() {
         // if confirm delete
         deleteCategory(tmp_parameter);
         break;
-      // case 'warningEmptyNewCategoryName':
-      //     setShowModalInput(false);
-      //     break;
+
+      case 'initCollectionForm':
+        initCollectionForm();
+        break;
 
       default:
         '';
@@ -23144,10 +23218,21 @@ var CreateCollection = function CreateCollection() {
 
   var handleModalCancel = function handleModalCancel() {
     setShowModalConfirm(false);
+    setShowModalSimpleMessage(false);
     setShowModalInput(false);
   }; //--------------------------------------------------------------ModalConfirm
   // Reset Form---------------------------------------------------------------
-  // réinitialisation des states du form 
+  // confirm reinitialisatio form
+
+
+  var confirmInitCollectionForm = function confirmInitCollectionForm() {
+    setMessageModal('Êtes-vous sûr de vouloir supprimer tout le contenu de ce formulaire ?');
+    setTextButtonConfirm('Confirmer');
+    setImageModal('../images/icons/trash_dirty.png');
+    setSender('initCollectionForm');
+    setTmp_parameter('');
+    setShowModalConfirm(true);
+  }; // réinitialisation des states du form 
 
 
   var initCollectionForm = function initCollectionForm() {
@@ -23157,6 +23242,7 @@ var CreateCollection = function CreateCollection() {
     setMetaDescription('');
     setMetaUrl(window.location.origin + '/');
     setAlt('');
+    setImageName('');
     setImage([]);
     setCategoryName('Aucune catégorie');
     setCategoryId('');
@@ -23181,14 +23267,20 @@ var CreateCollection = function CreateCollection() {
       for (var i = 0; i < imagesToRemove.length; i++) {
         imagesToRemove[i].remove();
       }
-    } // vide le localStorage
+    } // remet l'image de fond
 
+
+    document.getElementById('drop-region-dropZone').style.backgroundColor = 'none';
+    document.getElementById('drop-region-dropZone').style.background = 'no-repeat url("../images/icons/backgroundDropZone.png")';
+    document.getElementById('drop-region-dropZone').style.backgroundPosition = 'center 90%';
+    document.getElementById("drop-message-dropZone").style.display = 'block'; // vide le localStorage
 
     localStorage.removeItem('nameCollection');
     localStorage.removeItem('descriptionCollection');
     localStorage.removeItem('metaTitle');
     localStorage.removeItem('metaDescription');
     localStorage.removeItem('image');
+    localStorage.removeItem('imageName');
     localStorage.removeItem('altCollection');
     localStorage.removeItem('metaUrl');
     localStorage.removeItem('categoryName');
@@ -23239,6 +23331,7 @@ var CreateCollection = function CreateCollection() {
   formData.append("dateActivation", dateField);
   formData.append("categoryId", categoryId);
   formData.append("alt", alt);
+  formData.append("imageName", imageName);
 
   var handleSubmit = function handleSubmit() {
     // VALIDATION !!!
@@ -23259,7 +23352,7 @@ var CreateCollection = function CreateCollection() {
         className: "div-vert-align",
         children: [isDirty && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
           className: "btn-bcknd btn-effacer-tout",
-          onClick: initCollectionForm,
+          onClick: confirmInitCollectionForm,
           children: "R\xE9initialiser"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
           className: "div-label-inputTxt",
@@ -23299,57 +23392,54 @@ var CreateCollection = function CreateCollection() {
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
         className: "div-vert-align",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
-          className: "sub-div-vert-align accordion ${isAutoConditions && 'active'}",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
-            children: "Type de collection"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
-            className: "sub-div-vert-align",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
-              className: "div-radio-label",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
-                type: "radio",
-                checked: isAutoConditions == false,
-                onChange: function onChange() {
-                  return showHideConditions(false);
-                }
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
-                onClick: function onClick() {
-                  return showHideConditions(false);
-                },
-                children: "Manuel"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("p", {
-              children: ["Ajouter un produit \xE0 la fois dans cette collection. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
-                href: "#",
-                children: "Plus d'informations sur les collections manuelles."
-              })]
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+          children: "Type de collection"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+          className: "sub-div-vert-align",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+            className: "div-radio-label",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+              type: "radio",
+              checked: isAutoConditions == false,
+              onChange: function onChange() {
+                return showHideConditions(false);
+              }
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+              onClick: function onClick() {
+                return showHideConditions(false);
+              },
+              children: "Manuel"
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
-            className: "sub-div-vert-align",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
-              className: "div-radio-label",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
-                type: "radio",
-                checked: isAutoConditions == true,
-                onChange: function onChange() {
-                  return showHideConditions(true);
-                }
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
-                onClick: function onClick() {
-                  return showHideConditions(true);
-                },
-                children: "Automatis\xE9"
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("p", {
-              children: ["Ajouter automatiquement les produits lorsqu'ils correspondent aux r\xE8gles d\xE9finies. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
-                href: "#",
-                children: "Plus d'informations sur les collections automatis\xE9es."
-              })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("p", {
+            children: ["Ajouter un produit \xE0 la fois dans cette collection. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
+              href: "#",
+              children: "Plus d'informations sur les collections manuelles."
+            })]
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+          className: "sub-div-vert-align",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+            className: "div-radio-label",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+              type: "radio",
+              checked: isAutoConditions == true,
+              onChange: function onChange() {
+                return showHideConditions(true);
+              }
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+              onClick: function onClick() {
+                return showHideConditions(true);
+              },
+              children: "Automatis\xE9"
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("p", {
+            children: ["Ajouter automatiquement les produits lorsqu'ils correspondent aux r\xE8gles d\xE9finies. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
+              href: "#",
+              children: "Plus d'informations sur les collections automatis\xE9es."
             })]
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
-          className: "sub-div-vert-align panel",
+          className: "sub-div-vert-align dropable",
           id: "conditions_collection",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
             className: "sub-div-vert-align-border-top",
@@ -23457,11 +23547,10 @@ var CreateCollection = function CreateCollection() {
             onClick: initOptimisationForm,
             children: "Annuler"
           }) : '']
-        }), isShowOptimisation && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
-          className: "sub-div-vert-align-border-top",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h3", {
-            children: "Coup d'oeil sur le r\xE9sultat affich\xE9 par les moteurs de recherche"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+          className: "sub-div-vert-align dropable",
+          id: "optimisation_collection",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
             className: "div-label-inputTxt",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
               className: "sub-div-horiz-align",
@@ -23553,9 +23642,9 @@ var CreateCollection = function CreateCollection() {
             multiple: false,
             setImage: setImage
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
           className: "sub-div-vert-align",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
             className: "div-label-inputTxt",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
               className: "sub-div-horiz-align",
@@ -23565,7 +23654,7 @@ var CreateCollection = function CreateCollection() {
                 className: "fas fa-question-circle tooltip",
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("span", {
                   className: "tooltiptext",
-                  children: "Ajouter une br\xE8ve description de l'image ex. \"Jeans noir avec fermeture \xE9clair\". Ceci am\xE9liorera l'accessibilit\xE9 et le r\xE9f\xE9rencement de votre boutique."
+                  children: "Ajouter une br\xE8ve description de l'image ex. \"Jeans noir avec fermeture \xE9clair\". Ceci am\xE9liore l'accessibilit\xE9 et le r\xE9f\xE9rencement de votre boutique."
                 })
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
@@ -23574,7 +23663,26 @@ var CreateCollection = function CreateCollection() {
               value: alt,
               onChange: handleAlt
             })]
-          })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+            className: "div-label-inputTxt",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+              className: "sub-div-horiz-align",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+                children: "Changer le nom de l'image (*optionnel) "
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("i", {
+                className: "fas fa-question-circle tooltip",
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("span", {
+                  className: "tooltiptext",
+                  children: "Donnez un nom en rapport avec le contenu de l'image. Ceci am\xE9liore le r\xE9f\xE9rencement de votre boutique dans les recherches par image."
+                })
+              })]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+              type: "text",
+              name: "imgColection",
+              value: imageName,
+              onChange: handleImageName
+            })]
+          })]
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
         className: "div-vert-align",
@@ -23595,8 +23703,9 @@ var CreateCollection = function CreateCollection() {
               children: [categoryName.length > 25 ? categoryName.substring(0, 25) + '...' : categoryName, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("i", {
                 className: "fas fa-angle-down"
               })]
-            }), showCategorySelect && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("ul", {
-              className: "ul-category",
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("ul", {
+              className: "ul-category dropable",
+              id: "category_select",
               children: [categoryName != 'Aucune catégorie' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("li", {
                 className: "li-category",
                 onClick: function onClick() {
@@ -23677,7 +23786,7 @@ var CreateCollection = function CreateCollection() {
               className: "sub-div-vert-align",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
                 children: "Date"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_flatpickr__WEBPACK_IMPORTED_MODULE_11__["default"], {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_flatpickr__WEBPACK_IMPORTED_MODULE_12__["default"], {
                 id: "activationDate",
                 "data-enable-time": true,
                 placeholder: dateField,
@@ -23725,18 +23834,27 @@ var CreateCollection = function CreateCollection() {
         handleModalConfirm: handleModalConfirm,
         handleModalCancel: handleModalCancel,
         textButtonConfirm: textButtonConfirm,
-        image: imageConfirm,
+        image: imageModal,
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
           className: "childrenModal",
           children: messageModal
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_modal_modalInput__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_modal_modalInput__WEBPACK_IMPORTED_MODULE_8__["default"], {
         show: showModalInput,
         updateCategory: updateCategory,
         handleModalCancel: handleModalCancel,
         setInputTextModify: setInputTextModify,
         inputTextModify: inputTextModify,
         image: '../images/icons/changeCategory.png',
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+          className: "childrenModal",
+          children: messageModal
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_modal_modalSimpleMessage__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        show: showModalSimpleMessage // true/false show modal
+        ,
+        handleModalCancel: handleModalCancel,
+        image: imageModal,
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
           className: "childrenModal",
           children: messageModal
@@ -23897,6 +24015,24 @@ __webpack_require__.r(__webpack_exports__);
   setImagePath: function setImagePath() {},
   followThisLink: '',
   setFollowThisLink: function setFollowThisLink() {},
+  showModalConfirm: '',
+  setShowModalConfirm: function setShowModalConfirm() {},
+  showModalSimpleMessage: '',
+  setShowModalSimpleMessage: function setShowModalSimpleMessage() {},
+  showModalCroppeImage: '',
+  setShowModalCroppeImage: function setShowModalCroppeImage() {},
+  showModalInput: '',
+  setShowModalInput: function setShowModalInput() {},
+  messageModal: '',
+  setMessageModal: function setMessageModal() {},
+  sender: '',
+  setSender: function setSender() {},
+  inputTextModify: '',
+  setInputTextModify: function setInputTextModify() {},
+  textButtonConfirm: '',
+  setTextButtonConfirm: function setTextButtonConfirm() {},
+  imageModal: '',
+  setImageModal: function setImageModal() {},
   darkMode: '',
   setDarkMode: function setDarkMode() {}
 }));
@@ -26789,7 +26925,7 @@ var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_2__["default"])(
     width: '150px',
     height: '50px',
     padding: '0 25px',
-    margin: '20px 0',
+    margin: '20px 20px 0 0',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
@@ -26856,13 +26992,17 @@ var ModalConfirm = function ModalConfirm(_ref) {
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
         src: image
-      }), children, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      }), children, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
         className: classes.BlockButtons,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
           className: classes.btnModal,
           onClick: handleModalConfirm,
           children: textButtonConfirm
-        })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+          className: classes.btnModal,
+          onClick: handleModalCancel,
+          children: "Annuler"
+        })]
       })]
     })
   });
@@ -27023,6 +27163,139 @@ var ModalInput = function ModalInput(_ref) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ModalInput);
+
+/***/ }),
+
+/***/ "./resources/js/components/modal/modalSimpleMessage.jsx":
+/*!**************************************************************!*\
+  !*** ./resources/js/components/modal/modalSimpleMessage.jsx ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_2__["default"])({
+  modal: {
+    position: 'fixed',
+    top: '0',
+    left: '0',
+    width: '100%',
+    height: ' 100%',
+    background: 'rgba(0, 0, 0, 0.6)'
+  },
+  modalMain: {
+    position: 'fixed',
+    background: 'white',
+    width: '30%',
+    minWidth: '300px',
+    padding: '50px',
+    top: ' 50%',
+    left: '50%',
+    transform: 'translate(-50%,-50%)',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    borderRadius: '5px'
+  },
+  BlockButtons: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '30px'
+  },
+  btnModal: {
+    width: '150px',
+    height: '50px',
+    padding: '0 25px',
+    margin: '20px 20px 0 0',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgb(52, 115, 252)',
+    color: 'white',
+    fontSize: '20px',
+    borderRadius: '5px',
+    border: 'solid 1px rgb(220, 220, 220)',
+    transition: 'ease-in-out 0.15s',
+    '&:hover': {
+      cursor: 'pointer',
+      color: '#eeeeee'
+    }
+  },
+  close: {
+    position: 'absolute',
+    top: '0px',
+    right: '0px',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    paddingRight: '25px',
+    paddingTop: '25px'
+  },
+  image: {
+    margin: '20px 0'
+  },
+  faTimes: {
+    fontSize: '26px',
+    transition: 'ease-in-out .15s',
+    color: '#333333',
+    '&:hover': {
+      cursor: 'pointer',
+      transform: 'scale(1.15)'
+    }
+  },
+  displayBlock: {
+    display: 'block'
+  },
+  displayNone: {
+    display: 'none'
+  }
+});
+
+var ModalSimpleMessage = function ModalSimpleMessage(_ref) {
+  var handleModalCancel = _ref.handleModalCancel,
+      show = _ref.show,
+      image = _ref.image,
+      children = _ref.children;
+  var classes = useStyles();
+  var showHideClassName = show ? classes.displayBlock : classes.displayNone;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    className: classes.modal + ' ' + showHideClassName,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("section", {
+      className: classes.modalMain,
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: classes.close,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+          className: classes.faTimes + ' ' + "fas fa-times",
+          onClick: handleModalCancel
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
+        src: image
+      }), children, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: classes.BlockButtons,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+          className: classes.btnModal,
+          onClick: handleModalCancel,
+          children: "Fermer"
+        })
+      })]
+    })
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ModalSimpleMessage);
 
 /***/ }),
 
@@ -27506,7 +27779,10 @@ var DropZone = function DropZone(props) {
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_2__["default"]),
       image = _useContext.image,
       setImage = _useContext.setImage,
-      setImagePath = _useContext.setImagePath;
+      setImagePath = _useContext.setImagePath,
+      setImageModal = _useContext.setImageModal,
+      setShowModalSimpleMessage = _useContext.setShowModalSimpleMessage,
+      setMessageModal = _useContext.setMessageModal;
 
   var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_5__.useNavigate)();
   var dropRegion = null;
@@ -27653,7 +27929,9 @@ var DropZone = function DropZone(props) {
     var validTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'];
 
     if (validTypes.indexOf(image.type) === -1) {
-      alert("Fichier non valide");
+      setMessageModal('Ce type de fichier est non valide');
+      setImageModal('../images/icons/trash_dirty.png');
+      setShowModalSimpleMessage(true);
       return false;
     } // check the size
 
@@ -27661,7 +27939,9 @@ var DropZone = function DropZone(props) {
     var maxSizeInBytes = 10e6; // 10MB
 
     if (image.size > maxSizeInBytes) {
-      alert("Votre fichier est trop grand");
+      setMessageModal('Votre fichier est trop grand');
+      setImageModal('../images/icons/trash_dirty.png');
+      setShowModalSimpleMessage(true);
       return false;
     }
 

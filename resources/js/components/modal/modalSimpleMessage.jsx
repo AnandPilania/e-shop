@@ -90,7 +90,7 @@ const useStyles = makeStyles({
 });
 
 
-const ModalConfirm = ({ handleModalConfirm, handleModalCancel, textButtonConfirm, show, image, children }) => {
+const ModalSimpleMessage = ({ handleModalCancel, show, image, children }) => {
     const classes = useStyles();
     const showHideClassName = show ? classes.displayBlock : classes.displayNone;
 
@@ -106,11 +106,8 @@ const ModalConfirm = ({ handleModalConfirm, handleModalCancel, textButtonConfirm
                 {children}
 
                 <div className={classes.BlockButtons}>
-                    <button className={classes.btnModal} onClick={handleModalConfirm}>
-                        {textButtonConfirm}
-                    </button>
                     <button className={classes.btnModal} onClick={handleModalCancel}>
-                        Annuler
+                        Fermer
                     </button>
                 </div>
 
@@ -119,4 +116,4 @@ const ModalConfirm = ({ handleModalConfirm, handleModalCancel, textButtonConfirm
     );
 };
 
-export default ModalConfirm;
+export default ModalSimpleMessage;

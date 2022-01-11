@@ -187,6 +187,13 @@
     // border: solid 2px rgb(17, 120, 218);
 }
 
+.dropable {
+    max-height: 0;
+    height: auto;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+  }
+
 .sub-div-vert-align-border-top {
     width: 100%;
     display: flex;
@@ -230,6 +237,11 @@
 #includOnlyNewProducts {
     transform: scale(1.3);
     margin-right: 12px;
+    margin-left: 4px;
+}
+
+#includOnlyNewProducts:hover {
+    cursor: pointer;
 }
 
 .sub-div-horiz-align p {
@@ -430,7 +442,7 @@
     color: rgb(99, 99, 99);
     border-radius: 5px 5px 0 0;
     border: solid 1px rgb(220, 220, 220);
-    transition: ease-in-out 0.15s;
+    transition: ease-in-out 0.4s;
 }
 
 .btn-select-category:hover {
@@ -441,11 +453,9 @@
 }
 
 .ul-category {
-    max-height: 250px;
     overflow-y: scroll;
     overflow-x: hidden;
     list-style-type: none;
-    padding-top: 5px;
     border-radius: 0 0 5px 5px;
     border: rgb(220, 220, 220) solid 1px;
 }

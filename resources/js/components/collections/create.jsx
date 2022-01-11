@@ -6,12 +6,13 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Axios from 'axios';
 import DropZone from '../tools/dropZone';
 import ModalConfirm from '../modal/modalConfirm';
+import ModalSimpleMessage from '../modal/modalSimpleMessage';
 import ModalInput from '../modal/modalInput';
 import AppContext from '../contexts/AppContext';
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import "flatpickr/dist/themes/material_blue.css";
 import Flatpickr from "react-flatpickr";
-import '../css/dropDown.scss';
+
 
 
 
@@ -30,6 +31,7 @@ const CreateCollection = () => {
     const [metaTitle, setMetaTitle] = useLocalStorage("metaTitle", "");
     const [metaDescription, setMetaDescription] = useLocalStorage("metaDescription", "");
     const [metaUrl, setMetaUrl] = useState(window.location.origin + '/');
+    const [imageName, setImageName] = useLocalStorage("imageName", "");
     const [alt, setAlt] = useLocalStorage("altCollection", "");
     const [categoryName, setCategoryName] = useLocalStorage('categoryName', 'Aucune catégorie');
     const [categoryId, setCategoryId] = useLocalStorage("categoryId", "");
@@ -48,19 +50,16 @@ const CreateCollection = () => {
     const [metaTitlebiggerThan50, setMetaTitleBiggerThan50] = useState(false);
     const [metaDescriptionbiggerThan130, setMetaDescriptionbiggerThan130] = useState(false);
     const [showCategorySelect, setShowCategorySelect] = useState(false);
-    const [showModalConfirm, setShowModalConfirm] = useState(false);
-    const [showModalCroppeImage, setShowModalCroppeImage] = useState(false);
-    const [showModalInput, setShowModalInput] = useState(false);
-    const [messageModal, setMessageModal] = useState('');
-    const [sender, setSender] = useState(''); // for modal
+
     const [tmp_parameter, setTmp_parameter] = useState(); // pour stocker provisoirement une variable
     const [newCategoryNameUseInMessage, setNewCategoryNameUseInMessage] = useState(''); // pour stocker le nom de la catégorie qui doit être afficher dans le message de confirmation de la creation de la catégorie
-    const [inputTextModify, setInputTextModify] = useState('');
-    const [textButtonConfirm, setTextButtonConfirm] = useState('Confirmer');
-    const [imageConfirm, setImageConfirm] = useState('');
+
     const [isDirty, setIsDirty] = useState(false);
 
-    const { image, setImage, followThisLink, setFollowThisLink, darkMode, setDarkMode } = useContext(AppContext);
+    const { image, setImage, followThisLink, setFollowThisLink, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage, showModalCroppeImage, setShowModalCroppeImage,
+        showModalInput, setShowModalInput, messageModal, setMessageModal, sender, setSender, inputTextModify, setInputTextModify,
+        textButtonConfirm, setTextButtonConfirm,
+        imageModal, setImageModal, darkMode, setDarkMode } = useContext(AppContext);
 
     useEffect(() => {
         // chargement des collections
@@ -78,28 +77,18 @@ const CreateCollection = () => {
         // set date field with localStorage Data
         localStorage.getItem('dateActivation') ? setDateField(localStorage.getItem('dateActivation')) : setDateField(getNow());
 
-        // détermine si on montre le block optimisation
-        if (localStorage.getItem('isShowOptimisation')) {
-            if (localStorage.getItem('isShowOptimisation') == 'false') {
-                setIsShowOptimisation(false);
-            } else {
-                setIsShowOptimisation(true);
-            }
-        }
-
         // affiche en rouge un avertissement sur la longeur du méta title
         if (localStorage.getItem('metaTitle').length > 50) {
             setMetaTitleBiggerThan50(true);
         } else {
             setMetaTitleBiggerThan50(false);
         }
-        // affiche en rouge un avertissement sur la longeur du méta title
+        // affiche en rouge un avertissement sur la longeur de la méta description
         if (localStorage.getItem('metaDescription').length > 130) {
             setMetaDescriptionbiggerThan130(true);
         } else {
             setMetaDescriptionbiggerThan130(false);
         }
-
 
         // détermine si on montre le block conditions
         if (localStorage.getItem('isAutoConditions')) {
@@ -107,6 +96,15 @@ const CreateCollection = () => {
                 setIsAutoConditions(false);
             } else {
                 setIsAutoConditions(true);
+            }
+        }
+
+        // détermine si on montre le block optimisation
+        if (localStorage.getItem('isShowOptimisation')) {
+            if (localStorage.getItem('isShowOptimisation') == 'false') {
+                setIsShowOptimisation(false);
+            } else {
+                setIsShowOptimisation(true);
             }
         }
 
@@ -121,6 +119,7 @@ const CreateCollection = () => {
             nameCollection != '' ||
             descriptionCollection != '' ||
             alt != '' ||
+            imageName != '' ||
             metaTitle != '' ||
             metaDescription != '' ||
             metaUrl != 'http://127.0.0.1:8000/' ||
@@ -178,6 +177,10 @@ const CreateCollection = () => {
                 value: ''
             }
         ]);
+
+        // dropDown
+        var dropable = document.getElementById('conditions_collection');
+        dropable.style.maxHeight = parseInt(dropable.scrollHeight + 60) + "px";
     };
 
     // delete la condition dont l'id correspond à l'id transmis
@@ -237,15 +240,12 @@ const CreateCollection = () => {
     }, [conditions]);
 
     useEffect(() => {
-        
-        // dropDown
-        var acc = document.getElementsByClassName("accordion")[0];
-        // setIsActive(!isActive);
-        var panel = document.getElementById('conditions_collection');
-        if (panel.style.maxHeight) {
-            panel.style.maxHeight = null;
+        // dropDown conditions
+        var dropable = document.getElementById('conditions_collection');
+        if (dropable.style.maxHeight) {
+            dropable.style.maxHeight = null;
         } else {
-            panel.style.maxHeight = panel.scrollHeight + "px";
+            dropable.style.maxHeight = dropable.scrollHeight + "px";
         }
     }, [isAutoConditions]);
     // ---------------------------------------------------------------CONDITIONS
@@ -265,11 +265,21 @@ const CreateCollection = () => {
 
     };
 
+    useEffect(() => {
+        // dropDown optimisation
+        var dropable = document.getElementById('optimisation_collection');
+        if (!isShowOptimisation) {
+            dropable.style.maxHeight = null;
+        } else {
+            dropable.style.maxHeight = dropable.scrollHeight + "px";
+        }
+    }, [isShowOptimisation]);
+
     // détermine si on inclus les produits déjà enregistrer dans la nouvelle collection
     const notIncludePrevProducts = () => {
         setNotIncludePrevProduct(!notIncludePrevProduct);
     };
-    console.log(notIncludePrevProduct)
+
     const handleNameCollection = (e) => {
         setNameCollection(e.target.value);
         localStorage.setItem("nameCollection", e.target.value);
@@ -286,7 +296,7 @@ const CreateCollection = () => {
     };
 
     const handleMetaTitle = (e) => {
-        setMetaTitle(e.target.value.trim());
+        setMetaTitle(e.target.value);
         localStorage.setItem("metaTitle", e.target.value);
 
         // affiche en rouge un avertissement sur la longeur du méta title
@@ -356,6 +366,10 @@ const CreateCollection = () => {
         setAlt(e.target.value);
         localStorage.setItem("altCollection", e.target.value);
     };
+    const handleImageName = (e) => {
+        setImageName(e.target.value);
+        localStorage.setItem("imageName", e.target.value);
+    };
 
     //---------------------------------------------------------------------IMAGE
 
@@ -364,6 +378,19 @@ const CreateCollection = () => {
     const showHideCategorySelect = () => {
         setShowCategorySelect(!showCategorySelect);
     }
+
+    console.log(showCategorySelect)
+    useEffect(() => {
+        // dropDown optimisation
+        var dropable = document.getElementById('category_select');
+        if (!showCategorySelect) {
+            dropable.style.maxHeight = null;
+            dropable.style.paddingTop = 0;
+        } else {
+            dropable.style.maxHeight = "250px";
+            dropable.style.paddingTop = "5px";
+        }
+    }, [showCategorySelect]);
 
     // get id for back-end
     const handleCategory = (cat_id) => {
@@ -446,7 +473,7 @@ const CreateCollection = () => {
     const confirmDeleteCategory = (cat_id, cat_name) => {
         setMessageModal('Supprimer la catégorie "' + cat_name + '" ?')
         setTextButtonConfirm('Confirmer');
-        setImageConfirm('../images/icons/trash_dirty.png');
+        setImageModal('../images/icons/trash_dirty.png');
         setSender('deleteCategory');
         setTmp_parameter(cat_id);
         setShowModalConfirm(true);
@@ -459,7 +486,7 @@ const CreateCollection = () => {
                 setShowCategorySelect(false);
                 setMessageModal('Suppression réussie')
                 setTextButtonConfirm('Fermer');
-                setImageConfirm('../images/icons/trash.png');
+                setImageModal('../images/icons/trash.png');
                 setShowModalConfirm(true);
 
 
@@ -536,9 +563,9 @@ const CreateCollection = () => {
             case 'deleteCategory': // if confirm delete
                 deleteCategory(tmp_parameter);
                 break;
-            // case 'warningEmptyNewCategoryName':
-            //     setShowModalInput(false);
-            //     break;
+            case 'initCollectionForm':
+                initCollectionForm();
+                break;
             default:
                 '';
         }
@@ -546,11 +573,22 @@ const CreateCollection = () => {
 
     const handleModalCancel = () => {
         setShowModalConfirm(false);
+        setShowModalSimpleMessage(false);
         setShowModalInput(false);
     };
     //--------------------------------------------------------------ModalConfirm
 
     // Reset Form---------------------------------------------------------------
+    // confirm reinitialisatio form
+    const confirmInitCollectionForm = () => {
+        setMessageModal('Êtes-vous sûr de vouloir supprimer tout le contenu de ce formulaire ?')
+        setTextButtonConfirm('Confirmer');
+        setImageModal('../images/icons/trash_dirty.png');
+        setSender('initCollectionForm');
+        setTmp_parameter('');
+        setShowModalConfirm(true);
+    }
+
     // réinitialisation des states du form 
     const initCollectionForm = () => {
 
@@ -560,6 +598,7 @@ const CreateCollection = () => {
         setMetaDescription('');
         setMetaUrl(window.location.origin + '/');
         setAlt('');
+        setImageName('');
         setImage([]);
         setCategoryName('Aucune catégorie');
         setCategoryId('');
@@ -587,6 +626,11 @@ const CreateCollection = () => {
                 imagesToRemove[i].remove();
             }
         }
+        // remet l'image de fond
+        document.getElementById('drop-region-dropZone').style.backgroundColor = 'none';
+        document.getElementById('drop-region-dropZone').style.background = 'no-repeat url("../images/icons/backgroundDropZone.png")';
+        document.getElementById('drop-region-dropZone').style.backgroundPosition = 'center 90%';
+        document.getElementById("drop-message-dropZone").style.display = 'block';
 
         // vide le localStorage
         localStorage.removeItem('nameCollection');
@@ -594,6 +638,7 @@ const CreateCollection = () => {
         localStorage.removeItem('metaTitle');
         localStorage.removeItem('metaDescription');
         localStorage.removeItem('image');
+        localStorage.removeItem('imageName');
         localStorage.removeItem('altCollection');
         localStorage.removeItem('metaUrl');
         localStorage.removeItem('categoryName');
@@ -656,6 +701,7 @@ const CreateCollection = () => {
     formData.append("dateActivation", dateField);
     formData.append("categoryId", categoryId);
     formData.append("alt", alt);
+    formData.append("imageName", imageName);
 
 
 
@@ -682,7 +728,7 @@ const CreateCollection = () => {
                 {/* nom */}
                 <div className="div-vert-align">
                     {isDirty && (<button className='btn-bcknd btn-effacer-tout'
-                        onClick={initCollectionForm}>
+                        onClick={confirmInitCollectionForm}>
                         Réinitialiser
                     </button>)}
                     <div className="div-label-inputTxt">
@@ -721,37 +767,34 @@ const CreateCollection = () => {
 
                 {/* type de collection */}
                 <div className="div-vert-align">
-                    <div className="sub-div-vert-align accordion ${isAutoConditions && 'active'}">
-                        <h2>Type de collection</h2>
-                        <div className="sub-div-vert-align">
-                            <div className="div-radio-label">
-                                <input type='radio'
-                                    checked={isAutoConditions == false}
-                                    onChange={() => showHideConditions(false)} />
-                                <label
-                                    onClick={() => showHideConditions(false)}>
-                                    Manuel
-                                </label>
-                            </div>
-                            <p>Ajouter un produit à la fois dans cette collection. <a href='#'>Plus d'informations sur les collections manuelles.</a></p>
+                    <h2>Type de collection</h2>
+                    <div className="sub-div-vert-align">
+                        <div className="div-radio-label">
+                            <input type='radio'
+                                checked={isAutoConditions == false}
+                                onChange={() => showHideConditions(false)} />
+                            <label
+                                onClick={() => showHideConditions(false)}>
+                                Manuel
+                            </label>
                         </div>
-                        <div className="sub-div-vert-align">
-                            <div className="div-radio-label">
-                                <input type='radio'
-                                    checked={isAutoConditions == true}
-                                    onChange={() => showHideConditions(true)} />
-                                <label
-                                    onClick={() => showHideConditions(true)}>
-                                    Automatisé
-                                </label>
-                            </div>
-                            <p>Ajouter automatiquement les produits lorsqu'ils correspondent aux règles définies. <a href='#'>Plus d'informations sur les collections automatisées.</a></p>
+                        <p>Ajouter un produit à la fois dans cette collection. <a href='#'>Plus d'informations sur les collections manuelles.</a></p>
+                    </div>
+                    <div className="sub-div-vert-align">
+                        <div className="div-radio-label">
+                            <input type='radio'
+                                checked={isAutoConditions == true}
+                                onChange={() => showHideConditions(true)} />
+                            <label
+                                onClick={() => showHideConditions(true)}>
+                                Automatisé
+                            </label>
                         </div>
+                        <p>Ajouter automatiquement les produits lorsqu'ils correspondent aux règles définies. <a href='#'>Plus d'informations sur les collections automatisées.</a></p>
                     </div>
                     {/* conditions */}
-                    {/* {isAutoConditions && */}
-                    <div className="sub-div-vert-align panel"
-                    id="conditions_collection">
+                    <div className="sub-div-vert-align dropable"
+                        id="conditions_collection">
                         <div className="sub-div-vert-align-border-top">
                             <h2>Condition(s)</h2>
                             <h4>Définissez une ou plusieurs règles. Ex. Prix du produit est inférieur à 50 €, Nom du produit contient Robe, etc. Seuls les produits correspondants à vos règles seront intégrés dans cette collection. </h4>
@@ -795,7 +838,6 @@ const CreateCollection = () => {
                             </div>
                         </div>
                     </div>
-                    {/* } */}
                 </div>
 
                 {/* résultat sur les moteurs de recherche */}
@@ -830,71 +872,69 @@ const CreateCollection = () => {
                                         Annuler
                                     </button>) : ''}
                     </div>
-                    {isShowOptimisation &&
-                        <div className="sub-div-vert-align-border-top">
-                            <h3>Coup d'oeil sur le résultat affiché par les moteurs de recherche</h3>
-                            {/* meta-url */}
-                            <div className="div-label-inputTxt">
-                                <div className="sub-div-horiz-align">
-                                    <label>
-                                        Url de la page de cette collection
-                                    </label>
-                                    <i className="fas fa-question-circle tooltip">
-                                        <span className="tooltiptext">Utilisez des mots clés en rapport avec le contenu de cette collection</span>
-                                    </i>
-                                </div>
-                                <input type='text'
-                                    value={metaUrl}
-                                    onChange={handleMetaUrl}
-                                    placeholder="Url de cette collection"
-                                    maxLength="2047"
-                                />
+                    <div className="sub-div-vert-align dropable"
+                        id="optimisation_collection">
+                        {/* meta-url */}
+                        <div className="div-label-inputTxt">
+                            <div className="sub-div-horiz-align">
+                                <label>
+                                    Url de la page de cette collection
+                                </label>
+                                <i className="fas fa-question-circle tooltip">
+                                    <span className="tooltiptext">Utilisez des mots clés en rapport avec le contenu de cette collection</span>
+                                </i>
                             </div>
+                            <input type='text'
+                                value={metaUrl}
+                                onChange={handleMetaUrl}
+                                placeholder="Url de cette collection"
+                                maxLength="2047"
+                            />
+                        </div>
 
-                            {/* meta-titre */}
-                            <div className="div-label-inputTxt">
-                                <div className="sub-div-horiz-align">
-                                    <label>
-                                        Méta-titre de la page de cette collection
-                                    </label>
-                                    <i className="fas fa-question-circle tooltip">
-                                        <span className="tooltiptext">Le méta-titre est important pour le référencement d'une page web. Sa longueur idéal se situe entre 30 et 60 caractères mais il peut être plus long pour donner plus d'informations sur le contenu de la page. Toutefois, seuls les 50 premiers caractères à peu près seront affichés dans les résultats des moteurs de recherche. C'est pourquoi il est important de commence par des mots clés pertinants pour l'internaute afin d'améliorer le taux de clics vers votre page.</span>
-                                    </i>
-                                </div>
-                                <input type='text'
-                                    value={metaTitle}
-                                    onChange={handleMetaTitle}
-                                />
-                                <div className='sub-div-vert-align'>
-                                    {metaTitlebiggerThan50 &&
-                                        <span className="inRed"> Seuls les 50 à 60 premiers caractères seront affichés par les moteurs de recherche
-                                        </span>}
-                                    Nombre de caractères: {metaTitle.length}
-                                </div>
+                        {/* meta-titre */}
+                        <div className="div-label-inputTxt">
+                            <div className="sub-div-horiz-align">
+                                <label>
+                                    Méta-titre de la page de cette collection
+                                </label>
+                                <i className="fas fa-question-circle tooltip">
+                                    <span className="tooltiptext">Le méta-titre est important pour le référencement d'une page web. Sa longueur idéal se situe entre 30 et 60 caractères mais il peut être plus long pour donner plus d'informations sur le contenu de la page. Toutefois, seuls les 50 premiers caractères à peu près seront affichés dans les résultats des moteurs de recherche. C'est pourquoi il est important de commence par des mots clés pertinants pour l'internaute afin d'améliorer le taux de clics vers votre page.</span>
+                                </i>
                             </div>
-
-                            {/* meta-description */}
-                            <div className="div-label-inputTxt">
-                                <div className="sub-div-horiz-align">
-                                    <label>Méta-déscription de cette collection:</label>
-                                    <i className="fas fa-question-circle tooltip">
-                                        <span className="tooltiptext">Cette déscription sera utilisée pour décrire le contenu de cette page et donner des indications sur son contenu à l'internaute. Les moteurs de recherche affichent à peu près les 130 premiers caractères.</span>
-                                    </i>
-                                </div>
-                                <textarea
-                                    // style={{ opacity: "0.6" }}
-                                    value={metaDescription}
-                                    onChange={handleMetaDescription}>
-                                </textarea>
-                                <div className='sub-div-vert-align'>
-                                    {metaDescriptionbiggerThan130 &&
-                                        <span className="inRed"> Seuls les 120 à 130 premiers caractères seront affichés par les moteurs de recherche
-                                        </span>}
-                                    Nombre de caractères: {metaDescription.length}
-                                </div>
+                            <input type='text'
+                                value={metaTitle}
+                                onChange={handleMetaTitle}
+                            />
+                            <div className='sub-div-vert-align'>
+                                {metaTitlebiggerThan50 &&
+                                    <span className="inRed"> Seuls les 50 à 60 premiers caractères seront affichés par les moteurs de recherche
+                                    </span>}
+                                Nombre de caractères: {metaTitle.length}
                             </div>
                         </div>
-                    }
+
+                        {/* meta-description */}
+                        <div className="div-label-inputTxt">
+                            <div className="sub-div-horiz-align">
+                                <label>Méta-déscription de cette collection:</label>
+                                <i className="fas fa-question-circle tooltip">
+                                    <span className="tooltiptext">Cette déscription sera utilisée pour décrire le contenu de cette page et donner des indications sur son contenu à l'internaute. Les moteurs de recherche affichent à peu près les 130 premiers caractères.</span>
+                                </i>
+                            </div>
+                            <textarea
+                                // style={{ opacity: "0.6" }}
+                                value={metaDescription}
+                                onChange={handleMetaDescription}>
+                            </textarea>
+                            <div className='sub-div-vert-align'>
+                                {metaDescriptionbiggerThan130 &&
+                                    <span className="inRed"> Seuls les 120 à 130 premiers caractères seront affichés par les moteurs de recherche
+                                    </span>}
+                                Nombre de caractères: {metaDescription.length}
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 
@@ -916,7 +956,6 @@ const CreateCollection = () => {
                         <h2>Image</h2>
                         <p>Ajouter une image pour cette collection. (*optionnel)</p>
                         <DropZone multiple={false} setImage={setImage} />
-                        {/* <p><a href="#" onClick={() => navigate('/cropImage')}><i className="fas fa-crop"></i></a></p> */}
                     </div>
 
                     {/* Référencement */}
@@ -925,10 +964,19 @@ const CreateCollection = () => {
                             <div className="sub-div-horiz-align">
                                 <label>Texte alternatif (*optionnel) </label>
                                 <i className="fas fa-question-circle tooltip">
-                                    <span className="tooltiptext">Ajouter une brève description de l'image ex. "Jeans noir avec fermeture éclair". Ceci améliorera l'accessibilité et le référencement de votre boutique.</span>
+                                    <span className="tooltiptext">Ajouter une brève description de l'image ex. "Jeans noir avec fermeture éclair". Ceci améliore l'accessibilité et le référencement de votre boutique.</span>
                                 </i>
                             </div>
                             <input type="text" name="alt" value={alt} onChange={handleAlt} />
+                        </div>
+                        <div className="div-label-inputTxt">
+                            <div className="sub-div-horiz-align">
+                                <label>Changer le nom de l'image (*optionnel) </label>
+                                <i className="fas fa-question-circle tooltip">
+                                    <span className="tooltiptext">Donnez un nom en rapport avec le contenu de l'image. Ceci améliore le référencement de votre boutique dans les recherches par image.</span>
+                                </i>
+                            </div>
+                            <input type="text" name="imgColection" value={imageName} onChange={handleImageName} />
                         </div>
                     </div>
                 </div>
@@ -947,37 +995,39 @@ const CreateCollection = () => {
                                 {categoryName.length > 25 ? categoryName.substring(0, 25) + '...' : categoryName}
                                 <i className="fas fa-angle-down"></i>
                             </button>
-                            {showCategorySelect &&
-                                <ul className='ul-category'>
-                                    {categoryName != 'Aucune catégorie' &&
-                                        <li className="li-category"
-                                            onClick={() => {
-                                                handleCategory(0),
-                                                    handleCategoryName('Aucune catégorie')
-                                            }}
-                                        >Aucune catégorie
-                                        </li>}
-                                    {categoriesList.map((cat, index) => (
-                                        cat.name != categoryName &&
-                                        <li className="li-category"
-                                            key={index}
-                                            onClick={() => {
-                                                handleCategory(cat.id);
-                                                handleCategoryName(cat.name);
-                                            }} >
-                                            {cat.name.length > 25 ? <span>{cat.name.substring(0, 25) + '...'}</span> : <span>{cat.name}</span>}
-                                            <div>
-                                                <i className="fas fa-recycle"
-                                                    onClick={() => {
-                                                        handleCategory(cat.id);
-                                                        handleShowModalInput();
-                                                    }}>
-                                                </i>
-                                                <i className="far fa-trash-alt"
-                                                    onClick={() => confirmDeleteCategory(cat.id, cat.name)}></i>
-                                            </div>
-                                        </li>))}
-                                </ul>}
+                            {/* {showCategorySelect && */}
+                            <ul className='ul-category dropable'
+                                id='category_select'>
+                                {categoryName != 'Aucune catégorie' &&
+                                    <li className="li-category"
+                                        onClick={() => {
+                                            handleCategory(0),
+                                                handleCategoryName('Aucune catégorie')
+                                        }}
+                                    >Aucune catégorie
+                                    </li>}
+                                {categoriesList.map((cat, index) => (
+                                    cat.name != categoryName &&
+                                    <li className="li-category"
+                                        key={index}
+                                        onClick={() => {
+                                            handleCategory(cat.id);
+                                            handleCategoryName(cat.name);
+                                        }} >
+                                        {cat.name.length > 25 ? <span>{cat.name.substring(0, 25) + '...'}</span> : <span>{cat.name}</span>}
+                                        <div>
+                                            <i className="fas fa-recycle"
+                                                onClick={() => {
+                                                    handleCategory(cat.id);
+                                                    handleShowModalInput();
+                                                }}>
+                                            </i>
+                                            <i className="far fa-trash-alt"
+                                                onClick={() => confirmDeleteCategory(cat.id, cat.name)}></i>
+                                        </div>
+                                    </li>))}
+                            </ul>
+                            {/* } */}
                         </div>
                         <p>
                             <a href='#'>Plus d'informations sur les catégories.</a>
@@ -1064,7 +1114,7 @@ const CreateCollection = () => {
                     handleModalConfirm={handleModalConfirm}
                     handleModalCancel={handleModalCancel}
                     textButtonConfirm={textButtonConfirm}
-                    image={imageConfirm}>
+                    image={imageModal}>
                     <h2 className="childrenModal">{messageModal}</h2>
                 </ModalConfirm>
 
@@ -1078,6 +1128,15 @@ const CreateCollection = () => {
                     image={'../images/icons/changeCategory.png'}>
                     <h2 className="childrenModal">{messageModal}</h2>
                 </ModalInput>
+
+                {/* modal for simple message */}
+                <ModalSimpleMessage
+                    show={showModalSimpleMessage} // true/false show modal
+                    handleModalCancel={handleModalCancel}
+                    image={imageModal}>
+                    <h2 className="childrenModal">{messageModal}</h2>
+                </ModalSimpleMessage>
+
 
                 {/* crop image */}
                 {/* <ModalCroppeImage

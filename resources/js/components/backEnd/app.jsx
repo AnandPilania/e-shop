@@ -26,6 +26,15 @@ const App = () => {
     const [image, setImage] = useLocalStorage("image", []);
     const [darkMode, setDarkMode] = useState(false);
 
+    const [showModalConfirm, setShowModalConfirm] = useState(false);
+    const [showModalSimpleMessage, setShowModalSimpleMessage] = useState(false);
+    const [showModalCroppeImage, setShowModalCroppeImage] = useState(false);
+    const [showModalInput, setShowModalInput] = useState(false);
+    const [messageModal, setMessageModal] = useState('');
+    const [sender, setSender] = useState(''); // for modal
+    const [inputTextModify, setInputTextModify] = useState('');
+    const [textButtonConfirm, setTextButtonConfirm] = useState('Confirmer');
+    const [imageModal, setImageModal] = useState('');
 
     const handleModalApp = () => {
         setShowModalApp(false);
@@ -40,6 +49,15 @@ const App = () => {
         image, setImage,
         imagePath, setImagePath,
         followThisLink, setFollowThisLink,
+        showModalConfirm, setShowModalConfirm,
+        showModalSimpleMessage, setShowModalSimpleMessage,
+        showModalCroppeImage, setShowModalCroppeImage,
+        showModalInput, setShowModalInput,
+        messageModal, setMessageModal,
+        sender, setSender,
+        inputTextModify, setInputTextModify,
+        textButtonConfirm, setTextButtonConfirm,
+        imageModal, setImageModal,
         darkMode, setDarkMode,
     }
 
