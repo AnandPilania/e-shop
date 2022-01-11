@@ -23287,10 +23287,7 @@ var CreateCollection = function CreateCollection() {
     localStorage.removeItem('metaUrl');
   }; //----------------------------------------------------------------Reset Form
   // CE QUI SUIT DOIT ALLER DANS LA FONCTION handleSubmit !!!!!!!!!!!!!!!!!!!!
-
-
-  var formData = new FormData();
-  var objConditions = JSON.stringify(conditions); // if (image.length > 0) {
+  // if (image.length > 0) {
   //     console.log('image  ' + image[0]);
   //     formData.append('image[]', image[0]);
   // } else {
@@ -23299,30 +23296,46 @@ var CreateCollection = function CreateCollection() {
   // useEffect(() => {
   //         console.log('image has been changed');
   // }, [image]);
-  // if (metaTitle.length === 0) {
-  //    // traitement
-  // }     
-  // if (metaDescription.length === 0) {
-  //    // traitement
-  // } 
-  // if (metaUrl.length > 0) {
-  // window.location.origin + '/'
-  //     // traitement
-  // } 
 
-  formData.append("name", nameCollection);
-  formData.append("description", descriptionCollection);
-  formData.append("automatise", isAutoConditions);
-  formData.append("notIncludePrevProduct", notIncludePrevProduct);
-  formData.append("allConditionsNeeded", allConditionsNeeded);
-  formData.append("objConditions", objConditions);
-  formData.append("dateActivation", dateField);
-  formData.append("categoryId", categoryId);
-  formData.append("alt", alt);
-  formData.append("imageName", imageName);
+
+  console.log('icicicici', (window.location.origin + '/').length);
 
   var handleSubmit = function handleSubmit() {
-    // VALIDATION !!!
+    var formData = new FormData();
+    var objConditions = JSON.stringify(conditions); // VALIDATION !!!
+
+    if (metaTitle.length === 0) {
+      formData.append("metaTitle", nameCollection);
+    } else {
+      formData.append("metaTitle", metaTitle);
+    }
+
+    if (metaDescription.length === 0) {
+      if (descriptionCollection.length != 0) {
+        formData.append("metaDescription", descriptionCollection);
+      } else {
+        formData.append("metaDescription", '');
+      }
+    } else {
+      formData.append("metaDescription", metaDescription);
+    }
+
+    if (metaUrl.length === (window.location.origin + '/').length) {
+      formData.append("metaUrl", normalizUrl(nameCollection));
+    } else {
+      formData.append("metaUrl", normalizUrl(metaUrl));
+    }
+
+    formData.append("name", nameCollection);
+    formData.append("description", descriptionCollection);
+    formData.append("automatise", isAutoConditions);
+    formData.append("notIncludePrevProduct", notIncludePrevProduct);
+    formData.append("allConditionsNeeded", allConditionsNeeded);
+    formData.append("objConditions", objConditions);
+    formData.append("dateActivation", dateField);
+    formData.append("categoryId", categoryId);
+    formData.append("alt", alt);
+    formData.append("imageName", imageName);
     axios__WEBPACK_IMPORTED_MODULE_4___default().post("http://127.0.0.1:8000/save-collection", formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -27374,29 +27387,6 @@ var Navbar = function Navbar() {
           className: "link",
           to: "/cropImage",
           children: "Crop"
-        })]
-      })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-      className: "accordion ${isActive && 'active'}",
-      onClick: function onClick() {
-        return handleMenu(1);
-      },
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
-        className: "barcodeIcon",
-        src: "../images\\icons\\icons8-label-128.png"
-      }), "Produit 2"]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-      className: "panel",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-        className: "panel_elements",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
-          className: "link",
-          to: "/listProduct",
-          children: "Tous les produits"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
-          className: "link",
-          to: "/addProduct",
-          children: "Ajouter un produit"
         })]
       })
     })]

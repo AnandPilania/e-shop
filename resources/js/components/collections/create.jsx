@@ -663,8 +663,7 @@ const CreateCollection = () => {
 
 
     // CE QUI SUIT DOIT ALLER DANS LA FONCTION handleSubmit !!!!!!!!!!!!!!!!!!!!
-    var formData = new FormData;
-    var objConditions = JSON.stringify(conditions);
+ 
 
     // if (image.length > 0) {
     //     console.log('image  ' + image[0]);
@@ -679,35 +678,45 @@ const CreateCollection = () => {
 
     // }, [image]);
 
-
-
-    // if (metaTitle.length === 0) {
-    //    // traitement
-    // }     
-    // if (metaDescription.length === 0) {
-    //    // traitement
-    // } 
-    // if (metaUrl.length > 0) {
-    // window.location.origin + '/'
-    //     // traitement
-    // } 
-
-    formData.append("name", nameCollection);
-    formData.append("description", descriptionCollection);
-    formData.append("automatise", isAutoConditions);
-    formData.append("notIncludePrevProduct", notIncludePrevProduct);
-    formData.append("allConditionsNeeded", allConditionsNeeded);
-    formData.append("objConditions", objConditions);
-    formData.append("dateActivation", dateField);
-    formData.append("categoryId", categoryId);
-    formData.append("alt", alt);
-    formData.append("imageName", imageName);
-
-
+    console.log('icicicici', (window.location.origin + '/').length);
 
     const handleSubmit = () => {
+        var formData = new FormData;
+        var objConditions = JSON.stringify(conditions);
 
         // VALIDATION !!!
+        if (metaTitle.length === 0) {
+            formData.append("metaTitle", nameCollection);
+        } else {
+            formData.append("metaTitle", metaTitle);
+        }
+        if (metaDescription.length === 0) {
+            if (descriptionCollection.length != 0) {
+                formData.append("metaDescription", descriptionCollection);
+            } else {
+                formData.append("metaDescription", '');
+            }
+        } else {
+            formData.append("metaDescription", metaDescription);
+        }
+        if (metaUrl.length === (window.location.origin + '/').length) {
+            formData.append("metaUrl", normalizUrl(nameCollection));
+        } else {
+            formData.append("metaUrl", normalizUrl(metaUrl));
+        }
+
+        formData.append("name", nameCollection);
+        formData.append("description", descriptionCollection);
+        formData.append("automatise", isAutoConditions);
+        formData.append("notIncludePrevProduct", notIncludePrevProduct);
+        formData.append("allConditionsNeeded", allConditionsNeeded);
+        formData.append("objConditions", objConditions);
+        formData.append("dateActivation", dateField);
+        formData.append("categoryId", categoryId);
+        formData.append("alt", alt);
+        formData.append("imageName", imageName);
+
+
 
         Axios.post(`http://127.0.0.1:8000/save-collection`, formData,
             {

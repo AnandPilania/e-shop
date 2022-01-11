@@ -38,17 +38,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className={"accordion ${isActive && 'active'}"} onClick={() => handleMenu(1)} ><img className="barcodeIcon" src="../images\icons\icons8-label-128.png" />
-        Produit 2
-      </div>
-
-      <div className="panel">
-        <div className="panel_elements">
-          <Link className="link" to="/listProduct">Tous les produits</Link>
-          <Link className="link" to="/addProduct">Ajouter un produit</Link>
-        </div>
-      </div>
-
     </nav>
   );
 }
