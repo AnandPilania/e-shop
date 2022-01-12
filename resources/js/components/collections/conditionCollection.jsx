@@ -110,9 +110,10 @@ const ConditionCollection = (props) => {
         showOnlyUsableOperator(param);
     }
 
+    const borderRed = props.warningIdCondition.includes(props.condition.id) ? 'borderRed' : '';
 
     return (
-        <div className="block-select-conditions">
+        <div className={"block-select-conditions " + borderRed}>
 
             {/* parameters */}
             <div>
@@ -150,7 +151,7 @@ const ConditionCollection = (props) => {
                     {HideOp10 == 'show' && <option value="10">est vide</option>} {/* null_empty */}
                 </select>
             </div>
-
+            
             {/* value */}
             <div className="input-span">
                 <input
@@ -171,7 +172,6 @@ const ConditionCollection = (props) => {
 
                 </i>
             </div>
-
         </div>
     );
 }

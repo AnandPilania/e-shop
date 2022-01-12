@@ -372,7 +372,11 @@
 
 .inRed {
   font-size: 14px;
-  color: red;
+  color: #c90000;
+}
+
+.borderRed {
+  border: solid 1px #d40000;
 }
 
 .succesMessage {

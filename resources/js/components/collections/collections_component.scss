@@ -405,7 +405,11 @@
 
 .inRed {
     font-size: 14px;
-    color: red;
+    color: rgb(201, 0, 0);
+}
+
+.borderRed {
+    border: solid 1px rgb(212, 0, 0);
 }
 
 .succesMessage {

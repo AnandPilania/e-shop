@@ -22378,8 +22378,9 @@ var ConditionCollection = function ConditionCollection(props) {
     showOnlyUsableOperator(param);
   };
 
+  var borderRed = props.warningIdCondition.includes(props.condition.id) ? 'borderRed' : '';
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-    className: "block-select-conditions",
+    className: "block-select-conditions " + borderRed,
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("select", {
         value: props.condition.parameter,
@@ -22695,6 +22696,11 @@ var CreateCollection = function CreateCollection() {
       isDirty = _useState34[0],
       setIsDirty = _useState34[1];
 
+  var _useState35 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState36 = _slicedToArray(_useState35, 2),
+      warningIdCondition = _useState36[0],
+      setWarningIdCondition = _useState36[1];
+
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_9__["default"]),
       image = _useContext.image,
       setImage = _useContext.setImage,
@@ -22721,6 +22727,7 @@ var CreateCollection = function CreateCollection() {
       darkMode = _useContext.darkMode,
       setDarkMode = _useContext.setDarkMode;
 
+  var formData = new FormData();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // chargement des collections
     axios__WEBPACK_IMPORTED_MODULE_4___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
@@ -22769,6 +22776,12 @@ var CreateCollection = function CreateCollection() {
     conditions.forEach(function (condition) {
       if (condition.value != '') {
         conditonDirty = true;
+      }
+
+      if (isAutoConditions === true && (condition.value === '' || condition.value === null)) {
+        var tmp_tab_conditions = warningIdCondition;
+        tmp_tab_conditions.push(condition.id);
+        setWarningIdCondition(tmp_tab_conditions);
       }
     });
 
@@ -23298,12 +23311,9 @@ var CreateCollection = function CreateCollection() {
   // }, [image]);
 
 
-  console.log('icicicici', (window.location.origin + '/').length);
-
-  var handleSubmit = function handleSubmit() {
-    var formData = new FormData();
-    var objConditions = JSON.stringify(conditions); // VALIDATION !!!
-
+  var validation = function validation() {
+    // !!!! CHECK AUSSI LES CONDITIONS !!!!
+    // VALIDATION !!!
     if (metaTitle.length === 0) {
       formData.append("metaTitle", nameCollection);
     } else {
@@ -23320,29 +23330,67 @@ var CreateCollection = function CreateCollection() {
       formData.append("metaDescription", metaDescription);
     }
 
-    if (metaUrl.length === (window.location.origin + '/').length) {
+    var urlLength = (window.location.origin + '/').length;
+
+    if (metaUrl.length === urlLength) {
       formData.append("metaUrl", normalizUrl(nameCollection));
     } else {
-      formData.append("metaUrl", normalizUrl(metaUrl));
+      formData.append("metaUrl", normalizUrl(metaUrl.slice(metaUrl.length)));
+    } // check if there is at least one condition value empty
+
+
+    var tmp_tab_conditions = [];
+    conditions.forEach(function (condition) {
+      if (condition.value === '') {
+        tmp_tab_conditions.push(condition.id);
+      }
+    });
+    setWarningIdCondition(tmp_tab_conditions);
+
+    if (isAutoConditions === true && tmp_tab_conditions.length > 0) {
+      setMessageModal('Veuillez entrer une ou plusieurs conditons ou sélectionner le type de collection "Manuel" ');
+      setImageModal('../images/icons/trash_dirty.png');
+      setShowModalSimpleMessage(true);
+      return false;
     }
 
-    formData.append("name", nameCollection);
-    formData.append("description", descriptionCollection);
-    formData.append("automatise", isAutoConditions);
-    formData.append("notIncludePrevProduct", notIncludePrevProduct);
-    formData.append("allConditionsNeeded", allConditionsNeeded);
-    formData.append("objConditions", objConditions);
-    formData.append("dateActivation", dateField);
-    formData.append("categoryId", categoryId);
-    formData.append("alt", alt);
-    formData.append("imageName", imageName);
-    axios__WEBPACK_IMPORTED_MODULE_4___default().post("http://127.0.0.1:8000/save-collection", formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    }).then(function (res) {
-      console.log('res.data  --->  ok');
-    });
+    if (nameCollection.length > 0) {
+      document.getElementById('titreCollection').style.border = "solid 1px rgb(220, 220, 220)";
+      return true;
+    } else {
+      document.getElementById('titreCollection').style.border = "solid 1px rgb(212, 0, 0)";
+      setMessageModal('Le champ Nom de la collection est obligatoire');
+      setImageModal('../images/icons/trash_dirty.png');
+      setShowModalSimpleMessage(true);
+      return false;
+    }
+  };
+
+  var handleSubmit = function handleSubmit() {
+    var valid = validation();
+
+    if (valid) {
+      var objConditions = JSON.stringify(conditions);
+      formData.append("name", nameCollection);
+      formData.append("description", descriptionCollection);
+      formData.append("automatise", isAutoConditions);
+      formData.append("notIncludePrevProduct", notIncludePrevProduct);
+      formData.append("allConditionsNeeded", allConditionsNeeded);
+      formData.append("objConditions", objConditions);
+      formData.append("dateActivation", dateField);
+      formData.append("categoryId", categoryId);
+      formData.append("alt", alt);
+      formData.append("imageName", imageName);
+      formData.append('key', 'tmp_imageCollection');
+      axios__WEBPACK_IMPORTED_MODULE_4___default().post("http://127.0.0.1:8000/save-collection", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (res) {
+        console.log('res.data  --->  ok');
+        initCollectionForm();
+      });
+    }
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
@@ -23487,7 +23535,8 @@ var CreateCollection = function CreateCollection() {
                   handleChangeOperator: handleChangeOperator,
                   handleChangeValue: handleChangeValue,
                   condition: condition,
-                  deleteCondition: deleteCondition
+                  deleteCondition: deleteCondition,
+                  warningIdCondition: warningIdCondition
                 }, i);
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
                 className: "btn-bcknd mb15",
@@ -27767,8 +27816,7 @@ var DropZone = function DropZone(props) {
   var imagePreviewRegion = null;
   var tab = [];
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    dropRegion = document.getElementById("drop-region-dropZone");
-    imagePreviewRegion = document.getElementById("image-preview-dropZone"); // open file selector when clicked on the drop region
+    dropRegion = document.getElementById("drop-region-dropZone"); // open file selector when clicked on the drop region
 
     var fakeInput = document.createElement("input");
     fakeInput.type = "file";
@@ -27811,11 +27859,15 @@ var DropZone = function DropZone(props) {
           // get image path for crop
           setImagePath('../' + res.data); // get image for preview
 
-          fetch('../' + res.data).then(function (response) {
-            return response.blob();
-          }).then(function (BlobImage) {
-            previewImage(BlobImage);
-          });
+          console.log('res.data ->->-> ', res.data);
+
+          if (res.data != '') {
+            fetch('../' + res.data).then(function (response) {
+              return response.blob();
+            }).then(function (BlobImage) {
+              previewImage(BlobImage);
+            });
+          }
         }
       });
     } catch (error) {
@@ -27927,7 +27979,8 @@ var DropZone = function DropZone(props) {
   }
 
   function previewImage(image) {
-    // retire l'image de fond
+    imagePreviewRegion = document.getElementById("image-preview-dropZone"); // retire l'image de fond
+
     document.getElementById('drop-region-dropZone').style.background = 'none';
     document.getElementById('drop-region-dropZone').style.backgroundColor = '#FFFFFF';
     var checkImgViewExist = document.getElementsByClassName('image-view-dropZone'); // if multiple == true or is first preview

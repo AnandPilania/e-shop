@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Collection;
 use Illuminate\Http\Request;
+use App\Models\Temporary_storage;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 
@@ -106,7 +107,16 @@ class CollectionController extends Controller
 
     public function storeAndAssign(Request $request)
     {
-        dd(json_decode($request->objConditions));
+        
+        // METTRE CE QUI SUIT A LA FIN !!!!!!!!!!!!
+        $tmp_storage = Temporary_storage::where('key', $request->key)->get();
+        foreach ($tmp_storage as $toDelete) {
+            File::delete(public_path($toDelete->value));
+            Temporary_storage::destroy($toDelete->id);
+        }
+
+        dd($request);
+        // dd(json_decode($request->objConditions));
         // $this->validate($request, ['name' => 'required', 'category' => 'required', 'image' => 'required', 'alt' => 'required']);
 
         $conditions = json_decode($request->objConditions);

@@ -72,8 +72,6 @@ const DropZone = (props) => {
 
     useEffect(() => {
         dropRegion = document.getElementById("drop-region-dropZone");
-        imagePreviewRegion = document.getElementById("image-preview-dropZone");
-
 
         // open file selector when clicked on the drop region
         var fakeInput = document.createElement("input");
@@ -115,7 +113,7 @@ const DropZone = (props) => {
 
     }, []);
 
-    useEffect(() => {
+    useEffect(() => { 
         // get dirty page image from temporary_storages db if exist
         try {
             Axios.get(`http://127.0.0.1:8000/getTemporaryImage`)
@@ -124,13 +122,16 @@ const DropZone = (props) => {
                         // get image path for crop
                         setImagePath('../' + res.data);
                         // get image for preview
-                        fetch('../' + res.data)
+                        console.log('res.data ->->-> ' , res.data)
+                        if (res.data != '') {
+                            fetch('../' + res.data)
                             .then(function (response) {
                                 return response.blob();
                             })
                             .then(function (BlobImage) {
                                 previewImage(BlobImage)
-                            });
+                            })
+                        }
                     }
                 });
         } catch (error) {
@@ -237,6 +238,8 @@ const DropZone = (props) => {
 
     function previewImage(image) {
 
+        imagePreviewRegion = document.getElementById("image-preview-dropZone");
+
         // retire l'image de fond
         document.getElementById('drop-region-dropZone').style.background = 'none';
         document.getElementById('drop-region-dropZone').style.backgroundColor = '#FFFFFF';
@@ -340,7 +343,7 @@ const DropZone = (props) => {
                 <i className="fas fa-crop tooltip" onClick={() => navigate('/cropImage')}> <span className="tooltiptext">Redimensionner l'image</span>
                 </i>
                 <i className="far fa-trash-alt trash-alt-dropZone tooltip" style={{ display: "block", marginLeft: "15px" }} onClick={removeImagePreview} >
-                <span className="tooltiptext">Supprimer l'image</span>
+                    <span className="tooltiptext">Supprimer l'image</span>
                 </i>
             </span>
         </>

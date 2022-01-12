@@ -55,11 +55,13 @@ const CreateCollection = () => {
     const [newCategoryNameUseInMessage, setNewCategoryNameUseInMessage] = useState(''); // pour stocker le nom de la catégorie qui doit être afficher dans le message de confirmation de la creation de la catégorie
 
     const [isDirty, setIsDirty] = useState(false);
-
+    const [warningIdCondition, setWarningIdCondition] = useState([]);
     const { image, setImage, followThisLink, setFollowThisLink, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage, showModalCroppeImage, setShowModalCroppeImage,
         showModalInput, setShowModalInput, messageModal, setMessageModal, sender, setSender, inputTextModify, setInputTextModify,
         textButtonConfirm, setTextButtonConfirm,
         imageModal, setImageModal, darkMode, setDarkMode } = useContext(AppContext);
+
+    var formData = new FormData;
 
     useEffect(() => {
         // chargement des collections
@@ -113,8 +115,15 @@ const CreateCollection = () => {
         conditions.forEach(condition => {
             if (condition.value != '') {
                 conditonDirty = true;
+
+            }
+            if (isAutoConditions === true && (condition.value === '' || condition.value === null)) {
+                let tmp_tab_conditions = warningIdCondition;
+                tmp_tab_conditions.push(condition.id);
+                setWarningIdCondition(tmp_tab_conditions);
             }
         })
+
         if (
             nameCollection != '' ||
             descriptionCollection != '' ||
@@ -135,7 +144,6 @@ const CreateCollection = () => {
         // set le l'URL de cette page
         let path = window.location.pathname.replace('admin/', '');
         setFollowThisLink(path);
-
 
 
         // évite error quand on passe à un autre component
@@ -663,7 +671,7 @@ const CreateCollection = () => {
 
 
     // CE QUI SUIT DOIT ALLER DANS LA FONCTION handleSubmit !!!!!!!!!!!!!!!!!!!!
- 
+
 
     // if (image.length > 0) {
     //     console.log('image  ' + image[0]);
@@ -678,11 +686,10 @@ const CreateCollection = () => {
 
     // }, [image]);
 
-    console.log('icicicici', (window.location.origin + '/').length);
+ 
 
-    const handleSubmit = () => {
-        var formData = new FormData;
-        var objConditions = JSON.stringify(conditions);
+    const validation = () => {
+        // !!!! CHECK AUSSI LES CONDITIONS !!!!
 
         // VALIDATION !!!
         if (metaTitle.length === 0) {
@@ -690,6 +697,7 @@ const CreateCollection = () => {
         } else {
             formData.append("metaTitle", metaTitle);
         }
+
         if (metaDescription.length === 0) {
             if (descriptionCollection.length != 0) {
                 formData.append("metaDescription", descriptionCollection);
@@ -699,35 +707,72 @@ const CreateCollection = () => {
         } else {
             formData.append("metaDescription", metaDescription);
         }
-        if (metaUrl.length === (window.location.origin + '/').length) {
+
+        let urlLength = (window.location.origin + '/').length;
+        if (metaUrl.length === urlLength) {
             formData.append("metaUrl", normalizUrl(nameCollection));
         } else {
-            formData.append("metaUrl", normalizUrl(metaUrl));
+            formData.append("metaUrl", normalizUrl(metaUrl.slice(metaUrl.length)));
         }
 
-        formData.append("name", nameCollection);
-        formData.append("description", descriptionCollection);
-        formData.append("automatise", isAutoConditions);
-        formData.append("notIncludePrevProduct", notIncludePrevProduct);
-        formData.append("allConditionsNeeded", allConditionsNeeded);
-        formData.append("objConditions", objConditions);
-        formData.append("dateActivation", dateField);
-        formData.append("categoryId", categoryId);
-        formData.append("alt", alt);
-        formData.append("imageName", imageName);
+        // check if there is at least one condition value empty
+        let tmp_tab_conditions = [];
+        conditions.forEach(condition => {
+            if (condition.value === '') {
+                tmp_tab_conditions.push(condition.id);
+            }
+        })
+        setWarningIdCondition(tmp_tab_conditions);
+        
+        if (isAutoConditions === true && tmp_tab_conditions.length > 0) {
+            setMessageModal('Veuillez entrer une ou plusieurs conditons ou sélectionner le type de collection "Manuel" ');
+            setImageModal('../images/icons/trash_dirty.png');
+            setShowModalSimpleMessage(true);
+            return false;
+        }
+
+        if (nameCollection.length > 0) {
+            document.getElementById('titreCollection').style.border = "solid 1px rgb(220, 220, 220)";
+            return true;
+        } else {
+            document.getElementById('titreCollection').style.border = "solid 1px rgb(212, 0, 0)";
+            setMessageModal('Le champ Nom de la collection est obligatoire');
+            setImageModal('../images/icons/trash_dirty.png');
+            setShowModalSimpleMessage(true);
+            return false;
+        }
+    }
+
+    const handleSubmit = () => {
+        let valid = validation();
+        if (valid) {
 
 
+            var objConditions = JSON.stringify(conditions);
 
-        Axios.post(`http://127.0.0.1:8000/save-collection`, formData,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-            .then(res => {
-                console.log('res.data  --->  ok');
-
-            });
+            formData.append("name", nameCollection);
+            formData.append("description", descriptionCollection);
+            formData.append("automatise", isAutoConditions);
+            formData.append("notIncludePrevProduct", notIncludePrevProduct);
+            formData.append("allConditionsNeeded", allConditionsNeeded);
+            formData.append("objConditions", objConditions);
+            formData.append("dateActivation", dateField);
+            formData.append("categoryId", categoryId);
+            formData.append("alt", alt);
+            formData.append("imageName", imageName);
+            formData.append('key', 'tmp_imageCollection');
+            
+            Axios.post(`http://127.0.0.1:8000/save-collection`, formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                .then(res => {
+                    console.log('res.data  --->  ok');
+                    initCollectionForm();
+                });
+        }
     }
 
 
@@ -832,6 +877,7 @@ const CreateCollection = () => {
                                         handleChangeOperator={handleChangeOperator} handleChangeValue={handleChangeValue}
                                         condition={condition}
                                         deleteCondition={deleteCondition}
+                                        warningIdCondition={warningIdCondition}
                                     />))}
                                 <button className="btn-bcknd mb15" onClick={addCondition}>Ajouter une condition</button>
                             </div>
