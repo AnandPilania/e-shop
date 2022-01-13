@@ -391,11 +391,22 @@ const CreateCollection = () => {
         // dropDown optimisation
         var dropable = document.getElementById('category_select');
         if (!showCategorySelect) {
+            // cache borders sinon y a un bout qui reste visible
+            setTimeout(function () {
+                dropable.style.borderLeft = 'none';
+                dropable.style.borderRight = 'none';
+                dropable.style.borderBottom = 'none';
+            }, 250);
             dropable.style.maxHeight = null;
             dropable.style.paddingTop = 0;
+            
         } else {
             dropable.style.maxHeight = "250px";
             dropable.style.paddingTop = "5px";
+            // montre les borders quand ouvert seulement
+            dropable.style.borderLeft = 'rgb(220, 220, 220) solid 1px';
+            dropable.style.borderRight = 'rgb(220, 220, 220) solid 1px';
+            dropable.style.borderBottom = 'rgb(220, 220, 220) solid 1px';
         }
     }, [showCategorySelect]);
 

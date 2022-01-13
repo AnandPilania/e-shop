@@ -23056,11 +23056,21 @@ var CreateCollection = function CreateCollection() {
     var dropable = document.getElementById('category_select');
 
     if (!showCategorySelect) {
+      // cache borders sinon y a un bout qui reste visible
+      setTimeout(function () {
+        dropable.style.borderLeft = 'none';
+        dropable.style.borderRight = 'none';
+        dropable.style.borderBottom = 'none';
+      }, 250);
       dropable.style.maxHeight = null;
       dropable.style.paddingTop = 0;
     } else {
       dropable.style.maxHeight = "250px";
-      dropable.style.paddingTop = "5px";
+      dropable.style.paddingTop = "5px"; // montre les borders quand ouvert seulement
+
+      dropable.style.borderLeft = 'rgb(220, 220, 220) solid 1px';
+      dropable.style.borderRight = 'rgb(220, 220, 220) solid 1px';
+      dropable.style.borderBottom = 'rgb(220, 220, 220) solid 1px';
     }
   }, [showCategorySelect]); // get id for back-end
 
@@ -23999,8 +24009,10 @@ var ListCollections = function ListCollections() {
       console.log('error:   ' + error);
     });
   }, []);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("section", {
+    className: "listContainerCollections",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      className: "headerBarCollections",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
         type: "text",
         placeholder: "Filtrer les collections"
@@ -24012,10 +24024,25 @@ var ListCollections = function ListCollections() {
           children: "Ajouter une collection"
         })
       })]
-    }), listCollections.map(function (item) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_searchRow__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        collection: item
-      }, item.id);
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("table", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("thead", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tr", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+            colspan: "2",
+            children: "The table header"
+          })
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tbody", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tr", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+            children: listCollections.map(function (item) {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_searchRow__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                collection: item
+              }, item.id);
+            })
+          })
+        })
+      })]
     })]
   });
 };
@@ -24044,14 +24071,22 @@ __webpack_require__.r(__webpack_exports__);
 
 var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_2__["default"])({
   inputText: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    width: '100%',
+    height: '60px',
+    paddingLeft: '20px',
     color: '#000000',
     backgroundColor: 'white',
     fontWeight: 400,
     fontSize: '16px',
-    width: '100%',
-    height: '50px',
     border: '#f4f4f4 solid 1px',
     borderRadius: '5px'
+  },
+  checkBox: {
+    marginRight: '10px'
   }
 }); // affiche les rows dans list.jsx
 
@@ -24060,6 +24095,7 @@ var RowListCollections = function RowListCollections(props) {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
     className: classes.inputText,
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+      className: classes.checkBox,
       type: "checkbox",
       value: "{props.collection.id}"
     }), props.collection.name]

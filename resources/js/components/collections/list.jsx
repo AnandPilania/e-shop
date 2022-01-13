@@ -6,9 +6,9 @@ import AppContext from '../contexts/AppContext';
 
 
 const ListCollections = () => {
+
     const [listCollections, setListCollections] = useState([]);
     const { checkLeave, nameCollection } = useContext(AppContext);
-
 
     useEffect(() => {
         // chargement des collections
@@ -22,18 +22,31 @@ const ListCollections = () => {
 
 
     return (
-        <div>
-        <div>
-        <input type='text' placeholder='Filtrer les collections' />
-        <button><Link className="link" to="/add-collection" onClick={checkLeave}>Ajouter une collection</Link></button>
-        </div>
-            
-            {listCollections.map(item => 
-                  <RowListCollections key={item.id} collection={item} />
-            )}
+        <section className="listContainerCollections">
+            <div className='headerBarCollections'>
+                <input type='text' placeholder='Filtrer les collections' />
+                <button><Link className="link" to="/add-collection" onClick={checkLeave}>Ajouter une collection</Link></button>
+            </div>
 
-        </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="2">The table header</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            {listCollections.map(item =>
+                                <RowListCollections key={item.id} collection={item} />
+                            )}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
     );
 }
 
 export default ListCollections;
+

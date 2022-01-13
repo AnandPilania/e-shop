@@ -94,7 +94,7 @@
     }
 
     input[type="radio"]:checked {
-        border: 6px solid #005cc8;
+        border: 4px solid #005cc8;
     }
 
     input[type="radio"]:hover {
@@ -181,19 +181,16 @@
     position: relative;
     top: -10px;
     background-color: rgb(255, 255, 255);
-    border: rgb(209, 0, 0) solid 2px;
-    color: rgb(221, 0, 0);
+    border: #005cc8 solid 1px;
+    color: #005cc8;
     border-radius: 25px;
     font-size: 17px;
+    font-weight: bold;
 }
 
 .btn-effacer-tout:hover {
     cursor: pointer;
-    background-color: rgb(255, 255, 255);
-    border: rgb(209, 0, 0) solid 2px;
-    color: rgb(221, 0, 0);
-    border-radius: 25px;
-    box-shadow: 1px 1px 3px rgba(88, 88, 88, 0.6);
+    // box-shadow: 1px 1px 3px rgba(53, 66, 92, 0.6);
 }
 
 .div-label-inputTxt,
@@ -489,7 +486,6 @@
     overflow-x: hidden;
     list-style-type: none;
     border-radius: 0 0 5px 5px;
-    border: rgb(220, 220, 220) solid 1px;
 }
 
 .ul-category::-webkit-scrollbar-track {
@@ -608,16 +604,29 @@ span.trash-alt-dropZone {
     margin: 30px 0 0 0;
 }
 
-////// DROP DOWN -> CONDITIONS & OPTIMISATION <- ///////////////////////
-// .dedivAllProductsConditions,
-// .divConditions {
-//     transition: height 5.9s ease-in-out;
-//     // height: 0;
-//     // overflow: hidden;
-// }
+// LIST----------------------------------------------------------------
+.listContainerCollections {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+    min-height: 100vh;
+    border: solid 2px red;
+}
 
-////////////////////////////////////////////////////////////////////////////
+.headerBarCollections {
+    width: 100%;
+    border: solid 2px rgb(0, 174, 255);
+}
 
+.listContainerCollections table {
+    width: 60%;
+    margin-top: 50px;
+    border: solid 2px rgb(55, 0, 255);
+}
+// ----------------------------------------------------------------LIST
 // detect smartphone and tablette screen
 @media only screen and (hover: none) and (pointer: coarse) {
     /* Regular CSS rules here*/
