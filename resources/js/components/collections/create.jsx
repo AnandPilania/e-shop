@@ -117,11 +117,11 @@ const CreateCollection = () => {
                 conditonDirty = true;
 
             }
-            if (isAutoConditions === true && (condition.value === '' || condition.value === null)) {
-                let tmp_tab_conditions = warningIdCondition;
-                tmp_tab_conditions.push(condition.id);
-                setWarningIdCondition(tmp_tab_conditions);
-            }
+            // if (isAutoConditions === true && (condition.value === '' || condition.value === null)) {
+            //     let tmp_tab_conditions = warningIdCondition;
+            //     tmp_tab_conditions.push(condition.id);
+            //     setWarningIdCondition(tmp_tab_conditions);
+            // }
         })
 
         if (
@@ -387,7 +387,6 @@ const CreateCollection = () => {
         setShowCategorySelect(!showCategorySelect);
     }
 
-    console.log(showCategorySelect)
     useEffect(() => {
         // dropDown optimisation
         var dropable = document.getElementById('category_select');
@@ -686,7 +685,7 @@ const CreateCollection = () => {
 
     // }, [image]);
 
- 
+
 
     const validation = () => {
         // !!!! CHECK AUSSI LES CONDITIONS !!!!
@@ -723,7 +722,7 @@ const CreateCollection = () => {
             }
         })
         setWarningIdCondition(tmp_tab_conditions);
-        
+
         if (isAutoConditions === true && tmp_tab_conditions.length > 0) {
             setMessageModal('Veuillez entrer une ou plusieurs conditons ou sélectionner le type de collection "Manuel" ');
             setImageModal('../images/icons/trash_dirty.png');
@@ -761,7 +760,7 @@ const CreateCollection = () => {
             formData.append("alt", alt);
             formData.append("imageName", imageName);
             formData.append('key', 'tmp_imageCollection');
-            
+
             Axios.post(`http://127.0.0.1:8000/save-collection`, formData,
                 {
                     headers: {

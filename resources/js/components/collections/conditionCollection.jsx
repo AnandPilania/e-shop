@@ -15,6 +15,8 @@ const ConditionCollection = (props) => {
     const [typeValue, setTypeValue] = useState('');
     const [inputType, setInputType] = useState('text');
     const [inputStep, setInputStep] = useState('0.01');
+    const [inputTypeDate, setinputTypeDate] = useState('');
+
 
     // initialise à show les operators qui correspondent à "Nom du produit"
     useEffect(() => {
@@ -31,6 +33,8 @@ const ConditionCollection = (props) => {
 
         // when data comes from localStorage it get only the operators needed to show
         showOnlyUsableOperator(props.condition.parameter);
+
+        document.getElementById('parameterValue').value == 10 ? setinputTypeDate('inputTypeDate') : setinputTypeDate('');
 
     }, []);
 
@@ -100,17 +104,31 @@ const ConditionCollection = (props) => {
             setInputType('number');
             setInputStep('0.01');
         }
+        if (param == 10) {
+            setHideOp1('show');
+            setHideOp2('show');
+            setHideOp3('show');
+            setHideOp4('show');
+            setInputType('date');
+        }
 
     }
 
+
     // récup le param et l'envoi à handleChangeParam pour mettre à jours l'obj conditions + l'envoi à showOnlyUsableOperator pour détermine quelle liste d'opérators afficher
     const changeParamValue = (e) => {
+
         let param = e.target.value;
+
+        // css .inputTypeDate quand le type de l'input est date
+        param == 10 ? setinputTypeDate('inputTypeDate') : setinputTypeDate('');
+
         props.handleChangeParam(param, props.condition.id);
         showOnlyUsableOperator(param);
     }
 
     const borderRed = props.warningIdCondition.includes(props.condition.id) ? 'borderRed' : '';
+    
 
     return (
         <div className={"block-select-conditions " + borderRed}>
@@ -119,7 +137,8 @@ const ConditionCollection = (props) => {
             <div>
                 <select
                     value={props.condition.parameter}
-                    onChange={changeParamValue}>
+                    onChange={changeParamValue}
+                    id="parameterValue">
                     <option value="1">Nom du produit</option>
                     <option value="2">Type du produit</option>
                     <option value="3">Distributeur du produit</option>
@@ -130,7 +149,6 @@ const ConditionCollection = (props) => {
                     <option value="8">Stock</option>
                     <option value="9">Nom de variante</option>
                     <option value="10">Date ajout produit</option>
-                    <option value="11">Date modification produit &nbsp;&nbsp; </option>
                 </select>
             </div>
 
@@ -151,10 +169,11 @@ const ConditionCollection = (props) => {
                     {HideOp10 == 'show' && <option value="10">est vide</option>} {/* null_empty */}
                 </select>
             </div>
-            
+
             {/* value */}
             <div className="input-span">
                 <input
+                    className={inputTypeDate}
                     type={inputType}
                     step={inputStep}
                     min="0"

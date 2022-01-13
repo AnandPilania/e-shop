@@ -15,7 +15,7 @@ const useStyles = makeStyles({
     width: '100%',
     height: ' 100%',
     background: 'rgba(0, 0, 0, 0.7)',
-    zindex: '10',
+    zIndex: '10000000',
   },
   modalMain: {
     position: 'fixed',
@@ -32,8 +32,7 @@ const useStyles = makeStyles({
     justifyContent: 'flex-start',
     alignItems: 'center',
     borderRadius: '5px',
-    zindex: '20',
-    border: "solid red 2px",
+    zIndex: '10000000',
   },
   BlockButtons: {
     display: 'flex',

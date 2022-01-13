@@ -62,10 +62,22 @@
   cursor: pointer;
 }
 .div-vert-align input[type=radio] {
-  width: 30px;
-  height: 30px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 50%;
+  min-width: 18px;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #005cc8;
+  transition: 0.2s all linear;
   margin-right: 10px;
-  border: solid 1px gainsboro;
+  position: relative;
+  top: 0;
+  padding: 0;
+}
+.div-vert-align input[type=radio]:checked {
+  border: 6px solid #005cc8;
 }
 .div-vert-align input[type=radio]:hover {
   cursor: pointer;
@@ -187,6 +199,7 @@
 }
 
 .div-radio-label {
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -376,7 +389,15 @@
 }
 
 .borderRed {
-  border: solid 1px #d40000;
+  border: solid 2px #d40000;
+}
+
+.inputTypeDate {
+  width: 100%;
+  height: 50px;
+  padding: 0 20px;
+  border-radius: 5px;
+  border: solid 1px gainsboro;
 }
 
 .succesMessage {

@@ -22295,7 +22295,12 @@ var ConditionCollection = function ConditionCollection(props) {
   var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('0.01'),
       _useState26 = _slicedToArray(_useState25, 2),
       inputStep = _useState26[0],
-      setInputStep = _useState26[1]; // initialise à show les operators qui correspondent à "Nom du produit"
+      setInputStep = _useState26[1];
+
+  var _useState27 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState28 = _slicedToArray(_useState27, 2),
+      inputTypeDate = _useState28[0],
+      setinputTypeDate = _useState28[1]; // initialise à show les operators qui correspondent à "Nom du produit"
 
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
@@ -22310,6 +22315,7 @@ var ConditionCollection = function ConditionCollection(props) {
     setHideOp8('show'); // when data comes from localStorage it get only the operators needed to show
 
     showOnlyUsableOperator(props.condition.parameter);
+    document.getElementById('parameterValue').value == 10 ? setinputTypeDate('inputTypeDate') : setinputTypeDate('');
   }, []); // met hide pour tous les paramètres
 
   var hideUselessOperatorReset = function hideUselessOperatorReset() {
@@ -22381,11 +22387,21 @@ var ConditionCollection = function ConditionCollection(props) {
       setInputType('number');
       setInputStep('0.01');
     }
+
+    if (param == 10) {
+      setHideOp1('show');
+      setHideOp2('show');
+      setHideOp3('show');
+      setHideOp4('show');
+      setInputType('date');
+    }
   }; // récup le param et l'envoi à handleChangeParam pour mettre à jours l'obj conditions + l'envoi à showOnlyUsableOperator pour détermine quelle liste d'opérators afficher
 
 
   var changeParamValue = function changeParamValue(e) {
-    var param = e.target.value;
+    var param = e.target.value; // css .inputTypeDate quand le type de l'input est date
+
+    param == 10 ? setinputTypeDate('inputTypeDate') : setinputTypeDate('');
     props.handleChangeParam(param, props.condition.id);
     showOnlyUsableOperator(param);
   };
@@ -22397,6 +22413,7 @@ var ConditionCollection = function ConditionCollection(props) {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("select", {
         value: props.condition.parameter,
         onChange: changeParamValue,
+        id: "parameterValue",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
           value: "1",
           children: "Nom du produit"
@@ -22427,9 +22444,6 @@ var ConditionCollection = function ConditionCollection(props) {
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
           value: "10",
           children: "Date ajout produit"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
-          value: "11",
-          children: "Date modification produit \xA0\xA0 "
         })]
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
@@ -22473,6 +22487,7 @@ var ConditionCollection = function ConditionCollection(props) {
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
       className: "input-span",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+        className: inputTypeDate,
         type: inputType,
         step: inputStep,
         min: "0",
@@ -22788,13 +22803,12 @@ var CreateCollection = function CreateCollection() {
     conditions.forEach(function (condition) {
       if (condition.value != '') {
         conditonDirty = true;
-      }
+      } // if (isAutoConditions === true && (condition.value === '' || condition.value === null)) {
+      //     let tmp_tab_conditions = warningIdCondition;
+      //     tmp_tab_conditions.push(condition.id);
+      //     setWarningIdCondition(tmp_tab_conditions);
+      // }
 
-      if (isAutoConditions === true && (condition.value === '' || condition.value === null)) {
-        var tmp_tab_conditions = warningIdCondition;
-        tmp_tab_conditions.push(condition.id);
-        setWarningIdCondition(tmp_tab_conditions);
-      }
     });
 
     if (nameCollection != '' || descriptionCollection != '' || alt != '' || imageName != '' || metaTitle != '' || metaDescription != '' || metaUrl != 'http://127.0.0.1:8000/' || image != '' || categoryName != 'Aucune catégorie' || categoryId != 0 || localStorage.getItem('dateActivation') != null || conditonDirty == true) {
@@ -23037,7 +23051,6 @@ var CreateCollection = function CreateCollection() {
     setShowCategorySelect(!showCategorySelect);
   };
 
-  console.log(showCategorySelect);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // dropDown optimisation
     var dropable = document.getElementById('category_select');
@@ -26816,7 +26829,7 @@ var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_2__["default"])(
     width: '100%',
     height: ' 100%',
     background: 'rgba(0, 0, 0, 0.7)',
-    zindex: '10'
+    zIndex: '10000000'
   },
   modalMain: {
     position: 'fixed',
@@ -26832,7 +26845,7 @@ var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_2__["default"])(
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     borderRadius: '5px',
-    zindex: '10'
+    zIndex: '10000000'
   },
   BlockButtons: {
     display: 'flex',
@@ -26960,7 +26973,8 @@ var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_2__["default"])(
     left: '0',
     width: '100%',
     height: ' 100%',
-    background: 'rgba(0, 0, 0, 0.6)'
+    background: 'rgba(0, 0, 0, 0.6)',
+    zIndex: '10000000'
   },
   modalMain: {
     position: 'fixed',
@@ -26975,7 +26989,8 @@ var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_2__["default"])(
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    borderRadius: '5px'
+    borderRadius: '5px',
+    zIndex: '10000000'
   },
   BlockButtons: {
     display: 'flex',
@@ -27099,7 +27114,8 @@ var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_2__["default"])(
     left: '0',
     width: '100%',
     height: ' 100%',
-    background: 'rgba(0, 0, 0, 0.6)'
+    background: 'rgba(0, 0, 0, 0.6)',
+    zIndex: '10000000'
   },
   modalMain: {
     position: 'fixed',
@@ -27114,7 +27130,8 @@ var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_2__["default"])(
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    borderRadius: '5px'
+    borderRadius: '5px',
+    zIndex: '10000000'
   },
   BlockButtons: {
     display: 'flex',
@@ -27253,7 +27270,8 @@ var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_2__["default"])(
     left: '0',
     width: '100%',
     height: ' 100%',
-    background: 'rgba(0, 0, 0, 0.6)'
+    background: 'rgba(0, 0, 0, 0.6)',
+    zIndex: '1000000'
   },
   modalMain: {
     position: 'fixed',
@@ -27268,7 +27286,8 @@ var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_2__["default"])(
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    borderRadius: '5px'
+    borderRadius: '5px',
+    zIndex: '1000000'
   },
   BlockButtons: {
     display: 'flex',
@@ -27870,8 +27889,6 @@ var DropZone = function DropZone(props) {
         if (res.data) {
           // get image path for crop
           setImagePath('../' + res.data); // get image for preview
-
-          console.log('res.data ->->-> ', res.data);
 
           if (res.data != '') {
             fetch('../' + res.data).then(function (response) {

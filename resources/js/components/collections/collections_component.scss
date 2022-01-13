@@ -72,16 +72,35 @@
         cursor: pointer;
     }
 
+    //input radio effect ---------------------------------------------
     input[type="radio"] {
-        width: 30px;
-        height: 30px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+
+        border-radius: 50%;
+        min-width: 18px;
+        width: 18px;
+        height: 18px;
+
+        border: 1px solid #005cc8;
+        transition: 0.2s all linear;
         margin-right: 10px;
-        border: solid 1px rgb(220, 220, 220);
+
+        position: relative;
+        top: 0;
+
+        padding: 0;
+    }
+
+    input[type="radio"]:checked {
+        border: 6px solid #005cc8;
     }
 
     input[type="radio"]:hover {
         cursor: pointer;
     }
+    //----------------------------------------------input radio effect
 
     textarea {
         width: 100%;
@@ -192,7 +211,7 @@
     height: auto;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
-  }
+}
 
 .sub-div-vert-align-border-top {
     width: 100%;
@@ -206,6 +225,7 @@
 }
 
 .div-radio-label {
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -409,7 +429,15 @@
 }
 
 .borderRed {
-    border: solid 1px rgb(212, 0, 0);
+    border: solid 2px rgb(212, 0, 0);
+}
+
+.inputTypeDate {
+    width: 100%;
+    height: 50px;
+    padding: 0 20px;
+    border-radius: 5px;
+    border: solid 1px rgb(220, 220, 220);
 }
 
 .succesMessage {
@@ -591,8 +619,6 @@ span.trash-alt-dropZone {
 ////////////////////////////////////////////////////////////////////////////
 
 // detect smartphone and tablette screen
-@media only screen and (hover: none) and (pointer: coarse){
-
+@media only screen and (hover: none) and (pointer: coarse) {
     /* Regular CSS rules here*/
-    
-    }
+}

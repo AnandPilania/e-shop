@@ -122,7 +122,6 @@ const DropZone = (props) => {
                         // get image path for crop
                         setImagePath('../' + res.data);
                         // get image for preview
-                        console.log('res.data ->->-> ' , res.data)
                         if (res.data != '') {
                             fetch('../' + res.data)
                             .then(function (response) {
