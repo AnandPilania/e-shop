@@ -28,6 +28,7 @@ const CreateCollection = () => {
     }]);
     const [nameCollection, setNameCollection] = useLocalStorage("nameCollection", "");
     const [descriptionCollection, setDescriptionCollection] = useLocalStorage("descriptionCollection", "");
+    // const [descriptionCollection, setDescriptionCollection] = useState('');
     const [metaTitle, setMetaTitle] = useLocalStorage("metaTitle", "");
     const [metaDescription, setMetaDescription] = useLocalStorage("metaDescription", "");
     const [metaUrl, setMetaUrl] = useState(window.location.origin + '/');
@@ -278,8 +279,12 @@ const CreateCollection = () => {
         var dropable = document.getElementById('optimisation_collection');
         if (!isShowOptimisation) {
             dropable.style.maxHeight = null;
+            dropable.style.overflow = 'hidden';
         } else {
             dropable.style.maxHeight = dropable.scrollHeight + "px";
+            setTimeout(function () {
+                dropable.style.overflow = 'unset';
+            }, 250);
         }
     }, [isShowOptimisation]);
 
@@ -399,7 +404,7 @@ const CreateCollection = () => {
             }, 250);
             dropable.style.maxHeight = null;
             dropable.style.paddingTop = 0;
-            
+
         } else {
             dropable.style.maxHeight = "250px";
             dropable.style.paddingTop = "5px";
@@ -810,6 +815,10 @@ const CreateCollection = () => {
                     <CKEditor
                         editor={ClassicEditor}
                         data={descriptionCollection}
+                        // config={{
+                        //     plugins: [Essentials, Paragraph, Bold, Italic, Alignment],      
+                        //     toolbar: ['bold', 'italic', 'alignment']
+                        // }}
                         onReady={editor => {
                             editor.ui.view.element.style.marginBottom = "20px";
                             editor.ui.view.element.style.width = "100%";
@@ -946,7 +955,10 @@ const CreateCollection = () => {
                                     Url de la page de cette collection
                                 </label>
                                 <i className="fas fa-question-circle tooltip">
-                                    <span className="tooltiptext">Utilisez des mots clés en rapport avec le contenu de cette collection</span>
+                                    <span className="tooltiptext">Utilisez des mots clés en rapport avec le contenu de cette collection <br></br><a href="http://127.0.0.1:8000"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="linkInTooltip">Mon lien</a></span>
                                 </i>
                             </div>
                             <input type='text'

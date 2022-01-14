@@ -22591,7 +22591,8 @@ var CreateCollection = function CreateCollection() {
   var _useLocalStorage5 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("descriptionCollection", ""),
       _useLocalStorage6 = _slicedToArray(_useLocalStorage5, 2),
       descriptionCollection = _useLocalStorage6[0],
-      setDescriptionCollection = _useLocalStorage6[1];
+      setDescriptionCollection = _useLocalStorage6[1]; // const [descriptionCollection, setDescriptionCollection] = useState('');
+
 
   var _useLocalStorage7 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("metaTitle", ""),
       _useLocalStorage8 = _slicedToArray(_useLocalStorage7, 2),
@@ -22938,8 +22939,12 @@ var CreateCollection = function CreateCollection() {
 
     if (!isShowOptimisation) {
       dropable.style.maxHeight = null;
+      dropable.style.overflow = 'hidden';
     } else {
       dropable.style.maxHeight = dropable.scrollHeight + "px";
+      setTimeout(function () {
+        dropable.style.overflow = 'unset';
+      }, 250);
     }
   }, [isShowOptimisation]); // détermine si on inclus les produits déjà enregistrer dans la nouvelle collection
 
@@ -23444,7 +23449,11 @@ var CreateCollection = function CreateCollection() {
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_ckeditor_ckeditor5_react__WEBPACK_IMPORTED_MODULE_2__.CKEditor, {
           editor: (_ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_3___default()),
-          data: descriptionCollection,
+          data: descriptionCollection // config={{
+          //     plugins: [Essentials, Paragraph, Bold, Italic, Alignment],      
+          //     toolbar: ['bold', 'italic', 'alignment']
+          // }}
+          ,
           onReady: function onReady(editor) {
             editor.ui.view.element.style.marginBottom = "20px";
             editor.ui.view.element.style.width = "100%";
@@ -23631,9 +23640,15 @@ var CreateCollection = function CreateCollection() {
                 children: "Url de la page de cette collection"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("i", {
                 className: "fas fa-question-circle tooltip",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("span", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("span", {
                   className: "tooltiptext",
-                  children: "Utilisez des mots cl\xE9s en rapport avec le contenu de cette collection"
+                  children: ["Utilisez des mots cl\xE9s en rapport avec le contenu de cette collection ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
+                    href: "http://127.0.0.1:8000",
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                    className: "linkInTooltip",
+                    children: "Mon lien"
+                  })]
                 })
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
@@ -26804,7 +26819,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
  // récupère les données de key ou met defaultValue s'il n'y en a pas
 
 function getStorageValue(key, defaultValue) {
-  return JSON.parse(localStorage.getItem(key)) || defaultValue;
+  if (localStorage.getItem(key) != '') {
+    return JSON.parse(localStorage.getItem(key)) || defaultValue;
+  } else {
+    return defaultValue;
+  }
 } // set le hook correspondant au hook appelant
 
 
