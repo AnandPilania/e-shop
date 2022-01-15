@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import ConditionCollection from './conditionCollection';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+// import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';
+// import Editor from '../../../../ckeditor5/build/ckeditor';
 import Axios from 'axios';
 import DropZone from '../tools/dropZone';
 import ModalConfirm from '../modal/modalConfirm';
@@ -40,7 +42,7 @@ const CreateCollection = () => {
     //--------------------------------------------------------------------Form
 
     const [isAutoConditions, setIsAutoConditions] = useState(true);
-    const [isShowOptimisation, setIsShowOptimisation] = useState(true);
+    const [isShowOptimisation, setIsShowOptimisation] = useState(false);
     const [notIncludePrevProduct, setNotIncludePrevProduct] = useState(false);
     const [categoriesList, setCategoriesList] = useState([]);
     const [allConditionsNeeded, setAllConditionsNeeded] = useState(true);
@@ -807,23 +809,48 @@ const CreateCollection = () => {
                             onChange={handleNameCollection}
                             placeholder='ex. Robes, Opération déstockage, Collection hiver' />
                     </div>
-
+{/* <textarea id='editor'></textarea> */}
                     {/* description */}
                     <div className="div-label-inputTxt">
                         <h2>Description (optionnel)</h2>
                     </div>
                     <CKEditor
                         editor={ClassicEditor}
+                        // editor={Editor}
                         data={descriptionCollection}
                         // config={{
-                        //     plugins: [Essentials, Paragraph, Bold, Italic, Alignment],      
-                        //     toolbar: ['bold', 'italic', 'alignment']
+                        //     language: 'fr',
+                        //     // plugins: [Alignment],
+                        //     toolbar: {
+                        //         items: [
+                        //             'heading',
+                        //             '|',
+                        //             'FontFamily',
+                        //             'FontSize',
+                        //             'FontColor',
+                        //             'FontBackgroundColor',
+                        //             '|',
+                        //             'bulletedList',
+                        //             'numberedList',
+                        //             '|',
+                        //             'outdent',
+                        //             'indent',
+                        //             '|',
+                        //             'undo',
+                        //             'redo',
+                        //             '|',
+                        //             'alignment',
+                        //         ]
+                        //     },
+
                         // }}
                         onReady={editor => {
                             editor.ui.view.element.style.marginBottom = "20px";
                             editor.ui.view.element.style.width = "100%";
                             editor.ui.view.editable.element.style.minHeight = "150px";
                             editor.ui.view.editable.element.style.borderRadius = "0 0 5px 5px";
+                            // permet de lister tous les tools disponibles
+                            console.log(Array.from(editor.ui.componentFactory.names()));
                         }}
                         onChange={(event, editor) => {
                             setDescriptionCollection(editor.getData());

@@ -31,7 +31,7 @@ const ListCollections = () => {
             <table>
                 <thead>
                     <tr>
-                        <th colspan="2">The table header</th>
+                        <th colSpan="2">The table header</th>
                     </tr>
                 </thead>
                 <tbody>
