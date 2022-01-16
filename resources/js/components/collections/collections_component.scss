@@ -177,19 +177,32 @@
 }
 
 .btn-effacer-tout {
+    // position: relative;
+    // top: -10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    transition: ease-in-out 0.15s;
+    height: 50px;
+    width: 150px;
+    text-align: center;
+    margin-top: 20px;
     margin-left: auto;
-    position: relative;
-    top: -10px;
     background-color: rgb(255, 255, 255);
-    border: #005cc8 solid 1px;
-    color: #005cc8;
-    border-radius: 25px;
-    font-size: 17px;
-    font-weight: bold;
+    border: #d40a0a solid 1px;
+    border-radius: 5px;
+    color: #464646;
+    font-size: 18px;
+    font-weight: normal;
+    letter-spacing: 1px;
+    box-sizing: border-box;
 }
 
 .btn-effacer-tout:hover {
     cursor: pointer;
+    background-color: white;
+    border-color: #a1a1a1;
     // box-shadow: 1px 1px 3px rgba(53, 66, 92, 0.6);
 }
 
@@ -660,6 +673,90 @@ span.trash-alt-dropZone {
     border: solid 2px rgb(55, 0, 255);
 }
 // ----------------------------------------------------------------LIST
+
+
+// // ANIMATION BORDER REINITIALISATION BUTTON ------------------------
+
+// .btn-effacer-tout {
+//     margin-left: auto;
+//     position: relative;
+//     top: 0;
+//     background-color: rgb(255, 255, 255);
+//     border: #005cc8 solid 1px;
+//     border-radius: 5px;
+//     color: #005cc8;
+//     font-size: 17px;
+//     font-weight: bold;
+// }
+
+// .btn-effacer-tout:hover {
+//     cursor: pointer;
+//     // box-shadow: 1px 1px 3px rgba(53, 66, 92, 0.6);
+// }
+
+// .btn-effacer-tout {
+//     width: 150px;
+//     height: 50px;
+//     border: 1px solid #333;
+//     cursor: pointer;
+//     -webkit-tap-highlight-color: transparent;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     position: relative;
+//     z-index: 0;
+//     transition: .4s;
+//   }
+  
+//   .btn-effacer-tout::before, .btn-effacer-tout::after {
+//     position: absolute;
+//     background: #fff;
+//     z-index: -1;
+//     transition: .4s;
+//     content: '';
+//   }
+  
+//   .btn-effacer-tout::before {
+//     height: 50px;
+//     width: 150px;
+//   }
+  
+//   .btn-effacer-tout::after {
+//     width: 150px;
+//     height: 50px;
+//   }
+  
+//   .noselect {
+//     -webkit-touch-callout: none;
+//       -webkit-user-select: none;
+//        -khtml-user-select: none;
+//          -moz-user-select: none;
+//           -ms-user-select: none;
+//               user-select: none;
+//   }
+  
+//   .btn-effacer-tout:hover::before {
+//     width: 0px;
+//     background: #fff;
+//   }
+  
+//   .btn-effacer-tout:hover::after {
+//     height: 0px;
+//     background: #fff;
+//   }
+  
+//   .btn-effacer-tout:hover {
+//     background: #fff;
+//   }
+// // -------------------------ANIMATION BORDER REINITIALISATION BUTTON
+
+
+
+
+
+
+
+
 // detect smartphone and tablette screen
 @media only screen and (hover: none) and (pointer: coarse) {
     /* Regular CSS rules here*/

@@ -152,19 +152,30 @@
 }
 
 .btn-effacer-tout {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  transition: ease-in-out 0.15s;
+  height: 50px;
+  width: 150px;
+  text-align: center;
+  margin-top: 20px;
   margin-left: auto;
-  position: relative;
-  top: -10px;
   background-color: white;
-  border: #005cc8 solid 1px;
-  color: #005cc8;
-  border-radius: 25px;
-  font-size: 17px;
-  font-weight: bold;
+  border: #d40a0a solid 1px;
+  border-radius: 5px;
+  color: #464646;
+  font-size: 18px;
+  font-weight: normal;
+  letter-spacing: 1px;
+  box-sizing: border-box;
 }
 
 .btn-effacer-tout:hover {
   cursor: pointer;
+  background-color: white;
+  border-color: #a1a1a1;
 }
 
 .div-label-inputTxt,

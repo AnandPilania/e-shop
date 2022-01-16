@@ -4,8 +4,8 @@ import './createProduct_Js.scss';
 import ContainerDetailEdit from './containerDetailEdit';
 import SelectCollectionsEdit from '../selectInProduct/selectCollectionsEdit';
 import Axios from "axios";
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+// import { CKEditor } from '@ckeditor/ckeditor5-react';
+// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useParams } from "react-router-dom";
 import EditImages from './edit_images';
 
@@ -207,7 +207,7 @@ const EditProduct = () => {
                     <br></br><br></br>
                     <h6>Fiche technique</h6>
                     <br></br>
-                    <CKEditor
+                    {/* <CKEditor
                         editor={ClassicEditor}
                         // config={ editorConfiguration }
                         data={sheet}
@@ -223,7 +223,7 @@ const EditProduct = () => {
                         }}
                         onFocus={(event, editor) => {
                         }}
-                    />
+                    /> */}
 
                     <br></br>
                     <input className="btn btn-primary" type="submit" value="Envoyer" />

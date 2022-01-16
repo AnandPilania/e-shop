@@ -1,11 +1,6 @@
-import { React, useState, useEffect, useRef, useContext } from 'react';
+import { React, useState, useEffect, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import ConditionCollection from './conditionCollection';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-// import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';
-// import Editor from '../../../../ckeditor5/build/ckeditor';
-// import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment'; 
 import Axios from 'axios';
 import DropZone from '../tools/dropZone';
 import ModalConfirm from '../modal/modalConfirm';
@@ -22,14 +17,6 @@ import { Editor } from '@tinymce/tinymce-react';
 
 
 const CreateCollection = () => {
-
-    const editorRef = useRef(null);
-    const log = () => {
-        if (editorRef.current) {
-            console.log(editorRef.current.getContent());
-        }
-    };
-
 
     var navigate = useNavigate();
 
@@ -160,7 +147,6 @@ const CreateCollection = () => {
         // set le l'URL de cette page
         let path = window.location.pathname.replace('admin/', '');
         setFollowThisLink(path);
-
 
         // évite error quand on passe à un autre component
         return <>{categoriesList ? categoriesList : ''}</>
@@ -303,10 +289,6 @@ const CreateCollection = () => {
         }
     }, [isShowOptimisation]);
 
-    // détermine si on inclus les produits déjà enregistrer dans la nouvelle collection
-    const notIncludePrevProducts = () => {
-        setNotIncludePrevProduct(!notIncludePrevProduct);
-    };
 
     const handleNameCollection = (e) => {
         setNameCollection(e.target.value);
@@ -320,7 +302,7 @@ const CreateCollection = () => {
 
     const handleDescriptionCollection = (description) => {
         localStorage.setItem("descriptionCollection", description);
-        // descriptionCollection est set dans le component ckeditor donc pas besoin ici
+        // descriptionCollection est set dans le component tinyMCE donc pas besoin ici
     };
 
     const handleMetaTitle = (e) => {
@@ -346,10 +328,6 @@ const CreateCollection = () => {
         } else {
             setMetaDescriptionbiggerThan130(false);
         }
-
-        // on remplace les balises de la description dans ckeditor par un espace pour que les mots ne soient pas collés dans l'apérçu de MetaDescription lorsqu'il n'y a pas de méta déscription
-        // let htmlDescriptionText = descriptionCollection.replaceAll(/<[\/a-zA-Z0-9]*>/gi, " ");
-
     };
 
     const handleMetaUrl = (e) => {
@@ -369,6 +347,12 @@ const CreateCollection = () => {
 
         return urlName;
     };
+
+    // détermine si on inclus les produits déjà enregistrer dans la nouvelle collection
+    const handleNotIncludePrevProducts = () => {
+        setNotIncludePrevProduct(!notIncludePrevProduct);
+    };
+
 
     // IMAGE -------------------------------------------------------------------
     // save image from dirty page in temporary_storages db
@@ -805,9 +789,9 @@ const CreateCollection = () => {
         }
     }
 
- useEffect(() => {
+    useEffect(() => {
         console.log(descriptionCollection);
- }, [descriptionCollection]);
+    }, [descriptionCollection]);
 
 
 
@@ -816,7 +800,7 @@ const CreateCollection = () => {
             <div className="collection-block-container">
                 {/* nom */}
                 <div className="div-vert-align">
-                    {isDirty && (<button className='btn-bcknd btn-effacer-tout'
+                    {isDirty && (<button className='btn-effacer-tout'
                         onClick={confirmInitCollectionForm}>
                         Réinitialiser
                     </button>)}
@@ -827,10 +811,15 @@ const CreateCollection = () => {
                             onChange={handleNameCollection}
                             placeholder='ex. Robes, Opération déstockage, Collection hiver' />
                     </div>
+
+                    {/* description */}
+                    <div className="div-label-inputTxt">
+                        <h2>Description (optionnel)</h2>
+                    </div>
                     <>
                         <Editor
                             apiKey="859uqxkoeg5bds7w4yx9ihw5exy86bhtgq56fvxwsjopxbf2"
-                            onInit={(evt, editor) => editorRef.current = editor}
+                            // onInit={(evt, editor) => editorRef.current = editor}
                             // initialValue={descriptionCollection}
                             value={descriptionCollection}
                             onEditorChange={(newText) => {
@@ -838,16 +827,39 @@ const CreateCollection = () => {
                                 handleDescriptionCollection(newText);
                             }}
                             init={{
+                                branding: false,
                                 width: '100%',
                                 height: 250,
                                 autoresize_bottom_margin: 50,
                                 max_height: 500,
-                                menubar: false,
-                                plugins: [
-                                    'advlist autolink lists link image charmap print preview anchor',
-                                    'searchreplace visualblocks code fullscreen autoresize',
-                                    'insertdatetime media table paste code help wordcount fullscreen'
+                                menubar: true,
+                                statusbar: false,
+                                content_langs: [
+                                    { title: 'Arab', code: 'ar' },
+                                    { title: 'English', code: 'en_US' },
+                                    { title: 'Spanish', code: 'es_419' },
+                                    { title: 'French', code: 'fr_FR' },
+                                    { title: 'German', code: 'de' },
+                                    { title: 'Italian', code: 'it_IT' },
+                                    { title: 'Portuguese', code: 'pt_BR' },
+                                    { title: 'Russe', code: 'ru_RU' },
+                                    { title: 'Chinese', code: 'zh_CN' }
                                 ],
+                                language: 'fr_FR',
+                                // langue_url: '@tinymce/tinymce-react/langs',
+                                plugins: [
+                                    'advlist autolink lists link image media charmap print preview anchor',
+                                    'searchreplace visualblocks code fullscreen autoresize',
+                                    'insertdatetime media table paste code help wordcount fullscreen code'
+                                ],
+                                menubar: 'tools insert',
+                                toolbar: 'wordcount | undo redo | formatselect | ' +
+                                    'bold italic underline forecolor backcolor | alignleft aligncenter ' +
+                                    'alignright alignjustify | bullist numlist outdent indent | ' +
+                                    'image ' +
+                                    'media ' +
+                                    'removeformat | help | fullscreen ' +
+                                    'language ',
                                 /* enable title field in the Image dialog*/
                                 image_title: true,
                                 /* enable automatic uploads of images represented by blob or data URIs*/
@@ -857,7 +869,7 @@ const CreateCollection = () => {
                                   images_upload_url: 'postAcceptor.php',
                                   here we add custom filepicker only to Image dialog
                                 */
-                                file_picker_types: 'image',
+                                file_picker_types: 'image media',
                                 /* and here's our custom image picker*/
                                 file_picker_callback: function (cb, value, meta) {
                                     var input = document.createElement('input');
@@ -896,70 +908,19 @@ const CreateCollection = () => {
 
                                     input.click();
                                 },
+                                audio_template_callback: function (data) {
+                                    return '<audio controls>' + '\n<source src="' + data.source + '"' + (data.sourcemime ? ' type="' + data.sourcemime + '"' : '') + ' />\n' + (data.altsource ? '<source src="' + data.altsource + '"' + (data.altsourcemime ? ' type="' + data.altsourcemime + '"' : '') + ' />\n' : '') + '</audio>';
+                                },
+                                video_template_callback: function (data) {
+                                    return '<video width="' + data.width + '" height="' + data.height + '"' + (data.poster ? ' poster="' + data.poster + '"' : '') + ' controls="controls">\n' + '<source src="' + data.source + '"' + (data.sourcemime ? ' type="' + data.sourcemime + '"' : '') + ' />\n' + (data.altsource ? '<source src="' + data.altsource + '"' + (data.altsourcemime ? ' type="' + data.altsourcemime + '"' : '') + ' />\n' : '') + '</video>';
+                                },
                                 a11y_advanced_options: true,
-                                toolbar: 'undo redo | formatselect | ' +
-                                    'bold italic backcolor | alignleft aligncenter ' +
-                                    'alignright alignjustify | bullist numlist outdent indent | ' +
-                                    'image | ' +
-                                    'removeformat | help | fullscreen',
                                 content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                             }}
                         />
-                        <button onClick={log}>Log editor content</button>
                     </>
-                    {/* description */}
-                    <div className="div-label-inputTxt">
-                        <h2>Description (optionnel)</h2>
-                    </div>
-                    <CKEditor
-                        editor={ClassicEditor}
-                        // editor={Editor}
-                        data={descriptionCollection}
-                        // config={{
-                        //     language: 'fr',
-                        //     // plugins: [Alignment],
-                        //     toolbar: {
-                        //         items: [
-                        //             'heading',
-                        //             '|',
-                        //             'FontFamily',
-                        //             'FontSize',
-                        //             'FontColor',
-                        //             'FontBackgroundColor',
-                        //             '|',
-                        //             'bulletedList',
-                        //             'numberedList',
-                        //             '|',
-                        //             'outdent',
-                        //             'indent',
-                        //             '|',
-                        //             'undo',
-                        //             'redo',
-                        //             '|',
-                        //             'alignment',
-                        //         ]
-                        //     },
 
-                        // }}
-                        onReady={editor => {
-                            editor.ui.view.element.style.marginBottom = "20px";
-                            editor.ui.view.element.style.width = "100%";
-                            editor.ui.view.editable.element.style.minHeight = "150px";
-                            editor.ui.view.editable.element.style.borderRadius = "0 0 5px 5px";
-                            // permet de lister tous les tools disponibles
-                            console.log(Array.from(editor.ui.componentFactory.names()));
-                        }}
-                        onChange={(event, editor) => {
-                            setDescriptionCollection(editor.getData());
-                            handleDescriptionCollection(editor.getData());
-                        }}
-                        onBlur={(event, editor) => {
-                            editor.ui.view.editable.element.style.minHeight = "150px";
-                        }}
-                        onFocus={(event, editor) => {
-                            editor.ui.view.editable.element.style.minHeight = "150px";
-                        }}
-                    />
+
                 </div>
 
                 {/* type de collection */}
@@ -1029,9 +990,11 @@ const CreateCollection = () => {
                                     <input type='checkbox'
                                         id="includOnlyNewProducts"
                                         checked={notIncludePrevProduct}
-                                        onChange={notIncludePrevProducts} />
+                                        onChange={handleNotIncludePrevProducts} />
                                     <label
-                                        onClick={notIncludePrevProducts} htmlFor='includOnlyNewProducts'>Ne pas inclure les produits déjà enregistrés</label>
+                                        htmlFor='includOnlyNewProducts'>
+                                        Ne pas inclure les produits déjà enregistrés
+                                    </label>
                                 </div>
                             </div>
                         </div>

@@ -120,7 +120,7 @@ const ConditionCollection = (props) => {
 
         let param = e.target.value;
 
-        // css .inputTypeDate quand le type de l'input est date
+        // active la class .inputTypeDate quand l'input devient de type date pour le styliser 
         param == 10 ? setinputTypeDate('inputTypeDate') : setinputTypeDate('');
 
         props.handleChangeParam(param, props.condition.id);

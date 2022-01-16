@@ -4,8 +4,8 @@ import { makeStyles } from '@material-ui/styles';
 import ContainerDetail from './containerDetail';
 import SelectCollections from '../selectInProduct/selectCollections';
 import Axios from "axios";
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+// import { CKEditor } from '@ckeditor/ckeditor5-react';
+// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 
 const useStyles = makeStyles({
@@ -340,7 +340,7 @@ const FormProduct = (props) => {
                 <br></br><br></br>
                 <h6>Fiche technique</h6>
                 <br></br>
-                <CKEditor
+                {/* <CKEditor
                     editor={ClassicEditor}
                     data=""
                     onReady={editor => {
@@ -358,7 +358,7 @@ const FormProduct = (props) => {
                     onFocus={(event, editor) => {
                         console.log('Focus.', editor);
                     }}
-                />
+                /> */}
 
                 <br></br>
                 <button className="btn-backEnd" onClick={handleSubmit}>
