@@ -125,7 +125,7 @@
 }
 
 .banniere_img {
-  width: calc(100% / 3);
+  width: 33.3333333333%;
   height: 100%;
   display: flex;
   justify-content: stretch;
@@ -138,7 +138,7 @@
 }
 
 .banniere_txt {
-  width: calc((100% / 3) * 2);
+  width: 66.6666666667%;
   height: 380px;
   padding: 50px 50px;
   display: flex;

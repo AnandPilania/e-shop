@@ -5,6 +5,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 // import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';
 // import Editor from '../../../../ckeditor5/build/ckeditor';
+// import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment'; 
 import Axios from 'axios';
 import DropZone from '../tools/dropZone';
 import ModalConfirm from '../modal/modalConfirm';
@@ -14,7 +15,6 @@ import AppContext from '../contexts/AppContext';
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import "flatpickr/dist/themes/material_blue.css";
 import Flatpickr from "react-flatpickr";
-
 
 
 

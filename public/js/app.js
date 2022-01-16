@@ -22670,6 +22670,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
  // import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment';
 // import Editor from '../../../../ckeditor5/build/ckeditor';
+// import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment'; 
 
 
 
