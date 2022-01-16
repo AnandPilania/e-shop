@@ -19833,6 +19833,694 @@ function propsToClassKey(props) {
 
 /***/ }),
 
+/***/ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/ScriptLoader.js":
+/*!********************************************************************************!*\
+  !*** ./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/ScriptLoader.js ***!
+  \********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ScriptLoader": () => (/* binding */ ScriptLoader)
+/* harmony export */ });
+/* harmony import */ var _Utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Utils */ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/Utils.js");
+/**
+ * Copyright (c) 2017-present, Ephox, Inc.
+ *
+ * This source code is licensed under the Apache 2 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+var createState = function () { return ({
+    listeners: [],
+    scriptId: (0,_Utils__WEBPACK_IMPORTED_MODULE_0__.uuid)('tiny-script'),
+    scriptLoading: false,
+    scriptLoaded: false
+}); };
+var CreateScriptLoader = function () {
+    var state = createState();
+    var injectScriptTag = function (scriptId, doc, url, async, defer, callback) {
+        var scriptTag = doc.createElement('script');
+        scriptTag.referrerPolicy = 'origin';
+        scriptTag.type = 'application/javascript';
+        scriptTag.id = scriptId;
+        scriptTag.src = url;
+        scriptTag.async = async;
+        scriptTag.defer = defer;
+        var handler = function () {
+            scriptTag.removeEventListener('load', handler);
+            callback();
+        };
+        scriptTag.addEventListener('load', handler);
+        if (doc.head) {
+            doc.head.appendChild(scriptTag);
+        }
+    };
+    var load = function (doc, url, async, defer, delay, callback) {
+        var scriptTagInjection = function () { return injectScriptTag(state.scriptId, doc, url, async, defer, function () {
+            state.listeners.forEach(function (fn) { return fn(); });
+            state.scriptLoaded = true;
+        }); };
+        if (state.scriptLoaded) {
+            callback();
+        }
+        else {
+            state.listeners.push(callback);
+            if (!state.scriptLoading) {
+                state.scriptLoading = true;
+                if (delay > 0) {
+                    setTimeout(scriptTagInjection, delay);
+                }
+                else {
+                    scriptTagInjection();
+                }
+            }
+        }
+    };
+    // Only to be used by tests.
+    var reinitialize = function () {
+        state = createState();
+    };
+    return {
+        load: load,
+        reinitialize: reinitialize
+    };
+};
+var ScriptLoader = CreateScriptLoader();
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/TinyMCE.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/TinyMCE.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getTinymce": () => (/* binding */ getTinymce)
+/* harmony export */ });
+/**
+ * Copyright (c) 2017-present, Ephox, Inc.
+ *
+ * This source code is licensed under the Apache 2 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+var getGlobal = function () { return (typeof window !== 'undefined' ? window : __webpack_require__.g); };
+var getTinymce = function () {
+    var global = getGlobal();
+    return global && global.tinymce ? global.tinymce : null;
+};
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/Utils.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/Utils.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "isFunction": () => (/* binding */ isFunction),
+/* harmony export */   "configHandlers2": () => (/* binding */ configHandlers2),
+/* harmony export */   "configHandlers": () => (/* binding */ configHandlers),
+/* harmony export */   "uuid": () => (/* binding */ uuid),
+/* harmony export */   "isTextareaOrInput": () => (/* binding */ isTextareaOrInput),
+/* harmony export */   "mergePlugins": () => (/* binding */ mergePlugins),
+/* harmony export */   "isBeforeInputEventAvailable": () => (/* binding */ isBeforeInputEventAvailable),
+/* harmony export */   "isInDoc": () => (/* binding */ isInDoc)
+/* harmony export */ });
+/* harmony import */ var _components_EditorPropTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/EditorPropTypes */ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/components/EditorPropTypes.js");
+/**
+ * Copyright (c) 2017-present, Ephox, Inc.
+ *
+ * This source code is licensed under the Apache 2 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+var isFunction = function (x) { return typeof x === 'function'; };
+var isEventProp = function (name) { return name in _components_EditorPropTypes__WEBPACK_IMPORTED_MODULE_0__.eventPropTypes; };
+var eventAttrToEventName = function (attrName) { return attrName.substr(2); };
+var configHandlers2 = function (handlerLookup, on, off, adapter, prevProps, props, boundHandlers) {
+    var prevEventKeys = Object.keys(prevProps).filter(isEventProp);
+    var currEventKeys = Object.keys(props).filter(isEventProp);
+    var removedKeys = prevEventKeys.filter(function (key) { return props[key] === undefined; });
+    var addedKeys = currEventKeys.filter(function (key) { return prevProps[key] === undefined; });
+    removedKeys.forEach(function (key) {
+        // remove event handler
+        var eventName = eventAttrToEventName(key);
+        var wrappedHandler = boundHandlers[eventName];
+        off(eventName, wrappedHandler);
+        delete boundHandlers[eventName];
+    });
+    addedKeys.forEach(function (key) {
+        var wrappedHandler = adapter(handlerLookup, key);
+        var eventName = eventAttrToEventName(key);
+        boundHandlers[eventName] = wrappedHandler;
+        on(eventName, wrappedHandler);
+    });
+};
+var configHandlers = function (editor, prevProps, props, boundHandlers, lookup) {
+    return configHandlers2(lookup, editor.on.bind(editor), editor.off.bind(editor), function (handlerLookup, key) { return function (e) { var _a; return (_a = handlerLookup(key)) === null || _a === void 0 ? void 0 : _a(e, editor); }; }, prevProps, props, boundHandlers);
+};
+var unique = 0;
+var uuid = function (prefix) {
+    var time = Date.now();
+    var random = Math.floor(Math.random() * 1000000000);
+    unique++;
+    return prefix + '_' + random + unique + String(time);
+};
+var isTextareaOrInput = function (element) {
+    return element !== null && (element.tagName.toLowerCase() === 'textarea' || element.tagName.toLowerCase() === 'input');
+};
+var normalizePluginArray = function (plugins) {
+    if (typeof plugins === 'undefined' || plugins === '') {
+        return [];
+    }
+    return Array.isArray(plugins) ? plugins : plugins.split(' ');
+};
+// eslint-disable-next-line max-len
+var mergePlugins = function (initPlugins, inputPlugins) { return normalizePluginArray(initPlugins).concat(normalizePluginArray(inputPlugins)); };
+var isBeforeInputEventAvailable = function () { return window.InputEvent && typeof InputEvent.prototype.getTargetRanges === 'function'; };
+var isInDoc = function (elem) {
+    if (!('isConnected' in Node.prototype)) {
+        // Fallback for IE and old Edge
+        var current = elem;
+        var parent_1 = elem.parentNode;
+        while (parent_1 != null) {
+            current = parent_1;
+            parent_1 = current.parentNode;
+        }
+        return current === elem.ownerDocument;
+    }
+    return elem.isConnected;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/components/Editor.js":
+/*!*************************************************************************************!*\
+  !*** ./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/components/Editor.js ***!
+  \*************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Editor": () => (/* binding */ Editor)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _ScriptLoader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ScriptLoader */ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/ScriptLoader.js");
+/* harmony import */ var _TinyMCE__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../TinyMCE */ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/TinyMCE.js");
+/* harmony import */ var _Utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Utils */ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/Utils.js");
+/* harmony import */ var _EditorPropTypes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./EditorPropTypes */ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/components/EditorPropTypes.js");
+/**
+ * Copyright (c) 2017-present, Ephox, Inc.
+ *
+ * This source code is licensed under the Apache 2 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (undefined && undefined.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+
+
+
+
+
+var changeEvents = function () { var _a, _b, _c; return ((_c = (_b = (_a = (0,_TinyMCE__WEBPACK_IMPORTED_MODULE_2__.getTinymce)()) === null || _a === void 0 ? void 0 : _a.Env) === null || _b === void 0 ? void 0 : _b.browser) === null || _c === void 0 ? void 0 : _c.isIE()) ? 'change keyup compositionend setcontent' : 'change input compositionend setcontent'; };
+var beforeInputEvent = function () { return (0,_Utils__WEBPACK_IMPORTED_MODULE_3__.isBeforeInputEventAvailable)() ? 'beforeinput SelectionChange' : 'SelectionChange'; };
+var Editor = /** @class */ (function (_super) {
+    __extends(Editor, _super);
+    function Editor(props) {
+        var _a, _b, _c;
+        var _this = _super.call(this, props) || this;
+        _this.rollbackTimer = undefined;
+        _this.valueCursor = undefined;
+        _this.rollbackChange = function () {
+            var editor = _this.editor;
+            var value = _this.props.value;
+            if (editor && value && value !== _this.currentContent) {
+                editor.undoManager.ignore(function () {
+                    editor.setContent(value);
+                    // only restore cursor on inline editors when they are focused
+                    // as otherwise it will cause a focus grab
+                    if (_this.valueCursor && (!_this.inline || editor.hasFocus())) {
+                        try {
+                            editor.selection.moveToBookmark(_this.valueCursor);
+                        }
+                        catch (e) { /* ignore */ }
+                    }
+                });
+            }
+            _this.rollbackTimer = undefined;
+        };
+        _this.handleBeforeInput = function (_evt) {
+            if (_this.props.value !== undefined && _this.props.value === _this.currentContent && _this.editor) {
+                if (!_this.inline || _this.editor.hasFocus) {
+                    try {
+                        // getBookmark throws exceptions when the editor has not been focused
+                        // possibly only in inline mode but I'm not taking chances
+                        _this.valueCursor = _this.editor.selection.getBookmark(3);
+                    }
+                    catch (e) { /* ignore */ }
+                }
+            }
+        };
+        _this.handleBeforeInputSpecial = function (evt) {
+            if (evt.key === 'Enter' || evt.key === 'Backspace' || evt.key === 'Delete') {
+                _this.handleBeforeInput(evt);
+            }
+        };
+        _this.handleEditorChange = function (_evt) {
+            var editor = _this.editor;
+            if (editor && editor.initialized) {
+                var newContent = editor.getContent();
+                if (_this.props.value !== undefined && _this.props.value !== newContent && _this.props.rollback !== false) {
+                    // start a timer and revert to the value if not applied in time
+                    if (!_this.rollbackTimer) {
+                        _this.rollbackTimer = window.setTimeout(_this.rollbackChange, typeof _this.props.rollback === 'number' ? _this.props.rollback : 200);
+                    }
+                }
+                if (newContent !== _this.currentContent) {
+                    _this.currentContent = newContent;
+                    if ((0,_Utils__WEBPACK_IMPORTED_MODULE_3__.isFunction)(_this.props.onEditorChange)) {
+                        var format = _this.props.outputFormat;
+                        var out = format === 'html' ? newContent : editor.getContent({ format: format });
+                        _this.props.onEditorChange(out, editor);
+                    }
+                }
+            }
+        };
+        _this.handleEditorChangeSpecial = function (evt) {
+            if (evt.key === 'Backspace' || evt.key === 'Delete') {
+                _this.handleEditorChange(evt);
+            }
+        };
+        _this.initialise = function (attempts) {
+            var _a, _b, _c;
+            if (attempts === void 0) { attempts = 0; }
+            var target = _this.elementRef.current;
+            if (!target) {
+                return; // Editor has been unmounted
+            }
+            if (!(0,_Utils__WEBPACK_IMPORTED_MODULE_3__.isInDoc)(target)) {
+                // this is probably someone trying to help by rendering us offscreen
+                // but we can't do that because the editor iframe must be in the document
+                // in order to have state
+                if (attempts === 0) {
+                    // we probably just need to wait for the current events to be processed
+                    setTimeout(function () { return _this.initialise(1); }, 1);
+                }
+                else if (attempts < 100) {
+                    // wait for ten seconds, polling every tenth of a second
+                    setTimeout(function () { return _this.initialise(attempts + 1); }, 100);
+                }
+                else {
+                    // give up, at this point it seems that more polling is unlikely to help
+                    throw new Error('tinymce can only be initialised when in a document');
+                }
+                return;
+            }
+            var tinymce = (0,_TinyMCE__WEBPACK_IMPORTED_MODULE_2__.getTinymce)();
+            if (!tinymce) {
+                throw new Error('tinymce should have been loaded into global scope');
+            }
+            var finalInit = __assign(__assign({}, _this.props.init), { selector: undefined, target: target, readonly: _this.props.disabled, inline: _this.inline, plugins: (0,_Utils__WEBPACK_IMPORTED_MODULE_3__.mergePlugins)((_a = _this.props.init) === null || _a === void 0 ? void 0 : _a.plugins, _this.props.plugins), toolbar: (_b = _this.props.toolbar) !== null && _b !== void 0 ? _b : (_c = _this.props.init) === null || _c === void 0 ? void 0 : _c.toolbar, setup: function (editor) {
+                    _this.editor = editor;
+                    _this.bindHandlers({});
+                    // When running in inline mode the editor gets the initial value
+                    // from the innerHTML of the element it is initialized on.
+                    // However we don't want to take on the responsibility of sanitizing
+                    // to remove XSS in the react integration so we have a chicken and egg
+                    // problem... We avoid it by sneaking in a set content before the first
+                    // "official" setContent and using TinyMCE to do the sanitization.
+                    if (_this.inline && !(0,_Utils__WEBPACK_IMPORTED_MODULE_3__.isTextareaOrInput)(target)) {
+                        editor.once('PostRender', function (_evt) {
+                            editor.setContent(_this.getInitialValue(), { no_events: true });
+                        });
+                    }
+                    if (_this.props.init && (0,_Utils__WEBPACK_IMPORTED_MODULE_3__.isFunction)(_this.props.init.setup)) {
+                        _this.props.init.setup(editor);
+                    }
+                }, init_instance_callback: function (editor) {
+                    var _a, _b;
+                    // check for changes that happened since tinymce.init() was called
+                    var initialValue = _this.getInitialValue();
+                    _this.currentContent = (_a = _this.currentContent) !== null && _a !== void 0 ? _a : editor.getContent();
+                    if (_this.currentContent !== initialValue) {
+                        _this.currentContent = initialValue;
+                        // same as resetContent in TinyMCE 5
+                        editor.setContent(initialValue);
+                        editor.undoManager.clear();
+                        editor.undoManager.add();
+                        editor.setDirty(false);
+                    }
+                    var disabled = (_b = _this.props.disabled) !== null && _b !== void 0 ? _b : false;
+                    editor.setMode(disabled ? 'readonly' : 'design');
+                    // ensure existing init_instance_callback is called
+                    if (_this.props.init && (0,_Utils__WEBPACK_IMPORTED_MODULE_3__.isFunction)(_this.props.init.init_instance_callback)) {
+                        _this.props.init.init_instance_callback(editor);
+                    }
+                } });
+            if (!_this.inline) {
+                target.style.visibility = '';
+            }
+            if ((0,_Utils__WEBPACK_IMPORTED_MODULE_3__.isTextareaOrInput)(target)) {
+                target.value = _this.getInitialValue();
+            }
+            tinymce.init(finalInit);
+        };
+        _this.id = _this.props.id || (0,_Utils__WEBPACK_IMPORTED_MODULE_3__.uuid)('tiny-react');
+        _this.elementRef = react__WEBPACK_IMPORTED_MODULE_0__.createRef();
+        _this.inline = (_c = (_a = _this.props.inline) !== null && _a !== void 0 ? _a : (_b = _this.props.init) === null || _b === void 0 ? void 0 : _b.inline) !== null && _c !== void 0 ? _c : false;
+        _this.boundHandlers = {};
+        return _this;
+    }
+    Editor.prototype.componentDidUpdate = function (prevProps) {
+        var _this = this;
+        var _a, _b;
+        if (this.rollbackTimer) {
+            clearTimeout(this.rollbackTimer);
+            this.rollbackTimer = undefined;
+        }
+        if (this.editor) {
+            this.bindHandlers(prevProps);
+            if (this.editor.initialized) {
+                this.currentContent = (_a = this.currentContent) !== null && _a !== void 0 ? _a : this.editor.getContent();
+                if (typeof this.props.initialValue === 'string' && this.props.initialValue !== prevProps.initialValue) {
+                    // same as resetContent in TinyMCE 5
+                    this.editor.setContent(this.props.initialValue);
+                    this.editor.undoManager.clear();
+                    this.editor.undoManager.add();
+                    this.editor.setDirty(false);
+                }
+                else if (typeof this.props.value === 'string' && this.props.value !== this.currentContent) {
+                    var localEditor_1 = this.editor;
+                    localEditor_1.undoManager.transact(function () {
+                        // inline editors grab focus when restoring selection
+                        // so we don't try to keep their selection unless they are currently focused
+                        var cursor;
+                        if (!_this.inline || localEditor_1.hasFocus()) {
+                            try {
+                                // getBookmark throws exceptions when the editor has not been focused
+                                // possibly only in inline mode but I'm not taking chances
+                                cursor = localEditor_1.selection.getBookmark(3);
+                            }
+                            catch (e) { /* ignore */ }
+                        }
+                        var valueCursor = _this.valueCursor;
+                        localEditor_1.setContent(_this.props.value);
+                        if (!_this.inline || localEditor_1.hasFocus()) {
+                            for (var _i = 0, _a = [cursor, valueCursor]; _i < _a.length; _i++) {
+                                var bookmark = _a[_i];
+                                if (bookmark) {
+                                    try {
+                                        localEditor_1.selection.moveToBookmark(bookmark);
+                                        _this.valueCursor = bookmark;
+                                        break;
+                                    }
+                                    catch (e) { /* ignore */ }
+                                }
+                            }
+                        }
+                    });
+                }
+                if (this.props.disabled !== prevProps.disabled) {
+                    var disabled = (_b = this.props.disabled) !== null && _b !== void 0 ? _b : false;
+                    this.editor.setMode(disabled ? 'readonly' : 'design');
+                }
+            }
+        }
+    };
+    Editor.prototype.componentDidMount = function () {
+        var _a, _b, _c, _d, _e, _f;
+        if ((0,_TinyMCE__WEBPACK_IMPORTED_MODULE_2__.getTinymce)() !== null) {
+            this.initialise();
+        }
+        else if (this.elementRef.current && this.elementRef.current.ownerDocument) {
+            _ScriptLoader__WEBPACK_IMPORTED_MODULE_1__.ScriptLoader.load(this.elementRef.current.ownerDocument, this.getScriptSrc(), (_b = (_a = this.props.scriptLoading) === null || _a === void 0 ? void 0 : _a.async) !== null && _b !== void 0 ? _b : false, (_d = (_c = this.props.scriptLoading) === null || _c === void 0 ? void 0 : _c.defer) !== null && _d !== void 0 ? _d : false, (_f = (_e = this.props.scriptLoading) === null || _e === void 0 ? void 0 : _e.delay) !== null && _f !== void 0 ? _f : 0, this.initialise);
+        }
+    };
+    Editor.prototype.componentWillUnmount = function () {
+        var _this = this;
+        var editor = this.editor;
+        if (editor) {
+            editor.off(changeEvents(), this.handleEditorChange);
+            editor.off(beforeInputEvent(), this.handleBeforeInput);
+            editor.off('keypress', this.handleEditorChangeSpecial);
+            editor.off('keydown', this.handleBeforeInputSpecial);
+            editor.off('NewBlock', this.handleEditorChange);
+            Object.keys(this.boundHandlers).forEach(function (eventName) {
+                editor.off(eventName, _this.boundHandlers[eventName]);
+            });
+            this.boundHandlers = {};
+            editor.remove();
+            this.editor = undefined;
+        }
+    };
+    Editor.prototype.render = function () {
+        return this.inline ? this.renderInline() : this.renderIframe();
+    };
+    Editor.prototype.renderInline = function () {
+        var _a = this.props.tagName, tagName = _a === void 0 ? 'div' : _a;
+        return react__WEBPACK_IMPORTED_MODULE_0__.createElement(tagName, {
+            ref: this.elementRef,
+            id: this.id
+        });
+    };
+    Editor.prototype.renderIframe = function () {
+        return react__WEBPACK_IMPORTED_MODULE_0__.createElement('textarea', {
+            ref: this.elementRef,
+            style: { visibility: 'hidden' },
+            name: this.props.textareaName,
+            id: this.id
+        });
+    };
+    Editor.prototype.getScriptSrc = function () {
+        if (typeof this.props.tinymceScriptSrc === 'string') {
+            return this.props.tinymceScriptSrc;
+        }
+        else {
+            var channel = this.props.cloudChannel;
+            var apiKey = this.props.apiKey ? this.props.apiKey : 'no-api-key';
+            return "https://cdn.tiny.cloud/1/" + apiKey + "/tinymce/" + channel + "/tinymce.min.js";
+        }
+    };
+    Editor.prototype.getInitialValue = function () {
+        if (typeof this.props.initialValue === 'string') {
+            return this.props.initialValue;
+        }
+        else if (typeof this.props.value === 'string') {
+            return this.props.value;
+        }
+        else {
+            return '';
+        }
+    };
+    Editor.prototype.bindHandlers = function (prevProps) {
+        var _this = this;
+        if (this.editor !== undefined) {
+            // typescript chokes trying to understand the type of the lookup function
+            (0,_Utils__WEBPACK_IMPORTED_MODULE_3__.configHandlers)(this.editor, prevProps, this.props, this.boundHandlers, function (key) { return _this.props[key]; });
+            // check if we should monitor editor changes
+            var isValueControlled = function (p) { return p.onEditorChange !== undefined || p.value !== undefined; };
+            var wasControlled = isValueControlled(prevProps);
+            var nowControlled = isValueControlled(this.props);
+            if (!wasControlled && nowControlled) {
+                this.editor.on(changeEvents(), this.handleEditorChange);
+                this.editor.on(beforeInputEvent(), this.handleBeforeInput);
+                this.editor.on('keydown', this.handleBeforeInputSpecial);
+                this.editor.on('keyup', this.handleEditorChangeSpecial);
+                this.editor.on('NewBlock', this.handleEditorChange);
+            }
+            else if (wasControlled && !nowControlled) {
+                this.editor.off(changeEvents(), this.handleEditorChange);
+                this.editor.off(beforeInputEvent(), this.handleBeforeInput);
+                this.editor.off('keydown', this.handleBeforeInputSpecial);
+                this.editor.off('keyup', this.handleEditorChangeSpecial);
+                this.editor.off('NewBlock', this.handleEditorChange);
+            }
+        }
+    };
+    Editor.propTypes = _EditorPropTypes__WEBPACK_IMPORTED_MODULE_4__.EditorPropTypes;
+    Editor.defaultProps = {
+        cloudChannel: '5'
+    };
+    return Editor;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component));
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/components/EditorPropTypes.js":
+/*!**********************************************************************************************!*\
+  !*** ./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/components/EditorPropTypes.js ***!
+  \**********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "eventPropTypes": () => (/* binding */ eventPropTypes),
+/* harmony export */   "EditorPropTypes": () => (/* binding */ EditorPropTypes)
+/* harmony export */ });
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__);
+/**
+ * Copyright (c) 2017-present, Ephox, Inc.
+ *
+ * This source code is licensed under the Apache 2 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+var __assign = (undefined && undefined.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+
+var eventPropTypes = {
+    onActivate: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onAddUndo: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onBeforeAddUndo: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onBeforeExecCommand: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onBeforeGetContent: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onBeforeRenderUI: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onBeforeSetContent: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onBeforePaste: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onBlur: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onChange: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onClearUndos: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onClick: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onContextMenu: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onCopy: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onCut: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onDblclick: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onDeactivate: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onDirty: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onDrag: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onDragDrop: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onDragEnd: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onDragGesture: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onDragOver: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onDrop: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onExecCommand: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onFocus: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onFocusIn: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onFocusOut: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onGetContent: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onHide: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onInit: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onKeyDown: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onKeyPress: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onKeyUp: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onLoadContent: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onMouseDown: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onMouseEnter: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onMouseLeave: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onMouseMove: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onMouseOut: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onMouseOver: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onMouseUp: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onNodeChange: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onObjectResizeStart: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onObjectResized: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onObjectSelected: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onPaste: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onPostProcess: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onPostRender: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onPreProcess: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onProgressState: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onRedo: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onRemove: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onReset: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onSaveContent: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onSelectionChange: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onSetAttrib: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onSetContent: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onShow: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onSubmit: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onUndo: prop_types__WEBPACK_IMPORTED_MODULE_0__.func,
+    onVisualAid: prop_types__WEBPACK_IMPORTED_MODULE_0__.func
+};
+var EditorPropTypes = __assign({ apiKey: prop_types__WEBPACK_IMPORTED_MODULE_0__.string, id: prop_types__WEBPACK_IMPORTED_MODULE_0__.string, inline: prop_types__WEBPACK_IMPORTED_MODULE_0__.bool, init: prop_types__WEBPACK_IMPORTED_MODULE_0__.object, initialValue: prop_types__WEBPACK_IMPORTED_MODULE_0__.string, onEditorChange: prop_types__WEBPACK_IMPORTED_MODULE_0__.func, outputFormat: prop_types__WEBPACK_IMPORTED_MODULE_0__.oneOf(['html', 'text']), value: prop_types__WEBPACK_IMPORTED_MODULE_0__.string, tagName: prop_types__WEBPACK_IMPORTED_MODULE_0__.string, cloudChannel: prop_types__WEBPACK_IMPORTED_MODULE_0__.string, plugins: prop_types__WEBPACK_IMPORTED_MODULE_0__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_0__.string, prop_types__WEBPACK_IMPORTED_MODULE_0__.array]), toolbar: prop_types__WEBPACK_IMPORTED_MODULE_0__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_0__.string, prop_types__WEBPACK_IMPORTED_MODULE_0__.array]), disabled: prop_types__WEBPACK_IMPORTED_MODULE_0__.bool, textareaName: prop_types__WEBPACK_IMPORTED_MODULE_0__.string, tinymceScriptSrc: prop_types__WEBPACK_IMPORTED_MODULE_0__.string, rollback: prop_types__WEBPACK_IMPORTED_MODULE_0__.oneOfType([prop_types__WEBPACK_IMPORTED_MODULE_0__.number, prop_types__WEBPACK_IMPORTED_MODULE_0__.oneOf([false])]), scriptLoading: prop_types__WEBPACK_IMPORTED_MODULE_0__.shape({
+        async: prop_types__WEBPACK_IMPORTED_MODULE_0__.bool,
+        defer: prop_types__WEBPACK_IMPORTED_MODULE_0__.bool,
+        delay: prop_types__WEBPACK_IMPORTED_MODULE_0__.number
+    }) }, eventPropTypes);
+
+
+/***/ }),
+
+/***/ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/index.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/index.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Editor": () => (/* reexport safe */ _components_Editor__WEBPACK_IMPORTED_MODULE_0__.Editor)
+/* harmony export */ });
+/* harmony import */ var _components_Editor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Editor */ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/components/Editor.js");
+/**
+ * Copyright (c) 2017-present, Ephox, Inc.
+ *
+ * This source code is licensed under the Apache 2 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+
+
+
+/***/ }),
+
 /***/ "./node_modules/axios/index.js":
 /*!*************************************!*\
   !*** ./node_modules/axios/index.js ***!
@@ -22627,7 +23315,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
 /* harmony import */ var _conditionCollection__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./conditionCollection */ "./resources/js/components/collections/conditionCollection.jsx");
 /* harmony import */ var _ckeditor_ckeditor5_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ckeditor/ckeditor5-react */ "./node_modules/@ckeditor/ckeditor5-react/dist/ckeditor.js");
 /* harmony import */ var _ckeditor_ckeditor5_react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_ckeditor_ckeditor5_react__WEBPACK_IMPORTED_MODULE_2__);
@@ -22643,7 +23331,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../hooks/useLocalStorage */ "./resources/js/components/hooks/useLocalStorage.jsx");
 /* harmony import */ var flatpickr_dist_themes_material_blue_css__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! flatpickr/dist/themes/material_blue.css */ "./node_modules/flatpickr/dist/themes/material_blue.css");
 /* harmony import */ var react_flatpickr__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-flatpickr */ "./node_modules/react-flatpickr/build/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _tinymce_tinymce_react__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @tinymce/tinymce-react */ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -22685,8 +23374,17 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var CreateCollection = function CreateCollection() {
-  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_14__.useNavigate)(); // form-------------------------------------------------------------------
+  var editorRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+
+  var log = function log() {
+    if (editorRef.current) {
+      console.log(editorRef.current.getContent());
+    }
+  };
+
+  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_15__.useNavigate)(); // form-------------------------------------------------------------------
 
   var _useLocalStorage = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("conditions", [{
     id: 0,
@@ -22701,136 +23399,137 @@ var CreateCollection = function CreateCollection() {
   var _useLocalStorage3 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("nameCollection", ""),
       _useLocalStorage4 = _slicedToArray(_useLocalStorage3, 2),
       nameCollection = _useLocalStorage4[0],
-      setNameCollection = _useLocalStorage4[1];
-
-  var _useLocalStorage5 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("descriptionCollection", ""),
-      _useLocalStorage6 = _slicedToArray(_useLocalStorage5, 2),
-      descriptionCollection = _useLocalStorage6[0],
-      setDescriptionCollection = _useLocalStorage6[1]; // const [descriptionCollection, setDescriptionCollection] = useState('');
+      setNameCollection = _useLocalStorage4[1]; // const [descriptionCollection, setDescriptionCollection] = useLocalStorage("descriptionCollection", "");
 
 
-  var _useLocalStorage7 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("metaTitle", ""),
-      _useLocalStorage8 = _slicedToArray(_useLocalStorage7, 2),
-      metaTitle = _useLocalStorage8[0],
-      setMetaTitle = _useLocalStorage8[1];
-
-  var _useLocalStorage9 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("metaDescription", ""),
-      _useLocalStorage10 = _slicedToArray(_useLocalStorage9, 2),
-      metaDescription = _useLocalStorage10[0],
-      setMetaDescription = _useLocalStorage10[1];
-
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.location.origin + '/'),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(localStorage.getItem('descriptionCollection') ? localStorage.getItem('descriptionCollection') : ''),
       _useState2 = _slicedToArray(_useState, 2),
-      metaUrl = _useState2[0],
-      setMetaUrl = _useState2[1];
+      descriptionCollection = _useState2[0],
+      setDescriptionCollection = _useState2[1]; // const [descriptionCollection, setDescriptionCollection] = useState('');
 
-  var _useLocalStorage11 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("imageName", ""),
-      _useLocalStorage12 = _slicedToArray(_useLocalStorage11, 2),
-      imageName = _useLocalStorage12[0],
-      setImageName = _useLocalStorage12[1];
 
-  var _useLocalStorage13 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("altCollection", ""),
-      _useLocalStorage14 = _slicedToArray(_useLocalStorage13, 2),
-      alt = _useLocalStorage14[0],
-      setAlt = _useLocalStorage14[1];
+  var _useLocalStorage5 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("metaTitle", ""),
+      _useLocalStorage6 = _slicedToArray(_useLocalStorage5, 2),
+      metaTitle = _useLocalStorage6[0],
+      setMetaTitle = _useLocalStorage6[1];
 
-  var _useLocalStorage15 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)('categoryName', 'Aucune catégorie'),
-      _useLocalStorage16 = _slicedToArray(_useLocalStorage15, 2),
-      categoryName = _useLocalStorage16[0],
-      setCategoryName = _useLocalStorage16[1];
+  var _useLocalStorage7 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("metaDescription", ""),
+      _useLocalStorage8 = _slicedToArray(_useLocalStorage7, 2),
+      metaDescription = _useLocalStorage8[0],
+      setMetaDescription = _useLocalStorage8[1];
 
-  var _useLocalStorage17 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("categoryId", ""),
-      _useLocalStorage18 = _slicedToArray(_useLocalStorage17, 2),
-      categoryId = _useLocalStorage18[0],
-      setCategoryId = _useLocalStorage18[1];
-
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.location.origin + '/'),
       _useState4 = _slicedToArray(_useState3, 2),
-      dateField = _useState4[0],
-      setDateField = _useState4[1]; //--------------------------------------------------------------------Form
+      metaUrl = _useState4[0],
+      setMetaUrl = _useState4[1];
 
+  var _useLocalStorage9 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("imageName", ""),
+      _useLocalStorage10 = _slicedToArray(_useLocalStorage9, 2),
+      imageName = _useLocalStorage10[0],
+      setImageName = _useLocalStorage10[1];
 
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useLocalStorage11 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("altCollection", ""),
+      _useLocalStorage12 = _slicedToArray(_useLocalStorage11, 2),
+      alt = _useLocalStorage12[0],
+      setAlt = _useLocalStorage12[1];
+
+  var _useLocalStorage13 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)('categoryName', 'Aucune catégorie'),
+      _useLocalStorage14 = _slicedToArray(_useLocalStorage13, 2),
+      categoryName = _useLocalStorage14[0],
+      setCategoryName = _useLocalStorage14[1];
+
+  var _useLocalStorage15 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("categoryId", ""),
+      _useLocalStorage16 = _slicedToArray(_useLocalStorage15, 2),
+      categoryId = _useLocalStorage16[0],
+      setCategoryId = _useLocalStorage16[1];
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState6 = _slicedToArray(_useState5, 2),
-      isAutoConditions = _useState6[0],
-      setIsAutoConditions = _useState6[1];
+      dateField = _useState6[0],
+      setDateField = _useState6[1]; //--------------------------------------------------------------------Form
 
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState8 = _slicedToArray(_useState7, 2),
-      isShowOptimisation = _useState8[0],
-      setIsShowOptimisation = _useState8[1];
+      isAutoConditions = _useState8[0],
+      setIsAutoConditions = _useState8[1];
 
   var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState10 = _slicedToArray(_useState9, 2),
-      notIncludePrevProduct = _useState10[0],
-      setNotIncludePrevProduct = _useState10[1];
+      isShowOptimisation = _useState10[0],
+      setIsShowOptimisation = _useState10[1];
 
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState12 = _slicedToArray(_useState11, 2),
-      categoriesList = _useState12[0],
-      setCategoriesList = _useState12[1];
+      notIncludePrevProduct = _useState12[0],
+      setNotIncludePrevProduct = _useState12[1];
 
-  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState14 = _slicedToArray(_useState13, 2),
-      allConditionsNeeded = _useState14[0],
-      setAllConditionsNeeded = _useState14[1];
+      categoriesList = _useState14[0],
+      setCategoriesList = _useState14[1];
 
-  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState16 = _slicedToArray(_useState15, 2),
-      newCategoryName = _useState16[0],
-      setNewCategoryName = _useState16[1];
+      allConditionsNeeded = _useState16[0],
+      setAllConditionsNeeded = _useState16[1];
 
-  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState18 = _slicedToArray(_useState17, 2),
-      showCreateCategory = _useState18[0],
-      setShowCreateCategory = _useState18[1];
+      newCategoryName = _useState18[0],
+      setNewCategoryName = _useState18[1];
 
-  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Créer une nouvelle catégorie.'),
+  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState20 = _slicedToArray(_useState19, 2),
-      linkCreateCategory = _useState20[0],
-      setLinkCreateCategory = _useState20[1];
+      showCreateCategory = _useState20[0],
+      setShowCreateCategory = _useState20[1];
 
-  var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Créer une nouvelle catégorie.'),
       _useState22 = _slicedToArray(_useState21, 2),
-      newCategorySucces = _useState22[0],
-      setNewCategorySucces = _useState22[1];
+      linkCreateCategory = _useState22[0],
+      setLinkCreateCategory = _useState22[1];
 
   var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState24 = _slicedToArray(_useState23, 2),
-      metaTitlebiggerThan50 = _useState24[0],
-      setMetaTitleBiggerThan50 = _useState24[1];
+      newCategorySucces = _useState24[0],
+      setNewCategorySucces = _useState24[1];
 
   var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState26 = _slicedToArray(_useState25, 2),
-      metaDescriptionbiggerThan130 = _useState26[0],
-      setMetaDescriptionbiggerThan130 = _useState26[1];
+      metaTitlebiggerThan50 = _useState26[0],
+      setMetaTitleBiggerThan50 = _useState26[1];
 
   var _useState27 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState28 = _slicedToArray(_useState27, 2),
-      showCategorySelect = _useState28[0],
-      setShowCategorySelect = _useState28[1];
+      metaDescriptionbiggerThan130 = _useState28[0],
+      setMetaDescriptionbiggerThan130 = _useState28[1];
 
-  var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
+  var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState30 = _slicedToArray(_useState29, 2),
-      tmp_parameter = _useState30[0],
-      setTmp_parameter = _useState30[1]; // pour stocker provisoirement une variable
+      showCategorySelect = _useState30[0],
+      setShowCategorySelect = _useState30[1];
 
-
-  var _useState31 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState31 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
       _useState32 = _slicedToArray(_useState31, 2),
-      newCategoryNameUseInMessage = _useState32[0],
-      setNewCategoryNameUseInMessage = _useState32[1]; // pour stocker le nom de la catégorie qui doit être afficher dans le message de confirmation de la creation de la catégorie
+      tmp_parameter = _useState32[0],
+      setTmp_parameter = _useState32[1]; // pour stocker provisoirement une variable
 
 
-  var _useState33 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState33 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState34 = _slicedToArray(_useState33, 2),
-      isDirty = _useState34[0],
-      setIsDirty = _useState34[1];
+      newCategoryNameUseInMessage = _useState34[0],
+      setNewCategoryNameUseInMessage = _useState34[1]; // pour stocker le nom de la catégorie qui doit être afficher dans le message de confirmation de la creation de la catégorie
 
-  var _useState35 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+
+  var _useState35 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState36 = _slicedToArray(_useState35, 2),
-      warningIdCondition = _useState36[0],
-      setWarningIdCondition = _useState36[1];
+      isDirty = _useState36[0],
+      setIsDirty = _useState36[1];
+
+  var _useState37 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState38 = _slicedToArray(_useState37, 2),
+      warningIdCondition = _useState38[0],
+      setWarningIdCondition = _useState38[1];
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_9__["default"]),
       image = _useContext.image,
@@ -22923,7 +23622,7 @@ var CreateCollection = function CreateCollection() {
     var path = window.location.pathname.replace('admin/', '');
     setFollowThisLink(path); // évite error quand on passe à un autre component
 
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.Fragment, {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.Fragment, {
       children: categoriesList ? categoriesList : ''
     });
   }, []); // récupère et formatte la date et l'heure de maintenant
@@ -23536,33 +24235,117 @@ var CreateCollection = function CreateCollection() {
     }
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    console.log(descriptionCollection);
+  }, [descriptionCollection]);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
     className: "collection-main-container",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
       className: "collection-block-container",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
         className: "div-vert-align",
-        children: [isDirty && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
+        children: [isDirty && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("button", {
           className: "btn-bcknd btn-effacer-tout",
           onClick: confirmInitCollectionForm,
           children: "R\xE9initialiser"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
           className: "div-label-inputTxt",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h2", {
             children: "Nom de la collection"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("input", {
             type: "text",
             id: "titreCollection",
             value: nameCollection,
             onChange: handleNameCollection,
             placeholder: "ex. Robes, Op\xE9ration d\xE9stockage, Collection hiver"
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.Fragment, {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_tinymce_tinymce_react__WEBPACK_IMPORTED_MODULE_13__.Editor, {
+            apiKey: "859uqxkoeg5bds7w4yx9ihw5exy86bhtgq56fvxwsjopxbf2",
+            onInit: function onInit(evt, editor) {
+              return editorRef.current = editor;
+            } // initialValue={descriptionCollection}
+            ,
+            value: descriptionCollection,
+            onEditorChange: function onEditorChange(newText) {
+              setDescriptionCollection(newText);
+              handleDescriptionCollection(newText);
+            },
+            init: {
+              width: '100%',
+              height: 250,
+              autoresize_bottom_margin: 50,
+              max_height: 500,
+              menubar: false,
+              plugins: ['advlist autolink lists link image charmap print preview anchor', 'searchreplace visualblocks code fullscreen autoresize', 'insertdatetime media table paste code help wordcount fullscreen'],
+
+              /* enable title field in the Image dialog*/
+              image_title: true,
+
+              /* enable automatic uploads of images represented by blob or data URIs*/
+              automatic_uploads: true,
+
+              /*
+                URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url)
+                images_upload_url: 'postAcceptor.php',
+                here we add custom filepicker only to Image dialog
+              */
+              file_picker_types: 'image',
+
+              /* and here's our custom image picker*/
+              file_picker_callback: function file_picker_callback(cb, value, meta) {
+                var input = document.createElement('input');
+                input.setAttribute('type', 'file');
+                input.setAttribute('accept', 'image/*');
+                /*
+                  Note: In modern browsers input[type="file"] is functional without
+                  even adding it to the DOM, but that might not be the case in some older
+                  or quirky browsers like IE, so you might want to add it to the DOM
+                  just in case, and visually hide it. And do not forget do remove it
+                  once you do not need it anymore.
+                */
+
+                input.onchange = function () {
+                  var file = this.files[0];
+                  var reader = new FileReader();
+
+                  reader.onload = function () {
+                    /*
+                      Note: Now we need to register the blob in TinyMCEs image blob
+                      registry. In the next release this part hopefully won't be
+                      necessary, as we are looking to handle it internally.
+                    */
+                    var id = 'blobid' + new Date().getTime();
+                    var blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                    var base64 = reader.result.split(',')[1];
+                    var blobInfo = blobCache.create(id, file, base64);
+                    blobCache.add(blobInfo);
+                    /* call the callback and populate the Title field with the file name */
+
+                    cb(blobInfo.blobUri(), {
+                      title: file.name
+                    });
+                  };
+
+                  reader.readAsDataURL(file);
+                };
+
+                input.click();
+              },
+              a11y_advanced_options: true,
+              toolbar: 'undo redo | formatselect | ' + 'bold italic backcolor | alignleft aligncenter ' + 'alignright alignjustify | bullist numlist outdent indent | ' + 'image | ' + 'removeformat | help | fullscreen',
+              content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+            }
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("button", {
+            onClick: log,
+            children: "Log editor content"
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
           className: "div-label-inputTxt",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h2", {
             children: "Description (optionnel)"
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_ckeditor_ckeditor5_react__WEBPACK_IMPORTED_MODULE_2__.CKEditor, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_ckeditor_ckeditor5_react__WEBPACK_IMPORTED_MODULE_2__.CKEditor, {
           editor: (_ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_3___default()) // editor={Editor}
           ,
           data: descriptionCollection // config={{
@@ -23610,68 +24393,68 @@ var CreateCollection = function CreateCollection() {
             editor.ui.view.editable.element.style.minHeight = "150px";
           }
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
         className: "div-vert-align",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h2", {
           children: "Type de collection"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
           className: "sub-div-vert-align",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
             className: "div-radio-label",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("input", {
               type: "radio",
               checked: isAutoConditions == false,
               onChange: function onChange() {
                 return showHideConditions(false);
               }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("label", {
               onClick: function onClick() {
                 return showHideConditions(false);
               },
               children: "Manuel"
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("p", {
-            children: ["Ajouter un produit \xE0 la fois dans cette collection. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("p", {
+            children: ["Ajouter un produit \xE0 la fois dans cette collection. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("a", {
               href: "#",
               children: "Plus d'informations sur les collections manuelles."
             })]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
           className: "sub-div-vert-align",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
             className: "div-radio-label",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("input", {
               type: "radio",
               checked: isAutoConditions == true,
               onChange: function onChange() {
                 return showHideConditions(true);
               }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("label", {
               onClick: function onClick() {
                 return showHideConditions(true);
               },
               children: "Automatis\xE9"
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("p", {
-            children: ["Ajouter automatiquement les produits lorsqu'ils correspondent aux r\xE8gles d\xE9finies. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("p", {
+            children: ["Ajouter automatiquement les produits lorsqu'ils correspondent aux r\xE8gles d\xE9finies. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("a", {
               href: "#",
               children: "Plus d'informations sur les collections automatis\xE9es."
             })]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
           className: "sub-div-vert-align dropable",
           id: "conditions_collection",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
             className: "sub-div-vert-align-border-top",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h2", {
               children: "Condition(s)"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h4", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h4", {
               children: "D\xE9finissez une ou plusieurs r\xE8gles. Ex. Prix du produit est inf\xE9rieur \xE0 50 \u20AC, Nom du produit contient Robe, etc. Seuls les produits correspondants \xE0 vos r\xE8gles seront int\xE9gr\xE9s dans cette collection. "
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
               className: "sub-div-horiz-align",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
                 className: "div-radio-label",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("input", {
                   type: "radio",
                   name: "condition",
                   id: "allConditions",
@@ -23679,13 +24462,13 @@ var CreateCollection = function CreateCollection() {
                   onChange: function onChange() {
                     return setAllConditionsNeeded(true);
                   }
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("label", {
                   htmlFor: "allConditions",
                   children: "Les produits doivent r\xE9pondre \xE0 toutes les conditions"
                 })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
                 className: "div-radio-label",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("input", {
                   type: "radio",
                   name: "condition",
                   id: "leastOnConditions",
@@ -23693,15 +24476,15 @@ var CreateCollection = function CreateCollection() {
                   onChange: function onChange() {
                     return setAllConditionsNeeded(false);
                   }
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("label", {
                   htmlFor: "leastOnConditions",
                   children: "Les produits doivent r\xE9pondre \xE0 au moins une condition"
                 })]
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
               className: "sub-div-vert-align",
               children: [conditions && conditions.map(function (condition, i) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_conditionCollection__WEBPACK_IMPORTED_MODULE_1__["default"], {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_conditionCollection__WEBPACK_IMPORTED_MODULE_1__["default"], {
                   handleChangeParam: handleChangeParam,
                   handleChangeOperator: handleChangeOperator,
                   handleChangeValue: handleChangeValue,
@@ -23709,21 +24492,21 @@ var CreateCollection = function CreateCollection() {
                   deleteCondition: deleteCondition,
                   warningIdCondition: warningIdCondition
                 }, i);
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("button", {
                 className: "btn-bcknd mb15",
                 onClick: addCondition,
                 children: "Ajouter une condition"
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
               className: "sub-div-horiz-align",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
                 className: "div-radio-label",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("input", {
                   type: "checkbox",
                   id: "includOnlyNewProducts",
                   checked: notIncludePrevProduct,
                   onChange: notIncludePrevProducts
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("label", {
                   onClick: notIncludePrevProducts,
                   htmlFor: "includOnlyNewProducts",
                   children: "Ne pas inclure les produits d\xE9j\xE0 enregistr\xE9s"
@@ -23732,35 +24515,35 @@ var CreateCollection = function CreateCollection() {
             })]
           })
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
         className: "div-vert-align",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
           className: "sub-div-horiz-align",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
             className: "sub-div-horiz-align",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h2", {
               children: "Optimisation SEO"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("input", {
               type: "checkbox",
               className: "cm-toggle",
               checked: isShowOptimisation,
               onChange: showHideOptimisation
             })]
-          }), metaUrl.length > (window.location.origin.toString() + '/').length ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
+          }), metaUrl.length > (window.location.origin.toString() + '/').length ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("button", {
             style: {
               marginBottom: "10px"
             },
             className: "btn-bcknd",
             onClick: initOptimisationForm,
             children: "Annuler"
-          }) : metaTitle.length > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
+          }) : metaTitle.length > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("button", {
             style: {
               marginBottom: "10px"
             },
             className: "btn-bcknd",
             onClick: initOptimisationForm,
             children: "Annuler"
-          }) : metaDescription.length > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
+          }) : metaDescription.length > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("button", {
             style: {
               marginBottom: "10px"
             },
@@ -23768,20 +24551,20 @@ var CreateCollection = function CreateCollection() {
             onClick: initOptimisationForm,
             children: "Annuler"
           }) : '']
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
           className: "sub-div-vert-align dropable",
           id: "optimisation_collection",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
             className: "div-label-inputTxt",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
               className: "sub-div-horiz-align",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("label", {
                 children: "Url de la page de cette collection"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("i", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("i", {
                 className: "fas fa-question-circle tooltip",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("span", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("span", {
                   className: "tooltiptext",
-                  children: ["Utilisez des mots cl\xE9s en rapport avec le contenu de cette collection ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
+                  children: ["Utilisez des mots cl\xE9s en rapport avec le contenu de cette collection ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("a", {
                     href: "http://127.0.0.1:8000",
                     target: "_blank",
                     rel: "noopener noreferrer",
@@ -23790,120 +24573,120 @@ var CreateCollection = function CreateCollection() {
                   })]
                 })
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("input", {
               type: "text",
               value: metaUrl,
               onChange: handleMetaUrl,
               placeholder: "Url de cette collection",
               maxLength: "2047"
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
             className: "div-label-inputTxt",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
               className: "sub-div-horiz-align",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("label", {
                 children: "M\xE9ta-titre de la page de cette collection"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("i", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("i", {
                 className: "fas fa-question-circle tooltip",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("span", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("span", {
                   className: "tooltiptext",
                   children: "Le m\xE9ta-titre est important pour le r\xE9f\xE9rencement d'une page web. Sa longueur id\xE9al se situe entre 30 et 60 caract\xE8res mais il peut \xEAtre plus long pour donner plus d'informations sur le contenu de la page. Toutefois, seuls les 50 premiers caract\xE8res \xE0 peu pr\xE8s seront affich\xE9s dans les r\xE9sultats des moteurs de recherche. C'est pourquoi il est important de commence par des mots cl\xE9s pertinants pour l'internaute afin d'am\xE9liorer le taux de clics vers votre page."
                 })
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("input", {
               type: "text",
               value: metaTitle,
               onChange: handleMetaTitle
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
               className: "sub-div-vert-align",
-              children: [metaTitlebiggerThan50 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("span", {
+              children: [metaTitlebiggerThan50 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("span", {
                 className: "inRed",
                 children: " Seuls les 50 \xE0 60 premiers caract\xE8res seront affich\xE9s par les moteurs de recherche"
               }), "Nombre de caract\xE8res: ", metaTitle.length]
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
             className: "div-label-inputTxt",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
               className: "sub-div-horiz-align",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("label", {
                 children: "M\xE9ta-d\xE9scription de cette collection:"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("i", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("i", {
                 className: "fas fa-question-circle tooltip",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("span", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("span", {
                   className: "tooltiptext",
                   children: "Cette d\xE9scription sera utilis\xE9e pour d\xE9crire le contenu de cette page et donner des indications sur son contenu \xE0 l'internaute. Les moteurs de recherche affichent \xE0 peu pr\xE8s les 130 premiers caract\xE8res."
                 })
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("textarea", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("textarea", {
               // style={{ opacity: "0.6" }}
               value: metaDescription,
               onChange: handleMetaDescription
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
               className: "sub-div-vert-align",
-              children: [metaDescriptionbiggerThan130 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("span", {
+              children: [metaDescriptionbiggerThan130 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("span", {
                 className: "inRed",
                 children: " Seuls les 120 \xE0 130 premiers caract\xE8res seront affich\xE9s par les moteurs de recherche"
               }), "Nombre de caract\xE8res: ", metaDescription.length]
             })]
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
         className: "div-label-inputTxt",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("button", {
           className: "btn-submit",
           onClick: handleSubmit,
           children: "Enregistrer"
         })
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
       className: "side-create-collection",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
         className: "div-vert-align",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
           className: "div-label-inputTxt",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h2", {
             children: "Image"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("p", {
             children: "Ajouter une image pour cette collection. (*optionnel)"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_tools_dropZone__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_tools_dropZone__WEBPACK_IMPORTED_MODULE_5__["default"], {
             multiple: false,
             setImage: setImage
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
           className: "sub-div-vert-align",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
             className: "div-label-inputTxt",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
               className: "sub-div-horiz-align",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("label", {
                 children: "Texte alternatif (*optionnel) "
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("i", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("i", {
                 className: "fas fa-question-circle tooltip",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("span", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("span", {
                   className: "tooltiptext",
                   children: "Ajouter une br\xE8ve description de l'image ex. \"Jeans noir avec fermeture \xE9clair\". Ceci am\xE9liore l'accessibilit\xE9 et le r\xE9f\xE9rencement de votre boutique."
                 })
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("input", {
               type: "text",
               name: "alt",
               value: alt,
               onChange: handleAlt
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
             className: "div-label-inputTxt",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
               className: "sub-div-horiz-align",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("label", {
                 children: "Changer le nom de l'image (*optionnel) "
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("i", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("i", {
                 className: "fas fa-question-circle tooltip",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("span", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("span", {
                   className: "tooltiptext",
                   children: "Donnez un nom en rapport avec le contenu de l'image. Ceci am\xE9liore le r\xE9f\xE9rencement de votre boutique dans les recherches par image."
                 })
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("input", {
               type: "text",
               name: "imgColection",
               value: imageName,
@@ -23911,53 +24694,53 @@ var CreateCollection = function CreateCollection() {
             })]
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
         className: "div-vert-align",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
           className: "div-label-inputTxt",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h2", {
             children: "Cat\xE9gorie"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("p", {
-            children: ["Attribuer une cat\xE9gorie \xE0 cette collection. (", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("strong", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("p", {
+            children: ["Attribuer une cat\xE9gorie \xE0 cette collection. (", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("strong", {
               children: "*optionnel"
             }), ")"]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
             className: "categorySelect",
             id: "categorySelect",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("button", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("button", {
               className: "btn-select-category",
               onClick: showHideCategorySelect,
-              children: [categoryName.length > 25 ? categoryName.substring(0, 25) + '...' : categoryName, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("i", {
+              children: [categoryName.length > 25 ? categoryName.substring(0, 25) + '...' : categoryName, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("i", {
                 className: "fas fa-angle-down"
               })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("ul", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("ul", {
               className: "ul-category dropable",
               id: "category_select",
-              children: [categoryName != 'Aucune catégorie' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("li", {
+              children: [categoryName != 'Aucune catégorie' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("li", {
                 className: "li-category",
                 onClick: function onClick() {
                   handleCategory(0), handleCategoryName('Aucune catégorie');
                 },
                 children: "Aucune cat\xE9gorie"
               }), categoriesList.map(function (cat, index) {
-                return cat.name != categoryName && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("li", {
+                return cat.name != categoryName && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("li", {
                   className: "li-category",
                   onClick: function onClick() {
                     handleCategory(cat.id);
                     handleCategoryName(cat.name);
                   },
-                  children: [cat.name.length > 25 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("span", {
+                  children: [cat.name.length > 25 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("span", {
                     children: cat.name.substring(0, 25) + '...'
-                  }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("span", {
+                  }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("span", {
                     children: cat.name
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("i", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("i", {
                       className: "fas fa-recycle",
                       onClick: function onClick() {
                         handleCategory(cat.id);
                         handleShowModalInput();
                       }
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("i", {
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("i", {
                       className: "far fa-trash-alt",
                       onClick: function onClick() {
                         return confirmDeleteCategory(cat.id, cat.name);
@@ -23967,53 +24750,53 @@ var CreateCollection = function CreateCollection() {
                 }, index);
               })]
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("p", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("a", {
               href: "#",
               children: "Plus d'informations sur les cat\xE9gories."
             })
-          }), newCategorySucces && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("p", {
+          }), newCategorySucces && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("p", {
             className: "succesMessage",
             children: ["La cat\xE9gorie ", newCategoryNameUseInMessage]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("p", {
           className: "pos-abs-bot-rig-15",
           onClick: function onClick(e) {
             handleShowCreateCategory(e);
           },
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("a", {
             href: "",
             children: linkCreateCategory
           })
-        }), showCreateCategory && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+        }), showCreateCategory && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
           className: "sub-div-vert-alogn",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("label", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("label", {
             children: "Nom de la cat\xE9gorie"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("input", {
             type: "text",
             value: newCategoryName,
             onChange: handleNewCategoryName,
             maxLength: "255",
             placeholder: "Entrez un nom"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("button", {
             className: "btn-bcknd",
             onClick: saveNewCategory,
             children: "Sauvegarder"
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
         className: "div-vert-align",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
           className: "div-label-inputTxt",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h2", {
             children: "Activation"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
             className: "sub-div-horiz-align",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
               className: "sub-div-vert-align",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("p", {
                 children: "Date"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_flatpickr__WEBPACK_IMPORTED_MODULE_12__["default"], {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(react_flatpickr__WEBPACK_IMPORTED_MODULE_12__["default"], {
                 id: "activationDate",
                 "data-enable-time": true,
                 placeholder: dateField,
@@ -24048,41 +24831,41 @@ var CreateCollection = function CreateCollection() {
                 }
               })]
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("p", {
-            children: [" ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("a", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("p", {
+            children: [" ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("a", {
               href: "#",
               children: "Plus d'informations sur l'activation des collections."
             })]
           })]
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_modal_modalConfirm__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_modal_modalConfirm__WEBPACK_IMPORTED_MODULE_6__["default"], {
         show: showModalConfirm // true/false show modal
         ,
         handleModalConfirm: handleModalConfirm,
         handleModalCancel: handleModalCancel,
         textButtonConfirm: textButtonConfirm,
         image: imageModal,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h2", {
           className: "childrenModal",
           children: messageModal
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_modal_modalInput__WEBPACK_IMPORTED_MODULE_8__["default"], {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_modal_modalInput__WEBPACK_IMPORTED_MODULE_8__["default"], {
         show: showModalInput,
         updateCategory: updateCategory,
         handleModalCancel: handleModalCancel,
         setInputTextModify: setInputTextModify,
         inputTextModify: inputTextModify,
         image: '../images/icons/changeCategory.png',
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h2", {
           className: "childrenModal",
           children: messageModal
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_modal_modalSimpleMessage__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_modal_modalSimpleMessage__WEBPACK_IMPORTED_MODULE_7__["default"], {
         show: showModalSimpleMessage // true/false show modal
         ,
         handleModalCancel: handleModalCancel,
         image: imageModal,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h2", {
           className: "childrenModal",
           children: messageModal
         })

@@ -32,6 +32,7 @@
 
     <!-- <link rel="shortcut icon" href="{{ asset('backend/images/logo_2H_tech.png') }}" /> -->
     <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+    
 
 </head>
 
