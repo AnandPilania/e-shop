@@ -71,7 +71,7 @@ class CollectionController extends Controller
         // $this->validate($request, ['name' => 'required', 'category' => 'required', 'image' => 'required', 'alt' => 'required']);
 
         File::move(public_path('exist/test.png'), public_path('move/test_move.png'));
-        
+
         $collection = new Collection;
         $collection->name = $request->name;
         $collection->category_id = $request->category;
@@ -107,7 +107,7 @@ class CollectionController extends Controller
 
     public function storeAndAssign(Request $request)
     {
-        
+
         // METTRE CE QUI SUIT A LA FIN !!!!!!!!!!!!
         $tmp_storage = Temporary_storage::where('key', $request->key)->get();
         foreach ($tmp_storage as $toDelete) {
@@ -115,7 +115,11 @@ class CollectionController extends Controller
             Temporary_storage::destroy($toDelete->id);
         }
 
-        dd($request);
+        dd($request->imagesFromTinyMCE);
+        // foreach($request->imagesFromTonyMCE as $tinyImage) {
+        //     dd($tinyImage);
+        // }
+
         // dd(json_decode($request->objConditions));
         // $this->validate($request, ['name' => 'required', 'category' => 'required', 'image' => 'required', 'alt' => 'required']);
 
@@ -158,7 +162,7 @@ class CollectionController extends Controller
                     break;
             }
 
-        // check de quel operator il s'agit
+            // check de quel operator il s'agit
             switch ($condition->operator) {
                 case '1':
                     $list_match[] = Product::where($field, $condition->value)->get();
@@ -174,21 +178,21 @@ class CollectionController extends Controller
                     break;
                     // commence par
                 case '5':
-                    $list_match[] = Product::where($field, 'like', $condition->value .' %')->get();
+                    $list_match[] = Product::where($field, 'like', $condition->value . ' %')->get();
                     break;
                     //  se termine par
                 case '6':
-                    $list_match[] = Product::where($field, 'like', '% '.$condition->value)->get();
+                    $list_match[] = Product::where($field, 'like', '% ' . $condition->value)->get();
                     break;
                     // contient
-                case '7': 
+                case '7':
                     $list_match[] = Product::where($field, $condition->value)
-                    ->orWhere($field, 'like', $condition->value .' %')
-                    ->orWhere($field, 'like', '% '.$condition->value)
-                    ->orWhere($field, 'like', '% '.$condition->value.' %')->get();
+                        ->orWhere($field, 'like', $condition->value . ' %')
+                        ->orWhere($field, 'like', '% ' . $condition->value)
+                        ->orWhere($field, 'like', '% ' . $condition->value . ' %')->get();
                     break;
                 case '8':
-                    $list_match[] = Product::where($field, 'not like', '%'.$condition->value.'%')->get();
+                    $list_match[] = Product::where($field, 'not like', '%' . $condition->value . '%')->get();
                     break;
                 case '9':
                     $list_match[] = Product::whereNotNull($field)->where($field, 'not like', '')->get();

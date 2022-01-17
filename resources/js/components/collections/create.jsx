@@ -301,8 +301,8 @@ const CreateCollection = () => {
     // };
 
     const handleDescriptionCollection = (description) => {
+        setDescriptionCollection(description);
         localStorage.setItem("descriptionCollection", description);
-        // descriptionCollection est set dans le component tinyMCE donc pas besoin ici
     };
 
     const handleMetaTitle = (e) => {
@@ -713,7 +713,7 @@ const CreateCollection = () => {
         }
 
         if (metaDescription.length === 0) {
-            if (descriptionCollection.length != 0) {
+            if (descriptionCollection.length !== 0) {
                 formData.append("metaDescription", descriptionCollection);
             } else {
                 formData.append("metaDescription", '');
@@ -757,13 +757,29 @@ const CreateCollection = () => {
         }
     }
 
-    const handleSubmit = () => {
+
+
+    // get and convert to blob file images from tinyMCE
+    async function getImageFromTinyMCE(str) {
+        var myElement = document.createElement("div");
+        myElement.innerHTML = str;
+        const response = await fetch(myElement.getElementsByTagName('img')[0].src);
+
+        console.log(myElement.getElementsByTagName('img')[0].getAttribute('alt'));
+        const tinyImage = await response.blob();
+        return tinyImage;
+    }
+
+
+    async function handleSubmit() {
+
+        let imagesFromTinyMCE = await getImageFromTinyMCE(descriptionCollection);
+
         let valid = validation();
         if (valid) {
-
-
             var objConditions = JSON.stringify(conditions);
 
+            formData.append("imagesFromTinyMCE", imagesFromTinyMCE);
             formData.append("name", nameCollection);
             formData.append("description", descriptionCollection);
             formData.append("automatise", isAutoConditions);
@@ -822,11 +838,12 @@ const CreateCollection = () => {
                             // onInit={(evt, editor) => editorRef.current = editor}
                             // initialValue={descriptionCollection}
                             value={descriptionCollection}
-                            onEditorChange={(newText) => {
-                                setDescriptionCollection(newText);
-                                handleDescriptionCollection(newText);
-                            }}
+                            onEditorChange={
+                                (newText) => 
+                                handleDescriptionCollection(newText)
+                            }
                             init={{
+                                entity_encoding: "raw",
                                 branding: false,
                                 width: '100%',
                                 height: 250,
@@ -860,6 +877,8 @@ const CreateCollection = () => {
                                     'media ' +
                                     'removeformat | help | fullscreen ' +
                                     'language ',
+                                // block_unsupported_dropoption: true,
+                                paste_data_images: true,
                                 /* enable title field in the Image dialog*/
                                 image_title: true,
                                 /* enable automatic uploads of images represented by blob or data URIs*/
