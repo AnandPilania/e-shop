@@ -23375,14 +23375,12 @@ var CreateCollection = function CreateCollection() {
   var _useLocalStorage3 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_9__.useLocalStorage)("nameCollection", ""),
       _useLocalStorage4 = _slicedToArray(_useLocalStorage3, 2),
       nameCollection = _useLocalStorage4[0],
-      setNameCollection = _useLocalStorage4[1]; // const [descriptionCollection, setDescriptionCollection] = useLocalStorage("descriptionCollection", "");
-
+      setNameCollection = _useLocalStorage4[1];
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(localStorage.getItem('descriptionCollection') ? localStorage.getItem('descriptionCollection') : ''),
       _useState2 = _slicedToArray(_useState, 2),
       descriptionCollection = _useState2[0],
-      setDescriptionCollection = _useState2[1]; // const [descriptionCollection, setDescriptionCollection] = useState('');
-
+      setDescriptionCollection = _useState2[1];
 
   var _useLocalStorage5 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_9__.useLocalStorage)("metaTitle", ""),
       _useLocalStorage6 = _slicedToArray(_useLocalStorage5, 2),
@@ -23506,6 +23504,11 @@ var CreateCollection = function CreateCollection() {
       _useState38 = _slicedToArray(_useState37, 2),
       warningIdCondition = _useState38[0],
       setWarningIdCondition = _useState38[1];
+
+  var _useState39 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
+      _useState40 = _slicedToArray(_useState39, 2),
+      tinyImagesList = _useState40[0],
+      setTinyImagesList = _useState40[1];
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_8__["default"]),
       image = _useContext.image,
@@ -24182,61 +24185,71 @@ var CreateCollection = function CreateCollection() {
       setShowModalSimpleMessage(true);
       return false;
     }
-  }; // get and convert to blob file images from tinyMCE
+  };
+
+  function handleAddTinyImage(str) {
+    var descriptionDiv = document.createElement("div");
+    descriptionDiv.innerHTML = str;
+    var imgs = descriptionDiv.getElementsByTagName('img'); // let tinyImages = fetch(descriptionDiv.getElementsByTagName('img'));
+
+    var tmp_tab = Array.from(imgs);
+
+    if (tinyImagesList.length !== tmp_tab.length) {
+      // ICI AXIOS !!!
+      setTinyImagesList(tmp_tab);
+      console.log('tmp_tab  false  ', tmp_tab);
+    } else {
+      console.log('txt  ');
+    }
+  } // get and convert to blob file images from tinyMCE
 
 
-  function getImageFromTinyMCE(_x) {
-    return _getImageFromTinyMCE.apply(this, arguments);
-  }
-
-  function _getImageFromTinyMCE() {
-    _getImageFromTinyMCE = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(str) {
-      var myElement, response, tinyImage;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              myElement = document.createElement("div");
-              myElement.innerHTML = str;
-              _context.next = 4;
-              return fetch(myElement.getElementsByTagName('img')[0].src);
-
-            case 4:
-              response = _context.sent;
-              console.log(myElement.getElementsByTagName('img')[0].getAttribute('alt'));
-              _context.next = 8;
-              return response.blob();
-
-            case 8:
-              tinyImage = _context.sent;
-              return _context.abrupt("return", tinyImage);
-
-            case 10:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee);
-    }));
-    return _getImageFromTinyMCE.apply(this, arguments);
+  function getImageFromTinyMCE(str) {
+    handleAddTinyImage(str); // console.log('str  ', str);
+    // var descriptionDiv = document.createElement("div");
+    // descriptionDiv.innerHTML = str;
+    // fetch(descriptionDiv.getElementsByTagName('img')[0].src)
+    //     .then(function (response) {
+    //         return response.blob();
+    //     })
+    //     .then((tinyImage) => {
+    //         let testFormData = new FormData;
+    //         testFormData.append('images', tinyImage);
+    //         Axios.post(`http://127.0.0.1:8000/save-collection`, testFormData,
+    //             {
+    //                 headers: { 'Content-Type': 'multipart/form-data' }
+    //             })
+    //             .then(res => {
+    //                 if (descriptionDiv.getElementsByTagName('img').length > 0) {
+    //                     descriptionDiv.getElementsByTagName('img')[0].setAttribute('src', res.data);
+    //                 }
+    //                 console.log('descriptionDiv  --->  ', descriptionDiv.innerHTML);
+    //             });
+    //     })
+    //     .catch(function (error) {
+    //         console.log('error:   ' + error);
+    //     });
   }
 
   function handleSubmit() {
     return _handleSubmit.apply(this, arguments);
-  }
+  } // useEffect(() => {
+  //     // console.log(descriptionCollection);
+  // }, [descriptionCollection]);
+
 
   function _handleSubmit() {
-    _handleSubmit = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+    _handleSubmit = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
       var imagesFromTinyMCE, valid, objConditions;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
-          switch (_context2.prev = _context2.next) {
+          switch (_context.prev = _context.next) {
             case 0:
-              _context2.next = 2;
+              _context.next = 2;
               return getImageFromTinyMCE(descriptionCollection);
 
             case 2:
-              imagesFromTinyMCE = _context2.sent;
+              imagesFromTinyMCE = _context.sent;
               valid = validation();
 
               if (valid) {
@@ -24265,17 +24278,14 @@ var CreateCollection = function CreateCollection() {
 
             case 5:
             case "end":
-              return _context2.stop();
+              return _context.stop();
           }
         }
-      }, _callee2);
+      }, _callee);
     }));
     return _handleSubmit.apply(this, arguments);
   }
 
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
-    console.log(descriptionCollection);
-  }, [descriptionCollection]);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
     className: "collection-main-container",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
@@ -24309,7 +24319,8 @@ var CreateCollection = function CreateCollection() {
             ,
             value: descriptionCollection,
             onEditorChange: function onEditorChange(newText) {
-              return handleDescriptionCollection(newText);
+              handleDescriptionCollection(newText);
+              getImageFromTinyMCE(newText);
             },
             init: (_ref = {
               entity_encoding: "raw",
@@ -24351,28 +24362,16 @@ var CreateCollection = function CreateCollection() {
               language: 'fr_FR',
               // langue_url: '@tinymce/tinymce-react/langs',
               plugins: ['advlist autolink lists link image media charmap print preview anchor', 'searchreplace visualblocks code fullscreen autoresize', 'insertdatetime media table paste code help wordcount fullscreen code']
-            }, _defineProperty(_ref, "menubar", 'tools insert'), _defineProperty(_ref, "toolbar", 'wordcount | undo redo | formatselect | ' + 'bold italic underline forecolor backcolor | alignleft aligncenter ' + 'alignright alignjustify | bullist numlist outdent indent | ' + 'image ' + 'media ' + 'removeformat | help | fullscreen ' + 'language '), _defineProperty(_ref, "paste_data_images", true), _defineProperty(_ref, "image_title", true), _defineProperty(_ref, "automatic_uploads", true), _defineProperty(_ref, "file_picker_types", 'image media'), _defineProperty(_ref, "file_picker_callback", function file_picker_callback(cb, value, meta) {
+            }, _defineProperty(_ref, "menubar", 'tools insert'), _defineProperty(_ref, "toolbar", 'wordcount | undo redo | formatselect | ' + 'bold italic underline forecolor backcolor | alignleft aligncenter ' + 'alignright alignjustify | bullist numlist outdent indent | ' + 'image ' + 'media ' + 'removeformat | help | fullscreen ' + 'language '), _defineProperty(_ref, "paste_data_images", true), _defineProperty(_ref, "image_title", true), _defineProperty(_ref, "file_picker_types", 'image media'), _defineProperty(_ref, "file_picker_callback", function file_picker_callback(cb, value, meta) {
               var input = document.createElement('input');
               input.setAttribute('type', 'file');
               input.setAttribute('accept', 'image/*');
-              /*
-                Note: In modern browsers input[type="file"] is functional without
-                even adding it to the DOM, but that might not be the case in some older
-                or quirky browsers like IE, so you might want to add it to the DOM
-                just in case, and visually hide it. And do not forget do remove it
-                once you do not need it anymore.
-              */
 
               input.onchange = function () {
                 var file = this.files[0];
                 var reader = new FileReader();
 
                 reader.onload = function () {
-                  /*
-                    Note: Now we need to register the blob in TinyMCEs image blob
-                    registry. In the next release this part hopefully won't be
-                    necessary, as we are looking to handle it internally.
-                  */
                   var id = 'blobid' + new Date().getTime();
                   var blobCache = tinymce.activeEditor.editorUpload.blobCache;
                   var base64 = reader.result.split(',')[1];

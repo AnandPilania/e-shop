@@ -107,15 +107,16 @@ class CollectionController extends Controller
 
     public function storeAndAssign(Request $request)
     {
-
+        // dd($request);
         // METTRE CE QUI SUIT A LA FIN !!!!!!!!!!!!
         $tmp_storage = Temporary_storage::where('key', $request->key)->get();
         foreach ($tmp_storage as $toDelete) {
             File::delete(public_path($toDelete->value));
             Temporary_storage::destroy($toDelete->id);
         }
-
-        dd($request->imagesFromTinyMCE);
+        $newName = 'new name of image';
+        return $newName;
+        dd($request);
         // foreach($request->imagesFromTonyMCE as $tinyImage) {
         //     dd($tinyImage);
         // }

@@ -28,9 +28,7 @@ const CreateCollection = () => {
         value: ''
     }]);
     const [nameCollection, setNameCollection] = useLocalStorage("nameCollection", "");
-    // const [descriptionCollection, setDescriptionCollection] = useLocalStorage("descriptionCollection", "");
     const [descriptionCollection, setDescriptionCollection] = useState(localStorage.getItem('descriptionCollection') ? localStorage.getItem('descriptionCollection') : '');
-    // const [descriptionCollection, setDescriptionCollection] = useState('');
     const [metaTitle, setMetaTitle] = useLocalStorage("metaTitle", "");
     const [metaDescription, setMetaDescription] = useLocalStorage("metaDescription", "");
     const [metaUrl, setMetaUrl] = useState(window.location.origin + '/');
@@ -59,6 +57,7 @@ const CreateCollection = () => {
 
     const [isDirty, setIsDirty] = useState(false);
     const [warningIdCondition, setWarningIdCondition] = useState([]);
+    const [tinyImagesList, setTinyImagesList] = useState([]);
     const { image, setImage, followThisLink, setFollowThisLink, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage, showModalCroppeImage, setShowModalCroppeImage,
         showModalInput, setShowModalInput, messageModal, setMessageModal, sender, setSender, inputTextModify, setInputTextModify,
         textButtonConfirm, setTextButtonConfirm,
@@ -757,17 +756,54 @@ const CreateCollection = () => {
         }
     }
 
+    function handleAddTinyImage(str) {
+        var descriptionDiv = document.createElement("div");
+        descriptionDiv.innerHTML = str;
 
+        let imgs = descriptionDiv.getElementsByTagName('img');
+        // let tinyImages = fetch(descriptionDiv.getElementsByTagName('img'));
+        let tmp_tab = Array.from(imgs);
+
+
+        if (tinyImagesList.length !== tmp_tab.length) {
+
+            // ICI AXIOS !!!
+
+            setTinyImagesList(tmp_tab);
+            console.log('tmp_tab  false  ', tmp_tab);
+        } else {
+            console.log('txt  ');
+        }
+    }
 
     // get and convert to blob file images from tinyMCE
-    async function getImageFromTinyMCE(str) {
-        var myElement = document.createElement("div");
-        myElement.innerHTML = str;
-        const response = await fetch(myElement.getElementsByTagName('img')[0].src);
+    function getImageFromTinyMCE(str) {
+        handleAddTinyImage(str);
+        // console.log('str  ', str);
+        // var descriptionDiv = document.createElement("div");
+        // descriptionDiv.innerHTML = str;
 
-        console.log(myElement.getElementsByTagName('img')[0].getAttribute('alt'));
-        const tinyImage = await response.blob();
-        return tinyImage;
+        // fetch(descriptionDiv.getElementsByTagName('img')[0].src)
+        //     .then(function (response) {
+        //         return response.blob();
+        //     })
+        //     .then((tinyImage) => {
+        //         let testFormData = new FormData;
+        //         testFormData.append('images', tinyImage);
+        //         Axios.post(`http://127.0.0.1:8000/save-collection`, testFormData,
+        //             {
+        //                 headers: { 'Content-Type': 'multipart/form-data' }
+        //             })
+        //             .then(res => {
+        //                 if (descriptionDiv.getElementsByTagName('img').length > 0) {
+        //                     descriptionDiv.getElementsByTagName('img')[0].setAttribute('src', res.data);
+        //                 }
+        //                 console.log('descriptionDiv  --->  ', descriptionDiv.innerHTML);
+        //             });
+        //     })
+        //     .catch(function (error) {
+        //         console.log('error:   ' + error);
+        //     });
     }
 
 
@@ -805,10 +841,9 @@ const CreateCollection = () => {
         }
     }
 
-    useEffect(() => {
-        console.log(descriptionCollection);
-    }, [descriptionCollection]);
-
+    // useEffect(() => {
+    //     // console.log(descriptionCollection);
+    // }, [descriptionCollection]);
 
 
     return (
@@ -839,8 +874,10 @@ const CreateCollection = () => {
                             // initialValue={descriptionCollection}
                             value={descriptionCollection}
                             onEditorChange={
-                                (newText) => 
-                                handleDescriptionCollection(newText)
+                                (newText) => {
+                                    handleDescriptionCollection(newText);
+                                    getImageFromTinyMCE(newText);
+                                }
                             }
                             init={{
                                 entity_encoding: "raw",
@@ -878,41 +915,24 @@ const CreateCollection = () => {
                                     'removeformat | help | fullscreen ' +
                                     'language ',
                                 // block_unsupported_dropoption: true,
+                                // images_upload_handler: (() =>  getImageFromTinyMCE(descriptionCollection)),
+                                // allow drop images
                                 paste_data_images: true,
                                 /* enable title field in the Image dialog*/
                                 image_title: true,
                                 /* enable automatic uploads of images represented by blob or data URIs*/
-                                automatic_uploads: true,
-                                /*
-                                  URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url)
-                                  images_upload_url: 'postAcceptor.php',
-                                  here we add custom filepicker only to Image dialog
-                                */
+                                // automatic_uploads: true,
                                 file_picker_types: 'image media',
                                 /* and here's our custom image picker*/
                                 file_picker_callback: function (cb, value, meta) {
                                     var input = document.createElement('input');
                                     input.setAttribute('type', 'file');
                                     input.setAttribute('accept', 'image/*');
-
-                                    /*
-                                      Note: In modern browsers input[type="file"] is functional without
-                                      even adding it to the DOM, but that might not be the case in some older
-                                      or quirky browsers like IE, so you might want to add it to the DOM
-                                      just in case, and visually hide it. And do not forget do remove it
-                                      once you do not need it anymore.
-                                    */
-
                                     input.onchange = function () {
                                         var file = this.files[0];
 
                                         var reader = new FileReader();
                                         reader.onload = function () {
-                                            /*
-                                              Note: Now we need to register the blob in TinyMCEs image blob
-                                              registry. In the next release this part hopefully won't be
-                                              necessary, as we are looking to handle it internally.
-                                            */
                                             var id = 'blobid' + (new Date()).getTime();
                                             var blobCache = tinymce.activeEditor.editorUpload.blobCache;
                                             var base64 = reader.result.split(',')[1];
