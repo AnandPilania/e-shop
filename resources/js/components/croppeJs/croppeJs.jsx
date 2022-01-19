@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { makeStyles } from '@material-ui/styles';
 import AppContext from '../contexts/AppContext';
 import Axios from 'axios';
+import { saveInTemporaryStorage } from '../functions/temporaryStorage/saveInTemporaryStorage';
 
 const useStyles = makeStyles({
     modalMain: {
@@ -77,22 +78,13 @@ const CroppeImage = () => {
 
     const getCropData = () => {
         if (typeof cropper !== "undefined") {
-            const imgurl = cropper.getCroppedCanvas().toDataURL();
-            const imgBlob = cropper.getCroppedCanvas().toBlob((blob) => {
 
-                var imgData = new FormData;
-                imgData.append('key', 'tmp_imageCollection');
-                imgData.append('value[]', blob);
+            cropper.getCroppedCanvas().toBlob((blob) => {
 
-                Axios.post(`http://127.0.0.1:8000/temporaryStoreImages`, imgData,
-                    {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    })
-                    .then(res => {
-                        console.log('image has been changed');
-                    });
+                // need blob inside arrays for avoid error
+                let tab = [];
+                tab.push(blob);
+                saveInTemporaryStorage('tmp_imageCollection', tab);
 
                 setImage(blob);
                 navigate(followThisLink);
@@ -115,7 +107,7 @@ const CroppeImage = () => {
                     background={false}
                     responsive={true}
                     autoCropArea={1}
-                    checkOrientation={false} // https://github.com/fengyuanchen/cropperjs/issues/671
+                    checkOrientation={false}
                     onInitialized={(instance) => {
                         setCropper(instance);
                     }}

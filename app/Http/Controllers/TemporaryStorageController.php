@@ -10,24 +10,26 @@ use Illuminate\Support\Facades\File;
 
 class TemporaryStorageController extends Controller
 {
-    public function getTemporaryImage()
+    public function getSingleTemporaryImage()
     {
         $tmp_img = Temporary_storage::where('key', 'tmp_imageCollection')->first();
 
         if (isset($tmp_img->value)) return $tmp_img->value;
     }
 
-    // Ajoute des images pour un produit donné
+
+    // stock des images temporaires
     public function temporaryStoreImages(Request $request)
     {
-        // dd($request);
-        // check and delete record and image if exist
-        $tmp_storage = Temporary_storage::where('key', $request->key)->first();
-        if ($tmp_storage != null) {
-            File::delete(public_path($tmp_storage->value));
-            Temporary_storage::destroy($tmp_storage->id);
-        }
 
+        /// check and delete record and image if exist
+        $tmp_storage = Temporary_storage::where('key', $request->key)->get();
+        if ($tmp_storage != null) {
+            foreach ($tmp_storage as $toDelete) {
+                File::delete(public_path($toDelete->value));
+                Temporary_storage::destroy($toDelete->id);
+            }
+        }
 
         if ($request->hasFile('value')) {
             $images = $request->file('value');
@@ -57,7 +59,7 @@ class TemporaryStorageController extends Controller
                 $tmp_storage->save();
             }
 
-            return 'storred succes';
+            return $tmp_storage->value;
         }
     }
 

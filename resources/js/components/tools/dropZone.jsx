@@ -116,9 +116,9 @@ const DropZone = (props) => {
     useEffect(() => { 
         // get dirty page image from temporary_storages db if exist
         try {
-            Axios.get(`http://127.0.0.1:8000/getTemporaryImage`)
+            Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage`)
                 .then(res => {
-                    if (res.data) {
+                    if (res.data !== undefined) {
                         // get image path for crop
                         setImagePath('../' + res.data);
                         // get image for preview

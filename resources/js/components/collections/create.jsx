@@ -11,7 +11,7 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 import "flatpickr/dist/themes/material_blue.css";
 import Flatpickr from "react-flatpickr";
 import { Editor } from '@tinymce/tinymce-react';
-
+import { saveInTemporaryStorage } from '../functions/temporaryStorage/saveInTemporaryStorage';
 
 
 
@@ -356,20 +356,7 @@ const CreateCollection = () => {
     // IMAGE -------------------------------------------------------------------
     // save image from dirty page in temporary_storages db
     useEffect(() => {
-        var tmp_Data = new FormData;
-        if (image.length > 0) {
-            tmp_Data.append('key', 'tmp_imageCollection');
-            tmp_Data.append('value[]', image[0]);
-        };
-        Axios.post(`http://127.0.0.1:8000/temporaryStoreImages`, tmp_Data,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-            .then(res => {
-                console.log('image has been changed');
-            });
+        saveInTemporaryStorage('tmp_imageCollection', image);
     }, [image]);
 
 
@@ -756,60 +743,65 @@ const CreateCollection = () => {
         }
     }
 
-    function handleAddTinyImage(str) {
-        var descriptionDiv = document.createElement("div");
+    // detect if tinyMCE images are changed
+    function handleChangeTinyImage(str) { alert('coucou');
+        let descriptionDiv = document.createElement("div");
         descriptionDiv.innerHTML = str;
 
         let imgs = descriptionDiv.getElementsByTagName('img');
-        // let tinyImages = fetch(descriptionDiv.getElementsByTagName('img'));
         let tmp_tab = Array.from(imgs);
 
-
+        // if images list have not same length
         if (tinyImagesList.length !== tmp_tab.length) {
-
-            // ICI AXIOS !!!
-
             setTinyImagesList(tmp_tab);
-            console.log('tmp_tab  false  ', tmp_tab);
-        } else {
-            console.log('txt  ');
+            getImageFromTinyMCE(str);
+            descriptionDiv.remove();
+            return;
+        }
+        // if files are not the same
+        if (tinyImagesList.length === tmp_tab.length) {
+            for (let i = 0; i < imgs.length; i++) {
+                if (imgs[i].title !== tinyImagesList[i].title) {
+                    getImageFromTinyMCE(str);
+                    descriptionDiv.remove();
+                    return;
+                }
+            }
         }
     }
 
-    // get and convert to blob file images from tinyMCE
+    // save blob file images from tinyMCE in temporaryStorage
     function getImageFromTinyMCE(str) {
-        handleAddTinyImage(str);
-        // console.log('str  ', str);
-        // var descriptionDiv = document.createElement("div");
-        // descriptionDiv.innerHTML = str;
 
-        // fetch(descriptionDiv.getElementsByTagName('img')[0].src)
-        //     .then(function (response) {
-        //         return response.blob();
-        //     })
-        //     .then((tinyImage) => {
-        //         let testFormData = new FormData;
-        //         testFormData.append('images', tinyImage);
-        //         Axios.post(`http://127.0.0.1:8000/save-collection`, testFormData,
-        //             {
-        //                 headers: { 'Content-Type': 'multipart/form-data' }
-        //             })
-        //             .then(res => {
-        //                 if (descriptionDiv.getElementsByTagName('img').length > 0) {
-        //                     descriptionDiv.getElementsByTagName('img')[0].setAttribute('src', res.data);
-        //                 }
-        //                 console.log('descriptionDiv  --->  ', descriptionDiv.innerHTML);
-        //             });
-        //     })
-        //     .catch(function (error) {
-        //         console.log('error:   ' + error);
-        //     });
+        var descriptionDiv = document.createElement("div");
+        descriptionDiv.innerHTML = str;
+
+        fetch(descriptionDiv.getElementsByTagName('img')[0].src)
+            .then(function (response) {
+                return response.blob();
+            })
+            .then(async (tinyImage) => {
+
+                // need blob inside array !!!
+                let tab = [];
+                tab.push(tinyImage);
+                return saveInTemporaryStorage('tmp_tinyMceImages', tab);
+            })
+            .then((response) => {
+                console.log('src before -->  ', descriptionDiv.getElementsByTagName('img')[0].src);
+                console.log('response  ', response);
+                if (descriptionDiv.getElementsByTagName('img').length > 0) {
+                    descriptionDiv.getElementsByTagName('img')[0].setAttribute('src', response);
+                    console.log('src after -->  ', descriptionDiv.getElementsByTagName('img')[0].src);
+                }
+            })
+            .catch(function (error) {
+                console.log('error:   ' + error);
+            });
     }
 
 
-    async function handleSubmit() {
-
-        let imagesFromTinyMCE = await getImageFromTinyMCE(descriptionCollection);
+    function handleSubmit() {
 
         let valid = validation();
         if (valid) {
@@ -876,7 +868,7 @@ const CreateCollection = () => {
                             onEditorChange={
                                 (newText) => {
                                     handleDescriptionCollection(newText);
-                                    getImageFromTinyMCE(newText);
+                                    handleChangeTinyImage(newText);
                                 }
                             }
                             init={{
@@ -923,6 +915,7 @@ const CreateCollection = () => {
                                 /* enable automatic uploads of images represented by blob or data URIs*/
                                 // automatic_uploads: true,
                                 file_picker_types: 'image media',
+                                // images_upload_url: handleChangeTinyImage(),
                                 /* and here's our custom image picker*/
                                 file_picker_callback: function (cb, value, meta) {
                                     var input = document.createElement('input');
