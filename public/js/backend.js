@@ -24169,45 +24169,39 @@ var CreateCollection = function CreateCollection() {
     descriptionDiv.innerHTML = str;
     var imgs = descriptionDiv.getElementsByTagName('img');
     var tmp_tab = Array.from(imgs);
-    setTinyImagesList(tmp_tab); // if images list have not same length
-    // if (tinyImagesList.length !== tmp_tab.length) {
-    //     setTinyImagesList(tmp_tab);
-    //     getImageFromTinyMCE(str);
-    //     descriptionDiv.remove();
-    //     return;
-    // }
-    // if files are not the same
 
     if (tmp_tab.length > 0 && tinyImagesList.length > 0) {
-      // console.log('tmp_tab   ', tmp_tab[0].src);
-      // console.log('tinyImagesList   ', tinyImagesList[0].src);
+      var tab_tinyImagesList_src = [];
       tinyImagesList.forEach(function (image) {
-        tmp_tab.includes(image) ? true : console.log(image.src);
+        return tab_tinyImagesList_src.push(image.src);
       });
+      var tmp_tab_src = [];
+      tmp_tab.forEach(function (image) {
+        return tmp_tab_src.push(image.src);
+      });
+
+      for (var i = 0; i < tab_tinyImagesList_src.length; i++) {
+        if (!tmp_tab_src.includes(tab_tinyImagesList_src[i])) {
+          console.log(tab_tinyImagesList_src[i]);
+          var dataToDelete = FormData;
+          dataToDelete.append('dataToDelete', tab_tinyImagesList_src[i]);
+          axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/deleteTinyMceTemporayStoredImages", dataToDelete, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }).then(function (res) {
+            console.log('image has been changed');
+            return res.data;
+          })["catch"](function (error) {
+            console.log('Error Image upload failed : ' + error.status);
+          });
+          descriptionDiv.remove();
+          return;
+        }
+      }
     }
 
-    if (tinyImagesList.length === tmp_tab.length) {
-      var dataToDelete = FormData; // for (let i = 0; i < imgs.length; i++) {
-      //     if (imgs[i].src !== tinyImagesList[i].src) {
-      //         dataToDelete.append('dataToDelete', )
-      //         Axios.post(`http://127.0.0.1:8000/deleteTinyMceTemporayStoredImages`, tmp_Data,
-      //             {
-      //                 headers: {
-      //                     'Content-Type': 'multipart/form-data'
-      //                 }
-      //             })
-      //             .then(res => {
-      //                 console.log('image has been changed');
-      //                 return res.data;
-      //             })
-      //             .catch(error => {
-      //                 console.log('Error Image upload failed : ' + error.status);
-      //             });
-      //         descriptionDiv.remove();
-      //         return;
-      //     }
-      // }
-    }
+    setTinyImagesList(tmp_tab);
   } // save blob file images from tinyMCE in temporaryStorage
 
 
