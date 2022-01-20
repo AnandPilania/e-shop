@@ -21,10 +21,11 @@ class TemporaryStorageController extends Controller
     // stock des images temporaires
     public function temporaryStoreImages(Request $request)
     {
-
+// dd('ok ok ok ok');
         /// check and delete record and image if exist
         $tmp_storage = Temporary_storage::where('key', $request->key)->get();
-        if ($tmp_storage != null) {
+       
+        if ($tmp_storage != null && $request->key !== 'tmp_tinyMceImages') {
             foreach ($tmp_storage as $toDelete) {
                 File::delete(public_path($toDelete->value));
                 Temporary_storage::destroy($toDelete->id);
@@ -50,20 +51,33 @@ class TemporaryStorageController extends Controller
                     $input['image'] = $imageName[0] . '_' .  $random .  '.jpg';
                 }
 
-                $destinationPath = public_path('/temporaryStorage');
+                $destinationPath = public_path('/admin/temporaryStorage');
                 $imgFile = Image::make($image);
                 $imgFile->save($destinationPath . '/' . $input['image']);
 
                 $tmp_storage->key = $request->key;
-                $tmp_storage->value = 'temporaryStorage/' . $input['image'];
+                $tmp_storage->value = '/admin/temporaryStorage/' . $input['image'];
                 $tmp_storage->save();
             }
-
+            // return response()->json(['location' => $tmp_storage->value]);
             return $tmp_storage->value;
         }
     }
 
     public function deleteTemporayStoredImages(Request $request)
+    {
+
+        $tmp_storage = Temporary_storage::where('key', $request->key)->get();
+
+        foreach ($tmp_storage as $toDelete) {
+            File::delete(public_path($toDelete->value));
+            Temporary_storage::destroy($toDelete->id);
+        }
+
+        return 'ok';
+    }
+
+    public function deleteTinyMceTemporayStoredImages(Request $request)
     {
 
         $tmp_storage = Temporary_storage::where('key', $request->key)->get();

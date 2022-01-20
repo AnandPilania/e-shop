@@ -84,6 +84,8 @@ Route::get('/getSingleTemporaryImage', [TemporaryStorageController::class, 'getS
 
 // delete temporary collection image
 Route::post('/deleteTemporayStoredImages', [TemporaryStorageController::class, 'deleteTemporayStoredImages']);
+// delete tinyMCE  temporary image
+Route::post('/deleteTinyMceTemporayStoredImages', [TemporaryStorageController::class, 'deleteTinyMceTemporayStoredImages']);
 
 Route::get('/listtype', [Type_detail_productController::class, 'listtype']);
 

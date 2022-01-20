@@ -20,6 +20,9 @@ export function saveInTemporaryStorage(key, value) {
         .then(res => {
             console.log('image has been changed');
             return res.data;
+        })
+        .catch(error => {
+            console.log('Error Image upload failed : ' + error.status);
         });
 
         return response;

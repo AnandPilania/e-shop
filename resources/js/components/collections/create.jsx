@@ -744,29 +744,55 @@ const CreateCollection = () => {
     }
 
     // detect if tinyMCE images are changed
-    function handleChangeTinyImage(str) { alert('coucou');
+    function handleChangeTinyImage(str) {
         let descriptionDiv = document.createElement("div");
         descriptionDiv.innerHTML = str;
 
         let imgs = descriptionDiv.getElementsByTagName('img');
         let tmp_tab = Array.from(imgs);
-
+        setTinyImagesList(tmp_tab);
         // if images list have not same length
-        if (tinyImagesList.length !== tmp_tab.length) {
-            setTinyImagesList(tmp_tab);
-            getImageFromTinyMCE(str);
-            descriptionDiv.remove();
-            return;
-        }
+        // if (tinyImagesList.length !== tmp_tab.length) {
+        //     setTinyImagesList(tmp_tab);
+        //     getImageFromTinyMCE(str);
+        //     descriptionDiv.remove();
+        //     return;
+        // }
         // if files are not the same
+        if (tmp_tab.length > 0 && tinyImagesList.length > 0) {
+            // console.log('tmp_tab   ', tmp_tab[0].src);
+            // console.log('tinyImagesList   ', tinyImagesList[0].src);
+
+            tinyImagesList.forEach(image => {
+                tmp_tab.includes(image) ? true : console.log(image.src);
+            })
+        }
+
         if (tinyImagesList.length === tmp_tab.length) {
-            for (let i = 0; i < imgs.length; i++) {
-                if (imgs[i].title !== tinyImagesList[i].title) {
-                    getImageFromTinyMCE(str);
-                    descriptionDiv.remove();
-                    return;
-                }
-            }
+            let dataToDelete = FormData;
+
+  
+            // for (let i = 0; i < imgs.length; i++) {
+            //     if (imgs[i].src !== tinyImagesList[i].src) {
+            //         dataToDelete.append('dataToDelete', )
+            //         Axios.post(`http://127.0.0.1:8000/deleteTinyMceTemporayStoredImages`, tmp_Data,
+            //             {
+            //                 headers: {
+            //                     'Content-Type': 'multipart/form-data'
+            //                 }
+            //             })
+            //             .then(res => {
+            //                 console.log('image has been changed');
+            //                 return res.data;
+            //             })
+            //             .catch(error => {
+            //                 console.log('Error Image upload failed : ' + error.status);
+            //             });
+
+            //         descriptionDiv.remove();
+            //         return;
+            //     }
+            // }
         }
     }
 
@@ -788,17 +814,31 @@ const CreateCollection = () => {
                 return saveInTemporaryStorage('tmp_tinyMceImages', tab);
             })
             .then((response) => {
-                console.log('src before -->  ', descriptionDiv.getElementsByTagName('img')[0].src);
-                console.log('response  ', response);
                 if (descriptionDiv.getElementsByTagName('img').length > 0) {
                     descriptionDiv.getElementsByTagName('img')[0].setAttribute('src', response);
-                    console.log('src after -->  ', descriptionDiv.getElementsByTagName('img')[0].src);
                 }
             })
             .catch(function (error) {
                 console.log('error:   ' + error);
             });
     }
+
+
+    // save tinymce images in temporary Storage folder and db table
+    function tinyMCE_image_upload_handler(blobInfo, success, failure, progress) {
+        let tab = [];
+        tab.push(blobInfo.blob());
+        let response = async () => {
+            return saveInTemporaryStorage('tmp_tinyMceImages', tab)
+        }
+        response().then(response => {
+            success(response);
+        });
+    };
+
+
+
+
 
 
     function handleSubmit() {
@@ -832,10 +872,6 @@ const CreateCollection = () => {
                 });
         }
     }
-
-    // useEffect(() => {
-    //     // console.log(descriptionCollection);
-    // }, [descriptionCollection]);
 
 
     return (
@@ -906,16 +942,16 @@ const CreateCollection = () => {
                                     'media ' +
                                     'removeformat | help | fullscreen ' +
                                     'language ',
-                                // block_unsupported_dropoption: true,
-                                // images_upload_handler: (() =>  getImageFromTinyMCE(descriptionCollection)),
+
+                                //     relative_urls: true,
+                                // document_base_url: 'http://127.0.0.1:8000/',
+                                
+                                images_upload_handler: tinyMCE_image_upload_handler,
                                 // allow drop images
                                 paste_data_images: true,
                                 /* enable title field in the Image dialog*/
                                 image_title: true,
-                                /* enable automatic uploads of images represented by blob or data URIs*/
-                                // automatic_uploads: true,
                                 file_picker_types: 'image media',
-                                // images_upload_url: handleChangeTinyImage(),
                                 /* and here's our custom image picker*/
                                 file_picker_callback: function (cb, value, meta) {
                                     var input = document.createElement('input');
@@ -946,7 +982,7 @@ const CreateCollection = () => {
                                 video_template_callback: function (data) {
                                     return '<video width="' + data.width + '" height="' + data.height + '"' + (data.poster ? ' poster="' + data.poster + '"' : '') + ' controls="controls">\n' + '<source src="' + data.source + '"' + (data.sourcemime ? ' type="' + data.sourcemime + '"' : '') + ' />\n' + (data.altsource ? '<source src="' + data.altsource + '"' + (data.altsourcemime ? ' type="' + data.altsourcemime + '"' : '') + ' />\n' : '') + '</video>';
                                 },
-                                a11y_advanced_options: true,
+                                // a11y_advanced_options: true,
                                 content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
                             }}
                         />

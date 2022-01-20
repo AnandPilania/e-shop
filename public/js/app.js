@@ -23360,7 +23360,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var CreateCollection = function CreateCollection() {
-  var _ref2;
+  var _ref3;
 
   var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_15__.useNavigate)(); // form-------------------------------------------------------------------
 
@@ -24177,28 +24177,48 @@ var CreateCollection = function CreateCollection() {
 
 
   function handleChangeTinyImage(str) {
-    alert('coucou');
     var descriptionDiv = document.createElement("div");
     descriptionDiv.innerHTML = str;
     var imgs = descriptionDiv.getElementsByTagName('img');
-    var tmp_tab = Array.from(imgs); // if images list have not same length
+    var tmp_tab = Array.from(imgs);
+    setTinyImagesList(tmp_tab); // if images list have not same length
+    // if (tinyImagesList.length !== tmp_tab.length) {
+    //     setTinyImagesList(tmp_tab);
+    //     getImageFromTinyMCE(str);
+    //     descriptionDiv.remove();
+    //     return;
+    // }
+    // if files are not the same
 
-    if (tinyImagesList.length !== tmp_tab.length) {
-      setTinyImagesList(tmp_tab);
-      getImageFromTinyMCE(str);
-      descriptionDiv.remove();
-      return;
-    } // if files are not the same
-
+    if (tmp_tab.length > 0 && tinyImagesList.length > 0) {
+      // console.log('tmp_tab   ', tmp_tab[0].src);
+      // console.log('tinyImagesList   ', tinyImagesList[0].src);
+      tinyImagesList.forEach(function (image) {
+        tmp_tab.includes(image) ? true : console.log(image.src);
+      });
+    }
 
     if (tinyImagesList.length === tmp_tab.length) {
-      for (var i = 0; i < imgs.length; i++) {
-        if (imgs[i].title !== tinyImagesList[i].title) {
-          getImageFromTinyMCE(str);
-          descriptionDiv.remove();
-          return;
-        }
-      }
+      var dataToDelete = FormData; // for (let i = 0; i < imgs.length; i++) {
+      //     if (imgs[i].src !== tinyImagesList[i].src) {
+      //         dataToDelete.append('dataToDelete', )
+      //         Axios.post(`http://127.0.0.1:8000/deleteTinyMceTemporayStoredImages`, tmp_Data,
+      //             {
+      //                 headers: {
+      //                     'Content-Type': 'multipart/form-data'
+      //                 }
+      //             })
+      //             .then(res => {
+      //                 console.log('image has been changed');
+      //                 return res.data;
+      //             })
+      //             .catch(error => {
+      //                 console.log('Error Image upload failed : ' + error.status);
+      //             });
+      //         descriptionDiv.remove();
+      //         return;
+      //     }
+      // }
     }
   } // save blob file images from tinyMCE in temporaryStorage
 
@@ -24232,17 +24252,46 @@ var CreateCollection = function CreateCollection() {
         return _ref.apply(this, arguments);
       };
     }()).then(function (response) {
-      console.log('src before -->  ', descriptionDiv.getElementsByTagName('img')[0].src);
-      console.log('response  ', response);
-
       if (descriptionDiv.getElementsByTagName('img').length > 0) {
         descriptionDiv.getElementsByTagName('img')[0].setAttribute('src', response);
-        console.log('src after -->  ', descriptionDiv.getElementsByTagName('img')[0].src);
       }
     })["catch"](function (error) {
       console.log('error:   ' + error);
     });
+  } // save tinymce images in temporary Storage folder and db table
+
+
+  function tinyMCE_image_upload_handler(blobInfo, success, failure, progress) {
+    var tab = [];
+    tab.push(blobInfo.blob());
+
+    var response = /*#__PURE__*/function () {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                return _context2.abrupt("return", (0,_functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_13__.saveInTemporaryStorage)('tmp_tinyMceImages', tab));
+
+              case 1:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }));
+
+      return function response() {
+        return _ref2.apply(this, arguments);
+      };
+    }();
+
+    response().then(function (response) {
+      success(response);
+    });
   }
+
+  ;
 
   function handleSubmit() {
     var valid = validation();
@@ -24270,10 +24319,7 @@ var CreateCollection = function CreateCollection() {
         initCollectionForm();
       });
     }
-  } // useEffect(() => {
-  //     // console.log(descriptionCollection);
-  // }, [descriptionCollection]);
-
+  }
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
     className: "collection-main-container",
@@ -24311,7 +24357,7 @@ var CreateCollection = function CreateCollection() {
               handleDescriptionCollection(newText);
               handleChangeTinyImage(newText);
             },
-            init: (_ref2 = {
+            init: (_ref3 = {
               entity_encoding: "raw",
               branding: false,
               width: '100%',
@@ -24351,7 +24397,7 @@ var CreateCollection = function CreateCollection() {
               language: 'fr_FR',
               // langue_url: '@tinymce/tinymce-react/langs',
               plugins: ['advlist autolink lists link image media charmap print preview anchor', 'searchreplace visualblocks code fullscreen autoresize', 'insertdatetime media table paste code help wordcount fullscreen code']
-            }, _defineProperty(_ref2, "menubar", 'tools insert'), _defineProperty(_ref2, "toolbar", 'wordcount | undo redo | formatselect | ' + 'bold italic underline forecolor backcolor | alignleft aligncenter ' + 'alignright alignjustify | bullist numlist outdent indent | ' + 'image ' + 'media ' + 'removeformat | help | fullscreen ' + 'language '), _defineProperty(_ref2, "paste_data_images", true), _defineProperty(_ref2, "image_title", true), _defineProperty(_ref2, "file_picker_types", 'image media'), _defineProperty(_ref2, "file_picker_callback", function file_picker_callback(cb, value, meta) {
+            }, _defineProperty(_ref3, "menubar", 'tools insert'), _defineProperty(_ref3, "toolbar", 'wordcount | undo redo | formatselect | ' + 'bold italic underline forecolor backcolor | alignleft aligncenter ' + 'alignright alignjustify | bullist numlist outdent indent | ' + 'image ' + 'media ' + 'removeformat | help | fullscreen ' + 'language '), _defineProperty(_ref3, "images_upload_handler", tinyMCE_image_upload_handler), _defineProperty(_ref3, "paste_data_images", true), _defineProperty(_ref3, "image_title", true), _defineProperty(_ref3, "file_picker_types", 'image media'), _defineProperty(_ref3, "file_picker_callback", function file_picker_callback(cb, value, meta) {
               var input = document.createElement('input');
               input.setAttribute('type', 'file');
               input.setAttribute('accept', 'image/*');
@@ -24377,11 +24423,11 @@ var CreateCollection = function CreateCollection() {
               };
 
               input.click();
-            }), _defineProperty(_ref2, "audio_template_callback", function audio_template_callback(data) {
+            }), _defineProperty(_ref3, "audio_template_callback", function audio_template_callback(data) {
               return '<audio controls>' + '\n<source src="' + data.source + '"' + (data.sourcemime ? ' type="' + data.sourcemime + '"' : '') + ' />\n' + (data.altsource ? '<source src="' + data.altsource + '"' + (data.altsourcemime ? ' type="' + data.altsourcemime + '"' : '') + ' />\n' : '') + '</audio>';
-            }), _defineProperty(_ref2, "video_template_callback", function video_template_callback(data) {
+            }), _defineProperty(_ref3, "video_template_callback", function video_template_callback(data) {
               return '<video width="' + data.width + '" height="' + data.height + '"' + (data.poster ? ' poster="' + data.poster + '"' : '') + ' controls="controls">\n' + '<source src="' + data.source + '"' + (data.sourcemime ? ' type="' + data.sourcemime + '"' : '') + ' />\n' + (data.altsource ? '<source src="' + data.altsource + '"' + (data.altsourcemime ? ' type="' + data.altsourcemime + '"' : '') + ' />\n' : '') + '</video>';
-            }), _defineProperty(_ref2, "a11y_advanced_options", true), _defineProperty(_ref2, "content_style", 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'), _ref2)
+            }), _defineProperty(_ref3, "content_style", 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'), _ref3)
           })
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
@@ -27688,6 +27734,8 @@ function saveInTemporaryStorage(key, value) {
   }).then(function (res) {
     console.log('image has been changed');
     return res.data;
+  })["catch"](function (error) {
+    console.log('Error Image upload failed : ' + error.status);
   });
   return response;
 }
