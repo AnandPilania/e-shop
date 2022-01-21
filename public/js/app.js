@@ -24108,16 +24108,6 @@ var CreateCollection = function CreateCollection() {
     localStorage.removeItem('metaDescription');
     localStorage.removeItem('metaUrl');
   }; //----------------------------------------------------------------Reset Form
-  // CE QUI SUIT DOIT ALLER DANS LA FONCTION handleSubmit !!!!!!!!!!!!!!!!!!!!
-  // if (image.length > 0) {
-  //     console.log('image  ' + image[0]);
-  //     formData.append('image[]', image[0]);
-  // } else {
-  //     console.log('pas d image ???');
-  // };
-  // useEffect(() => {
-  //         console.log('image has been changed');
-  // }, [image]);
 
 
   var validation = function validation() {
@@ -24173,47 +24163,94 @@ var CreateCollection = function CreateCollection() {
       setShowModalSimpleMessage(true);
       return false;
     }
-  }; // detect if tinyMCE images are changed
+  }; // detect if tinyMCE images are deleted and remove it from folder and db
 
 
   function handleChangeTinyImage(str) {
     var descriptionDiv = document.createElement("div");
-    descriptionDiv.innerHTML = str;
-    var imgs = descriptionDiv.getElementsByTagName('img');
-    var tmp_tab = Array.from(imgs);
+    descriptionDiv.innerHTML = str; // alert('level 1');
 
-    if (tmp_tab.length > 0 && tinyImagesList.length > 0) {
+    var imgs = descriptionDiv.getElementsByTagName('img');
+    var img_dom_tab = Array.from(imgs);
+    console.log('img_dom_tab--------->  ', img_dom_tab);
+    console.log('tinyImagesList--------->  ', tinyImagesList);
+
+    if (img_dom_tab.length > 0 || tinyImagesList.length > 0) {
+      // alert('level 2');
       var tab_tinyImagesList_src = [];
       tinyImagesList.forEach(function (image) {
         return tab_tinyImagesList_src.push(image.src);
       });
-      var tmp_tab_src = [];
-      tmp_tab.forEach(function (image) {
-        return tmp_tab_src.push(image.src);
+      var img_dom_tab_src = [];
+      img_dom_tab.forEach(function (image) {
+        return img_dom_tab_src.push(image.src);
       });
+      var tinyImageToDelete = new FormData();
 
       for (var i = 0; i < tab_tinyImagesList_src.length; i++) {
-        if (!tmp_tab_src.includes(tab_tinyImagesList_src[i])) {
-          console.log(tab_tinyImagesList_src[i]);
-          var dataToDelete = FormData;
-          dataToDelete.append('dataToDelete', tab_tinyImagesList_src[i]);
-          axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/deleteTinyMceTemporayStoredImages", dataToDelete, {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-          }).then(function (res) {
-            console.log('image has been changed');
-            return res.data;
-          })["catch"](function (error) {
-            console.log('Error Image upload failed : ' + error.status);
-          });
-          descriptionDiv.remove();
-          return;
+        if (!img_dom_tab_src.includes(tab_tinyImagesList_src[i])) {
+          // console.log(tab_tinyImagesList_src[i]);
+          // alert('level 3');
+          if (!tab_tinyImagesList_src[i].includes('data:image')) {
+            tinyImageToDelete.append('dataToDelete', tab_tinyImagesList_src[i]); // alert('level 4');
+
+            axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/deleteTinyMceTemporayStoredImages", tinyImageToDelete, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            }).then(function (res) {
+              console.log('image has been changed');
+              return res.data;
+            })["catch"](function (error) {
+              console.log('Error Image upload failed : ' + error.status);
+            });
+            descriptionDiv.remove();
+            return;
+          }
         }
       }
     }
 
-    setTinyImagesList(tmp_tab);
+    setTinyImagesList(img_dom_tab);
+  }
+
+  function localStorageTinyMceImages(str) {
+    var localStorage_getItem = Array.from(localStorage.getItem("tiny_Tmp_Images"));
+    var descriptionDiv = document.createElement("div");
+    descriptionDiv.innerHTML = str;
+    var imgs = descriptionDiv.getElementsByTagName('img');
+    var img_dom_tab = Array.from(imgs);
+    var img_dom_tab_src = [];
+    img_dom_tab.forEach(function (image) {
+      return img_dom_tab_src.push(image.src);
+    });
+    var tab_tinyImagesList_src = []; // localStorage_getItem.forEach(image => tab_tinyImagesList_src.push(image.src));
+
+    console.log(localStorage_getItem); // var tinyImageToDelete = new FormData;
+    // for (let i = 0; i < tab_tinyImagesList_src.length; i++) {
+    //     if (!img_dom_tab_src.includes(tab_tinyImagesList_src[i])) {
+    //         if (!tab_tinyImagesList_src[i].includes('data:image')) {
+    //             tinyImageToDelete.append('dataToDelete', tab_tinyImagesList_src[i]);
+    //             Axios.post(`http://127.0.0.1:8000/deleteTinyMceTemporayStoredImages`, tinyImageToDelete,
+    //                 {
+    //                     headers: {
+    //                         'Content-Type': 'multipart/form-data'
+    //                     }
+    //                 })
+    //                 .then(res => {
+    //                     console.log('image has been changed');
+    //                     return res.data;
+    //                 })
+    //                 .catch(error => {
+    //                     console.log('Error Image upload failed : ' + error.status);
+    //                 });
+    //             descriptionDiv.remove();
+    //             return;
+    //         }
+    //     }
+    // }
+    // console.log(img_dom_tab_src);
+    // localStorage.setItem("tiny_Tmp_Images", img_dom_tab_src);
   } // save blob file images from tinyMCE in temporaryStorage
 
 
@@ -24278,10 +24315,14 @@ var CreateCollection = function CreateCollection() {
       return function response() {
         return _ref2.apply(this, arguments);
       };
-    }();
+    }(); //success gère le stockage avec le json {location : "path in response"}
+
 
     response().then(function (response) {
       success(response);
+      failure('Un erreur c\'est produite ==> ', {
+        remove: true
+      });
     });
   }
 
@@ -24333,8 +24374,7 @@ var CreateCollection = function CreateCollection() {
             type: "text",
             id: "titreCollection",
             value: nameCollection,
-            onChange: handleNameCollection,
-            placeholder: "ex. Robes, Op\xE9ration d\xE9stockage, Collection hiver"
+            onChange: handleNameCollection
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
           className: "div-label-inputTxt",
@@ -24349,7 +24389,7 @@ var CreateCollection = function CreateCollection() {
             value: descriptionCollection,
             onEditorChange: function onEditorChange(newText) {
               handleDescriptionCollection(newText);
-              handleChangeTinyImage(newText);
+              localStorageTinyMceImages(newText); // handleChangeTinyImage(newText);
             },
             init: (_ref3 = {
               entity_encoding: "raw",
@@ -24391,7 +24431,7 @@ var CreateCollection = function CreateCollection() {
               language: 'fr_FR',
               // langue_url: '@tinymce/tinymce-react/langs',
               plugins: ['advlist autolink lists link image media charmap print preview anchor', 'searchreplace visualblocks code fullscreen autoresize', 'insertdatetime media table paste code help wordcount fullscreen code']
-            }, _defineProperty(_ref3, "menubar", 'tools insert'), _defineProperty(_ref3, "toolbar", 'wordcount | undo redo | formatselect | ' + 'bold italic underline forecolor backcolor | alignleft aligncenter ' + 'alignright alignjustify | bullist numlist outdent indent | ' + 'image ' + 'media ' + 'removeformat | help | fullscreen ' + 'language '), _defineProperty(_ref3, "images_upload_handler", tinyMCE_image_upload_handler), _defineProperty(_ref3, "paste_data_images", true), _defineProperty(_ref3, "image_title", true), _defineProperty(_ref3, "file_picker_types", 'image media'), _defineProperty(_ref3, "file_picker_callback", function file_picker_callback(cb, value, meta) {
+            }, _defineProperty(_ref3, "menubar", 'tools insert'), _defineProperty(_ref3, "toolbar", 'wordcount | undo redo | formatselect | ' + 'bold italic underline forecolor backcolor | alignleft aligncenter ' + 'alignright alignjustify | bullist numlist outdent indent | ' + 'image ' + 'media ' + 'removeformat | help | fullscreen ' + 'language '), _defineProperty(_ref3, "relative_urls", false), _defineProperty(_ref3, "remove_script_host", false), _defineProperty(_ref3, "document_base_url", 'http://127.0.0.1:8000'), _defineProperty(_ref3, "images_upload_handler", tinyMCE_image_upload_handler), _defineProperty(_ref3, "paste_data_images", true), _defineProperty(_ref3, "image_title", true), _defineProperty(_ref3, "file_picker_types", 'image media'), _defineProperty(_ref3, "file_picker_callback", function file_picker_callback(cb, value, meta) {
               var input = document.createElement('input');
               input.setAttribute('type', 'file');
               input.setAttribute('accept', 'image/*');
@@ -28875,10 +28915,10 @@ var DropZone = function DropZone(props) {
       axios__WEBPACK_IMPORTED_MODULE_1___default().get("http://127.0.0.1:8000/getSingleTemporaryImage").then(function (res) {
         if (res.data !== undefined) {
           // get image path for crop
-          setImagePath('../' + res.data); // get image for preview
+          setImagePath(res.data); // get image for preview
 
           if (res.data != '') {
-            fetch('../' + res.data).then(function (response) {
+            fetch(res.data).then(function (response) {
               return response.blob();
             }).then(function (BlobImage) {
               previewImage(BlobImage);

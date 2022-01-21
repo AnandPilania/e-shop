@@ -21,11 +21,12 @@ class TemporaryStorageController extends Controller
     // stock des images temporaires
     public function temporaryStoreImages(Request $request)
     {
-// dd('ok ok ok ok');
         /// check and delete record and image if exist
         $tmp_storage = Temporary_storage::where('key', $request->key)->get();
        
-        if ($tmp_storage != null && $request->key !== 'tmp_tinyMceImages') {
+        // exclur les éléments du tableau avant de delete
+        $except = array("tmp_tinyMceImages");
+        if ($tmp_storage != null && !in_array($request->key, $except)) {
             foreach ($tmp_storage as $toDelete) {
                 File::delete(public_path($toDelete->value));
                 Temporary_storage::destroy($toDelete->id);
@@ -51,12 +52,12 @@ class TemporaryStorageController extends Controller
                     $input['image'] = $imageName[0] . '_' .  $random .  '.jpg';
                 }
 
-                $destinationPath = public_path('/admin/temporaryStorage');
+                $destinationPath = public_path('/temporaryStorage');
                 $imgFile = Image::make($image);
                 $imgFile->save($destinationPath . '/' . $input['image']);
 
                 $tmp_storage->key = $request->key;
-                $tmp_storage->value = '/admin/temporaryStorage/' . $input['image'];
+                $tmp_storage->value = '/temporaryStorage/' . $input['image'];
                 $tmp_storage->save();
             }
             // return response()->json(['location' => $tmp_storage->value]);
@@ -66,7 +67,6 @@ class TemporaryStorageController extends Controller
 
     public function deleteTemporayStoredImages(Request $request)
     {
-
         $tmp_storage = Temporary_storage::where('key', $request->key)->get();
 
         foreach ($tmp_storage as $toDelete) {
@@ -79,7 +79,7 @@ class TemporaryStorageController extends Controller
 
     public function deleteTinyMceTemporayStoredImages(Request $request)
     {
-
+        dd($request);
         $tmp_storage = Temporary_storage::where('key', $request->key)->get();
 
         foreach ($tmp_storage as $toDelete) {
