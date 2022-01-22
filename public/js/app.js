@@ -23512,6 +23512,8 @@ var CreateCollection = function CreateCollection() {
       tinyImagesList = _useState40[0],
       setTinyImagesList = _useState40[1];
 
+  var editorRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
+
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_8__["default"]),
       image = _useContext.image,
       setImage = _useContext.setImage,
@@ -24166,98 +24168,43 @@ var CreateCollection = function CreateCollection() {
   }; // detect if tinyMCE images are deleted and remove it from folder and db
 
 
-  function handleChangeTinyImage(str) {
-    var descriptionDiv = document.createElement("div");
-    descriptionDiv.innerHTML = str; // alert('level 1');
+  function handleDeleteTinyImage() {
+    var Div = document.createElement("div");
 
-    var imgs = descriptionDiv.getElementsByTagName('img');
-    var img_dom_tab = Array.from(imgs);
-    console.log('img_dom_tab--------->  ', img_dom_tab);
-    console.log('tinyImagesList--------->  ', tinyImagesList);
-
-    if (img_dom_tab.length > 0 || tinyImagesList.length > 0) {
-      // alert('level 2');
-      var tab_tinyImagesList_src = [];
-      tinyImagesList.forEach(function (image) {
-        return tab_tinyImagesList_src.push(image.src);
-      });
-      var img_dom_tab_src = [];
-      img_dom_tab.forEach(function (image) {
-        return img_dom_tab_src.push(image.src);
-      });
-      var tinyImageToDelete = new FormData();
-
-      for (var i = 0; i < tab_tinyImagesList_src.length; i++) {
-        if (!img_dom_tab_src.includes(tab_tinyImagesList_src[i])) {
-          // console.log(tab_tinyImagesList_src[i]);
-          // alert('level 3');
-          if (!tab_tinyImagesList_src[i].includes('data:image')) {
-            tinyImageToDelete.append('dataToDelete', tab_tinyImagesList_src[i]); // alert('level 4');
-
-            axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/deleteTinyMceTemporayStoredImages", tinyImageToDelete, {
-              headers: {
-                'Content-Type': 'multipart/form-data'
-              }
-            }).then(function (res) {
-              console.log('image has been changed');
-              return res.data;
-            })["catch"](function (error) {
-              console.log('Error Image upload failed : ' + error.status);
-            });
-            descriptionDiv.remove();
-            return;
-          }
-        }
-      }
+    if (editorRef.current) {
+      Div.innerHTML = editorRef.current.getContent();
+      console.log('Div.innerHTML   ', Div.innerHTML);
     }
 
-    setTinyImagesList(img_dom_tab);
-  }
-
-  function localStorageTinyMceImages(str) {
-    var localStorage_getItem = Array.from(localStorage.getItem("tiny_Tmp_Images"));
-    var descriptionDiv = document.createElement("div");
-    descriptionDiv.innerHTML = str;
-    var imgs = descriptionDiv.getElementsByTagName('img');
+    var imgs = Div.getElementsByTagName('img');
     var img_dom_tab = Array.from(imgs);
+    var base_url = window.location.origin;
     var img_dom_tab_src = [];
     img_dom_tab.forEach(function (image) {
-      return img_dom_tab_src.push(image.src);
+      return img_dom_tab_src.push(image.src.replace(base_url, ''));
     });
-    var tab_tinyImagesList_src = []; // localStorage_getItem.forEach(image => tab_tinyImagesList_src.push(image.src));
-
-    console.log(localStorage_getItem); // var tinyImageToDelete = new FormData;
-    // for (let i = 0; i < tab_tinyImagesList_src.length; i++) {
-    //     if (!img_dom_tab_src.includes(tab_tinyImagesList_src[i])) {
-    //         if (!tab_tinyImagesList_src[i].includes('data:image')) {
-    //             tinyImageToDelete.append('dataToDelete', tab_tinyImagesList_src[i]);
-    //             Axios.post(`http://127.0.0.1:8000/deleteTinyMceTemporayStoredImages`, tinyImageToDelete,
-    //                 {
-    //                     headers: {
-    //                         'Content-Type': 'multipart/form-data'
-    //                     }
-    //                 })
-    //                 .then(res => {
-    //                     console.log('image has been changed');
-    //                     return res.data;
-    //                 })
-    //                 .catch(error => {
-    //                     console.log('Error Image upload failed : ' + error.status);
-    //                 });
-    //             descriptionDiv.remove();
-    //             return;
-    //         }
-    //     }
-    // }
-    // console.log(img_dom_tab_src);
-    // localStorage.setItem("tiny_Tmp_Images", img_dom_tab_src);
+    var tinyImageToDelete = new FormData();
+    tinyImageToDelete.append('key', 'tmp_tinyMceImages');
+    tinyImageToDelete.append('value', img_dom_tab_src);
+    axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/deleteTinyMceTemporayStoredImages", tinyImageToDelete, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }).then(function (res) {
+      console.log('images handled');
+      return res.data;
+    })["catch"](function (error) {
+      console.log('Error : ' + error.status);
+    });
+    Div.remove();
+    return;
   } // save blob file images from tinyMCE in temporaryStorage
 
 
   function getImageFromTinyMCE(str) {
-    var descriptionDiv = document.createElement("div");
-    descriptionDiv.innerHTML = str;
-    fetch(descriptionDiv.getElementsByTagName('img')[0].src).then(function (response) {
+    var Div = document.createElement("div");
+    Div.innerHTML = str;
+    fetch(Div.getElementsByTagName('img')[0].src).then(function (response) {
       return response.blob();
     }).then( /*#__PURE__*/function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(tinyImage) {
@@ -24283,8 +24230,8 @@ var CreateCollection = function CreateCollection() {
         return _ref.apply(this, arguments);
       };
     }()).then(function (response) {
-      if (descriptionDiv.getElementsByTagName('img').length > 0) {
-        descriptionDiv.getElementsByTagName('img')[0].setAttribute('src', response);
+      if (Div.getElementsByTagName('img').length > 0) {
+        Div.getElementsByTagName('img')[0].setAttribute('src', response);
       }
     })["catch"](function (error) {
       console.log('error:   ' + error);
@@ -24315,7 +24262,7 @@ var CreateCollection = function CreateCollection() {
       return function response() {
         return _ref2.apply(this, arguments);
       };
-    }(); //success gère le stockage avec le json {location : "path in response"}
+    }(); //success gère le stockage avec le json {location : "le path est dans  response"}
 
 
     response().then(function (response) {
@@ -24324,6 +24271,7 @@ var CreateCollection = function CreateCollection() {
         remove: true
       });
     });
+    handleDeleteTinyImage();
   }
 
   ;
@@ -24383,13 +24331,14 @@ var CreateCollection = function CreateCollection() {
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.Fragment, {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_tinymce_tinymce_react__WEBPACK_IMPORTED_MODULE_12__.Editor, {
-            apiKey: "859uqxkoeg5bds7w4yx9ihw5exy86bhtgq56fvxwsjopxbf2" // onInit={(evt, editor) => editorRef.current = editor}
-            // initialValue={descriptionCollection}
+            apiKey: "859uqxkoeg5bds7w4yx9ihw5exy86bhtgq56fvxwsjopxbf2",
+            onInit: function onInit(evt, editor) {
+              return editorRef.current = editor;
+            } // initialValue={descriptionCollection}
             ,
             value: descriptionCollection,
             onEditorChange: function onEditorChange(newText) {
               handleDescriptionCollection(newText);
-              localStorageTinyMceImages(newText); // handleChangeTinyImage(newText);
             },
             init: (_ref3 = {
               entity_encoding: "raw",
@@ -24431,7 +24380,7 @@ var CreateCollection = function CreateCollection() {
               language: 'fr_FR',
               // langue_url: '@tinymce/tinymce-react/langs',
               plugins: ['advlist autolink lists link image media charmap print preview anchor', 'searchreplace visualblocks code fullscreen autoresize', 'insertdatetime media table paste code help wordcount fullscreen code']
-            }, _defineProperty(_ref3, "menubar", 'tools insert'), _defineProperty(_ref3, "toolbar", 'wordcount | undo redo | formatselect | ' + 'bold italic underline forecolor backcolor | alignleft aligncenter ' + 'alignright alignjustify | bullist numlist outdent indent | ' + 'image ' + 'media ' + 'removeformat | help | fullscreen ' + 'language '), _defineProperty(_ref3, "relative_urls", false), _defineProperty(_ref3, "remove_script_host", false), _defineProperty(_ref3, "document_base_url", 'http://127.0.0.1:8000'), _defineProperty(_ref3, "images_upload_handler", tinyMCE_image_upload_handler), _defineProperty(_ref3, "paste_data_images", true), _defineProperty(_ref3, "image_title", true), _defineProperty(_ref3, "file_picker_types", 'image media'), _defineProperty(_ref3, "file_picker_callback", function file_picker_callback(cb, value, meta) {
+            }, _defineProperty(_ref3, "menubar", 'tools insert'), _defineProperty(_ref3, "toolbar", 'wordcount | undo redo | formatselect | ' + 'bold italic underline forecolor backcolor | alignleft aligncenter ' + 'alignright alignjustify | bullist numlist outdent indent | ' + 'image ' + 'media ' + 'removeformat | help | fullscreen ' + 'language '), _defineProperty(_ref3, "init_instance_callback", handleDeleteTinyImage), _defineProperty(_ref3, "relative_urls", false), _defineProperty(_ref3, "remove_script_host", false), _defineProperty(_ref3, "document_base_url", 'http://127.0.0.1:8000'), _defineProperty(_ref3, "images_upload_handler", tinyMCE_image_upload_handler), _defineProperty(_ref3, "paste_data_images", true), _defineProperty(_ref3, "image_title", true), _defineProperty(_ref3, "file_picker_types", 'image media'), _defineProperty(_ref3, "file_picker_callback", function file_picker_callback(cb, value, meta) {
               var input = document.createElement('input');
               input.setAttribute('type', 'file');
               input.setAttribute('accept', 'image/*');

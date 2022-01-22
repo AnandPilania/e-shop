@@ -23,7 +23,7 @@ class TemporaryStorageController extends Controller
     {
         /// check and delete record and image if exist
         $tmp_storage = Temporary_storage::where('key', $request->key)->get();
-       
+
         // exclur les éléments du tableau avant de delete
         $except = array("tmp_tinyMceImages");
         if ($tmp_storage != null && !in_array($request->key, $except)) {
@@ -77,16 +77,21 @@ class TemporaryStorageController extends Controller
         return 'ok';
     }
 
+    // delete removed images in folder and db
     public function deleteTinyMceTemporayStoredImages(Request $request)
     {
-        dd($request);
-        $tmp_storage = Temporary_storage::where('key', $request->key)->get();
+        // dd($request->value);
+        $tab_dataToDelete = explode(',', $request->value);
+        $tinyImagesInDB = Temporary_storage::where('key', $request->key)->get();
 
-        foreach ($tmp_storage as $toDelete) {
-            File::delete(public_path($toDelete->value));
-            Temporary_storage::destroy($toDelete->id);
+        foreach ($tinyImagesInDB as $imageDB) {
+            if (!in_array($imageDB->value,  $tab_dataToDelete) && !str_contains($imageDB->value, 'data:image')) {
+                File::delete(public_path(substr($imageDB->value, 1)));
+                Temporary_storage::destroy($imageDB->id);
+                return 'image has been deleted';
+            } else {
+                return 'no images to delete';
+            }
         }
-
-        return 'ok';
     }
 }

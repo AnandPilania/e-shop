@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useContext } from 'react';
+import { React, useState, useEffect, useRef, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import ConditionCollection from './conditionCollection';
 import Axios from 'axios';
@@ -58,10 +58,15 @@ const CreateCollection = () => {
     const [isDirty, setIsDirty] = useState(false);
     const [warningIdCondition, setWarningIdCondition] = useState([]);
     const [tinyImagesList, setTinyImagesList] = useState([]);
-    const { image, setImage, followThisLink, setFollowThisLink, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage, showModalCroppeImage, setShowModalCroppeImage,
+
+    const editorRef = useRef(null);
+
+    const {
+        image, setImage, followThisLink, setFollowThisLink, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage, showModalCroppeImage, setShowModalCroppeImage,
         showModalInput, setShowModalInput, messageModal, setMessageModal, sender, setSender, inputTextModify, setInputTextModify,
         textButtonConfirm, setTextButtonConfirm,
-        imageModal, setImageModal, darkMode, setDarkMode } = useContext(AppContext);
+        imageModal, setImageModal, darkMode, setDarkMode
+    } = useContext(AppContext);
 
     var formData = new FormData;
 
@@ -146,7 +151,6 @@ const CreateCollection = () => {
         // set le l'URL de cette page
         let path = window.location.pathname.replace('admin/', '');
         setFollowThisLink(path);
-
 
         // évite error quand on passe à un autre component
         return <>{categoriesList ? categoriesList : ''}</>
@@ -725,105 +729,50 @@ const CreateCollection = () => {
     }
 
     // detect if tinyMCE images are deleted and remove it from folder and db
-    function handleChangeTinyImage(str) {
-        let descriptionDiv = document.createElement("div");
-        descriptionDiv.innerHTML = str;
-        // alert('level 1');
-        let imgs = descriptionDiv.getElementsByTagName('img');
-        let img_dom_tab = Array.from(imgs);
+    function handleDeleteTinyImage() {
 
-        console.log('img_dom_tab--------->  ', img_dom_tab);
-        console.log('tinyImagesList--------->  ', tinyImagesList);
-
-        if (img_dom_tab.length > 0 || tinyImagesList.length > 0) {
-            // alert('level 2');
-            var tab_tinyImagesList_src = [];
-            tinyImagesList.forEach(image => tab_tinyImagesList_src.push(image.src));
-            var img_dom_tab_src = [];
-            img_dom_tab.forEach(image => img_dom_tab_src.push(image.src));
-
-            var tinyImageToDelete = new FormData;
-            for (let i = 0; i < tab_tinyImagesList_src.length; i++) {
-                if (!img_dom_tab_src.includes(tab_tinyImagesList_src[i])) {
-                    // console.log(tab_tinyImagesList_src[i]);
-                    // alert('level 3');
-                    if (!tab_tinyImagesList_src[i].includes('data:image')) {
-                        tinyImageToDelete.append('dataToDelete', tab_tinyImagesList_src[i]);
-                        // alert('level 4');
-                        Axios.post(`http://127.0.0.1:8000/deleteTinyMceTemporayStoredImages`, tinyImageToDelete,
-                            {
-                                headers: {
-                                    'Content-Type': 'multipart/form-data'
-                                }
-                            })
-                            .then(res => {
-                                console.log('image has been changed');
-                                return res.data;
-                            })
-                            .catch(error => {
-                                console.log('Error Image upload failed : ' + error.status);
-                            });
-
-                        descriptionDiv.remove();
-                        return;
-                    }
-                }
-            }
+        let Div = document.createElement("div");
+        if (editorRef.current) {
+            Div.innerHTML = editorRef.current.getContent();
+            console.log('Div.innerHTML   ', Div.innerHTML)
         }
-        setTinyImagesList(img_dom_tab);
-    }
-
-    function localStorageTinyMceImages(str) {
-        let localStorage_getItem = Array.from(localStorage.getItem("tiny_Tmp_Images"));
-        let descriptionDiv = document.createElement("div");
-        descriptionDiv.innerHTML = str;
-
-        let imgs = descriptionDiv.getElementsByTagName('img');
+        let imgs = Div.getElementsByTagName('img');
         let img_dom_tab = Array.from(imgs);
+
+        let base_url = window.location.origin;
         let img_dom_tab_src = [];
-        img_dom_tab.forEach(image => img_dom_tab_src.push(image.src));
+        img_dom_tab.forEach(image => img_dom_tab_src.push(image.src.replace(base_url, '')));
 
-        let tab_tinyImagesList_src = [];
-        // localStorage_getItem.forEach(image => tab_tinyImagesList_src.push(image.src));
-        
-        console.log(localStorage_getItem);
-        
-        // var tinyImageToDelete = new FormData;
-        // for (let i = 0; i < tab_tinyImagesList_src.length; i++) {
-        //     if (!img_dom_tab_src.includes(tab_tinyImagesList_src[i])) {
-        //         if (!tab_tinyImagesList_src[i].includes('data:image')) {
-        //             tinyImageToDelete.append('dataToDelete', tab_tinyImagesList_src[i]);
-        //             Axios.post(`http://127.0.0.1:8000/deleteTinyMceTemporayStoredImages`, tinyImageToDelete,
-        //                 {
-        //                     headers: {
-        //                         'Content-Type': 'multipart/form-data'
-        //                     }
-        //                 })
-        //                 .then(res => {
-        //                     console.log('image has been changed');
-        //                     return res.data;
-        //                 })
-        //                 .catch(error => {
-        //                     console.log('Error Image upload failed : ' + error.status);
-        //                 });
+        let tinyImageToDelete = new FormData;
+        tinyImageToDelete.append('key', 'tmp_tinyMceImages');
+        tinyImageToDelete.append('value', img_dom_tab_src);
 
-        //             descriptionDiv.remove();
-        //             return;
-        //         }
-        //     }
-        // }
-        // console.log(img_dom_tab_src);
-        // localStorage.setItem("tiny_Tmp_Images", img_dom_tab_src);
+        Axios.post(`http://127.0.0.1:8000/deleteTinyMceTemporayStoredImages`, tinyImageToDelete,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then(res => {
+                console.log('images handled');
+                return res.data;
+            })
+            .catch(error => {
+                console.log('Error : ' + error.status);
+            });
+
+        Div.remove();
+        return;
     }
 
 
     // save blob file images from tinyMCE in temporaryStorage
     function getImageFromTinyMCE(str) {
 
-        var descriptionDiv = document.createElement("div");
-        descriptionDiv.innerHTML = str;
+        var Div = document.createElement("div");
+        Div.innerHTML = str;
 
-        fetch(descriptionDiv.getElementsByTagName('img')[0].src)
+        fetch(Div.getElementsByTagName('img')[0].src)
             .then(function (response) {
                 return response.blob();
             })
@@ -835,8 +784,8 @@ const CreateCollection = () => {
                 return saveInTemporaryStorage('tmp_tinyMceImages', tab);
             })
             .then((response) => {
-                if (descriptionDiv.getElementsByTagName('img').length > 0) {
-                    descriptionDiv.getElementsByTagName('img')[0].setAttribute('src', response);
+                if (Div.getElementsByTagName('img').length > 0) {
+                    Div.getElementsByTagName('img')[0].setAttribute('src', response);
                 }
             })
             .catch(function (error) {
@@ -852,11 +801,13 @@ const CreateCollection = () => {
         let response = async () => {
             return saveInTemporaryStorage('tmp_tinyMceImages', tab)
         }
-        //success gère le stockage avec le json {location : "path in response"}
-        response().then(response => {
+        //success gère le stockage avec le json {location : "le path est dans  response"}
+        response().then(response => { 
             success(response);
             failure('Un erreur c\'est produite ==> ', { remove: true });
         });
+
+        handleDeleteTinyImage();
     };
 
 
@@ -921,14 +872,12 @@ const CreateCollection = () => {
                     <>
                         <Editor
                             apiKey="859uqxkoeg5bds7w4yx9ihw5exy86bhtgq56fvxwsjopxbf2"
-                            // onInit={(evt, editor) => editorRef.current = editor}
+                            onInit={(evt, editor) => editorRef.current = editor}
                             // initialValue={descriptionCollection}
                             value={descriptionCollection}
                             onEditorChange={
                                 (newText) => {
                                     handleDescriptionCollection(newText);
-                                    localStorageTinyMceImages(newText);
-                                    // handleChangeTinyImage(newText);
                                 }
                             }
                             init={{
@@ -966,7 +915,8 @@ const CreateCollection = () => {
                                     'media ' +
                                     'removeformat | help | fullscreen ' +
                                     'language ',
-                                // configure la base du path du stockage des images   
+                                // configure la base du path du stockage des images  
+                                init_instance_callback: handleDeleteTinyImage,
                                 relative_urls: false,
                                 remove_script_host: false,
                                 document_base_url: 'http://127.0.0.1:8000',
