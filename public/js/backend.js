@@ -23348,7 +23348,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var CreateCollection = function CreateCollection() {
-  var _ref3;
+  var _ref2;
 
   var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_15__.useNavigate)(); // form-------------------------------------------------------------------
 
@@ -23494,11 +23494,6 @@ var CreateCollection = function CreateCollection() {
       _useState38 = _slicedToArray(_useState37, 2),
       warningIdCondition = _useState38[0],
       setWarningIdCondition = _useState38[1];
-
-  var _useState39 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)([]),
-      _useState40 = _slicedToArray(_useState39, 2),
-      tinyImagesList = _useState40[0],
-      setTinyImagesList = _useState40[1];
 
   var editorRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
 
@@ -24156,12 +24151,18 @@ var CreateCollection = function CreateCollection() {
   }; // detect if tinyMCE images are deleted and remove it from folder and db
 
 
-  function handleDeleteTinyImage() {
-    var Div = document.createElement("div");
+  function handleDeleteTinyImage(str) {
+    var Div = document.createElement("div"); // when init_instance_callback('')
 
-    if (editorRef.current) {
-      Div.innerHTML = editorRef.current.getContent();
-      console.log('Div.innerHTML   ', Div.innerHTML);
+    if (str.length === 0) {
+      if (editorRef.current) {
+        Div.innerHTML = editorRef.current.getContent();
+      }
+    } // when tinyMCE_image_upload_handler with (response)
+
+
+    if (str.length > 0) {
+      Div.innerHTML = str;
     }
 
     var imgs = Div.getElementsByTagName('img');
@@ -24170,11 +24171,40 @@ var CreateCollection = function CreateCollection() {
     var img_dom_tab_src = [];
     img_dom_tab.forEach(function (image) {
       return img_dom_tab_src.push(image.src.replace(base_url, ''));
+    }); // check if is a base64 file
+
+    var noDataImage = img_dom_tab_src.every(function (src) {
+      if (src.includes('data:image')) {
+        return false;
+      }
+
+      return true;
     });
-    var tinyImageToDelete = new FormData();
-    tinyImageToDelete.append('key', 'tmp_tinyMceImages');
-    tinyImageToDelete.append('value', img_dom_tab_src);
-    axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/deleteTinyMceTemporayStoredImages", tinyImageToDelete, {
+
+    if (noDataImage && img_dom_tab_src.length > 0) {
+      var tinyImageToDelete = new FormData();
+      tinyImageToDelete.append('key', 'tmp_tinyMceImages');
+      tinyImageToDelete.append('value', img_dom_tab_src);
+      axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/deleteTinyMceTemporayStoredImages", tinyImageToDelete, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (res) {
+        console.log('images handled');
+        return res.data;
+      })["catch"](function (error) {
+        console.log('Error : ' + error.status);
+      });
+      Div.remove();
+      return;
+    }
+  } // remove records from db and files from folders when unused more
+
+
+  function cleanTemporayStorage(key) {
+    var toDelete = new FormData();
+    toDelete.append('key', key);
+    axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/cleanTemporayStorage", toDelete, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -24184,46 +24214,6 @@ var CreateCollection = function CreateCollection() {
     })["catch"](function (error) {
       console.log('Error : ' + error.status);
     });
-    Div.remove();
-    return;
-  } // save blob file images from tinyMCE in temporaryStorage
-
-
-  function getImageFromTinyMCE(str) {
-    var Div = document.createElement("div");
-    Div.innerHTML = str;
-    fetch(Div.getElementsByTagName('img')[0].src).then(function (response) {
-      return response.blob();
-    }).then( /*#__PURE__*/function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(tinyImage) {
-        var tab;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                // need blob inside array !!!
-                tab = [];
-                tab.push(tinyImage);
-                return _context.abrupt("return", (0,_functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_13__.saveInTemporaryStorage)('tmp_tinyMceImages', tab));
-
-              case 3:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }));
-
-      return function (_x) {
-        return _ref.apply(this, arguments);
-      };
-    }()).then(function (response) {
-      if (Div.getElementsByTagName('img').length > 0) {
-        Div.getElementsByTagName('img')[0].setAttribute('src', response);
-      }
-    })["catch"](function (error) {
-      console.log('error:   ' + error);
-    });
   } // save tinymce images in temporary Storage folder and db table
 
 
@@ -24232,64 +24222,67 @@ var CreateCollection = function CreateCollection() {
     tab.push(blobInfo.blob());
 
     var response = /*#__PURE__*/function () {
-      var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
-                return _context2.abrupt("return", (0,_functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_13__.saveInTemporaryStorage)('tmp_tinyMceImages', tab));
+                return _context.abrupt("return", (0,_functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_13__.saveInTemporaryStorage)('tmp_tinyMceImages', tab));
 
               case 1:
               case "end":
-                return _context2.stop();
+                return _context.stop();
             }
           }
-        }, _callee2);
+        }, _callee);
       }));
 
       return function response() {
-        return _ref2.apply(this, arguments);
+        return _ref.apply(this, arguments);
       };
     }(); //success gère le stockage avec le json {location : "le path est dans  response"}
 
 
     response().then(function (response) {
       success(response);
+      handleDeleteTinyImage(response);
       failure('Un erreur c\'est produite ==> ', {
         remove: true
       });
     });
-    handleDeleteTinyImage();
   }
 
   ;
 
   function handleSubmit() {
-    var valid = validation();
-
-    if (valid) {
-      var objConditions = JSON.stringify(conditions);
-      formData.append("imagesFromTinyMCE", imagesFromTinyMCE);
-      formData.append("name", nameCollection);
-      formData.append("description", descriptionCollection);
-      formData.append("automatise", isAutoConditions);
-      formData.append("notIncludePrevProduct", notIncludePrevProduct);
-      formData.append("allConditionsNeeded", allConditionsNeeded);
-      formData.append("objConditions", objConditions);
-      formData.append("dateActivation", dateField);
-      formData.append("categoryId", categoryId);
-      formData.append("alt", alt);
-      formData.append("imageName", imageName);
-      formData.append('key', 'tmp_imageCollection');
-      axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/save-collection", formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }).then(function (res) {
-        console.log('res.data  --->  ok');
-        initCollectionForm();
-      });
-    }
+    // !!! gérer le netoyage des tinyImages dans table temporayStorage !!!
+    cleanTemporayStorage('tmp_tinyMceImages'); // <--- !!!
+    // let valid = validation();
+    // if (valid) {
+    //     var objConditions = JSON.stringify(conditions);
+    //     formData.append("imagesFromTinyMCE", imagesFromTinyMCE);
+    //     formData.append("name", nameCollection);
+    //     formData.append("description", descriptionCollection);
+    //     formData.append("automatise", isAutoConditions);
+    //     formData.append("notIncludePrevProduct", notIncludePrevProduct);
+    //     formData.append("allConditionsNeeded", allConditionsNeeded);
+    //     formData.append("objConditions", objConditions);
+    //     formData.append("dateActivation", dateField);
+    //     formData.append("categoryId", categoryId);
+    //     formData.append("alt", alt);
+    //     formData.append("imageName", imageName);
+    //     formData.append('key', 'tmp_imageCollection');
+    //     Axios.post(`http://127.0.0.1:8000/save-collection`, formData,
+    //         {
+    //             headers: {
+    //                 'Content-Type': 'multipart/form-data'
+    //             }
+    //         })
+    //         .then(res => {
+    //             console.log('res.data  --->  ok');
+    //             initCollectionForm();
+    //         });
+    // }
   }
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
@@ -24328,7 +24321,7 @@ var CreateCollection = function CreateCollection() {
             onEditorChange: function onEditorChange(newText) {
               handleDescriptionCollection(newText);
             },
-            init: (_ref3 = {
+            init: (_ref2 = {
               entity_encoding: "raw",
               branding: false,
               width: '100%',
@@ -24368,7 +24361,7 @@ var CreateCollection = function CreateCollection() {
               language: 'fr_FR',
               // langue_url: '@tinymce/tinymce-react/langs',
               plugins: ['advlist autolink lists link image media charmap print preview anchor', 'searchreplace visualblocks code fullscreen autoresize', 'insertdatetime media table paste code help wordcount fullscreen code']
-            }, _defineProperty(_ref3, "menubar", 'tools insert'), _defineProperty(_ref3, "toolbar", 'wordcount | undo redo | formatselect | ' + 'bold italic underline forecolor backcolor | alignleft aligncenter ' + 'alignright alignjustify | bullist numlist outdent indent | ' + 'image ' + 'media ' + 'removeformat | help | fullscreen ' + 'language '), _defineProperty(_ref3, "init_instance_callback", handleDeleteTinyImage), _defineProperty(_ref3, "relative_urls", false), _defineProperty(_ref3, "remove_script_host", false), _defineProperty(_ref3, "document_base_url", 'http://127.0.0.1:8000'), _defineProperty(_ref3, "images_upload_handler", tinyMCE_image_upload_handler), _defineProperty(_ref3, "paste_data_images", true), _defineProperty(_ref3, "image_title", true), _defineProperty(_ref3, "file_picker_types", 'image media'), _defineProperty(_ref3, "file_picker_callback", function file_picker_callback(cb, value, meta) {
+            }, _defineProperty(_ref2, "menubar", 'tools insert'), _defineProperty(_ref2, "toolbar", 'wordcount | undo redo | formatselect | ' + 'bold italic underline forecolor backcolor | alignleft aligncenter ' + 'alignright alignjustify | bullist numlist outdent indent | ' + 'image ' + 'media ' + 'removeformat | help | fullscreen ' + 'language '), _defineProperty(_ref2, "init_instance_callback", handleDeleteTinyImage('')), _defineProperty(_ref2, "relative_urls", false), _defineProperty(_ref2, "remove_script_host", false), _defineProperty(_ref2, "document_base_url", 'http://127.0.0.1:8000'), _defineProperty(_ref2, "images_upload_handler", tinyMCE_image_upload_handler), _defineProperty(_ref2, "paste_data_images", true), _defineProperty(_ref2, "image_title", true), _defineProperty(_ref2, "file_picker_types", 'image media'), _defineProperty(_ref2, "file_picker_callback", function file_picker_callback(cb, value, meta) {
               var input = document.createElement('input');
               input.setAttribute('type', 'file');
               input.setAttribute('accept', 'image/*');
@@ -24394,11 +24387,9 @@ var CreateCollection = function CreateCollection() {
               };
 
               input.click();
-            }), _defineProperty(_ref3, "audio_template_callback", function audio_template_callback(data) {
-              return '<audio controls>' + '\n<source src="' + data.source + '"' + (data.sourcemime ? ' type="' + data.sourcemime + '"' : '') + ' />\n' + (data.altsource ? '<source src="' + data.altsource + '"' + (data.altsourcemime ? ' type="' + data.altsourcemime + '"' : '') + ' />\n' : '') + '</audio>';
-            }), _defineProperty(_ref3, "video_template_callback", function video_template_callback(data) {
+            }), _defineProperty(_ref2, "video_template_callback", function video_template_callback(data) {
               return '<video width="' + data.width + '" height="' + data.height + '"' + (data.poster ? ' poster="' + data.poster + '"' : '') + ' controls="controls">\n' + '<source src="' + data.source + '"' + (data.sourcemime ? ' type="' + data.sourcemime + '"' : '') + ' />\n' + (data.altsource ? '<source src="' + data.altsource + '"' + (data.altsourcemime ? ' type="' + data.altsourcemime + '"' : '') + ' />\n' : '') + '</video>';
-            }), _defineProperty(_ref3, "content_style", 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'), _ref3)
+            }), _defineProperty(_ref2, "content_style", 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'), _ref2)
           })
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {

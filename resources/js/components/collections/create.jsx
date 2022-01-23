@@ -57,7 +57,7 @@ const CreateCollection = () => {
 
     const [isDirty, setIsDirty] = useState(false);
     const [warningIdCondition, setWarningIdCondition] = useState([]);
-    const [tinyImagesList, setTinyImagesList] = useState([]);
+
 
     const editorRef = useRef(null);
 
@@ -729,13 +729,20 @@ const CreateCollection = () => {
     }
 
     // detect if tinyMCE images are deleted and remove it from folder and db
-    function handleDeleteTinyImage() {
+    function handleDeleteTinyImage(str) {
 
         let Div = document.createElement("div");
-        if (editorRef.current) {
-            Div.innerHTML = editorRef.current.getContent();
-            console.log('Div.innerHTML   ', Div.innerHTML)
+        // when init_instance_callback('')
+        if (str.length === 0) {
+            if (editorRef.current) {
+                Div.innerHTML = editorRef.current.getContent();
+            }
         }
+        // when tinyMCE_image_upload_handler with (response)
+        if (str.length > 0) {
+            Div.innerHTML = str;
+        }
+
         let imgs = Div.getElementsByTagName('img');
         let img_dom_tab = Array.from(imgs);
 
@@ -743,11 +750,45 @@ const CreateCollection = () => {
         let img_dom_tab_src = [];
         img_dom_tab.forEach(image => img_dom_tab_src.push(image.src.replace(base_url, '')));
 
-        let tinyImageToDelete = new FormData;
-        tinyImageToDelete.append('key', 'tmp_tinyMceImages');
-        tinyImageToDelete.append('value', img_dom_tab_src);
+        // check if is a base64 file
+        let noDataImage = img_dom_tab_src.every(src => {
+            if (src.includes('data:image')) {
+                return false;
+            }
+            return true;
+        })
 
-        Axios.post(`http://127.0.0.1:8000/deleteTinyMceTemporayStoredImages`, tinyImageToDelete,
+        if (noDataImage && img_dom_tab_src.length > 0) {
+
+            let tinyImageToDelete = new FormData;
+            tinyImageToDelete.append('key', 'tmp_tinyMceImages');
+            tinyImageToDelete.append('value', img_dom_tab_src);
+
+            Axios.post(`http://127.0.0.1:8000/deleteTinyMceTemporayStoredImages`, tinyImageToDelete,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                .then(res => {
+                    console.log('images handled');
+                    return res.data;
+                })
+                .catch(error => {
+                    console.log('Error : ' + error.status);
+                });
+
+            Div.remove();
+            return;
+        }
+    }
+
+    // remove records from db and files from folders when unused more
+    function cleanTemporayStorage(key) {
+        let toDelete = new FormData;
+        toDelete.append('key', key);
+
+        Axios.post(`http://127.0.0.1:8000/cleanTemporayStorage`, toDelete,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -761,38 +802,7 @@ const CreateCollection = () => {
                 console.log('Error : ' + error.status);
             });
 
-        Div.remove();
-        return;
     }
-
-
-    // save blob file images from tinyMCE in temporaryStorage
-    function getImageFromTinyMCE(str) {
-
-        var Div = document.createElement("div");
-        Div.innerHTML = str;
-
-        fetch(Div.getElementsByTagName('img')[0].src)
-            .then(function (response) {
-                return response.blob();
-            })
-            .then(async (tinyImage) => {
-
-                // need blob inside array !!!
-                let tab = [];
-                tab.push(tinyImage);
-                return saveInTemporaryStorage('tmp_tinyMceImages', tab);
-            })
-            .then((response) => {
-                if (Div.getElementsByTagName('img').length > 0) {
-                    Div.getElementsByTagName('img')[0].setAttribute('src', response);
-                }
-            })
-            .catch(function (error) {
-                console.log('error:   ' + error);
-            });
-    }
-
 
     // save tinymce images in temporary Storage folder and db table
     function tinyMCE_image_upload_handler(blobInfo, success, failure, progress) {
@@ -802,49 +812,48 @@ const CreateCollection = () => {
             return saveInTemporaryStorage('tmp_tinyMceImages', tab)
         }
         //success gère le stockage avec le json {location : "le path est dans  response"}
-        response().then(response => { 
+        response().then(response => {
             success(response);
+            handleDeleteTinyImage(response);
             failure('Un erreur c\'est produite ==> ', { remove: true });
         });
-
-        handleDeleteTinyImage();
     };
-
-
-
 
 
 
     function handleSubmit() {
 
-        let valid = validation();
-        if (valid) {
-            var objConditions = JSON.stringify(conditions);
+        // !!! gérer le netoyage des tinyImages dans table temporayStorage !!!
+        cleanTemporayStorage('tmp_tinyMceImages'); // <--- !!!
 
-            formData.append("imagesFromTinyMCE", imagesFromTinyMCE);
-            formData.append("name", nameCollection);
-            formData.append("description", descriptionCollection);
-            formData.append("automatise", isAutoConditions);
-            formData.append("notIncludePrevProduct", notIncludePrevProduct);
-            formData.append("allConditionsNeeded", allConditionsNeeded);
-            formData.append("objConditions", objConditions);
-            formData.append("dateActivation", dateField);
-            formData.append("categoryId", categoryId);
-            formData.append("alt", alt);
-            formData.append("imageName", imageName);
-            formData.append('key', 'tmp_imageCollection');
+        // let valid = validation();
+        // if (valid) {
+        //     var objConditions = JSON.stringify(conditions);
 
-            Axios.post(`http://127.0.0.1:8000/save-collection`, formData,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                })
-                .then(res => {
-                    console.log('res.data  --->  ok');
-                    initCollectionForm();
-                });
-        }
+        //     formData.append("imagesFromTinyMCE", imagesFromTinyMCE);
+        //     formData.append("name", nameCollection);
+        //     formData.append("description", descriptionCollection);
+        //     formData.append("automatise", isAutoConditions);
+        //     formData.append("notIncludePrevProduct", notIncludePrevProduct);
+        //     formData.append("allConditionsNeeded", allConditionsNeeded);
+        //     formData.append("objConditions", objConditions);
+        //     formData.append("dateActivation", dateField);
+        //     formData.append("categoryId", categoryId);
+        //     formData.append("alt", alt);
+        //     formData.append("imageName", imageName);
+        //     formData.append('key', 'tmp_imageCollection');
+
+        //     Axios.post(`http://127.0.0.1:8000/save-collection`, formData,
+        //         {
+        //             headers: {
+        //                 'Content-Type': 'multipart/form-data'
+        //             }
+        //         })
+        //         .then(res => {
+        //             console.log('res.data  --->  ok');
+        //             initCollectionForm();
+        //         });
+        // }
     }
 
 
@@ -915,8 +924,8 @@ const CreateCollection = () => {
                                     'media ' +
                                     'removeformat | help | fullscreen ' +
                                     'language ',
+                                init_instance_callback: handleDeleteTinyImage(''),
                                 // configure la base du path du stockage des images  
-                                init_instance_callback: handleDeleteTinyImage,
                                 relative_urls: false,
                                 remove_script_host: false,
                                 document_base_url: 'http://127.0.0.1:8000',
@@ -950,9 +959,6 @@ const CreateCollection = () => {
                                     };
 
                                     input.click();
-                                },
-                                audio_template_callback: function (data) {
-                                    return '<audio controls>' + '\n<source src="' + data.source + '"' + (data.sourcemime ? ' type="' + data.sourcemime + '"' : '') + ' />\n' + (data.altsource ? '<source src="' + data.altsource + '"' + (data.altsourcemime ? ' type="' + data.altsourcemime + '"' : '') + ' />\n' : '') + '</audio>';
                                 },
                                 video_template_callback: function (data) {
                                     return '<video width="' + data.width + '" height="' + data.height + '"' + (data.poster ? ' poster="' + data.poster + '"' : '') + ' controls="controls">\n' + '<source src="' + data.source + '"' + (data.sourcemime ? ' type="' + data.sourcemime + '"' : '') + ' />\n' + (data.altsource ? '<source src="' + data.altsource + '"' + (data.altsourcemime ? ' type="' + data.altsourcemime + '"' : '') + ' />\n' : '') + '</video>';

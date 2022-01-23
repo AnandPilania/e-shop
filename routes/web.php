@@ -67,7 +67,7 @@ Route::resource('/orders', OrderController::class);
 Route::get('/getCategories', [CategoryController::class, 'getCategories']);
 
 // cette route remplace Route::resource('/collections INDEX car j'ai besoin de l'URL collections pour le front end pour le SEO
-    // !!! N EST PLUS UTILISEE !!!     // !!! N EST PLUS UTILISEE !!!
+// !!! N EST PLUS UTILISEE !!!     // !!! N EST PLUS UTILISEE !!!
 Route::get('/collectionsBackEnd', [CollectionController::class, 'collectionsBackEnd']);
 
 // store la collection
@@ -86,6 +86,8 @@ Route::get('/getSingleTemporaryImage', [TemporaryStorageController::class, 'getS
 Route::post('/deleteTemporayStoredImages', [TemporaryStorageController::class, 'deleteTemporayStoredImages']);
 // delete tinyMCE  temporary image
 Route::post('/deleteTinyMceTemporayStoredImages', [TemporaryStorageController::class, 'deleteTinyMceTemporayStoredImages']);
+// remove records from db and files from folders when unused more
+Route::post('/cleanTemporayStorage', [TemporaryStorageController::class, 'cleanTemporayStorage']);
 
 Route::get('/listtype', [Type_detail_productController::class, 'listtype']);
 
@@ -183,13 +185,11 @@ Route::get('/accordion', function () {
 
 // affiche back-end.backend quand l'url commence par admin. Les sous domaines qui suivent admin sont gérés par reactRouter dans app.jsx 
 Route::pattern('path', '^admin+[a-zA-Z0-9-/]*');
-Route::any( '{path}', function( $page ){   
-     return view('back-end.backend');
+Route::any('{path}', function ($page) {
+    return view('back-end.backend');
 });
 
 
 
 
 require __DIR__ . '/auth.php';
-
-

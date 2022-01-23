@@ -80,18 +80,30 @@ class TemporaryStorageController extends Controller
     // delete removed images in folder and db
     public function deleteTinyMceTemporayStoredImages(Request $request)
     {
-        // dd($request->value);
+
         $tab_dataToDelete = explode(',', $request->value);
         $tinyImagesInDB = Temporary_storage::where('key', $request->key)->get();
 
         foreach ($tinyImagesInDB as $imageDB) {
-            if (!in_array($imageDB->value,  $tab_dataToDelete) && !str_contains($imageDB->value, 'data:image')) {
+
+            if (!in_array($imageDB->value,  $tab_dataToDelete)) {
+
                 File::delete(public_path(substr($imageDB->value, 1)));
                 Temporary_storage::destroy($imageDB->id);
-                return 'image has been deleted';
-            } else {
-                return 'no images to delete';
             }
+        }
+    }
+
+    // remove records from db and files from folders when unused more
+    public function cleanTemporayStorage(Request $request)
+    {
+
+        $toDelete = Temporary_storage::where('key', $request->key)->get();
+
+        foreach ($toDelete as $deleteMe) {
+
+                File::delete(public_path(substr($deleteMe->value, 1)));
+                Temporary_storage::destroy($deleteMe->id);
         }
     }
 }
