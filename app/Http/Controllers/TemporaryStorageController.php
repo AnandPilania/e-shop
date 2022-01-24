@@ -24,7 +24,7 @@ class TemporaryStorageController extends Controller
         /// check and delete record and image if exist
         $tmp_storage = Temporary_storage::where('key', $request->key)->get();
 
-        // exclur les éléments du tableau avant de delete
+        // exclure les éléments du tableau avant de delete
         $except = array("tmp_tinyMceImages");
         if ($tmp_storage != null && !in_array($request->key, $except)) {
             foreach ($tmp_storage as $toDelete) {
@@ -41,7 +41,12 @@ class TemporaryStorageController extends Controller
                 $random = substr(str_shuffle("0123456789abcdefghijklmnopqrstvwxyz"), 0, 10);
                 // on explode pour récuppérer le nom sans l'extention
                 $imageName = explode(".", $image->getClientOriginalName());
-                $imageName[0] = str_replace(" ", "", $imageName[0]);
+                $pattern = '/[\!\^\$\?\+\*\|&"\'_=\- ]+/i';
+                $imageName[0] =  preg_replace($pattern, '-', $imageName[0]);
+                $search = array('À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'à', 'á', 'â', 'ã', 'ä', 'å', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ð', 'ò', 'ó', 'ô', 'õ', 'ö', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ');
+                $replace = array('A', 'A', 'A', 'A', 'A', 'A', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y', 'a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y');
+                $imageName[0] = str_replace($search, $replace, $imageName[0]);
+                $imageName[0] = strtolower($imageName[0]);
 
                 // on reconstruit le nom de l'image
                 if ($image->getClientOriginalExtension() == '') {
@@ -102,8 +107,8 @@ class TemporaryStorageController extends Controller
 
         foreach ($toDelete as $deleteMe) {
 
-                File::delete(public_path(substr($deleteMe->value, 1)));
-                Temporary_storage::destroy($deleteMe->id);
+            File::delete(public_path(substr($deleteMe->value, 1)));
+            Temporary_storage::destroy($deleteMe->id);
         }
     }
 }

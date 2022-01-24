@@ -1,14 +1,14 @@
 import { React, useState } from 'react';
+import AppContext from '../contexts/AppContext';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useLocalStorage } from "../hooks/useLocalStorage";
 import Navbar from '../navBar/navBar';
 import FormProduct from '../createProduct/formProduct';
 import EditProduct from '../createProduct/editProduct';
 import EditImages from '../createProduct/edit_images';
 import List from '../createProduct/list';
 import ListCollections from '../collections/list';
-import CreateCollection from '../collections/create';
-import { useLocalStorage } from "../hooks/useLocalStorage";
-import AppContext from '../contexts/AppContext';
+import CreateCollection from '../collections/index';
 import ModalApp from '../modal/modalApp';
 import CroppeImage from '../croppeJs/croppeJs';
 

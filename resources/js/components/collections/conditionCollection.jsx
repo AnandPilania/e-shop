@@ -128,7 +128,7 @@ const ConditionCollection = (props) => {
     }
 
     const borderRed = props.warningIdCondition.includes(props.condition.id) ? 'borderRed' : '';
-    
+
 
     return (
         <div className={"block-select-conditions " + borderRed}>
@@ -178,7 +178,8 @@ const ConditionCollection = (props) => {
                     step={inputStep}
                     min="0"
                     value={props.condition.value}
-                    onChange={(e) => props.handleChangeValue(e, props.condition.id)} />
+                    onChange={(e) => props.handleChangeValue(e, props.condition.id)}
+                />
                 {typeValue != '' && <span className="typeValue">
                     {typeValue}
                 </span>}

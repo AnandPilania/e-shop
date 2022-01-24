@@ -70,7 +70,7 @@ class CollectionController extends Controller
     {
         // $this->validate($request, ['name' => 'required', 'category' => 'required', 'image' => 'required', 'alt' => 'required']);
 
-        File::move(public_path('exist/test.png'), public_path('move/test_move.png'));
+        // File::move(public_path('exist/test.png'), public_path('move/test_move.png'));
 
         $collection = new Collection;
         $collection->name = $request->name;
