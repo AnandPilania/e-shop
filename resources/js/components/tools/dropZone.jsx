@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { makeStyles } from '@material-ui/styles';
 import Axios from 'axios';
 import AppContext from '../contexts/AppContext';
+import { saveInTemporaryStorage } from '../functions/temporaryStorage/saveInTemporaryStorage';
+
 
 const useStyles = makeStyles({
     wrapperForm: {
@@ -114,7 +116,7 @@ const DropZone = (props) => {
     }, []);
 
     useEffect(() => { 
-        // get dirty page image from temporary_storages db if exist
+        // saveInTemporaryStorage('tmp_imageCollection', image);
         try {
             Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage`)
                 .then(res => {

@@ -1,26 +1,37 @@
 import React from 'react';
 
 export default React.createContext({
-    nameCollection: '', 
+    nameCollection: '',
     setNameCollection: () => { },
-    descriptionCollection: '', 
+    descriptionCollection: '',
     setDescriptionCollection: () => { },
-    metaTitle: '', 
+    metaTitle: '',
     setMetaTitle: () => { },
-    metaDescription: '', 
+    metaDescription: '',
     setMetaDescription: () => { },
-    metaUrl: '', 
+    metaUrl: '',
     setMetaUrl: () => { },
-    imageName: '', 
+    imageName: '',
     setImageName: () => { },
-    alt: '', 
+    alt: '',
     setAlt: () => { },
-    categoryName: '', 
+    categoryName: '',
     setCategoryName: () => { },
-    categoryId: '', 
+    categoryId: '',
     setCategoryId: () => { },
-    dateField: '', 
+    tmp_parameter: '',
+    setTmp_parameter: () => { },
+    dateField: '',
     setDateField: () => { },
     normalizUrl: () => { },
+    handleModalCancel: () => { },
+    deleteThisCategory: '',
+    setDeleteThisCategory: () => { },
+    dateField: '',
+    setDateField: () => { },
+    getNow: () => { },
+     
+    
+
 
 });

@@ -36,9 +36,8 @@ const Tinyeditor = () => {
         let imgs = Div.getElementsByTagName('img');
         let img_dom_tab = Array.from(imgs);
 
-        let base_url = window.location.origin;
-        let img_dom_tab_src = [];
-        img_dom_tab.forEach(image => img_dom_tab_src.push(image.src.replace(base_url, '')));
+        let img_dom_tab_src = []; // <-- contiendra toutes les src des images dans Editor
+        img_dom_tab.forEach(image => img_dom_tab_src.push(image.src.replace(window.location.origin, '')));
 
         // check if is a base64 file
         let noDataImage = img_dom_tab_src.every(src => {

@@ -22971,6 +22971,517 @@ var App = function App() {
 
 /***/ }),
 
+/***/ "./resources/js/components/collections/activation.jsx":
+/*!************************************************************!*\
+  !*** ./resources/js/components/collections/activation.jsx ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/CollectionContext */ "./resources/js/components/contexts/CollectionContext.jsx");
+/* harmony import */ var react_flatpickr__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-flatpickr */ "./node_modules/react-flatpickr/build/index.js");
+/* harmony import */ var flatpickr_dist_themes_material_blue_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flatpickr/dist/themes/material_blue.css */ "./node_modules/flatpickr/dist/themes/material_blue.css");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+
+
+var Activation = function Activation() {
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
+      dateField = _useContext.dateField,
+      setDateField = _useContext.setDateField,
+      getNow = _useContext.getNow;
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+      className: "div-vert-align",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        className: "div-label-inputTxt",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h2", {
+          children: "Activation"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+          className: "sub-div-horiz-align",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+            className: "sub-div-vert-align",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
+              children: "Date"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_flatpickr__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              id: "activationDate",
+              "data-enable-time": true,
+              placeholder: dateField,
+              position: "auto center",
+              options: {
+                minDate: 'today',
+                altInput: false,
+                disableMobile: "true",
+                locale: {
+                  weekdays: {
+                    shorthand: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"]
+                  },
+                  months: {
+                    shorthand: ["Jan", "Fév", "Mars", "Avr", "Mai", "Juin", "Juil", "Aout", "Sep", "Oct", "Nov", "Déc"],
+                    longhand: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"]
+                  },
+                  firstDayOfWeek: 0
+                },
+                dateFormat: "d-m-Y H:00",
+                time_24hr: true,
+                minuteIncrement: 60
+              },
+              value: "",
+              onChange: function onChange(selectedDates, dateStr, instance) {
+                var day = selectedDates[0].getDate();
+                var month = selectedDates[0].getMonth() + 1;
+                var year = selectedDates[0].getFullYear();
+                var hour = selectedDates[0].getHours();
+                var dateActivation = (day < 10 ? "0" + day.toString() : day) + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + year + "  " + (hour < 10 ? "0" + hour.toString() : hour);
+                setDateField(dateActivation);
+                localStorage.setItem("dateActivation", dateActivation);
+              }
+            })]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("p", {
+          children: [" ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
+            href: "#",
+            children: "Plus d'informations sur l'activation des collections."
+          })]
+        })]
+      })
+    })
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Activation);
+
+/***/ }),
+
+/***/ "./resources/js/components/collections/categories.jsx":
+/*!************************************************************!*\
+  !*** ./resources/js/components/collections/categories.jsx ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
+/* harmony import */ var _contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../contexts/CollectionContext */ "./resources/js/components/contexts/CollectionContext.jsx");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _modal_modalInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modal/modalInput */ "./resources/js/components/modal/modalInput.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+
+
+
+var Categories = function Categories() {
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState2 = _slicedToArray(_useState, 2),
+      newCategoryName = _useState2[0],
+      setNewCategoryName = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState4 = _slicedToArray(_useState3, 2),
+      categoriesList = _useState4[0],
+      setCategoriesList = _useState4[1];
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState6 = _slicedToArray(_useState5, 2),
+      showCreateCategory = _useState6[0],
+      setShowCreateCategory = _useState6[1];
+
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Créer une nouvelle catégorie.'),
+      _useState8 = _slicedToArray(_useState7, 2),
+      linkCreateCategory = _useState8[0],
+      setLinkCreateCategory = _useState8[1];
+
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState10 = _slicedToArray(_useState9, 2),
+      newCategorySucces = _useState10[0],
+      setNewCategorySucces = _useState10[1];
+
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState12 = _slicedToArray(_useState11, 2),
+      showCategorySelect = _useState12[0],
+      setShowCategorySelect = _useState12[1];
+
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState14 = _slicedToArray(_useState13, 2),
+      newCategoryNameUseInMessage = _useState14[0],
+      setNewCategoryNameUseInMessage = _useState14[1]; // pour stocker le nom de la catégorie qui doit être afficher dans le message de confirmation de la creation de la catégorie
+
+
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
+      showModalConfirm = _useContext.showModalConfirm,
+      setShowModalConfirm = _useContext.setShowModalConfirm,
+      showModalInput = _useContext.showModalInput,
+      setShowModalInput = _useContext.setShowModalInput,
+      messageModal = _useContext.messageModal,
+      setMessageModal = _useContext.setMessageModal,
+      sender = _useContext.sender,
+      setSender = _useContext.setSender,
+      inputTextModify = _useContext.inputTextModify,
+      setInputTextModify = _useContext.setInputTextModify,
+      textButtonConfirm = _useContext.textButtonConfirm,
+      setTextButtonConfirm = _useContext.setTextButtonConfirm,
+      imageModal = _useContext.imageModal,
+      setImageModal = _useContext.setImageModal,
+      darkMode = _useContext.darkMode,
+      setDarkMode = _useContext.setDarkMode;
+
+  var _useContext2 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_2__["default"]),
+      categoryName = _useContext2.categoryName,
+      setCategoryName = _useContext2.setCategoryName,
+      categoryId = _useContext2.categoryId,
+      setCategoryId = _useContext2.setCategoryId,
+      tmp_parameter = _useContext2.tmp_parameter,
+      setTmp_parameter = _useContext2.setTmp_parameter,
+      handleModalCancel = _useContext2.handleModalCancel,
+      deleteThisCategory = _useContext2.deleteThisCategory,
+      setDeleteThisCategory = _useContext2.setDeleteThisCategory;
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (deleteThisCategory !== null) {
+      deleteCategory(deleteThisCategory);
+      setDeleteThisCategory(null);
+    }
+  }, [deleteThisCategory]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // chargement des collections
+    axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
+      setCategoriesList(res.data);
+    })["catch"](function (error) {
+      console.log('error:   ' + error);
+    }); // évite error quand on passe à un autre component
+
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
+      children: categoriesList ? categoriesList : ''
+    });
+  }, []); // show hide select menu
+
+  var showHideCategorySelect = function showHideCategorySelect() {
+    setShowCategorySelect(!showCategorySelect);
+  };
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // dropDown optimisation
+    var dropable = document.getElementById('category_select');
+
+    if (!showCategorySelect) {
+      // cache borders sinon y a un bout qui reste visible
+      setTimeout(function () {
+        dropable.style.borderLeft = 'none';
+        dropable.style.borderRight = 'none';
+        dropable.style.borderBottom = 'none';
+      }, 250);
+      dropable.style.maxHeight = null;
+      dropable.style.paddingTop = 0;
+    } else {
+      dropable.style.maxHeight = "250px";
+      dropable.style.paddingTop = "5px"; // montre les borders quand ouvert seulement
+
+      dropable.style.borderLeft = 'rgb(220, 220, 220) solid 1px';
+      dropable.style.borderRight = 'rgb(220, 220, 220) solid 1px';
+      dropable.style.borderBottom = 'rgb(220, 220, 220) solid 1px';
+    }
+  }, [showCategorySelect]); // get id for back-end
+
+  var handleCategory = function handleCategory(cat_id) {
+    setCategoryId(cat_id);
+    setShowCategorySelect(false);
+    localStorage.setItem("categoryId", cat_id);
+  }; // nom affiché dans le select
+
+
+  var handleCategoryName = function handleCategoryName(cat_name) {
+    setCategoryName(cat_name);
+    localStorage.setItem("categoryName", cat_name);
+  }; // show/hide input create new category
+
+
+  var handleShowCreateCategory = function handleShowCreateCategory(e) {
+    e.preventDefault(); // test du toggle avant le setShowCreateCategory pcq il faut se baser sur le précédent état de showCreateCategory qui a un temps de retard au moment où on exécute cette fonction
+
+    if (showCreateCategory == false) {
+      // au lieu de true
+      setLinkCreateCategory('Annuler');
+    }
+
+    if (showCreateCategory == true) {
+      // au lieu de false
+      setLinkCreateCategory('Créer une nouvelle catégorie.');
+    }
+
+    setShowCreateCategory(!showCreateCategory);
+  }; // show modalInput
+
+
+  var handleShowModalInput = function handleShowModalInput() {
+    setMessageModal('Entrez le nouveau nom de la catégorie');
+    setShowModalInput(!showModalInput);
+  };
+
+  var handleNewCategoryName = function handleNewCategoryName(e) {
+    setNewCategoryName(e.target.value);
+  }; // add one category
+
+
+  var saveNewCategory = function saveNewCategory() {
+    if (newCategoryName != '' && newCategoryName.length >= 3) {
+      // au cas où le nouveau nom est vide ou < 3
+      axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/categories", {
+        name: newCategoryName
+      }).then(function (res) {
+        setNewCategoryNameUseInMessage(newCategoryName + ' à été ajoutée'); // message affiché après création de la category
+
+        setShowCreateCategory(false); // hide input create new category
+
+        setLinkCreateCategory('Créer une nouvelle catégorie.'); // text link create new category
+
+        setNewCategoryName(''); // reset newCategoryName
+
+        setNewCategorySucces(true); // show succes message
+
+        setTimeout(hideMessageSucces, 4000); // during 4 secondes
+
+        console.log('res.data  --->  ok');
+      })["catch"](function (error) {
+        console.log('error:   ' + error);
+      }); // chargement des collections
+
+      axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
+        setCategoriesList(res.data);
+      })["catch"](function (error) {
+        console.log('error:   ' + error);
+      });
+    } else {
+      // warning new category name is empty
+      setMessageModal('Le nouveau nom de catégorie doit contenir au moins trois caractères');
+      setShowModalConfirm(true); // show modalConfirm
+    }
+  }; // hide les méssages de succes apès 4 secondes
+
+
+  var hideMessageSucces = function hideMessageSucces() {
+    setNewCategorySucces(false);
+  }; // confirm delete one category
+
+
+  var confirmDeleteCategory = function confirmDeleteCategory(cat_id, cat_name) {
+    setMessageModal('Supprimer la catégorie "' + cat_name + '" ?');
+    setTextButtonConfirm('Confirmer');
+    setImageModal('../images/icons/trash_dirty.png');
+    setSender('deleteCategory');
+    setTmp_parameter(cat_id);
+    setShowModalConfirm(true);
+  }; // delete one category
+
+
+  var deleteCategory = function deleteCategory(cat_id) {
+    axios__WEBPACK_IMPORTED_MODULE_3___default()["delete"]("http://127.0.0.1:8000/categories/".concat(cat_id)).then(function (res) {
+      setShowCategorySelect(false);
+      setMessageModal('Suppression réussie');
+      setTextButtonConfirm('Fermer');
+      setImageModal('../images/icons/trash.png');
+      setShowModalConfirm(true); // chargement des collections
+
+      axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
+        setCategoriesList(res.data);
+      })["catch"](function (error) {
+        console.log('error:   ' + error);
+      });
+      setCategoryName('Aucune catégorie');
+    })["catch"](function (error) {
+      console.log('error:   ' + error);
+    });
+  }; // update one category
+
+
+  var updateCategory = function updateCategory() {
+    if (inputTextModify != '' && inputTextModify.length >= 3) {
+      // au cas où le nouveau nom est vide ou < 3
+      axios__WEBPACK_IMPORTED_MODULE_3___default().put("http://127.0.0.1:8000/categories/".concat(categoryId), {
+        name: inputTextModify
+      }).then(function (res) {
+        setNewCategoryNameUseInMessage(inputTextModify + ' à été enregistrée'); // message affiché après modification de la category
+
+        setNewCategorySucces(true);
+        setTimeout(hideMessageSucces, 4000);
+        console.log('res.data  --->  ok');
+      })["catch"](function (error) {
+        console.log('error:   ' + error);
+      }); // chargement des collections
+
+      axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
+        setCategoriesList(res.data);
+      })["catch"](function (error) {
+        console.log('error:   ' + error);
+      });
+      setShowModalInput(false);
+      setCategoryName('Aucune catégorie');
+      setInputTextModify('');
+    } else {
+      // warning new modified category name is empty
+      setMessageModal('Le nouveau nom de catégorie doit contenir au moins trois caractères');
+    }
+  }; // ferme le select de category quand on click en dehors du select
+
+
+  document.addEventListener("click", function (evt) {
+    var categorySelectElement = document.getElementById("categorySelect");
+    var targetElement = evt.target; // clicked element
+
+    do {
+      if (targetElement == categorySelectElement) {
+        // click inside
+        return;
+      } // Go up the DOM
+
+
+      targetElement = targetElement.parentNode;
+    } while (targetElement); // click outside.
+
+
+    setShowCategorySelect(false);
+  });
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      className: "div-vert-align",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        className: "div-label-inputTxt",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h2", {
+          children: "Cat\xE9gorie"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("p", {
+          children: ["Attribuer une cat\xE9gorie \xE0 cette collection. (", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("strong", {
+            children: "*optionnel"
+          }), ")"]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+          className: "categorySelect",
+          id: "categorySelect",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("button", {
+            className: "btn-select-category",
+            onClick: showHideCategorySelect,
+            children: [categoryName.length > 25 ? categoryName.substring(0, 25) + '...' : categoryName, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
+              className: "fas fa-angle-down"
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("ul", {
+            className: "ul-category dropable",
+            id: "category_select",
+            children: [categoryName != 'Aucune catégorie' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
+              className: "li-category",
+              onClick: function onClick() {
+                handleCategory(0), handleCategoryName('Aucune catégorie');
+              },
+              children: "Aucune cat\xE9gorie"
+            }), categoriesList.map(function (cat, index) {
+              return cat.name != categoryName && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("li", {
+                className: "li-category",
+                onClick: function onClick() {
+                  handleCategory(cat.id);
+                  handleCategoryName(cat.name);
+                },
+                children: [cat.name.length > 25 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+                  children: cat.name.substring(0, 25) + '...'
+                }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+                  children: cat.name
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
+                    className: "fas fa-recycle",
+                    onClick: function onClick() {
+                      handleCategory(cat.id);
+                      handleShowModalInput();
+                    }
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
+                    className: "far fa-trash-alt",
+                    onClick: function onClick() {
+                      return confirmDeleteCategory(cat.id, cat.name);
+                    }
+                  })]
+                })]
+              }, index);
+            })]
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("p", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("a", {
+            href: "#",
+            children: "Plus d'informations sur les cat\xE9gories."
+          })
+        }), newCategorySucces && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("p", {
+          className: "succesMessage",
+          children: ["La cat\xE9gorie ", newCategoryNameUseInMessage]
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("p", {
+        className: "pos-abs-bot-rig-15",
+        onClick: function onClick(e) {
+          handleShowCreateCategory(e);
+        },
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("a", {
+          href: "",
+          children: linkCreateCategory
+        })
+      }), showCreateCategory && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        className: "sub-div-vert-alogn",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("label", {
+          children: "Nom de la cat\xE9gorie"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
+          type: "text",
+          value: newCategoryName,
+          onChange: handleNewCategoryName,
+          maxLength: "255",
+          placeholder: "Entrez un nom"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+          className: "btn-bcknd",
+          onClick: saveNewCategory,
+          children: "Sauvegarder"
+        })]
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_modal_modalInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      show: showModalInput,
+      updateCategory: updateCategory,
+      handleModalCancel: handleModalCancel,
+      setInputTextModify: setInputTextModify,
+      inputTextModify: inputTextModify,
+      image: '../images/icons/changeCategory.png',
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h2", {
+        className: "childrenModal",
+        children: messageModal
+      })
+    })]
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Categories);
+
+/***/ }),
+
 /***/ "./resources/js/components/collections/conditionCollection.jsx":
 /*!*********************************************************************!*\
   !*** ./resources/js/components/collections/conditionCollection.jsx ***!
@@ -23570,6 +24081,117 @@ var Conditions = function Conditions() {
 
 /***/ }),
 
+/***/ "./resources/js/components/collections/image.jsx":
+/*!*******************************************************!*\
+  !*** ./resources/js/components/collections/image.jsx ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
+/* harmony import */ var _contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../contexts/CollectionContext */ "./resources/js/components/contexts/CollectionContext.jsx");
+/* harmony import */ var _tools_dropZone__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../tools/dropZone */ "./resources/js/components/tools/dropZone.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+
+
+var Image = function Image() {
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
+      image = _useContext.image,
+      setImage = _useContext.setImage;
+
+  var _useContext2 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_2__["default"]),
+      imageName = _useContext2.imageName,
+      setImageName = _useContext2.setImageName,
+      alt = _useContext2.alt,
+      setAlt = _useContext2.setAlt; // save image from dirty page in temporary_storages db
+  // useEffect(() => {
+  //     saveInTemporaryStorage('tmp_imageCollection', image);
+  // }, [image]);
+
+
+  var handleAlt = function handleAlt(e) {
+    setAlt(e.target.value);
+    localStorage.setItem("altCollection", e.target.value);
+  };
+
+  var handleImageName = function handleImageName(e) {
+    setImageName(e.target.value);
+    localStorage.setItem("imageName", e.target.value);
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      className: "div-vert-align",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        className: "div-label-inputTxt",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h2", {
+          children: "Image"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
+          children: "Ajouter une image pour cette collection. (*optionnel)"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_tools_dropZone__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          multiple: false,
+          setImage: setImage
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        className: "sub-div-vert-align",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          className: "div-label-inputTxt",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+            className: "sub-div-horiz-align",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
+              children: "Texte alternatif (*optionnel) "
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
+              className: "fas fa-question-circle tooltip",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+                className: "tooltiptext",
+                children: "Ajouter une br\xE8ve description de l'image ex. \"Jeans noir avec fermeture \xE9clair\". Ceci am\xE9liore l'accessibilit\xE9 et le r\xE9f\xE9rencement de votre boutique."
+              })
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+            type: "text",
+            name: "alt",
+            value: alt,
+            onChange: handleAlt
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          className: "div-label-inputTxt",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+            className: "sub-div-horiz-align",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
+              children: "Changer le nom de l'image (*optionnel) "
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
+              className: "fas fa-question-circle tooltip",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+                className: "tooltiptext",
+                children: "Donnez un nom en rapport avec le contenu de l'image. Ceci am\xE9liore le r\xE9f\xE9rencement de votre boutique dans les recherches par image."
+              })
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+            type: "text",
+            name: "imgColection",
+            value: imageName,
+            onChange: handleImageName
+          })]
+        })]
+      })]
+    })
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Image);
+
+/***/ }),
+
 /***/ "./resources/js/components/collections/index.jsx":
 /*!*******************************************************!*\
   !*** ./resources/js/components/collections/index.jsx ***!
@@ -23584,21 +24206,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
 /* harmony import */ var _contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../contexts/CollectionContext */ "./resources/js/components/contexts/CollectionContext.jsx");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
-/* harmony import */ var _conditions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./conditions */ "./resources/js/components/collections/conditions.jsx");
-/* harmony import */ var _optimisation__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./optimisation */ "./resources/js/components/collections/optimisation.jsx");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _tools_dropZone__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../tools/dropZone */ "./resources/js/components/tools/dropZone.jsx");
-/* harmony import */ var _modal_modalConfirm__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../modal/modalConfirm */ "./resources/js/components/modal/modalConfirm.jsx");
-/* harmony import */ var _modal_modalSimpleMessage__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../modal/modalSimpleMessage */ "./resources/js/components/modal/modalSimpleMessage.jsx");
-/* harmony import */ var _modal_modalInput__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../modal/modalInput */ "./resources/js/components/modal/modalInput.jsx");
-/* harmony import */ var _hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../hooks/useLocalStorage */ "./resources/js/components/hooks/useLocalStorage.jsx");
-/* harmony import */ var flatpickr_dist_themes_material_blue_css__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! flatpickr/dist/themes/material_blue.css */ "./node_modules/flatpickr/dist/themes/material_blue.css");
-/* harmony import */ var react_flatpickr__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-flatpickr */ "./node_modules/react-flatpickr/build/index.js");
-/* harmony import */ var _tinyEditor__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./tinyEditor */ "./resources/js/components/collections/tinyEditor.jsx");
-/* harmony import */ var _functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../functions/temporaryStorage/saveInTemporaryStorage */ "./resources/js/components/functions/temporaryStorage/saveInTemporaryStorage.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../hooks/useLocalStorage */ "./resources/js/components/hooks/useLocalStorage.jsx");
+/* harmony import */ var _modal_modalConfirm__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../modal/modalConfirm */ "./resources/js/components/modal/modalConfirm.jsx");
+/* harmony import */ var _modal_modalSimpleMessage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../modal/modalSimpleMessage */ "./resources/js/components/modal/modalSimpleMessage.jsx");
+/* harmony import */ var _conditions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./conditions */ "./resources/js/components/collections/conditions.jsx");
+/* harmony import */ var _optimisation__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./optimisation */ "./resources/js/components/collections/optimisation.jsx");
+/* harmony import */ var _categories__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./categories */ "./resources/js/components/collections/categories.jsx");
+/* harmony import */ var _activation__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./activation */ "./resources/js/components/collections/activation.jsx");
+/* harmony import */ var _image__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./image */ "./resources/js/components/collections/image.jsx");
+/* harmony import */ var _tinyEditor__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./tinyEditor */ "./resources/js/components/collections/tinyEditor.jsx");
+/* harmony import */ var _functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../functions/temporaryStorage/saveInTemporaryStorage */ "./resources/js/components/functions/temporaryStorage/saveInTemporaryStorage.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -23628,13 +24248,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
-
-
 var CreateCollection = function CreateCollection() {
-  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_16__.useNavigate)(); // form-------------------------------------------------------------------
-
-  var _useLocalStorage = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("conditions", [{
+  // form-------------------------------------------------------------------
+  var _useLocalStorage = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_4__.useLocalStorage)("conditions", [{
     id: 0,
     parameter: '1',
     operator: '1',
@@ -23644,7 +24260,7 @@ var CreateCollection = function CreateCollection() {
       conditions = _useLocalStorage2[0],
       setConditions = _useLocalStorage2[1];
 
-  var _useLocalStorage3 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("nameCollection", ""),
+  var _useLocalStorage3 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_4__.useLocalStorage)("nameCollection", ""),
       _useLocalStorage4 = _slicedToArray(_useLocalStorage3, 2),
       nameCollection = _useLocalStorage4[0],
       setNameCollection = _useLocalStorage4[1];
@@ -23654,12 +24270,12 @@ var CreateCollection = function CreateCollection() {
       descriptionCollection = _useState2[0],
       setDescriptionCollection = _useState2[1];
 
-  var _useLocalStorage5 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("metaTitle", ""),
+  var _useLocalStorage5 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_4__.useLocalStorage)("metaTitle", ""),
       _useLocalStorage6 = _slicedToArray(_useLocalStorage5, 2),
       metaTitle = _useLocalStorage6[0],
       setMetaTitle = _useLocalStorage6[1];
 
-  var _useLocalStorage7 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("metaDescription", ""),
+  var _useLocalStorage7 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_4__.useLocalStorage)("metaDescription", ""),
       _useLocalStorage8 = _slicedToArray(_useLocalStorage7, 2),
       metaDescription = _useLocalStorage8[0],
       setMetaDescription = _useLocalStorage8[1];
@@ -23669,22 +24285,22 @@ var CreateCollection = function CreateCollection() {
       metaUrl = _useState4[0],
       setMetaUrl = _useState4[1];
 
-  var _useLocalStorage9 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("imageName", ""),
+  var _useLocalStorage9 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_4__.useLocalStorage)("imageName", ""),
       _useLocalStorage10 = _slicedToArray(_useLocalStorage9, 2),
       imageName = _useLocalStorage10[0],
       setImageName = _useLocalStorage10[1];
 
-  var _useLocalStorage11 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("altCollection", ""),
+  var _useLocalStorage11 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_4__.useLocalStorage)("altCollection", ""),
       _useLocalStorage12 = _slicedToArray(_useLocalStorage11, 2),
       alt = _useLocalStorage12[0],
       setAlt = _useLocalStorage12[1];
 
-  var _useLocalStorage13 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)('categoryName', 'Aucune catégorie'),
+  var _useLocalStorage13 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_4__.useLocalStorage)('categoryName', 'Aucune catégorie'),
       _useLocalStorage14 = _slicedToArray(_useLocalStorage13, 2),
       categoryName = _useLocalStorage14[0],
       setCategoryName = _useLocalStorage14[1];
 
-  var _useLocalStorage15 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_10__.useLocalStorage)("categoryId", ""),
+  var _useLocalStorage15 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_4__.useLocalStorage)("categoryId", ""),
       _useLocalStorage16 = _slicedToArray(_useLocalStorage15, 2),
       categoryId = _useLocalStorage16[0],
       setCategoryId = _useLocalStorage16[1];
@@ -23695,72 +24311,41 @@ var CreateCollection = function CreateCollection() {
       setDateField = _useState6[1]; //--------------------------------------------------------------------Form
 
 
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState8 = _slicedToArray(_useState7, 2),
-      isAutoConditions = _useState8[0],
-      setIsAutoConditions = _useState8[1];
+      deleteThisCategory = _useState8[0],
+      setDeleteThisCategory = _useState8[1];
 
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState10 = _slicedToArray(_useState9, 2),
-      notIncludePrevProduct = _useState10[0],
-      setNotIncludePrevProduct = _useState10[1];
+      isAutoConditions = _useState10[0],
+      setIsAutoConditions = _useState10[1];
 
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState12 = _slicedToArray(_useState11, 2),
-      categoriesList = _useState12[0],
-      setCategoriesList = _useState12[1];
+      notIncludePrevProduct = _useState12[0],
+      setNotIncludePrevProduct = _useState12[1];
 
   var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState14 = _slicedToArray(_useState13, 2),
       allConditionsNeeded = _useState14[0],
       setAllConditionsNeeded = _useState14[1];
 
-  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
       _useState16 = _slicedToArray(_useState15, 2),
-      newCategoryName = _useState16[0],
-      setNewCategoryName = _useState16[1];
+      tmp_parameter = _useState16[0],
+      setTmp_parameter = _useState16[1]; // pour stocker provisoirement une variable
+
 
   var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState18 = _slicedToArray(_useState17, 2),
-      showCreateCategory = _useState18[0],
-      setShowCreateCategory = _useState18[1];
+      isDirty = _useState18[0],
+      setIsDirty = _useState18[1];
 
-  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Créer une nouvelle catégorie.'),
+  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState20 = _slicedToArray(_useState19, 2),
-      linkCreateCategory = _useState20[0],
-      setLinkCreateCategory = _useState20[1];
-
-  var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState22 = _slicedToArray(_useState21, 2),
-      newCategorySucces = _useState22[0],
-      setNewCategorySucces = _useState22[1];
-
-  var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState24 = _slicedToArray(_useState23, 2),
-      showCategorySelect = _useState24[0],
-      setShowCategorySelect = _useState24[1];
-
-  var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
-      _useState26 = _slicedToArray(_useState25, 2),
-      tmp_parameter = _useState26[0],
-      setTmp_parameter = _useState26[1]; // pour stocker provisoirement une variable
-
-
-  var _useState27 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState28 = _slicedToArray(_useState27, 2),
-      newCategoryNameUseInMessage = _useState28[0],
-      setNewCategoryNameUseInMessage = _useState28[1]; // pour stocker le nom de la catégorie qui doit être afficher dans le message de confirmation de la creation de la catégorie
-
-
-  var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState30 = _slicedToArray(_useState29, 2),
-      isDirty = _useState30[0],
-      setIsDirty = _useState30[1];
-
-  var _useState31 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState32 = _slicedToArray(_useState31, 2),
-      warningIdCondition = _useState32[0],
-      setWarningIdCondition = _useState32[1]; // remove caracteres unauthorized for url
+      warningIdCondition = _useState20[0],
+      setWarningIdCondition = _useState20[1]; // remove caracteres unauthorized for url
 
 
   var normalizUrl = function normalizUrl(str) {
@@ -23769,8 +24354,25 @@ var CreateCollection = function CreateCollection() {
     urlName = urlName.replace(/[<>\?\.\[\]'"°@\|\\§.,\/#\!\$%\^&\*;:\{\}=\+_`~\(\)]/g, "").replaceAll(/-{2,}/g, '-'); // <-- all ist ok 
 
     return urlName;
-  }; // const editorRef = useRef(null);
+  };
 
+  var handleModalCancel = function handleModalCancel() {
+    setShowModalConfirm(false);
+    setShowModalSimpleMessage(false);
+    setShowModalInput(false);
+  }; // récupère et formatte la date et l'heure de maintenant
+
+
+  var getNow = function getNow() {
+    var now = new Date();
+    var year = now.getFullYear();
+    var month = now.getMonth() + 1;
+    var day = now.getDate();
+    var hour = now.getHours(); // var minute = now.getMinutes(0);
+
+    var localDatetime = (day < 10 ? "0" + day.toString() : day) + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + year + '  ' + (hour < 10 ? "0" + hour.toString() : hour) + ":" + "00";
+    return localDatetime;
+  };
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       image = _useContext.image,
@@ -23819,23 +24421,30 @@ var CreateCollection = function CreateCollection() {
     metaDescription: metaDescription,
     setMetaDescription: setMetaDescription,
     metaUrl: metaUrl,
-    setMetaUrl: setMetaUrl // imageName, setImageName,
-    // alt, setAlt,
-    // categoryName, setCategoryName,
-    // categoryId, setCategoryId,
-    // dateField, setDateField
-
+    setMetaUrl: setMetaUrl,
+    imageName: imageName,
+    setImageName: setImageName,
+    alt: alt,
+    setAlt: setAlt,
+    categoryName: categoryName,
+    setCategoryName: setCategoryName,
+    categoryId: categoryId,
+    setCategoryId: setCategoryId,
+    tmp_parameter: tmp_parameter,
+    setTmp_parameter: setTmp_parameter,
+    handleModalCancel: handleModalCancel,
+    deleteThisCategory: deleteThisCategory,
+    setDeleteThisCategory: setDeleteThisCategory,
+    dateField: dateField,
+    setDateField: setDateField,
+    getNow: getNow
   };
   var formData = new FormData();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    // chargement des collections
-    axios__WEBPACK_IMPORTED_MODULE_5___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
-      setCategoriesList(res.data);
-    })["catch"](function (error) {
-      console.log('error:   ' + error);
-    }); // set date field with localStorage Data
+    // set date field with localStorage Data
+    localStorage.getItem('dateActivation') ? setDateField(localStorage.getItem('dateActivation')) : setDateField(getNow()); // init metaUrl, "useLocalStorage déclenche des erreurs "
 
-    localStorage.getItem('dateActivation') ? setDateField(localStorage.getItem('dateActivation')) : setDateField(getNow()); // check if form is dirty
+    localStorage.getItem('metaUrl') ? setMetaUrl(localStorage.getItem('metaUrl')) : setMetaUrl(window.location.origin + '/'); // check if form is dirty
 
     var conditonDirty = false;
     conditions.forEach(function (condition) {
@@ -23844,240 +24453,24 @@ var CreateCollection = function CreateCollection() {
       }
     });
 
-    if (nameCollection != '' || descriptionCollection != '' || alt != '' || imageName != '' || metaTitle != '' || metaDescription != '' || metaUrl != 'http://127.0.0.1:8000/' || image != '' || categoryName != 'Aucune catégorie' || categoryId != 0 || localStorage.getItem('dateActivation') != null || conditonDirty == true) {
+    if (nameCollection != '' || descriptionCollection != '' || alt != '' || imageName != '' || metaTitle != '' || metaDescription != '' || metaUrl != window.location.origin + '/' || image != '' || categoryName != 'Aucune catégorie' || categoryId != 0 || localStorage.getItem('dateActivation') != null || conditonDirty == true) {
       setIsDirty(true);
     } // set le l'URL de cette page
 
 
     var path = window.location.pathname.replace('admin/', '');
-    setFollowThisLink(path); // évite error quand on passe à un autre component
+    setFollowThisLink(path);
+  }, []); // save image from dirty page in temporary_storages db
 
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.Fragment, {
-      children: categoriesList ? categoriesList : ''
-    });
-  }, []); // récupère et formatte la date et l'heure de maintenant
-
-  var getNow = function getNow() {
-    var now = new Date();
-    var year = now.getFullYear();
-    var month = now.getMonth() + 1;
-    var day = now.getDate();
-    var hour = now.getHours(); // var minute = now.getMinutes(0);
-
-    var localDatetime = (day < 10 ? "0" + day.toString() : day) + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + year + '  ' + (hour < 10 ? "0" + hour.toString() : hour) + ":" + "00";
-    return localDatetime;
-  };
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    (0,_functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_13__.saveInTemporaryStorage)('tmp_imageCollection', image);
+  }, [image]);
 
   var handleNameCollection = function handleNameCollection(e) {
     setNameCollection(e.target.value);
     localStorage.setItem("nameCollection", e.target.value);
-  }; // IMAGE -------------------------------------------------------------------
-  // save image from dirty page in temporary_storages db
+  }; //ModalConfirm--------------------------------------------------------------
 
-
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    (0,_functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_14__.saveInTemporaryStorage)('tmp_imageCollection', image);
-  }, [image]);
-
-  var handleAlt = function handleAlt(e) {
-    setAlt(e.target.value);
-    localStorage.setItem("altCollection", e.target.value);
-  };
-
-  var handleImageName = function handleImageName(e) {
-    setImageName(e.target.value);
-    localStorage.setItem("imageName", e.target.value);
-  }; //---------------------------------------------------------------------IMAGE
-  // CATEGORY ----------------------------------------------------------------
-  // show hide select menu
-
-
-  var showHideCategorySelect = function showHideCategorySelect() {
-    setShowCategorySelect(!showCategorySelect);
-  };
-
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    // dropDown optimisation
-    var dropable = document.getElementById('category_select');
-
-    if (!showCategorySelect) {
-      // cache borders sinon y a un bout qui reste visible
-      setTimeout(function () {
-        dropable.style.borderLeft = 'none';
-        dropable.style.borderRight = 'none';
-        dropable.style.borderBottom = 'none';
-      }, 250);
-      dropable.style.maxHeight = null;
-      dropable.style.paddingTop = 0;
-    } else {
-      dropable.style.maxHeight = "250px";
-      dropable.style.paddingTop = "5px"; // montre les borders quand ouvert seulement
-
-      dropable.style.borderLeft = 'rgb(220, 220, 220) solid 1px';
-      dropable.style.borderRight = 'rgb(220, 220, 220) solid 1px';
-      dropable.style.borderBottom = 'rgb(220, 220, 220) solid 1px';
-    }
-  }, [showCategorySelect]); // get id for back-end
-
-  var handleCategory = function handleCategory(cat_id) {
-    setCategoryId(cat_id);
-    setShowCategorySelect(false);
-    localStorage.setItem("categoryId", cat_id);
-  }; // nom affiché dans le select
-
-
-  var handleCategoryName = function handleCategoryName(cat_name) {
-    setCategoryName(cat_name);
-    localStorage.setItem("categoryName", cat_name);
-  }; // show/hide input create new category
-
-
-  var handleShowCreateCategory = function handleShowCreateCategory(e) {
-    e.preventDefault(); // test du toggle avant le setShowCreateCategory pcq il faut se baser sur le précédent état de showCreateCategory qui a un temps de retard au moment où on exécute cette fonction
-
-    if (showCreateCategory == false) {
-      // au lieu de true
-      setLinkCreateCategory('Annuler');
-    }
-
-    if (showCreateCategory == true) {
-      // au lieu de false
-      setLinkCreateCategory('Créer une nouvelle catégorie.');
-    }
-
-    setShowCreateCategory(!showCreateCategory);
-  }; // show modalInput
-
-
-  var handleShowModalInput = function handleShowModalInput() {
-    setMessageModal('Entrez le nouveau nom de la catégorie');
-    setShowModalInput(!showModalInput);
-  };
-
-  var handleNewCategoryName = function handleNewCategoryName(e) {
-    setNewCategoryName(e.target.value);
-  }; // add one category
-
-
-  var saveNewCategory = function saveNewCategory() {
-    if (newCategoryName != '' && newCategoryName.length >= 3) {
-      // au cas où le nouveau nom est vide ou < 3
-      axios__WEBPACK_IMPORTED_MODULE_5___default().post("http://127.0.0.1:8000/categories", {
-        name: newCategoryName
-      }).then(function (res) {
-        setNewCategoryNameUseInMessage(newCategoryName + ' à été ajoutée'); // message affiché après création de la category
-
-        setShowCreateCategory(false); // hide input create new category
-
-        setLinkCreateCategory('Créer une nouvelle catégorie.'); // text link create new category
-
-        setNewCategoryName(''); // reset newCategoryName
-
-        setNewCategorySucces(true); // show succes message
-
-        setTimeout(hideMessageSucces, 4000); // during 4 secondes
-
-        console.log('res.data  --->  ok');
-      })["catch"](function (error) {
-        console.log('error:   ' + error);
-      }); // chargement des collections
-
-      axios__WEBPACK_IMPORTED_MODULE_5___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
-        setCategoriesList(res.data);
-      })["catch"](function (error) {
-        console.log('error:   ' + error);
-      });
-    } else {
-      // warning new category name is empty
-      setMessageModal('Le nouveau nom de catégorie doit contenir au moins trois caractères');
-      setShowModalConfirm(true); // show modalConfirm
-    }
-  }; // hide les méssages de succes apès 4 secondes
-
-
-  var hideMessageSucces = function hideMessageSucces() {
-    setNewCategorySucces(false);
-  }; // confirm delete one category
-
-
-  var confirmDeleteCategory = function confirmDeleteCategory(cat_id, cat_name) {
-    setMessageModal('Supprimer la catégorie "' + cat_name + '" ?');
-    setTextButtonConfirm('Confirmer');
-    setImageModal('../images/icons/trash_dirty.png');
-    setSender('deleteCategory');
-    setTmp_parameter(cat_id);
-    setShowModalConfirm(true);
-  }; // delete one category
-
-
-  var deleteCategory = function deleteCategory(cat_id) {
-    axios__WEBPACK_IMPORTED_MODULE_5___default()["delete"]("http://127.0.0.1:8000/categories/".concat(cat_id)).then(function (res) {
-      setShowCategorySelect(false);
-      setMessageModal('Suppression réussie');
-      setTextButtonConfirm('Fermer');
-      setImageModal('../images/icons/trash.png');
-      setShowModalConfirm(true); // chargement des collections
-
-      axios__WEBPACK_IMPORTED_MODULE_5___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
-        setCategoriesList(res.data);
-      })["catch"](function (error) {
-        console.log('error:   ' + error);
-      });
-      setCategoryName('Aucune catégorie');
-    })["catch"](function (error) {
-      console.log('error:   ' + error);
-    });
-  }; // update one category
-
-
-  var updateCategory = function updateCategory() {
-    if (inputTextModify != '' && inputTextModify.length >= 3) {
-      // au cas où le nouveau nom est vide ou < 3
-      axios__WEBPACK_IMPORTED_MODULE_5___default().put("http://127.0.0.1:8000/categories/".concat(categoryId), {
-        name: inputTextModify
-      }).then(function (res) {
-        setNewCategoryNameUseInMessage(inputTextModify + ' à été enregistrée'); // message affiché après modification de la category
-
-        setNewCategorySucces(true);
-        setTimeout(hideMessageSucces, 4000);
-        console.log('res.data  --->  ok');
-      })["catch"](function (error) {
-        console.log('error:   ' + error);
-      }); // chargement des collections
-
-      axios__WEBPACK_IMPORTED_MODULE_5___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
-        setCategoriesList(res.data);
-      })["catch"](function (error) {
-        console.log('error:   ' + error);
-      });
-      setShowModalInput(false);
-      setCategoryName('Aucune catégorie');
-      setInputTextModify('');
-    } else {
-      // warning new modified category name is empty
-      setMessageModal('Le nouveau nom de catégorie doit contenir au moins trois caractères');
-    }
-  }; // ferme le select de category quand on click en dehors du select
-
-
-  document.addEventListener("click", function (evt) {
-    var categorySelectElement = document.getElementById("categorySelect");
-    var targetElement = evt.target; // clicked element
-
-    do {
-      if (targetElement == categorySelectElement) {
-        // click inside
-        return;
-      } // Go up the DOM
-
-
-      targetElement = targetElement.parentNode;
-    } while (targetElement); // click outside.
-
-
-    setShowCategorySelect(false);
-  }); //------------------------------------------------------------------Category
-  //ModalConfirm--------------------------------------------------------------
 
   var handleModalConfirm = function handleModalConfirm() {
     setShowModalConfirm(false);
@@ -24085,7 +24478,7 @@ var CreateCollection = function CreateCollection() {
     switch (sender) {
       case 'deleteCategory':
         // if confirm delete
-        deleteCategory(tmp_parameter);
+        setDeleteThisCategory(tmp_parameter);
         break;
 
       case 'initCollectionForm':
@@ -24095,12 +24488,6 @@ var CreateCollection = function CreateCollection() {
       default:
         '';
     }
-  };
-
-  var handleModalCancel = function handleModalCancel() {
-    setShowModalConfirm(false);
-    setShowModalSimpleMessage(false);
-    setShowModalInput(false);
   }; //--------------------------------------------------------------ModalConfirm
   // Reset Form---------------------------------------------------------------
   // confirm reinitialisatio form
@@ -24138,7 +24525,7 @@ var CreateCollection = function CreateCollection() {
 
     var imageData = new FormData();
     imageData.append('key', 'tmp_imageCollection');
-    axios__WEBPACK_IMPORTED_MODULE_5___default().post("http://127.0.0.1:8000/deleteTemporayStoredImages", imageData).then(function (res) {
+    axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/deleteTemporayStoredImages", imageData).then(function (res) {
       console.log('res.data  --->  ok');
     }); // éfface l'image de la dropZone
 
@@ -24230,7 +24617,7 @@ var CreateCollection = function CreateCollection() {
   function cleanTemporayStorage(key) {
     var toDelete = new FormData();
     toDelete.append('key', key);
-    axios__WEBPACK_IMPORTED_MODULE_5___default().post("http://127.0.0.1:8000/cleanTemporayStorage", toDelete, {
+    axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/cleanTemporayStorage", toDelete, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -24258,7 +24645,7 @@ var CreateCollection = function CreateCollection() {
       formData.append("alt", alt);
       formData.append("imageName", imageName);
       formData.append('key', 'tmp_imageCollection');
-      axios__WEBPACK_IMPORTED_MODULE_5___default().post("http://127.0.0.1:8000/save-collection", formData, {
+      axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/save-collection", formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -24271,270 +24658,61 @@ var CreateCollection = function CreateCollection() {
     }
   }
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
     className: "collection-main-container",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)(_contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_2__["default"].Provider, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(_contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_2__["default"].Provider, {
       value: collectionContextValue,
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
         className: "collection-block-container",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
           className: "div-vert-align",
-          children: [isDirty && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("button", {
+          children: [isDirty && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("button", {
             className: "btn-effacer-tout",
             onClick: confirmInitCollectionForm,
             children: "R\xE9initialiser"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
             className: "div-label-inputTxt",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h2", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h2", {
               children: "Nom de la collection"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("input", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("input", {
               type: "text",
               id: "titreCollection",
               value: nameCollection,
               onChange: handleNameCollection
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
             className: "div-label-inputTxt",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h2", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h2", {
               children: "Description (optionnel)"
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_tinyEditor__WEBPACK_IMPORTED_MODULE_13__["default"], {})]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_conditions__WEBPACK_IMPORTED_MODULE_3__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_optimisation__WEBPACK_IMPORTED_MODULE_4__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_tinyEditor__WEBPACK_IMPORTED_MODULE_12__["default"], {})]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_conditions__WEBPACK_IMPORTED_MODULE_7__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_optimisation__WEBPACK_IMPORTED_MODULE_8__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
           className: "div-label-inputTxt",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("button", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("button", {
             className: "btn-submit",
             onClick: handleSubmit,
             children: "Enregistrer"
           })
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
         className: "side-create-collection",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
-          className: "div-vert-align",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
-            className: "div-label-inputTxt",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h2", {
-              children: "Image"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("p", {
-              children: "Ajouter une image pour cette collection. (*optionnel)"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_tools_dropZone__WEBPACK_IMPORTED_MODULE_6__["default"], {
-              multiple: false,
-              setImage: setImage
-            })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
-            className: "sub-div-vert-align",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
-              className: "div-label-inputTxt",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
-                className: "sub-div-horiz-align",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("label", {
-                  children: "Texte alternatif (*optionnel) "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("i", {
-                  className: "fas fa-question-circle tooltip",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("span", {
-                    className: "tooltiptext",
-                    children: "Ajouter une br\xE8ve description de l'image ex. \"Jeans noir avec fermeture \xE9clair\". Ceci am\xE9liore l'accessibilit\xE9 et le r\xE9f\xE9rencement de votre boutique."
-                  })
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("input", {
-                type: "text",
-                name: "alt",
-                value: alt,
-                onChange: handleAlt
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
-              className: "div-label-inputTxt",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
-                className: "sub-div-horiz-align",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("label", {
-                  children: "Changer le nom de l'image (*optionnel) "
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("i", {
-                  className: "fas fa-question-circle tooltip",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("span", {
-                    className: "tooltiptext",
-                    children: "Donnez un nom en rapport avec le contenu de l'image. Ceci am\xE9liore le r\xE9f\xE9rencement de votre boutique dans les recherches par image."
-                  })
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("input", {
-                type: "text",
-                name: "imgColection",
-                value: imageName,
-                onChange: handleImageName
-              })]
-            })]
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
-          className: "div-vert-align",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
-            className: "div-label-inputTxt",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h2", {
-              children: "Cat\xE9gorie"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("p", {
-              children: ["Attribuer une cat\xE9gorie \xE0 cette collection. (", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("strong", {
-                children: "*optionnel"
-              }), ")"]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
-              className: "categorySelect",
-              id: "categorySelect",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("button", {
-                className: "btn-select-category",
-                onClick: showHideCategorySelect,
-                children: [categoryName.length > 25 ? categoryName.substring(0, 25) + '...' : categoryName, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("i", {
-                  className: "fas fa-angle-down"
-                })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("ul", {
-                className: "ul-category dropable",
-                id: "category_select",
-                children: [categoryName != 'Aucune catégorie' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("li", {
-                  className: "li-category",
-                  onClick: function onClick() {
-                    handleCategory(0), handleCategoryName('Aucune catégorie');
-                  },
-                  children: "Aucune cat\xE9gorie"
-                }), categoriesList.map(function (cat, index) {
-                  return cat.name != categoryName && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("li", {
-                    className: "li-category",
-                    onClick: function onClick() {
-                      handleCategory(cat.id);
-                      handleCategoryName(cat.name);
-                    },
-                    children: [cat.name.length > 25 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("span", {
-                      children: cat.name.substring(0, 25) + '...'
-                    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("span", {
-                      children: cat.name
-                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("i", {
-                        className: "fas fa-recycle",
-                        onClick: function onClick() {
-                          handleCategory(cat.id);
-                          handleShowModalInput();
-                        }
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("i", {
-                        className: "far fa-trash-alt",
-                        onClick: function onClick() {
-                          return confirmDeleteCategory(cat.id, cat.name);
-                        }
-                      })]
-                    })]
-                  }, index);
-                })]
-              })]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("p", {
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("a", {
-                href: "#",
-                children: "Plus d'informations sur les cat\xE9gories."
-              })
-            }), newCategorySucces && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("p", {
-              className: "succesMessage",
-              children: ["La cat\xE9gorie ", newCategoryNameUseInMessage]
-            })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("p", {
-            className: "pos-abs-bot-rig-15",
-            onClick: function onClick(e) {
-              handleShowCreateCategory(e);
-            },
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("a", {
-              href: "",
-              children: linkCreateCategory
-            })
-          }), showCreateCategory && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
-            className: "sub-div-vert-alogn",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("label", {
-              children: "Nom de la cat\xE9gorie"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("input", {
-              type: "text",
-              value: newCategoryName,
-              onChange: handleNewCategoryName,
-              maxLength: "255",
-              placeholder: "Entrez un nom"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("button", {
-              className: "btn-bcknd",
-              onClick: saveNewCategory,
-              children: "Sauvegarder"
-            })]
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
-          className: "div-vert-align",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
-            className: "div-label-inputTxt",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h2", {
-              children: "Activation"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
-              className: "sub-div-horiz-align",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
-                className: "sub-div-vert-align",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("p", {
-                  children: "Date"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(react_flatpickr__WEBPACK_IMPORTED_MODULE_12__["default"], {
-                  id: "activationDate",
-                  "data-enable-time": true,
-                  placeholder: dateField,
-                  position: "auto center",
-                  options: {
-                    minDate: 'today',
-                    altInput: false,
-                    disableMobile: "true",
-                    locale: {
-                      weekdays: {
-                        shorthand: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"]
-                      },
-                      months: {
-                        shorthand: ["Jan", "Fév", "Mars", "Avr", "Mai", "Juin", "Juil", "Aout", "Sep", "Oct", "Nov", "Déc"],
-                        longhand: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"]
-                      },
-                      firstDayOfWeek: 0
-                    },
-                    dateFormat: "d-m-Y H:00",
-                    time_24hr: true,
-                    minuteIncrement: 60
-                  },
-                  value: "",
-                  onChange: function onChange(selectedDates, dateStr, instance) {
-                    var day = selectedDates[0].getDate();
-                    var month = selectedDates[0].getMonth() + 1;
-                    var year = selectedDates[0].getFullYear();
-                    var hour = selectedDates[0].getHours();
-                    var dateActivation = (day < 10 ? "0" + day.toString() : day) + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + year + "  " + (hour < 10 ? "0" + hour.toString() : hour);
-                    setDateField(dateActivation);
-                    localStorage.setItem("dateActivation", dateActivation);
-                  }
-                })]
-              })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("p", {
-              children: [" ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("a", {
-                href: "#",
-                children: "Plus d'informations sur l'activation des collections."
-              })]
-            })]
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_modal_modalConfirm__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_image__WEBPACK_IMPORTED_MODULE_11__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_categories__WEBPACK_IMPORTED_MODULE_9__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_activation__WEBPACK_IMPORTED_MODULE_10__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_modal_modalConfirm__WEBPACK_IMPORTED_MODULE_5__["default"], {
           show: showModalConfirm // true/false show modal
           ,
           handleModalConfirm: handleModalConfirm,
           handleModalCancel: handleModalCancel,
           textButtonConfirm: textButtonConfirm,
           image: imageModal,
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h2", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h2", {
             className: "childrenModal",
             children: messageModal
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_modal_modalInput__WEBPACK_IMPORTED_MODULE_9__["default"], {
-          show: showModalInput,
-          updateCategory: updateCategory,
-          handleModalCancel: handleModalCancel,
-          setInputTextModify: setInputTextModify,
-          inputTextModify: inputTextModify,
-          image: '../images/icons/changeCategory.png',
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h2", {
-            className: "childrenModal",
-            children: messageModal
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_modal_modalSimpleMessage__WEBPACK_IMPORTED_MODULE_8__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_modal_modalSimpleMessage__WEBPACK_IMPORTED_MODULE_6__["default"], {
           show: showModalSimpleMessage // true/false show modal
           ,
           handleModalCancel: handleModalCancel,
           image: imageModal,
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h2", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h2", {
             className: "childrenModal",
             children: messageModal
           })
@@ -24710,10 +24888,8 @@ var Optimisation = function Optimisation() {
       } else {
         setIsShowOptimisation(true);
       }
-    } // init metaUrl, "useLocalStorage déclenche des erreurs "
+    } // affiche en rouge un avertissement sur la longeur du méta title
 
-
-    localStorage.getItem('metaUrl') ? setMetaUrl(localStorage.getItem('metaUrl')) : setMetaUrl(window.location.origin + '/'); // affiche en rouge un avertissement sur la longeur du méta title
 
     if (localStorage.getItem('metaTitle').length > 50) {
       setMetaTitleBiggerThan50(true);
@@ -25037,10 +25213,10 @@ var Tinyeditor = function Tinyeditor() {
 
     var imgs = Div.getElementsByTagName('img');
     var img_dom_tab = Array.from(imgs);
-    var base_url = window.location.origin;
-    var img_dom_tab_src = [];
+    var img_dom_tab_src = []; // <-- contiendra toutes les src des images dans Editor
+
     img_dom_tab.forEach(function (image) {
-      return img_dom_tab_src.push(image.src.replace(base_url, ''));
+      return img_dom_tab_src.push(image.src.replace(window.location.origin, ''));
     }); // check if is a base64 file
 
     var noDataImage = img_dom_tab_src.every(function (src) {
@@ -25252,8 +25428,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var _React$createContext;
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createContext({
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createContext((_React$createContext = {
   nameCollection: '',
   setNameCollection: function setNameCollection() {},
   descriptionCollection: '',
@@ -25272,10 +25452,15 @@ __webpack_require__.r(__webpack_exports__);
   setCategoryName: function setCategoryName() {},
   categoryId: '',
   setCategoryId: function setCategoryId() {},
+  tmp_parameter: '',
+  setTmp_parameter: function setTmp_parameter() {},
   dateField: '',
   setDateField: function setDateField() {},
-  normalizUrl: function normalizUrl() {}
-}));
+  normalizUrl: function normalizUrl() {},
+  handleModalCancel: function handleModalCancel() {},
+  deleteThisCategory: '',
+  setDeleteThisCategory: function setDeleteThisCategory() {}
+}, _defineProperty(_React$createContext, "dateField", ''), _defineProperty(_React$createContext, "setDateField", function setDateField() {}), _defineProperty(_React$createContext, "getNow", function getNow() {}), _React$createContext)));
 
 /***/ }),
 
@@ -28910,12 +29095,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
-/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../functions/temporaryStorage/saveInTemporaryStorage */ "./resources/js/components/functions/temporaryStorage/saveInTemporaryStorage.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -28936,7 +29122,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
 
-var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_4__["default"])({
+
+var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_5__["default"])({
   wrapperForm: {
     width: '100%',
     overflow: 'hidden',
@@ -29003,7 +29190,7 @@ var DropZone = function DropZone(props) {
       setShowModalSimpleMessage = _useContext.setShowModalSimpleMessage,
       setMessageModal = _useContext.setMessageModal;
 
-  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_5__.useNavigate)();
+  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_6__.useNavigate)();
   var dropRegion = null;
   var imagePreviewRegion = null;
   var tab = [];
@@ -29044,7 +29231,7 @@ var DropZone = function DropZone(props) {
     dropRegion.addEventListener('drop', unhighlight, false);
   }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    // get dirty page image from temporary_storages db if exist
+    // saveInTemporaryStorage('tmp_imageCollection', image);
     try {
       axios__WEBPACK_IMPORTED_MODULE_1___default().get("http://127.0.0.1:8000/getSingleTemporaryImage").then(function (res) {
         if (res.data !== undefined) {
@@ -29249,39 +29436,39 @@ var DropZone = function DropZone(props) {
     return 'draggable' in div || 'ondragstart' in div && 'ondrop' in div;
   }
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: classes.wrapperForm,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         id: "drop-region-dropZone",
         className: classes.drop_region,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
           className: classes.drop_message,
           id: "drop-message-dropZone",
-          children: ["D\xE9posez ici une image ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("br", {}), "ou cliquez pour charger une image"]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          children: ["D\xE9posez ici une image ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("br", {}), "ou cliquez pour charger une image"]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
           id: "image-preview-dropZone"
         })]
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("span", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("span", {
       className: classes.removeImage,
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("i", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("i", {
         className: "fas fa-crop tooltip",
         onClick: function onClick() {
           return navigate('/cropImage');
         },
-        children: [" ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+        children: [" ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
           className: "tooltiptext",
           children: "Redimensionner l'image"
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
         className: "far fa-trash-alt trash-alt-dropZone tooltip",
         style: {
           display: "block",
           marginLeft: "15px"
         },
         onClick: removeImagePreview,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
           className: "tooltiptext",
           children: "Supprimer l'image"
         })

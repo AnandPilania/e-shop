@@ -26,9 +26,6 @@ const Optimisation = () => {
             }
         }
 
-         // init metaUrl, "useLocalStorage déclenche des erreurs "
-         localStorage.getItem('metaUrl') ? setMetaUrl(localStorage.getItem('metaUrl')) : setMetaUrl(window.location.origin + '/');
-
         // affiche en rouge un avertissement sur la longeur du méta title
         if (localStorage.getItem('metaTitle').length > 50) {
             setMetaTitleBiggerThan50(true);
