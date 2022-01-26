@@ -145,7 +145,7 @@ const Categories = () => {
 
         } else { // warning new category name is empty
 
-            setMessageModal('Le nouveau nom de catégorie doit contenir au moins trois caractères');
+            setMessageModal('Le nom de catégorie doit contenir au moins trois caractères');
             setShowModalConfirm(true); // show modalConfirm
         }
     }

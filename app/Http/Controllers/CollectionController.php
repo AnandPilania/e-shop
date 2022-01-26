@@ -114,9 +114,8 @@ class CollectionController extends Controller
             File::delete(public_path($toDelete->value));
             Temporary_storage::destroy($toDelete->id);
         }
-        $newName = 'new name of image';
-        return $newName;
-        dd($request);
+
+
         // foreach($request->imagesFromTonyMCE as $tinyImage) {
         //     dd($tinyImage);
         // }
@@ -126,6 +125,7 @@ class CollectionController extends Controller
 
         $conditions = json_decode($request->objConditions);
 
+        // dd($conditions);
         foreach ($conditions as $condition) {
 
             $field = '';
@@ -164,41 +164,49 @@ class CollectionController extends Controller
             }
 
             // check de quel operator il s'agit
+            $value = trim($condition->value);
             switch ($condition->operator) {
                 case '1':
-                    $list_match[] = Product::where($field, $condition->value)->get();
+                    // est égale à
+                    $list_match[] = Product::where($field, $value)->get();
                     break;
                 case '2':
-                    $list_match[] = Product::where($field, '!=', $condition->value)->get();
+                    // n'est pas égale à
+                    $list_match[] = Product::where($field, '!=', $value)->get();
                     break;
                 case '3':
-                    $list_match[] = Product::where($field, '>', $condition->value)->get();
+                    // est suppérieur à
+                    $list_match[] = Product::where($field, '>', $value)->get();
                     break;
                 case '4':
-                    $list_match[] = Product::where($field, '<', $condition->value)->get();
+                    // est infèrieur à
+                    $list_match[] = Product::where($field, '<', $value)->get();
                     break;
-                    // commence par
                 case '5':
-                    $list_match[] = Product::where($field, 'like', $condition->value . ' %')->get();
+                    // commence par
+                    $list_match[] = Product::where($field, 'like', $value . ' %')->get();
                     break;
-                    //  se termine par
                 case '6':
-                    $list_match[] = Product::where($field, 'like', '% ' . $condition->value)->get();
+                    //  se termine par
+                    $list_match[] = Product::where($field, 'like', '% ' . $value)->get();
                     break;
-                    // contient
                 case '7':
-                    $list_match[] = Product::where($field, $condition->value)
-                        ->orWhere($field, 'like', $condition->value . ' %')
-                        ->orWhere($field, 'like', '% ' . $condition->value)
-                        ->orWhere($field, 'like', '% ' . $condition->value . ' %')->get();
+                    // contient
+                    $list_match[] = Product::where($field, $value)
+                        ->orWhere($field, 'like', $value . ' %')
+                        ->orWhere($field, 'like', '% ' . $value)
+                        ->orWhere($field, 'like', '% ' . $value . ' %')->get();
                     break;
                 case '8':
-                    $list_match[] = Product::where($field, 'not like', '%' . $condition->value . '%')->get();
+                    // ne contient pas
+                    $list_match[] = Product::where($field, 'not like', '%' . $value . '%')->get();
                     break;
                 case '9':
+                    // n'est pas vide
                     $list_match[] = Product::whereNotNull($field)->where($field, 'not like', '')->get();
                     break;
                 case '10':
+                    // est vide
                     $list_match[] = Product::whereNull($field)->where($field, 'like', '')->get();
                     break;
                 default:
@@ -237,7 +245,8 @@ class CollectionController extends Controller
 
         $collection->save();
 
-        return redirect('/collectionsBackEnd/create')->with('status', 'La collection ' . $collection->name . ' a été ajoutée');
+        $newName = 'new name of image';
+        return $newName;
     }
 
 

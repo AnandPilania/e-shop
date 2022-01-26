@@ -115,29 +115,34 @@ const DropZone = (props) => {
 
     }, []);
 
-    useEffect(() => { 
+    useEffect(() => {
         // saveInTemporaryStorage('tmp_imageCollection', image);
-        try {
-            Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage`)
-                .then(res => {
-                    if (res.data !== undefined) {
-                        // get image path for crop
-                        setImagePath(res.data);
-                        // get image for preview
-                        if (res.data != '') {
-                            fetch(res.data)
-                            .then(function (response) {
-                                return response.blob();
-                            })
-                            .then(function (BlobImage) {
-                                previewImage(BlobImage)
-                            })
-                        }
-                    }
-                });
-        } catch (error) {
-            console.error('error  ' + error);
+        let response = async () => {
+            return saveInTemporaryStorage('tmp_imageCollection', image)
         }
+        response().then(response => {
+            try {
+                Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage`)
+                    .then(res => {
+                        if (res.data !== undefined) {
+                            // get image path for crop
+                            setImagePath(res.data);
+                            // get image for preview
+                            if (res.data != '') {
+                                fetch(res.data)
+                                    .then(function (response) {
+                                        return response.blob();
+                                    })
+                                    .then(function (BlobImage) {
+                                        previewImage(BlobImage)
+                                    })
+                            }
+                        }
+                    });
+            } catch (error) {
+                console.error('error  ' + error);
+            }
+        });
     }, [image]);
 
 

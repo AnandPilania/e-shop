@@ -11,7 +11,6 @@ import Categories from './categories';
 import Activation from './activation';
 import Image from './image';
 import Tinyeditor from './tinyEditor';
-import { saveInTemporaryStorage } from '../functions/temporaryStorage/saveInTemporaryStorage';
 
 
 
@@ -43,6 +42,7 @@ const CreateCollection = () => {
     const [tmp_parameter, setTmp_parameter] = useState(); // pour stocker provisoirement une variable
     const [isDirty, setIsDirty] = useState(false);
     const [warningIdCondition, setWarningIdCondition] = useState([]);
+    const [tinyLanguage, setTinyLanguage] = useState('fr_FR');
 
     // remove caracteres unauthorized for url
     const normalizUrl = (str) => {
@@ -77,40 +77,35 @@ const CreateCollection = () => {
     }
 
     const {
-        image, setImage, followThisLink, setFollowThisLink, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage, showModalCroppeImage, setShowModalCroppeImage,
-        showModalInput, setShowModalInput, messageModal, setMessageModal, sender, setSender, inputTextModify, setInputTextModify,
-        textButtonConfirm, setTextButtonConfirm,
+        image, setImage, setFollowThisLink, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage,
+        setShowModalInput, messageModal, setMessageModal, sender, setSender, textButtonConfirm, setTextButtonConfirm,
         imageModal, setImageModal, darkMode, setDarkMode
     } = useContext(AppContext);
 
     // context de create collection
     const collectionContextValue = {
-        // nameCollection, setNameCollection,
         descriptionCollection, setDescriptionCollection,
-
         conditions, setConditions,
         isAutoConditions, setIsAutoConditions,
         allConditionsNeeded, setAllConditionsNeeded,
         notIncludePrevProduct, setNotIncludePrevProduct,
         warningIdCondition, setWarningIdCondition,
-
         normalizUrl,
         metaTitle, setMetaTitle,
         metaDescription, setMetaDescription,
         metaUrl, setMetaUrl,
-
         imageName, setImageName,
         alt, setAlt,
-
         categoryName, setCategoryName,
         categoryId, setCategoryId,
         tmp_parameter, setTmp_parameter,
         handleModalCancel,
         deleteThisCategory, setDeleteThisCategory,
-
         dateField, setDateField,
-        getNow
+        getNow, tinyLanguage
     }
+
+
 
     var formData = new FormData;
 
@@ -128,7 +123,7 @@ const CreateCollection = () => {
                 conditonDirty = true;
             }
         })
-
+        // check if form is dirty
         if (
             nameCollection != '' ||
             descriptionCollection != '' ||
@@ -146,17 +141,47 @@ const CreateCollection = () => {
             setIsDirty(true);
         }
 
-        // set le l'URL de cette page
+        // set l'URL de cette page
         let path = window.location.pathname.replace('admin/', '');
         setFollowThisLink(path);
 
 
-    }, []);
+        // detection navigator language
+        var userLang = navigator.language || navigator.userLanguage;
+        switch (userLang) {
+            case 'fr':
+                setTinyLanguage('fr_FR');
+                break;
+            case 'en':
+                setTinyLanguage('en_US');
+                break;
+            case 'de':
+                setTinyLanguage('de');
+                break;
+            case 'it':
+                setTinyLanguage('it_IT');
+                break;
+            case 'ar':
+                setTinyLanguage('ar');
+                break;
+            case 'es':
+                setTinyLanguage('es_419');
+                break;
+            case 'pt':
+                setTinyLanguage('pt_BR');
+                break;
+            case 'ru':
+                setTinyLanguage('ru_RU');
+                break;
+            case 'zh-Hans':
+                setTinyLanguage('zh_CN');
+                break;
+            default:
+                setTinyLanguage('fr_FR');
+        }
 
-    // save image from dirty page in temporary_storages db
-    useEffect(() => {
-        saveInTemporaryStorage('tmp_imageCollection', image);
-    }, [image]);
+
+    }, []);
 
     const handleNameCollection = (e) => {
         setNameCollection(e.target.value);
@@ -179,7 +204,6 @@ const CreateCollection = () => {
                 '';
         }
     };
-
     //--------------------------------------------------------------ModalConfirm
 
     // Reset Form---------------------------------------------------------------
@@ -296,15 +320,15 @@ const CreateCollection = () => {
             return false;
         }
 
-        if (nameCollection.length > 0) {
-            document.getElementById('titreCollection').style.border = "solid 1px rgb(220, 220, 220)";
-            return true;
-        } else {
+        if (nameCollection.length < 3) {
             document.getElementById('titreCollection').style.border = "solid 1px rgb(212, 0, 0)";
-            setMessageModal('Le champ Nom de la collection est obligatoire');
+            setMessageModal('Le nom de la collection doit contenir au moins trois caractères');
             setImageModal('../images/icons/trash_dirty.png');
             setShowModalSimpleMessage(true);
             return false;
+        } else {
+            document.getElementById('titreCollection').style.border = "solid 1px rgb(220, 220, 220)";
+            return true;
         }
     }
 
@@ -369,12 +393,15 @@ const CreateCollection = () => {
         <div className="collection-main-container">
             <CollectionContext.Provider value={collectionContextValue}>
                 <div className="collection-block-container">
-                    {/* nom */}
+
                     <div className="div-vert-align">
+                        {/* réinitialisation */}
                         {isDirty && (<button className='btn-effacer-tout'
                             onClick={confirmInitCollectionForm}>
                             Réinitialiser
                         </button>)}
+
+                        {/* nom */}
                         <div className="div-label-inputTxt">
                             <h2>Nom de la collection</h2>
                             <input type='text' id='titreCollection'
@@ -392,7 +419,6 @@ const CreateCollection = () => {
 
                     <Conditions />
 
-
                     <Optimisation />
 
                     {/* submit */}
@@ -403,9 +429,9 @@ const CreateCollection = () => {
                     </div>
                 </div>
 
-
                 {/* ----------  side  ---------- */}
                 <div className='side-create-collection'>
+
                     <Image />
                     <Categories />
                     <Activation />
@@ -427,18 +453,6 @@ const CreateCollection = () => {
                         image={imageModal}>
                         <h2 className="childrenModal">{messageModal}</h2>
                     </ModalSimpleMessage>
-
-
-                    {/* crop image */}
-                    {/* <ModalCroppeImage
-                    show={showModalCroppeImage} // true/false show modal
-                    handleModalCroppeImageCancel={handleModalCroppeImageCancel}
-                    textButtonModalcrop='text1'
-                    textButtonModalcrop2='text2'
-                    imagePath={imagePath}
-                    followThisLink='myLink'>
-                    <h2 className="childrenModal">{messageModal}</h2>
-                </ModalCroppeImage> */}
                 </div>
             </CollectionContext.Provider>
         </div>

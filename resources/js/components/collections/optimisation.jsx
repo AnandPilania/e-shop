@@ -27,17 +27,23 @@ const Optimisation = () => {
         }
 
         // affiche en rouge un avertissement sur la longeur du méta title
-        if (localStorage.getItem('metaTitle').length > 50) {
-            setMetaTitleBiggerThan50(true);
-        } else {
-            setMetaTitleBiggerThan50(false);
+        if (localStorage.getItem('metaDescription') !== null && localStorage.getItem('metaDescription') !== undefined) {
+            if (localStorage.getItem('metaTitle').length > 50) {
+                setMetaTitleBiggerThan50(true);
+            } else {
+                setMetaTitleBiggerThan50(false);
+            }
         }
+
         // affiche en rouge un avertissement sur la longeur de la méta description
-        if (localStorage.getItem('metaDescription').length > 130) {
-            setMetaDescriptionbiggerThan130(true);
-        } else {
-            setMetaDescriptionbiggerThan130(false);
+        if (localStorage.getItem('metaDescription') !== null && localStorage.getItem('metaDescription') !== undefined) {
+            if (localStorage.getItem('metaDescription').length > 130) {
+                setMetaDescriptionbiggerThan130(true);
+            } else {
+                setMetaDescriptionbiggerThan130(false);
+            }
         }
+
 
 
     }, []);
@@ -129,7 +135,7 @@ const Optimisation = () => {
                             style={{ marginBottom: "10px" }}
                             className='btn-bcknd'
                             onClick={initOptimisationForm}>
-                            Annuler
+                            Annuler L'optimisation
                         </button>) :
                         metaTitle.length > 0 ?
                             (<button

@@ -30,6 +30,7 @@ export default React.createContext({
     dateField: '',
     setDateField: () => { },
     getNow: () => { },
+    tinyLangauage: '',
      
     
 

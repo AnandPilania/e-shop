@@ -8,7 +8,7 @@ const useStyles = makeStyles({
         left: '0',
         width: '100%',
         height: ' 100%',
-        background: 'rgba(0, 0, 0, 0.6)',
+        background: 'rgba(255, 255, 255, 0.75)',
         zIndex: '10000000',
     },
 
@@ -26,6 +26,7 @@ const useStyles = makeStyles({
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         borderRadius: '5px',
+        boxShadow: 'rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px',
         zIndex: '10000000',
     },
 

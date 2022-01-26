@@ -22,7 +22,7 @@ class ProductFactory extends Factory
     public function definition()
     {
 
-        $name = $this->faker->sentence(5, true);
+        $name = $this->faker->sentence(3, true);
 
         $link = str_replace(' ', '-', $name);
         $search = array('À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'à', 'á', 'â', 'ã', 'ä', 'å', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ð', 'ò', 'ó', 'ô', 'õ', 'ö', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ');
@@ -32,7 +32,7 @@ class ProductFactory extends Factory
 
         return [
             'name' => $name,
-            'price' => rand(9,50),
+            'price' => rand(1,3),
             'description' => $this->faker->sentence(15, true),
             'link' => $link,
             'best_sell' => 0,

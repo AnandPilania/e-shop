@@ -8,7 +8,7 @@ import { saveInTemporaryStorage } from '../functions/temporaryStorage/saveInTemp
 const Tinyeditor = () => {
 
     const {
-        descriptionCollection, setDescriptionCollection,
+        descriptionCollection, setDescriptionCollection, tinyLanguage
     } = useContext(CollectionContext);
 
     const handleDescriptionCollection = (description) => {
@@ -92,6 +92,7 @@ const Tinyeditor = () => {
     return (
         <div className="sub-div-vert-align">
             <Editor
+                id='tinyEditor'
                 apiKey="859uqxkoeg5bds7w4yx9ihw5exy86bhtgq56fvxwsjopxbf2"
                 onInit={(evt, editor) => editorRef.current = editor}
                 // initialValue={descriptionCollection}
@@ -102,40 +103,29 @@ const Tinyeditor = () => {
                     }
                 }
                 init={{
+                    selector: '#tinyEditor',
                     entity_encoding: "raw",
                     branding: false,
                     width: '100%',
                     height: 250,
                     autoresize_bottom_margin: 50,
                     max_height: 500,
-                    menubar: true,
+                    menubar: false,
                     statusbar: false,
-                    content_langs: [
-                        { title: 'Arab', code: 'ar' },
-                        { title: 'English', code: 'en_US' },
-                        { title: 'Spanish', code: 'es_419' },
-                        { title: 'French', code: 'fr_FR' },
-                        { title: 'German', code: 'de' },
-                        { title: 'Italian', code: 'it_IT' },
-                        { title: 'Portuguese', code: 'pt_BR' },
-                        { title: 'Russe', code: 'ru_RU' },
-                        { title: 'Chinese', code: 'zh_CN' }
-                    ],
-                    language: 'fr_FR',
-                    // langue_url: '@tinymce/tinymce-react/langs',
+                    toolbar_mode: 'wrap',
+                    language: tinyLanguage,
                     plugins: [
                         'advlist autolink lists link image media charmap print preview anchor',
                         'searchreplace visualblocks code fullscreen autoresize',
                         'insertdatetime media table paste code help wordcount fullscreen code'
                     ],
-                    menubar: 'tools insert',
-                    toolbar: 'wordcount | undo redo | formatselect | ' +
+                    // menubar: 'tools insert',
+                    toolbar: 'formatselect | undo redo | ' +
                         'bold italic underline forecolor backcolor | alignleft aligncenter ' +
                         'alignright alignjustify | bullist numlist outdent indent | ' +
                         'image ' +
                         'media ' +
-                        'removeformat | help | fullscreen ' +
-                        'language ',
+                        'removeformat | fullscreen | wordcount',
                     init_instance_callback: handleDeleteTinyImage(''),
                     // configure la base du path du stockage des images  
                     relative_urls: false,
@@ -176,7 +166,7 @@ const Tinyeditor = () => {
                         return '<video width="' + data.width + '" height="' + data.height + '"' + (data.poster ? ' poster="' + data.poster + '"' : '') + ' controls="controls">\n' + '<source src="' + data.source + '"' + (data.sourcemime ? ' type="' + data.sourcemime + '"' : '') + ' />\n' + (data.altsource ? '<source src="' + data.altsource + '"' + (data.altsourcemime ? ' type="' + data.altsourcemime + '"' : '') + ' />\n' : '') + '</video>';
                     },
                     // a11y_advanced_options: true,
-                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px; } body::-webkit-scrollbar-track { box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); border-radius: 10px; background-color: #f5f5f5; color: red;}' + 'tox-sidebar--sliding-closed { background-color: #f5f5f5; }'  
                 }}
             />
         </div>
