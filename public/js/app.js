@@ -24618,7 +24618,7 @@ var CreateCollection = function CreateCollection() {
     if (metaUrl.length === urlLength) {
       formData.append("metaUrl", normalizUrl(nameCollection));
     } else {
-      formData.append("metaUrl", normalizUrl(metaUrl.slice(metaUrl.length)));
+      formData.append("metaUrl", normalizUrl(metaUrl.slice(urlLength)));
     } // check if there is at least one condition value empty
 
 
@@ -24632,6 +24632,14 @@ var CreateCollection = function CreateCollection() {
 
     if (isAutoConditions === true && tmp_tab_conditions.length > 0) {
       setMessageModal('Veuillez entrer une ou plusieurs conditons ou sélectionner le type de collection "Manuel" ');
+      setImageModal('../images/icons/trash_dirty.png');
+      setShowModalSimpleMessage(true);
+      return false;
+    }
+
+    if (nameCollection.length === 0) {
+      document.getElementById('titreCollection').style.border = "solid 1px rgb(212, 0, 0)";
+      setMessageModal('Le champ Nom de la collection est obligatoir');
       setImageModal('../images/icons/trash_dirty.png');
       setShowModalSimpleMessage(true);
       return false;
@@ -24680,6 +24688,7 @@ var CreateCollection = function CreateCollection() {
       formData.append("categoryId", categoryId);
       formData.append("alt", alt);
       formData.append("imageName", imageName);
+      formData.append("image", image[0]);
       formData.append('key', 'tmp_imageCollection');
       axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/save-collection", formData, {
         headers: {
@@ -24687,9 +24696,12 @@ var CreateCollection = function CreateCollection() {
         }
       }).then(function (res) {
         console.log('res.data  --->  ok');
-        initCollectionForm(); // gére le netoyage des tinyImages dans table temporayStorage 
 
-        cleanTemporayStorage('tmp_tinyMceImages');
+        if (res.data === 'ok') {
+          initCollectionForm(); // gére le netoyage des tinyImages dans table temporayStorage 
+
+          cleanTemporayStorage('tmp_tinyMceImages');
+        }
       });
     }
   }
@@ -24979,7 +24991,7 @@ var Optimisation = function Optimisation() {
   };
 
   var handleMetaUrl = function handleMetaUrl(e) {
-    // limit la taille de l'url à 255 caracères
+    // limit la taille de l'url à 2047 caracères
     var urlLength = 2047 - window.location.origin.length;
     var urlName = normalizUrl(e.target.value.substring(window.location.origin.length, 2047));
     setMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));

@@ -301,7 +301,7 @@ const CreateCollection = () => {
         if (metaUrl.length === urlLength) {
             formData.append("metaUrl", normalizUrl(nameCollection));
         } else {
-            formData.append("metaUrl", normalizUrl(metaUrl.slice(metaUrl.length)));
+            formData.append("metaUrl", normalizUrl(metaUrl.slice(urlLength)));
         }
 
         // check if there is at least one condition value empty
@@ -315,6 +315,14 @@ const CreateCollection = () => {
 
         if (isAutoConditions === true && tmp_tab_conditions.length > 0) {
             setMessageModal('Veuillez entrer une ou plusieurs conditons ou sélectionner le type de collection "Manuel" ');
+            setImageModal('../images/icons/trash_dirty.png');
+            setShowModalSimpleMessage(true);
+            return false;
+        }
+
+        if (nameCollection.length === 0) {
+            document.getElementById('titreCollection').style.border = "solid 1px rgb(212, 0, 0)";
+            setMessageModal('Le champ Nom de la collection est obligatoir');
             setImageModal('../images/icons/trash_dirty.png');
             setShowModalSimpleMessage(true);
             return false;
@@ -371,6 +379,7 @@ const CreateCollection = () => {
             formData.append("categoryId", categoryId);
             formData.append("alt", alt);
             formData.append("imageName", imageName);
+            formData.append("image", image[0]);
             formData.append('key', 'tmp_imageCollection');
 
             Axios.post(`http://127.0.0.1:8000/save-collection`, formData,
@@ -381,9 +390,11 @@ const CreateCollection = () => {
                 })
                 .then(res => {
                     console.log('res.data  --->  ok');
-                    initCollectionForm();
-                    // gére le netoyage des tinyImages dans table temporayStorage 
-                    cleanTemporayStorage('tmp_tinyMceImages');
+                    if (res.data === 'ok') {
+                        initCollectionForm();
+                        // gére le netoyage des tinyImages dans table temporayStorage 
+                        cleanTemporayStorage('tmp_tinyMceImages');
+                    }
                 });
         }
     }

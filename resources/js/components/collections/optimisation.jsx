@@ -85,7 +85,7 @@ const Optimisation = () => {
 
 
     const handleMetaUrl = (e) => {
-        // limit la taille de l'url à 255 caracères
+        // limit la taille de l'url à 2047 caracères
         let urlLength = 2047 - window.location.origin.length;
         let urlName = normalizUrl(e.target.value.substring(window.location.origin.length, 2047));
 
