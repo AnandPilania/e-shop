@@ -361,7 +361,7 @@ const CreateCollection = () => {
             });
 
     }
-
+    console.log('image   ', image);
 
     function handleSubmit() {
 
@@ -380,6 +380,7 @@ const CreateCollection = () => {
             formData.append("alt", alt);
             formData.append("imageName", imageName);
             formData.append("image", image[0]);
+            // console.log('image   ', image);
             formData.append('key', 'tmp_imageCollection');
 
             Axios.post(`http://127.0.0.1:8000/save-collection`, formData,

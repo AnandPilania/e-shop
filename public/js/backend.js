@@ -23030,8 +23030,8 @@ var Activation = function Activation() {
                 var month = selectedDates[0].getMonth() + 1;
                 var year = selectedDates[0].getFullYear();
                 var hour = selectedDates[0].getHours();
-                var dateActivation = (day < 10 ? "0" + day.toString() : day) + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + year + "  " + (hour < 10 ? "0" + hour.toString() : hour);
-                setDateField(dateActivation);
+                var dateActivation = (day < 10 ? "0" + day.toString() : day) + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + year + "  " + (hour < 10 ? "0" + hour.toString() : hour) + ':00:00';
+                setDateField(selectedDates[0]);
                 localStorage.setItem("dateActivation", dateActivation);
               }
             })]
@@ -24661,6 +24661,8 @@ var CreateCollection = function CreateCollection() {
     });
   }
 
+  console.log('image   ', image);
+
   function handleSubmit() {
     var valid = validation();
 
@@ -24676,7 +24678,8 @@ var CreateCollection = function CreateCollection() {
       formData.append("categoryId", categoryId);
       formData.append("alt", alt);
       formData.append("imageName", imageName);
-      formData.append("image", image[0]);
+      formData.append("image", image[0]); // console.log('image   ', image);
+
       formData.append('key', 'tmp_imageCollection');
       axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/save-collection", formData, {
         headers: {
@@ -29272,10 +29275,26 @@ var DropZone = function DropZone(props) {
     dropRegion.addEventListener('dragenter', highlight, false);
     dropRegion.addEventListener('dragover', highlight, false);
     dropRegion.addEventListener('dragleave', unhighlight, false);
-    dropRegion.addEventListener('drop', unhighlight, false);
+    dropRegion.addEventListener('drop', unhighlight, false); // init preview image
+
+    try {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getSingleTemporaryImage").then(function (res) {
+        if (res.data !== undefined && res.data != '') {
+          // get --> image <-- for preview
+          fetch(res.data).then(function (response) {
+            return response.blob();
+          }).then(function (BlobImage) {
+            previewImage(BlobImage);
+            setImage([BlobImage]);
+          });
+        }
+      });
+    } catch (error) {
+      console.error('error  ' + error);
+    }
   }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
-    // saveInTemporaryStorage('tmp_imageCollection', image);
+    // save image in temporaryStorage if image is changed
     var response = /*#__PURE__*/function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
@@ -29297,20 +29316,12 @@ var DropZone = function DropZone(props) {
       };
     }();
 
-    response().then(function (response) {
+    response().then(function () {
       try {
         axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getSingleTemporaryImage").then(function (res) {
           if (res.data !== undefined) {
-            // get image path for crop
-            setImagePath(res.data); // get image for preview
-
-            if (res.data != '') {
-              fetch(res.data).then(function (response) {
-                return response.blob();
-              }).then(function (BlobImage) {
-                previewImage(BlobImage);
-              });
-            }
+            // get --> image path <-- for croppe
+            setImagePath(res.data);
           }
         });
       } catch (error) {

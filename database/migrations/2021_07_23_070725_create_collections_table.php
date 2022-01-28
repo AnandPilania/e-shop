@@ -16,13 +16,20 @@ class CreateCollectionsTable extends Migration
         Schema::create('collections', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('image')->nullable();
-            $table->string('alt')->nullable();
-            $table->string('link');
             $table->longText('description')->nullable();
-            $table->longText('meta_title')->nullable();
+            $table->tinyInteger('automatise'); // si la collection s'applique selon des conditions
+            $table->tinyInteger('notIncludePrevProduct');
+            $table->tinyInteger('allConditionsNeeded');
+            $table->longText('objConditions')->nullable();
+            $table->dateTime('dateActivation');
+            $table->string('alt')->nullable();
+            $table->string('imageName')->nullable(); // si on veut changer le nom de l'image pour améliorer le seo
+            $table->string('image'); // image path
+            $table->string('key'); // identifie les images dans temporaryStorage
+            $table->mediumText('link'); // lien de la collection -> meta_url ou name
+            $table->mediumText('meta_title')->nullable();
             $table->longText('meta_description')->nullable();
-            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('category_id')->nullable();
             $table->foreign('category_id')->references('id')->on('categories');
             $table->timestamps();
         });

@@ -49,8 +49,8 @@ const Activation = () => {
                                     let dateActivation =
                                         (day < 10 ? "0" + day.toString() : day) + "-" +
                                         (month < 10 ? "0" + month.toString() : month) + "-" + year + "  " +
-                                        (hour < 10 ? "0" + hour.toString() : hour);
-                                    setDateField(dateActivation);
+                                        (hour < 10 ? "0" + hour.toString() : hour) + ':00:00';
+                                    setDateField(selectedDates[0]);
                                     localStorage.setItem("dateActivation", dateActivation);
                                 }}
                             />

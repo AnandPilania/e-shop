@@ -21,6 +21,12 @@ class CollectionsSeeder extends Seeder
             'alt' => 'mon alt',
             'link' => 'robes',
             'category_id' => 1,
+            'key' => 'tmp_imageCollection',
+            'description' => 'description',
+            'automatise' => '1',
+            'notIncludePrevProduct' => '1',
+            'allConditionsNeeded' => '1',
+            'dateActivation' => '2022/06/30 12',
         ]);
 
         DB::table('collections')->insert([
@@ -30,6 +36,12 @@ class CollectionsSeeder extends Seeder
             'alt' => 'mon alt',
             'link' => 'bottes',
             'category_id' => 2,
+            'key' => 'tmp_imageCollection',
+            'description' => 'description',
+            'automatise' => '1',
+            'notIncludePrevProduct' => '1',
+            'allConditionsNeeded' => '1',
+            'dateActivation' => '2022/06/30 12',
         ]);
 
         DB::table('collections')->insert([
@@ -39,6 +51,12 @@ class CollectionsSeeder extends Seeder
             'alt' => 'mon alt',
             'link' => 'sacs',
             'category_id' => 3,
+            'key' => 'tmp_imageCollection',
+            'description' => 'description',
+            'automatise' => '1',
+            'notIncludePrevProduct' => '1',
+            'allConditionsNeeded' => '1',
+            'dateActivation' => '2022/06/30 12',
         ]);
 
         DB::table('collections')->insert([
@@ -48,6 +66,12 @@ class CollectionsSeeder extends Seeder
             'alt' => 'mon alt',
             'link' => 'chapeaux',
             'category_id' => 4,
+            'key' => 'tmp_imageCollection',
+            'description' => 'description',
+            'automatise' => '1',
+            'notIncludePrevProduct' => '1',
+            'allConditionsNeeded' => '1',
+            'dateActivation' => '2022/06/30 12',
         ]);
         DB::table('collections')->insert([
             'name' => 'Parfums',
@@ -56,6 +80,12 @@ class CollectionsSeeder extends Seeder
             'alt' => 'mon alt',
             'link' => 'parfums',
             'category_id' => 5,
+            'key' => 'tmp_imageCollection',
+            'description' => 'description',
+            'automatise' => '1',
+            'notIncludePrevProduct' => '1',
+            'allConditionsNeeded' => '1',
+            'dateActivation' => '2022/06/30 12',
         ]);
 
         DB::table('collections')->insert([
@@ -65,6 +95,12 @@ class CollectionsSeeder extends Seeder
             'alt' => 'mon alt',
             'link' => 'rouge-a-levres',
             'category_id' => 6,
+            'key' => 'tmp_imageCollection',
+            'description' => 'description',
+            'automatise' => '1',
+            'notIncludePrevProduct' => '1',
+            'allConditionsNeeded' => '1',
+            'dateActivation' => '2022/06/30 12',
         ]);
     }
 }

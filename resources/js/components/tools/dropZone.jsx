@@ -113,30 +113,40 @@ const DropZone = (props) => {
         dropRegion.addEventListener('dragleave', unhighlight, false);
         dropRegion.addEventListener('drop', unhighlight, false);
 
+        // init preview image
+        try {
+            Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage`)
+                .then(res => {
+                    if (res.data !== undefined && res.data != '') {
+                        // get --> image <-- for preview
+                        fetch(res.data)
+                            .then(function (response) {
+                                return response.blob();
+                            })
+                            .then(function (BlobImage) {
+                                previewImage(BlobImage);
+                                setImage([BlobImage]);
+                            })
+                    }
+                });
+        } catch (error) {
+            console.error('error  ' + error);
+        }
+
     }, []);
 
     useEffect(() => {
-        // saveInTemporaryStorage('tmp_imageCollection', image);
+        // save image in temporaryStorage if image is changed
         let response = async () => {
             return saveInTemporaryStorage('tmp_imageCollection', image)
         }
-        response().then(response => {
+        response().then(() => {
             try {
                 Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage`)
                     .then(res => {
                         if (res.data !== undefined) {
-                            // get image path for crop
+                            // get --> image path <-- for croppe
                             setImagePath(res.data);
-                            // get image for preview
-                            if (res.data != '') {
-                                fetch(res.data)
-                                    .then(function (response) {
-                                        return response.blob();
-                                    })
-                                    .then(function (BlobImage) {
-                                        previewImage(BlobImage)
-                                    })
-                            }
                         }
                     });
             } catch (error) {
