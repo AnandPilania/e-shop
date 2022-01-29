@@ -102,7 +102,7 @@ const CreateCollection = () => {
         handleModalCancel,
         deleteThisCategory, setDeleteThisCategory,
         dateField, setDateField,
-        getNow, tinyLanguage
+        tinyLanguage
     }
 
 

@@ -6,13 +6,13 @@ use Illuminate\Http\Request;
 use App\Models\Temporary_storage;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
-
+use App\Http\Controllers\Functions\CleanCaracters;
 
 class TemporaryStorageController extends Controller
 {
     public function getSingleTemporaryImage()
     {
-     
+
         $tmp_img = Temporary_storage::where('key', 'tmp_imageCollection')->first();
         // echo $tmp_img->value;
         if (isset($tmp_img->value)) return $tmp_img->value;
@@ -22,16 +22,14 @@ class TemporaryStorageController extends Controller
     // stock des images temporaires
     public function temporaryStoreImages(Request $request)
     {
+        // dd($request->key);
         /// check and delete record and image if exist
         $tmp_storage = Temporary_storage::where('key', $request->key)->get();
 
-        // exclure les éléments du tableau avant de delete
-        $except = array("tmp_tinyMceImages");
-        if ($tmp_storage !== null && !in_array($request->key, $except)) {
-            foreach ($tmp_storage as $toDelete) {
-                File::delete(public_path($toDelete->value));
-                Temporary_storage::destroy($toDelete->id);
-            }
+        // delete previous image collection before save the new
+        if (count($tmp_storage) > 0 && $request->key === 'tmp_imageCollection') {
+            File::delete(public_path($tmp_storage[0]->value));
+            Temporary_storage::destroy($tmp_storage[0]->id);
         }
 
         if ($request->hasFile('value')) {
@@ -44,10 +42,9 @@ class TemporaryStorageController extends Controller
                 $imageName = explode(".", $image->getClientOriginalName());
                 $pattern = '/[\!\^\$\?\+\*\|&"\'_=\- ]+/i';
                 $imageName[0] =  preg_replace($pattern, '-', $imageName[0]);
-                $search = array('À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'à', 'á', 'â', 'ã', 'ä', 'å', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ð', 'ò', 'ó', 'ô', 'õ', 'ö', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ');
-                $replace = array('A', 'A', 'A', 'A', 'A', 'A', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y', 'a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y');
-                $imageName[0] = str_replace($search, $replace, $imageName[0]);
-                $imageName[0] = strtolower($imageName[0]);
+                $cleanCaracters = new CleanCaracters;
+                // remplace all specials caracteres and lowerCase
+                $imageName[0] = $cleanCaracters->cleanCaracters($imageName[0]);
 
                 // on reconstruit le nom de l'image
                 if ($image->getClientOriginalExtension() == '') {
@@ -71,25 +68,23 @@ class TemporaryStorageController extends Controller
         }
     }
 
+    // delete all images which have the provided key
     public function deleteTemporayStoredImages(Request $request)
     {
         $tmp_storage = Temporary_storage::where('key', $request->key)->get();
-
         foreach ($tmp_storage as $toDelete) {
             File::delete(public_path($toDelete->value));
             Temporary_storage::destroy($toDelete->id);
         }
-
         return 'ok';
     }
 
-    // delete removed images in folder and db
+    // delete removed tinyMCE images in folder and db
     public function deleteTinyMceTemporayStoredImages(Request $request)
     {
-        // dd($request);
+        // dd($request->key);
         $tab_dataToDelete = explode(',', $request->value);
-        $tinyImagesInDB = Temporary_storage::where('key', $request->key)->get();
-
+        $tinyImagesInDB = Temporary_storage::where('key', 'tmp_tinyMceImages')->get();
         foreach ($tinyImagesInDB as $imageDB) {
             // si une image en db n'est pas dans les images qu'on a reçu alors on la delete
             if (!in_array($imageDB->value,  $tab_dataToDelete)) {

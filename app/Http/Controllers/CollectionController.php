@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Collection;
@@ -111,7 +112,7 @@ class CollectionController extends Controller
     {
         // !!! if imageName THEN CHANGE NAME OF IMAGE !!!
 
-        // dd($request);
+        dd($request);
 
         // $this->validate($request, ['name' => 'required', 'category' => 'required', 'image' => 'required', 'alt' => 'required']);
 
@@ -140,13 +141,18 @@ class CollectionController extends Controller
         // dd($all_conditions_matched);
 
         $collection = new Collection;
-        $collection->name = $request->imageName != null ? $request->imageName : $request->name;
+        // $collection->name = $request->imageName != null ? $request->imageName : $request->name;
+        $collection->name = 'gg';
         $collection->description = $request->description;
         $collection->automatise = $request->automatise === true ? 1 : 0;
         $collection->notIncludePrevProduct = $request->notIncludePrevProduct=== true ? 1 : 0;
         $collection->allConditionsNeeded = $request->allConditionsNeeded=== true ? 1 : 0;
         $collection->objConditions = $request->objConditions;
-        $collection->dateActivation = $request->dateActivation;//->format('Y-m-d H:i:s');
+
+        // Retourne un nouvel objet DateTime représentant la date et l'heure spécifiées par le texte time, qui a été formaté dans le format donné.
+        $date = DateTime::createFromFormat('d-m-Y H:i:s', $request->dateActivation);
+        $collection->dateActivation = $date->format('Y-m-d H:i:s');
+
         $collection->category_id = $request->categoryId;
         $collection->alt = $request->alt;
         $collection->imageName = $request->imageName;
@@ -165,7 +171,7 @@ class CollectionController extends Controller
             $imgFile->resize(1080, 480, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($destinationPath . '/' . $input['image']);
-            $image->move($destinationPath, $input['image']);
+                              $image->move($destinationPath, $input['image']);
 
             $collection->image = 'images/' . $input['image'];
 

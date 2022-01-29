@@ -29,7 +29,6 @@ export default React.createContext({
     setDeleteThisCategory: () => { },
     dateField: '',
     setDateField: () => { },
-    getNow: () => { },
     tinyLangauage: '',
      
     

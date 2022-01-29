@@ -6,7 +6,7 @@ import "flatpickr/dist/themes/material_blue.css";
 const Activation = () => {
 
     const {
-        dateField, setDateField, getNow,
+        dateField, setDateField
     } = useContext(CollectionContext);
 
     return (
@@ -48,10 +48,10 @@ const Activation = () => {
                                     let hour = selectedDates[0].getHours();
                                     let dateActivation =
                                         (day < 10 ? "0" + day.toString() : day) + "-" +
-                                        (month < 10 ? "0" + month.toString() : month) + "-" + year + "  " +
+                                        (month < 10 ? "0" + month.toString() : month) + "-" + year + " " +
                                         (hour < 10 ? "0" + hour.toString() : hour) + ':00:00';
-                                    setDateField(selectedDates[0]);
-                                    localStorage.setItem("dateActivation", dateActivation);
+                                    setDateField(new Date(dateActivation).toISOString());
+                                    localStorage.setItem("dateActivation", new Date(dateActivation).toISOString());
                                 }}
                             />
                         </div>

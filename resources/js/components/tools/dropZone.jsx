@@ -125,20 +125,20 @@ const DropZone = (props) => {
                             })
                             .then(function (BlobImage) {
                                 previewImage(BlobImage);
-                                setImage([BlobImage]);
+                                setImage(URL.createObjectURL(BlobImage));
                             })
                     }
                 });
         } catch (error) {
             console.error('error  ' + error);
         }
-
     }, []);
 
-    useEffect(() => {
-        // save image in temporaryStorage if image is changed
+
+    const handleChangeImage = (imageFile) => {
+        // when image is changed, save it in temporaryStorage before load it and setImagePath with  
         let response = async () => {
-            return saveInTemporaryStorage('tmp_imageCollection', image)
+            return saveInTemporaryStorage('tmp_imageCollection', imageFile)
         }
         response().then(() => {
             try {
@@ -153,7 +153,7 @@ const DropZone = (props) => {
                 console.error('error  ' + error);
             }
         });
-    }, [image]);
+    }
 
 
     function highlight() {
@@ -213,16 +213,20 @@ const DropZone = (props) => {
 
     // affiche et sauvegarde les images
     function handleFiles(files) {
-
+        console.log('files  ', files);
         if (props.multiple === false) {
             tab = files;
+            console.log('tab single  ', tab);
         }
         if (props.multiple === true) {
             tab.push(...files);
+            console.log('tab multi  ', tab);
         }
+
         for (var i = 0; i < files.length; i++) {
             if (validateImage(files[i])) {
                 setImage(tab);
+                handleChangeImage(tab);
                 previewImage(files[i]);
             }
         }

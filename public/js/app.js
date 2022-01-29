@@ -22997,8 +22997,7 @@ __webpack_require__.r(__webpack_exports__);
 var Activation = function Activation() {
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       dateField = _useContext.dateField,
-      setDateField = _useContext.setDateField,
-      getNow = _useContext.getNow;
+      setDateField = _useContext.setDateField;
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
@@ -23042,9 +23041,9 @@ var Activation = function Activation() {
                 var month = selectedDates[0].getMonth() + 1;
                 var year = selectedDates[0].getFullYear();
                 var hour = selectedDates[0].getHours();
-                var dateActivation = (day < 10 ? "0" + day.toString() : day) + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + year + "  " + (hour < 10 ? "0" + hour.toString() : hour) + ':00:00';
-                setDateField(selectedDates[0]);
-                localStorage.setItem("dateActivation", dateActivation);
+                var dateActivation = (day < 10 ? "0" + day.toString() : day) + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + year + " " + (hour < 10 ? "0" + hour.toString() : hour) + ':00:00';
+                setDateField(new Date(dateActivation).toISOString());
+                localStorage.setItem("dateActivation", new Date(dateActivation).toISOString());
               }
             })]
           })
@@ -24433,7 +24432,6 @@ var CreateCollection = function CreateCollection() {
     setDeleteThisCategory: setDeleteThisCategory,
     dateField: dateField,
     setDateField: setDateField,
-    getNow: getNow,
     tinyLanguage: tinyLanguage
   };
   var formData = new FormData();
@@ -25507,7 +25505,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   handleModalCancel: function handleModalCancel() {},
   deleteThisCategory: '',
   setDeleteThisCategory: function setDeleteThisCategory() {}
-}, _defineProperty(_React$createContext, "dateField", ''), _defineProperty(_React$createContext, "setDateField", function setDateField() {}), _defineProperty(_React$createContext, "getNow", function getNow() {}), _defineProperty(_React$createContext, "tinyLangauage", ''), _React$createContext)));
+}, _defineProperty(_React$createContext, "dateField", ''), _defineProperty(_React$createContext, "setDateField", function setDateField() {}), _defineProperty(_React$createContext, "tinyLangauage", ''), _React$createContext)));
 
 /***/ }),
 
@@ -29297,7 +29295,7 @@ var DropZone = function DropZone(props) {
             return response.blob();
           }).then(function (BlobImage) {
             previewImage(BlobImage);
-            setImage([BlobImage]);
+            setImage(URL.createObjectURL(BlobImage));
           });
         }
       });
@@ -29305,15 +29303,16 @@ var DropZone = function DropZone(props) {
       console.error('error  ' + error);
     }
   }, []);
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
-    // save image in temporaryStorage if image is changed
+
+  var handleChangeImage = function handleChangeImage(imageFile) {
+    // when image is changed, save it in temporaryStorage before load it and setImagePath with  
     var response = /*#__PURE__*/function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                return _context.abrupt("return", (0,_functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_4__.saveInTemporaryStorage)('tmp_imageCollection', image));
+                return _context.abrupt("return", (0,_functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_4__.saveInTemporaryStorage)('tmp_imageCollection', imageFile));
 
               case 1:
               case "end":
@@ -29340,7 +29339,7 @@ var DropZone = function DropZone(props) {
         console.error('error  ' + error);
       }
     });
-  }, [image]);
+  };
 
   function highlight() {
     dropRegion.classList.add('highlighted');
@@ -29403,19 +29402,25 @@ var DropZone = function DropZone(props) {
 
 
   function handleFiles(files) {
+    console.log('files  ', files);
+
     if (props.multiple === false) {
       tab = files;
+      console.log('tab single  ', tab);
     }
 
     if (props.multiple === true) {
       var _tab;
 
       (_tab = tab).push.apply(_tab, _toConsumableArray(files));
+
+      console.log('tab multi  ', tab);
     }
 
     for (var i = 0; i < files.length; i++) {
       if (validateImage(files[i])) {
         setImage(tab);
+        handleChangeImage(tab);
         previewImage(files[i]);
       }
     }
