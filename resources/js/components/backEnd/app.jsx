@@ -23,7 +23,7 @@ const App = () => {
     const [messageModalApp, setMessageModalApp] = useState('');
     const [followThisLink, setFollowThisLink] = useState(null);
     const [imagePath, setImagePath] = useState('');
-    const [image, setImage] = useLocalStorage("image", []);
+    const [image, setImage] = useState([]);
     const [darkMode, setDarkMode] = useState(false);
 
     const [showModalConfirm, setShowModalConfirm] = useState(false);

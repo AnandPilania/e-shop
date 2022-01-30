@@ -361,10 +361,12 @@ const CreateCollection = () => {
             });
 
     }
-    console.log('image   ', image);
+    // console.log('image   ', image);
+    // console.log(typeof image);
+    // console.log(image instanceof FileList);
+    // console.log(image instanceof Blob);
 
     function handleSubmit() {
-
         let valid = validation();
         if (valid) {
             var objConditions = JSON.stringify(conditions);
@@ -380,7 +382,7 @@ const CreateCollection = () => {
             formData.append("alt", alt);
             formData.append("imageName", imageName);
             formData.append("image", image[0]);
-            // console.log('image   ', image);
+            // formData.append("image", image instanceof FileList ? image[0] : image[0]);
             formData.append('key', 'tmp_imageCollection');
 
             Axios.post(`http://127.0.0.1:8000/save-collection`, formData,
@@ -405,14 +407,12 @@ const CreateCollection = () => {
         <div className="collection-main-container">
             <CollectionContext.Provider value={collectionContextValue}>
                 <div className="collection-block-container">
-
                     <div className="div-vert-align">
                         {/* réinitialisation */}
                         {isDirty && (<button className='btn-effacer-tout'
                             onClick={confirmInitCollectionForm}>
                             Réinitialiser
                         </button>)}
-
                         {/* nom */}
                         <div className="div-label-inputTxt">
                             <h2>Nom de la collection</h2>
@@ -421,18 +421,14 @@ const CreateCollection = () => {
                                 onChange={handleNameCollection}
                             />
                         </div>
-
                         {/* description */}
                         <div className="div-label-inputTxt">
                             <h2>Description (optionnel)</h2>
                         </div>
                         <Tinyeditor />
                     </div>
-
                     <Conditions />
-
                     <Optimisation />
-
                     {/* submit */}
                     <div className="div-label-inputTxt">
                         <button className="btn-submit" onClick={handleSubmit}>
@@ -440,14 +436,11 @@ const CreateCollection = () => {
                         </button>
                     </div>
                 </div>
-
                 {/* ----------  side  ---------- */}
                 <div className='side-create-collection'>
-
                     <Image />
                     <Categories />
                     <Activation />
-
                     {/* modal for confirmation */}
                     <ModalConfirm
                         show={showModalConfirm} // true/false show modal
@@ -457,7 +450,6 @@ const CreateCollection = () => {
                         image={imageModal}>
                         <h2 className="childrenModal">{messageModal}</h2>
                     </ModalConfirm>
-
                     {/* modal for simple message */}
                     <ModalSimpleMessage
                         show={showModalSimpleMessage} // true/false show modal

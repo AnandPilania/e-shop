@@ -22812,61 +22812,61 @@ var App = function App() {
       imagePath = _useState14[0],
       setImagePath = _useState14[1];
 
-  var _useLocalStorage = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__.useLocalStorage)("image", []),
-      _useLocalStorage2 = _slicedToArray(_useLocalStorage, 2),
-      image = _useLocalStorage2[0],
-      setImage = _useLocalStorage2[1];
-
-  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState16 = _slicedToArray(_useState15, 2),
-      darkMode = _useState16[0],
-      setDarkMode = _useState16[1];
+      image = _useState16[0],
+      setImage = _useState16[1];
 
   var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState18 = _slicedToArray(_useState17, 2),
-      showModalConfirm = _useState18[0],
-      setShowModalConfirm = _useState18[1];
+      darkMode = _useState18[0],
+      setDarkMode = _useState18[1];
 
   var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState20 = _slicedToArray(_useState19, 2),
-      showModalSimpleMessage = _useState20[0],
-      setShowModalSimpleMessage = _useState20[1];
+      showModalConfirm = _useState20[0],
+      setShowModalConfirm = _useState20[1];
 
   var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState22 = _slicedToArray(_useState21, 2),
-      showModalCroppeImage = _useState22[0],
-      setShowModalCroppeImage = _useState22[1];
+      showModalSimpleMessage = _useState22[0],
+      setShowModalSimpleMessage = _useState22[1];
 
   var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState24 = _slicedToArray(_useState23, 2),
-      showModalInput = _useState24[0],
-      setShowModalInput = _useState24[1];
+      showModalCroppeImage = _useState24[0],
+      setShowModalCroppeImage = _useState24[1];
 
-  var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState26 = _slicedToArray(_useState25, 2),
-      messageModal = _useState26[0],
-      setMessageModal = _useState26[1];
+      showModalInput = _useState26[0],
+      setShowModalInput = _useState26[1];
 
   var _useState27 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState28 = _slicedToArray(_useState27, 2),
-      sender = _useState28[0],
-      setSender = _useState28[1]; // for modal
-
+      messageModal = _useState28[0],
+      setMessageModal = _useState28[1];
 
   var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState30 = _slicedToArray(_useState29, 2),
-      inputTextModify = _useState30[0],
-      setInputTextModify = _useState30[1];
+      sender = _useState30[0],
+      setSender = _useState30[1]; // for modal
 
-  var _useState31 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
+
+  var _useState31 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState32 = _slicedToArray(_useState31, 2),
-      textButtonConfirm = _useState32[0],
-      setTextButtonConfirm = _useState32[1];
+      inputTextModify = _useState32[0],
+      setInputTextModify = _useState32[1];
 
-  var _useState33 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState33 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
       _useState34 = _slicedToArray(_useState33, 2),
-      imageModal = _useState34[0],
-      setImageModal = _useState34[1];
+      textButtonConfirm = _useState34[0],
+      setTextButtonConfirm = _useState34[1];
+
+  var _useState35 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState36 = _slicedToArray(_useState35, 2),
+      imageModal = _useState36[0],
+      setImageModal = _useState36[1];
 
   var handleModalApp = function handleModalApp() {
     setShowModalApp(false);
@@ -24669,9 +24669,11 @@ var CreateCollection = function CreateCollection() {
     })["catch"](function (error) {
       console.log('Error : ' + error.status);
     });
-  }
+  } // console.log('image   ', image);
+  // console.log(typeof image);
+  // console.log(image instanceof FileList);
+  // console.log(image instanceof Blob);
 
-  console.log('image   ', image);
 
   function handleSubmit() {
     var valid = validation();
@@ -24688,7 +24690,7 @@ var CreateCollection = function CreateCollection() {
       formData.append("categoryId", categoryId);
       formData.append("alt", alt);
       formData.append("imageName", imageName);
-      formData.append("image", image[0]); // console.log('image   ', image);
+      formData.append("image", image[0]); // formData.append("image", image instanceof FileList ? image[0] : image[0]);
 
       formData.append('key', 'tmp_imageCollection');
       axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/save-collection", formData, {
@@ -29290,12 +29292,14 @@ var DropZone = function DropZone(props) {
     try {
       axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getSingleTemporaryImage").then(function (res) {
         if (res.data !== undefined && res.data != '') {
-          // get --> image <-- for preview
+          // get --> image path <-- for croppe
+          setImagePath(res.data); // get --> image <-- for preview
+
           fetch(res.data).then(function (response) {
             return response.blob();
           }).then(function (BlobImage) {
             previewImage(BlobImage);
-            setImage(URL.createObjectURL(BlobImage));
+            setImage(BlobImage);
           });
         }
       });
@@ -29402,19 +29406,14 @@ var DropZone = function DropZone(props) {
 
 
   function handleFiles(files) {
-    console.log('files  ', files);
-
     if (props.multiple === false) {
       tab = files;
-      console.log('tab single  ', tab);
     }
 
     if (props.multiple === true) {
       var _tab;
 
       (_tab = tab).push.apply(_tab, _toConsumableArray(files));
-
-      console.log('tab multi  ', tab);
     }
 
     for (var i = 0; i < files.length; i++) {

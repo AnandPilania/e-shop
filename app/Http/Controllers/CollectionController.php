@@ -106,31 +106,30 @@ class CollectionController extends Controller
         return redirect('/collectionsBackEnd/create')->with('status', 'La collection ' . $collection->name . ' a été ajoutée');
     }
 
-    
+
 
     public function storeAndAssign(Request $request)
     {
-        // !!! if imageName THEN CHANGE NAME OF IMAGE !!!
-
-        dd($request);
+        // dd($request);
 
         // $this->validate($request, ['name' => 'required', 'category' => 'required', 'image' => 'required', 'alt' => 'required']);
 
         $conditions = json_decode($request->objConditions);
-        // renvoi les produits qui correspondes aux conditions demandées
+        // renvoi un ou plusieurs tableaux avec les produits qui correspondes aux conditions demandées
         $getMatchedProduct = new GetArrayOfConditions;
         $list_match = $getMatchedProduct->getArrayOfConditions($conditions);
 
         $stack = [];
-        // met tous les objets de tous le tableaux dans stack
+        // met tous les ids des produits de tous les tableaux dans stack pour avoir un seul tableau sur lequel tester si les produits correspondent à toutes les conditions
         foreach ($list_match as $item_match) {
             foreach ($item_match as $item) {
                 array_push($stack, $item->id);
             }
         }
-        // Compte le nombre de valeurs identiques d'un tableau
+        // renvoi un tableau avec comme key les ids des produits que l'on doit compter et comme value leur nombre d'occurence dans le tableau $stack
         $tmp_tab = array_count_values($stack);
         $all_conditions_matched = [];
+        // si un produit correspond à toutes les conditions donc qu'il apparait dans tous les tableaux à l'interieur du tableau $list_match alors on le met dans all_conditions_matched pour insertion dans la table pivot collection_product
         while ($item = current($tmp_tab)) {
             if ($item == count($list_match)) {
                 array_push($all_conditions_matched, key($tmp_tab));
@@ -138,15 +137,12 @@ class CollectionController extends Controller
             next($tmp_tab);
         }
 
-        // dd($all_conditions_matched);
-
         $collection = new Collection;
-        // $collection->name = $request->imageName != null ? $request->imageName : $request->name;
-        $collection->name = 'gg';
+        $collection->name = $request->imageName != null ? $request->imageName : $request->name;
         $collection->description = $request->description;
         $collection->automatise = $request->automatise === true ? 1 : 0;
-        $collection->notIncludePrevProduct = $request->notIncludePrevProduct=== true ? 1 : 0;
-        $collection->allConditionsNeeded = $request->allConditionsNeeded=== true ? 1 : 0;
+        $collection->notIncludePrevProduct = $request->notIncludePrevProduct === true ? 1 : 0;
+        $collection->allConditionsNeeded = $request->allConditionsNeeded === true ? 1 : 0;
         $collection->objConditions = $request->objConditions;
 
         // Retourne un nouvel objet DateTime représentant la date et l'heure spécifiées par le texte time, qui a été formaté dans le format donné.
@@ -161,29 +157,35 @@ class CollectionController extends Controller
 
         $cleanLink = new CleanLink;
         $collection->link = $cleanLink->cleanLink($request->name);
-        // dd($cleanLink->cleanLink($request->name));
 
-        $image = $request->file('image');
- 
-           $input['image'] = time() . '.' . $image->getClientOriginalExtension();
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = explode(".", $image->getClientOriginalName());
+            $input['image'] = $imageName[0] . '_' . time() . '.' . $image->getClientOriginalExtension();
             $destinationPath = public_path('/images');
-            $imgFile = Image::make($image->getRealPath());
-            $imgFile->resize(1080, 480, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($destinationPath . '/' . $input['image']);
-                              $image->move($destinationPath, $input['image']);
+            $imgFile = Image::make($image);
 
+            // $height = Image::make($image)->height();
+            $width = Image::make($image)->width();
+
+            if ($width > 1920) {
+                $imgFile->resize(1920, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+                // $imgFile->crop(1920, 500);
+            }
+
+            $imgFile->save($destinationPath . '/' . $input['image']);
             $collection->image = 'images/' . $input['image'];
-
-
+        }
 
         $collection->save();
 
         foreach ($all_conditions_matched as $id) {
-            $product_id = Product::where('id', $id)->first('id');
-            $collection()->products()->attach($product_id);
+            // $collection = Collection::find($collection->id);
+            $collection->products()->attach($id);
         }
-        dd($collection);
+        
         // remove image collection from temporaryStorage, folder and db 
         $tmp_storage = Temporary_storage::where('key', $request->key)->get();
         foreach ($tmp_storage as $toDelete) {
@@ -191,7 +193,7 @@ class CollectionController extends Controller
             Temporary_storage::destroy($toDelete->id);
         }
 
-        dd($collection);
+        // dd($all_conditions_matched);
         return 'ok';
     }
 

@@ -118,6 +118,8 @@ const DropZone = (props) => {
             Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage`)
                 .then(res => {
                     if (res.data !== undefined && res.data != '') {
+                        // get --> image path <-- for croppe
+                        setImagePath(res.data);
                         // get --> image <-- for preview
                         fetch(res.data)
                             .then(function (response) {
@@ -125,7 +127,7 @@ const DropZone = (props) => {
                             })
                             .then(function (BlobImage) {
                                 previewImage(BlobImage);
-                                setImage(URL.createObjectURL(BlobImage));
+                                setImage(BlobImage);
                             })
                     }
                 });
@@ -213,14 +215,11 @@ const DropZone = (props) => {
 
     // affiche et sauvegarde les images
     function handleFiles(files) {
-        console.log('files  ', files);
         if (props.multiple === false) {
             tab = files;
-            console.log('tab single  ', tab);
         }
         if (props.multiple === true) {
             tab.push(...files);
-            console.log('tab multi  ', tab);
         }
 
         for (var i = 0; i < files.length; i++) {
