@@ -22999,6 +22999,7 @@ var Activation = function Activation() {
       dateField = _useContext.dateField,
       setDateField = _useContext.setDateField;
 
+  console.log('dateField  ', dateField);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "div-vert-align",
@@ -23031,7 +23032,7 @@ var Activation = function Activation() {
                   },
                   firstDayOfWeek: 0
                 },
-                dateFormat: "d-m-Y H:00",
+                dateFormat: "d-m-Y H:i:s",
                 time_24hr: true,
                 minuteIncrement: 60
               },
@@ -23041,9 +23042,12 @@ var Activation = function Activation() {
                 var month = selectedDates[0].getMonth() + 1;
                 var year = selectedDates[0].getFullYear();
                 var hour = selectedDates[0].getHours();
-                var dateActivation = (day < 10 ? "0" + day.toString() : day) + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + year + " " + (hour < 10 ? "0" + hour.toString() : hour) + ':00:00';
-                setDateField(new Date(dateActivation).toISOString());
-                localStorage.setItem("dateActivation", new Date(dateActivation).toISOString());
+                var minute = '00';
+                var seconde = '00';
+                var dateActivation = (day < 10 ? "0" + day.toString() : day) + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + year + " " + (hour < 10 ? "0" + hour.toString() : hour) + ":" + minute.toString() + ":" + seconde.toString();
+                console.log('dateActivation   ', dateActivation);
+                setDateField(dateActivation);
+                localStorage.setItem("dateActivation", dateActivation);
               }
             })]
           })
@@ -24160,6 +24164,7 @@ var Image = function Image() {
             type: "text",
             name: "alt",
             value: alt,
+            maxLength: "255",
             onChange: handleAlt
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
@@ -24179,6 +24184,7 @@ var Image = function Image() {
             type: "text",
             name: "imgColection",
             value: imageName,
+            maxLength: "255",
             onChange: handleImageName
           })]
         })]
@@ -24370,9 +24376,10 @@ var CreateCollection = function CreateCollection() {
     var year = now.getFullYear();
     var month = now.getMonth() + 1;
     var day = now.getDate();
-    var hour = now.getHours(); // var minute = now.getMinutes(0);
-
-    var localDatetime = (day < 10 ? "0" + day.toString() : day) + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + year + '  ' + (hour < 10 ? "0" + hour.toString() : hour) + ":" + "00";
+    var hour = now.getHours();
+    var minute = '00';
+    var seconde = '00';
+    var localDatetime = (day < 10 ? "0" + day.toString() : day) + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + year + ' ' + (hour < 10 ? "0" + hour.toString() : hour) + ":" + minute.toString() + ":" + seconde.toString();
     return localDatetime;
   };
 
@@ -24637,7 +24644,7 @@ var CreateCollection = function CreateCollection() {
 
     if (nameCollection.length === 0) {
       document.getElementById('titreCollection').style.border = "solid 1px rgb(212, 0, 0)";
-      setMessageModal('Le champ Nom de la collection est obligatoir');
+      setMessageModal('Le champ Nom de la collection est obligatoire');
       setImageModal('../images/icons/trash_dirty.png');
       setShowModalSimpleMessage(true);
       return false;
@@ -24679,7 +24686,18 @@ var CreateCollection = function CreateCollection() {
     var valid = validation();
 
     if (valid) {
+      var imageFile = null;
+
+      if (image instanceof FileList) {
+        imageFile = image[0];
+      }
+
+      if (image instanceof Blob) {
+        imageFile = image;
+      }
+
       var objConditions = JSON.stringify(conditions);
+      console.log('isAutoConditions  ', isAutoConditions);
       formData.append("name", nameCollection);
       formData.append("description", descriptionCollection);
       formData.append("automatise", isAutoConditions);
@@ -24689,9 +24707,9 @@ var CreateCollection = function CreateCollection() {
       formData.append("dateActivation", dateField);
       formData.append("categoryId", categoryId);
       formData.append("alt", alt);
-      formData.append("imageName", imageName);
-      formData.append("image", image[0]); // formData.append("image", image instanceof FileList ? image[0] : image[0]);
+      formData.append("imageName", imageName); // formData.append("image", image[0]);
 
+      formData.append("image", imageFile);
       formData.append('key', 'tmp_imageCollection');
       axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/save-collection", formData, {
         headers: {

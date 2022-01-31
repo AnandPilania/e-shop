@@ -54,7 +54,7 @@ const Image = () => {
                                 <span className="tooltiptext">Ajouter une brève description de l'image ex. "Jeans noir avec fermeture éclair". Ceci améliore l'accessibilité et le référencement de votre boutique.</span>
                             </i>
                         </div>
-                        <input type="text" name="alt" value={alt} onChange={handleAlt} />
+                        <input type="text" name="alt" value={alt} maxLength="255" onChange={handleAlt} />
                     </div>
                     <div className="div-label-inputTxt">
                         <div className="sub-div-horiz-align">
@@ -63,7 +63,7 @@ const Image = () => {
                                 <span className="tooltiptext">Donnez un nom en rapport avec le contenu de l'image. Ceci améliore le référencement de votre boutique dans les recherches par image.</span>
                             </i>
                         </div>
-                        <input type="text" name="imgColection" value={imageName} onChange={handleImageName} />
+                        <input type="text" name="imgColection" value={imageName} maxLength="255" onChange={handleImageName} />
                     </div>
                 </div>
             </div>

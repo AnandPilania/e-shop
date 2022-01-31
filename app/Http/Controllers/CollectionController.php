@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use App\Http\Controllers\Functions\CleanLink;
 use App\Http\Controllers\Functions\GetArrayOfConditions;
+use App\Http\Requests\StoreCollectionRequest;
 
 class CollectionController extends Controller
 {
@@ -108,11 +109,10 @@ class CollectionController extends Controller
 
 
 
-    public function storeAndAssign(Request $request)
+    public function storeAndAssign(StoreCollectionRequest $request)
     {
+        // dd($request->validated());
         // dd($request);
-
-        // $this->validate($request, ['name' => 'required', 'category' => 'required', 'image' => 'required', 'alt' => 'required']);
 
         $conditions = json_decode($request->objConditions);
         // renvoi un ou plusieurs tableaux avec les produits qui correspondes aux conditions demandées
@@ -148,7 +148,6 @@ class CollectionController extends Controller
         // Retourne un nouvel objet DateTime représentant la date et l'heure spécifiées par le texte time, qui a été formaté dans le format donné.
         $date = DateTime::createFromFormat('d-m-Y H:i:s', $request->dateActivation);
         $collection->dateActivation = $date->format('Y-m-d H:i:s');
-
         $collection->category_id = $request->categoryId;
         $collection->alt = $request->alt;
         $collection->imageName = $request->imageName;

@@ -66,13 +66,15 @@ const CreateCollection = () => {
         var month = now.getMonth() + 1;
         var day = now.getDate();
         var hour = now.getHours();
-        // var minute = now.getMinutes(0);
+        let minute = '00';
+        let seconde = '00';
         var localDatetime =
             (day < 10 ? "0" + day.toString() : day) + "-" +
             (month < 10 ? "0" + month.toString() : month) + "-" +
-            year + '  ' +
-            (hour < 10 ? "0" + hour.toString() : hour) + ":" + "00";
-
+            year + ' ' +
+            (hour < 10 ? "0" + hour.toString() : hour) + ":" +
+            (minute.toString())  + ":" +
+            (seconde.toString());
         return localDatetime;
     }
 
@@ -322,7 +324,7 @@ const CreateCollection = () => {
 
         if (nameCollection.length === 0) {
             document.getElementById('titreCollection').style.border = "solid 1px rgb(212, 0, 0)";
-            setMessageModal('Le champ Nom de la collection est obligatoir');
+            setMessageModal('Le champ Nom de la collection est obligatoire');
             setImageModal('../images/icons/trash_dirty.png');
             setShowModalSimpleMessage(true);
             return false;
@@ -369,8 +371,15 @@ const CreateCollection = () => {
     function handleSubmit() {
         let valid = validation();
         if (valid) {
-            var objConditions = JSON.stringify(conditions);
-
+            let imageFile = null;
+            if (image instanceof FileList) {
+                imageFile = image[0];
+            }
+            if (image instanceof Blob) {
+                imageFile = image;
+            }
+            let objConditions = JSON.stringify(conditions);
+console.log('isAutoConditions  ', isAutoConditions)
             formData.append("name", nameCollection);
             formData.append("description", descriptionCollection);
             formData.append("automatise", isAutoConditions);
@@ -381,8 +390,8 @@ const CreateCollection = () => {
             formData.append("categoryId", categoryId);
             formData.append("alt", alt);
             formData.append("imageName", imageName);
-            formData.append("image", image[0]);
-            // formData.append("image", image instanceof FileList ? image[0] : image[0]);
+            // formData.append("image", image[0]);
+            formData.append("image", imageFile);
             formData.append('key', 'tmp_imageCollection');
 
             Axios.post(`http://127.0.0.1:8000/save-collection`, formData,

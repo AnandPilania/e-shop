@@ -8,7 +8,7 @@ const Activation = () => {
     const {
         dateField, setDateField
     } = useContext(CollectionContext);
-
+console.log('dateField  ', dateField);
     return (
         <div>
             <div className="div-vert-align">
@@ -36,7 +36,7 @@ const Activation = () => {
                                         },
                                         firstDayOfWeek: 0,
                                     },
-                                    dateFormat: "d-m-Y H:00",
+                                    dateFormat: "d-m-Y H:i:s",
                                     time_24hr: true,
                                     minuteIncrement: 60
                                 }}
@@ -46,12 +46,17 @@ const Activation = () => {
                                     let month = selectedDates[0].getMonth() + 1;
                                     let year = selectedDates[0].getFullYear();
                                     let hour = selectedDates[0].getHours();
+                                    let minute = '00';
+                                    let seconde = '00';
                                     let dateActivation =
                                         (day < 10 ? "0" + day.toString() : day) + "-" +
                                         (month < 10 ? "0" + month.toString() : month) + "-" + year + " " +
-                                        (hour < 10 ? "0" + hour.toString() : hour) + ':00:00';
-                                    setDateField(new Date(dateActivation).toISOString());
-                                    localStorage.setItem("dateActivation", new Date(dateActivation).toISOString());
+                                        (hour < 10 ? "0" + hour.toString() : hour)  + ":" +
+                                        (minute.toString())  + ":" +
+                                        (seconde.toString());
+                                        console.log('dateActivation   ', dateActivation);
+                                    setDateField(dateActivation);
+                                    localStorage.setItem("dateActivation", dateActivation);
                                 }}
                             />
                         </div>
