@@ -26,7 +26,7 @@ class TemporaryStorageController extends Controller
         /// check and delete record and image if exist
         $tmp_storage = Temporary_storage::where('key', $request->key)->get();
 
-        // delete previous image collection before save the new
+        // concerne image collection -- delete previous image collection before save the new
         if (count($tmp_storage) > 0 && $request->key === 'tmp_imageCollection') {
             File::delete(public_path($tmp_storage[0]->value));
             Temporary_storage::destroy($tmp_storage[0]->id);

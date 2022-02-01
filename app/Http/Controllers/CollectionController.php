@@ -144,23 +144,47 @@ class CollectionController extends Controller
         $collection->notIncludePrevProduct = $request->notIncludePrevProduct === true ? 1 : 0;
         $collection->allConditionsNeeded = $request->allConditionsNeeded === true ? 1 : 0;
         $collection->objConditions = $request->objConditions;
+        $cleanLink = new CleanLink;
+        $collection->link = $cleanLink->cleanLink($request->name);
+        $collection->meta_title = $request->metaTitle != null ? $request->metaTitle : $collection->nam;
+
+
+        // enlève les balises img avec leur contenu ainsi que tout le balisage html de la tinyMCE description
+        $pattern = '#<p><img(.)*/></p>|<p><img(.)*/> |<div><img(.)*/></div>|<div><img(.)*/> |<p>|<div>#i';
+        $descriptionWithoutImgTag = preg_replace($pattern, '', $collection->description);
+        $pattern = '#</p>|</div>#i';
+        $descriptionWithoutImgTag = preg_replace($pattern, ' ', $descriptionWithoutImgTag);
+        $pattern = '#[^ a-zA-Z0-9\!\^\$\?\+\*\|&"\'_=\-]#i';
+        $descriptionWithoutImgTag = preg_replace($pattern, '', $descriptionWithoutImgTag);
+        $descriptionWithoutImgTag = preg_split('# \r\n|\r|\n| |  |   #', $descriptionWithoutImgTag);
+        
+        $tabDscriptionWithoutImgTag = [];
+        foreach($descriptionWithoutImgTag as $item) {
+            $item = trim($item);
+            if ($item != '') {
+                $tabDscriptionWithoutImgTag[] = $item;
+            }
+        }
+
+        $descriptionWithoutImgTag = implode(' ', $tabDscriptionWithoutImgTag);
+        // dd($descriptionWithoutImgTag);
+        $collection->meta_description = $request->metaDescription != null ? $request->metaDescription : $descriptionWithoutImgTag;
+        $collection->meta_url = $request->metaUrl != null ? $request->metaUrl : $collection->link;
 
         // Retourne un nouvel objet DateTime représentant la date et l'heure spécifiées par le texte time, qui a été formaté dans le format donné.
         $date = DateTime::createFromFormat('d-m-Y H:i:s', $request->dateActivation);
         $collection->dateActivation = $date->format('Y-m-d H:i:s');
         $collection->category_id = $request->categoryId;
-        $collection->alt = $request->alt;
+        $collection->alt = $request->alt !== null ? $request->alt :  $request->name;
         $collection->imageName = $request->imageName;
         $collection->image = $request->image;
         $collection->key = $request->key;
 
-        $cleanLink = new CleanLink;
-        $collection->link = $cleanLink->cleanLink($request->name);
-
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = explode(".", $image->getClientOriginalName());
-            $input['image'] = $imageName[0] . '_' . time() . '.' . $image->getClientOriginalExtension();
+            $extension = $image->getClientOriginalExtension() === "" ? 'jpg' : $image->getClientOriginalExtension();
+            $input['image'] = $imageName[0] . '_' . time() . '.' . $extension;
             $destinationPath = public_path('/images');
             $imgFile = Image::make($image);
 
@@ -181,10 +205,9 @@ class CollectionController extends Controller
         $collection->save();
 
         foreach ($all_conditions_matched as $id) {
-            // $collection = Collection::find($collection->id);
             $collection->products()->attach($id);
         }
-        
+
         // remove image collection from temporaryStorage, folder and db 
         $tmp_storage = Temporary_storage::where('key', $request->key)->get();
         foreach ($tmp_storage as $toDelete) {

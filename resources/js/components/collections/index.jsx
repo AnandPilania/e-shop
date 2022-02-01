@@ -379,7 +379,6 @@ const CreateCollection = () => {
                 imageFile = image;
             }
             let objConditions = JSON.stringify(conditions);
-console.log('isAutoConditions  ', isAutoConditions)
             formData.append("name", nameCollection);
             formData.append("description", descriptionCollection);
             formData.append("automatise", isAutoConditions);
@@ -390,8 +389,7 @@ console.log('isAutoConditions  ', isAutoConditions)
             formData.append("categoryId", categoryId);
             formData.append("alt", alt);
             formData.append("imageName", imageName);
-            // formData.append("image", image[0]);
-            formData.append("image", imageFile);
+            image.length > 0 && formData.append("image", imageFile);
             formData.append('key', 'tmp_imageCollection');
 
             Axios.post(`http://127.0.0.1:8000/save-collection`, formData,

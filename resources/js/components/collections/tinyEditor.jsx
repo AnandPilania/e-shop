@@ -79,7 +79,7 @@ const Tinyeditor = () => {
         let response = async () => {
             return saveInTemporaryStorage('tmp_tinyMceImages', tab)
         }
-        //success gère le stockage avec le json {location : "le path est dans  response"}
+        //success gère le stockage en recevant le path dans le json {location : "le path/name est dans  response"}
         response().then(response => {
             success(response);
             handleDeleteTinyImage(response);
@@ -125,7 +125,7 @@ const Tinyeditor = () => {
                         'alignright alignjustify | bullist numlist outdent indent | ' +
                         'image ' +
                         'media ' +
-                        'removeformat | fullscreen | wordcount',
+                        'removeformat | fullscreen | wordcount | code',
                     init_instance_callback: handleDeleteTinyImage(''),
                     // configure la base du path du stockage des images  
                     relative_urls: false,

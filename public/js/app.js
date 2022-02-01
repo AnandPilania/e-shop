@@ -24697,7 +24697,6 @@ var CreateCollection = function CreateCollection() {
       }
 
       var objConditions = JSON.stringify(conditions);
-      console.log('isAutoConditions  ', isAutoConditions);
       formData.append("name", nameCollection);
       formData.append("description", descriptionCollection);
       formData.append("automatise", isAutoConditions);
@@ -24707,9 +24706,8 @@ var CreateCollection = function CreateCollection() {
       formData.append("dateActivation", dateField);
       formData.append("categoryId", categoryId);
       formData.append("alt", alt);
-      formData.append("imageName", imageName); // formData.append("image", image[0]);
-
-      formData.append("image", imageFile);
+      formData.append("imageName", imageName);
+      image.length > 0 && formData.append("image", imageFile);
       formData.append('key', 'tmp_imageCollection');
       axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/save-collection", formData, {
         headers: {
@@ -25340,7 +25338,7 @@ var Tinyeditor = function Tinyeditor() {
       return function response() {
         return _ref.apply(this, arguments);
       };
-    }(); //success gère le stockage avec le json {location : "le path est dans  response"}
+    }(); //success gère le stockage en recevant le path dans le json {location : "le path/name est dans  response"}
 
 
     response().then(function (response) {
@@ -25380,7 +25378,7 @@ var Tinyeditor = function Tinyeditor() {
         language: tinyLanguage,
         plugins: ['advlist autolink lists link image media charmap print preview anchor', 'searchreplace visualblocks code fullscreen autoresize', 'insertdatetime media table paste code help wordcount fullscreen code'],
         // menubar: 'tools insert',
-        toolbar: 'formatselect | undo redo | ' + 'bold italic underline forecolor backcolor | alignleft aligncenter ' + 'alignright alignjustify | bullist numlist outdent indent | ' + 'image ' + 'media ' + 'removeformat | fullscreen | wordcount',
+        toolbar: 'formatselect | undo redo | ' + 'bold italic underline forecolor backcolor | alignleft aligncenter ' + 'alignright alignjustify | bullist numlist outdent indent | ' + 'image ' + 'media ' + 'removeformat | fullscreen | wordcount | code',
         init_instance_callback: handleDeleteTinyImage(''),
         // configure la base du path du stockage des images  
         relative_urls: false,

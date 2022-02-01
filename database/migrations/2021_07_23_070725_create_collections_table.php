@@ -18,17 +18,18 @@ class CreateCollectionsTable extends Migration
             $table->string('name');
             $table->longText('description')->nullable();
             $table->tinyInteger('automatise'); // si la collection s'applique selon des conditions
-            $table->tinyInteger('notIncludePrevProduct');
-            $table->tinyInteger('allConditionsNeeded');
+            $table->tinyInteger('notIncludePrevProduct')->nullable();
+            $table->tinyInteger('allConditionsNeeded')->nullable();
             $table->longText('objConditions')->nullable();
             $table->dateTime('dateActivation');
             $table->string('alt')->nullable();
             $table->string('imageName')->nullable(); // si on veut changer le nom de l'image pour améliorer le seo
-            $table->string('image'); // image path
+            $table->string('image')->nullable(); // image path
             $table->string('key'); // identifie les images dans temporaryStorage
             $table->mediumText('link'); // lien de la collection -> meta_url ou name
             $table->mediumText('meta_title')->nullable();
             $table->longText('meta_description')->nullable();
+            $table->mediumText('meta_url')->nullable();
             $table->unsignedBigInteger('category_id')->nullable();
             $table->foreign('category_id')->references('id')->on('categories');
             $table->timestamps();
