@@ -79,6 +79,9 @@ Route::get('/collections-list-back-end', [CollectionController::class, 'collecti
 // stocke temporairement dans temporary_storages une ou plusieurs images
 Route::post('/temporaryStoreImages', [TemporaryStorageController::class, 'temporaryStoreImages']);
 
+// stocke temporairement dans temporary_storages la tinymce description
+Route::post('/temporaryStoreTinyDescription', [TemporaryStorageController::class, 'temporaryStoreTinyDescription']);
+
 // get temporary collection image
 Route::get('/getSingleTemporaryImage', [TemporaryStorageController::class, 'getSingleTemporaryImage']);
 

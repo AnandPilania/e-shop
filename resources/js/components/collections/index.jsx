@@ -24,7 +24,8 @@ const CreateCollection = () => {
         value: ''
     }]);
     const [nameCollection, setNameCollection] = useLocalStorage("nameCollection", "");
-    const [descriptionCollection, setDescriptionCollection] = useState(localStorage.getItem('descriptionCollection') ? localStorage.getItem('descriptionCollection') : '');
+    // const [descriptionCollection, setDescriptionCollection] = useState(localStorage.getItem('descriptionCollection') ? localStorage.getItem('descriptionCollection') : '');
+    const [descriptionCollection, setDescriptionCollection] = useState('');
     const [metaTitle, setMetaTitle] = useLocalStorage("metaTitle", "");
     const [metaDescription, setMetaDescription] = useLocalStorage("metaDescription", "");
     const [metaUrl, setMetaUrl] = useState(window.location.origin + '/');
@@ -33,6 +34,7 @@ const CreateCollection = () => {
     const [categoryName, setCategoryName] = useLocalStorage('categoryName', 'Aucune catégorie');
     const [categoryId, setCategoryId] = useLocalStorage("categoryId", "");
     const [dateField, setDateField] = useState('');
+    const [descriptionCollectionForMeta, setDescriptionCollectionForMeta] = useState('');
     //--------------------------------------------------------------------Form
 
     const [deleteThisCategory, setDeleteThisCategory] = useState(null);
@@ -87,6 +89,7 @@ const CreateCollection = () => {
     // context de create collection
     const collectionContextValue = {
         descriptionCollection, setDescriptionCollection,
+        descriptionCollectionForMeta, setDescriptionCollectionForMeta,
         conditions, setConditions,
         isAutoConditions, setIsAutoConditions,
         allConditionsNeeded, setAllConditionsNeeded,
@@ -224,6 +227,7 @@ const CreateCollection = () => {
 
         setNameCollection('');
         setDescriptionCollection('');
+        setDescriptionCollectionForMeta('');
         setMetaTitle('');
         setMetaDescription('');
         setMetaUrl(window.location.origin + '/');
@@ -290,11 +294,7 @@ const CreateCollection = () => {
         }
 
         if (metaDescription.length === 0) {
-            if (descriptionCollection.length !== 0) {
-                formData.append("metaDescription", descriptionCollection);
-            } else {
-                formData.append("metaDescription", '');
-            }
+            formData.append("metaDescription", '');
         } else {
             formData.append("metaDescription", metaDescription);
         }
@@ -367,7 +367,7 @@ const CreateCollection = () => {
     // console.log(typeof image);
     // console.log(image instanceof FileList);
     // console.log(image instanceof Blob);
-
+    console.log(descriptionCollectionForMeta);
     function handleSubmit() {
         let valid = validation();
         if (valid) {
@@ -381,6 +381,7 @@ const CreateCollection = () => {
             let objConditions = JSON.stringify(conditions);
             formData.append("name", nameCollection);
             formData.append("description", descriptionCollection);
+            formData.append("descriptionForMeta", descriptionCollectionForMeta);
             formData.append("automatise", isAutoConditions);
             formData.append("notIncludePrevProduct", notIncludePrevProduct);
             formData.append("allConditionsNeeded", allConditionsNeeded);

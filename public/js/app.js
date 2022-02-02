@@ -24266,9 +24266,10 @@ var CreateCollection = function CreateCollection() {
   var _useLocalStorage3 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_4__.useLocalStorage)("nameCollection", ""),
       _useLocalStorage4 = _slicedToArray(_useLocalStorage3, 2),
       nameCollection = _useLocalStorage4[0],
-      setNameCollection = _useLocalStorage4[1];
+      setNameCollection = _useLocalStorage4[1]; // const [descriptionCollection, setDescriptionCollection] = useState(localStorage.getItem('descriptionCollection') ? localStorage.getItem('descriptionCollection') : '');
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(localStorage.getItem('descriptionCollection') ? localStorage.getItem('descriptionCollection') : ''),
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState2 = _slicedToArray(_useState, 2),
       descriptionCollection = _useState2[0],
       setDescriptionCollection = _useState2[1];
@@ -24311,49 +24312,54 @@ var CreateCollection = function CreateCollection() {
   var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState6 = _slicedToArray(_useState5, 2),
       dateField = _useState6[0],
-      setDateField = _useState6[1]; //--------------------------------------------------------------------Form
+      setDateField = _useState6[1];
 
-
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState8 = _slicedToArray(_useState7, 2),
-      deleteThisCategory = _useState8[0],
-      setDeleteThisCategory = _useState8[1];
+      descriptionCollectionForMeta = _useState8[0],
+      setDescriptionCollectionForMeta = _useState8[1]; //--------------------------------------------------------------------Form
 
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState10 = _slicedToArray(_useState9, 2),
-      isAutoConditions = _useState10[0],
-      setIsAutoConditions = _useState10[1];
+      deleteThisCategory = _useState10[0],
+      setDeleteThisCategory = _useState10[1];
 
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState12 = _slicedToArray(_useState11, 2),
-      notIncludePrevProduct = _useState12[0],
-      setNotIncludePrevProduct = _useState12[1];
+      isAutoConditions = _useState12[0],
+      setIsAutoConditions = _useState12[1];
 
-  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState14 = _slicedToArray(_useState13, 2),
-      allConditionsNeeded = _useState14[0],
-      setAllConditionsNeeded = _useState14[1];
+      notIncludePrevProduct = _useState14[0],
+      setNotIncludePrevProduct = _useState14[1];
 
-  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState16 = _slicedToArray(_useState15, 2),
-      tmp_parameter = _useState16[0],
-      setTmp_parameter = _useState16[1]; // pour stocker provisoirement une variable
+      allConditionsNeeded = _useState16[0],
+      setAllConditionsNeeded = _useState16[1];
 
-
-  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
       _useState18 = _slicedToArray(_useState17, 2),
-      isDirty = _useState18[0],
-      setIsDirty = _useState18[1];
+      tmp_parameter = _useState18[0],
+      setTmp_parameter = _useState18[1]; // pour stocker provisoirement une variable
 
-  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+
+  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState20 = _slicedToArray(_useState19, 2),
-      warningIdCondition = _useState20[0],
-      setWarningIdCondition = _useState20[1];
+      isDirty = _useState20[0],
+      setIsDirty = _useState20[1];
 
-  var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('fr_FR'),
+  var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState22 = _slicedToArray(_useState21, 2),
-      tinyLanguage = _useState22[0],
-      setTinyLanguage = _useState22[1]; // remove caracteres unauthorized for url
+      warningIdCondition = _useState22[0],
+      setWarningIdCondition = _useState22[1];
+
+  var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('fr_FR'),
+      _useState24 = _slicedToArray(_useState23, 2),
+      tinyLanguage = _useState24[0],
+      setTinyLanguage = _useState24[1]; // remove caracteres unauthorized for url
 
 
   var normalizUrl = function normalizUrl(str) {
@@ -24407,6 +24413,8 @@ var CreateCollection = function CreateCollection() {
   var collectionContextValue = {
     descriptionCollection: descriptionCollection,
     setDescriptionCollection: setDescriptionCollection,
+    descriptionCollectionForMeta: descriptionCollectionForMeta,
+    setDescriptionCollectionForMeta: setDescriptionCollectionForMeta,
     conditions: conditions,
     setConditions: setConditions,
     isAutoConditions: isAutoConditions,
@@ -24547,6 +24555,7 @@ var CreateCollection = function CreateCollection() {
   var initCollectionForm = function initCollectionForm() {
     setNameCollection('');
     setDescriptionCollection('');
+    setDescriptionCollectionForMeta('');
     setMetaTitle('');
     setMetaDescription('');
     setMetaUrl(window.location.origin + '/');
@@ -24609,11 +24618,7 @@ var CreateCollection = function CreateCollection() {
     }
 
     if (metaDescription.length === 0) {
-      if (descriptionCollection.length !== 0) {
-        formData.append("metaDescription", descriptionCollection);
-      } else {
-        formData.append("metaDescription", '');
-      }
+      formData.append("metaDescription", '');
     } else {
       formData.append("metaDescription", metaDescription);
     }
@@ -24682,6 +24687,8 @@ var CreateCollection = function CreateCollection() {
   // console.log(image instanceof Blob);
 
 
+  console.log(descriptionCollectionForMeta);
+
   function handleSubmit() {
     var valid = validation();
 
@@ -24699,6 +24706,7 @@ var CreateCollection = function CreateCollection() {
       var objConditions = JSON.stringify(conditions);
       formData.append("name", nameCollection);
       formData.append("description", descriptionCollection);
+      formData.append("descriptionForMeta", descriptionCollectionForMeta);
       formData.append("automatise", isAutoConditions);
       formData.append("notIncludePrevProduct", notIncludePrevProduct);
       formData.append("allConditionsNeeded", allConditionsNeeded);
@@ -25256,11 +25264,17 @@ var Tinyeditor = function Tinyeditor() {
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_2__["default"]),
       descriptionCollection = _useContext.descriptionCollection,
       setDescriptionCollection = _useContext.setDescriptionCollection,
+      setDescriptionCollectionForMeta = _useContext.setDescriptionCollectionForMeta,
       tinyLanguage = _useContext.tinyLanguage;
 
+  var initDescriptionForMeta = function initDescriptionForMeta() {
+    setDescriptionCollectionForMeta(editorRef.current.getContent({
+      format: 'text'
+    }));
+  };
+
   var handleDescriptionCollection = function handleDescriptionCollection(description) {
-    setDescriptionCollection(description);
-    localStorage.setItem("descriptionCollection", description);
+    setDescriptionCollection(description); // localStorage.setItem("descriptionCollection", description);
   };
 
   var editorRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null); // detect if tinyMCE images are deleted and remove it from folder and db
@@ -25316,6 +25330,7 @@ var Tinyeditor = function Tinyeditor() {
 
 
   function tinyMCE_image_upload_handler(blobInfo, success, failure, progress) {
+    alert('ok');
     var tab = [];
     tab.push(blobInfo.blob());
 
@@ -25357,7 +25372,10 @@ var Tinyeditor = function Tinyeditor() {
       id: "tinyEditor",
       apiKey: "859uqxkoeg5bds7w4yx9ihw5exy86bhtgq56fvxwsjopxbf2",
       onInit: function onInit(evt, editor) {
-        return editorRef.current = editor;
+        editorRef.current = editor;
+        initDescriptionForMeta(editorRef.current.getContent({
+          format: 'text'
+        }));
       } // initialValue={descriptionCollection}
       ,
       value: descriptionCollection,
@@ -25420,6 +25438,33 @@ var Tinyeditor = function Tinyeditor() {
           };
 
           input.click();
+        },
+        media_url_resolver: function media_url_resolver(data, resolve
+        /*, reject*/
+        ) {
+          console.log(data);
+          var videoFile = new FormData();
+          videoFile.append('videoFile', data.url);
+          axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/temporaryStoreTinyDescription", videoFile, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }).then(function (res) {
+            console.log('res.data  --->  ok');
+
+            if (res.data === 'ok') {}
+          });
+
+          if (data.url.indexOf('YOUR_SPECIAL_VIDEO_URL') !== -1) {
+            var embedHtml = '<iframe src="' + data.url + '" width="400" height="400" ></iframe>';
+            resolve({
+              html: embedHtml
+            });
+          } else {
+            resolve({
+              html: ''
+            });
+          }
         },
         video_template_callback: function video_template_callback(data) {
           return '<video width="' + data.width + '" height="' + data.height + '"' + (data.poster ? ' poster="' + data.poster + '"' : '') + ' controls="controls">\n' + '<source src="' + data.source + '"' + (data.sourcemime ? ' type="' + data.sourcemime + '"' : '') + ' />\n' + (data.altsource ? '<source src="' + data.altsource + '"' + (data.altsourcemime ? ' type="' + data.altsourcemime + '"' : '') + ' />\n' : '') + '</video>';

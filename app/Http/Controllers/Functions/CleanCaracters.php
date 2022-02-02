@@ -13,4 +13,6 @@ class CleanCaracters
 
         return strtolower($cleanCaracters);
     }
+    
+
 }

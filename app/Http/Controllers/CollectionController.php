@@ -11,8 +11,8 @@ use App\Models\Temporary_storage;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use App\Http\Controllers\Functions\CleanLink;
-use App\Http\Controllers\Functions\GetArrayOfConditions;
 use App\Http\Requests\StoreCollectionRequest;
+use App\Http\Controllers\Functions\GetArrayOfConditions;
 
 class CollectionController extends Controller
 {
@@ -112,7 +112,7 @@ class CollectionController extends Controller
     public function storeAndAssign(StoreCollectionRequest $request)
     {
         // dd($request->validated());
-        // dd($request);
+        // dd($request->metaDescription);
 
         $conditions = json_decode($request->objConditions);
         // renvoi un ou plusieurs tableaux avec les produits qui correspondes aux conditions demandées
@@ -147,30 +147,11 @@ class CollectionController extends Controller
         $cleanLink = new CleanLink;
         $collection->link = $cleanLink->cleanLink($request->name);
         $collection->meta_title = $request->metaTitle != null ? $request->metaTitle : $collection->nam;
-
-
         // enlève les balises img avec leur contenu ainsi que tout le balisage html de la tinyMCE description
-        $pattern = '#<p><img(.)*/></p>|<p><img(.)*/> |<div><img(.)*/></div>|<div><img(.)*/> |<p>|<div>#i';
-        $descriptionWithoutImgTag = preg_replace($pattern, '', $collection->description);
-        $pattern = '#</p>|</div>#i';
-        $descriptionWithoutImgTag = preg_replace($pattern, ' ', $descriptionWithoutImgTag);
-        $pattern = '#[^ a-zA-Z0-9\!\^\$\?\+\*\|&"\'_=\-]#i';
-        $descriptionWithoutImgTag = preg_replace($pattern, '', $descriptionWithoutImgTag);
-        $descriptionWithoutImgTag = preg_split('# \r\n|\r|\n| |  |   #', $descriptionWithoutImgTag);
-        
-        $tabDscriptionWithoutImgTag = [];
-        foreach($descriptionWithoutImgTag as $item) {
-            $item = trim($item);
-            if ($item != '') {
-                $tabDscriptionWithoutImgTag[] = $item;
-            }
-        }
-
-        $descriptionWithoutImgTag = implode(' ', $tabDscriptionWithoutImgTag);
-        // dd($descriptionWithoutImgTag);
+        $pattern = '#\s{1,}|  {1,}#i';
+        $descriptionWithoutImgTag = preg_replace($pattern, ' ', $request->descriptionForMeta);
         $collection->meta_description = $request->metaDescription != null ? $request->metaDescription : $descriptionWithoutImgTag;
         $collection->meta_url = $request->metaUrl != null ? $request->metaUrl : $collection->link;
-
         // Retourne un nouvel objet DateTime représentant la date et l'heure spécifiées par le texte time, qui a été formaté dans le format donné.
         $date = DateTime::createFromFormat('d-m-Y H:i:s', $request->dateActivation);
         $collection->dateActivation = $date->format('Y-m-d H:i:s');
@@ -207,7 +188,7 @@ class CollectionController extends Controller
         foreach ($all_conditions_matched as $id) {
             $collection->products()->attach($id);
         }
-
+        dd($descriptionWithoutImgTag);
         // remove image collection from temporaryStorage, folder and db 
         $tmp_storage = Temporary_storage::where('key', $request->key)->get();
         foreach ($tmp_storage as $toDelete) {

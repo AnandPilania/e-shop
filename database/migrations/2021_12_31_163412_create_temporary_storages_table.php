@@ -16,7 +16,8 @@ class CreateTemporaryStoragesTable extends Migration
         Schema::create('temporary_storages', function (Blueprint $table) {
             $table->id();
             $table->string('key');
-            $table->string('value');
+            $table->string('value')->nullable();
+            $table->json('big_data')->nullable();
             $table->timestamps();
         });
     }

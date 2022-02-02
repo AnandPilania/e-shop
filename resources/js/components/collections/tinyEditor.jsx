@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react';
+import React, { useEffect, useContext, useRef } from 'react';
 import CollectionContext from '../contexts/CollectionContext';
 import Axios from 'axios';
 import { Editor } from '@tinymce/tinymce-react';
@@ -8,12 +8,16 @@ import { saveInTemporaryStorage } from '../functions/temporaryStorage/saveInTemp
 const Tinyeditor = () => {
 
     const {
-        descriptionCollection, setDescriptionCollection, tinyLanguage
+        descriptionCollection, setDescriptionCollection, setDescriptionCollectionForMeta, tinyLanguage
     } = useContext(CollectionContext);
+
+    const initDescriptionForMeta = () => {
+        setDescriptionCollectionForMeta(editorRef.current.getContent({ format: 'text' }));
+    };
 
     const handleDescriptionCollection = (description) => {
         setDescriptionCollection(description);
-        localStorage.setItem("descriptionCollection", description);
+        // localStorage.setItem("descriptionCollection", description);
     };
 
     const editorRef = useRef(null);
@@ -74,6 +78,7 @@ const Tinyeditor = () => {
 
     // save tinymce images in temporary Storage folder and db table
     function tinyMCE_image_upload_handler(blobInfo, success, failure, progress) {
+        alert('ok')
         let tab = [];
         tab.push(blobInfo.blob());
         let response = async () => {
@@ -94,7 +99,11 @@ const Tinyeditor = () => {
             <Editor
                 id='tinyEditor'
                 apiKey="859uqxkoeg5bds7w4yx9ihw5exy86bhtgq56fvxwsjopxbf2"
-                onInit={(evt, editor) => editorRef.current = editor}
+                onInit={(evt, editor) => {
+                    editorRef.current = editor;
+                    initDescriptionForMeta(editorRef.current.getContent({ format: 'text' }));
+                }
+                }
                 // initialValue={descriptionCollection}
                 value={descriptionCollection}
                 onEditorChange={
@@ -162,11 +171,43 @@ const Tinyeditor = () => {
 
                         input.click();
                     },
+                    media_url_resolver: function (data, resolve/*, reject*/) {
+     
+                        console.log(data);
+
+                        let videoFile = new FormData;
+                        videoFile.append('videoFile', data.url);
+                        Axios.post(`http://127.0.0.1:8000/temporaryStoreTinyDescription`, videoFile,
+                            {
+                                headers: {
+                                    'Content-Type': 'multipart/form-data'
+                                }
+                            })
+                            .then(res => {
+                                console.log('res.data  --->  ok');
+                                if (res.data === 'ok') {
+
+
+                                }
+                            });
+
+
+
+
+                        if (data.url.indexOf('YOUR_SPECIAL_VIDEO_URL') !== -1) {
+                            var embedHtml = '<iframe src="' + data.url +
+                                '" width="400" height="400" ></iframe>';
+                            resolve({ html: embedHtml });
+                        } else {
+                            resolve({ html: '' });
+                        }
+                    },
                     video_template_callback: function (data) {
+
                         return '<video width="' + data.width + '" height="' + data.height + '"' + (data.poster ? ' poster="' + data.poster + '"' : '') + ' controls="controls">\n' + '<source src="' + data.source + '"' + (data.sourcemime ? ' type="' + data.sourcemime + '"' : '') + ' />\n' + (data.altsource ? '<source src="' + data.altsource + '"' + (data.altsourcemime ? ' type="' + data.altsourcemime + '"' : '') + ' />\n' : '') + '</video>';
                     },
                     // a11y_advanced_options: true,
-                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px; } body::-webkit-scrollbar-track { box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); border-radius: 10px; background-color: #f5f5f5; color: red;}' + 'tox-sidebar--sliding-closed { background-color: #f5f5f5; }'  
+                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px; } body::-webkit-scrollbar-track { box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); border-radius: 10px; background-color: #f5f5f5; color: red;}' + 'tox-sidebar--sliding-closed { background-color: #f5f5f5; }'
                 }}
             />
         </div>

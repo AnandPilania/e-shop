@@ -68,6 +68,17 @@ class TemporaryStorageController extends Controller
         }
     }
 
+    //
+    public function temporaryStoreTinyDescription(Request $request)
+    {
+        dd($request);
+
+        // $tmp_storage = new Temporary_storage;
+        // $tmp_storage->key = $request->key;
+        // $tmp_storage->value = '/temporaryStorage/' . $input['image'];
+        // $tmp_storage->save();
+    }
+
     // delete all images which have the provided key
     public function deleteTemporayStoredImages(Request $request)
     {
