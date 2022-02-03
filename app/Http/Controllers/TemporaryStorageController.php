@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Temporary_storage;
-use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Functions\CleanCaracters;
 
 class TemporaryStorageController extends Controller
@@ -22,7 +23,12 @@ class TemporaryStorageController extends Controller
     // stock des images temporaires
     public function temporaryStoreImages(Request $request)
     {
-        // dd($request->key);
+        // dd($request);
+
+        // $ext_images_array = array("gif", "jpeg", "jpg", "png", "tif", "tiff", "bmp");
+        // $ext_images = $request->file('value')->getClientOriginalExtension();
+
+
         /// check and delete record and image if exist
         $tmp_storage = Temporary_storage::where('key', $request->key)->get();
 
@@ -71,12 +77,37 @@ class TemporaryStorageController extends Controller
     //
     public function temporaryStoreTinyDescription(Request $request)
     {
-        dd($request);
+        // dd($request->videoFile);
+        if ($request->hasFile('value')) {
+            $file = $request->file('value');
+            $ext_videos = $file->getClientOriginalExtension();
+            $ext_videos_array = array("mp4", "m4v", "ogv", "webm", "mov");
+            if (in_array($ext_videos, $ext_videos_array)) {
 
-        // $tmp_storage = new Temporary_storage;
-        // $tmp_storage->key = $request->key;
-        // $tmp_storage->value = '/temporaryStorage/' . $input['image'];
-        // $tmp_storage->save();
+            // on crée une random string pour ajouter au nom de l'image
+                $random = substr(str_shuffle("0123456789abcdefghijklmnopqrstvwxyz"), 0, 10);
+                // on explode pour récuppérer le nom sans l'extention
+                $imageName = explode(".", $file->getClientOriginalName());
+                $pattern = '/[\!\^\$\?\+\*\|&"\'_=\- ]+/i';
+                $imageName[0] =  preg_replace($pattern, '-', $imageName[0]);
+                $cleanCaracters = new CleanCaracters;
+                // remplace all specials caracteres and lowerCase
+                $url = $cleanCaracters->cleanCaracters($imageName[0]) . '-' . $random . '.' . $file->getClientOriginalExtension();
+
+
+                $path = 'temporaryStorage/';
+                $file->move($path, $url);
+
+                $tmp_storage = new Temporary_storage;
+                $tmp_storage->key = $request->key;
+                $tmp_storage->value = $path . $url;
+                $tmp_storage->save();
+
+                return $path . $url;
+            } else {
+                return 'This file type is not allowed';
+            }
+        }   
     }
 
     // delete all images which have the provided key

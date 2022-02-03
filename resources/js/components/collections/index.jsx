@@ -24,8 +24,8 @@ const CreateCollection = () => {
         value: ''
     }]);
     const [nameCollection, setNameCollection] = useLocalStorage("nameCollection", "");
-    // const [descriptionCollection, setDescriptionCollection] = useState(localStorage.getItem('descriptionCollection') ? localStorage.getItem('descriptionCollection') : '');
-    const [descriptionCollection, setDescriptionCollection] = useState('');
+    const [descriptionCollection, setDescriptionCollection] = useState(localStorage.getItem('descriptionCollection') ? localStorage.getItem('descriptionCollection') : '');
+    // const [descriptionCollection, setDescriptionCollection] = useState('');
     const [metaTitle, setMetaTitle] = useLocalStorage("metaTitle", "");
     const [metaDescription, setMetaDescription] = useLocalStorage("metaDescription", "");
     const [metaUrl, setMetaUrl] = useState(window.location.origin + '/');

@@ -24254,13 +24254,13 @@ var CreateCollection = function CreateCollection() {
   var _useLocalStorage3 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_4__.useLocalStorage)("nameCollection", ""),
       _useLocalStorage4 = _slicedToArray(_useLocalStorage3, 2),
       nameCollection = _useLocalStorage4[0],
-      setNameCollection = _useLocalStorage4[1]; // const [descriptionCollection, setDescriptionCollection] = useState(localStorage.getItem('descriptionCollection') ? localStorage.getItem('descriptionCollection') : '');
+      setNameCollection = _useLocalStorage4[1];
 
-
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(localStorage.getItem('descriptionCollection') ? localStorage.getItem('descriptionCollection') : ''),
       _useState2 = _slicedToArray(_useState, 2),
       descriptionCollection = _useState2[0],
-      setDescriptionCollection = _useState2[1];
+      setDescriptionCollection = _useState2[1]; // const [descriptionCollection, setDescriptionCollection] = useState('');
+
 
   var _useLocalStorage5 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_4__.useLocalStorage)("metaTitle", ""),
       _useLocalStorage6 = _slicedToArray(_useLocalStorage5, 2),
@@ -25262,7 +25262,8 @@ var Tinyeditor = function Tinyeditor() {
   };
 
   var handleDescriptionCollection = function handleDescriptionCollection(description) {
-    setDescriptionCollection(description); // localStorage.setItem("descriptionCollection", description);
+    setDescriptionCollection(description);
+    localStorage.setItem("descriptionCollection", description);
   };
 
   var editorRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null); // detect if tinyMCE images are deleted and remove it from folder and db
@@ -25403,26 +25404,67 @@ var Tinyeditor = function Tinyeditor() {
         file_picker_callback: function file_picker_callback(cb, value, meta) {
           var input = document.createElement('input');
           input.setAttribute('type', 'file');
-          input.setAttribute('accept', 'image/*');
+          input.setAttribute('accept', 'image/*, video/*');
 
           input.onchange = function () {
             var file = this.files[0];
-            var reader = new FileReader();
 
-            reader.onload = function () {
-              var id = 'blobid' + new Date().getTime();
-              var blobCache = tinymce.activeEditor.editorUpload.blobCache;
-              var base64 = reader.result.split(',')[1];
-              var blobInfo = blobCache.create(id, file, base64);
-              blobCache.add(blobInfo);
-              /* call the callback and populate the Title field with the file name */
+            if (meta.filetype == 'image') {
+              var reader = new FileReader();
 
-              cb(blobInfo.blobUri(), {
-                title: file.name
-              });
-            };
+              reader.onload = function () {
+                var id = 'blobid' + new Date().getTime();
+                var blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                var base64 = reader.result.split(',')[1];
+                var blobInfo = blobCache.create(id, file, base64);
+                blobCache.add(blobInfo);
+                /* call the callback and populate the Title field with the file name */
 
-            reader.readAsDataURL(file);
+                cb(blobInfo.blobUri(), {
+                  title: file.name
+                });
+              };
+
+              reader.readAsDataURL(file);
+            }
+
+            ;
+
+            if (meta.filetype == 'media') {
+              var reader = new FileReader();
+              var videoElement = document.createElement('video');
+
+              reader.onload = function (e) {
+                videoElement.src = e.target.result;
+                var timer = setInterval(function () {
+                  if (videoElement.readyState === 4) {
+                    if (videoElement.duration) {
+                      var videoFile = new FormData();
+                      videoFile.append('key', 'tmp_tinyMceVideos');
+                      videoFile.append('value', file);
+                      axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/temporaryStoreTinyDescription", videoFile, {
+                        headers: {
+                          'Content-Type': 'multipart/form-data'
+                        }
+                      }).then(function (res) {
+                        console.log('res.data  --->  ok');
+
+                        if (res.data) {
+                          cb(res.data, {
+                            source2: 'alt.ogg',
+                            poster: ''
+                          });
+                        }
+                      });
+                    }
+
+                    clearInterval(timer);
+                  }
+                }, 500);
+              };
+
+              reader.readAsDataURL(file);
+            }
           };
 
           input.click();
@@ -25430,21 +25472,8 @@ var Tinyeditor = function Tinyeditor() {
         media_url_resolver: function media_url_resolver(data, resolve
         /*, reject*/
         ) {
-          console.log(data);
-          var videoFile = new FormData();
-          videoFile.append('videoFile', data.url);
-          axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/temporaryStoreTinyDescription", videoFile, {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-          }).then(function (res) {
-            console.log('res.data  --->  ok');
-
-            if (res.data === 'ok') {}
-          });
-
-          if (data.url.indexOf('YOUR_SPECIAL_VIDEO_URL') !== -1) {
-            var embedHtml = '<iframe src="' + data.url + '" width="400" height="400" ></iframe>';
+          if (data.url.indexOf(data) !== -1) {
+            var embedHtml = '<iframe src="' + data.url + '" width="' + data.width + '" height="' + data.height + '" ></iframe>';
             resolve({
               html: embedHtml
             });

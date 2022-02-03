@@ -17,7 +17,7 @@ const Tinyeditor = () => {
 
     const handleDescriptionCollection = (description) => {
         setDescriptionCollection(description);
-        // localStorage.setItem("descriptionCollection", description);
+        localStorage.setItem("descriptionCollection", description);
     };
 
     const editorRef = useRef(null);
@@ -151,52 +151,66 @@ const Tinyeditor = () => {
                     file_picker_callback: function (cb, value, meta) {
                         var input = document.createElement('input');
                         input.setAttribute('type', 'file');
-                        input.setAttribute('accept', 'image/*');
+                        input.setAttribute('accept', 'image/*, video/*');
                         input.onchange = function () {
                             var file = this.files[0];
 
-                            var reader = new FileReader();
-                            reader.onload = function () {
-                                var id = 'blobid' + (new Date()).getTime();
-                                var blobCache = tinymce.activeEditor.editorUpload.blobCache;
-                                var base64 = reader.result.split(',')[1];
-                                var blobInfo = blobCache.create(id, file, base64);
-                                blobCache.add(blobInfo);
+                            if (meta.filetype == 'image') {
+                                var reader = new FileReader();
+                                reader.onload = function () {
+                                    var id = 'blobid' + (new Date()).getTime();
+                                    var blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                                    var base64 = reader.result.split(',')[1];
+                                    var blobInfo = blobCache.create(id, file, base64);
+                                    blobCache.add(blobInfo);
 
-                                /* call the callback and populate the Title field with the file name */
-                                cb(blobInfo.blobUri(), { title: file.name });
+                                    /* call the callback and populate the Title field with the file name */
+                                    cb(blobInfo.blobUri(), { title: file.name });
+                                };
+                                reader.readAsDataURL(file);
                             };
-                            reader.readAsDataURL(file);
-                        };
 
+                            if (meta.filetype == 'media') {
+                                var reader = new FileReader();
+                                var videoElement = document.createElement('video');
+                                reader.onload = (e) => {
+                                    videoElement.src = e.target.result;
+                                    var timer = setInterval(() => {
+                                        if (videoElement.readyState === 4) {
+                                            if (videoElement.duration) {
+                                                let videoFile = new FormData;
+                                                videoFile.append('key', 'tmp_tinyMceVideos');
+                                                videoFile.append('value', file);
+                                                Axios.post(`http://127.0.0.1:8000/temporaryStoreTinyDescription`, videoFile,
+                                                    {
+                                                        headers: {
+                                                            'Content-Type': 'multipart/form-data'
+                                                        }
+                                                    })
+                                                    .then(res => {
+                                                        console.log('res.data  --->  ok');
+                                                        if (res.data) {
+                                                            cb(res.data, { source2: 'alt.ogg', poster: '' });
+
+                                                        }
+                                                    });
+                                            }
+                                            clearInterval(timer);
+                                        }
+                                    }, 500)
+                                }
+                                reader.readAsDataURL(file);
+                            }
+                        }
                         input.click();
                     },
                     media_url_resolver: function (data, resolve/*, reject*/) {
-     
-                        console.log(data);
-
-                        let videoFile = new FormData;
-                        videoFile.append('videoFile', data.url);
-                        Axios.post(`http://127.0.0.1:8000/temporaryStoreTinyDescription`, videoFile,
-                            {
-                                headers: {
-                                    'Content-Type': 'multipart/form-data'
-                                }
-                            })
-                            .then(res => {
-                                console.log('res.data  --->  ok');
-                                if (res.data === 'ok') {
-
-
-                                }
-                            });
-
-
-
-
-                        if (data.url.indexOf('YOUR_SPECIAL_VIDEO_URL') !== -1) {
-                            var embedHtml = '<iframe src="' + data.url +
-                                '" width="400" height="400" ></iframe>';
+                        if (data.url.indexOf(data) !== -1) {
+                            var embedHtml =
+                                '<iframe src="' + data.url +
+                                '" width="' + data.width +
+                                '" height="' + data.height +
+                                '" ></iframe>';
                             resolve({ html: embedHtml });
                         } else {
                             resolve({ html: '' });
