@@ -7,7 +7,7 @@ use App\Models\Temporary_storage;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Controllers\Functions\CleanCaracters;
+use App\Http\Controllers\Functions\StringTools;
 
 class TemporaryStorageController extends Controller
 {
@@ -42,25 +42,10 @@ class TemporaryStorageController extends Controller
             $images = $request->file('value');
             foreach ($images as $image) {
                 $tmp_storage = new Temporary_storage;
-                // on crée une random string pour ajouter au nom de l'image
-                $random = substr(str_shuffle("0123456789abcdefghijklmnopqrstvwxyz"), 0, 10);
-                // on explode pour récuppérer le nom sans l'extention
-                $imageName = explode(".", $image->getClientOriginalName());
-                $pattern = '/[\!\^\$\?\+\*\|&"\'_=\- ]+/i';
-                $imageName[0] =  preg_replace($pattern, '-', $imageName[0]);
-                $cleanCaracters = new CleanCaracters;
-                // remplace all specials caracteres and lowerCase
-                $imageName[0] = $cleanCaracters->cleanCaracters($imageName[0]);
 
-                // on reconstruit le nom de l'image
-                if ($image->getClientOriginalExtension() == '') {
-                    // si l'image a été drag drop d'un autre site elle n'aura peut-être pas d'extension même si c'est un fichier png ou autres images
-                    $input['image'] = $imageName[0] . '_' .  $random . '.jpg';
-                } else {
-                    // image avec extension
-                    $input['image'] = $imageName[0] . '_' .  $random .  '.jpg';
-                }
-
+                $tools = new StringTools;
+                $input['image'] = $tools->nameGenerator($image);
+                
                 $destinationPath = public_path('/temporaryStorage');
                 $imgFile = Image::make($image);
                 $imgFile->save($destinationPath . '/' . $input['image']);
@@ -69,7 +54,7 @@ class TemporaryStorageController extends Controller
                 $tmp_storage->value = '/temporaryStorage/' . $input['image'];
                 $tmp_storage->save();
             }
-            // return response()->json(['location' => $tmp_storage->value]);
+            // return response()->json(['location' => $tmp_storage->value]); <- no touch
             return $tmp_storage->value;
         }
     }
@@ -77,37 +62,27 @@ class TemporaryStorageController extends Controller
     //
     public function temporaryStoreTinyDescription(Request $request)
     {
-        // dd($request->videoFile);
         if ($request->hasFile('value')) {
             $file = $request->file('value');
-            $ext_videos = $file->getClientOriginalExtension();
+            $ext_video = $file->getClientOriginalExtension();
             $ext_videos_array = array("mp4", "m4v", "ogv", "webm", "mov");
-            if (in_array($ext_videos, $ext_videos_array)) {
+            if (in_array($ext_video, $ext_videos_array)) {
 
-            // on crée une random string pour ajouter au nom de l'image
-                $random = substr(str_shuffle("0123456789abcdefghijklmnopqrstvwxyz"), 0, 10);
-                // on explode pour récuppérer le nom sans l'extention
-                $imageName = explode(".", $file->getClientOriginalName());
-                $pattern = '/[\!\^\$\?\+\*\|&"\'_=\- ]+/i';
-                $imageName[0] =  preg_replace($pattern, '-', $imageName[0]);
-                $cleanCaracters = new CleanCaracters;
-                // remplace all specials caracteres and lowerCase
-                $url = $cleanCaracters->cleanCaracters($imageName[0]) . '-' . $random . '.' . $file->getClientOriginalExtension();
-
-
+                $tools = new StringTools;
+                $newName = $tools->nameGenerator($file);
                 $path = 'temporaryStorage/';
-                $file->move($path, $url);
+                $file->move($path, $newName);
 
                 $tmp_storage = new Temporary_storage;
                 $tmp_storage->key = $request->key;
-                $tmp_storage->value = $path . $url;
+                $tmp_storage->value = $path . $newName;
                 $tmp_storage->save();
 
-                return $path . $url;
+                return $path . $newName;
             } else {
                 return 'This file type is not allowed';
             }
-        }   
+        }
     }
 
     // delete all images which have the provided key
@@ -122,18 +97,32 @@ class TemporaryStorageController extends Controller
     }
 
     // delete removed tinyMCE images in folder and db
-    public function deleteTinyMceTemporayStoredImages(Request $request)
+    public function deleteTinyMceTemporayStoredImagesVideos(Request $request)
     {
-        // dd($request->key);
-        $tab_dataToDelete = explode(',', $request->value);
-        $tinyImagesInDB = Temporary_storage::where('key', 'tmp_tinyMceImages')->get();
-        foreach ($tinyImagesInDB as $imageDB) {
-            // si une image en db n'est pas dans les images qu'on a reçu alors on la delete
-            if (!in_array($imageDB->value,  $tab_dataToDelete)) {
+        // dd($request);
+        $ext_videos_check = array(".mp4", ".m4v", ".ogv", ".webm", ".mov");
 
-                File::delete(public_path(substr($imageDB->value, 1)));
-                Temporary_storage::destroy($imageDB->id);
+        $tab_data = explode(',', $request->value);
+        $tinyImagesVideosInDB = Temporary_storage::where('key', 'tmp_tinyMceImages')->orWhere('key', 'tmp_tinyMceVideos')->get();
+
+        foreach ($tinyImagesVideosInDB as $imageVideoDB) {
+            // check if video file for remove the first '/' from name
+            foreach ($ext_videos_check as $end_string) {
+                if (str_ends_with($imageVideoDB->value, $end_string)) {
+                    $imageVideoDB->value = '/' . $imageVideoDB->value;
+                }
             }
+            // si une image ou video en db n'est pas dans les images qu'on a reçu alors on la delete
+            echo $imageVideoDB->value . '<br>';
+            
+            // if (!in_array($imageVideoDB->value, $tab_data)) {
+            //     Temporary_storage::destroy($imageVideoDB->id);
+            //     File::delete(public_path(substr($imageVideoDB->value, 1)));
+            // }
+        }
+        echo '<br><br><br><br>';
+        foreach($tab_data as $data) {
+            echo $data . '<br>';
         }
     }
 

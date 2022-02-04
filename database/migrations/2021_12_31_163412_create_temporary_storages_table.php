@@ -17,7 +17,6 @@ class CreateTemporaryStoragesTable extends Migration
             $table->id();
             $table->string('key');
             $table->string('value')->nullable();
-            $table->json('big_data')->nullable();
             $table->timestamps();
         });
     }

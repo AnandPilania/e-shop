@@ -363,11 +363,7 @@ const CreateCollection = () => {
             });
 
     }
-    // console.log('image   ', image);
-    // console.log(typeof image);
-    // console.log(image instanceof FileList);
-    // console.log(image instanceof Blob);
-    console.log(descriptionCollectionForMeta);
+
     function handleSubmit() {
         let valid = validation();
         if (valid) {
@@ -405,6 +401,7 @@ const CreateCollection = () => {
                         initCollectionForm();
                         // gére le netoyage des tinyImages dans table temporayStorage 
                         cleanTemporayStorage('tmp_tinyMceImages');
+                        cleanTemporayStorage('tmp_tinyMceVideos');
                     }
                 });
         }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Functions;
 
 
-class CleanCaracters
+class StringTools
 {
     public function cleanCaracters($str)
     {
@@ -12,6 +12,22 @@ class CleanCaracters
         $cleanCaracters = str_replace($search, $replace, $str);
 
         return strtolower($cleanCaracters);
+    }
+
+
+    public function nameGenerator($file)
+    {
+        // on crée une random string pour ajouter au nom de l'image
+        $random = substr(str_shuffle("0123456789abcdefghijklmnopqrstvwxyz"), 0, 10);
+        // on explode pour récuppérer le nom sans l'extention
+        $imageName = explode(".", $file->getClientOriginalName());
+        $pattern = '/[\!\^\$\?\+\*\|&"\'_=\- ]+/i';
+        $imageName[0] =  preg_replace($pattern, '-', $imageName[0]);
+
+        // remplace all specials caracteres and lowerCase
+        $newName = $this->cleanCaracters($imageName[0]) . '-' . $random . '.' . $file->getClientOriginalExtension();
+
+        return $newName;
     }
     
 

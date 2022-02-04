@@ -24669,13 +24669,7 @@ var CreateCollection = function CreateCollection() {
     })["catch"](function (error) {
       console.log('Error : ' + error.status);
     });
-  } // console.log('image   ', image);
-  // console.log(typeof image);
-  // console.log(image instanceof FileList);
-  // console.log(image instanceof Blob);
-
-
-  console.log(descriptionCollectionForMeta);
+  }
 
   function handleSubmit() {
     var valid = validation();
@@ -24716,6 +24710,7 @@ var CreateCollection = function CreateCollection() {
           initCollectionForm(); // gére le netoyage des tinyImages dans table temporayStorage 
 
           cleanTemporayStorage('tmp_tinyMceImages');
+          cleanTemporayStorage('tmp_tinyMceVideos');
         }
       });
     }
@@ -25253,7 +25248,8 @@ var Tinyeditor = function Tinyeditor() {
       descriptionCollection = _useContext.descriptionCollection,
       setDescriptionCollection = _useContext.setDescriptionCollection,
       setDescriptionCollectionForMeta = _useContext.setDescriptionCollectionForMeta,
-      tinyLanguage = _useContext.tinyLanguage;
+      tinyLanguage = _useContext.tinyLanguage; // reçois le contenu de Editor au format text "sans les balises" pour mettre à la place de metaDescrption s'il est vide
+
 
   var initDescriptionForMeta = function initDescriptionForMeta() {
     setDescriptionCollectionForMeta(editorRef.current.getContent({
@@ -25268,7 +25264,7 @@ var Tinyeditor = function Tinyeditor() {
 
   var editorRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null); // detect if tinyMCE images are deleted and remove it from folder and db
 
-  function handleDeleteTinyImage(str) {
+  function handleDeleteTinyImagesAndVideos(str) {
     var Div = document.createElement("div"); // when init_instance_callback('')
 
     if (str.length === 0) {
@@ -25282,32 +25278,29 @@ var Tinyeditor = function Tinyeditor() {
       Div.innerHTML = str;
     }
 
-    var imgs = Div.getElementsByTagName('img');
-    var img_dom_tab = Array.from(imgs);
-    var img_dom_tab_src = []; // <-- contiendra toutes les src des images dans Editor
+    var imgs_vids = Div.querySelectorAll('img, source');
+    var img_video_dom_tab = Array.from(imgs_vids);
+    var img_video_dom_tab_src = []; // <-- contiendra toutes les src des images ou videos dans Editor
 
-    img_dom_tab.forEach(function (image) {
-      return img_dom_tab_src.push(image.src.replace(window.location.origin, ''));
-    }); // check if is a base64 file
+    img_video_dom_tab.forEach(function (item) {
+      img_video_dom_tab_src.push(item.src.replace(window.location.origin, ''));
+    }); // check si file est un base64 pour ne pas envoyer la requète tant qu'il n'a pas été save dans la db et le dossier et qu'on a pas récupéré son path pour le src
 
-    var noDataImage = img_dom_tab_src.every(function (src) {
-      if (src.includes('data:image')) {
-        return false;
-      }
+    function checkNoBase64(file) {
+      return !file.includes('data:image') && !file.includes('data:video');
+    }
 
-      return true;
-    });
+    var noBase64_image_video = img_video_dom_tab_src.every(checkNoBase64);
 
-    if (noDataImage && img_dom_tab_src.length > 0) {
-      var tinyImageToDelete = new FormData();
-      tinyImageToDelete.append('key', 'tmp_tinyMceImages');
-      tinyImageToDelete.append('value', img_dom_tab_src);
-      axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/deleteTinyMceTemporayStoredImages", tinyImageToDelete, {
+    if (noBase64_image_video) {
+      var tinyImagesVideosList = new FormData();
+      tinyImagesVideosList.append('value', img_video_dom_tab_src);
+      axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/deleteTinyMceTemporayStoredImagesVideos", tinyImagesVideosList, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       }).then(function (res) {
-        console.log('images handled');
+        console.log('images and videos been handled');
         return res.data;
       })["catch"](function (error) {
         console.log('Error : ' + error.status);
@@ -25319,7 +25312,6 @@ var Tinyeditor = function Tinyeditor() {
 
 
   function tinyMCE_image_upload_handler(blobInfo, success, failure, progress) {
-    alert('ok');
     var tab = [];
     tab.push(blobInfo.blob());
 
@@ -25347,7 +25339,7 @@ var Tinyeditor = function Tinyeditor() {
 
     response().then(function (response) {
       success(response);
-      handleDeleteTinyImage(response);
+      handleDeleteTinyImagesAndVideos(response);
       failure('Un erreur c\'est produite ==> ', {
         remove: true
       });
@@ -25355,6 +25347,78 @@ var Tinyeditor = function Tinyeditor() {
   }
 
   ;
+
+  function handleCallBack(cb, value, meta) {
+    console.log('yes');
+    var input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    var filesAccepted = meta.filetype === 'media' ? 'video/*' : 'image/*';
+    input.setAttribute('accept', filesAccepted);
+
+    input.onchange = function () {
+      var file = this.files[0];
+
+      if (meta.filetype == 'image') {
+        var reader = new FileReader();
+
+        reader.onload = function () {
+          var id = 'blobid' + new Date().getTime();
+          var blobCache = tinymce.activeEditor.editorUpload.blobCache;
+          var base64 = reader.result.split(',')[1];
+          var blobInfo = blobCache.create(id, file, base64);
+          blobCache.add(blobInfo);
+          /* call the callback and populate the Title field with the file name */
+
+          cb(blobInfo.blobUri(), {
+            title: file.name
+          });
+        };
+
+        reader.readAsDataURL(file);
+      }
+
+      ;
+
+      if (meta.filetype == 'media') {
+        var reader = new FileReader();
+        var videoElement = document.createElement('video');
+
+        reader.onload = function (e) {
+          videoElement.src = e.target.result;
+          var timer = setInterval(function () {
+            if (videoElement.readyState === 4) {
+              if (videoElement.duration) {
+                var videoFile = new FormData();
+                videoFile.append('key', 'tmp_tinyMceVideos');
+                videoFile.append('value', file);
+                axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/temporaryStoreTinyDescription", videoFile, {
+                  headers: {
+                    'Content-Type': 'multipart/form-data'
+                  }
+                }).then(function (res) {
+                  console.log('res.data  --->  ok');
+
+                  if (res.data) {
+                    cb(res.data, {
+                      source2: 'alt.ogg',
+                      poster: ''
+                    });
+                  }
+                });
+              }
+
+              clearInterval(timer);
+            }
+          }, 500);
+        };
+
+        reader.readAsDataURL(file);
+      }
+    };
+
+    input.click();
+  }
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
     className: "sub-div-vert-align",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_tinymce_tinymce_react__WEBPACK_IMPORTED_MODULE_4__.Editor, {
@@ -25362,8 +25426,9 @@ var Tinyeditor = function Tinyeditor() {
       apiKey: "859uqxkoeg5bds7w4yx9ihw5exy86bhtgq56fvxwsjopxbf2",
       onInit: function onInit(evt, editor) {
         editorRef.current = editor;
-        initDescriptionForMeta(editorRef.current.getContent({
-          format: 'text'
+        initDescriptionForMeta();
+        console.log(editorRef.current.getContent({
+          format: 'html'
         }));
       } // initialValue={descriptionCollection}
       ,
@@ -25386,7 +25451,7 @@ var Tinyeditor = function Tinyeditor() {
         plugins: ['advlist autolink lists link image media charmap print preview anchor', 'searchreplace visualblocks code fullscreen autoresize', 'insertdatetime media table paste code help wordcount fullscreen code'],
         // menubar: 'tools insert',
         toolbar: 'formatselect | undo redo | ' + 'bold italic underline forecolor backcolor | alignleft aligncenter ' + 'alignright alignjustify | bullist numlist outdent indent | ' + 'image ' + 'media ' + 'removeformat | fullscreen | wordcount | code',
-        init_instance_callback: handleDeleteTinyImage(''),
+        init_instance_callback: handleDeleteTinyImagesAndVideos(''),
         // configure la base du path du stockage des images  
         relative_urls: false,
         remove_script_host: false,
@@ -25401,74 +25466,62 @@ var Tinyeditor = function Tinyeditor() {
         file_picker_types: 'image media',
 
         /* and here's our custom image picker*/
-        file_picker_callback: function file_picker_callback(cb, value, meta) {
-          var input = document.createElement('input');
-          input.setAttribute('type', 'file');
-          input.setAttribute('accept', 'image/*, video/*');
-
-          input.onchange = function () {
-            var file = this.files[0];
-
-            if (meta.filetype == 'image') {
-              var reader = new FileReader();
-
-              reader.onload = function () {
-                var id = 'blobid' + new Date().getTime();
-                var blobCache = tinymce.activeEditor.editorUpload.blobCache;
-                var base64 = reader.result.split(',')[1];
-                var blobInfo = blobCache.create(id, file, base64);
-                blobCache.add(blobInfo);
-                /* call the callback and populate the Title field with the file name */
-
-                cb(blobInfo.blobUri(), {
-                  title: file.name
-                });
-              };
-
-              reader.readAsDataURL(file);
-            }
-
-            ;
-
-            if (meta.filetype == 'media') {
-              var reader = new FileReader();
-              var videoElement = document.createElement('video');
-
-              reader.onload = function (e) {
-                videoElement.src = e.target.result;
-                var timer = setInterval(function () {
-                  if (videoElement.readyState === 4) {
-                    if (videoElement.duration) {
-                      var videoFile = new FormData();
-                      videoFile.append('key', 'tmp_tinyMceVideos');
-                      videoFile.append('value', file);
-                      axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/temporaryStoreTinyDescription", videoFile, {
-                        headers: {
-                          'Content-Type': 'multipart/form-data'
-                        }
-                      }).then(function (res) {
-                        console.log('res.data  --->  ok');
-
-                        if (res.data) {
-                          cb(res.data, {
-                            source2: 'alt.ogg',
-                            poster: ''
-                          });
-                        }
-                      });
-                    }
-
-                    clearInterval(timer);
-                  }
-                }, 500);
-              };
-
-              reader.readAsDataURL(file);
-            }
-          };
-
-          input.click();
-        },
+        file_picker_callback: handleCallBack,
+        // file_picker_callback: function (cb, value, meta) {
+        //     var input = document.createElement('input');
+        //     input.setAttribute('type', 'file');
+        //     let filesAccepted = meta.filetype === 'media' ? 'video/*' : 'image/*';
+        //     input.setAttribute('accept', filesAccepted);
+        //     input.onchange = function () {
+        //         var file = this.files[0];
+        //         if (meta.filetype == 'image') {
+        //             var reader = new FileReader();
+        //             reader.onload = function () {
+        //                 var id = 'blobid' + (new Date()).getTime();
+        //                 var blobCache = tinymce.activeEditor.editorUpload.blobCache;
+        //                 var base64 = reader.result.split(',')[1];
+        //                 var blobInfo = blobCache.create(id, file, base64);
+        //                 blobCache.add(blobInfo);
+        //                 /* call the callback and populate the Title field with the file name */
+        //                 cb(blobInfo.blobUri(), { title: file.name });
+        //             };
+        //             reader.readAsDataURL(file);
+        //         };
+        //         if (meta.filetype == 'media') {
+        //             var reader = new FileReader();
+        //             var videoElement = document.createElement('video');
+        //             reader.onload = (e) => {
+        //                 videoElement.src = e.target.result;
+        //                 var timer = setInterval(() => {
+        //                     if (videoElement.readyState === 4) {
+        //                         if (videoElement.duration) {
+        //                             let videoFile = new FormData;
+        //                             videoFile.append('key', 'tmp_tinyMceVideos');
+        //                             videoFile.append('value', file);
+        //                             Axios.post(`http://127.0.0.1:8000/temporaryStoreTinyDescription`, videoFile,
+        //                                 {
+        //                                     headers: {
+        //                                         'Content-Type': 'multipart/form-data'
+        //                                     }
+        //                                 })
+        //                                 .then(res => {
+        //                                     console.log('res.data  --->  ok');
+        //                                     if (res.data) {
+        //                                         cb(res.data, { source2: 'alt.ogg', poster: '' });
+        //                                     }
+        //                                 });
+        //                         }
+        //                         clearInterval(timer);
+        //                     }
+        //                 }, 500)
+        //             }
+        //             reader.readAsDataURL(file);
+        //         }
+        //     }
+        //     input.click();
+        //     console.log('value  ', value);
+        //     console.log('meta  ', meta);
+        // },
         media_url_resolver: function media_url_resolver(data, resolve
         /*, reject*/
         ) {
