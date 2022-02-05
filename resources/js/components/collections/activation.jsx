@@ -8,7 +8,7 @@ const Activation = () => {
     const {
         dateField, setDateField
     } = useContext(CollectionContext);
-console.log('dateField  ', dateField);
+
     return (
         <div>
             <div className="div-vert-align">

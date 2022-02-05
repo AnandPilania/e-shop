@@ -225,7 +225,7 @@ const DropZone = (props) => {
         for (var i = 0; i < files.length; i++) {
             if (validateImage(files[i])) {
                 setImage(tab);
-                handleChangeImage(tab);
+                handleChangeImage(files[i]);
                 previewImage(files[i]);
             }
         }

@@ -3,13 +3,9 @@ import Axios from "axios";
 export function saveInTemporaryStorage(key, value) {
     var tmp_Data = new FormData;
 
-    if (value.length > 0) {
-        tmp_Data.append('key', key);
+    tmp_Data.append('key', key);
+    tmp_Data.append('value', value);
 
-        for (let i = 0; i < value.length; i++) {
-            tmp_Data.append('value[]', value[i]);
-        }
-    };
 
     let response = Axios.post(`http://127.0.0.1:8000/temporaryStoreImages`, tmp_Data,
         {

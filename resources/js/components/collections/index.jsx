@@ -402,6 +402,7 @@ const CreateCollection = () => {
                         // gére le netoyage des tinyImages dans table temporayStorage 
                         cleanTemporayStorage('tmp_tinyMceImages');
                         cleanTemporayStorage('tmp_tinyMceVideos');
+                        cleanTemporayStorage('tmp_imageCollection');
                     }
                 });
         }

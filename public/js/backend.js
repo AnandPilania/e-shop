@@ -22987,7 +22987,6 @@ var Activation = function Activation() {
       dateField = _useContext.dateField,
       setDateField = _useContext.setDateField;
 
-  console.log('dateField  ', dateField);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "div-vert-align",
@@ -24711,6 +24710,7 @@ var CreateCollection = function CreateCollection() {
 
           cleanTemporayStorage('tmp_tinyMceImages');
           cleanTemporayStorage('tmp_tinyMceVideos');
+          cleanTemporayStorage('tmp_imageCollection');
         }
       });
     }
@@ -25248,8 +25248,9 @@ var Tinyeditor = function Tinyeditor() {
       descriptionCollection = _useContext.descriptionCollection,
       setDescriptionCollection = _useContext.setDescriptionCollection,
       setDescriptionCollectionForMeta = _useContext.setDescriptionCollectionForMeta,
-      tinyLanguage = _useContext.tinyLanguage; // reçois le contenu de Editor au format text "sans les balises" pour mettre à la place de metaDescrption s'il est vide
+      tinyLanguage = _useContext.tinyLanguage;
 
+  var editorRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null); // reçois le contenu de Editor au format text "sans les balises" pour mettre à la place de metaDescrption s'il est vide
 
   var initDescriptionForMeta = function initDescriptionForMeta() {
     setDescriptionCollectionForMeta(editorRef.current.getContent({
@@ -25260,26 +25261,16 @@ var Tinyeditor = function Tinyeditor() {
   var handleDescriptionCollection = function handleDescriptionCollection(description) {
     setDescriptionCollection(description);
     localStorage.setItem("descriptionCollection", description);
-  };
-
-  var editorRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null); // detect if tinyMCE images are deleted and remove it from folder and db
-
-  function handleDeleteTinyImagesAndVideos(str) {
-    var Div = document.createElement("div"); // when init_instance_callback('')
-
-    if (str.length === 0) {
-      if (editorRef.current) {
-        Div.innerHTML = editorRef.current.getContent();
-      }
-    } // when tinyMCE_image_upload_handler with (response)
+  }; // detect if tinyMCE images are deleted and remove it from folder and db
 
 
-    if (str.length > 0) {
-      Div.innerHTML = str;
-    }
+  function handleDeleteTinyImagesAndVideos() {
+    var Div = document.createElement("div"); // get data from editorRef
 
+    if (editorRef.current) Div.innerHTML = editorRef.current.getContent();
     var imgs_vids = Div.querySelectorAll('img, source');
     var img_video_dom_tab = Array.from(imgs_vids);
+    if (img_video_dom_tab.length === 1) localStorage.setItem('lastToDelete', img_video_dom_tab[0].src.replace(window.location.origin));
     var img_video_dom_tab_src = []; // <-- contiendra toutes les src des images ou videos dans Editor
 
     img_video_dom_tab.forEach(function (item) {
@@ -25293,7 +25284,14 @@ var Tinyeditor = function Tinyeditor() {
     var noBase64_image_video = img_video_dom_tab_src.every(checkNoBase64);
 
     if (noBase64_image_video) {
-      var tinyImagesVideosList = new FormData();
+      var tinyImagesVideosList = new FormData(); // lastToDelete is used to informe that it is the last image or video to delete
+
+      if (img_video_dom_tab.length === 0) {
+        tinyImagesVideosList.append('lastToDelete', true);
+      } else {
+        tinyImagesVideosList.append('lastToDelete', false);
+      }
+
       tinyImagesVideosList.append('value', img_video_dom_tab_src);
       axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/deleteTinyMceTemporayStoredImagesVideos", tinyImagesVideosList, {
         headers: {
@@ -25301,6 +25299,7 @@ var Tinyeditor = function Tinyeditor() {
         }
       }).then(function (res) {
         console.log('images and videos been handled');
+        tinyImagesVideosList.append('lastToDelete', false);
         return res.data;
       })["catch"](function (error) {
         console.log('Error : ' + error.status);
@@ -25308,20 +25307,17 @@ var Tinyeditor = function Tinyeditor() {
       Div.remove();
       return;
     }
-  } // save tinymce images in temporary Storage folder and db table
+  } // save tinymce images in temporary Storage folder and db 
 
 
   function tinyMCE_image_upload_handler(blobInfo, success, failure, progress) {
-    var tab = [];
-    tab.push(blobInfo.blob());
-
     var response = /*#__PURE__*/function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                return _context.abrupt("return", (0,_functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_5__.saveInTemporaryStorage)('tmp_tinyMceImages', tab));
+                return _context.abrupt("return", (0,_functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_5__.saveInTemporaryStorage)('tmp_tinyMceImages', blobInfo.blob()));
 
               case 1:
               case "end":
@@ -25339,17 +25335,16 @@ var Tinyeditor = function Tinyeditor() {
 
     response().then(function (response) {
       success(response);
-      handleDeleteTinyImagesAndVideos(response);
+      handleDeleteTinyImagesAndVideos();
       failure('Un erreur c\'est produite ==> ', {
         remove: true
       });
     });
   }
 
-  ;
+  ; // handle add images and videos
 
   function handleCallBack(cb, value, meta) {
-    console.log('yes');
     var input = document.createElement('input');
     input.setAttribute('type', 'file');
     var filesAccepted = meta.filetype === 'media' ? 'video/*' : 'image/*';
@@ -25380,6 +25375,7 @@ var Tinyeditor = function Tinyeditor() {
       ;
 
       if (meta.filetype == 'media') {
+        console.log(meta);
         var reader = new FileReader();
         var videoElement = document.createElement('video');
 
@@ -25391,7 +25387,7 @@ var Tinyeditor = function Tinyeditor() {
                 var videoFile = new FormData();
                 videoFile.append('key', 'tmp_tinyMceVideos');
                 videoFile.append('value', file);
-                axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/temporaryStoreTinyDescription", videoFile, {
+                axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/temporaryStoreImages", videoFile, {
                   headers: {
                     'Content-Type': 'multipart/form-data'
                   }
@@ -25427,9 +25423,6 @@ var Tinyeditor = function Tinyeditor() {
       onInit: function onInit(evt, editor) {
         editorRef.current = editor;
         initDescriptionForMeta();
-        console.log(editorRef.current.getContent({
-          format: 'html'
-        }));
       } // initialValue={descriptionCollection}
       ,
       value: descriptionCollection,
@@ -25437,6 +25430,7 @@ var Tinyeditor = function Tinyeditor() {
         handleDescriptionCollection(newText);
       },
       init: {
+        setProgressState: true,
         selector: '#tinyEditor',
         entity_encoding: "raw",
         branding: false,
@@ -25451,7 +25445,7 @@ var Tinyeditor = function Tinyeditor() {
         plugins: ['advlist autolink lists link image media charmap print preview anchor', 'searchreplace visualblocks code fullscreen autoresize', 'insertdatetime media table paste code help wordcount fullscreen code'],
         // menubar: 'tools insert',
         toolbar: 'formatselect | undo redo | ' + 'bold italic underline forecolor backcolor | alignleft aligncenter ' + 'alignright alignjustify | bullist numlist outdent indent | ' + 'image ' + 'media ' + 'removeformat | fullscreen | wordcount | code',
-        init_instance_callback: handleDeleteTinyImagesAndVideos(''),
+        init_instance_callback: handleDeleteTinyImagesAndVideos(),
         // configure la base du path du stockage des images  
         relative_urls: false,
         remove_script_host: false,
@@ -25467,61 +25461,6 @@ var Tinyeditor = function Tinyeditor() {
 
         /* and here's our custom image picker*/
         file_picker_callback: handleCallBack,
-        // file_picker_callback: function (cb, value, meta) {
-        //     var input = document.createElement('input');
-        //     input.setAttribute('type', 'file');
-        //     let filesAccepted = meta.filetype === 'media' ? 'video/*' : 'image/*';
-        //     input.setAttribute('accept', filesAccepted);
-        //     input.onchange = function () {
-        //         var file = this.files[0];
-        //         if (meta.filetype == 'image') {
-        //             var reader = new FileReader();
-        //             reader.onload = function () {
-        //                 var id = 'blobid' + (new Date()).getTime();
-        //                 var blobCache = tinymce.activeEditor.editorUpload.blobCache;
-        //                 var base64 = reader.result.split(',')[1];
-        //                 var blobInfo = blobCache.create(id, file, base64);
-        //                 blobCache.add(blobInfo);
-        //                 /* call the callback and populate the Title field with the file name */
-        //                 cb(blobInfo.blobUri(), { title: file.name });
-        //             };
-        //             reader.readAsDataURL(file);
-        //         };
-        //         if (meta.filetype == 'media') {
-        //             var reader = new FileReader();
-        //             var videoElement = document.createElement('video');
-        //             reader.onload = (e) => {
-        //                 videoElement.src = e.target.result;
-        //                 var timer = setInterval(() => {
-        //                     if (videoElement.readyState === 4) {
-        //                         if (videoElement.duration) {
-        //                             let videoFile = new FormData;
-        //                             videoFile.append('key', 'tmp_tinyMceVideos');
-        //                             videoFile.append('value', file);
-        //                             Axios.post(`http://127.0.0.1:8000/temporaryStoreTinyDescription`, videoFile,
-        //                                 {
-        //                                     headers: {
-        //                                         'Content-Type': 'multipart/form-data'
-        //                                     }
-        //                                 })
-        //                                 .then(res => {
-        //                                     console.log('res.data  --->  ok');
-        //                                     if (res.data) {
-        //                                         cb(res.data, { source2: 'alt.ogg', poster: '' });
-        //                                     }
-        //                                 });
-        //                         }
-        //                         clearInterval(timer);
-        //                     }
-        //                 }, 500)
-        //             }
-        //             reader.readAsDataURL(file);
-        //         }
-        //     }
-        //     input.click();
-        //     console.log('value  ', value);
-        //     console.log('meta  ', meta);
-        // },
         media_url_resolver: function media_url_resolver(data, resolve
         /*, reject*/
         ) {
@@ -28248,16 +28187,8 @@ __webpack_require__.r(__webpack_exports__);
 
 function saveInTemporaryStorage(key, value) {
   var tmp_Data = new FormData();
-
-  if (value.length > 0) {
-    tmp_Data.append('key', key);
-
-    for (var i = 0; i < value.length; i++) {
-      tmp_Data.append('value[]', value[i]);
-    }
-  }
-
-  ;
+  tmp_Data.append('key', key);
+  tmp_Data.append('value', value);
   var response = axios__WEBPACK_IMPORTED_MODULE_0___default().post("http://127.0.0.1:8000/temporaryStoreImages", tmp_Data, {
     headers: {
       'Content-Type': 'multipart/form-data'
@@ -29550,7 +29481,7 @@ var DropZone = function DropZone(props) {
     for (var i = 0; i < files.length; i++) {
       if (validateImage(files[i])) {
         setImage(tab);
-        handleChangeImage(tab);
+        handleChangeImage(files[i]);
         previewImage(files[i]);
       }
     }

@@ -24,56 +24,38 @@ class TemporaryStorageController extends Controller
     public function temporaryStoreImages(Request $request)
     {
         // dd($request);
-
-        // $ext_images_array = array("gif", "jpeg", "jpg", "png", "tif", "tiff", "bmp");
-        // $ext_images = $request->file('value')->getClientOriginalExtension();
-
-
-        /// check and delete record and image if exist
-        $tmp_storage = Temporary_storage::where('key', $request->key)->get();
-
         // concerne image collection -- delete previous image collection before save the new
-        if (count($tmp_storage) > 0 && $request->key === 'tmp_imageCollection') {
-            File::delete(public_path($tmp_storage[0]->value));
-            Temporary_storage::destroy($tmp_storage[0]->id);
+        $only_imageCollection = Temporary_storage::where('key', $request->key)->get();
+        if (count($only_imageCollection) > 0 && $request->key === 'tmp_imageCollection') {
+            File::delete(public_path($only_imageCollection[0]->value));
+            Temporary_storage::destroy($only_imageCollection[0]->id);
         }
 
         if ($request->hasFile('value')) {
-            $images = $request->file('value');
-            foreach ($images as $image) {
-                $tmp_storage = new Temporary_storage;
 
-                $tools = new StringTools;
-                $input['image'] = $tools->nameGenerator($image);
-                
-                $destinationPath = public_path('/temporaryStorage');
-                $imgFile = Image::make($image);
-                $imgFile->save($destinationPath . '/' . $input['image']);
+            $file = $request->file('value');
+            $ext = $file->getClientOriginalExtension();
+            $ext_videos_array = array("mp4", "m4v", "ogv", "webm", "mov");
+            $ext_images_array = array('jpeg', 'jpg', 'jpe', 'jfi', 'jif', 'jfif', 'png', 'gif', 'bmp', 'webp');
+
+            $tmp_storage = new Temporary_storage;
+            $tools = new StringTools;
+            $newName = $tools->nameGenerator($file);
+
+            if (in_array($ext, $ext_images_array)) {
+                $Path = public_path('/temporaryStorage');
+                $imgFile = Image::make($file);
+                $imgFile->save($Path . '/' . $newName);
 
                 $tmp_storage->key = $request->key;
-                $tmp_storage->value = '/temporaryStorage/' . $input['image'];
+                $tmp_storage->value = '/temporaryStorage/' . $newName;
                 $tmp_storage->save();
-            }
-            // return response()->json(['location' => $tmp_storage->value]); <- no touch
-            return $tmp_storage->value;
-        }
-    }
 
-    //
-    public function temporaryStoreTinyDescription(Request $request)
-    {
-        if ($request->hasFile('value')) {
-            $file = $request->file('value');
-            $ext_video = $file->getClientOriginalExtension();
-            $ext_videos_array = array("mp4", "m4v", "ogv", "webm", "mov");
-            if (in_array($ext_video, $ext_videos_array)) {
-
-                $tools = new StringTools;
-                $newName = $tools->nameGenerator($file);
+                return $tmp_storage->value;
+            } elseif (in_array($ext, $ext_videos_array)) {
                 $path = 'temporaryStorage/';
                 $file->move($path, $newName);
 
-                $tmp_storage = new Temporary_storage;
                 $tmp_storage->key = $request->key;
                 $tmp_storage->value = $path . $newName;
                 $tmp_storage->save();
@@ -100,29 +82,31 @@ class TemporaryStorageController extends Controller
     public function deleteTinyMceTemporayStoredImagesVideos(Request $request)
     {
         // dd($request);
-        $ext_videos_check = array(".mp4", ".m4v", ".ogv", ".webm", ".mov");
 
         $tab_data = explode(',', $request->value);
         $tinyImagesVideosInDB = Temporary_storage::where('key', 'tmp_tinyMceImages')->orWhere('key', 'tmp_tinyMceVideos')->get();
 
-        foreach ($tinyImagesVideosInDB as $imageVideoDB) {
-            // check if video file for remove the first '/' from name
-            foreach ($ext_videos_check as $end_string) {
-                if (str_ends_with($imageVideoDB->value, $end_string)) {
-                    $imageVideoDB->value = '/' . $imageVideoDB->value;
+        foreach ($tinyImagesVideosInDB as $item) {
+            // check if video file for add '/' to name
+            foreach ([".mp4", ".m4v", ".ogv", ".webm", ".mov"] as $ext) {
+                if (str_ends_with($item->value, $ext)) {
+                    $item->value = '/' . $item->value;
                 }
             }
-            // si une image ou video en db n'est pas dans les images qu'on a reçu alors on la delete
-            echo $imageVideoDB->value . '<br>';
-            
-            // if (!in_array($imageVideoDB->value, $tab_data)) {
-            //     Temporary_storage::destroy($imageVideoDB->id);
-            //     File::delete(public_path(substr($imageVideoDB->value, 1)));
-            // }
-        }
-        echo '<br><br><br><br>';
-        foreach($tab_data as $data) {
-            echo $data . '<br>';
+            // si une image ou video en db n'est pas dans les images qu'on a reçu alors on la delete         
+            if (!in_array($item->value, $tab_data) && $tab_data[0] !== "") {
+                Temporary_storage::destroy($item->id);
+                File::delete(public_path(substr($item->value, 1)));
+            }
+
+            // if is the last video or image then we get it and remove it
+            if ($request->lastToDelete === "true") {
+                if (count($tinyImagesVideosInDB) === 1) {
+                    $toDelete = Temporary_storage::where('key', 'tmp_tinyMceImages')->orWhere('key', 'tmp_tinyMceVideos')->first();
+                    Temporary_storage::destroy($toDelete->id);
+                    File::delete(public_path($toDelete->value));
+                }
+            }
         }
     }
 

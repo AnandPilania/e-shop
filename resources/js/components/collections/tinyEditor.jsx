@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import CollectionContext from '../contexts/CollectionContext';
 import Axios from 'axios';
 import { Editor } from '@tinymce/tinymce-react';
@@ -11,6 +11,8 @@ const Tinyeditor = () => {
         descriptionCollection, setDescriptionCollection, setDescriptionCollectionForMeta, tinyLanguage
     } = useContext(CollectionContext);
 
+    const editorRef = useRef(null);
+
     // reçois le contenu de Editor au format text "sans les balises" pour mettre à la place de metaDescrption s'il est vide
     const initDescriptionForMeta = () => {
         setDescriptionCollectionForMeta(editorRef.current.getContent({ format: 'text' }));
@@ -21,26 +23,19 @@ const Tinyeditor = () => {
         localStorage.setItem("descriptionCollection", description);
     };
 
-    const editorRef = useRef(null);
 
     // detect if tinyMCE images are deleted and remove it from folder and db
-    function handleDeleteTinyImagesAndVideos(str) {
+    function handleDeleteTinyImagesAndVideos() {
 
         let Div = document.createElement("div");
-        // when init_instance_callback('')
-        if (str.length === 0) {
-            if (editorRef.current) {
-                Div.innerHTML = editorRef.current.getContent();
-            }
-        }
-        // when tinyMCE_image_upload_handler with (response)
-        if (str.length > 0) {
-            Div.innerHTML = str;
-        }
+        // get data from editorRef
+        if (editorRef.current) Div.innerHTML = editorRef.current.getContent();
 
-        let imgs_vids = Div.querySelectorAll('img, source'); 
+        let imgs_vids = Div.querySelectorAll('img, source');  
         let img_video_dom_tab = Array.from(imgs_vids);
-        
+
+        if (img_video_dom_tab.length === 1) localStorage.setItem('lastToDelete', img_video_dom_tab[0].src.replace(window.location.origin));
+
         let img_video_dom_tab_src = []; // <-- contiendra toutes les src des images ou videos dans Editor
         img_video_dom_tab.forEach(item => {
             img_video_dom_tab_src.push(item.src.replace(window.location.origin, ''))
@@ -54,6 +49,14 @@ const Tinyeditor = () => {
 
         if (noBase64_image_video) {
             let tinyImagesVideosList = new FormData;
+
+            // lastToDelete is used to informe that it is the last image or video to delete
+            if (img_video_dom_tab.length === 0) {
+                tinyImagesVideosList.append('lastToDelete', true);
+            } else {
+                tinyImagesVideosList.append('lastToDelete', false);
+            }
+
             tinyImagesVideosList.append('value', img_video_dom_tab_src);
 
             Axios.post(`http://127.0.0.1:8000/deleteTinyMceTemporayStoredImagesVideos`, tinyImagesVideosList,
@@ -64,6 +67,7 @@ const Tinyeditor = () => {
                 })
                 .then(res => {
                     console.log('images and videos been handled');
+                    tinyImagesVideosList.append('lastToDelete', false);
                     return res.data;
                 })
                 .catch(error => {
@@ -75,22 +79,21 @@ const Tinyeditor = () => {
         }
     }
 
-    // save tinymce images in temporary Storage folder and db table
+    // save tinymce images in temporary Storage folder and db 
     function tinyMCE_image_upload_handler(blobInfo, success, failure, progress) {
-        let tab = [];
-        tab.push(blobInfo.blob());
         let response = async () => {
-            return saveInTemporaryStorage('tmp_tinyMceImages', tab)
+            return saveInTemporaryStorage('tmp_tinyMceImages', blobInfo.blob())
         }
         //success gère le stockage en recevant le path dans le json {location : "le path/name est dans  response"}
         response().then(response => {
             success(response);
-            handleDeleteTinyImagesAndVideos(response);
+            handleDeleteTinyImagesAndVideos();
             failure('Un erreur c\'est produite ==> ', { remove: true });
         });
     };
 
-    function handleCallBack(cb, value, meta) { console.log('yes');
+    // handle add images and videos
+    function handleCallBack(cb, value, meta) { 
         var input = document.createElement('input');
         input.setAttribute('type', 'file');
         let filesAccepted = meta.filetype === 'media' ? 'video/*' : 'image/*';
@@ -113,7 +116,11 @@ const Tinyeditor = () => {
                 reader.readAsDataURL(file);
             };
 
-            if (meta.filetype == 'media') {
+            if (meta.filetype == 'media') { 
+                
+                console.log(meta);
+
+
                 var reader = new FileReader();
                 var videoElement = document.createElement('video');
                 reader.onload = (e) => {
@@ -124,7 +131,7 @@ const Tinyeditor = () => {
                                 let videoFile = new FormData;
                                 videoFile.append('key', 'tmp_tinyMceVideos');
                                 videoFile.append('value', file);
-                                Axios.post(`http://127.0.0.1:8000/temporaryStoreTinyDescription`, videoFile,
+                                Axios.post(`http://127.0.0.1:8000/temporaryStoreImages`, videoFile,
                                     {
                                         headers: {
                                             'Content-Type': 'multipart/form-data'
@@ -157,7 +164,6 @@ const Tinyeditor = () => {
                 onInit={(evt, editor) => {
                     editorRef.current = editor;
                     initDescriptionForMeta();
-                    console.log(editorRef.current.getContent({ format: 'html' }));
                 }
                 }
                 // initialValue={descriptionCollection}
@@ -168,6 +174,7 @@ const Tinyeditor = () => {
                     }
                 }
                 init={{
+                    setProgressState: true,
                     selector: '#tinyEditor',
                     entity_encoding: "raw",
                     branding: false,
@@ -191,7 +198,7 @@ const Tinyeditor = () => {
                         'image ' +
                         'media ' +
                         'removeformat | fullscreen | wordcount | code',
-                    init_instance_callback: handleDeleteTinyImagesAndVideos(''),
+                    init_instance_callback: handleDeleteTinyImagesAndVideos(),
                     // configure la base du path du stockage des images  
                     relative_urls: false,
                     remove_script_host: false,
@@ -205,65 +212,6 @@ const Tinyeditor = () => {
                     file_picker_types: 'image media',
                     /* and here's our custom image picker*/
                     file_picker_callback: handleCallBack,
-                    // file_picker_callback: function (cb, value, meta) {
-                    //     var input = document.createElement('input');
-                    //     input.setAttribute('type', 'file');
-                    //     let filesAccepted = meta.filetype === 'media' ? 'video/*' : 'image/*';
-                    //     input.setAttribute('accept', filesAccepted);
-                    //     input.onchange = function () {
-                    //         var file = this.files[0];
-
-                    //         if (meta.filetype == 'image') {
-                    //             var reader = new FileReader();
-                    //             reader.onload = function () {
-                    //                 var id = 'blobid' + (new Date()).getTime();
-                    //                 var blobCache = tinymce.activeEditor.editorUpload.blobCache;
-                    //                 var base64 = reader.result.split(',')[1];
-                    //                 var blobInfo = blobCache.create(id, file, base64);
-                    //                 blobCache.add(blobInfo);
-
-                    //                 /* call the callback and populate the Title field with the file name */
-                    //                 cb(blobInfo.blobUri(), { title: file.name });
-                    //             };
-                    //             reader.readAsDataURL(file);
-                    //         };
-
-                    //         if (meta.filetype == 'media') {
-                    //             var reader = new FileReader();
-                    //             var videoElement = document.createElement('video');
-                    //             reader.onload = (e) => {
-                    //                 videoElement.src = e.target.result;
-                    //                 var timer = setInterval(() => {
-                    //                     if (videoElement.readyState === 4) {
-                    //                         if (videoElement.duration) {
-                    //                             let videoFile = new FormData;
-                    //                             videoFile.append('key', 'tmp_tinyMceVideos');
-                    //                             videoFile.append('value', file);
-                    //                             Axios.post(`http://127.0.0.1:8000/temporaryStoreTinyDescription`, videoFile,
-                    //                                 {
-                    //                                     headers: {
-                    //                                         'Content-Type': 'multipart/form-data'
-                    //                                     }
-                    //                                 })
-                    //                                 .then(res => {
-                    //                                     console.log('res.data  --->  ok');
-                    //                                     if (res.data) {
-                    //                                         cb(res.data, { source2: 'alt.ogg', poster: '' });
-
-                    //                                     }
-                    //                                 });
-                    //                         }
-                    //                         clearInterval(timer);
-                    //                     }
-                    //                 }, 500)
-                    //             }
-                    //             reader.readAsDataURL(file);
-                    //         }
-                    //     }
-                    //     input.click();
-                    //     console.log('value  ', value);
-                    //     console.log('meta  ', meta);
-                    // },
                     media_url_resolver: function (data, resolve/*, reject*/) {
                         if (data.url.indexOf(data) !== -1) {
                             var embedHtml =
