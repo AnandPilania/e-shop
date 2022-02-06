@@ -12,6 +12,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/menu_accordion.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/collections_component.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/fontawesome.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/nprogress.css') }}" />
 
 
     <!-- Poppins font -->

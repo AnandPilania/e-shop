@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import CollectionContext from '../contexts/CollectionContext';
 import DropZone from '../tools/dropZone';

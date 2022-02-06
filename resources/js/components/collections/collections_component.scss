@@ -752,10 +752,29 @@ span.trash-alt-dropZone {
 
 
 
+//------------------------------------------------------------------------
+// classes génériques !!!
 
+// .hidden {
+//     animation: disparition 1s;
+//     animation-fill-mode: forwards;
+// }
 
+// @keyframes disparition {
+//     100% {
+//         opacity: 0;
+//         display: none;
+//     }
+// }
 
-
+// .loader {
+//     position: absolute;
+//     z-index: 1000;
+//     width: 60px;
+//     top: 40%;
+//     left: calc(50% - 30px);
+// }
+// -------------------------------------------------------------------------
 
 // detect smartphone and tablette screen
 @media only screen and (hover: none) and (pointer: coarse) {

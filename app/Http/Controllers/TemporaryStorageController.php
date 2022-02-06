@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Temporary_storage;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Functions\StringTools;
 
 class TemporaryStorageController extends Controller
