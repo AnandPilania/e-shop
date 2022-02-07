@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Temporary_storage;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
+use App\Http\Requests\TemporaryStorageRequest;
 use App\Http\Controllers\Functions\StringTools;
 
 class TemporaryStorageController extends Controller
@@ -14,15 +15,13 @@ class TemporaryStorageController extends Controller
     {
 
         $tmp_img = Temporary_storage::where('key', 'tmp_imageCollection')->first();
-        // echo $tmp_img->value;
         if (isset($tmp_img->value)) return $tmp_img->value;
     }
 
 
     // stock des images temporaires
-    public function temporaryStoreImages(Request $request)
+    public function temporaryStoreImages(TemporaryStorageRequest $request)
     {
-        // dd($request);
         // concerne image collection -- delete previous image collection before save the new
         $only_imageCollection = Temporary_storage::where('key', $request->key)->get();
         if (count($only_imageCollection) > 0 && $request->key === 'tmp_imageCollection') {
@@ -42,12 +41,12 @@ class TemporaryStorageController extends Controller
             $newName = $tools->nameGenerator($file);
 
             if (in_array($ext, $ext_images_array)) {
-                $Path = public_path('/temporaryStorage');
+                $Path = public_path('temporaryStorage/');
                 $imgFile = Image::make($file);
                 $imgFile->save($Path . '/' . $newName);
 
                 $tmp_storage->key = $request->key;
-                $tmp_storage->value = '/temporaryStorage/' . $newName;
+                $tmp_storage->value = 'temporaryStorage/' . $newName;
                 $tmp_storage->save();
 
                 return $tmp_storage->value;
@@ -67,7 +66,7 @@ class TemporaryStorageController extends Controller
     }
 
     // delete all images which have the provided key
-    public function deleteTemporayStoredImages(Request $request)
+    public function deleteTemporayStoredElements(Request $request)
     {
         $tmp_storage = Temporary_storage::where('key', $request->key)->get();
         foreach ($tmp_storage as $toDelete) {
@@ -77,6 +76,18 @@ class TemporaryStorageController extends Controller
         return 'ok';
     }
 
+    // remove records from db and files from folders 
+    public function cleanTemporayStorage(Request $request)
+    {
+        foreach ($request->keys as $key) {
+            $dataInDB = Temporary_storage::where('key', $key)->get();
+            foreach ($dataInDB as $item) {
+                File::delete(public_path($item->value));
+                Temporary_storage::destroy($item->id);
+            }
+        }
+    }
+
     // delete removed tinyMCE images in folder and db
     public function deleteTinyMceTemporayStoredImagesVideos(Request $request)
     {
@@ -84,20 +95,25 @@ class TemporaryStorageController extends Controller
 
         $tab_data = explode(',', $request->value);
         $tinyImagesVideosInDB = Temporary_storage::where('key', 'tmp_tinyMceImages')->orWhere('key', 'tmp_tinyMceVideos')->get();
-
+        $destinationFolder = '';
         foreach ($tinyImagesVideosInDB as $item) {
-            // check if video file for add '/' to name
+            // check if video or image for determine destination folder
             foreach ([".mp4", ".m4v", ".ogv", ".webm", ".mov"] as $ext) {
                 if (str_ends_with($item->value, $ext)) {
-                    $item->value = '/' . $item->value;
+                    $destinationFolder = 'videos/';
+                } else {
+                    $destinationFolder = 'images/';
                 }
             }
+            dd($destinationFolder, $item->value);
             // si une image ou video en db n'est pas dans les images qu'on a reçu alors on la delete         
             if (!in_array($item->value, $tab_data) && $tab_data[0] !== "") {
-                Temporary_storage::destroy($item->id);
-                File::delete(public_path(substr($item->value, 1)));
+                File::delete(public_path($item->value));
+            } else {
+                $name = str_replace('temporaryStorage/', '', $item->value);
+                File::move(public_path($item->value), public_path($destinationFolder . $name));
             }
-
+            Temporary_storage::destroy($item->id);
             // if is the last video or image then we get it and remove it
             if ($request->lastToDelete === "true") {
                 if (count($tinyImagesVideosInDB) === 1) {
@@ -106,19 +122,6 @@ class TemporaryStorageController extends Controller
                     File::delete(public_path($toDelete->value));
                 }
             }
-        }
-    }
-
-    // remove records from db and files from folders when unused more
-    public function cleanTemporayStorage(Request $request)
-    {
-
-        $toDelete = Temporary_storage::where('key', $request->key)->get();
-
-        foreach ($toDelete as $deleteMe) {
-
-            File::delete(public_path(substr($deleteMe->value, 1)));
-            Temporary_storage::destroy($deleteMe->id);
         }
     }
 }

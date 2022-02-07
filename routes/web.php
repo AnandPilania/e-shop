@@ -83,9 +83,11 @@ Route::post('/temporaryStoreImages', [TemporaryStorageController::class, 'tempor
 Route::get('/getSingleTemporaryImage', [TemporaryStorageController::class, 'getSingleTemporaryImage']);
 
 // delete temporary collection image
-Route::post('/deleteTemporayStoredImages', [TemporaryStorageController::class, 'deleteTemporayStoredImages']);
+Route::post('/deleteTemporayStoredElements', [TemporaryStorageController::class, 'deleteTemporayStoredElements']);
+
 // delete tinyMCE  temporary images and videos
 Route::post('/deleteTinyMceTemporayStoredImagesVideos', [TemporaryStorageController::class, 'deleteTinyMceTemporayStoredImagesVideos']);
+
 // remove records from db and files from folders when unused more
 Route::post('/cleanTemporayStorage', [TemporaryStorageController::class, 'cleanTemporayStorage']);
 

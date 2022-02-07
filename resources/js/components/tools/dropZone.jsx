@@ -121,7 +121,7 @@ const DropZone = (props) => {
                         // get --> image path <-- for croppe
                         setImagePath(res.data);
                         // get --> image <-- for preview
-                        fetch(res.data)
+                        fetch('/' + res.data)
                             .then(function (response) {
                                 return response.blob();
                             })
@@ -334,7 +334,7 @@ const DropZone = (props) => {
             // supprime l'image temporaire dans la db et dans le dossier temporaire
             var formData = new FormData;
             formData.append('key', 'tmp_imageCollection');
-            Axios.post(`http://127.0.0.1:8000/deleteTemporayStoredImages`, formData)
+            Axios.post(`http://127.0.0.1:8000/deleteTemporayStoredElements`, formData)
                 .then(res => {
                     console.log('res.data  --->  ok');
                 });

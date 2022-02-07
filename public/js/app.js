@@ -24877,7 +24877,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _activation__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./activation */ "./resources/js/components/collections/activation.jsx");
 /* harmony import */ var _image__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./image */ "./resources/js/components/collections/image.jsx");
 /* harmony import */ var _tinyEditor__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./tinyEditor */ "./resources/js/components/collections/tinyEditor.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _functions_temporaryStorage_deleteTinyImagesAndVideos__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../functions/temporaryStorage/deleteTinyImagesAndVideos */ "./resources/js/components/functions/temporaryStorage/deleteTinyImagesAndVideos.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -24889,6 +24890,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -25226,13 +25228,10 @@ var CreateCollection = function CreateCollection() {
       operator: '1',
       value: ''
     }]);
-    setDateField(getNow()); // supprime l'image temporaire dans la db et dans le dossier temporaire
+    setDateField(getNow()); // gére le netoyage des images et vidéos dans  temporayStorage 
 
-    var imageData = new FormData();
-    imageData.append('key', 'tmp_imageCollection');
-    axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/deleteTemporayStoredImages", imageData).then(function (res) {
-      console.log('res.data  --->  ok');
-    }); // éfface l'image de la dropZone
+    var keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection'];
+    cleanTemporayStorage(keys_toDelete); // éfface l'image de la dropZone
 
     var imagesToRemove = document.getElementsByClassName('image-view-dropZone') && document.getElementsByClassName('image-view-dropZone');
 
@@ -25323,9 +25322,13 @@ var CreateCollection = function CreateCollection() {
   }; // remove records and images files from folders and temporaryStorage db when unused 
 
 
-  function cleanTemporayStorage(key) {
+  function cleanTemporayStorage(keys_toDelete) {
     var toDelete = new FormData();
-    toDelete.append('key', key);
+
+    for (var i = 0; i < keys_toDelete.length; i++) {
+      toDelete.append('keys[]', keys_toDelete[i]);
+    }
+
     axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/cleanTemporayStorage", toDelete, {
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -25336,10 +25339,12 @@ var CreateCollection = function CreateCollection() {
     })["catch"](function (error) {
       console.log('Error : ' + error.status);
     });
-  }
+  } // submit
+
 
   function handleSubmit() {
     var valid = validation();
+    (0,_functions_temporaryStorage_deleteTinyImagesAndVideos__WEBPACK_IMPORTED_MODULE_13__.deleteTinyImagesAndVideos)(descriptionCollection);
 
     if (valid) {
       var imageFile = null;
@@ -25374,71 +25379,70 @@ var CreateCollection = function CreateCollection() {
         console.log('res.data  --->  ok');
 
         if (res.data === 'ok') {
-          initCollectionForm(); // gére le netoyage des tinyImages dans table temporayStorage 
+          initCollectionForm(); // gére le netoyage des images et vidéos dans  temporaryStorage 
 
-          cleanTemporayStorage('tmp_tinyMceImages');
-          cleanTemporayStorage('tmp_tinyMceVideos');
-          cleanTemporayStorage('tmp_imageCollection');
+          var keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection'];
+          cleanTemporayStorage(keys_toDelete);
         }
       });
     }
   }
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
     className: "collection-main-container",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_2__["default"].Provider, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(_contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_2__["default"].Provider, {
       value: collectionContextValue,
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
         className: "collection-block-container",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
           className: "div-vert-align",
-          children: [isDirty && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
+          children: [isDirty && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("button", {
             className: "btn-effacer-tout",
             onClick: confirmInitCollectionForm,
             children: "R\xE9initialiser"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
             className: "div-label-inputTxt",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h2", {
               children: "Nom de la collection"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("input", {
               type: "text",
               id: "titreCollection",
               value: nameCollection,
               onChange: handleNameCollection
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
             className: "div-label-inputTxt",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h2", {
               children: "Description (optionnel)"
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_tinyEditor__WEBPACK_IMPORTED_MODULE_12__["default"], {})]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_conditions__WEBPACK_IMPORTED_MODULE_7__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_optimisation__WEBPACK_IMPORTED_MODULE_8__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_tinyEditor__WEBPACK_IMPORTED_MODULE_12__["default"], {})]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_conditions__WEBPACK_IMPORTED_MODULE_7__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_optimisation__WEBPACK_IMPORTED_MODULE_8__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
           className: "div-label-inputTxt",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("button", {
             className: "btn-submit",
             onClick: handleSubmit,
             children: "Enregistrer"
           })
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
         className: "side-create-collection",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_image__WEBPACK_IMPORTED_MODULE_11__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_categories__WEBPACK_IMPORTED_MODULE_9__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_activation__WEBPACK_IMPORTED_MODULE_10__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_modal_modalConfirm__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_image__WEBPACK_IMPORTED_MODULE_11__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_categories__WEBPACK_IMPORTED_MODULE_9__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_activation__WEBPACK_IMPORTED_MODULE_10__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_modal_modalConfirm__WEBPACK_IMPORTED_MODULE_5__["default"], {
           show: showModalConfirm // true/false show modal
           ,
           handleModalConfirm: handleModalConfirm,
           handleModalCancel: handleModalCancel,
           textButtonConfirm: textButtonConfirm,
           image: imageModal,
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h2", {
             className: "childrenModal",
             children: messageModal
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_modal_modalSimpleMessage__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_modal_modalSimpleMessage__WEBPACK_IMPORTED_MODULE_6__["default"], {
           show: showModalSimpleMessage // true/false show modal
           ,
           handleModalCancel: handleModalCancel,
           image: imageModal,
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h2", {
             className: "childrenModal",
             children: messageModal
           })
@@ -25929,57 +25933,10 @@ var Tinyeditor = function Tinyeditor() {
     }));
   };
 
-  var handleDescriptionCollection = function handleDescriptionCollection(description) {
-    alert('handleDescriptionCollection');
+  var handleDescriptionCollection = function handleDescriptionCollection(description, editor) {
     setDescriptionCollection(description);
     localStorage.setItem("descriptionCollection", description);
-  }; // detect if tinyMCE images are deleted and remove it from folder and db
-
-
-  function handleDeleteTinyImagesAndVideos() {
-    var Div = document.createElement("div"); // get data from editorRef
-
-    if (editorRef.current) Div.innerHTML = editorRef.current.getContent();
-    var imgs_vids = Div.querySelectorAll('img, source');
-    var img_video_dom_tab = Array.from(imgs_vids);
-    if (img_video_dom_tab.length === 1) localStorage.setItem('lastToDelete', img_video_dom_tab[0].src.replace(window.location.origin));
-    var img_video_dom_tab_src = []; // <-- contiendra toutes les src des images ou videos dans Editor
-
-    img_video_dom_tab.forEach(function (item) {
-      img_video_dom_tab_src.push(item.src.replace(window.location.origin, ''));
-    }); // check si file est un base64 pour ne pas envoyer la requète tant qu'il n'a pas été save dans la db et le dossier et qu'on a pas récupéré son path pour le src
-
-    function checkNoBase64(file) {
-      return !file.includes('data:image') && !file.includes('data:video');
-    }
-
-    var noBase64_image_video = img_video_dom_tab_src.every(checkNoBase64);
-
-    if (noBase64_image_video) {
-      var tinyImagesVideosList = new FormData(); // lastToDelete is used to informe that it is the last image or video to delete
-
-      if (img_video_dom_tab.length === 0) {
-        tinyImagesVideosList.append('lastToDelete', true);
-      } else {
-        tinyImagesVideosList.append('lastToDelete', false);
-      }
-
-      tinyImagesVideosList.append('value', img_video_dom_tab_src);
-      axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/deleteTinyMceTemporayStoredImagesVideos", tinyImagesVideosList, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }).then(function (res) {
-        console.log('images and videos been handled');
-        tinyImagesVideosList.append('lastToDelete', false);
-        return res.data;
-      })["catch"](function (error) {
-        console.log('Error : ' + error.status);
-      });
-      Div.remove();
-      return;
-    }
-  } // save tinymce images in temporary Storage folder and db 
+  }; // save tinymce images in temporary Storage folder and db 
 
 
   function tinyMCE_image_upload_handler(blobInfo, success, failure, progress) {
@@ -26008,7 +25965,6 @@ var Tinyeditor = function Tinyeditor() {
 
     response().then(function (response) {
       success(response);
-      handleDeleteTinyImagesAndVideos();
       failure('Un erreur c\'est produite ==> ', {
         remove: true
       });
@@ -26088,10 +26044,6 @@ var Tinyeditor = function Tinyeditor() {
     input.click();
   }
 
-  var test = function test() {
-    alert('test');
-  };
-
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
     className: "sub-div-vert-align",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_tinymce_tinymce_react__WEBPACK_IMPORTED_MODULE_5__.Editor, {
@@ -26102,13 +26054,16 @@ var Tinyeditor = function Tinyeditor() {
         initDescriptionForMeta();
       } // initialValue={descriptionCollection}
       ,
-      value: descriptionCollection // onUndo={test}
-      ,
-      onAddUndo: test,
-      onEditorChange: function onEditorChange(newText) {
-        handleDescriptionCollection(newText);
+      value: descriptionCollection,
+      onEditorChange: function onEditorChange(newValue, editor) {
+        handleDescriptionCollection(newValue, editor);
       },
       init: {
+        // setup: function (editor) {
+        //     editor.on('undo', function (e) {
+        //         console.log('undo event', e);
+        //     });
+        // },
         setProgressState: true,
         selector: '#tinyEditor',
         entity_encoding: "raw",
@@ -26124,7 +26079,7 @@ var Tinyeditor = function Tinyeditor() {
         plugins: ['advlist autolink lists link image media charmap print preview anchor', 'searchreplace visualblocks code fullscreen autoresize', 'insertdatetime media table paste code help wordcount fullscreen code'],
         // menubar: 'tools insert',
         toolbar: 'formatselect | undo redo | ' + 'bold italic underline forecolor backcolor | alignleft aligncenter ' + 'alignright alignjustify | bullist numlist outdent indent | ' + 'image ' + 'media ' + 'removeformat | fullscreen | wordcount | code',
-        init_instance_callback: handleDeleteTinyImagesAndVideos(),
+        // init_instance_callback: my_function_fired_on_init(),
         // configure la base du path du stockage des images  
         relative_urls: false,
         remove_script_host: false,
@@ -28854,6 +28809,68 @@ var CroppeImage = function CroppeImage() {
 
 /***/ }),
 
+/***/ "./resources/js/components/functions/temporaryStorage/deleteTinyImagesAndVideos.js":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/functions/temporaryStorage/deleteTinyImagesAndVideos.js ***!
+  \*****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "deleteTinyImagesAndVideos": () => (/* binding */ deleteTinyImagesAndVideos)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+ // detect if tinyMCE images are deleted and remove it from folder and db
+
+function deleteTinyImagesAndVideos(htmlContent) {
+  var div_html_content = document.createElement("div"); // get data from editorRef
+
+  if (htmlContent.length > 0) div_html_content.innerHTML = htmlContent;
+  var imgs_vids = div_html_content.querySelectorAll('img, source');
+  var img_video_dom_tab = Array.from(imgs_vids);
+  var img_video_dom_tab_src = []; // <-- contiendra toutes les src des images ou videos dans Editor
+
+  img_video_dom_tab.forEach(function (item) {
+    img_video_dom_tab_src.push(item.src.replace(window.location.origin + '/', ''));
+  }); // check si file est un base64 pour ne pas envoyer la requète tant qu'il n'a pas été save dans la db et le dossier et qu'on a pas récupéré son path pour le src
+
+  function checkNoBase64(file) {
+    return !file.includes('data:image') && !file.includes('data:video');
+  }
+
+  var noBase64_image_video = img_video_dom_tab_src.every(checkNoBase64);
+
+  if (noBase64_image_video) {
+    var tinyImagesVideosList = new FormData(); // lastToDelete is used to informe that it is the last image or video to delete
+
+    if (img_video_dom_tab.length === 0) {
+      tinyImagesVideosList.append('lastToDelete', true);
+    } else {
+      tinyImagesVideosList.append('lastToDelete', false);
+    }
+
+    tinyImagesVideosList.append('value', img_video_dom_tab_src);
+    console.log('img_video_dom_tab_src  ', img_video_dom_tab_src);
+    axios__WEBPACK_IMPORTED_MODULE_0___default().post("http://127.0.0.1:8000/deleteTinyMceTemporayStoredImagesVideos", tinyImagesVideosList, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }).then(function (res) {
+      console.log('images and videos been handled');
+      tinyImagesVideosList.append('lastToDelete', false);
+      return res.data;
+    })["catch"](function (error) {
+      console.log('Error : ' + error.status);
+    });
+    div_html_content.remove();
+    return;
+  }
+}
+
+/***/ }),
+
 /***/ "./resources/js/components/functions/temporaryStorage/saveInTemporaryStorage.js":
 /*!**************************************************************************************!*\
   !*** ./resources/js/components/functions/temporaryStorage/saveInTemporaryStorage.js ***!
@@ -30040,7 +30057,7 @@ var DropZone = function DropZone(props) {
           // get --> image path <-- for croppe
           setImagePath(res.data); // get --> image <-- for preview
 
-          fetch(res.data).then(function (response) {
+          fetch('/' + res.data).then(function (response) {
             return response.blob();
           }).then(function (BlobImage) {
             previewImage(BlobImage);
@@ -30264,7 +30281,7 @@ var DropZone = function DropZone(props) {
 
       var formData = new FormData();
       formData.append('key', 'tmp_imageCollection');
-      axios__WEBPACK_IMPORTED_MODULE_2___default().post("http://127.0.0.1:8000/deleteTemporayStoredImages", formData).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post("http://127.0.0.1:8000/deleteTemporayStoredElements", formData).then(function (res) {
         console.log('res.data  --->  ok');
       });
     }
@@ -34015,9 +34032,9 @@ function toVal(mix) {
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[17].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[17].oneOf[1].use[2]!./node_modules/cropperjs/dist/cropper.css":
+/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[18].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[18].oneOf[1].use[2]!./node_modules/cropperjs/dist/cropper.css":
 /*!*************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[17].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[17].oneOf[1].use[2]!./node_modules/cropperjs/dist/cropper.css ***!
+  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[18].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[18].oneOf[1].use[2]!./node_modules/cropperjs/dist/cropper.css ***!
   \*************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
@@ -34039,9 +34056,9 @@ ___CSS_LOADER_EXPORT___.push([module.id, "/*!\n * Cropper.js v1.5.12\n * https:/
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[17].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[17].oneOf[1].use[2]!./node_modules/flatpickr/dist/themes/material_blue.css":
+/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[18].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[18].oneOf[1].use[2]!./node_modules/flatpickr/dist/themes/material_blue.css":
 /*!**************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[17].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[17].oneOf[1].use[2]!./node_modules/flatpickr/dist/themes/material_blue.css ***!
+  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[18].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[18].oneOf[1].use[2]!./node_modules/flatpickr/dist/themes/material_blue.css ***!
   \**************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
@@ -76594,7 +76611,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _css_loader_dist_cjs_js_ruleSet_1_rules_17_oneOf_1_use_1_postcss_loader_dist_cjs_js_ruleSet_1_rules_17_oneOf_1_use_2_cropper_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../css-loader/dist/cjs.js??ruleSet[1].rules[17].oneOf[1].use[1]!../../postcss-loader/dist/cjs.js??ruleSet[1].rules[17].oneOf[1].use[2]!./cropper.css */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[17].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[17].oneOf[1].use[2]!./node_modules/cropperjs/dist/cropper.css");
+/* harmony import */ var _css_loader_dist_cjs_js_ruleSet_1_rules_18_oneOf_1_use_1_postcss_loader_dist_cjs_js_ruleSet_1_rules_18_oneOf_1_use_2_cropper_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../css-loader/dist/cjs.js??ruleSet[1].rules[18].oneOf[1].use[1]!../../postcss-loader/dist/cjs.js??ruleSet[1].rules[18].oneOf[1].use[2]!./cropper.css */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[18].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[18].oneOf[1].use[2]!./node_modules/cropperjs/dist/cropper.css");
 
             
 
@@ -76603,11 +76620,11 @@ var options = {};
 options.insert = "head";
 options.singleton = false;
 
-var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_css_loader_dist_cjs_js_ruleSet_1_rules_17_oneOf_1_use_1_postcss_loader_dist_cjs_js_ruleSet_1_rules_17_oneOf_1_use_2_cropper_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_css_loader_dist_cjs_js_ruleSet_1_rules_18_oneOf_1_use_1_postcss_loader_dist_cjs_js_ruleSet_1_rules_18_oneOf_1_use_2_cropper_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
 
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_css_loader_dist_cjs_js_ruleSet_1_rules_17_oneOf_1_use_1_postcss_loader_dist_cjs_js_ruleSet_1_rules_17_oneOf_1_use_2_cropper_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_css_loader_dist_cjs_js_ruleSet_1_rules_18_oneOf_1_use_1_postcss_loader_dist_cjs_js_ruleSet_1_rules_18_oneOf_1_use_2_cropper_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 
@@ -76624,7 +76641,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _css_loader_dist_cjs_js_ruleSet_1_rules_17_oneOf_1_use_1_postcss_loader_dist_cjs_js_ruleSet_1_rules_17_oneOf_1_use_2_material_blue_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../css-loader/dist/cjs.js??ruleSet[1].rules[17].oneOf[1].use[1]!../../../postcss-loader/dist/cjs.js??ruleSet[1].rules[17].oneOf[1].use[2]!./material_blue.css */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[17].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[17].oneOf[1].use[2]!./node_modules/flatpickr/dist/themes/material_blue.css");
+/* harmony import */ var _css_loader_dist_cjs_js_ruleSet_1_rules_18_oneOf_1_use_1_postcss_loader_dist_cjs_js_ruleSet_1_rules_18_oneOf_1_use_2_material_blue_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../css-loader/dist/cjs.js??ruleSet[1].rules[18].oneOf[1].use[1]!../../../postcss-loader/dist/cjs.js??ruleSet[1].rules[18].oneOf[1].use[2]!./material_blue.css */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[18].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[18].oneOf[1].use[2]!./node_modules/flatpickr/dist/themes/material_blue.css");
 
             
 
@@ -76633,11 +76650,11 @@ var options = {};
 options.insert = "head";
 options.singleton = false;
 
-var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_css_loader_dist_cjs_js_ruleSet_1_rules_17_oneOf_1_use_1_postcss_loader_dist_cjs_js_ruleSet_1_rules_17_oneOf_1_use_2_material_blue_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_css_loader_dist_cjs_js_ruleSet_1_rules_18_oneOf_1_use_1_postcss_loader_dist_cjs_js_ruleSet_1_rules_18_oneOf_1_use_2_material_blue_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
 
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_css_loader_dist_cjs_js_ruleSet_1_rules_17_oneOf_1_use_1_postcss_loader_dist_cjs_js_ruleSet_1_rules_17_oneOf_1_use_2_material_blue_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_css_loader_dist_cjs_js_ruleSet_1_rules_18_oneOf_1_use_1_postcss_loader_dist_cjs_js_ruleSet_1_rules_18_oneOf_1_use_2_material_blue_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 

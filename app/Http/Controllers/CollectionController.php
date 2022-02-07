@@ -111,7 +111,7 @@ class CollectionController extends Controller
 
     public function storeAndAssign(StoreCollectionRequest $request)
     {
-        // dd($request->validated());
+        // dd($request->image);
         // dd($request->metaDescription);
 
         $conditions = json_decode($request->objConditions);
@@ -139,7 +139,7 @@ class CollectionController extends Controller
 
         $collection = new Collection;
         $collection->name = $request->imageName != null ? $request->imageName : $request->name;
-        $collection->description = $request->description;
+        $collection->description = str_replace('temporaryStorage', 'images', $request->description);
         $collection->automatise = $request->automatise === true ? 1 : 0;
         $collection->notIncludePrevProduct = $request->notIncludePrevProduct === true ? 1 : 0;
         $collection->allConditionsNeeded = $request->allConditionsNeeded === true ? 1 : 0;
@@ -152,13 +152,12 @@ class CollectionController extends Controller
         $descriptionWithoutImgTag = preg_replace($pattern, ' ', $request->descriptionForMeta);
         $collection->meta_description = $request->metaDescription != null ? $request->metaDescription : $descriptionWithoutImgTag;
         $collection->meta_url = $request->metaUrl != null ? $request->metaUrl : $collection->link;
-        // Retourne un nouvel objet DateTime représentant la date et l'heure spécifiées par le texte time, qui a été formaté dans le format donné.
+        // Retourne un nouvel objet DateTime représentant la date et l'heure spécifiées par la string time, qui a été formaté dans le format donné.
         $date = DateTime::createFromFormat('d-m-Y H:i:s', $request->dateActivation);
         $collection->dateActivation = $date->format('Y-m-d H:i:s');
         $collection->category_id = $request->categoryId;
         $collection->alt = $request->alt !== null ? $request->alt :  $request->name;
         $collection->imageName = $request->imageName;
-        $collection->image = $request->image;
         $collection->key = $request->key;
 
         if ($request->hasFile('image')) {

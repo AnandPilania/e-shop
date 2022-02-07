@@ -19,67 +19,11 @@ const Tinyeditor = () => {
         setDescriptionCollectionForMeta(editorRef.current.getContent({ format: 'text' }));
     };
 
-    const handleDescriptionCollection = (description) => {
-        alert('handleDescriptionCollection')
+    const handleDescriptionCollection = (description, editor) => {
         setDescriptionCollection(description);
         localStorage.setItem("descriptionCollection", description);
     };
 
-
-    // detect if tinyMCE images are deleted and remove it from folder and db
-    function handleDeleteTinyImagesAndVideos() {
-
-        let Div = document.createElement("div");
-        // get data from editorRef
-        if (editorRef.current) Div.innerHTML = editorRef.current.getContent();
-
-        let imgs_vids = Div.querySelectorAll('img, source');
-        let img_video_dom_tab = Array.from(imgs_vids);
-
-        if (img_video_dom_tab.length === 1) localStorage.setItem('lastToDelete', img_video_dom_tab[0].src.replace(window.location.origin));
-
-        let img_video_dom_tab_src = []; // <-- contiendra toutes les src des images ou videos dans Editor
-        img_video_dom_tab.forEach(item => {
-            img_video_dom_tab_src.push(item.src.replace(window.location.origin, ''))
-        });
-
-        // check si file est un base64 pour ne pas envoyer la requète tant qu'il n'a pas été save dans la db et le dossier et qu'on a pas récupéré son path pour le src
-        function checkNoBase64(file) {
-            return !file.includes('data:image') && !file.includes('data:video');
-        }
-        let noBase64_image_video = img_video_dom_tab_src.every(checkNoBase64);
-
-        if (noBase64_image_video) {
-            let tinyImagesVideosList = new FormData;
-
-            // lastToDelete is used to informe that it is the last image or video to delete
-            if (img_video_dom_tab.length === 0) {
-                tinyImagesVideosList.append('lastToDelete', true);
-            } else {
-                tinyImagesVideosList.append('lastToDelete', false);
-            }
-
-            tinyImagesVideosList.append('value', img_video_dom_tab_src);
-
-            Axios.post(`http://127.0.0.1:8000/deleteTinyMceTemporayStoredImagesVideos`, tinyImagesVideosList,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                })
-                .then(res => {
-                    console.log('images and videos been handled');
-                    tinyImagesVideosList.append('lastToDelete', false);
-                    return res.data;
-                })
-                .catch(error => {
-                    console.log('Error : ' + error.status);
-                });
-
-            Div.remove();
-            return;
-        }
-    }
 
     // save tinymce images in temporary Storage folder and db 
     function tinyMCE_image_upload_handler(blobInfo, success, failure, progress) {
@@ -90,7 +34,6 @@ const Tinyeditor = () => {
         //success gère le stockage en recevant le path dans le json {location : "le path/name est dans  response"}
         response().then(response => {
             success(response);
-            handleDeleteTinyImagesAndVideos();
             failure('Un erreur c\'est produite ==> ', { remove: true });
         });
     };
@@ -155,10 +98,6 @@ const Tinyeditor = () => {
         input.click();
     }
 
-    const test = () => {
-        alert('test')
-    }
-
     return (
         <div className="sub-div-vert-align">
             <Editor
@@ -171,14 +110,17 @@ const Tinyeditor = () => {
                 }
                 // initialValue={descriptionCollection}
                 value={descriptionCollection}
-                // onUndo={test}
-                onAddUndo={test}
                 onEditorChange={
-                    (newText) => {
-                        handleDescriptionCollection(newText);
+                    (newValue, editor) => {
+                        handleDescriptionCollection(newValue, editor);
                     }
                 }
                 init={{
+                    // setup: function (editor) {
+                    //     editor.on('undo', function (e) {
+                    //         console.log('undo event', e);
+                    //     });
+                    // },
                     setProgressState: true,
                     selector: '#tinyEditor',
                     entity_encoding: "raw",
@@ -203,7 +145,7 @@ const Tinyeditor = () => {
                         'image ' +
                         'media ' +
                         'removeformat | fullscreen | wordcount | code',
-                    init_instance_callback: handleDeleteTinyImagesAndVideos(),
+                    // init_instance_callback: my_function_fired_on_init(),
                     // configure la base du path du stockage des images  
                     relative_urls: false,
                     remove_script_host: false,
@@ -239,6 +181,7 @@ const Tinyeditor = () => {
                     // a11y_advanced_options: true,
                     content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px; } body::-webkit-scrollbar-track { box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); border-radius: 10px; background-color: #f5f5f5; color: red;}' + 'tox-sidebar--sliding-closed { background-color: #f5f5f5; }'
                 }}
+                
             />
         </div>
     );

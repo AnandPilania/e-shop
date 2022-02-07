@@ -11,7 +11,7 @@ import Categories from './categories';
 import Activation from './activation';
 import Image from './image';
 import Tinyeditor from './tinyEditor';
-
+import { deleteTinyImagesAndVideos } from '../functions/temporaryStorage/deleteTinyImagesAndVideos';
 
 
 const CreateCollection = () => {
@@ -75,7 +75,7 @@ const CreateCollection = () => {
             (month < 10 ? "0" + month.toString() : month) + "-" +
             year + ' ' +
             (hour < 10 ? "0" + hour.toString() : hour) + ":" +
-            (minute.toString())  + ":" +
+            (minute.toString()) + ":" +
             (seconde.toString());
         return localDatetime;
     }
@@ -244,14 +244,9 @@ const CreateCollection = () => {
             value: ''
         }]);
         setDateField(getNow());
-
-        // supprime l'image temporaire dans la db et dans le dossier temporaire
-        var imageData = new FormData;
-        imageData.append('key', 'tmp_imageCollection');
-        Axios.post(`http://127.0.0.1:8000/deleteTemporayStoredImages`, imageData)
-            .then(res => {
-                console.log('res.data  --->  ok');
-            });
+        // gére le netoyage des images et vidéos dans  temporayStorage 
+        let keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection']
+        cleanTemporayStorage(keys_toDelete);
 
         // éfface l'image de la dropZone
         var imagesToRemove = document.getElementsByClassName('image-view-dropZone') && document.getElementsByClassName('image-view-dropZone');
@@ -344,10 +339,12 @@ const CreateCollection = () => {
 
 
     // remove records and images files from folders and temporaryStorage db when unused 
-    function cleanTemporayStorage(key) {
+    function cleanTemporayStorage(keys_toDelete) {
         let toDelete = new FormData;
-        toDelete.append('key', key);
-
+        for (var i = 0; i < keys_toDelete.length; i++) {
+            toDelete.append('keys[]', keys_toDelete[i]);
+          }
+        
         Axios.post(`http://127.0.0.1:8000/cleanTemporayStorage`, toDelete,
             {
                 headers: {
@@ -361,11 +358,13 @@ const CreateCollection = () => {
             .catch(error => {
                 console.log('Error : ' + error.status);
             });
-
     }
 
+    // submit
     function handleSubmit() {
         let valid = validation();
+        deleteTinyImagesAndVideos(descriptionCollection);
+
         if (valid) {
             let imageFile = null;
             if (image instanceof FileList) {
@@ -399,10 +398,9 @@ const CreateCollection = () => {
                     console.log('res.data  --->  ok');
                     if (res.data === 'ok') {
                         initCollectionForm();
-                        // gére le netoyage des tinyImages dans table temporayStorage 
-                        cleanTemporayStorage('tmp_tinyMceImages');
-                        cleanTemporayStorage('tmp_tinyMceVideos');
-                        cleanTemporayStorage('tmp_imageCollection');
+                        // gére le netoyage des images et vidéos dans  temporaryStorage 
+                        let keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection']
+                        cleanTemporayStorage(keys_toDelete);
                     }
                 });
         }
