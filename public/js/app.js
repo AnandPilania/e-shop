@@ -23759,7 +23759,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
 var Categories = function Categories() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState2 = _slicedToArray(_useState, 2),
@@ -23798,29 +23797,22 @@ var Categories = function Categories() {
 
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
-      showModalConfirm = _useContext.showModalConfirm,
       setShowModalConfirm = _useContext.setShowModalConfirm,
       showModalInput = _useContext.showModalInput,
       setShowModalInput = _useContext.setShowModalInput,
       messageModal = _useContext.messageModal,
       setMessageModal = _useContext.setMessageModal,
-      sender = _useContext.sender,
       setSender = _useContext.setSender,
       inputTextModify = _useContext.inputTextModify,
       setInputTextModify = _useContext.setInputTextModify,
-      textButtonConfirm = _useContext.textButtonConfirm,
       setTextButtonConfirm = _useContext.setTextButtonConfirm,
-      imageModal = _useContext.imageModal,
-      setImageModal = _useContext.setImageModal,
-      darkMode = _useContext.darkMode,
-      setDarkMode = _useContext.setDarkMode;
+      setImageModal = _useContext.setImageModal;
 
   var _useContext2 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_2__["default"]),
       categoryName = _useContext2.categoryName,
       setCategoryName = _useContext2.setCategoryName,
       categoryId = _useContext2.categoryId,
       setCategoryId = _useContext2.setCategoryId,
-      tmp_parameter = _useContext2.tmp_parameter,
       setTmp_parameter = _useContext2.setTmp_parameter,
       handleModalCancel = _useContext2.handleModalCancel,
       deleteThisCategory = _useContext2.deleteThisCategory,
@@ -23833,16 +23825,13 @@ var Categories = function Categories() {
     }
   }, [deleteThisCategory]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    // chargement des collections
+    // chargement des Categories
     axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
       setCategoriesList(res.data);
     })["catch"](function (error) {
       console.log('error:   ' + error);
     }); // évite error quand on passe à un autre component
-
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
-      children: categoriesList ? categoriesList : ''
-    });
+    // return <>{categoriesList ? categoriesList : ''}</>
   }, []); // show hide select menu
 
   var showHideCategorySelect = function showHideCategorySelect() {
@@ -24059,7 +24048,7 @@ var Categories = function Categories() {
                 handleCategory(0), handleCategoryName('Aucune catégorie');
               },
               children: "Aucune cat\xE9gorie"
-            }), categoriesList.map(function (cat, index) {
+            }), categoriesList && categoriesList.map(function (cat, index) {
               return cat.name != categoryName && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("li", {
                 className: "li-category",
                 onClick: function onClick() {
@@ -24771,11 +24760,7 @@ var Image = function Image() {
       imageName = _useContext2.imageName,
       setImageName = _useContext2.setImageName,
       alt = _useContext2.alt,
-      setAlt = _useContext2.setAlt; // save image from dirty page in temporary_storages db
-  // useEffect(() => {
-  //     saveInTemporaryStorage('tmp_imageCollection', image);
-  // }, [image]);
-
+      setAlt = _useContext2.setAlt;
 
   var handleAlt = function handleAlt(e) {
     setAlt(e.target.value);
@@ -24797,8 +24782,7 @@ var Image = function Image() {
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
           children: "Ajouter une image pour cette collection. (*optionnel)"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_tools_dropZone__WEBPACK_IMPORTED_MODULE_3__["default"], {
-          multiple: false,
-          setImage: setImage
+          multiple: false
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "sub-div-vert-align",
@@ -24877,7 +24861,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _activation__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./activation */ "./resources/js/components/collections/activation.jsx");
 /* harmony import */ var _image__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./image */ "./resources/js/components/collections/image.jsx");
 /* harmony import */ var _tinyEditor__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./tinyEditor */ "./resources/js/components/collections/tinyEditor.jsx");
-/* harmony import */ var _functions_temporaryStorage_deleteTinyImagesAndVideos__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../functions/temporaryStorage/deleteTinyImagesAndVideos */ "./resources/js/components/functions/temporaryStorage/deleteTinyImagesAndVideos.js");
+/* harmony import */ var _functions_temporaryStorage_handleTinyMceTemporary__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../functions/temporaryStorage/handleTinyMceTemporary */ "./resources/js/components/functions/temporaryStorage/handleTinyMceTemporary.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -24928,8 +24912,7 @@ var CreateCollection = function CreateCollection() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(localStorage.getItem('descriptionCollection') ? localStorage.getItem('descriptionCollection') : ''),
       _useState2 = _slicedToArray(_useState, 2),
       descriptionCollection = _useState2[0],
-      setDescriptionCollection = _useState2[1]; // const [descriptionCollection, setDescriptionCollection] = useState('');
-
+      setDescriptionCollection = _useState2[1];
 
   var _useLocalStorage5 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_4__.useLocalStorage)("metaTitle", ""),
       _useLocalStorage6 = _slicedToArray(_useLocalStorage5, 2),
@@ -25344,7 +25327,7 @@ var CreateCollection = function CreateCollection() {
 
   function handleSubmit() {
     var valid = validation();
-    (0,_functions_temporaryStorage_deleteTinyImagesAndVideos__WEBPACK_IMPORTED_MODULE_13__.deleteTinyImagesAndVideos)(descriptionCollection);
+    (0,_functions_temporaryStorage_handleTinyMceTemporary__WEBPACK_IMPORTED_MODULE_13__.handleTinyMceTemporary)(descriptionCollection);
 
     if (valid) {
       var imageFile = null;
@@ -25370,7 +25353,6 @@ var CreateCollection = function CreateCollection() {
       formData.append("alt", alt);
       formData.append("imageName", imageName);
       image.length > 0 && formData.append("image", imageFile);
-      formData.append('key', 'tmp_imageCollection');
       axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/save-collection", formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -25426,7 +25408,7 @@ var CreateCollection = function CreateCollection() {
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
         className: "side-create-collection",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_image__WEBPACK_IMPORTED_MODULE_11__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_categories__WEBPACK_IMPORTED_MODULE_9__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_activation__WEBPACK_IMPORTED_MODULE_10__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_modal_modalConfirm__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_image__WEBPACK_IMPORTED_MODULE_11__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_activation__WEBPACK_IMPORTED_MODULE_10__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_modal_modalConfirm__WEBPACK_IMPORTED_MODULE_5__["default"], {
           show: showModalConfirm // true/false show modal
           ,
           handleModalConfirm: handleModalConfirm,
@@ -28766,7 +28748,22 @@ var CroppeImage = function CroppeImage() {
         (0,_functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_5__.saveInTemporaryStorage)('tmp_imageCollection', tab);
         setImage(blob);
         navigate(followThisLink);
-      });
+      }); // cropper.getCroppedCanvas().toBlob((blob) => {
+      //     var reader = new FileReader();
+      //     reader.readAsDataURL(blob);
+      //     reader.onloadend = function () {
+      //         var base64data = reader.result;
+      //         console.log(base64data);
+      //         var newimage = new Image();
+      //         newimage.src = base64data;
+      //         // need blob inside arrays for avoid error
+      //         let tab = [];
+      //         tab.push(blob);
+      //         saveInTemporaryStorage('tmp_imageCollection', newimage);
+      //         setImage(blob);
+      //         navigate(followThisLink);
+      //     }
+      // });
     }
   };
 
@@ -28809,64 +28806,45 @@ var CroppeImage = function CroppeImage() {
 
 /***/ }),
 
-/***/ "./resources/js/components/functions/temporaryStorage/deleteTinyImagesAndVideos.js":
-/*!*****************************************************************************************!*\
-  !*** ./resources/js/components/functions/temporaryStorage/deleteTinyImagesAndVideos.js ***!
-  \*****************************************************************************************/
+/***/ "./resources/js/components/functions/temporaryStorage/handleTinyMceTemporary.js":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/functions/temporaryStorage/handleTinyMceTemporary.js ***!
+  \**************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "deleteTinyImagesAndVideos": () => (/* binding */ deleteTinyImagesAndVideos)
+/* harmony export */   "handleTinyMceTemporary": () => (/* binding */ handleTinyMceTemporary)
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
- // detect if tinyMCE images are deleted and remove it from folder and db
 
-function deleteTinyImagesAndVideos(htmlContent) {
-  var div_html_content = document.createElement("div"); // get data from editorRef
+function handleTinyMceTemporary(htmlContent) {
+  var div_html_content = document.createElement("div"); // get data htmlContent from tiny Editor
 
   if (htmlContent.length > 0) div_html_content.innerHTML = htmlContent;
   var imgs_vids = div_html_content.querySelectorAll('img, source');
-  var img_video_dom_tab = Array.from(imgs_vids);
-  var img_video_dom_tab_src = []; // <-- contiendra toutes les src des images ou videos dans Editor
+  var img_video_dom_tab = Array.from(imgs_vids); // récupère toutes les src des images ou videos présents dans htmlContent
 
+  var img_video_dom_tab_src = [];
   img_video_dom_tab.forEach(function (item) {
     img_video_dom_tab_src.push(item.src.replace(window.location.origin + '/', ''));
-  }); // check si file est un base64 pour ne pas envoyer la requète tant qu'il n'a pas été save dans la db et le dossier et qu'on a pas récupéré son path pour le src
-
-  function checkNoBase64(file) {
-    return !file.includes('data:image') && !file.includes('data:video');
-  }
-
-  var noBase64_image_video = img_video_dom_tab_src.every(checkNoBase64);
-
-  if (noBase64_image_video) {
-    var tinyImagesVideosList = new FormData(); // lastToDelete is used to informe that it is the last image or video to delete
-
-    if (img_video_dom_tab.length === 0) {
-      tinyImagesVideosList.append('lastToDelete', true);
-    } else {
-      tinyImagesVideosList.append('lastToDelete', false);
+  });
+  var tinySrcList = new FormData();
+  tinySrcList.append('value', img_video_dom_tab_src);
+  axios__WEBPACK_IMPORTED_MODULE_0___default().post("http://127.0.0.1:8000/handleTinyMceTemporaryElements", tinySrcList, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
     }
-
-    tinyImagesVideosList.append('value', img_video_dom_tab_src);
-    console.log('img_video_dom_tab_src  ', img_video_dom_tab_src);
-    axios__WEBPACK_IMPORTED_MODULE_0___default().post("http://127.0.0.1:8000/deleteTinyMceTemporayStoredImagesVideos", tinyImagesVideosList, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    }).then(function (res) {
-      console.log('images and videos been handled');
-      tinyImagesVideosList.append('lastToDelete', false);
-      return res.data;
-    })["catch"](function (error) {
-      console.log('Error : ' + error.status);
-    });
-    div_html_content.remove();
-    return;
-  }
+  }).then(function (res) {
+    console.log('images and videos been handled');
+    return res.data;
+  })["catch"](function (error) {
+    console.log('Error : ' + error.status);
+  });
+  div_html_content.remove();
+  return;
 }
 
 /***/ }),
@@ -28888,7 +28866,13 @@ __webpack_require__.r(__webpack_exports__);
 function saveInTemporaryStorage(key, value) {
   var tmp_Data = new FormData();
   tmp_Data.append('key', key);
-  tmp_Data.append('value', value);
+
+  if (Array.isArray(value)) {
+    tmp_Data.append('value', value[0]);
+  } else {
+    tmp_Data.append('value', value);
+  }
+
   var response = axios__WEBPACK_IMPORTED_MODULE_0___default().post("http://127.0.0.1:8000/temporaryStoreImages", tmp_Data, {
     headers: {
       'Content-Type': 'multipart/form-data'
@@ -30055,7 +30039,7 @@ var DropZone = function DropZone(props) {
       axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getSingleTemporaryImage").then(function (res) {
         if (res.data !== undefined && res.data != '') {
           // get --> image path <-- for croppe
-          setImagePath(res.data); // get --> image <-- for preview
+          setImagePath('/' + res.data); // get --> image <-- for preview
 
           fetch('/' + res.data).then(function (response) {
             return response.blob();

@@ -20,18 +20,31 @@ class TemporaryStorageController extends Controller
 
 
     // stock des images temporaires
-    public function temporaryStoreImages(TemporaryStorageRequest $request)
+    public function temporaryStoreImages(Request $request)
     {
-        // concerne image collection -- delete previous image collection before save the new
-        $only_imageCollection = Temporary_storage::where('key', $request->key)->get();
-        if (count($only_imageCollection) > 0 && $request->key === 'tmp_imageCollection') {
-            File::delete(public_path($only_imageCollection[0]->value));
-            Temporary_storage::destroy($only_imageCollection[0]->id);
-        }
+        // dd(mime_content_type(public_path($request->value)));
+        // dd(filetype($request->value));
+        // dd($request);
+
+
+
+        // !--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!// !--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!
+        // // concerne image collection -- delete previous image collection before save the new
+        // $only_imageCollection = Temporary_storage::where('key', $request->key)->get();
+        // if (count($only_imageCollection) > 0 && $request->key === 'tmp_imageCollection') {
+        //     File::delete(public_path($only_imageCollection[0]->value));
+        //     Temporary_storage::destroy($only_imageCollection[0]->id);
+        // }
+        // !--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!
+        // !--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!--!
 
         if ($request->hasFile('value')) {
 
             $file = $request->file('value');
+            $originalName = $file->getClientOriginalName();
+            // if ($originalName === 'blob') {
+
+            // }
             $ext = $file->getClientOriginalExtension();
             $ext_videos_array = array("mp4", "m4v", "ogv", "webm", "mov");
             $ext_images_array = array('jpeg', 'jpg', 'jpe', 'jfi', 'jif', 'jfif', 'png', 'gif', 'bmp', 'webp');
@@ -40,10 +53,10 @@ class TemporaryStorageController extends Controller
             $tools = new StringTools;
             $newName = $tools->nameGenerator($file);
 
-            if (in_array($ext, $ext_images_array)) {
+            if (in_array($ext, $ext_images_array) || $originalName === 'blob') {
                 $Path = public_path('temporaryStorage/');
                 $imgFile = Image::make($file);
-                $imgFile->save($Path . '/' . $newName);
+                $imgFile->save($Path . $newName);
 
                 $tmp_storage->key = $request->key;
                 $tmp_storage->value = 'temporaryStorage/' . $newName;
@@ -89,7 +102,7 @@ class TemporaryStorageController extends Controller
     }
 
     // delete removed tinyMCE images in folder and db
-    public function deleteTinyMceTemporayStoredImagesVideos(Request $request)
+    public function handleTinyMceTemporaryElements(Request $request)
     {
         // dd($request);
 
@@ -101,12 +114,12 @@ class TemporaryStorageController extends Controller
             foreach ([".mp4", ".m4v", ".ogv", ".webm", ".mov"] as $ext) {
                 if (str_ends_with($item->value, $ext)) {
                     $destinationFolder = 'videos/';
+                    break;
                 } else {
                     $destinationFolder = 'images/';
                 }
             }
-            dd($destinationFolder, $item->value);
-            // si une image ou video en db n'est pas dans les images qu'on a reçu alors on la delete         
+            // si une image ou video en db n'est pas dans les images qu'on a reçu alors on la delete sinon on la déplace dans son dossier permanent        
             if (!in_array($item->value, $tab_data) && $tab_data[0] !== "") {
                 File::delete(public_path($item->value));
             } else {
@@ -114,14 +127,6 @@ class TemporaryStorageController extends Controller
                 File::move(public_path($item->value), public_path($destinationFolder . $name));
             }
             Temporary_storage::destroy($item->id);
-            // if is the last video or image then we get it and remove it
-            if ($request->lastToDelete === "true") {
-                if (count($tinyImagesVideosInDB) === 1) {
-                    $toDelete = Temporary_storage::where('key', 'tmp_tinyMceImages')->orWhere('key', 'tmp_tinyMceVideos')->first();
-                    Temporary_storage::destroy($toDelete->id);
-                    File::delete(public_path($toDelete->value));
-                }
-            }
         }
     }
 }

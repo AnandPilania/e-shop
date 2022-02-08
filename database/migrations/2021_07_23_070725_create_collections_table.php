@@ -25,7 +25,6 @@ class CreateCollectionsTable extends Migration
             $table->string('alt')->nullable();
             $table->string('imageName')->nullable(); // si on veut changer le nom de l'image pour améliorer le seo
             $table->string('image')->nullable(); // image path
-            $table->string('key'); // identifie les images dans temporaryStorage
             $table->mediumText('link'); // lien de la collection -> meta_url ou name
             $table->mediumText('meta_title')->nullable();
             $table->longText('meta_description')->nullable();

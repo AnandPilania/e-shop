@@ -158,7 +158,6 @@ class CollectionController extends Controller
         $collection->category_id = $request->categoryId;
         $collection->alt = $request->alt !== null ? $request->alt :  $request->name;
         $collection->imageName = $request->imageName;
-        $collection->key = $request->key;
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -184,12 +183,13 @@ class CollectionController extends Controller
 
         $collection->save();
 
+        // fill pivot table with relations between collection and product
         foreach ($all_conditions_matched as $id) {
             $collection->products()->attach($id);
         }
-        dd($descriptionWithoutImgTag);
+
         // remove image collection from temporaryStorage, folder and db 
-        $tmp_storage = Temporary_storage::where('key', $request->key)->get();
+        $tmp_storage = Temporary_storage::where('key', 'tmp_imageCollection')->get();
         foreach ($tmp_storage as $toDelete) {
             File::delete(public_path($toDelete->value));
             Temporary_storage::destroy($toDelete->id);

@@ -11,7 +11,7 @@ import Categories from './categories';
 import Activation from './activation';
 import Image from './image';
 import Tinyeditor from './tinyEditor';
-import { deleteTinyImagesAndVideos } from '../functions/temporaryStorage/deleteTinyImagesAndVideos';
+import { handleTinyMceTemporary } from '../functions/temporaryStorage/handleTinyMceTemporary';
 
 
 const CreateCollection = () => {
@@ -25,7 +25,6 @@ const CreateCollection = () => {
     }]);
     const [nameCollection, setNameCollection] = useLocalStorage("nameCollection", "");
     const [descriptionCollection, setDescriptionCollection] = useState(localStorage.getItem('descriptionCollection') ? localStorage.getItem('descriptionCollection') : '');
-    // const [descriptionCollection, setDescriptionCollection] = useState('');
     const [metaTitle, setMetaTitle] = useLocalStorage("metaTitle", "");
     const [metaDescription, setMetaDescription] = useLocalStorage("metaDescription", "");
     const [metaUrl, setMetaUrl] = useState(window.location.origin + '/');
@@ -363,7 +362,7 @@ const CreateCollection = () => {
     // submit
     function handleSubmit() {
         let valid = validation();
-        deleteTinyImagesAndVideos(descriptionCollection);
+        handleTinyMceTemporary(descriptionCollection);
 
         if (valid) {
             let imageFile = null;
@@ -386,7 +385,6 @@ const CreateCollection = () => {
             formData.append("alt", alt);
             formData.append("imageName", imageName);
             image.length > 0 && formData.append("image", imageFile);
-            formData.append('key', 'tmp_imageCollection');
 
             Axios.post(`http://127.0.0.1:8000/save-collection`, formData,
                 {
@@ -443,7 +441,7 @@ const CreateCollection = () => {
                 {/* ----------  side  ---------- */}
                 <div className='side-create-collection'>
                     <Image />
-                    <Categories />
+                    {/* <Categories /> */}
                     <Activation />
                     {/* modal for confirmation */}
                     <ModalConfirm

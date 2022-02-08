@@ -89,6 +89,25 @@ const CroppeImage = () => {
                 setImage(blob);
                 navigate(followThisLink);
             });
+
+
+            // cropper.getCroppedCanvas().toBlob((blob) => {
+            //     var reader = new FileReader();
+            //     reader.readAsDataURL(blob);
+            //     reader.onloadend = function () {
+            //         var base64data = reader.result;
+            //         console.log(base64data);
+            //         var newimage = new Image();
+            //         newimage.src = base64data;
+            //         // need blob inside arrays for avoid error
+            //         let tab = [];
+            //         tab.push(blob);
+            //         saveInTemporaryStorage('tmp_imageCollection', newimage);
+
+            //         setImage(blob);
+            //         navigate(followThisLink);
+            //     }
+            // });
         }
     };
 

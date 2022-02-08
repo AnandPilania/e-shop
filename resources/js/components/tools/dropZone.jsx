@@ -119,7 +119,7 @@ const DropZone = (props) => {
                 .then(res => {
                     if (res.data !== undefined && res.data != '') {
                         // get --> image path <-- for croppe
-                        setImagePath(res.data);
+                        setImagePath('/' + res.data);
                         // get --> image <-- for preview
                         fetch('/' + res.data)
                             .then(function (response) {

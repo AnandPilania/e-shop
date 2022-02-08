@@ -4,7 +4,12 @@ export function saveInTemporaryStorage(key, value) {
     var tmp_Data = new FormData;
 
     tmp_Data.append('key', key);
-    tmp_Data.append('value', value);
+
+    if (Array.isArray(value)) {
+        tmp_Data.append('value', value[0]);
+    } else {
+        tmp_Data.append('value', value);
+    }
 
 
     let response = Axios.post(`http://127.0.0.1:8000/temporaryStoreImages`, tmp_Data,

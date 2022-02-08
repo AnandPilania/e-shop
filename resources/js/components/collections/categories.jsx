@@ -16,15 +16,13 @@ const Categories = () => {
 
 
     const {
-        showModalConfirm, setShowModalConfirm, showModalInput, setShowModalInput, messageModal, setMessageModal, sender, setSender, inputTextModify, setInputTextModify,
-        textButtonConfirm, setTextButtonConfirm,
-        imageModal, setImageModal, darkMode, setDarkMode
-    } = useContext(AppContext);
+        setShowModalConfirm, showModalInput, setShowModalInput, messageModal, setMessageModal, setSender, inputTextModify, setInputTextModify,
+        setTextButtonConfirm, setImageModal} = useContext(AppContext);
 
     const {
         categoryName, setCategoryName,
         categoryId, setCategoryId,
-        tmp_parameter, setTmp_parameter,
+        setTmp_parameter,
         handleModalCancel,
         deleteThisCategory, setDeleteThisCategory,
     } = useContext(CollectionContext);
@@ -37,7 +35,7 @@ const Categories = () => {
     }, [deleteThisCategory]);
 
     useEffect(() => {
-        // chargement des collections
+        // chargement des Categories
         Axios.get(`http://127.0.0.1:8000/getCategories`)
             .then(res => {
                 setCategoriesList(res.data);
@@ -46,7 +44,7 @@ const Categories = () => {
             });
 
             // évite error quand on passe à un autre component
-        return <>{categoriesList ? categoriesList : ''}</>
+        // return <>{categoriesList ? categoriesList : ''}</>
     }, []);
 
 
@@ -268,7 +266,7 @@ const Categories = () => {
                                     }}
                                 >Aucune catégorie
                                 </li>}
-                            {categoriesList.map((cat, index) => (
+                            {categoriesList && categoriesList.map((cat, index) => (
                                 cat.name != categoryName &&
                                 <li className="li-category"
                                     key={index}

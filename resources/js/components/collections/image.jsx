@@ -18,12 +18,6 @@ const Image = () => {
     } = useContext(CollectionContext);
 
 
-    // save image from dirty page in temporary_storages db
-    // useEffect(() => {
-    //     saveInTemporaryStorage('tmp_imageCollection', image);
-    // }, [image]);
-
-
     const handleAlt = (e) => {
         setAlt(e.target.value);
         localStorage.setItem("altCollection", e.target.value);
@@ -42,7 +36,7 @@ const Image = () => {
                 <div className="div-label-inputTxt">
                     <h2>Image</h2>
                     <p>Ajouter une image pour cette collection. (*optionnel)</p>
-                    <DropZone multiple={false} setImage={setImage} />
+                    <DropZone multiple={false} />
                 </div>
 
                 {/* Référencement */}
