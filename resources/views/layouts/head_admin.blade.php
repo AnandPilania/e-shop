@@ -8,8 +8,9 @@
     <title>Back-end</title>
     <!-- plugins:css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/getTypeDetailsProduct_JS.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/app.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/back-end.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/menu_accordion.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/navBar.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/collections_component.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/fontawesome.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/nprogress.css') }}" />
@@ -40,11 +41,11 @@
 <body>
     <div class="container-backend">
 
-        @include('layouts.nav_admin')
-        <div class="content-wrapper">
+        <!-- @include('layouts.nav_admin') -->
+
             @yield('content')
             <!-- @include('layouts.footer_admin') -->
-        </div>
+
     </div>
 </body>
 

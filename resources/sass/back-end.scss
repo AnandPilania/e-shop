@@ -10,19 +10,13 @@
 
 .container-backend {
     width: 100%;
-    min-height: 1080px;
-    display: grid;
-    grid-template-columns: 250px calc(100% - 250px);
+    min-height: 108vh;
     background-color: $backgroundAdminColor;
     margin: 0;
     padding: 0;
     // border: solid 2px rgb(0, 255, 85);
 }
 
-.content-wrapper {
-    width: 100%;
-    // border: solid 2px rgb(226, 0, 0);
-}
 
 .card {
     padding: 30px;

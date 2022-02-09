@@ -8,16 +8,10 @@
 
 .container-backend {
   width: 100%;
-  min-height: 1080px;
-  display: grid;
-  grid-template-columns: 250px calc(100% - 250px);
+  min-height: 108vh;
   background-color: #f6f6f7;
   margin: 0;
   padding: 0;
-}
-
-.content-wrapper {
-  width: 100%;
 }
 
 .card {

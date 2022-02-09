@@ -1,7 +1,12 @@
-@import "_variables";
+
+
+.nav-container {
+    width: 100%;
+    border-right: solid rgb(202, 202, 202) 1px;
+}
 
 .accordion {
-  background-color: $backgroundAdminColor;
+  background-color: #f6f6f7;
   color: #444;
   cursor: pointer;
   padding: 18px;
@@ -14,21 +19,24 @@
   transition: 0.4s;
   display: flex;
   align-items: center;
+//   border: solid rgb(179, 25, 51) 3px;
 }
 
 .active, .accordion:hover {
-  background-color: $backgroundAdminColor;
+  background-color: #f6f6f7;
 }
 
 .panel {
   padding: 0 18px;
-  background-color: $backgroundAdminColor;
+  background-color: #f6f6f7;
   max-height: 0;
   height: auto;
+  width: 100%;
   overflow: hidden;
   transition: max-height 0.2s ease-out;
+//   border: dashed rgb(8, 117, 108) 5px;
 }
-
+ 
 .panel_elements {
   display: flex;
   flex-direction: column;
@@ -45,4 +53,11 @@
 .accordion > img {
   width: 20px;
   margin-right: 10px;
+}
+
+.link {
+    text-decoration: none;
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 5px;
 }

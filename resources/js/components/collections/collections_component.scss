@@ -12,9 +12,9 @@
 
 .collection-main-container {
     min-width: 985px;
-    width: 60%;
+    width: 70%;
     min-height: 130vh;
-    margin: auto;
+    margin: 50px auto;
     padding-bottom: 300px;
     display: grid;
     grid-template-columns: calc(66.6666% - 10px) calc(33.3333% - 10px);
@@ -177,8 +177,6 @@
 }
 
 .btn-effacer-tout {
-    // position: relative;
-    // top: -10px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -190,7 +188,7 @@
     margin-top: 20px;
     margin-left: auto;
     background-color: rgb(255, 255, 255);
-    border: #d40a0a solid 1px;
+    border: rgb(19, 82, 255) solid 2px;
     border-radius: 5px;
     color: #464646;
     font-size: 18px;
@@ -201,9 +199,8 @@
 
 .btn-effacer-tout:hover {
     cursor: pointer;
-    background-color: white;
-    border-color: #a1a1a1;
-    // box-shadow: 1px 1px 3px rgba(53, 66, 92, 0.6);
+    border-width: 3px;
+    border-radius: 25px;
 }
 
 .div-label-inputTxt,

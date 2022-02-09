@@ -1,7 +1,6 @@
 import { React, useState } from 'react';
 import AppContext from '../contexts/AppContext';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useLocalStorage } from "../hooks/useLocalStorage";
 import Navbar from '../navBar/navBar';
 import FormProduct from '../createProduct/formProduct';
 import EditProduct from '../createProduct/editProduct';
@@ -63,9 +62,10 @@ const App = () => {
 
 
     return (
-        <div className="App">
+        <div className="app-container">
             <AppContext.Provider value={contextValue}>
                 <BrowserRouter basename='/admin'>
+                <div className="main-nav">my horizontal nav</div>
                     <Navbar />
                     <Routes>
                         <Route path="/listProduct" element={<List />} />

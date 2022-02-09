@@ -22,7 +22,7 @@ const Navbar = () => {
 
 
   return (
-    <nav>
+    <nav className="nav-container">
 
       <div className={"accordion ${isActive && 'active'}"} onClick={() => handleMenu(0)} ><img className="barcodeIcon" src="../images\icons\icons8-label-128.png" />
         Produit

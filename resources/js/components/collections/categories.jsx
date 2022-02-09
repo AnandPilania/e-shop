@@ -17,7 +17,7 @@ const Categories = () => {
 
     const {
         setShowModalConfirm, showModalInput, setShowModalInput, messageModal, setMessageModal, setSender, inputTextModify, setInputTextModify,
-        setTextButtonConfirm, setImageModal} = useContext(AppContext);
+        setTextButtonConfirm, setImageModal } = useContext(AppContext);
 
     const {
         categoryName, setCategoryName,
@@ -42,9 +42,6 @@ const Categories = () => {
             }).catch(function (error) {
                 console.log('error:   ' + error);
             });
-
-            // évite error quand on passe à un autre component
-        // return <>{categoriesList ? categoriesList : ''}</>
     }, []);
 
 
@@ -220,8 +217,16 @@ const Categories = () => {
         }
     }
 
+
+    useEffect(() => {
+        // empèche l'erreur-> Warning: Can't perform a React state update on an unmounted
+        document.addEventListener('click', closeDropDownCategory);
+        return () => {
+            document.removeEventListener('click', closeDropDownCategory);
+        };
+    }, []);
     // ferme le select de category quand on click en dehors du select
-    document.addEventListener("click", (evt) => {
+    function closeDropDownCategory(evt) {
         const categorySelectElement = document.getElementById("categorySelect");
         let targetElement = evt.target; // clicked element
 
@@ -236,7 +241,9 @@ const Categories = () => {
 
         // click outside.
         setShowCategorySelect(false);
-    });
+    }
+
+
 
 
 

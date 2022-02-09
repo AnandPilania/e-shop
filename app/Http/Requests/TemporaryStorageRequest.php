@@ -25,7 +25,7 @@ class TemporaryStorageRequest extends FormRequest
     {
         return [
             'key' => 'required|string',
-            'value' => 'required|mimetypes:image/gif, image/png, image/jpeg, image/webp, video/webm, video/ogg, video/avi, video/mpeg, video/quicktime'
+            'value' => 'required|mimetypes:video/mp4,video/webm,video/ogg,video/avi,video/mpeg,image/gif,image/png,image/jpeg,image/webp'
         ];
     }
 }

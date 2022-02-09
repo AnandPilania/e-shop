@@ -11,9 +11,9 @@
 
 .collection-main-container {
   min-width: 985px;
-  width: 60%;
+  width: 70%;
   min-height: 130vh;
-  margin: auto;
+  margin: 50px auto;
   padding-bottom: 300px;
   display: grid;
   grid-template-columns: calc(66.6666% - 10px) calc(33.3333% - 10px);
@@ -163,7 +163,7 @@
   margin-top: 20px;
   margin-left: auto;
   background-color: white;
-  border: #d40a0a solid 1px;
+  border: #1352ff solid 2px;
   border-radius: 5px;
   color: #464646;
   font-size: 18px;
@@ -174,8 +174,8 @@
 
 .btn-effacer-tout:hover {
   cursor: pointer;
-  background-color: white;
-  border-color: #a1a1a1;
+  border-width: 3px;
+  border-radius: 25px;
 }
 
 .div-label-inputTxt,

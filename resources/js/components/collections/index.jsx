@@ -441,7 +441,7 @@ const CreateCollection = () => {
                 {/* ----------  side  ---------- */}
                 <div className='side-create-collection'>
                     <Image />
-                    {/* <Categories /> */}
+                    <Categories />
                     <Activation />
                     {/* modal for confirmation */}
                     <ModalConfirm

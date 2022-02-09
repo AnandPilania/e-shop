@@ -4,33 +4,31 @@ import "cropperjs/dist/cropper.css";
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from '@material-ui/styles';
 import AppContext from '../contexts/AppContext';
-import Axios from 'axios';
 import { saveInTemporaryStorage } from '../functions/temporaryStorage/saveInTemporaryStorage';
 
 const useStyles = makeStyles({
-    modalMain: {
-        position: 'fixed',
+    main: {
         background: 'white',
-        width: '80%',
-        height: 'auto',
-        maxHeight: '80vh',
+        width: 'calc(100vw - 450px)',
+        height: 'calc(100vh - 180px)',
+        minHeight: '500px',
         minWidth: '300px',
-        padding: '50px',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%,-50%)',
+        padding: '25px 25px 10px 25px',
+        margin: '20px auto',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
         borderRadius: '5px',
         zindex: '20',
+        gridColumnStart: 2,
+        gridColumnEnd: 3,
     },
     btnModal: {
         width: '150px',
         height: '50px',
         padding: '0 25px',
-        margin: '20px 0',
+        margin: '10px 0',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
@@ -46,27 +44,6 @@ const useStyles = makeStyles({
             color: '#eeeeee',
         },
     },
-    close: {
-        position: 'absolute',
-        top: '0',
-        right: '0',
-        width: '100%',
-        height: '60px',
-        display: 'flex',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        borderRadius: '5px 5px 0 0',
-    },
-    faTimes: {
-        marginRight: '25px',
-        fontSize: '26px',
-        transition: 'ease-in-out .15s',
-        color: '#333333',
-        '&:hover': {
-            cursor: 'pointer',
-            transform: 'scale(1.15)',
-        },
-    },
 });
 
 
@@ -78,44 +55,22 @@ const CroppeImage = () => {
 
     const getCropData = () => {
         if (typeof cropper !== "undefined") {
-
             cropper.getCroppedCanvas().toBlob((blob) => {
 
-                // need blob inside arrays for avoid error
-                let tab = [];
-                tab.push(blob);
-                saveInTemporaryStorage('tmp_imageCollection', tab);
+                saveInTemporaryStorage('tmp_imageCollection', blob);
 
                 setImage(blob);
                 navigate(followThisLink);
             });
-
-
-            // cropper.getCroppedCanvas().toBlob((blob) => {
-            //     var reader = new FileReader();
-            //     reader.readAsDataURL(blob);
-            //     reader.onloadend = function () {
-            //         var base64data = reader.result;
-            //         console.log(base64data);
-            //         var newimage = new Image();
-            //         newimage.src = base64data;
-            //         // need blob inside arrays for avoid error
-            //         let tab = [];
-            //         tab.push(blob);
-            //         saveInTemporaryStorage('tmp_imageCollection', newimage);
-
-            //         setImage(blob);
-            //         navigate(followThisLink);
-            //     }
-            // });
         }
     };
 
+
     return (
         <>
-            <section className={classes.modalMain}>
+            <section className={classes.main}>
                 <Cropper
-                    style={{ height: 400, width: "100%", border: "dashed 2px yellow" }}
+                    style={{ height: "calc(100vh - 350px)", width: "100%", border: "solid 1px gray" }}
                     zoomTo={0}
                     // initialAspectRatio={1 / 1}
                     // preview=".img-preview"
