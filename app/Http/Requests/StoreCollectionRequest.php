@@ -36,7 +36,7 @@ class StoreCollectionRequest extends FormRequest
             'categoryId' => 'nullable|numeric',
             'alt' => 'nullable|string|max:255',
             'imageName' => 'nullable|string|max:255',
-            'image' => 'nullable|sometimes|image|mimes:jpeg,bmp,png,jpg,svg|max:2000',
+            'image' => 'nullable|sometimes|image|mimes:jpeg,png,jpg,webp|max:2000',
             'metaTitle' => 'required|string|max:255',
             'metaDescription' => 'nullable|string',
             'metaUrl' => 'nullable|string|max:2045',

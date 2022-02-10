@@ -18,9 +18,11 @@ class StringTools
     public function nameGenerator($file)
     {
         // on crée une random string pour ajouter au nom de l'image
-        $random = substr(str_shuffle("0123456789abcdefghijklmnopqrstvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 20);
+        $random = substr(str_shuffle("0123456789abcdefghijklmnopqrstvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 10);
         // on explode pour récuppérer le nom sans l'extention
         $imageName = explode(".", $file->getClientOriginalName());
+        $index = strpos($imageName[0], '-');
+        $index > 0 && $imageName[0] = substr($imageName[0], 0, $index);
         $pattern = '/[\!\^\$\?\+\*\|&"\'_=\- ]+/i';
         $imageName[0] =  preg_replace($pattern, '-', $imageName[0]);
 

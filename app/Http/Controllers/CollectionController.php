@@ -140,9 +140,9 @@ class CollectionController extends Controller
         $collection = new Collection;
         $collection->name = $request->imageName != null ? $request->imageName : $request->name;
         $collection->description = str_replace('temporaryStorage', 'images', $request->description);
-        $collection->automatise = $request->automatise === true ? 1 : 0;
-        $collection->notIncludePrevProduct = $request->notIncludePrevProduct === true ? 1 : 0;
-        $collection->allConditionsNeeded = $request->allConditionsNeeded === true ? 1 : 0;
+        $collection->automatise = $request->automatise === 'true' ? 1 : 0;
+        $collection->notIncludePrevProduct = $request->notIncludePrevProduct === 'true' ? 1 : 0;
+        $collection->allConditionsNeeded = $request->allConditionsNeeded === 'true' ? 1 : 0;
         $collection->objConditions = $request->objConditions;
         $cleanLink = new CleanLink;
         $collection->link = $cleanLink->cleanLink($request->name);

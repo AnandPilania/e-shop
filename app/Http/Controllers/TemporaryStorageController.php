@@ -25,10 +25,10 @@ class TemporaryStorageController extends Controller
         // dd($request);
 
         // concerne image collection: delete previous image collection before save the new
-        $only_imageCollection = Temporary_storage::where('key', $request->key)->get();
-        if (count($only_imageCollection) > 0 && $request->key === 'tmp_imageCollection') {
-            File::delete(public_path($only_imageCollection[0]->value));
-            Temporary_storage::destroy($only_imageCollection[0]->id);
+        $only_imageCollection = Temporary_storage::where('key', $request->key)->first();
+        if ($only_imageCollection && $request->key === 'tmp_imageCollection') {
+            File::delete(public_path($only_imageCollection->value));
+            Temporary_storage::destroy($only_imageCollection->id);
         }
 
         if ($request->hasFile('value')) {
@@ -83,11 +83,13 @@ class TemporaryStorageController extends Controller
                 $imgFile = Image::make($file);
                 $imgFile->save($Path . $newName);
 
-                $im = imagecreatefromjpeg($Path . $newName);
-                header('Content-type: image/jpeg');
-                imagejpeg($im, $Path . $newName, 80);
-                imagedestroy($im);
-
+                // diminu le poids de l'image
+                if ($file->getClientOriginalName() !== 'blob') {
+                    $img = imagecreatefromjpeg($Path . $newName);
+                    header('Content-type: image/jpeg');
+                    imagejpeg($img, $Path . $newName, 80);
+                    imagedestroy($img);
+                }
 
                 $tmp_storage->key = $request->key;
                 $tmp_storage->value = 'temporaryStorage/' . $newName;

@@ -21,7 +21,7 @@ const useStyles = makeStyles({
         backgroundColor: '#fff',
 
         '&:hover': {
-            border: 'rgb(19, 82, 255) dashed 5px',
+            border: 'rgba(19, 82, 255, .8) dashed 5px',
         },
     },
     drop_region: {
@@ -295,7 +295,7 @@ const DropZone = (props) => {
         img.onload = () => {
             var width = img.clientWidth;
             var height = img.clientHeight;
-            img.style.margin = '0';
+            img.style.margin = 'auto';
             if (width > height) {
                 img.style.width = '100%';
                 img.style.maxWidth = '270px';

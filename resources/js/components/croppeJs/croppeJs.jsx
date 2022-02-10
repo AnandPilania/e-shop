@@ -24,7 +24,16 @@ const useStyles = makeStyles({
         gridColumnStart: 2,
         gridColumnEnd: 3,
     },
-    btnModal: {
+    bottom_panel: {
+        width: '100%',
+        margin: '10px 0',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-end',
+        flex: 1,
+    },
+    btnSubmit: {
         width: '150px',
         height: '50px',
         padding: '0 25px',
@@ -56,23 +65,23 @@ const CroppeImage = () => {
     const getCropData = () => {
         if (typeof cropper !== "undefined") {
             cropper.getCroppedCanvas().toBlob((blob) => {
-
-                saveInTemporaryStorage('tmp_imageCollection', blob);
+                console.log(imagePath);
+                saveInTemporaryStorage('tmp_imageCollection', blob, imageName);
 
                 setImage(blob);
                 navigate(followThisLink);
             });
         }
     };
-
-
+    
     return (
         <>
             <section className={classes.main}>
                 <Cropper
                     style={{ height: "calc(100vh - 350px)", width: "100%", border: "solid 1px gray" }}
                     zoomTo={0}
-                    // initialAspectRatio={1 / 1}
+                    initialAspectRatio={16 / 9}
+                    // aspectRatio={aspRatio}
                     // preview=".img-preview"
                     src={imagePath}
                     viewMode={1}
@@ -86,15 +95,17 @@ const CroppeImage = () => {
                         setCropper(instance);
                     }}
                     guides={true}
-
                 />
-                <button
-                    className={classes.btnModal}
-                    onClick={() => {
-                        getCropData();
-                    }}>
-                    Recadrer
-                </button>
+                <div className={classes.bottom_panel}>
+                    <button
+                        className={classes.btnSubmit}
+                        onClick={() => {
+                            getCropData();
+                        }}>
+                        Recadrer
+                    </button>
+                </div>
+
             </section>
         </>
     );

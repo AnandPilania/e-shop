@@ -28674,7 +28674,16 @@ var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_6__["default"])(
     gridColumnStart: 2,
     gridColumnEnd: 3
   },
-  btnModal: {
+  bottom_panel: {
+    width: '100%',
+    margin: '10px 0',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-end',
+    flex: 1
+  },
+  btnSubmit: {
     width: '150px',
     height: '50px',
     padding: '0 25px',
@@ -28713,7 +28722,8 @@ var CroppeImage = function CroppeImage() {
   var getCropData = function getCropData() {
     if (typeof cropper !== "undefined") {
       cropper.getCroppedCanvas().toBlob(function (blob) {
-        (0,_functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_4__.saveInTemporaryStorage)('tmp_imageCollection', blob);
+        console.log(imagePath);
+        (0,_functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_4__.saveInTemporaryStorage)('tmp_imageCollection', blob, imageName);
         setImage(blob);
         navigate(followThisLink);
       });
@@ -28729,7 +28739,8 @@ var CroppeImage = function CroppeImage() {
           width: "100%",
           border: "solid 1px gray"
         },
-        zoomTo: 0 // initialAspectRatio={1 / 1}
+        zoomTo: 0,
+        initialAspectRatio: 16 / 9 // aspectRatio={aspRatio}
         // preview=".img-preview"
         ,
         src: imagePath,
@@ -28744,12 +28755,15 @@ var CroppeImage = function CroppeImage() {
           setCropper(instance);
         },
         guides: true
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
-        className: classes.btnModal,
-        onClick: function onClick() {
-          getCropData();
-        },
-        children: "Recadrer"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+        className: classes.bottom_panel,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+          className: classes.btnSubmit,
+          onClick: function onClick() {
+            getCropData();
+          },
+          children: "Recadrer"
+        })
       })]
     })
   });
@@ -28816,14 +28830,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
-function saveInTemporaryStorage(key, value) {
+function saveInTemporaryStorage(key, value, imageName) {
   var tmp_Data = new FormData();
   tmp_Data.append('key', key);
 
   if (Array.isArray(value)) {
-    tmp_Data.append('value', value[0]);
+    tmp_Data.append('value', value[0], "myImageName.jpg");
   } else {
-    tmp_Data.append('value', value);
+    tmp_Data.append('value', value, "myImageName.jpg");
   }
 
   var response = axios__WEBPACK_IMPORTED_MODULE_0___default().post("http://127.0.0.1:8000/temporaryStoreImages", tmp_Data, {
@@ -29896,7 +29910,7 @@ var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_6__["default"])(
     flexWrap: 'nowrap',
     backgroundColor: '#fff',
     '&:hover': {
-      border: 'rgb(19, 82, 255) dashed 5px'
+      border: 'rgba(19, 82, 255, .8) dashed 5px'
     }
   },
   drop_region: {
@@ -30181,7 +30195,7 @@ var DropZone = function DropZone(props) {
     img.onload = function () {
       var width = img.clientWidth;
       var height = img.clientHeight;
-      img.style.margin = '0';
+      img.style.margin = 'auto';
 
       if (width > height) {
         img.style.width = '100%';
