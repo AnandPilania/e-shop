@@ -1,14 +1,15 @@
 import Axios from "axios";
 
-export function saveInTemporaryStorage(key, value, imageName) {
+export function saveInTemporaryStorage(key, value, blobImageName) {
     var tmp_Data = new FormData;
-
     tmp_Data.append('key', key);
 
+    let name = value.name !== undefined ? value.name : blobImageName;
+
     if (Array.isArray(value)) {
-        tmp_Data.append('value', value[0], "myImageName.jpg");
+        tmp_Data.append('value', value[0], name);
     } else {
-        tmp_Data.append('value', value, "myImageName.jpg");
+        tmp_Data.append('value', value, name);
     }
 
 

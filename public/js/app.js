@@ -28639,11 +28639,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_cropper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-cropper */ "./node_modules/react-cropper/dist/react-cropper.es.js");
-/* harmony import */ var cropperjs_dist_cropper_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! cropperjs/dist/cropper.css */ "./node_modules/cropperjs/dist/cropper.css");
+/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
 /* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
-/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
+/* harmony import */ var react_cropper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-cropper */ "./node_modules/react-cropper/dist/react-cropper.es.js");
+/* harmony import */ var cropperjs_dist_cropper_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! cropperjs/dist/cropper.css */ "./node_modules/cropperjs/dist/cropper.css");
 /* harmony import */ var _functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../functions/temporaryStorage/saveInTemporaryStorage */ "./resources/js/components/functions/temporaryStorage/saveInTemporaryStorage.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -28714,27 +28714,70 @@ var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_6__["default"])(
       cursor: 'pointer',
       color: '#eeeeee'
     }
+  },
+  divFormat: {
+    width: 'auto',
+    marginLeft: '20px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    flex: 1
+  },
+  divBtnFormat: {
+    width: 'auto',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-end',
+    flex: 1
+  },
+  btnRatio: {
+    width: '70px',
+    height: '50px',
+    margin: '10px 5px 10px 0',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    color: '#222222',
+    fontSize: '20px',
+    borderRadius: '5px',
+    border: 'solid 1px gray',
+    transition: 'ease-in-out 0.15s',
+    '&:hover': {
+      cursor: 'pointer'
+    }
   }
 });
 
 var CroppeImage = function CroppeImage() {
-  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_3__["default"]),
-      setImage = _useContext.setImage,
-      imagePath = _useContext.imagePath,
-      followThisLink = _useContext.followThisLink;
-
   var classes = useStyles();
-  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_7__.useNavigate)();
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
       _useState2 = _slicedToArray(_useState, 2),
       cropper = _useState2[0],
       setCropper = _useState2[1];
 
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
+      _useState4 = _slicedToArray(_useState3, 2),
+      imageData = _useState4[0],
+      setImageData = _useState4[1];
+
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
+      setImage = _useContext.setImage,
+      imagePath = _useContext.imagePath,
+      followThisLink = _useContext.followThisLink;
+
+  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_7__.useNavigate)(); // useEffect(() => {
+  //     setImageData(cropper);
+  // }, [cropper]);
+
   var getCropData = function getCropData() {
     if (typeof cropper !== "undefined") {
       cropper.getCroppedCanvas().toBlob(function (blob) {
-        console.log(imagePath);
+        var imageName = imagePath.replace('/temporaryStorage/', '');
         (0,_functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_4__.saveInTemporaryStorage)('tmp_imageCollection', blob, imageName);
         setImage(blob);
         navigate(followThisLink);
@@ -28742,17 +28785,28 @@ var CroppeImage = function CroppeImage() {
     }
   };
 
+  var handleRatio = function handleRatio(ratio) {
+    cropper.setAspectRatio(ratio);
+    setImageData(cropper.cropBoxData.width);
+    console.log('imageData.width  ', cropper.imageData.width);
+  };
+
+  var myEvent = function myEvent() {
+    alert('event');
+  }; // console.log('imageData  ', imageData)
+
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("section", {
       className: classes.main,
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_cropper__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_cropper__WEBPACK_IMPORTED_MODULE_2__["default"], {
         style: {
           height: "calc(100vh - 350px)",
           width: "100%",
           border: "solid 1px gray"
         },
         zoomTo: 0,
-        initialAspectRatio: 16 / 9 // aspectRatio={aspRatio}
+        initialAspectRatio: NaN // aspectRatio={aspRatio}
         // preview=".img-preview"
         ,
         src: imagePath,
@@ -28766,16 +28820,67 @@ var CroppeImage = function CroppeImage() {
         onInitialized: function onInitialized(instance) {
           setCropper(instance);
         },
-        guides: true
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+        guides: true,
+        onCropstart: myEvent
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
         className: classes.bottom_panel,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
           className: classes.btnSubmit,
           onClick: function onClick() {
             getCropData();
           },
           children: "Recadrer"
-        })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+          className: classes.divFormat,
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+            style: {
+              color: "black"
+            },
+            className: classes.btnRatio,
+            children: cropper && imageData
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+            style: {
+              marginBottm: "15px",
+              width: "100%",
+              border: "none"
+            },
+            className: classes.btnRatio,
+            children: "Format -- what is the good ratio for image web ??"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+            className: classes.divBtnFormat,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+              className: classes.btnRatio,
+              onClick: function onClick() {
+                return handleRatio(1);
+              },
+              children: "1:1"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+              className: classes.btnRatio,
+              onClick: function onClick() {
+                return handleRatio(2 / 3);
+              },
+              children: "2:3"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+              className: classes.btnRatio,
+              onClick: function onClick() {
+                return handleRatio(4 / 3);
+              },
+              children: "4:3"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+              className: classes.btnRatio,
+              onClick: function onClick() {
+                return handleRatio(16 / 9);
+              },
+              children: "16:9"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+              className: classes.btnRatio,
+              onClick: function onClick() {
+                return handleRatio(NaN);
+              },
+              children: "Free"
+            })]
+          })]
+        })]
       })]
     })
   });
@@ -28842,14 +28947,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
-function saveInTemporaryStorage(key, value, imageName) {
+function saveInTemporaryStorage(key, value, blobImageName) {
   var tmp_Data = new FormData();
   tmp_Data.append('key', key);
+  var name = value.name !== undefined ? value.name : blobImageName;
 
   if (Array.isArray(value)) {
-    tmp_Data.append('value', value[0], "myImageName.jpg");
+    tmp_Data.append('value', value[0], name);
   } else {
-    tmp_Data.append('value', value, "myImageName.jpg");
+    tmp_Data.append('value', value, name);
   }
 
   var response = axios__WEBPACK_IMPORTED_MODULE_0___default().post("http://127.0.0.1:8000/temporaryStoreImages", tmp_Data, {

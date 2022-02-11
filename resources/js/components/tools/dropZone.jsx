@@ -140,6 +140,7 @@ const DropZone = (props) => {
     const handleChangeImage = (imageFile) => {
         // when image is changed, save it in temporaryStorage before load it and setImagePath with  
         let response = async () => {
+            
             return saveInTemporaryStorage('tmp_imageCollection', imageFile)
         }
         response().then(() => {

@@ -61,6 +61,15 @@ class TemporaryStorageController extends Controller
                     case 'video/mpeg':
                         $newName .= 'mpeg';
                         break;
+                    case 'video/quicktime':
+                        $newName .= 'mov';
+                        break;
+                    case 'video/x-msvideo':
+                        $newName .= 'avi';
+                        break;
+                    case 'video/x-ms-wmv':
+                        $newName .= 'wmv';
+                        break;
                     case 'image/gif':
                         $newName .= 'gif';
                         break;
@@ -135,7 +144,7 @@ class TemporaryStorageController extends Controller
     }
 
     // delete removed tinyMCE images in folder and db
-    public function handleTinyMceTemporaryElements(Request $request)
+    public function handleTinyMceTemporaryElements(TemporaryStorageRequest $request)
     {
         // dd($request);
 
@@ -143,8 +152,8 @@ class TemporaryStorageController extends Controller
         $tinyImagesVideosInDB = Temporary_storage::where('key', 'tmp_tinyMceImages')->orWhere('key', 'tmp_tinyMceVideos')->get();
         $destinationFolder = '';
         foreach ($tinyImagesVideosInDB as $item) {
-            // check if video or image for determine destination folder
-            foreach ([".mp4", ".m4v", ".ogv", ".webm", ".mov"] as $ext) {
+            // check if is video or image for determine destination folder
+            foreach ([".mp4", ".mpeg", ".ogv", ".webm", ".mov", "avi", ".wmv"] as $ext) {
                 if (str_ends_with($item->value, $ext)) {
                     $destinationFolder = 'videos/';
                     break;
