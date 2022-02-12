@@ -20,7 +20,7 @@ class TemporaryStorageController extends Controller
 
 
     // stock des images temporaires
-    public function temporaryStoreImages(TemporaryStorageRequest $request)
+    public function temporaryStoreImages(Request $request)
     {
         // dd($request);
 
@@ -35,70 +35,17 @@ class TemporaryStorageController extends Controller
 
             $file = $request->file('value');
             $mimeType = $file->getClientMimeType();
-            $ext = $file->getClientOriginalExtension();
             $mimeType_videos_array = array('video/webm', 'video/ogg', 'video/avi', 'video/mp4', 'video/mpeg');
             $mimeType_images_array = array('image/gif', 'image/png', 'image/jpeg', 'image/webp');
 
             $tmp_storage = new Temporary_storage;
             $tools = new StringTools;
-            $newName = $tools->nameGenerator($file);
-
-            // if file doesn't have extension then check mimeType to add extension to file name
-            if ($ext === '') {
-                switch ($mimeType) {
-                    case 'video/mp4':
-                        $newName .= 'mp4';
-                        break;
-                    case 'video/webm':
-                        $newName .= 'webm';
-                        break;
-                    case 'video/ogg':
-                        $newName .= 'ogv';
-                        break;
-                    case 'video/avi':
-                        $newName .= 'avi';
-                        break;
-                    case 'video/mpeg':
-                        $newName .= 'mpeg';
-                        break;
-                    case 'video/quicktime':
-                        $newName .= 'mov';
-                        break;
-                    case 'video/x-msvideo':
-                        $newName .= 'avi';
-                        break;
-                    case 'video/x-ms-wmv':
-                        $newName .= 'wmv';
-                        break;
-                    case 'image/gif':
-                        $newName .= 'gif';
-                        break;
-                    case 'image/png':
-                        $newName .= 'png';
-                        break;
-                    case 'image/jpeg':
-                        $newName .= 'jpg';
-                        break;
-                    case 'image/webp':
-                        $newName .= 'webp';
-                        break;
-                    default:
-                        return 'This file type is not allowed';
-                }
-            }
+            $newName = $tools->nameGeneratorFromFile($file);
 
             if (in_array($mimeType, $mimeType_images_array)) {
                 $Path = public_path('temporaryStorage/');
                 $imgFile = Image::make($file);
-                $imgFile->save($Path . $newName);
-
-                // diminu le poids de l'image
-                if ($file->getClientOriginalName() !== 'blob') {
-                    $img = imagecreatefromjpeg($Path . $newName);
-                    header('Content-type: image/jpeg');
-                    imagejpeg($img, $Path . $newName, 80);
-                    imagedestroy($img);
-                }
+                $imgFile->save($Path . $newName, 80, 'jpg');
 
                 $tmp_storage->key = $request->key;
                 $tmp_storage->value = 'temporaryStorage/' . $newName;
@@ -147,8 +94,8 @@ class TemporaryStorageController extends Controller
     public function handleTinyMceTemporaryElements(TemporaryStorageRequest $request)
     {
         // dd($request);
-
         $tab_data = explode(',', $request->value);
+
         $tinyImagesVideosInDB = Temporary_storage::where('key', 'tmp_tinyMceImages')->orWhere('key', 'tmp_tinyMceVideos')->get();
         $destinationFolder = '';
         foreach ($tinyImagesVideosInDB as $item) {
@@ -161,13 +108,14 @@ class TemporaryStorageController extends Controller
                     $destinationFolder = 'images/';
                 }
             }
-            // si une image ou video en db n'est pas dans les images qu'on a reçu alors on la delete sinon on la déplace dans son dossier permanent        
+            // si une image ou video en db n'est pas dans les images qu'on a reçu alors on la delete sinon on la déplace dans son dossier permanent  
             if (!in_array($item->value, $tab_data) && $tab_data[0] !== "") {
                 File::delete(public_path($item->value));
             } else {
                 $name = str_replace('temporaryStorage/', '', $item->value);
                 File::move(public_path($item->value), public_path($destinationFolder . $name));
             }
+
             Temporary_storage::destroy($item->id);
         }
     }

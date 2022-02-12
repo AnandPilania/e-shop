@@ -66,7 +66,7 @@ const useStyles = makeStyles({
 
 const DropZone = (props) => {
     const classes = useStyles();
-    const { image, setImage, setImagePath, setImageModal, setShowModalSimpleMessage, setMessageModal } = useContext(AppContext);
+    const { image, setImage, imagePath, setImagePath, setImageModal, setShowModalSimpleMessage, setMessageModal } = useContext(AppContext);
     var navigate = useNavigate();
     var dropRegion = null;
     var imagePreviewRegion = null;
@@ -118,6 +118,7 @@ const DropZone = (props) => {
             Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage`)
                 .then(res => {
                     if (res.data !== undefined && res.data != '') {
+                        console.log('res data  ', res.data)
                         // get --> image path <-- for croppe
                         setImagePath('/' + res.data);
                         // get --> image <-- for preview
@@ -324,6 +325,7 @@ const DropZone = (props) => {
             }
 
             setImage([]);
+            setImagePath('');
 
             // remet l'image de fond
             document.getElementById('drop-region-dropZone').style.backgroundColor = 'none';
@@ -339,6 +341,14 @@ const DropZone = (props) => {
                 .then(res => {
                     console.log('res.data  --->  ok');
                 });
+        }
+    }
+
+    function goToCrop() {
+        var imageExist = document.getElementsByClassName('image-view-dropZone') && document.getElementsByClassName('image-view-dropZone');
+
+        if (imageExist.length > 0) {
+            navigate('/cropImage');
         }
     }
 
@@ -360,11 +370,11 @@ const DropZone = (props) => {
                 </div>
             </div>
             <span className={classes.removeImage}>
-                <i className="fas fa-crop tooltip" onClick={() => navigate('/cropImage')}> <span className="tooltiptext">Redimensionner l'image</span>
-                </i>
-                <i className="far fa-trash-alt trash-alt-dropZone tooltip" style={{ display: "block", marginLeft: "15px" }} onClick={removeImagePreview} >
+                {!!imagePath && <i className="fas fa-crop tooltip" onClick={goToCrop}> <span className="tooltiptext">Redimensionner l'image</span>
+                </i>}
+                {!!imagePath && <i className="far fa-trash-alt trash-alt-dropZone tooltip" style={{ display: "block", marginLeft: "15px" }} onClick={removeImagePreview} >
                     <span className="tooltiptext">Supprimer l'image</span>
-                </i>
+                </i>}
             </span>
         </>
     )

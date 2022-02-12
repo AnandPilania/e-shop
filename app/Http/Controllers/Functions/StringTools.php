@@ -16,10 +16,10 @@ class StringTools
     }
 
 
-    public function nameGenerator($file)
+    public function nameGeneratorFromFile($file)
     {
         // on crée une random string pour ajouter au nom de l'image
-        $random = substr(str_shuffle("0123456789abcdefghijklmnopqrstvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 10);
+        // $random = substr(str_shuffle("0123456789abcdefghijklmnopqrstvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 10);
         // on explode pour récuppérer le nom sans l'extention
         $imageName = explode(".", $file->getClientOriginalName());
         $index = strpos($imageName[0], '-');
@@ -27,12 +27,79 @@ class StringTools
         $pattern = '/[\!\^\$\?\+\*\|&"\'_=\- ]+/i';
         $imageName[0] =  preg_replace($pattern, '-', $imageName[0]);
 
+        if ($file->getClientOriginalExtension() !== '') {
+            $ext = $file->getClientOriginalExtension();
+        } else {
+            $ext = $this->getExtesion($file);
+        }
+        
         // remplace all specials caracteres and lowerCase
-        $newName = $this->cleanCaracters($imageName[0]) . '-' . $random . '.' . $file->getClientOriginalExtension();
+        $newName = $this->cleanCaracters($imageName[0]) . '-' . time() . '.' . $ext;
 
         return $newName;
     }
-    
 
+    public function nameGeneratorFromString($string, $file)
+    {
+        // on explode pour récuppérer le nom sans l'extention
+        $str = explode(".", $string);
+        $index = strpos($str[0], '-');
+        $index > 0 && $str[0] = substr($str[0], 0, $index);
+        $pattern = '/[\!\^\$\?\+\*\|&"\'_=\- ]+/i';
+        $str[0] =  preg_replace($pattern, '-', $str[0]);
+        $ext = $this->getExtesion($file);
+        // remplace all specials caracteres and lowerCase
+        $newName = $this->cleanCaracters($str[0]) . '-' . time() . '.' . $ext;
 
+        return $newName;
+    }
+
+    public function getExtesion($file)
+    {
+        $mimeType = $file->getClientMimeType();
+        $extension = '';
+
+        switch ($mimeType) {
+            case 'video/mp4':
+                $extension = 'mp4';
+                break;
+            case 'video/webm':
+                $extension = 'webm';
+                break;
+            case 'video/ogg':
+                $extension = 'ogv';
+                break;
+            case 'video/avi':
+                $extension = 'avi';
+                break;
+            case 'video/mpeg':
+                $extension = 'mpeg';
+                break;
+            case 'video/quicktime':
+                $extension = 'mov';
+                break;
+            case 'video/x-msvideo':
+                $extension = 'avi';
+                break;
+            case 'video/x-ms-wmv':
+                $extension = 'wmv';
+                break;
+            case 'image/gif':
+                $extension = 'gif';
+                break;
+            case 'image/png':
+                $extension = 'png';
+                break;
+            case 'image/jpeg':
+                $extension = 'jpg';
+                break;
+            case 'image/webp':
+                $extension = 'webp';
+                break;
+            default:
+                return 'error';
+        }
+
+        return $extension;
+    }
 }

@@ -28,7 +28,7 @@ const ListCollections = () => {
                 <button><Link className="link" to="/add-collection" onClick={checkLeave}>Ajouter une collection</Link></button>
             </div>
 
-            <table>
+            <table className="listCollection">
                 <thead>
                     <tr>
                         <th colSpan="2">The table header</th>

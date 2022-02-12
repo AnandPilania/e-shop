@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import AppContext from '../contexts/AppContext';
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from '@material-ui/styles';
@@ -37,7 +37,7 @@ const useStyles = makeStyles({
         width: '150px',
         height: '50px',
         padding: '0 25px',
-        margin: '10px 0',
+        margin: '10px 10px 0 0',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
@@ -50,7 +50,7 @@ const useStyles = makeStyles({
         transition: 'ease-in-out 0.15s',
         '&:hover': {
             cursor: 'pointer',
-            color: '#eeeeee',
+            fontWeight: 'bold'
         },
     },
     divFormat: {
@@ -73,7 +73,7 @@ const useStyles = makeStyles({
     btnRatio: {
         width: '70px',
         height: '50px',
-        margin: '10px 5px 10px 0',
+        margin: '10px 5px 0 0',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
@@ -82,10 +82,11 @@ const useStyles = makeStyles({
         color: '#222222',
         fontSize: '20px',
         borderRadius: '5px',
-        border: 'solid 1px gray',
+        border: 'solid 2px rgb(52, 115, 252)',
         transition: 'ease-in-out 0.15s',
         '&:hover': {
             cursor: 'pointer',
+            fontWeight: 'bold'
         },
     },
 });
@@ -95,13 +96,8 @@ const CroppeImage = () => {
 
     const classes = useStyles();
     const [cropper, setCropper] = useState();
-    const [imageData, setImageData] = useState();
     const { setImage, imagePath, followThisLink } = useContext(AppContext);
     var navigate = useNavigate();
-
-    // useEffect(() => {
-    //     setImageData(cropper);
-    // }, [cropper]);
 
     const getCropData = () => {
         if (typeof cropper !== "undefined") {
@@ -119,15 +115,10 @@ const CroppeImage = () => {
 
     const handleRatio = (ratio) => {
         cropper.setAspectRatio(ratio);
-        setImageData(cropper.cropBoxData.width)
-        console.log('imageData.width  ', cropper.imageData.width)
+        // console.log(cropper.cropBoxData.width)
     }
 
-    const myEvent = () => {
-        alert('event')
-    }
-   
-// console.log('imageData  ', imageData)
+
     return (
         <>
             <section className={classes.main}>
@@ -149,7 +140,6 @@ const CroppeImage = () => {
                         setCropper(instance);
                     }}
                     guides={true}
-                    onCropstart={myEvent}
                 />
                 <div className={classes.bottom_panel}>
                     <button
@@ -159,9 +149,16 @@ const CroppeImage = () => {
                         }}>
                         Recadrer
                     </button>
+                    <button
+                        className={classes.btnSubmit}
+                        onClick={() => {
+                            navigate(followThisLink);
+                        }}>
+                        Annuler
+                    </button>
                     <div className={classes.divFormat}>
-                    <span style={{color: "black"}} className={classes.btnRatio}>{cropper && imageData}</span>
-                        <span style={{ marginBottm: "15px", width: "100%", border: "none" }} className={classes.btnRatio}>Format -- what is the good ratio for image web ??</span>
+                        <span style={{ marginBottm: "15px", width: "auto", border: "none", fontSize: "22px" }}>Format</span>
+
                         <div className={classes.divBtnFormat}>
                             <button className={classes.btnRatio} onClick={() => handleRatio(1)}>
                                 1:1
@@ -169,8 +166,14 @@ const CroppeImage = () => {
                             <button className={classes.btnRatio} onClick={() => handleRatio(2 / 3)}>
                                 2:3
                             </button>
+                            <button className={classes.btnRatio} onClick={() => handleRatio(3 / 2)}>
+                                3:2
+                            </button>
                             <button className={classes.btnRatio} onClick={() => handleRatio(4 / 3)}>
                                 4:3
+                            </button>
+                            <button className={classes.btnRatio} onClick={() => handleRatio(9 / 16)}>
+                                9:16
                             </button>
                             <button className={classes.btnRatio} onClick={() => handleRatio(16 / 9)}>
                                 16:9
@@ -180,7 +183,18 @@ const CroppeImage = () => {
                             </button>
                         </div>
                     </div>
+                    <div className={classes.divFormat}>
+                        <span style={{ marginBottm: "15px", width: "auto", border: "none", fontSize: "22px" }}>Zoom</span>
 
+                        <div className={classes.divBtnFormat}>
+                            <button className={classes.btnRatio} onClick={() => cropper.zoom(0.1)}>
+                                <span style={{ fontSize: "40px" }}>+</span>
+                            </button>
+                            <button className={classes.btnRatio} onClick={() => cropper.zoom(-0.1)}>
+                                <span style={{ fontSize: "40px" }}>-</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
             </section>

@@ -650,25 +650,30 @@ span.trash-alt-dropZone {
 // LIST----------------------------------------------------------------
 .listContainerCollections {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: flex-start;
     flex-wrap: wrap;
     width: 100%;
     min-height: 100vh;
-    border: solid 2px red;
+    // border: solid 2px red;
 }
 
 .headerBarCollections {
     width: 100%;
-    border: solid 2px rgb(0, 174, 255);
+    height: 50px;
+    // border: solid 2px rgb(0, 174, 255);
 }
 
 .listContainerCollections table {
-    width: 60%;
-    margin-top: 50px;
-    border: solid 2px rgb(55, 0, 255);
+    width: 100%;
+    // border: solid 2px rgb(55, 0, 255);
 }
+
+// .listCollection {
+//     width: 100%;
+//     border: solid 2px rgb(0, 174, 255); 
+// }
 // ----------------------------------------------------------------LIST
 
 

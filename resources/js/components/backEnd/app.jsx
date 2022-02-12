@@ -1,6 +1,7 @@
 import { React, useState } from 'react';
 import AppContext from '../contexts/AppContext';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useLocalStorage } from "../hooks/useLocalStorage";
 import Navbar from '../navBar/navBar';
 import FormProduct from '../createProduct/formProduct';
 import EditProduct from '../createProduct/editProduct';
@@ -20,8 +21,8 @@ const App = () => {
     const [textButtonModalApp2, setTextButtonModalApp2] = useState('Confirmer');
     const [imageModalApp, setImageModalApp] = useState('');
     const [messageModalApp, setMessageModalApp] = useState('');
-    const [followThisLink, setFollowThisLink] = useState(null);
-    const [imagePath, setImagePath] = useState('');
+    const [followThisLink, setFollowThisLink] = useLocalStorage("followThisLink", "");
+    const [imagePath, setImagePath] = useLocalStorage("imagePath", "");
     const [image, setImage] = useState([]);
     const [darkMode, setDarkMode] = useState(false);
 

@@ -591,24 +591,21 @@ span.trash-alt-dropZone {
 
 .listContainerCollections {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: flex-start;
   flex-wrap: wrap;
   width: 100%;
   min-height: 100vh;
-  border: solid 2px red;
 }
 
 .headerBarCollections {
   width: 100%;
-  border: solid 2px #00aeff;
+  height: 50px;
 }
 
 .listContainerCollections table {
-  width: 60%;
-  margin-top: 50px;
-  border: solid 2px #3700ff;
+  width: 100%;
 }
 
 @media only screen and (hover: none) and (pointer: coarse) {

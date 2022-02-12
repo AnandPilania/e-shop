@@ -26,7 +26,7 @@ class StoreCollectionRequest extends FormRequest
         return [
 
             'name' => 'required|string|max:255',
-            'description' => 'nullable |string|',
+            'description' => 'nullable|string|',
             'descriptionForMeta' => 'nullable |string|',
             'automatise' => 'required|string|max:5',
             'notIncludePrevProduct' => 'nullable|string|max:5',

@@ -23,7 +23,6 @@ class CreateCollectionsTable extends Migration
             $table->longText('objConditions')->nullable();
             $table->dateTime('dateActivation');
             $table->string('alt')->nullable();
-            $table->string('imageName')->nullable(); // si on veut changer le nom de l'image pour améliorer le seo
             $table->string('image')->nullable(); // image path
             $table->mediumText('link'); // lien de la collection -> meta_url ou name
             $table->mediumText('meta_title')->nullable();

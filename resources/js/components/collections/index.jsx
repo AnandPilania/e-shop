@@ -80,7 +80,7 @@ const CreateCollection = () => {
     }
 
     const {
-        image, setImage, setFollowThisLink, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage,
+        image, setImage, setImagePath, setFollowThisLink, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage,
         setShowModalInput, messageModal, setMessageModal, sender, setSender, textButtonConfirm, setTextButtonConfirm,
         imageModal, setImageModal, darkMode, setDarkMode
     } = useContext(AppContext);
@@ -231,7 +231,8 @@ const CreateCollection = () => {
         setMetaDescription('');
         setMetaUrl(window.location.origin + '/');
         setAlt('');
-        setImageName('');
+        setImageName('');  
+        setImagePath('');                        
         setImage([]);
         setCategoryName('Aucune catégorie');
         setCategoryId('');

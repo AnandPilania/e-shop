@@ -24,8 +24,8 @@ class TemporaryStorageRequest extends FormRequest
     public function rules()
     {
         return [
-            'key' => 'required|string',
-            'value' => 'required|mimetypes:video/mp4,video/webm,video/ogg,video/avi,video/mpeg,video/quicktime,video/x-msvideo,video/x-ms-wmv,image/gif,image/png,image/jpeg,image/webp'
+            'key' => 'nullable|string',
+            'value' => 'nullable|mimetypes:video/mp4,video/webm,video/ogg,video/avi,video/mpeg,video/quicktime,video/x-msvideo,video/x-ms-wmv,image/gif,image/png,image/jpeg,image/webp'
         ];
     }
 }

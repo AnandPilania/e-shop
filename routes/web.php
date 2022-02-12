@@ -66,10 +66,6 @@ Route::resource('/orders', OrderController::class);
 // use in create.jsx Collections
 Route::get('/getCategories', [CategoryController::class, 'getCategories']);
 
-// cette route remplace Route::resource('/collections INDEX car j'ai besoin de l'URL collections pour le front end pour le SEO
-// !!! N EST PLUS UTILISEE !!!     // !!! N EST PLUS UTILISEE !!!
-Route::get('/collectionsBackEnd', [CollectionController::class, 'collectionsBackEnd']);
-
 // store la collection
 Route::post('/save-collection', [CollectionController::class, 'storeAndAssign']);
 
