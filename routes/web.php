@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\TaxeController;
+use App\Http\Controllers\HackerRank_Test;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\JumbosController;
 use App\Http\Controllers\ReviewController;
@@ -191,3 +192,7 @@ Route::any('{path}', function ($page) {
 
 
 require __DIR__ . '/auth.php';
+
+
+// pour les test HackerRank
+Route::get('/hackerRanck', [HackerRank_Test::class, 'hackerRanck']);

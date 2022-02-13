@@ -24791,7 +24791,7 @@ var Image = function Image() {
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
               children: "Texte alternatif (*optionnel) "
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
-              className: "fas fa-question-circle tooltip",
+              className: "fas fa-question-circle tooltip_",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
                 className: "tooltiptext",
                 children: "Ajouter une br\xE8ve description de l'image ex. \"Jeans noir avec fermeture \xE9clair\". Ceci am\xE9liore l'accessibilit\xE9 et le r\xE9f\xE9rencement de votre boutique."
@@ -24811,7 +24811,7 @@ var Image = function Image() {
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
               children: "Changer le nom de l'image (*optionnel) "
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
-              className: "fas fa-question-circle tooltip",
+              className: "fas fa-question-circle tooltip_",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
                 className: "tooltiptext",
                 children: "Donnez un nom en rapport avec le contenu de l'image. Ceci am\xE9liore le r\xE9f\xE9rencement de votre boutique dans les recherches par image."
@@ -25480,11 +25480,8 @@ var ListCollections = function ListCollections() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
       listCollections = _useState2[0],
-      setListCollections = _useState2[1];
+      setListCollections = _useState2[1]; // const { checkLeave, nameCollection } = useContext(AppContext);
 
-  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_3__["default"]),
-      checkLeave = _useContext.checkLeave,
-      nameCollection = _useContext.nameCollection;
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // chargement des collections
@@ -25495,40 +25492,56 @@ var ListCollections = function ListCollections() {
     });
   }, []);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("section", {
-    className: "listContainerCollections",
+    className: "col-lg-12",
+    style: {
+      boxShadow: "none"
+    },
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-      className: "headerBarCollections",
+      "class": "input-group mb-3",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
         type: "text",
+        className: "form-control",
         placeholder: "Filtrer les collections"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
-          className: "link",
-          to: "/add-collection",
-          onClick: checkLeave,
-          children: "Ajouter une collection"
-        })
-      })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("table", {
-      className: "listCollection",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("thead", {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tr", {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
-            colSpan: "2",
-            children: "The table header"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        className: "input-group-append",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+          type: "button",
+          className: "btn btn-dark",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
+            to: "/add-collection",
+            children: "Ajouter une collection"
           })
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tbody", {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tr", {
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
-            children: listCollections.map(function (item) {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_searchRow__WEBPACK_IMPORTED_MODULE_2__["default"], {
-                collection: item
-              }, item.id);
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+      "class": "row justify-content-center",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        "class": "col-lg-6",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("table", {
+          "class": "table table-responsive",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("thead", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tr", {
+              style: {
+                border: "solid green 2px"
+              },
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("th", {
+                colSpan: "2",
+                children: "The table header"
+              })
             })
-          })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tbody", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tr", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
+                children: listCollections.map(function (item) {
+                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_searchRow__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                    collection: item
+                  }, item.id);
+                })
+              })
+            })
+          })]
         })
-      })]
+      })
     })]
   });
 };
@@ -25733,7 +25746,7 @@ var Optimisation = function Optimisation() {
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
               children: "Url de la page de cette collection"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-              className: "fas fa-question-circle tooltip",
+              className: "fas fa-question-circle tooltip_",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("span", {
                 className: "tooltiptext",
                 children: ["Utilisez des mots cl\xE9s en rapport avec le contenu de cette collection ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
@@ -25759,7 +25772,7 @@ var Optimisation = function Optimisation() {
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
               children: "M\xE9ta-titre de la page de cette collection"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-              className: "fas fa-question-circle tooltip",
+              className: "fas fa-question-circle tooltip_",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
                 className: "tooltiptext",
                 children: "Le m\xE9ta-titre est important pour le r\xE9f\xE9rencement d'une page web. Sa longueur id\xE9al se situe entre 30 et 60 caract\xE8res mais il peut \xEAtre plus long pour donner plus d'informations sur le contenu de la page. Toutefois, seuls les 50 premiers caract\xE8res \xE0 peu pr\xE8s seront affich\xE9s dans les r\xE9sultats des moteurs de recherche. C'est pourquoi il est important de commence par des mots cl\xE9s pertinants pour l'internaute afin d'am\xE9liorer le taux de clics vers votre page."
@@ -25783,7 +25796,7 @@ var Optimisation = function Optimisation() {
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
               children: "M\xE9ta-d\xE9scription de cette collection:"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-              className: "fas fa-question-circle tooltip",
+              className: "fas fa-question-circle tooltip_",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
                 className: "tooltiptext",
                 children: "Cette d\xE9scription sera utilis\xE9e pour d\xE9crire le contenu de cette page et donner des indications sur son contenu \xE0 l'internaute. Les moteurs de recherche affichent \xE0 peu pr\xE8s les 130 premiers caract\xE8res."
@@ -25849,15 +25862,31 @@ var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_2__["default"])(
   }
 }); // affiche les rows dans list.jsx
 
-var RowListCollections = function RowListCollections(props) {
+var RowListCollections = function RowListCollections(_ref) {
+  var collection = _ref.collection;
   var classes = useStyles();
+
+  function handleDeletCollection(id) {
+    console.log(id);
+  }
+
+  console.log('collection  ', collection);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-    className: classes.inputText,
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-      className: classes.checkBox,
-      type: "checkbox",
-      value: "{props.collection.id}"
-    }), props.collection.name]
+    className: classes.inputText + " searchRowInputText",
+    children: [collection.name, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+      className: "far fa-trash-alt trash-alt-dropZone tooltip_",
+      style: {
+        display: "block",
+        marginLeft: "auto"
+      },
+      onClick: function onClick() {
+        handleDeletCollection(collection.id);
+      },
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+        className: "tooltiptext",
+        children: "Supprimer l'image"
+      })
+    })]
   });
 };
 
@@ -30417,14 +30446,14 @@ var DropZone = function DropZone(props) {
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
       className: classes.removeImage,
       children: [!!imagePath && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("i", {
-        className: "fas fa-crop tooltip",
+        className: "fas fa-crop tooltip_",
         onClick: goToCrop,
         children: [" ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
           className: "tooltiptext",
           children: "Redimensionner l'image"
         })]
       }), !!imagePath && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
-        className: "far fa-trash-alt trash-alt-dropZone tooltip",
+        className: "far fa-trash-alt trash-alt-dropZone tooltip_",
         style: {
           display: "block",
           marginLeft: "15px"

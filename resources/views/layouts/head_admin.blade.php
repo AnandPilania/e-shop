@@ -6,14 +6,20 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Back-end</title>
+        <!-- Bootstrap -->
+    <!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    
     <!-- plugins:css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/getTypeDetailsProduct_JS.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/app.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/back-end.css') }}" />
+    <!-- <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/back-end.css') }}" /> -->
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/navBar.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/collections_component.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/fontawesome.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('backend/css/nprogress.css') }}" />
+
+
 
 
     <!-- Poppins font -->

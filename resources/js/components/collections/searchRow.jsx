@@ -19,20 +19,29 @@ const useStyles = makeStyles({
     },
     checkBox: {
         marginRight: '10px',
-    }
+    },
 });
 
 // affiche les rows dans list.jsx
-const RowListCollections = (props) => {
+const RowListCollections = ({ collection }) => {
     const classes = useStyles();
 
+    function handleDeletCollection(id) {
+        console.log(id)
+    }
+    console.log('collection  ', collection)
     return (
-        <div className={classes.inputText}>
-            <input 
-            className={classes.checkBox}
-            type='checkbox' 
-            value="{props.collection.id}" />
-            {props.collection.name}
+        <div className={classes.inputText + " searchRowInputText"}>
+            {collection.name}
+
+            <i className="far fa-trash-alt trash-alt-dropZone tooltip_" style={{ display: "block", marginLeft: "auto" }} onClick={() => { handleDeletCollection(collection.id) }}>
+                <span className="tooltiptext">Supprimer l'image</span>
+            </i>
+
+            {/* <input
+                className={classes.checkBox}
+                type='checkbox'
+                value="{props.collection.id}" /> */}
         </div>
     );
 }

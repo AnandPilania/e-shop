@@ -352,7 +352,6 @@ const DropZone = (props) => {
         }
     }
 
-
     function detectDragDrop() {
         var div = document.createElement('div');
         return ('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)
@@ -370,9 +369,9 @@ const DropZone = (props) => {
                 </div>
             </div>
             <span className={classes.removeImage}>
-                {!!imagePath && <i className="fas fa-crop tooltip" onClick={goToCrop}> <span className="tooltiptext">Redimensionner l'image</span>
+                {!!imagePath && <i className="fas fa-crop tooltip_" onClick={goToCrop}> <span className="tooltiptext">Redimensionner l'image</span>
                 </i>}
-                {!!imagePath && <i className="far fa-trash-alt trash-alt-dropZone tooltip" style={{ display: "block", marginLeft: "15px" }} onClick={removeImagePreview} >
+                {!!imagePath && <i className="far fa-trash-alt trash-alt-dropZone tooltip_" style={{ display: "block", marginLeft: "15px" }} onClick={removeImagePreview} >
                     <span className="tooltiptext">Supprimer l'image</span>
                 </i>}
             </span>

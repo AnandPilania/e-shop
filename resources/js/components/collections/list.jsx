@@ -8,7 +8,7 @@ import AppContext from '../contexts/AppContext';
 const ListCollections = () => {
 
     const [listCollections, setListCollections] = useState([]);
-    const { checkLeave, nameCollection } = useContext(AppContext);
+    // const { checkLeave, nameCollection } = useContext(AppContext);
 
     useEffect(() => {
         // chargement des collections
@@ -22,28 +22,33 @@ const ListCollections = () => {
 
 
     return (
-        <section className="listContainerCollections">
-            <div className='headerBarCollections'>
-                <input type='text' placeholder='Filtrer les collections' />
-                <button><Link className="link" to="/add-collection" onClick={checkLeave}>Ajouter une collection</Link></button>
+        <section className="col-lg-12" style={{ boxShadow: "none" }}>
+            <div class="input-group mb-3">
+                <input type="text" className="form-control" placeholder='Filtrer les collections' />
+                <div className="input-group-append">
+                    <button type="button" className='btn btn-dark'><Link to="/add-collection">Ajouter une collection</Link></button>
+                </div>
             </div>
-
-            <table className="listCollection">
-                <thead>
-                    <tr>
-                        <th colSpan="2">The table header</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            {listCollections.map(item =>
-                                <RowListCollections key={item.id} collection={item} />
-                            )}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <table class="table table-responsive">
+                        <thead>
+                            <tr style={{ border: "solid green 2px" }}>
+                                <th colSpan="2">The table header</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    {listCollections.map(item =>
+                                        <RowListCollections key={item.id} collection={item} />
+                                    )}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </section>
     );
 }
