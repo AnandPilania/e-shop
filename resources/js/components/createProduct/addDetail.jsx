@@ -1,5 +1,4 @@
 import React from 'react';
-import './createProduct_Js.scss';
 
 
 // props.id = detailx

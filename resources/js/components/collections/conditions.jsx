@@ -150,7 +150,7 @@ const Conditions = () => {
                     id="conditions_collection">
                     <div className="sub-div-vert-align-border-top">
                         <h2>Condition(s)</h2>
-                        <h4>Définissez une ou plusieurs règles. Ex. Prix du produit est inférieur à 50 €, Nom du produit contient Robe, etc. Seuls les produits correspondants à vos règles seront intégrés dans cette collection. </h4>
+                        <p>Définissez une ou plusieurs règles. Ex. Prix du produit est inférieur à 50 €, Nom du produit contient Robe, etc. Seuls les produits correspondants à vos règles seront intégrés dans cette collection. </p>
                         <div className="sub-div-horiz-align">
                             <div className="div-radio-label">
                                 <input type='radio' name="condition" id='allConditions'

@@ -21961,20 +21961,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _createProduct_Js_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./createProduct_Js.scss */ "./resources/js/components/createProduct/createProduct_Js.scss");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
  // props.id = detailx
 
 
 
 
 var AddDetail = function AddDetail(props) {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
     className: "detail",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("span", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("span", {
       className: "span_detail",
-      children: [props.detail, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+      children: [props.detail, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
         className: "button_detail",
         onClick: function onClick(e) {
           return props.remouveDetail(e, props.detail, props.id);
@@ -22001,11 +21999,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _createProduct_Js_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./createProduct_Js.scss */ "./resources/js/components/createProduct/createProduct_Js.scss");
-/* harmony import */ var _getTypeDetailsProduct__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getTypeDetailsProduct */ "./resources/js/components/createProduct/getTypeDetailsProduct.jsx");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _getTypeDetailsProduct__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getTypeDetailsProduct */ "./resources/js/components/createProduct/getTypeDetailsProduct.jsx");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -22032,7 +22029,7 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-
+ // import './createProduct_Js.scss';
 
 
 
@@ -22095,7 +22092,7 @@ var ContainerDetail = function ContainerDetail(props) {
   var selectedTypes = [];
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // récupére les types de détails de la table type_detail_products pour remplire le select id=selectdetails
-    axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/listtype").then(function (res) {
+    axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/listtype").then(function (res) {
       setListType(res.data);
       setFirstType(res.data[0].name);
       setSelect0(res.data);
@@ -22168,7 +22165,7 @@ var ContainerDetail = function ContainerDetail(props) {
     arr[index_arr].detail = {};
     setBlockDetail(_toConsumableArray(arr)); // récupération de tous les détails pour les pré-charger dans
 
-    axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/detailCompletion", {
+    axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/detailCompletion", {
       params: {
         type_detail_name: type
       }
@@ -22367,10 +22364,10 @@ var ContainerDetail = function ContainerDetail(props) {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     props.setDataDetail(_toConsumableArray(blockDetail));
   }, [blockDetail]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
     className: "detailsProduct",
     children: [Object.keys(blockDetail).map(function (option, index) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_getTypeDetailsProduct__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_getTypeDetailsProduct__WEBPACK_IMPORTED_MODULE_1__["default"], {
         idx: index,
         id: blockDetail[index]['id'],
         listTypes: index == 0 ? select0 : index == 1 ? select1 : index == 2 ? select2 : index == 3 ? select3 : index == 4 ? select4 : null,
@@ -22381,7 +22378,7 @@ var ContainerDetail = function ContainerDetail(props) {
         deleteDetail: deleteDetail,
         currentType: tempcurrentType
       }, index);
-    }), blockDetail.length <= 4 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+    }), blockDetail.length <= 4 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
       className: "button_addDetail",
       onClick: function onClick(e) {
         return addDetailsProduct(e);
@@ -22434,12 +22431,9 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
- // import './createProduct_Js.scss';
 
 
 
- // import { CKEditor } from '@ckeditor/ckeditor5-react';
-// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 
 
@@ -22827,12 +22821,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _createProduct_Js_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./createProduct_Js.scss */ "./resources/js/components/createProduct/createProduct_Js.scss");
-/* harmony import */ var _addDetail__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./addDetail */ "./resources/js/components/createProduct/addDetail.jsx");
-/* harmony import */ var _select__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./select */ "./resources/js/components/createProduct/select.jsx");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _addDetail__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./addDetail */ "./resources/js/components/createProduct/addDetail.jsx");
+/* harmony import */ var _select__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./select */ "./resources/js/components/createProduct/select.jsx");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -22852,7 +22845,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 
 
 
@@ -22899,7 +22891,7 @@ var GetTypeDetailProduct = function GetTypeDetailProduct(props) {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // récupération de tous les détails pour les pré-charger dans
     if (props.currentType) {
-      axios__WEBPACK_IMPORTED_MODULE_4___default().get("http://127.0.0.1:8000/detailCompletion", {
+      axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/detailCompletion", {
         params: {
           type_detail_name: props.currentType
         }
@@ -22963,7 +22955,7 @@ var GetTypeDetailProduct = function GetTypeDetailProduct(props) {
   var handleType = function handleType(e) {
     setTab_details([]); // récupération de tous les détails pour les pré-charger dans
 
-    axios__WEBPACK_IMPORTED_MODULE_4___default().get("http://127.0.0.1:8000/detailCompletion", {
+    axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/detailCompletion", {
       params: {
         type_detail_name: e.target.value
       }
@@ -22979,31 +22971,31 @@ var GetTypeDetailProduct = function GetTypeDetailProduct(props) {
     props.changeType(props.id, e.target.value, prevType);
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
     className: "main_div",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
       className: "list_div",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
         className: "supp_block_detail",
         onClick: remouveAllDetail,
         children: "Supprimer"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_select__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_select__WEBPACK_IMPORTED_MODULE_2__["default"], {
         listTypes: props.listTypes,
         id: props.id,
         handleType: handleType,
         type: type,
         selectedType: props.selectedType
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "new_detail_div",
       children: tab_details.map(function (detail, index) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_addDetail__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_addDetail__WEBPACK_IMPORTED_MODULE_1__["default"], {
           id: props.id,
           detail: detail,
           remouveDetail: remouveDetail
         }, index + '_' + detail);
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
       type: "text",
       className: "input_detail",
       value: input_detail,
@@ -23030,10 +23022,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _createProduct_Js_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./createProduct_Js.scss */ "./resources/js/components/createProduct/createProduct_Js.scss");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -23054,7 +23045,7 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-
+ // import './createProduct_Js.scss';
 
 
 
@@ -23067,7 +23058,7 @@ var SelectType = function SelectType(props) {
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // récupére les types de détails de la table type_detail_products pour remplire le select id=selectdetails
-    axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/listtype").then(function (res) {
+    axios__WEBPACK_IMPORTED_MODULE_1___default().get("http://127.0.0.1:8000/listtype").then(function (res) {
       setListType(res.data);
     })["catch"](function (error) {
       console.log('error:   ' + error);
@@ -23076,13 +23067,13 @@ var SelectType = function SelectType(props) {
   var types = props.selectedType ? [{
     name: props.selectedType
   }].concat(_toConsumableArray(props.listTypes)) : props.listTypes;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("select", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("select", {
       id: props.id + 'type' // defaultValue={type}
       ,
       onChange: props.handleType,
       children: types.map(function (type, index) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("option", {
           value: type.name,
           children: type.name
         }, index);
@@ -27180,19 +27171,6 @@ var index = createJss();
 
 /***/ }),
 
-/***/ "./resources/sass/cart.scss":
-/*!**********************************!*\
-  !*** ./resources/sass/cart.scss ***!
-  \**********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
 /***/ "./resources/sass/authentification.scss":
 /*!**********************************************!*\
   !*** ./resources/sass/authentification.scss ***!
@@ -27232,84 +27210,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/sass/back-end.scss":
-/*!**************************************!*\
-  !*** ./resources/sass/back-end.scss ***!
-  \**************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
-/***/ "./resources/js/components/backEnd/app.scss":
-/*!**************************************************!*\
-  !*** ./resources/js/components/backEnd/app.scss ***!
-  \**************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
-/***/ "./resources/js/components/css/dropDown.scss":
-/*!***************************************************!*\
-  !*** ./resources/js/components/css/dropDown.scss ***!
-  \***************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
-/***/ "./resources/js/components/collections/collections_component.scss":
-/*!************************************************************************!*\
-  !*** ./resources/js/components/collections/collections_component.scss ***!
-  \************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
-/***/ "./resources/js/components/navBar/navBar.scss":
-/*!****************************************************!*\
-  !*** ./resources/js/components/navBar/navBar.scss ***!
-  \****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
-/***/ "./resources/sass/nprogress.scss":
-/*!***************************************!*\
-  !*** ./resources/sass/nprogress.scss ***!
-  \***************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
 /***/ "./resources/css/app.css":
 /*!*******************************!*\
   !*** ./resources/css/app.css ***!
@@ -27327,19 +27227,6 @@ __webpack_require__.r(__webpack_exports__);
 /*!*********************************!*\
   !*** ./resources/sass/app.scss ***!
   \*********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
-/***/ "./resources/js/components/createProduct/createProduct_Js.scss":
-/*!*********************************************************************!*\
-  !*** ./resources/js/components/createProduct/createProduct_Js.scss ***!
-  \*********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -27379,6 +27266,19 @@ __webpack_require__.r(__webpack_exports__);
 /*!******************************************!*\
   !*** ./resources/sass/productSheet.scss ***!
   \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/sass/cart.scss":
+/*!**********************************!*\
+  !*** ./resources/sass/cart.scss ***!
+  \**********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -62153,21 +62053,14 @@ function combine (array, callback) {
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
 /******/ 			"/js/createProduct": 0,
-/******/ 			"css/createProduct_Js": 0,
-/******/ 			"backend/css/dropDown": 0,
 /******/ 			"css/app": 0,
+/******/ 			"frontend/css/cart": 0,
 /******/ 			"frontend/css/productSheet": 0,
 /******/ 			"frontend/css/index-front": 0,
 /******/ 			"frontend/css/nav-frontend": 0,
-/******/ 			"backend/css/nprogress": 0,
-/******/ 			"backend/css/navBar": 0,
-/******/ 			"backend/css/collections_component": 0,
-/******/ 			"backend/css/app": 0,
-/******/ 			"backend/css/back-end": 0,
 /******/ 			"css/fontawesome": 0,
 /******/ 			"frontend/css/payment": 0,
-/******/ 			"frontend/css/authentification": 0,
-/******/ 			"frontend/css/cart": 0
+/******/ 			"frontend/css/authentification": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -62217,23 +62110,16 @@ function combine (array, callback) {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/dropDown","css/app","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","backend/css/nprogress","backend/css/navBar","backend/css/collections_component","backend/css/app","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification","frontend/css/cart"], () => (__webpack_require__("./resources/js/createProduct.js")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/dropDown","css/app","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","backend/css/nprogress","backend/css/navBar","backend/css/collections_component","backend/css/app","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification","frontend/css/cart"], () => (__webpack_require__("./resources/sass/app.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/dropDown","css/app","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","backend/css/nprogress","backend/css/navBar","backend/css/collections_component","backend/css/app","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification","frontend/css/cart"], () => (__webpack_require__("./resources/js/components/createProduct/createProduct_Js.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/dropDown","css/app","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","backend/css/nprogress","backend/css/navBar","backend/css/collections_component","backend/css/app","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification","frontend/css/cart"], () => (__webpack_require__("./resources/sass/nav-frontend.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/dropDown","css/app","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","backend/css/nprogress","backend/css/navBar","backend/css/collections_component","backend/css/app","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification","frontend/css/cart"], () => (__webpack_require__("./resources/sass/index-front.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/dropDown","css/app","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","backend/css/nprogress","backend/css/navBar","backend/css/collections_component","backend/css/app","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification","frontend/css/cart"], () => (__webpack_require__("./resources/sass/productSheet.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/dropDown","css/app","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","backend/css/nprogress","backend/css/navBar","backend/css/collections_component","backend/css/app","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification","frontend/css/cart"], () => (__webpack_require__("./resources/sass/cart.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/dropDown","css/app","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","backend/css/nprogress","backend/css/navBar","backend/css/collections_component","backend/css/app","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification","frontend/css/cart"], () => (__webpack_require__("./resources/sass/authentification.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/dropDown","css/app","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","backend/css/nprogress","backend/css/navBar","backend/css/collections_component","backend/css/app","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification","frontend/css/cart"], () => (__webpack_require__("./resources/sass/payment.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/dropDown","css/app","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","backend/css/nprogress","backend/css/navBar","backend/css/collections_component","backend/css/app","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification","frontend/css/cart"], () => (__webpack_require__("./resources/sass/fontawesome.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/dropDown","css/app","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","backend/css/nprogress","backend/css/navBar","backend/css/collections_component","backend/css/app","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification","frontend/css/cart"], () => (__webpack_require__("./resources/sass/back-end.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/dropDown","css/app","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","backend/css/nprogress","backend/css/navBar","backend/css/collections_component","backend/css/app","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification","frontend/css/cart"], () => (__webpack_require__("./resources/js/components/backEnd/app.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/dropDown","css/app","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","backend/css/nprogress","backend/css/navBar","backend/css/collections_component","backend/css/app","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification","frontend/css/cart"], () => (__webpack_require__("./resources/js/components/css/dropDown.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/dropDown","css/app","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","backend/css/nprogress","backend/css/navBar","backend/css/collections_component","backend/css/app","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification","frontend/css/cart"], () => (__webpack_require__("./resources/js/components/collections/collections_component.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/dropDown","css/app","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","backend/css/nprogress","backend/css/navBar","backend/css/collections_component","backend/css/app","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification","frontend/css/cart"], () => (__webpack_require__("./resources/js/components/navBar/navBar.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/dropDown","css/app","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","backend/css/nprogress","backend/css/navBar","backend/css/collections_component","backend/css/app","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification","frontend/css/cart"], () => (__webpack_require__("./resources/sass/nprogress.scss")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/createProduct_Js","backend/css/dropDown","css/app","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","backend/css/nprogress","backend/css/navBar","backend/css/collections_component","backend/css/app","backend/css/back-end","css/fontawesome","frontend/css/payment","frontend/css/authentification","frontend/css/cart"], () => (__webpack_require__("./resources/css/app.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/js/createProduct.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/app.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/nav-frontend.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/index-front.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/productSheet.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/cart.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/authentification.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/payment.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/fontawesome.scss")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/css/app.css")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

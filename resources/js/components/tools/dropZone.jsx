@@ -345,6 +345,7 @@ const DropZone = (props) => {
     }
 
     function goToCrop() {
+        // check if there is image
         var imageExist = document.getElementsByClassName('image-view-dropZone') && document.getElementsByClassName('image-view-dropZone');
 
         if (imageExist.length > 0) {

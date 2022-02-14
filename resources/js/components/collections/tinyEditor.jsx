@@ -131,20 +131,27 @@ const Tinyeditor = () => {
                     max_height: 500,
                     menubar: false,
                     statusbar: false,
-                    toolbar_mode: 'wrap',
+                    toolbar_mode: 'floating',
                     language: tinyLanguage,
                     plugins: [
-                        'advlist autolink lists link image media charmap print preview anchor',
-                        'searchreplace visualblocks code fullscreen autoresize',
-                        'insertdatetime media table paste code help wordcount fullscreen code'
+                        'advlist autolink lists image media charmap print preview anchor searchreplace visualblocks code fullscreen autoresize insertdatetime link unlink media table paste code help wordcount fullscreen code'
                     ],
                     // menubar: 'tools insert',
                     toolbar: 'formatselect | undo redo | ' +
-                        'bold italic underline forecolor backcolor | alignleft aligncenter ' +
-                        'alignright alignjustify | bullist numlist outdent indent | ' +
-                        'image ' +
-                        'media ' +
+                        'bold italic underline forecolor backcolor | ' +
+                        'alignment | ' +
+                        'bullist numlist | ' +
+                        'image | media | table | link unlink' +
                         'removeformat | fullscreen | wordcount | code',
+                    setup: function (editor) {
+                        /* adding a group toolbar button */
+                        editor.ui.registry.addGroupToolbarButton('alignment', {
+                            icon: 'align-left',
+                            tooltip: 'Alignment',
+                            items: 'alignleft aligncenter alignright | alignjustify'
+                        });
+
+                    },
                     // init_instance_callback: my_function_fired_on_init(),
                     // configure la base du path du stockage des images  
                     relative_urls: false,
@@ -181,7 +188,7 @@ const Tinyeditor = () => {
                     // a11y_advanced_options: true,
                     content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px; } body::-webkit-scrollbar-track { box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); border-radius: 10px; background-color: #f5f5f5; color: red;}' + 'tox-sidebar--sliding-closed { background-color: #f5f5f5; }'
                 }}
-                
+
             />
         </div>
     );

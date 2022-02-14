@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
-import './createProduct_Js.scss';
+// import './createProduct_Js.scss';
 import ContainerDetailEdit from './containerDetailEdit';
 import SelectCollectionsEdit from '../selectInProduct/selectCollectionsEdit';
 import Axios from "axios";

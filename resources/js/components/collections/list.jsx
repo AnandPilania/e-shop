@@ -1,7 +1,7 @@
 import { React, useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
-import RowListCollections from './searchRow';
+import RowListCollections from './RowListCollections';
 import AppContext from '../contexts/AppContext';
 
 
@@ -21,34 +21,31 @@ const ListCollections = () => {
     }, []);
 
 
+
     return (
-        <section className="col-lg-12" style={{ boxShadow: "none" }}>
-            <div class="input-group mb-3">
-                <input type="text" className="form-control" placeholder='Filtrer les collections' />
-                <div className="input-group-append">
-                    <button type="button" className='btn btn-dark'><Link to="/add-collection">Ajouter une collection</Link></button>
+        <section className='div-vert-align'>
+            <div className='sub-div-horiz-align'>
+                <input type="text" placeholder='Filtrer les collections' />
+                <div>
+                    <button type="button" className='btn'><Link to="/add-collection">Ajouter une collection</Link></button>
                 </div>
             </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-6">
-                    <table class="table table-responsive">
-                        <thead>
-                            <tr style={{ border: "solid green 2px" }}>
-                                <th colSpan="2">The table header</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    {listCollections.map(item =>
-                                        <RowListCollections key={item.id} collection={item} />
-                                    )}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <table className='sub-div-vert-align' style={{ border: "solid red 2px" }}>
+                <thead className='sub-div-horiz-align'>
+                    <tr style={{ border: "solid green 2px" }}>
+                        <th colSpan="2">The table header</th>
+                    </tr>
+                </thead>
+                <tbody className='sub-div-horiz-align'  style={{ border: "solid blue 2px" }}>
+                    <tr  className='sub-div-horiz-align' style={{ border: "solid red 2px" }}>
+                        <td>
+                            {listCollections.map(item =>
+                                <RowListCollections key={item.id} collection={item} />
+                            )}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </section>
     );
 }

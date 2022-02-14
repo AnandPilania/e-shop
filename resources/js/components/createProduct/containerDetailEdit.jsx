@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './createProduct_Js.scss';
+// import './createProduct_Js.scss';
 import GetTypeDetailProduct from './getTypeDetailsProduct';
 import Axios from "axios";
 

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './createProduct_Js.scss';
 import AddDetail from './addDetail';
 import SelectType from './select';
 import Axios from "axios";

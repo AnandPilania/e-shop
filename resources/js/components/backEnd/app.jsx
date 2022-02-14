@@ -66,7 +66,10 @@ const App = () => {
         <div className="app-container">
             <AppContext.Provider value={contextValue}>
                 <BrowserRouter basename='/admin'>
-                <div className="main-nav">my horizontal nav</div>
+                <div className="main-nav">
+                    <span>my horizontal nav</span>
+                    <button className="btn-main-nav">Login</button>
+                </div>
                     <Navbar />
                     <Routes>
                         <Route path="/listProduct" element={<List />} />
