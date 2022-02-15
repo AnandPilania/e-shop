@@ -37,7 +37,6 @@
     border: solid whitesmoke 1px;
     border-radius: 2px;
     background-color: transparent;
-    font-size: 16px;
     transition: ease-in-out .15s;
 }
 
@@ -183,7 +182,6 @@ table td img {
 .navAdmin a {
     color: $policeAdminColor;
     text-decoration: none;
-    font-size: 16px;
     letter-spacing: 1px;
 }
 
@@ -214,15 +212,12 @@ table td img {
 .block_order_detail {
     padding: 20px;
     margin: 10px 0;
-    font-size: 16px;
-    line-height: 22px;
     border-radius: 5px;
     border: solid rgb(216, 216, 216) 1px;
 }
 
 .title_order_detail {
     margin-bottom: 15px;
-    font-size: 18px;
     font-weight: bold;
 }
 

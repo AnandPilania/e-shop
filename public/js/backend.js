@@ -23537,6 +23537,7 @@ var App = function App() {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
           className: "main-nav",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("span", {
+            id: "nav-text",
             children: "my horizontal nav"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("button", {
             className: "btn-main-nav",
@@ -23617,6 +23618,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -23646,34 +23659,145 @@ var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_2__["default"])(
 }); // affiche les rows dans list.jsx
 
 var RowListCollections = function RowListCollections(_ref) {
-  var collection = _ref.collection;
+  var collection = _ref.collection,
+      category = _ref.category;
   var classes = useStyles();
 
-  function handleDeletCollection(id) {
-    console.log(id);
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      _useState2 = _slicedToArray(_useState, 2),
+      conditions = _useState2[0],
+      setConditions = _useState2[1];
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    setConditions(JSON.parse(collection.objConditions));
+  }, []);
+
+  function handleDeletCollection(id) {// console.log(id)
   }
 
-  console.log('collection  ', collection);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-    className: classes.inputText + " searchRowInputText",
-    children: [collection.name, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
-      className: classes.trash + " far fa-trash-alt trash-alt-dropZone tooltip_",
-      style: {
-        display: "block",
-        marginLeft: "auto"
-      },
-      onClick: function onClick() {
-        handleDeletCollection(collection.id);
-      },
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-        className: "tooltiptext",
-        children: "Supprimer l'image"
+  category && console.log('category  ', category.name);
+
+  function getParameter(parameter) {
+    switch (parameter) {
+      case '1':
+        return 'Le nom';
+
+      case '2':
+        return 'Le type';
+
+      case '3':
+        return 'Le fournisseur';
+
+      case '4':
+        return 'Le prix';
+
+      case '5':
+        return 'Le tag';
+
+      case '6':
+        return 'Le prix avant promo';
+
+      case '7':
+        return 'Le poids';
+
+      case '8':
+        return 'Le stock';
+
+      case '9':
+        return 'Le nom de la variante';
+
+      default:
+        return '';
+    }
+  }
+
+  function getOperator(operator) {
+    switch (operator) {
+      case '1':
+        return 'est égale à';
+
+      case '2':
+        return 'n\'est pas égale à';
+
+      case '3':
+        return 'est suppérieur à';
+
+      case '4':
+        return 'est infèrieur à';
+
+      case '5':
+        return 'commence par';
+
+      case '6':
+        return 'se termine par';
+
+      case '7':
+        return 'contient';
+
+      case '8':
+        return 'ne contient pas';
+
+      case '9':
+        return 'n\'est pas vide';
+
+      case '10':
+        return 'est vide';
+
+      default:
+        return '';
+    }
+  }
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("tr", {
+    className: "sub-div-horiz-align",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {
+      className: "w50 p-lr-10",
+      children: collection && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+        className: classes.checkBox,
+        type: "checkbox",
+        value: collection.id
       })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {
+      className: "w250 p-lr-10",
+      children: collection && collection.name
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {
+      className: "w100 p-lr-10",
+      children: collection && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
+        src: window.location.origin + '/' + collection.thumbnail
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {
+      className: "w50 p-lr-10",
+      children: collection && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+        className: classes.trash + " far fa-trash-alt trash-alt-dropZone tooltip_",
+        style: {
+          display: "block",
+          marginLeft: "auto"
+        },
+        onClick: function onClick() {
+          handleDeletCollection(collection.id);
+        }
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "sub-div-vert-align p-lr-10",
+        children: conditions && conditions.map(function (item) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+            children: getParameter(item.parameter) + ' ' + getOperator(item.operator) + ' ' + item.value
+          }, item.id);
+        })
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("td", {
+      className: "w200 p-lr-10",
+      children: category && category.name
     })]
   });
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RowListCollections);
+{
+  /* <div className={classes.inputText + " searchRowInputText"}>
+         </div> */
+}
 
 /***/ }),
 
@@ -24082,7 +24206,7 @@ var Categories = function Categories() {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
         className: "div-label-inputTxt",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h2", {
-          children: "Cat\xE9gorie"
+          children: "Cat\xE9gorie parente"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("p", {
           children: ["Attribuer une cat\xE9gorie \xE0 cette collection. (", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("strong", {
             children: "*optionnel"
@@ -25550,6 +25674,7 @@ var ListCollections = function ListCollections() {
       console.log('error:   ' + error);
     });
   }, []);
+  console.log('listCollections  ', listCollections);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("section", {
     className: "div-vert-align",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
@@ -25584,22 +25709,15 @@ var ListCollections = function ListCollections() {
           })
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tbody", {
-        className: "sub-div-horiz-align",
+        className: "sub-div-vert-align",
         style: {
           border: "solid blue 2px"
         },
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("tr", {
-          className: "sub-div-horiz-align",
-          style: {
-            border: "solid red 2px"
-          },
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("td", {
-            children: listCollections.map(function (item) {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_RowListCollections__WEBPACK_IMPORTED_MODULE_2__["default"], {
-                collection: item
-              }, item.id);
-            })
-          })
+        children: !!listCollections && listCollections.map(function (item) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_RowListCollections__WEBPACK_IMPORTED_MODULE_2__["default"], {
+            collection: item,
+            category: item.category
+          }, item.id);
         })
       })]
     })]
@@ -26077,9 +26195,9 @@ var Tinyeditor = function Tinyeditor() {
         statusbar: false,
         toolbar_mode: 'floating',
         language: tinyLanguage,
-        plugins: ['advlist autolink lists image media charmap print preview anchor searchreplace visualblocks code fullscreen autoresize insertdatetime link unlink media table paste code help wordcount fullscreen code'],
+        plugins: ['advlist autolink lists image media charmap print preview anchor searchreplace visualblocks code fullscreen autoresize insertdatetime link media table paste code help wordcount fullscreen code'],
         // menubar: 'tools insert',
-        toolbar: 'formatselect | undo redo | ' + 'bold italic underline forecolor backcolor | ' + 'alignment | ' + 'bullist numlist | ' + 'image | media | table | link unlink' + 'removeformat | fullscreen | wordcount | code',
+        toolbar: 'formatselect | undo redo | ' + 'bold italic underline forecolor backcolor | ' + 'alignment | ' + 'bullist numlist | ' + 'image | media | table | link | ' + 'removeformat | fullscreen | wordcount | code',
         setup: function setup(editor) {
           /* adding a group toolbar button */
           editor.ui.registry.addGroupToolbarButton('alignment', {
@@ -28957,7 +29075,9 @@ function handleTinyMceTemporary(htmlContent) {
   img_video_dom_tab.forEach(function (item) {
     img_video_dom_tab_src.push(item.src.replace(window.location.origin + '/', ''));
   });
-  var tinySrcList = new FormData();
+  var tinySrcList = new FormData(); // containt a aaray with name and folder of images
+  // !! array become string with ',' as separator
+
   tinySrcList.append('value', img_video_dom_tab_src);
   axios__WEBPACK_IMPORTED_MODULE_0___default().post("http://127.0.0.1:8000/handleTinyMceTemporaryElements", tinySrcList, {
     headers: {

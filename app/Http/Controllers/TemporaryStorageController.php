@@ -91,7 +91,7 @@ class TemporaryStorageController extends Controller
     }
 
     // delete removed tinyMCE images in folder and db
-    public function handleTinyMceTemporaryElements(TemporaryStorageRequest $request)
+    public function handleTinyMceTemporaryElements(Request $request)
     {
         // dd($request);
         $tab_data = explode(',', $request->value);

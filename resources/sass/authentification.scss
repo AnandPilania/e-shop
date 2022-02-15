@@ -24,7 +24,6 @@
     span,
     .fa-chevron-right {
         color: rgb(99, 99, 99);
-        font-size: 14px;
         text-decoration: none;
     }
     & a {
@@ -64,7 +63,6 @@
     justify-content: flex-start;
     align-items: center;
     margin-left: auto;
-    font-size: 14px;
 }
 
 .alreadyAccount span {
@@ -117,7 +115,6 @@
     position: absolute;
     top: 10px;
     left: 10px;
-    font-size: 14px;
     color: rgb(100, 100, 100);
     pointer-event: none;
     transition: all 0.5s ease-in-out;
@@ -131,7 +128,6 @@
     width: 100%;
     height: 50px;
     padding: 20px 0 5px 10px;
-    font-size: 16px;
     color: rgb(126, 126, 126);
 }
 
@@ -156,7 +152,6 @@
 .input-container select:valid ~ label {
     top: 5px;
     left: 10px;
-    font-size: 14px;
     font-weight: bold;
     opacity: 0.6 !important;
 }
@@ -165,7 +160,6 @@
     position: absolute;
     top: 10px;
     left: 10px;
-    font-size: 14px;
     font-weight: normal;
     opacity: 1 !important;
     color: rgb(100, 100, 100);
@@ -202,7 +196,6 @@ select:-webkit-autofill:active {
 .missingFieldMessage {
     color: rgb(185, 0, 0);
     display: none;
-    font-size: 13px;
     font-weight: bold;
 }
 
@@ -279,9 +272,7 @@ input[type="search"]::-webkit-search-results-decoration {
     text-align: center;
     padding: 12px;
     border-radius: 5px;
-    font-size: 16px;
     font-weight: normal;
-    line-height: 18px;
     position: absolute;
     z-index: 1;
 }
@@ -337,7 +328,6 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 #payment_block p {
-    font-size: 14px;
     margin-bottom: 15px;
     margin-top: 0;
     color: rgb(117, 117, 117);
@@ -441,10 +431,8 @@ input[type="search"]::-webkit-search-results-decoration {
 
 #label_rgpd,
 #label_conserve {
-    font-size: 14px;
-    font-weight: normal;
+     font-weight: normal;
     margin: 0;
-    line-height: 16px;
 }
 
 #rgpd_ {
@@ -508,7 +496,6 @@ input[type="search"]::-webkit-search-results-decoration {
 .secure_ship label,
 .idem_address label .different_address label {
     margin-right: 20px;
-    font-size: 14px;
     text-align: left;
 }
 
@@ -523,7 +510,6 @@ input[type="search"]::-webkit-search-results-decoration {
 .adress_control h6,
 .mode_shipping_control h6 {
     margin-left: auto;
-    font-size: 14px;
     color: rgb(182, 0, 0);
 }
 
@@ -539,7 +525,6 @@ input[type="search"]::-webkit-search-results-decoration {
 .standard_ship h6,
 .secure_ship h6 {
     margin-left: auto;
-    font-size: 14px;
     font-weight: bold;
     color: rgb(85, 85, 85);
 }
@@ -571,7 +556,6 @@ input[type="search"]::-webkit-search-results-decoration {
     margin: 0;
     background-color: rgb(182, 0, 0);
     color: white;
-    font-size: 15px;
     padding: 0 30px;
     border: none;
     border-radius: 5px;
@@ -586,7 +570,6 @@ input[type="search"]::-webkit-search-results-decoration {
     margin: 0;
     background-color: rgb(53, 107, 255);
     color: white;
-    font-size: 15px;
     padding: 0 30px;
     border: none;
     border-radius: 5px;
@@ -600,7 +583,6 @@ input[type="search"]::-webkit-search-results-decoration {
     display: none;
     margin-left: 20px;
     color: rgb(192, 0, 0);
-    font-size: 14px;
     text-decoration: none;
 }
 
@@ -616,7 +598,7 @@ input[type="search"]::-webkit-search-results-decoration {
     background-color: transparent;
     border-radius: 5px;
     border: solid 1px rgb(133, 133, 133);
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     margin-left: 20px;
 }
@@ -667,7 +649,6 @@ input[type="search"]::-webkit-search-results-decoration {
 
 #forgetPwrd {
     text-decoration: none;
-    font-size: 14px;
     font-weight: bold;
     color: rgb(194, 0, 0);
     transition: ease-in-out 0.15s;
@@ -698,7 +679,6 @@ input[type="search"]::-webkit-search-results-decoration {
     border: none;
     background-color: rgb(192, 192, 192);
     color: black;
-    font-size: 16px;
 }
 
 ////////////////////////////////////////////////////////////////

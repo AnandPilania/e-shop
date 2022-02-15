@@ -2,8 +2,6 @@
     // font-family: 'Poppins', sans-serif;
     // font-family: "Source Sans 3", sans-serif;
     font-weight: 400;
-    font-size: 1rem;
-    line-height: 24px;
     color: rgb(80, 80, 80);
     margin: 0;
     padding: 0;
@@ -129,7 +127,7 @@
     }
 
     strong {
-        font-size: 15px;
+        font-weight: bold;
     }
 }
 
@@ -326,7 +324,6 @@
 
 // popup '?' infos --------------------------
 .collection-main-container .fa-question-circle {
-    font-size: 16px;
     color: rgb(117, 117, 117);
     margin-left: 6px;
 }
@@ -348,9 +345,7 @@
     text-align: left;
     padding: 12px 12px 35px 12px;
     border-radius: 5px;
-    font-size: 16px;
     font-weight: normal;
-    line-height: 22px;
     letter-spacing: 1px;
     position: absolute;
     z-index: 10;
@@ -467,7 +462,6 @@
 }
 
 .inRed {
-    font-size: 14px;
     color: rgb(201, 0, 0);
 }
 
@@ -485,7 +479,6 @@
 
 .succesMessage {
     display: block;
-    font-size: 18px;
     color: rgb(11, 179, 11);
 }
 
@@ -644,13 +637,20 @@ span.trash-alt-dropZone {
 }
 
 .childrenModal {
-    font-size: 24px;
+    font-size: 1.25rem;
     font-weight: bold;
-    line-height: 32px;
+    line-height: 1.30rem;
     margin: 30px 0 0 0;
 }
 
-
+// input Nom de la collection
+#titreCollection {
+    background-color: white;
+    background-image: url("http://127.0.0.1:8000/images/icons/red10px.png");
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    background-position: top right;
+}
 
 // // ANIMATION BORDER REINITIALISATION BUTTON ------------------------
 

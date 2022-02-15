@@ -100,4 +100,5 @@ class GetArrayOfConditions
 
         return $list_match;
     }
+
 }

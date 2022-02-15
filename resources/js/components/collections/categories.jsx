@@ -251,7 +251,7 @@ const Categories = () => {
         <div>
             <div className="div-vert-align">
                 <div className="div-label-inputTxt">
-                    <h2>Catégorie</h2>
+                    <h2>Catégorie parente</h2>
                     <p>Attribuer une catégorie à cette collection.
                         (<strong>*optionnel</strong>)
                     </p>

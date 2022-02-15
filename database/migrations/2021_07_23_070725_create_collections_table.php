@@ -24,6 +24,7 @@ class CreateCollectionsTable extends Migration
             $table->dateTime('dateActivation');
             $table->string('alt')->nullable();
             $table->string('image')->nullable(); // image path
+            $table->string('thumbnail')->nullable(); // thumbnail path
             $table->mediumText('link'); // lien de la collection -> meta_url ou name
             $table->mediumText('meta_title')->nullable();
             $table->longText('meta_description')->nullable();

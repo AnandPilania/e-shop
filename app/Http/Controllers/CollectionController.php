@@ -40,8 +40,8 @@ class CollectionController extends Controller
     // renvoi vers la page de liste des collections dans le backend
     public function collectionsListBackEnd()
     {
-        $collections = Collection::all();
-        return $collections;
+        $collections = Collection::with('category')->get();
+        return json_encode($collections);
     }
 
     /**
@@ -116,6 +116,10 @@ class CollectionController extends Controller
             }
             $destinationPath = public_path('/images');
             $imgFile = Image::make($image);
+            $thumbnail = Image::make($image);
+            $thumbnail->resize(150, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
 
             // $height = Image::make($image)->height();
             $width = Image::make($image)->width();
@@ -128,7 +132,9 @@ class CollectionController extends Controller
             }
 
             $imgFile->save($destinationPath . '/' . $input['image']);
+            $thumbnail->save($destinationPath . '/' . 'thumbnail_' . $input['image']);
             $collection->image = 'images/' . $input['image'];
+            $collection->thumbnail = 'images/' . 'thumbnail_' . $input['image'];
         }
 
         $collection->save();

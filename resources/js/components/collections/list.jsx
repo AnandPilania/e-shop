@@ -20,7 +20,7 @@ const ListCollections = () => {
             });
     }, []);
 
-
+    console.log('listCollections  ', listCollections)
 
     return (
         <section className='div-vert-align'>
@@ -36,14 +36,10 @@ const ListCollections = () => {
                         <th colSpan="2">The table header</th>
                     </tr>
                 </thead>
-                <tbody className='sub-div-horiz-align'  style={{ border: "solid blue 2px" }}>
-                    <tr  className='sub-div-horiz-align' style={{ border: "solid red 2px" }}>
-                        <td>
-                            {listCollections.map(item =>
-                                <RowListCollections key={item.id} collection={item} />
-                            )}
-                        </td>
-                    </tr>
+                <tbody className='sub-div-vert-align' style={{ border: "solid blue 2px" }}>
+                    {!!listCollections && listCollections.map(item => 
+                        <RowListCollections key={item.id} collection={item} category={item.category} />
+                    )}
                 </tbody>
             </table>
         </section>

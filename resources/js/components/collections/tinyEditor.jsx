@@ -134,14 +134,14 @@ const Tinyeditor = () => {
                     toolbar_mode: 'floating',
                     language: tinyLanguage,
                     plugins: [
-                        'advlist autolink lists image media charmap print preview anchor searchreplace visualblocks code fullscreen autoresize insertdatetime link unlink media table paste code help wordcount fullscreen code'
+                        'advlist autolink lists image media charmap print preview anchor searchreplace visualblocks code fullscreen autoresize insertdatetime link media table paste code help wordcount fullscreen code'
                     ],
                     // menubar: 'tools insert',
                     toolbar: 'formatselect | undo redo | ' +
                         'bold italic underline forecolor backcolor | ' +
                         'alignment | ' +
                         'bullist numlist | ' +
-                        'image | media | table | link unlink' +
+                        'image | media | table | link | ' +
                         'removeformat | fullscreen | wordcount | code',
                     setup: function (editor) {
                         /* adding a group toolbar button */

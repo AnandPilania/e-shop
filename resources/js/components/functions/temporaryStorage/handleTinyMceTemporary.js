@@ -16,6 +16,8 @@ export function handleTinyMceTemporary(htmlContent) {
     });
 
     let tinySrcList = new FormData;
+    // containt a aaray with name and folder of images
+    // !! array become string with ',' as separator
     tinySrcList.append('value', img_video_dom_tab_src);
 
     Axios.post(`http://127.0.0.1:8000/handleTinyMceTemporaryElements`, tinySrcList,

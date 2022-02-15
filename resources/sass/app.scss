@@ -14,6 +14,7 @@
 @import "product";
 @import "navBar";
 @import "nprogress";
+@import "generic";
 
 .app-container {
     position: relative;
@@ -22,7 +23,7 @@
     display: grid;
     grid-template-rows: 80px minmax(100px, 1fr);
     grid-template-columns: 250px calc(100% - 250px);
-    border: solid #5f1515 3px;
+    // border: solid #d80000 5px;
 
     .main-nav {
         position: sticky;
@@ -55,7 +56,7 @@
         transition: ease-in-out 0.15s;
     }
 
-    span {
+    #nav-text {
         font-size: 30px;
         font-weight: bold;
         color: #ffaa46;

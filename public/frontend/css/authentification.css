@@ -24,7 +24,6 @@
 .ariane_payment span,
 .ariane_payment .fa-chevron-right {
   color: #636363;
-  font-size: 14px;
   text-decoration: none;
 }
 .ariane_payment a {
@@ -63,7 +62,6 @@
   justify-content: flex-start;
   align-items: center;
   margin-left: auto;
-  font-size: 14px;
 }
 
 .alreadyAccount span {
@@ -115,7 +113,6 @@
   position: absolute;
   top: 10px;
   left: 10px;
-  font-size: 14px;
   color: #646464;
   pointer-event: none;
   transition: all 0.5s ease-in-out;
@@ -129,7 +126,6 @@
   width: 100%;
   height: 50px;
   padding: 20px 0 5px 10px;
-  font-size: 16px;
   color: #7e7e7e;
 }
 
@@ -152,7 +148,6 @@
 .input-container select:valid ~ label {
   top: 5px;
   left: 10px;
-  font-size: 14px;
   font-weight: bold;
   opacity: 0.6 !important;
 }
@@ -161,7 +156,6 @@
   position: absolute;
   top: 10px;
   left: 10px;
-  font-size: 14px;
   font-weight: normal;
   opacity: 1 !important;
   color: #646464;
@@ -195,7 +189,6 @@ select:-webkit-autofill:active {
 .missingFieldMessage {
   color: #b90000;
   display: none;
-  font-size: 13px;
   font-weight: bold;
 }
 
@@ -274,9 +267,7 @@ input[type=search]::-webkit-search-results-decoration {
   text-align: center;
   padding: 12px;
   border-radius: 5px;
-  font-size: 16px;
   font-weight: normal;
-  line-height: 18px;
   position: absolute;
   z-index: 1;
 }
@@ -324,7 +315,6 @@ input[type=search]::-webkit-search-results-decoration {
 }
 
 #payment_block p {
-  font-size: 14px;
   margin-bottom: 15px;
   margin-top: 0;
   color: #757575;
@@ -425,10 +415,8 @@ input[type=search]::-webkit-search-results-decoration {
 
 #label_rgpd,
 #label_conserve {
-  font-size: 14px;
   font-weight: normal;
   margin: 0;
-  line-height: 16px;
 }
 
 #rgpd_ {
@@ -492,7 +480,6 @@ input[type=search]::-webkit-search-results-decoration {
 .secure_ship label,
 .idem_address label .different_address label {
   margin-right: 20px;
-  font-size: 14px;
   text-align: left;
 }
 
@@ -507,7 +494,6 @@ input[type=search]::-webkit-search-results-decoration {
 .adress_control h6,
 .mode_shipping_control h6 {
   margin-left: auto;
-  font-size: 14px;
   color: #b60000;
 }
 
@@ -523,7 +509,6 @@ input[type=search]::-webkit-search-results-decoration {
 .standard_ship h6,
 .secure_ship h6 {
   margin-left: auto;
-  font-size: 14px;
   font-weight: bold;
   color: #555555;
 }
@@ -555,7 +540,6 @@ input[type=search]::-webkit-search-results-decoration {
   margin: 0;
   background-color: #b60000;
   color: white;
-  font-size: 15px;
   padding: 0 30px;
   border: none;
   border-radius: 5px;
@@ -570,7 +554,6 @@ input[type=search]::-webkit-search-results-decoration {
   margin: 0;
   background-color: #356bff;
   color: white;
-  font-size: 15px;
   padding: 0 30px;
   border: none;
   border-radius: 5px;
@@ -584,7 +567,6 @@ input[type=search]::-webkit-search-results-decoration {
   display: none;
   margin-left: 20px;
   color: #c00000;
-  font-size: 14px;
   text-decoration: none;
 }
 
@@ -600,7 +582,7 @@ input[type=search]::-webkit-search-results-decoration {
   background-color: transparent;
   border-radius: 5px;
   border: solid 1px #858585;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
   margin-left: 20px;
 }
@@ -652,7 +634,6 @@ input[type=search]::-webkit-search-results-decoration {
 
 #forgetPwrd {
   text-decoration: none;
-  font-size: 14px;
   font-weight: bold;
   color: #c20000;
   transition: ease-in-out 0.15s;
@@ -683,5 +664,4 @@ input[type=search]::-webkit-search-results-decoration {
   border: none;
   background-color: silver;
   color: black;
-  font-size: 16px;
 }

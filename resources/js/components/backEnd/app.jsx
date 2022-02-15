@@ -67,7 +67,7 @@ const App = () => {
             <AppContext.Provider value={contextValue}>
                 <BrowserRouter basename='/admin'>
                 <div className="main-nav">
-                    <span>my horizontal nav</span>
+                    <span id='nav-text'>my horizontal nav</span>
                     <button className="btn-main-nav">Login</button>
                 </div>
                     <Navbar />
