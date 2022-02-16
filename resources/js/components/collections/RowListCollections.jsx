@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
+import { getOnlyDate } from '../functions/dateTools';
+
 
 const useStyles = makeStyles({
     inputText: {
@@ -95,37 +97,40 @@ const RowListCollections = ({ collection, category }) => {
     }
 
     return (
-        <tr className='sub-div-horiz-align'>
-            <td className='w50 p-lr-10'>
+        <li className='sub-div-horiz-align bg-white p15 m5 flex-row-align-c'>
+            <div className='w50 p5'>
                 {collection && <input
                     className={classes.checkBox}
                     type='checkbox'
                     value={collection.id} />}
-            </td>
-            <td className='w250 p-lr-10'>
+            </div>
+            <div className='w250 p5'>
                 {collection && collection.name}
-            </td>
-            <td className='w100 p-lr-10'>
-                {collection && <img src={window.location.origin + '/' + collection.thumbnail} />}
-            </td>
-            <td className='w50 p-lr-10'>
+            </div>
+            <div className='w75'>
+                {collection.thumbnail && <img src={window.location.origin + '/' + collection.thumbnail} />}
+            </div>
+            <div className='w50 p5 txt-c'>
                 {collection && <i className={classes.trash + " far fa-trash-alt trash-alt-dropZone tooltip_"} style={{ display: "block", marginLeft: "auto" }} onClick={() => { handleDeletCollection(collection.id) }}>
-                    {/* <span className="tooltiptext">Supprimer l'image</span> */}
+                    <span className="tooltiptext">Supprimer l'image</span>
                 </i>}
-            </td>
-            <td>
-                <div className="sub-div-vert-align p-lr-10">
+            </div>
+            <div>
+                <div className="sub-div-vert-align w300 p5">
                     {conditions && conditions.map(item =>
                         <span key={item.id}>
                             {getParameter(item.parameter) + ' ' + getOperator(item.operator) + ' ' + item.value}
                         </span>
                     )}
                 </div>
-            </td>
-            <td className='w200 p-lr-10'>
+            </div>
+            <div className='w200 p5'>
                 {category && category.name}
-            </td>
-        </tr>
+            </div>
+            <div className='w200 p5'>
+                {collection && getOnlyDate(collection.created_at)}
+            </div>
+        </li>
     );
 }
 

@@ -104,7 +104,7 @@ const ModalSimpleMessage = ({ handleModalCancel, show, image, children }) => {
 
                 <div className={classes.close}><i className={classes.faTimes + ' ' + "fas fa-times"} onClick={handleModalCancel}></i></div>
 
-                <img src={image} />
+                {image && <img src={image} />}
 
                 {children}
 

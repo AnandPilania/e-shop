@@ -14,7 +14,7 @@ const Activation = () => {
             <div className="div-vert-align">
                 <div className="div-label-inputTxt">
                     <h2>Activation</h2>
-                    <div className='sub-div-horiz-align'>
+                    <div className='sub-div-horiz-align-m'>
                         <div className='sub-div-vert-align'>
                             <p>Date</p>
                             <Flatpickr

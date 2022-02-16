@@ -151,7 +151,7 @@ const Conditions = () => {
                     <div className="sub-div-vert-align-border-top">
                         <h2>Condition(s)</h2>
                         <p>Définissez une ou plusieurs règles. Ex. Prix du produit est inférieur à 50 €, Nom du produit contient Robe, etc. Seuls les produits correspondants à vos règles seront intégrés dans cette collection. </p>
-                        <div className="sub-div-horiz-align">
+                        <div className="sub-div-horiz-align-m">
                             <div className="div-radio-label">
                                 <input type='radio' name="condition" id='allConditions'
                                     checked={allConditionsNeeded == true}
@@ -180,7 +180,7 @@ const Conditions = () => {
                                 />))}
                             <button className="btn-bcknd mb15" onClick={addCondition}>Ajouter une condition</button>
                         </div>
-                        <div className="sub-div-horiz-align">
+                        <div className="sub-div-horiz-align-m">
                             <div className="div-radio-label">
                                 <input type='checkbox'
                                     id="includOnlyNewProducts"

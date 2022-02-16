@@ -23,25 +23,19 @@ const ListCollections = () => {
     console.log('listCollections  ', listCollections)
 
     return (
-        <section className='div-vert-align'>
+        <section className='div-vert-align listCollections'>
             <div className='sub-div-horiz-align'>
                 <input type="text" placeholder='Filtrer les collections' />
                 <div>
                     <button type="button" className='btn'><Link to="/add-collection">Ajouter une collection</Link></button>
                 </div>
             </div>
-            <table className='sub-div-vert-align' style={{ border: "solid red 2px" }}>
-                <thead className='sub-div-horiz-align'>
-                    <tr style={{ border: "solid green 2px" }}>
-                        <th colSpan="2">The table header</th>
-                    </tr>
-                </thead>
-                <tbody className='sub-div-vert-align' style={{ border: "solid blue 2px" }}>
-                    {!!listCollections && listCollections.map(item => 
-                        <RowListCollections key={item.id} collection={item} category={item.category} />
-                    )}
-                </tbody>
-            </table>
+            <ul className='sub-div-vert-align'>
+                <li>Header</li>
+                {!!listCollections && listCollections.map(item =>
+                    <RowListCollections key={item.id} collection={item} category={item.category} />
+                )}
+            </ul>
         </section>
     );
 }

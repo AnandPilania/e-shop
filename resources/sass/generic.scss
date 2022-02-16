@@ -2,6 +2,9 @@
 .w50 {
     width: 50px;
 }
+.w75 {
+    width: 50px;
+}
 .w100 {
     width: 100px;
 }
@@ -16,6 +19,209 @@
 }
 .w300 {
     width: 300px;
+}
+
+//height
+.h50 {
+    height: 50px;
+}
+.h100 {
+    height: 100px;
+}
+.h150 {
+    height: 150px;
+}
+.h200 {
+    height: 200px;
+}
+.h250 {
+    height: 250px;
+}
+.h300 {
+    height: 300px;
+}
+
+// margin
+.m5 {
+    margin: 5px;
+}
+.m10 {
+    margin: 10px;
+}
+.m15 {
+    margin: 15px;
+}
+.m20 {
+    margin: 20px;
+}
+.m25 {
+    margin: 25px;
+}
+.m30 {
+    margin: 30px;
+}
+.m40 {
+    margin: 40px;
+}
+.m50 {
+    margin: 50px;
+}
+
+// margin left
+.m-l-5 {
+    margin-left: 5px;
+}
+.m-l-10 {
+    margin-left: 10px;
+}
+.m-l-15 {
+    margin-left: 15px;
+}
+.m-l-20 {
+    margin-left: 20px;
+}
+.m-l-25 {
+    margin-left: 25px;
+}
+.m-l-30 {
+    margin-left: 30px;
+}
+.m-l-40 {
+    margin-left: 40px;
+}
+.m-l-50 {
+    margin-left: 50px;
+}
+
+// margin right
+
+.m-r-5 {
+    margin-right: 5px;
+}
+.m-r-10 {
+    margin-right: 10px;
+}
+.m-r-15 {
+    margin-right: 15px;
+}
+.m-r-20 {
+    margin-right: 20px;
+}
+.m-r-25 {
+    margin-right: 25px;
+}
+.m-r-30 {
+    margin-right: 30px;
+}
+.m-r-40 {
+    margin-right: 40px;
+}
+.m-r-50 {
+    margin-right: 50px;
+}
+
+// margin top
+.m-t-5 {
+    margin-top: 5px;
+}
+.m-t-10 {
+    margin-top: 10px;
+}
+.m-t-15 {
+    margin-top: 15px;
+}
+.m-t-20 {
+    margin-top: 20px;
+}
+.m-t-25 {
+    margin-top: 25px;
+}
+.m-t-30 {
+    margin-top: 30px;
+}
+.m-t-40 {
+    margin-top: 40px;
+}
+.m-t-50 {
+    margin-top: 50px;
+}
+
+// margin bottom
+.m-b-5 {
+    margin-bottom: 5px;
+}
+.m-b-10 {
+    margin-bottom: 10px;
+}
+.m-b-15 {
+    margin-bottom: 15px;
+}
+.m-b-20 {
+    margin-bottom: 20px;
+}
+.m-b-25 {
+    margin-bottom: 25px;
+}
+.m-b-30 {
+    margin-bottom: 30px;
+}
+.m-b-40 {
+    margin-bottom: 40px;
+}
+.m-b-50 {
+    margin-bottom: 50px;
+}
+
+// margin left / right
+.m-lr-5 {
+    margin: 0 5px;
+}
+.m-lr-10 {
+    margin: 0 10px;
+}
+.m-lr-15 {
+    margin: 0 15px;
+}
+.m-lr-20 {
+    margin: 0 20px;
+}
+.m-lr-25 {
+    margin: 0 25px;
+}
+.m-lr-30 {
+    margin: 0 30px;
+}
+.m-lr-40 {
+    margin: 0 40px;
+}
+.m-lr-50 {
+    margin: 0 50px;
+}
+
+// margin top / bottom
+.m-tb-5 {
+    margin: 5px 0;
+}
+.m-tb-10 {
+    margin: 10px 0;
+}
+.m-tb-15 {
+    margin: 15px 0;
+}
+.m-tb-20 {
+    margin: 20px 0;
+}
+.m-tb-25 {
+    margin: 25px 0;
+}
+.m-tb-30 {
+    margin: 30px 0;
+}
+.m-tb-40 {
+    margin: 40px 0;
+}
+.m-tb-50 {
+    margin: 50px 0;
 }
 
 // padding
@@ -200,3 +406,120 @@
 .p-tb-50 {
     padding: 50px 0;
 }
+
+
+// background-color
+
+.bg-white {
+    background-color: #ffffffff;
+}
+
+
+// display
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+}
+
+.flex-row-align-s {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.flex-col-align-s {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.flex-row-align-c {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.flex-col-align-c {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.flex-row-align-e {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.flex-col-align-e {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+
+
+// text align
+
+.txt-l {
+    text-align: left;
+}
+
+.txt-c {
+    text-align: center;
+}
+
+.txt-r {
+    text-align: right;
+}
+
+.txt-j {
+    text-align: justify;
+}
+
+
+// BLOCK
+.sub-div-horiz-align {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    // border: solid 1px red;
+}
+
+.sub-div-horiz-align-m {
+    width: 100%;
+    margin: 10px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    // border: solid 1px red;
+}
+
+.sub-div-vert-align {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    // border: solid 2px rgb(17, 120, 218);
+}
+

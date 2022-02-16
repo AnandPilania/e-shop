@@ -3,6 +3,9 @@ import AppContext from '../contexts/AppContext';
 import CollectionContext from '../contexts/CollectionContext';
 import Axios from 'axios';
 import ModalInput from '../modal/modalInput';
+import ModalSimpleMessage from '../modal/modalSimpleMessage';
+import { SketchPicker } from 'react-color';
+
 
 const Categories = () => {
 
@@ -12,11 +15,12 @@ const Categories = () => {
     const [linkCreateCategory, setLinkCreateCategory] = useState('Créer une nouvelle catégorie.');
     const [newCategorySucces, setNewCategorySucces] = useState(false);
     const [showCategorySelect, setShowCategorySelect] = useState(false);
+    const [displayColorPicker, setDisplayColorPicker] = useState(false);
+    const [selectedColor, setSelectedColor] = useState('#ffffff');
     const [newCategoryNameUseInMessage, setNewCategoryNameUseInMessage] = useState(''); // pour stocker le nom de la catégorie qui doit être afficher dans le message de confirmation de la creation de la catégorie
 
-
     const {
-        setShowModalConfirm, showModalInput, setShowModalInput, messageModal, setMessageModal, setSender, inputTextModify, setInputTextModify,
+        setShowModalConfirm, showModalInput, setShowModalInput, messageModal, setMessageModal, showModalSimpleMessage, setShowModalSimpleMessage, setSender, inputTextModify, setInputTextModify,
         setTextButtonConfirm, setImageModal } = useContext(AppContext);
 
     const {
@@ -116,27 +120,36 @@ const Categories = () => {
     // add one category
     const saveNewCategory = () => {
         if (newCategoryName != '' && newCategoryName.length >= 3) { // au cas où le nouveau nom est vide ou < 3
-            Axios.post(`http://127.0.0.1:8000/categories`, { name: newCategoryName })
-                .then(res => {
-                    setNewCategoryNameUseInMessage(newCategoryName + ' à été ajoutée'); // message affiché après création de la category
-                    setShowCreateCategory(false) // hide input create new category
-                    setLinkCreateCategory('Créer une nouvelle catégorie.'); // text link create new category
-                    setNewCategoryName(''); // reset newCategoryName
-                    setNewCategorySucces(true); // show succes message
-                    setTimeout(hideMessageSucces, 4000); // during 4 secondes
+            console.log(categoriesList, newCategoryName)
+            let exist = false;
+            categoriesList.map(item => { if (item.name === newCategoryName) exist = true })
+            if (exist) {
+                setMessageModal('Ce nom de catégorie existe déjà !');
+                setShowModalSimpleMessage(true); // show modalConfirm
+            } else {
+                Axios.post(`http://127.0.0.1:8000/categories`, { name: newCategoryName, color: selectedColor })
+                    .then(res => {
+                        setNewCategoryNameUseInMessage(newCategoryName + ' à été ajoutée'); // message affiché après création de la category
+                        setShowCreateCategory(false) // hide input create new category
+                        setLinkCreateCategory('Créer une nouvelle catégorie.'); // text link create new category
+                        setNewCategoryName(''); // reset newCategoryName
+                        setNewCategorySucces(true); // show succes message
+                        setTimeout(hideMessageSucces, 4000); // during 4 secondes
 
-                    console.log('res.data  --->  ok');
-                }).catch(function (error) {
-                    console.log('error:   ' + error);
-                });
+                        console.log('res.data  --->  ok');
+                    }).catch(function (error) {
+                        console.log('error:   ' + error);
+                    });
 
-            // chargement des collections
-            Axios.get(`http://127.0.0.1:8000/getCategories`)
-                .then(res => {
-                    setCategoriesList(res.data);
-                }).catch(function (error) {
-                    console.log('error:   ' + error);
-                });
+                // chargement des collections
+                Axios.get(`http://127.0.0.1:8000/getCategories`)
+                    .then(res => {
+                        setCategoriesList(res.data);
+                    }).catch(function (error) {
+                        console.log('error:   ' + error);
+                    });
+            }
+
 
         } else { // warning new category name is empty
 
@@ -188,7 +201,7 @@ const Categories = () => {
     // update one category
     const updateCategory = () => {
         if (inputTextModify != '' && inputTextModify.length >= 3) { // au cas où le nouveau nom est vide ou < 3
-            Axios.put(`http://127.0.0.1:8000/categories/${categoryId}`, { name: inputTextModify })
+            Axios.put(`http://127.0.0.1:8000/categories/${categoryId}`, { name: inputTextModify, color: selectedColor })
                 .then(res => {
                     setNewCategoryNameUseInMessage(inputTextModify + ' à été enregistrée'); // message affiché après modification de la category
                     setNewCategorySucces(true);
@@ -244,7 +257,28 @@ const Categories = () => {
     }
 
 
+    // react-color
+    const handleClick = () => {
+        setDisplayColorPicker(!displayColorPicker);
+    };
+    const handleClose = () => {
+        setDisplayColorPicker(false);
+    };
+    const popover = {
+        position: 'absolute',
+        zIndex: '2',
+    }
+    const cover = {
+        position: 'fixed',
+        top: '0px',
+        right: '0px',
+        bottom: '0px',
+        left: '-5px',
+    }
 
+    const handleChangeComplete = (color, event) => {
+        setSelectedColor(color.hex);
+    };
 
 
     return (
@@ -296,22 +330,33 @@ const Categories = () => {
                         </ul>
                         {/* } */}
                     </div>
-                    <p>
-                        <a href='#'>Plus d'informations sur les catégories.</a>
-                    </p>
+                    {/* react-color */}
+                    <div className='p-t-10'>
+                        <button className='btn-bcknd' onClick={handleClick}>Couleur<span style={{ height: "20px", width: "20px", backgroundColor: `${selectedColor}`, marginLeft: "15px" }}></span></button>
+                        {displayColorPicker ?
+                            <div style={popover}>
+                                <div style={cover} onClick={handleClose} />
+                                <SketchPicker
+                                    color={selectedColor}
+                                    disableAlpha={true}
+                                    onChangeComplete={handleChangeComplete}
+                                    width="90%"
+                                    presetColors={['#D0021B', '#F5A623', '#F8E71C', '#8B572A', '#7ED321', '#417505', '#BD10E0', '#9013FE', '#4A90E2', '#50E3C2', '#B8E986', '#000000', '#4AEA4A', '#9E9B9B', '#FFFEFF', '#9E13FE', '#4AE0E2', '#5EE3C2', '#E8E986', '#000E00', '#4ACA4A', '#9E9C9B', '#FFEFFF']} />
+                            </div> : null}
+                    </div>
                     {newCategorySucces &&
                         <p className='succesMessage'>
                             La catégorie {newCategoryNameUseInMessage}
                         </p>}
                 </div>
-                <p className='pos-abs-bot-rig-15'
+                <div className='pos-abs-bot-rig-15 m-t-20'
                     onClick={(e) => {
                         handleShowCreateCategory(e);
                     }
                     }>
                     <a href=''>{linkCreateCategory}</a>
-                </p>
-                {showCreateCategory && <div className='sub-div-vert-alogn'>
+                </div>
+                {showCreateCategory && <div className='sub-div-vert-align'>
                     <label>Nom de la catégorie</label>
                     <input type='text'
                         value={newCategoryName}
@@ -334,6 +379,13 @@ const Categories = () => {
                 image={'../images/icons/changeCategory.png'}>
                 <h2 className="childrenModal">{messageModal}</h2>
             </ModalInput>
+            {/* message category name exist */}
+            <ModalSimpleMessage
+                show={showModalSimpleMessage} // true/false show modal
+                handleModalCancel={handleModalCancel}
+                >
+                <h2 className="childrenModal">{messageModal}</h2>
+            </ModalSimpleMessage>
         </div>
     );
 }

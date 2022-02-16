@@ -5,12 +5,13 @@
     width: 100%;
     height: calc(100vh - 80px);
     border-right: solid rgb(202, 202, 202) 1px;
+    background-color: $policeAdminColor;
     // border: solid #00add8 5px;
 }
 
 .accordion {
-    background-color: #f6f6f7;
-    color: #444;
+    background-color: $policeAdminColor;
+    color: rgb(255, 255, 255);
     cursor: pointer;
     padding: 18px;
     width: 100%;
@@ -25,14 +26,14 @@
     //   border: solid rgb(179, 25, 51) 3px;
 }
 
-.active,
-.accordion:hover {
-    background-color: #f6f6f7;
-}
+// .active,
+// .accordion:hover {
+//     background-color: $policeAdminColor;
+// }
 
 .panel {
     padding: 0 18px;
-    background-color: #f6f6f7;
+    background-color: $policeAdminColor;
     max-height: 0;
     height: auto;
     width: 100%;
@@ -51,7 +52,7 @@
 .panel_elements span {
     padding: 5px 0 5px 20px;
     font-size: 15px;
-    color: rgb(95, 95, 95);
+    color: rgb(255, 255, 255);
 }
 
 .accordion > img {
@@ -59,9 +60,14 @@
     margin-right: 10px;
 }
 
-.link {
+a.link {
     text-decoration: none;
     font-size: calc(1rem * 0.875);
-    color: #444;
+    color: rgb(255, 255, 255);
     margin-bottom: 5px;
+}
+
+a.link:hover {
+    font-weight: bold;
+    text-decoration: none;
 }

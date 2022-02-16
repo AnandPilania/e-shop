@@ -1,20 +1,14 @@
 // Fonts
 // @import url('https://fonts.googleapis.com/css?family=Nunito');
 
-// Variables
-@import "variables";
-
-// Bootstrap
-// @import '~bootstrap/scss/bootstrap';
-// @import '~bootstrap';
-
-@import "reset";
+@import "../variables";
+@import "../reset";
 @import "back-end";
 @import "collection";
 @import "product";
 @import "navBar";
 @import "nprogress";
-@import "generic";
+@import "../generic";
 
 .app-container {
     position: relative;
@@ -22,7 +16,7 @@
     min-height: 100vh;
     display: grid;
     grid-template-rows: 80px minmax(100px, 1fr);
-    grid-template-columns: 250px calc(100% - 250px);
+    grid-template-columns: 240px calc(100% - 240px);
     // border: solid #d80000 5px;
 
     .main-nav {
@@ -37,7 +31,7 @@
         justify-content: space-around;
         align-items: center;
         border-bottom: solid #cacaca 1px;
-        background-color: #0e0b2b;
+        background-color: #ffffff;
         z-index: 10;
     }
 

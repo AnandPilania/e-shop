@@ -156,7 +156,7 @@ const Optimisation = () => {
                     id="optimisation_collection">
                     {/* meta-url */}
                     <div className="div-label-inputTxt">
-                        <div className="sub-div-horiz-align">
+                        <div className="sub-div-horiz-align-m">
                             <label>
                                 Url de la page de cette collection
                             </label>
