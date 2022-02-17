@@ -1,9 +1,9 @@
 .nav-container {
     position: -webkit-sticky;
     position: sticky;
-    top: 80px;
+    top: 0;
     width: 100%;
-    height: calc(100vh - 80px);
+    height: 100vh; //calc(100vh - 80px);
     border-right: solid rgb(202, 202, 202) 1px;
     background-color: $policeAdminColor;
     // border: solid #00add8 5px;

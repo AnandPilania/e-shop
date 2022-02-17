@@ -27,4 +27,6 @@ export default React.createContext({
     setImageModal: () => { },
     darkMode: '',
     setDarkMode: () => { },
+    selectedColor: '', 
+    setSelectedColor: () => { },
 });

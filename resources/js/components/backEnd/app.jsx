@@ -35,6 +35,8 @@ const App = () => {
     const [inputTextModify, setInputTextModify] = useState('');
     const [textButtonConfirm, setTextButtonConfirm] = useState('Confirmer');
     const [imageModal, setImageModal] = useState('');
+    const [selectedColor, setSelectedColor] = useState('#4A90E2');
+
 
     const handleModalApp = () => {
         setShowModalApp(false);
@@ -59,6 +61,7 @@ const App = () => {
         textButtonConfirm, setTextButtonConfirm,
         imageModal, setImageModal,
         darkMode, setDarkMode,
+        selectedColor, setSelectedColor,
     }
 
 
@@ -66,39 +69,41 @@ const App = () => {
         <div className="app-container">
             <AppContext.Provider value={contextValue}>
                 <BrowserRouter basename='/admin'>
-                <div className="main-nav">
-                    <span id='nav-text'>my horizontal nav</span>
-                    <button className="btn-main-nav">Login</button>
-                </div>
                     <Navbar />
-                    <Routes>
-                        <Route path="/listProduct" element={<List />} />
-                        <Route path="/addProduct" element={<FormProduct />} />
-                        <Route path="/editProduct/:productId" element={<EditProduct />} />
-                        <Route path="/editImagesProduct/:product_id" element={<EditImages />} />
-                        <Route path="/collections-list" element={<ListCollections />} />
-                        <Route path="/add-collection" element={<CreateCollection />} />
-                        <Route path="/cropImage" element={<CroppeImage />} />
-                        <Route
-                            path="*"
-                            element={
-                                <main style={{ padding: "1rem" }}>
-                                    <p>There's nothing here!</p>
-                                </main>
-                            }
-                        />
-                    </Routes>
-                    {/* modal for confirmation */}
-                    <ModalApp
-                        show={showModalApp} // true/false show modal
-                        handleModalApp={handleModalApp}
-                        handleModalAppCancel={handleModalAppCancel}
-                        textButtonModalApp={textButtonModalApp}
-                        textButtonModalApp2={textButtonModalApp2}
-                        image={imageModalApp}
-                        followThisLink={followThisLink}>
-                        <h2 className="childrenModal">{messageModalApp}</h2>
-                    </ModalApp>
+                    <div>
+                        <div className="main-nav">
+                            <span id='nav-text'>my horizontal nav</span>
+                            <button className="btn-main-nav">Login</button>
+                        </div>
+                        <Routes>
+                            <Route path="/listProduct" element={<List />} />
+                            <Route path="/addProduct" element={<FormProduct />} />
+                            <Route path="/editProduct/:productId" element={<EditProduct />} />
+                            <Route path="/editImagesProduct/:product_id" element={<EditImages />} />
+                            <Route path="/collections-list" element={<ListCollections />} />
+                            <Route path="/add-collection" element={<CreateCollection />} />
+                            <Route path="/cropImage" element={<CroppeImage />} />
+                            <Route
+                                path="*"
+                                element={
+                                    <main style={{ padding: "1rem" }}>
+                                        <p>There's nothing here!</p>
+                                    </main>
+                                }
+                            />
+                        </Routes>
+                        {/* modal for confirmation */}
+                        <ModalApp
+                            show={showModalApp} // true/false show modal
+                            handleModalApp={handleModalApp}
+                            handleModalAppCancel={handleModalAppCancel}
+                            textButtonModalApp={textButtonModalApp}
+                            textButtonModalApp2={textButtonModalApp2}
+                            image={imageModalApp}
+                            followThisLink={followThisLink}>
+                            <h2 className="childrenModal">{messageModalApp}</h2>
+                        </ModalApp>
+                    </div>
                 </BrowserRouter>
             </AppContext.Provider>
         </div>

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { getOnlyDate } from '../functions/dateTools';
-
+import AppContext from '../contexts/AppContext';
 
 const useStyles = makeStyles({
     inputText: {
@@ -32,6 +32,9 @@ const RowListCollections = ({ collection, category }) => {
     const classes = useStyles();
     const [conditions, setConditions] = useState(null);
 
+    const {
+        selectedColor, setSelectedColor } = useContext(AppContext);
+
     useEffect(() => {
         setConditions(JSON.parse(collection.objConditions));
     }, []);
@@ -42,7 +45,6 @@ const RowListCollections = ({ collection, category }) => {
         // console.log(id)
     }
 
-    category && console.log('category  ', category.name)
     function getParameter(parameter) {
         switch (parameter) {
             case '1':
@@ -97,37 +99,37 @@ const RowListCollections = ({ collection, category }) => {
     }
 
     return (
-        <li className='sub-div-horiz-align bg-white p15 m5 flex-row-align-c'>
+        <li className='sub-div-horiz-align bg-white p15 m10'>
             <div className='w50 p5'>
                 {collection && <input
                     className={classes.checkBox}
                     type='checkbox'
                     value={collection.id} />}
             </div>
-            <div className='w250 p5'>
+            <div className='w20pct p5'>
                 {collection && collection.name}
             </div>
             <div className='w75'>
                 {collection.thumbnail && <img src={window.location.origin + '/' + collection.thumbnail} />}
             </div>
-            <div className='w50 p5 txt-c'>
+            <div className='w150 p5 txt-c'>
                 {collection && <i className={classes.trash + " far fa-trash-alt trash-alt-dropZone tooltip_"} style={{ display: "block", marginLeft: "auto" }} onClick={() => { handleDeletCollection(collection.id) }}>
-                    <span className="tooltiptext">Supprimer l'image</span>
+                    <span className="tooltiptext">Supprimer la collection</span>
                 </i>}
             </div>
-            <div>
-                <div className="sub-div-vert-align w300 p5">
+            <div className="w30pct p5">
+                {conditions !== null ? <div className="sub-div-vert-align">
                     {conditions && conditions.map(item =>
                         <span key={item.id}>
                             {getParameter(item.parameter) + ' ' + getOperator(item.operator) + ' ' + item.value}
                         </span>
                     )}
-                </div>
+                </div> : '_'}
             </div>
-            <div className='w200 p5'>
-                {category && category.name}
+            <div className='w20pct p5'>
+                <span className='radius5 p-l-10 p-r-10 p-t-3 p-b-3 white' style={{ backgroundColor: `${category && category.color}` }}>{category && category.name}</span>
             </div>
-            <div className='w200 p5'>
+            <div className='w20pct p5'>
                 {collection && getOnlyDate(collection.created_at)}
             </div>
         </li>

@@ -16,12 +16,10 @@ const Categories = () => {
     const [newCategorySucces, setNewCategorySucces] = useState(false);
     const [showCategorySelect, setShowCategorySelect] = useState(false);
     const [displayColorPicker, setDisplayColorPicker] = useState(false);
-    const [selectedColor, setSelectedColor] = useState('#ffffff');
     const [newCategoryNameUseInMessage, setNewCategoryNameUseInMessage] = useState(''); // pour stocker le nom de la catégorie qui doit être afficher dans le message de confirmation de la creation de la catégorie
 
     const {
-        setShowModalConfirm, showModalInput, setShowModalInput, messageModal, setMessageModal, showModalSimpleMessage, setShowModalSimpleMessage, setSender, inputTextModify, setInputTextModify,
-        setTextButtonConfirm, setImageModal } = useContext(AppContext);
+        setShowModalConfirm, showModalInput, setShowModalInput, messageModal, setMessageModal, showModalSimpleMessage, setShowModalSimpleMessage, setSender, inputTextModify, setInputTextModify, selectedColor, setSelectedColor, setTextButtonConfirm, setImageModal } = useContext(AppContext);
 
     const {
         categoryName, setCategoryName,
