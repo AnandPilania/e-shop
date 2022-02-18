@@ -419,7 +419,7 @@ const CreateCollection = () => {
                         {/* nom */}
                         <div className="div-label-inputTxt">
                             <h2>Nom de la collection</h2>
-                            <input type='text' id='titreCollection'
+                            <input className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1" type='text' id='titreCollection'
                                 value={nameCollection}
                                 onChange={handleNameCollection}
                             />

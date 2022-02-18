@@ -23069,6 +23069,7 @@ var SelectType = function SelectType(props) {
   }].concat(_toConsumableArray(props.listTypes)) : props.listTypes;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("select", {
+      className: "w100 h50 m-b-10 p-lr-20 radius5 brd-gray-light-1",
       id: props.id + 'type' // defaultValue={type}
       ,
       onChange: props.handleType,

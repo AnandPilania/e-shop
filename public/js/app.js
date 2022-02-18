@@ -23916,10 +23916,13 @@ var RowListCollections = function RowListCollections(_ref) {
       className: "w30pct p5",
       children: conditions !== null ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "sub-div-vert-align",
-        children: conditions && conditions.map(function (item) {
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-            children: getParameter(item.parameter) + ' ' + getOperator(item.operator) + ' ' + item.value
-          }, item.id);
+        children: conditions.length < 2 ? getParameter(conditions[0].parameter) + ' ' + getOperator(conditions[0].operator) + ' ' + conditions[0].value : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("select", {
+          className: "w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1",
+          children: conditions.map(function (item) {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+              children: getParameter(item.parameter) + ' ' + getOperator(item.operator) + ' ' + item.value
+            }, item.id);
+          })
         })
       }) : '_'
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
@@ -23988,6 +23991,7 @@ var Activation = function Activation() {
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
               children: "Date"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_flatpickr__WEBPACK_IMPORTED_MODULE_2__["default"], {
+              className: "w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1",
               id: "activationDate",
               "data-enable-time": true,
               placeholder: dateField,
@@ -24744,6 +24748,7 @@ var ConditionCollection = function ConditionCollection(props) {
     className: "block-select-conditions " + borderRed,
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("select", {
+        className: "w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1",
         value: props.condition.parameter,
         onChange: changeParamValue,
         id: "parameterValue",
@@ -24777,10 +24782,17 @@ var ConditionCollection = function ConditionCollection(props) {
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
           value: "10",
           children: "Date ajout produit"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+          value: "11",
+          children: "Unit\xE9 vendue par mois"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+          value: "12",
+          children: "Total d'unit\xE9 vendue"
         })]
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("select", {
+        className: "w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1",
         value: props.condition.operator,
         onChange: function onChange(e) {
           return props.handleChangeOperator(e, props.condition.id);
@@ -24820,7 +24832,7 @@ var ConditionCollection = function ConditionCollection(props) {
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
       className: "input-span",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-        className: inputTypeDate,
+        className: inputTypeDate + "w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1",
         type: inputType,
         step: inputStep,
         min: "0",
@@ -25206,6 +25218,7 @@ var Image = function Image() {
               })
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+            className: "w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1",
             type: "text",
             name: "alt",
             value: alt,
@@ -25226,6 +25239,7 @@ var Image = function Image() {
               })
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+            className: "w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1",
             type: "text",
             name: "imgColection",
             value: imageName,
@@ -25795,6 +25809,7 @@ var CreateCollection = function CreateCollection() {
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h2", {
               children: "Nom de la collection"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("input", {
+              className: "w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1",
               type: "text",
               id: "titreCollection",
               value: nameCollection,
@@ -25862,7 +25877,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _RowListCollections__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./RowListCollections */ "./resources/js/components/collections/RowListCollections.jsx");
-/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
+/* harmony import */ var _listCheckBox__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./listCheckBox */ "./resources/js/components/collections/listCheckBox.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
@@ -25896,26 +25911,43 @@ var ListCollections = function ListCollections() {
       listCollections = _useState2[0],
       setListCollections = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState4 = _slicedToArray(_useState3, 2),
+      listCollectionsFiltered = _useState4[0],
+      setListCollectionsFiltered = _useState4[1];
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState6 = _slicedToArray(_useState5, 2),
+      listCategories = _useState6[0],
+      setListCategories = _useState6[1];
+
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState8 = _slicedToArray(_useState7, 2),
+      searchValue = _useState8[0],
+      setSearchValue = _useState8[1];
+
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     nameSens: true,
     categorySens: true,
     ceated_atSens: true
   }),
-      _useState4 = _slicedToArray(_useState3, 2),
-      doggleSort = _useState4[0],
-      setDoggleSort = _useState4[1]; // const { checkLeave, nameCollection } = useContext(AppContext);
-
+      _useState10 = _slicedToArray(_useState9, 2),
+      toggleSort = _useState10[0],
+      setToggleSort = _useState10[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // chargement des collections
     axios__WEBPACK_IMPORTED_MODULE_1___default().get("http://127.0.0.1:8000/collections-list-back-end").then(function (res) {
-      setListCollections(res.data);
+      // listCollections -> liste complète des collections pour handleSearch
+      setListCollections(res.data[0]);
+      setListCollectionsFiltered(res.data[0]);
+      setListCategories(res.data[1]);
     })["catch"](function (error) {
       console.log('error:   ' + error);
     });
   }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    // add category name in new property categoryName
+    // add category name in the new property categoryName
     listCollections && listCollections.map(function (item, index) {
       listCollections[index].categoryName = item.category ? item.category.name : '';
     });
@@ -25924,10 +25956,10 @@ var ListCollections = function ListCollections() {
   function sortList(sender) {
     switch (sender) {
       case 'name':
-        doggleSort.nameSens === true ? sortList_AZ('name') : sortList_ZA('name');
-        setDoggleSort(function (prevState) {
+        toggleSort.nameSens === true ? sortList_AZ('name') : sortList_ZA('name');
+        setToggleSort(function (prevState) {
           return _objectSpread(_objectSpread({}, prevState), {}, {
-            nameSens: !doggleSort.nameSens,
+            nameSens: !toggleSort.nameSens,
             categorySens: true,
             ceated_atSens: true
           });
@@ -25935,10 +25967,10 @@ var ListCollections = function ListCollections() {
         break;
 
       case 'categoryName':
-        doggleSort.categorySens === true ? sortList_AZ('categoryName') : sortList_ZA('categoryName');
-        setDoggleSort(function (prevState) {
+        toggleSort.categorySens === true ? sortList_AZ('categoryName') : sortList_ZA('categoryName');
+        setToggleSort(function (prevState) {
           return _objectSpread(_objectSpread({}, prevState), {}, {
-            categorySens: !doggleSort.categorySens,
+            categorySens: !toggleSort.categorySens,
             nameSens: true,
             ceated_atSens: true
           });
@@ -25946,10 +25978,10 @@ var ListCollections = function ListCollections() {
         break;
 
       case 'created_at':
-        doggleSort.ceated_atSens === true ? sortList_AZ('created_at') : sortList_ZA('created_at');
-        setDoggleSort(function (prevState) {
+        toggleSort.ceated_atSens === true ? sortList_AZ('created_at') : sortList_ZA('created_at');
+        setToggleSort(function (prevState) {
           return _objectSpread(_objectSpread({}, prevState), {}, {
-            ceated_atSens: !doggleSort.ceated_atSens,
+            ceated_atSens: !toggleSort.ceated_atSens,
             nameSens: true,
             categorySens: true
           });
@@ -25957,10 +25989,10 @@ var ListCollections = function ListCollections() {
         break;
 
       default:
-        doggleSort.nameSens === true ? sortList_AZ('name') : sortList_ZA('name');
-        setDoggleSort(function (prevState) {
+        toggleSort.nameSens === true ? sortList_AZ('name') : sortList_ZA('name');
+        setToggleSort(function (prevState) {
           return _objectSpread(_objectSpread({}, prevState), {}, {
-            nameSens: !doggleSort.nameSens,
+            nameSens: !toggleSort.nameSens,
             categorySens: true,
             ceated_atSens: true
           });
@@ -25970,14 +26002,23 @@ var ListCollections = function ListCollections() {
 
 
   function sortList_AZ(item) {
-    setListCollections([].concat(listCollections).sort(function (a, b) {
+    setListCollectionsFiltered([].concat(listCollectionsFiltered).sort(function (a, b) {
       return a[item].localeCompare(b[item]);
     }));
   }
 
   function sortList_ZA(item) {
-    setListCollections([].concat(listCollections).sort(function (b, a) {
+    setListCollectionsFiltered([].concat(listCollectionsFiltered).sort(function (b, a) {
       return a[item].localeCompare(b[item]);
+    }));
+  }
+
+  console.log(listCollections); // renvoi les collection correspondantes à ce qui est tapé dans la barre de recherche dans List collection
+
+  function handleSearch(e) {
+    setSearchValue(e.target.value);
+    setListCollectionsFiltered(listCollections.filter(function (item) {
+      return item.name.toLowerCase().includes(e.target.value.toLowerCase());
     }));
   }
 
@@ -25986,8 +26027,12 @@ var ListCollections = function ListCollections() {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
       className: "sub-div-horiz-align",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+        className: "w50pct m-l-10 h50 m-b-10 p-lr-20 radius5 brd-gray-light-1",
         type: "text",
-        placeholder: "Filtrer les collections"
+        value: searchValue,
+        onChange: handleSearch
+      }), listCategories && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_listCheckBox__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        arrayList: listCategories
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
           type: "button",
@@ -26051,7 +26096,7 @@ var ListCollections = function ListCollections() {
             })
           })]
         })]
-      }), !!listCollections && listCollections.map(function (item) {
+      }), !!listCollectionsFiltered && listCollectionsFiltered.map(function (item) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_RowListCollections__WEBPACK_IMPORTED_MODULE_2__["default"], {
           collection: item,
           category: item.category
@@ -26062,6 +26107,144 @@ var ListCollections = function ListCollections() {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ListCollections);
+
+/***/ }),
+
+/***/ "./resources/js/components/collections/listCheckBox.jsx":
+/*!**************************************************************!*\
+  !*** ./resources/js/components/collections/listCheckBox.jsx ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+var ListCheckBox = function ListCheckBox(_ref) {
+  var arrayList = _ref.arrayList;
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      showCategorySelect = _useState2[0],
+      setShowCategorySelect = _useState2[1]; // show hide select menu
+
+
+  var showHideCategorySelect = function showHideCategorySelect() {
+    setShowCategorySelect(!showCategorySelect);
+  };
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // dropDown optimisation
+    var dropable = document.getElementById('category_select');
+
+    if (!showCategorySelect) {
+      // cache borders sinon y a un bout qui reste visible
+      setTimeout(function () {
+        dropable.style.borderLeft = 'none';
+        dropable.style.borderRight = 'none';
+        dropable.style.borderBottom = 'none';
+      }, 250);
+      dropable.style.maxHeight = null;
+      dropable.style.paddingTop = 0;
+    } else {
+      dropable.style.maxHeight = "250px";
+      dropable.style.paddingTop = "5px"; // montre les borders quand ouvert seulement
+
+      dropable.style.borderLeft = 'rgb(220, 220, 220) solid 1px';
+      dropable.style.borderRight = 'rgb(220, 220, 220) solid 1px';
+      dropable.style.borderBottom = 'rgb(220, 220, 220) solid 1px';
+    }
+  }, [showCategorySelect]); // get id for back-end
+
+  var handleCategory = function handleCategory(cat_id) {
+    setCategoryId(cat_id);
+    setShowCategorySelect(false);
+    localStorage.setItem("categoryId", cat_id);
+  }; // nom affiché dans le select
+
+
+  var handleCategoryName = function handleCategoryName(cat_name) {
+    setCategoryName(cat_name);
+    localStorage.setItem("categoryName", cat_name);
+  };
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // empèche l'erreur-> Warning: Can't perform a React state update on an unmounted
+    document.addEventListener('click', closeDropDownCategory);
+    return function () {
+      document.removeEventListener('click', closeDropDownCategory);
+    };
+  }, []); // ferme le select de category quand on click en dehors du select
+
+  function closeDropDownCategory(evt) {
+    var categorySelectElement = document.getElementById("selectId");
+    var targetElement = evt.target; // clicked element
+
+    do {
+      if (targetElement == categorySelectElement) {
+        // click inside
+        return;
+      } // Go up the DOM
+
+
+      targetElement = targetElement.parentNode;
+    } while (targetElement); // click outside.
+
+
+    setShowCategorySelect(false);
+  }
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    className: "min-w250 relative",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      className: "bg-white radius5 absolute tr0",
+      id: "selectId",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("button", {
+        className: "btn-select-category",
+        onClick: showHideCategorySelect,
+        children: ["Filtre", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+          className: "fas fa-angle-down"
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("ul", {
+        className: "ul-category dropable",
+        id: "category_select",
+        children: arrayList && arrayList.map(function (item, index) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("li", {
+            className: "li-category",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+              type: "checkbox"
+            }), item.name.length > 25 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+              children: item.name.substring(0, 25) + '...'
+            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+              children: item.name
+            })]
+          }, index);
+        })
+      })]
+    })
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ListCheckBox);
 
 /***/ }),
 
@@ -26275,6 +26458,7 @@ var Optimisation = function Optimisation() {
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
             type: "text",
+            className: "w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1",
             value: metaUrl,
             onChange: handleMetaUrl,
             placeholder: "Url de cette collection",
@@ -26295,6 +26479,7 @@ var Optimisation = function Optimisation() {
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
             type: "text",
+            className: "w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1",
             value: metaTitle,
             onChange: handleMetaTitle
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
@@ -29075,6 +29260,7 @@ var SelectType = function SelectType(props) {
   }].concat(_toConsumableArray(props.listTypes)) : props.listTypes;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("select", {
+      className: "w100 h50 m-b-10 p-lr-20 radius5 brd-gray-light-1",
       id: props.id + 'type' // defaultValue={type}
       ,
       onChange: props.handleType,

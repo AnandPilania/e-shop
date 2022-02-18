@@ -40,9 +40,11 @@ class CollectionController extends Controller
     // renvoi vers la page de liste des collections dans le backend
     public function collectionsListBackEnd()
     {
+        $categories = Category::all('name');
         $collections = Collection::with('category')->get();
-        return json_encode($collections);
+        return json_encode([$collections, $categories]);
     }
+
 
     /**
      * Show the form for creating a new resource.

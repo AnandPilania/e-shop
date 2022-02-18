@@ -20,27 +20,46 @@ class HackerRank_Test extends Controller
     // }
 
 
-    function hackerRanck() {
-        $s = '07:05:45PM';
-        $time = '';
-        $toRep = intval(substr($s, 0, 2)); 
-        if(preg_match('/PM$/', $s)) {
-            $time = substr($s, 0, -2);
-            if ($toRep < 12) {
-                $toRep += 12;
-                $time = substr_replace($time, $toRep, 0, 2);
-            } 
-        } else if(preg_match('/AM$/', $s)) {
-            $time = substr($s, 0, -2);
-            if ($toRep > 11) {
-                $toRep = $toRep - 12;
-                if ($toRep < 10) {$toRep = strval('0' . $toRep);}
-                $time = substr_replace($time, $toRep, 0, 2);
-            } 
-        } 
-    dd(strval($time));
+    // function hackerRanck() {
+    //     $s = '07:05:45PM';
+    //     $time = '';
+    //     $toRep = intval(substr($s, 0, 2)); 
+    //     if(preg_match('/PM$/', $s)) {
+    //         $time = substr($s, 0, -2);
+    //         if ($toRep < 12) {
+    //             $toRep += 12;
+    //             $time = substr_replace($time, $toRep, 0, 2);
+    //         } 
+    //     } else if(preg_match('/AM$/', $s)) {
+    //         $time = substr($s, 0, -2);
+    //         if ($toRep > 11) {
+    //             $toRep = $toRep - 12;
+    //             if ($toRep < 10) {$toRep = strval('0' . $toRep);}
+    //             $time = substr_replace($time, $toRep, 0, 2);
+    //         } 
+    //     } 
+    // dd(strval($time));
+    // }
+
+
+    function hackerRanck()
+    {
+        $grades = [73, 67, 38, 33];
+
+        foreach ($grades as $item) {
+            $fiveSteps = 5 * floor($item / 5);
+            $nextStep = $fiveSteps + 5;
+            $spread = $nextStep - $item;
+            if ($nextStep >= 40) {
+                if ($spread < 3) {
+                    $arr_out[] = $nextStep;
+                } else {
+                    $arr_out[] = $item;
+                }
+            } else {
+                $arr_out[] = $item;
+            }
+        }
+        dd($arr_out);
     }
-
-
-
 }

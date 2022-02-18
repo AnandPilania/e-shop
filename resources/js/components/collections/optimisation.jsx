@@ -168,6 +168,7 @@ const Optimisation = () => {
                             </i>
                         </div>
                         <input type='text'
+                        className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"
                             value={metaUrl}
                             onChange={handleMetaUrl}
                             placeholder="Url de cette collection"
@@ -186,6 +187,7 @@ const Optimisation = () => {
                             </i>
                         </div>
                         <input type='text'
+                        className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"
                             value={metaTitle}
                             onChange={handleMetaTitle}
                         />

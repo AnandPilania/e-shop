@@ -136,6 +136,7 @@ const ConditionCollection = (props) => {
             {/* parameters */}
             <div>
                 <select
+                    className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"
                     value={props.condition.parameter}
                     onChange={changeParamValue}
                     id="parameterValue">
@@ -149,12 +150,15 @@ const ConditionCollection = (props) => {
                     <option value="8">Stock</option>
                     <option value="9">Nom de variante</option>
                     <option value="10">Date ajout produit</option>
+                    <option value="11">Unité vendue par mois</option>
+                    <option value="12">Total d'unité vendue</option>
                 </select>
             </div>
 
             {/* operator */}
             <div>
                 <select
+                    className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"
                     value={props.condition.operator}
                     onChange={(e) => props.handleChangeOperator(e, props.condition.id)} >
                     {HideOp1 == 'show' && <option value="1">est égale à</option>} {/* = */}
@@ -173,7 +177,7 @@ const ConditionCollection = (props) => {
             {/* value */}
             <div className="input-span">
                 <input
-                    className={inputTypeDate}
+                    className={inputTypeDate + "w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"}
                     type={inputType}
                     step={inputStep}
                     min="0"

@@ -32,8 +32,7 @@ const RowListCollections = ({ collection, category }) => {
     const classes = useStyles();
     const [conditions, setConditions] = useState(null);
 
-    const {
-        selectedColor, setSelectedColor } = useContext(AppContext);
+    const {selectedColor, setSelectedColor } = useContext(AppContext);
 
     useEffect(() => {
         setConditions(JSON.parse(collection.objConditions));
@@ -119,11 +118,15 @@ const RowListCollections = ({ collection, category }) => {
             </div>
             <div className="w30pct p5">
                 {conditions !== null ? <div className="sub-div-vert-align">
-                    {conditions && conditions.map(item =>
-                        <span key={item.id}>
-                            {getParameter(item.parameter) + ' ' + getOperator(item.operator) + ' ' + item.value}
-                        </span>
-                    )}
+                    {conditions.length < 2 ? getParameter(conditions[0].parameter) + ' ' + getOperator(conditions[0].operator) + ' ' + conditions[0].value
+                        :
+                        (<select className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1">
+                            {conditions.map(item =>
+                                <option key={item.id}>
+                                    {getParameter(item.parameter) + ' ' + getOperator(item.operator) + ' ' + item.value}
+                                </option>)}
+                        </select>)
+                    }
                 </div> : '_'}
             </div>
             <div className='w20pct p5'>

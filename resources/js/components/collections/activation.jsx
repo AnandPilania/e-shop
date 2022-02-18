@@ -18,6 +18,7 @@ const Activation = () => {
                         <div className='sub-div-vert-align'>
                             <p>Date</p>
                             <Flatpickr
+                                className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"
                                 id="activationDate"
                                 data-enable-time
                                 placeholder={dateField}
@@ -51,10 +52,10 @@ const Activation = () => {
                                     let dateActivation =
                                         (day < 10 ? "0" + day.toString() : day) + "-" +
                                         (month < 10 ? "0" + month.toString() : month) + "-" + year + " " +
-                                        (hour < 10 ? "0" + hour.toString() : hour)  + ":" +
-                                        (minute.toString())  + ":" +
+                                        (hour < 10 ? "0" + hour.toString() : hour) + ":" +
+                                        (minute.toString()) + ":" +
                                         (seconde.toString());
-                                        console.log('dateActivation   ', dateActivation);
+                                    console.log('dateActivation   ', dateActivation);
                                     setDateField(dateActivation);
                                     localStorage.setItem("dateActivation", dateActivation);
                                 }}
