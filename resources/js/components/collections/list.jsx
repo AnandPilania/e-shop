@@ -2,7 +2,8 @@ import { React, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
 import RowListCollections from './RowListCollections';
-import ListCheckBox from './listCheckBox';
+import CategoriesFilter from './categoriesFilter';
+import CheckBox from '../elements/checkBox';
 
 
 const ListCollections = () => {
@@ -98,7 +99,7 @@ console.log(listCollections)
             <div className='sub-div-horiz-align'>
                 <input className="w50pct m-l-10 h50 m-b-10 p-lr-20 radius5 brd-gray-light-1" type="text" value={searchValue} onChange={handleSearch} />
 
-                {listCategories && <ListCheckBox arrayList={listCategories} />}
+                {listCategories && <CategoriesFilter arrayList={listCategories} />}
 
                 <div>
                     <button type="button" className='btn'><Link to="/add-collection">Ajouter une collection</Link></button>
@@ -106,12 +107,7 @@ console.log(listCollections)
             </div>
             <ul className='sub-div-vert-align'>
                 <li className='sub-div-horiz-align bg-white p15 m10'>
-                    <div className='w50 p5'>
-                        {<input
-                            // className={classes.checkBox}
-                            type='checkbox'
-                            value="all" />}
-                    </div>
+                    <div className='w50 p5'><CheckBox unikId={'all'} /></div>
                     <div className='w20pct p5 flex-row'>
                         Nom
                         <figure className='h15 w15 m-l-10 cursor' onClick={() => sortList('name')}>
@@ -120,9 +116,6 @@ console.log(listCollections)
                     </div>
                     <div className='w75'>
                         {/* collection.thumbnail */}
-                    </div>
-                    <div className='w150 p5 txt-c'>
-                        Supprimer
                     </div>
                     <div className="w30pct p5">
                         Conditions
@@ -138,6 +131,9 @@ console.log(listCollections)
                         <figure className='h15 w15 m-l-10 cursor' onClick={() => sortList('created_at')}>
                             <img src={window.location.origin + '/images/icons/sort.png'} />
                         </figure>
+                    </div>
+                    <div className='w150 p5 txt-c'>
+                        {/* Supprimer */}
                     </div>
                 </li>
                 {!!listCollectionsFiltered && listCollectionsFiltered.map(item => 

@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-
-const ListCheckBox = ({ arrayList }) => {
+import CheckBox from '../elements/checkBox';
+const CategoriesFilter = ({ arrayList }) => {
 
     const [showCategorySelect, setShowCategorySelect] = useState(false);
-
-
     // show hide select menu
     const showHideCategorySelect = () => {
         setShowCategorySelect(!showCategorySelect);
@@ -86,7 +84,7 @@ const ListCheckBox = ({ arrayList }) => {
                     {arrayList && arrayList.map((item, index) => (
                         <li className="li-category"
                             key={index}>
-                            <input type='checkbox' />
+                            <CheckBox unikId={item.name} />
                             {item.name.length > 25 ? <span>{item.name.substring(0, 25) + '...'}</span> : <span>{item.name}</span>}
                         </li>))}
                 </ul>
@@ -100,4 +98,4 @@ const ListCheckBox = ({ arrayList }) => {
     );
 }
 
-export default ListCheckBox;
+export default CategoriesFilter;

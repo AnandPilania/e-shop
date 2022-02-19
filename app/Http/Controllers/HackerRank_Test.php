@@ -42,24 +42,55 @@ class HackerRank_Test extends Controller
     // }
 
 
+    // function hackerRanck()
+    // {
+    //     $grades = [73, 67, 38, 33];
+
+    //     foreach ($grades as $item) {
+    //         $fiveSteps = 5 * floor($item / 5);
+    //         $nextStep = $fiveSteps + 5;
+    //         $spread = $nextStep - $item;
+    //         if ($nextStep >= 40) {
+    //             if ($spread < 3) {
+    //                 $arr_out[] = $nextStep;
+    //             } else {
+    //                 $arr_out[] = $item;
+    //             }
+    //         } else {
+    //             $arr_out[] = $item;
+    //         }
+    //     }
+    //     dd($arr_out);
+    // }    
+
+
     function hackerRanck()
     {
-        $grades = [73, 67, 38, 33];
+        $s = 7;
+        $t = 11;
+        $a = 5;
+        $b = 15;
+        //3 2
+        $apples = [-2, 2, 1];
+        $oranges = [5, -6,];
+        $appOut = 0;
+        $oraOut = 0;
 
-        foreach ($grades as $item) {
-            $fiveSteps = 5 * floor($item / 5);
-            $nextStep = $fiveSteps + 5;
-            $spread = $nextStep - $item;
-            if ($nextStep >= 40) {
-                if ($spread < 3) {
-                    $arr_out[] = $nextStep;
-                } else {
-                    $arr_out[] = $item;
-                }
-            } else {
-                $arr_out[] = $item;
+        foreach ($apples as $item) {
+            $dist = $a + $item;
+            if ($dist >= $s && $dist <= $t) {
+                $appOut += 1;
             }
         }
-        dd($arr_out);
+        foreach ($oranges as $item) {
+            $dist = $b + $item;
+            if ($dist >= $s && $dist <= $t) {
+                $oraOut += 1;
+            }
+        }
+        print $appOut;
+        echo "\n";
+        print $oraOut;
+
     }
 }

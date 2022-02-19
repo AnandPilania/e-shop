@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { getOnlyDate } from '../functions/dateTools';
 import AppContext from '../contexts/AppContext';
+import CheckBox from '../elements/checkBox';
+
 
 const useStyles = makeStyles({
     inputText: {
@@ -19,9 +21,6 @@ const useStyles = makeStyles({
         border: '#f4f4f4 solid 1px',
         borderRadius: '5px',
     },
-    checkBox: {
-        marginRight: '10px',
-    },
     trash: {
         marginLeft: 'auto',
     }
@@ -31,8 +30,10 @@ const useStyles = makeStyles({
 const RowListCollections = ({ collection, category }) => {
     const classes = useStyles();
     const [conditions, setConditions] = useState(null);
+    const [showConditions, setShowConditions] = useState(false);
+    const [timeOut, setTimeOut] = useState(null);
 
-    const {selectedColor, setSelectedColor } = useContext(AppContext);
+    const { selectedColor, setSelectedColor } = useContext(AppContext);
 
     useEffect(() => {
         setConditions(JSON.parse(collection.objConditions));
@@ -97,13 +98,27 @@ const RowListCollections = ({ collection, category }) => {
         }
     }
 
+
+    // delay before dropUp list conditions
+    // const showHideConditions = () => {
+    //     if (!showConditions) {
+    //         setShowConditions(true);
+    //         setTimeOut(setTimeout(() => setShowConditions(false), 10000));
+    //     } else if (showConditions) {
+    //         setTimeOut(clearTimeout(timeOut));
+    //         setShowConditions(false);
+    //     }
+    // }
+
+    const showHideConditions = () => {
+        setShowConditions(!showConditions);
+    }
+
+
     return (
         <li className='sub-div-horiz-align bg-white p15 m10'>
-            <div className='w50 p5'>
-                {collection && <input
-                    className={classes.checkBox}
-                    type='checkbox'
-                    value={collection.id} />}
+            <div className='w50 p5 m-r-10'>
+                {collection && <CheckBox unikId={collection.id} />}
             </div>
             <div className='w20pct p5'>
                 {collection && collection.name}
@@ -111,29 +126,40 @@ const RowListCollections = ({ collection, category }) => {
             <div className='w75'>
                 {collection.thumbnail && <img src={window.location.origin + '/' + collection.thumbnail} />}
             </div>
-            <div className='w150 p5 txt-c'>
-                {collection && <i className={classes.trash + " far fa-trash-alt trash-alt-dropZone tooltip_"} style={{ display: "block", marginLeft: "auto" }} onClick={() => { handleDeletCollection(collection.id) }}>
-                    <span className="tooltiptext">Supprimer la collection</span>
-                </i>}
-            </div>
-            <div className="w30pct p5">
+            <div className={`w30pct p15 p-r-50 flex-row ${conditions?.length > 1 && "cursor hover-bg-gray-light"}`} onClick={showHideConditions}>
                 {conditions !== null ? <div className="sub-div-vert-align">
                     {conditions.length < 2 ? getParameter(conditions[0].parameter) + ' ' + getOperator(conditions[0].operator) + ' ' + conditions[0].value
                         :
-                        (<select className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1">
-                            {conditions.map(item =>
-                                <option key={item.id}>
-                                    {getParameter(item.parameter) + ' ' + getOperator(item.operator) + ' ' + item.value}
-                                </option>)}
-                        </select>)
+                        (<div>
+                            <span className="w100pct h50 m-b-10 radius5">
+                                <span>
+                                    {getParameter(conditions[0].parameter) + ' ' + getOperator(conditions[0].operator) + ' ' + conditions[0].value}
+                                </span>
+                            </span>
+                            <ul className={showConditions ? "block" : "none"}>
+                                {conditions.map((item, index) =>
+                                    index > 0 && <li key={index} disabled={index > 0 ? true : false} className="block" >
+                                        {getParameter(item.parameter) + ' ' + getOperator(item.operator) + ' ' + item.value}
+                                    </li>)}
+                            </ul>
+                        </div>
+                        )
                     }
                 </div> : '_'}
+                {conditions?.length > 1 && <div className="w20 h20">
+                    {!showConditions ? <img src={window.location.origin + '/images/icons/chevronDown.png'} /> : <img src={window.location.origin + '/images/icons/chevronUp.png'} />}
+                </div>}
             </div>
             <div className='w20pct p5'>
                 <span className='radius5 p-l-10 p-r-10 p-t-3 p-b-3 white' style={{ backgroundColor: `${category && category.color}` }}>{category && category.name}</span>
             </div>
             <div className='w20pct p5'>
                 {collection && getOnlyDate(collection.created_at)}
+            </div>
+            <div className='w150 p5 txt-c'>
+                {collection && <i className={classes.trash + " far fa-trash-alt trash-alt-dropZone tooltip_ h20"} style={{ display: "block", marginLeft: "auto" }} onClick={() => { handleDeletCollection(collection.id) }}>
+                    {/* <span className="tooltiptext">Supprimer la collection</span> */}
+                </i>}
             </div>
         </li>
     );

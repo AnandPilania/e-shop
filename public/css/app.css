@@ -2267,13 +2267,11 @@ a.link:hover {
 .flex-row {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
 }
 
 .flex-col {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
 }
 
 .flex-row-align-s {
@@ -2322,6 +2320,22 @@ a.link:hover {
   display: inline;
 }
 
+.block {
+  display: block;
+}
+
+.none {
+  display: none;
+}
+
+.hide {
+  visibility: hidden;
+}
+
+.show {
+  visibility: visible;
+}
+
 .txt-l {
   text-align: left;
 }
@@ -2367,6 +2381,10 @@ a.link:hover {
   cursor: pointer;
 }
 
+.hover-bg-gray-light:hover {
+  background-color: #fafafa;
+}
+
 .white {
   color: white;
 }
@@ -2397,8 +2415,95 @@ a.link:hover {
   right: 0;
 }
 
+.tl0 {
+  top: 0;
+  left: 0;
+}
+
+.br0 {
+  bottom: 0;
+  right: 0;
+}
+
+.bl0 {
+  bottom: 0;
+  left: 0;
+}
+
 .brd-gray-light-1 {
   border: solid 1px gainsboro;
+}
+
+.brd-red-1 {
+  border: solid 1px #c40000;
+}
+
+.check {
+  cursor: pointer;
+  position: relative;
+  margin: auto;
+  width: 18px;
+  height: 18px;
+  -webkit-tap-highlight-color: transparent;
+  transform: translate3d(0, 0, 0);
+}
+
+.check:before {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(34, 50, 84, 0.03);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.check svg {
+  position: relative;
+  z-index: 1;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke: #c8ccd4;
+  stroke-width: 1.5;
+  transform: translate3d(0, 0, 0);
+  transition: all 0.2s ease;
+}
+
+.check svg path {
+  stroke-dasharray: 60;
+  stroke-dashoffset: 0;
+}
+
+.check svg polyline {
+  stroke-dasharray: 22;
+  stroke-dashoffset: 66;
+}
+
+.check:hover:before {
+  opacity: 1;
+}
+
+.check:hover svg {
+  stroke: #0666ff;
+}
+
+.cbx:checked + .check svg {
+  stroke: #0666ff;
+}
+
+.cbx:checked + .check svg path {
+  stroke-dashoffset: 60;
+  transition: all 0.3s linear;
+}
+
+.cbx:checked + .check svg polyline {
+  stroke-dashoffset: 42;
+  transition: all 0.2s linear;
+  transition-delay: 0.15s;
 }
 
 /*!
