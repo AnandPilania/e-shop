@@ -40,7 +40,7 @@ const ListCollections = () => {
     }, [listCollections]);
 
     // sort routing 
-    function sortList(sender) { 
+    function sortList(sender) {
         switch (sender) {
             case 'name':
                 toggleSort.nameSens === true ? sortList_AZ('name') : sortList_ZA('name');
@@ -80,13 +80,13 @@ const ListCollections = () => {
         }
     }
     // sort list
-    function sortList_AZ(item) { 
+    function sortList_AZ(item) {
         setListCollectionsFiltered([].concat(listCollectionsFiltered).sort((a, b) => a[item].localeCompare(b[item])));
     }
     function sortList_ZA(item) {
         setListCollectionsFiltered([].concat(listCollectionsFiltered).sort((b, a) => a[item].localeCompare(b[item])));
     }
-console.log(listCollections)
+
     // renvoi les collection correspondantes à ce qui est tapé dans la barre de recherche dans List collection
     function handleSearch(e) {
         setSearchValue(e.target.value);
@@ -98,9 +98,6 @@ console.log(listCollections)
         <section className='div-vert-align listCollections'>
             <div className='sub-div-horiz-align'>
                 <input className="w50pct m-l-10 h50 m-b-10 p-lr-20 radius5 brd-gray-light-1" type="text" value={searchValue} onChange={handleSearch} />
-
-                {listCategories && <CategoriesFilter arrayList={listCategories} />}
-
                 <div>
                     <button type="button" className='btn'><Link to="/add-collection">Ajouter une collection</Link></button>
                 </div>
@@ -109,7 +106,7 @@ console.log(listCollections)
                 <li className='sub-div-horiz-align bg-white p15 m10'>
                     <div className='w50 p5'><CheckBox unikId={'all'} /></div>
                     <div className='w20pct p5 flex-row'>
-                        Nom
+                        <span className='cursor' onClick={() => sortList('name')}>Nom</span>
                         <figure className='h15 w15 m-l-10 cursor' onClick={() => sortList('name')}>
                             <img src={window.location.origin + '/images/icons/sort.png'} />
                         </figure>
@@ -117,26 +114,27 @@ console.log(listCollections)
                     <div className='w75'>
                         {/* collection.thumbnail */}
                     </div>
-                    <div className="w30pct p5">
+                    <div className="w30pct">
                         Conditions
                     </div>
-                    <div className='w20pct p5 flex-row'>
-                        Catégories
+                    <div className='w20pct flex-row'>
+                        <span className='cursor' onClick={() => sortList('categoryName')}>Catégories</span>
                         <figure className='h15 w15 m-l-10 cursor' onClick={() => sortList('categoryName')}>
                             <img src={window.location.origin + '/images/icons/sort.png'} />
                         </figure>
+                        {listCategories && <CategoriesFilter arrayList={listCategories} />}
                     </div>
-                    <div className='w20pct p5 flex-row'>
-                        Date Création
+                    <div className='w20pct flex-row'>
+                        <span className='cursor' onClick={() => sortList('created_at')}>Date Création</span>
                         <figure className='h15 w15 m-l-10 cursor' onClick={() => sortList('created_at')}>
                             <img src={window.location.origin + '/images/icons/sort.png'} />
                         </figure>
                     </div>
-                    <div className='w150 p5 txt-c'>
+                    <div className='w150 txt-c'>
                         {/* Supprimer */}
                     </div>
                 </li>
-                {!!listCollectionsFiltered && listCollectionsFiltered.map(item => 
+                {!!listCollectionsFiltered && listCollectionsFiltered.map(item =>
                     <RowListCollections key={item.id} collection={item} category={item.category} />
                 )}
             </ul>

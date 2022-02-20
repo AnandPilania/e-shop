@@ -3,10 +3,13 @@ import CheckBox from '../elements/checkBox';
 const CategoriesFilter = ({ arrayList }) => {
 
     const [showCategorySelect, setShowCategorySelect] = useState(false);
+    const [categoriesChecked, setCategoriesChecked] = useState([]);
+
+
     // show hide select menu
     const showHideCategorySelect = () => {
         setShowCategorySelect(!showCategorySelect);
-    }
+    }    
 
     useEffect(() => {
         // dropDown optimisation
@@ -17,6 +20,7 @@ const CategoriesFilter = ({ arrayList }) => {
                 dropable.style.borderLeft = 'none';
                 dropable.style.borderRight = 'none';
                 dropable.style.borderBottom = 'none';
+                document.getElementsByClassName('shadow')[0].style.boxShadow = "none"
             }, 250);
             dropable.style.maxHeight = null;
             dropable.style.paddingTop = 0;
@@ -28,6 +32,7 @@ const CategoriesFilter = ({ arrayList }) => {
             dropable.style.borderLeft = 'rgb(220, 220, 220) solid 1px';
             dropable.style.borderRight = 'rgb(220, 220, 220) solid 1px';
             dropable.style.borderBottom = 'rgb(220, 220, 220) solid 1px';
+            document.getElementsByClassName('shadow')[0].style.boxShadow = "rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px";
         }
     }, [showCategorySelect]);
 
@@ -68,33 +73,49 @@ const CategoriesFilter = ({ arrayList }) => {
         // click outside.
         setShowCategorySelect(false);
     }
+    function handleCheckBox(e) {
+        let cat = '';
+        if (e.target.textContent === '') {
+            cat = e.target.value;
+        } else {
+            cat = e.target.textContent;
+        }
+
+        if (!categoriesChecked.includes(cat)) {
+            setCategoriesChecked([...categoriesChecked, cat]);
+        } else {
+            setCategoriesChecked([...categoriesChecked.filter(e => e !== cat)]);
+        }
+
+    }
+
+    useEffect(() => {
+        console.log('categoriesChecked  ', categoriesChecked)
+    }, [categoriesChecked]);
 
     return (
-        <div className="min-w250 relative">
-            <div className="bg-white radius5 absolute tr0" id="selectId">
-                <button
-                    className='btn-select-category'
-                    onClick={showHideCategorySelect}>
-                    Filtre
-                    <i className="fas fa-angle-down"></i>
-                </button>
+        <div className="w50 m-l-10 p0 bg-white radius5 relative" id="selectId">
+            <button
+                className='flex-row brd-none bg-white'
+                onClick={showHideCategorySelect}>
+                <figure className='h20 w20 mr-20 cursor'>
+                    <img src={window.location.origin + '/images/icons/filter.png'} />
+                </figure>
+                {/* <i className="fas fa-angle-down"></i> */}
+            </button>
 
-                <ul className='ul-category dropable'
-                    id='category_select'>
-                    {arrayList && arrayList.map((item, index) => (
-                        <li className="li-category"
-                            key={index}>
-                            <CheckBox unikId={item.name} />
-                            {item.name.length > 25 ? <span>{item.name.substring(0, 25) + '...'}</span> : <span>{item.name}</span>}
-                        </li>))}
-                </ul>
-
-            </div>
+            <ul className='ul-category dropable scroll1 absolute t40 r0 w250 bg-white shadow'
+                id='category_select'>
+                {arrayList && arrayList.map((item, index) => (
+                    <li className="w100pct h40 p-lr-10 flex-row"
+                        key={index}>
+                        <CheckBox unikId={item.name} handleCheckBox={handleCheckBox} categoriesChecked={categoriesChecked}
+                        />
+                        {item.name.length > 25 ? <span className='cursor' value={item.name} onClick={handleCheckBox}>{item.name.substring(0, 25) + '...'}</span> : <span className='cursor' value={item.name} onClick={handleCheckBox}>{item.name}</span>}
+                    </li>))}
+            </ul>
 
         </div>
-
-
-
     );
 }
 

@@ -482,7 +482,7 @@ button.btn_ajouter {
 }
 
 button.btn_ajouter:hover a {
-  color: #262a41;
+  color: #1d2030;
 }
 
 button.btn_ajouter:hover {
@@ -587,20 +587,20 @@ table td img {
 
 .activeAdmin {
   background-color: #f7f7f7;
-  color: #262a41;
+  color: #1d2030;
   letter-spacing: 1px;
   font-weight: bold;
 }
 
 .navAdmin a {
-  color: #262a41;
+  color: #1d2030;
   text-decoration: none;
   letter-spacing: 1px;
 }
 
 .navAdmin .fas, .navAdmin .far {
   margin-right: 15px;
-  background-color: #262a41;
+  background-color: #1d2030;
 }
 
 .order_details {
@@ -1094,7 +1094,6 @@ table td img {
   height: 50px;
   width: 100%;
   padding: 0 10px;
-  margin-top: 20px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -1118,6 +1117,23 @@ table td img {
   overflow-x: hidden;
   list-style-type: none;
   border-radius: 0 0 5px 5px;
+}
+
+.scroll1::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #f5f5f5;
+}
+
+.scroll1::-webkit-scrollbar {
+  width: 9px;
+  background-color: #f5f5f5;
+}
+
+.scroll1::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #1352ff;
 }
 
 .li-category {
@@ -1399,11 +1415,11 @@ i.fa-solid .fa-person-biking {
   width: 100%;
   height: 100vh;
   border-right: solid #cacaca 1px;
-  background-color: #262a41;
+  background-color: #1d2030;
 }
 
 .accordion {
-  background-color: #262a41;
+  background-color: #1d2030;
   color: white;
   cursor: pointer;
   padding: 18px;
@@ -1420,7 +1436,7 @@ i.fa-solid .fa-person-biking {
 
 .panel {
   padding: 0 18px;
-  background-color: #262a41;
+  background-color: #1d2030;
   max-height: 0;
   height: auto;
   width: 100%;
@@ -1756,6 +1772,10 @@ a.link:hover {
   height: 300px;
 }
 
+.m0 {
+  margin: 0;
+}
+
 .m1 {
   margin: 1px;
 }
@@ -1994,6 +2014,10 @@ a.link:hover {
 
 .m-tb-50 {
   margin: 50px 0;
+}
+
+.p0 {
+  padding: 0;
 }
 
 .p5 {
@@ -2267,11 +2291,15 @@ a.link:hover {
 .flex-row {
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .flex-col {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .flex-row-align-s {
@@ -2410,6 +2438,50 @@ a.link:hover {
   position: sticky;
 }
 
+.t0 {
+  top: 0;
+}
+
+.t50 {
+  top: 50px;
+}
+
+.t60 {
+  top: 60px;
+}
+
+.t70 {
+  top: 70px;
+}
+
+.t80 {
+  top: 80px;
+}
+
+.t90 {
+  top: 90px;
+}
+
+.t100 {
+  top: 100px;
+}
+
+.r0 {
+  right: 0;
+}
+
+.r-10 {
+  right: -10px;
+}
+
+.l0 {
+  left: 0;
+}
+
+.b0 {
+  bottom: 0;
+}
+
 .tr0 {
   top: 0;
   right: 0;
@@ -2430,12 +2502,28 @@ a.link:hover {
   left: 0;
 }
 
+.brd-none {
+  border: none;
+}
+
 .brd-gray-light-1 {
   border: solid 1px gainsboro;
 }
 
 .brd-red-1 {
   border: solid 1px #c40000;
+}
+
+.brd-blue-1 {
+  border: solid 1px #123eff;
+}
+
+.shadow1 {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.shadow2 {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }
 
 .check {
@@ -8668,6 +8756,6 @@ readers do not read off random characters that represent icons */
 .app-container #nav-text {
   font-size: 30px;
   font-weight: bold;
-  color: #ffaa46;
+  color: #1151ff;
 }
 

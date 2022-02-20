@@ -24587,6 +24587,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _elements_checkBox__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../elements/checkBox */ "./resources/js/components/elements/checkBox.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -24610,7 +24618,12 @@ var CategoriesFilter = function CategoriesFilter(_ref) {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
       showCategorySelect = _useState2[0],
-      setShowCategorySelect = _useState2[1]; // show hide select menu
+      setShowCategorySelect = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState4 = _slicedToArray(_useState3, 2),
+      categoriesChecked = _useState4[0],
+      setCategoriesChecked = _useState4[1]; // show hide select menu
 
 
   var showHideCategorySelect = function showHideCategorySelect() {
@@ -24627,6 +24640,7 @@ var CategoriesFilter = function CategoriesFilter(_ref) {
         dropable.style.borderLeft = 'none';
         dropable.style.borderRight = 'none';
         dropable.style.borderBottom = 'none';
+        document.getElementsByClassName('shadow')[0].style.boxShadow = "none";
       }, 250);
       dropable.style.maxHeight = null;
       dropable.style.paddingTop = 0;
@@ -24637,6 +24651,7 @@ var CategoriesFilter = function CategoriesFilter(_ref) {
       dropable.style.borderLeft = 'rgb(220, 220, 220) solid 1px';
       dropable.style.borderRight = 'rgb(220, 220, 220) solid 1px';
       dropable.style.borderBottom = 'rgb(220, 220, 220) solid 1px';
+      document.getElementsByClassName('shadow')[0].style.boxShadow = "rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px";
     }
   }, [showCategorySelect]); // get id for back-end
 
@@ -24678,34 +24693,63 @@ var CategoriesFilter = function CategoriesFilter(_ref) {
     setShowCategorySelect(false);
   }
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-    className: "min-w250 relative",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-      className: "bg-white radius5 absolute tr0",
-      id: "selectId",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
-        className: "btn-select-category",
-        onClick: showHideCategorySelect,
-        children: ["Filtre", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
-          className: "fas fa-angle-down"
-        })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("ul", {
-        className: "ul-category dropable",
-        id: "category_select",
-        children: arrayList && arrayList.map(function (item, index) {
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("li", {
-            className: "li-category",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_elements_checkBox__WEBPACK_IMPORTED_MODULE_1__["default"], {
-              unikId: item.name
-            }), item.name.length > 25 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-              children: item.name.substring(0, 25) + '...'
-            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-              children: item.name
-            })]
-          }, index);
+  function handleCheckBox(e) {
+    var cat = '';
+
+    if (e.target.textContent === '') {
+      cat = e.target.value;
+    } else {
+      cat = e.target.textContent;
+    }
+
+    if (!categoriesChecked.includes(cat)) {
+      setCategoriesChecked([].concat(_toConsumableArray(categoriesChecked), [cat]));
+    } else {
+      setCategoriesChecked(_toConsumableArray(categoriesChecked.filter(function (e) {
+        return e !== cat;
+      })));
+    }
+  }
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    console.log('categoriesChecked  ', categoriesChecked);
+  }, [categoriesChecked]);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    className: "w50 m-l-10 p0 bg-white radius5 relative",
+    id: "selectId",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+      className: "flex-row brd-none bg-white",
+      onClick: showHideCategorySelect,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("figure", {
+        className: "h20 w20 mr-20 cursor",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
+          src: window.location.origin + '/images/icons/filter.png'
         })
-      })]
-    })
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("ul", {
+      className: "ul-category dropable scroll1 absolute t40 r0 w250 bg-white shadow",
+      id: "category_select",
+      children: arrayList && arrayList.map(function (item, index) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("li", {
+          className: "w100pct h40 p-lr-10 flex-row",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_elements_checkBox__WEBPACK_IMPORTED_MODULE_1__["default"], {
+            unikId: item.name,
+            handleCheckBox: handleCheckBox,
+            categoriesChecked: categoriesChecked
+          }), item.name.length > 25 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+            className: "cursor",
+            value: item.name,
+            onClick: handleCheckBox,
+            children: item.name.substring(0, 25) + '...'
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+            className: "cursor",
+            value: item.name,
+            onClick: handleCheckBox,
+            children: item.name
+          })]
+        }, index);
+      })
+    })]
   });
 };
 
@@ -26187,9 +26231,8 @@ var ListCollections = function ListCollections() {
     setListCollectionsFiltered([].concat(listCollectionsFiltered).sort(function (b, a) {
       return a[item].localeCompare(b[item]);
     }));
-  }
+  } // renvoi les collection correspondantes à ce qui est tapé dans la barre de recherche dans List collection
 
-  console.log(listCollections); // renvoi les collection correspondantes à ce qui est tapé dans la barre de recherche dans List collection
 
   function handleSearch(e) {
     setSearchValue(e.target.value);
@@ -26207,8 +26250,6 @@ var ListCollections = function ListCollections() {
         type: "text",
         value: searchValue,
         onChange: handleSearch
-      }), listCategories && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_categoriesFilter__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        arrayList: listCategories
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
           type: "button",
@@ -26230,7 +26271,13 @@ var ListCollections = function ListCollections() {
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
           className: "w20pct p5 flex-row",
-          children: ["Nom", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("figure", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+            className: "cursor",
+            onClick: function onClick() {
+              return sortList('name');
+            },
+            children: "Nom"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("figure", {
             className: "h15 w15 m-l-10 cursor",
             onClick: function onClick() {
               return sortList('name');
@@ -26242,11 +26289,17 @@ var ListCollections = function ListCollections() {
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
           className: "w75"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-          className: "w30pct p5",
+          className: "w30pct",
           children: "Conditions"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-          className: "w20pct p5 flex-row",
-          children: ["Cat\xE9gories", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("figure", {
+          className: "w20pct flex-row",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+            className: "cursor",
+            onClick: function onClick() {
+              return sortList('categoryName');
+            },
+            children: "Cat\xE9gories"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("figure", {
             className: "h15 w15 m-l-10 cursor",
             onClick: function onClick() {
               return sortList('categoryName');
@@ -26254,10 +26307,18 @@ var ListCollections = function ListCollections() {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
               src: window.location.origin + '/images/icons/sort.png'
             })
+          }), listCategories && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_categoriesFilter__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            arrayList: listCategories
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-          className: "w20pct p5 flex-row",
-          children: ["Date Cr\xE9ation", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("figure", {
+          className: "w20pct flex-row",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+            className: "cursor",
+            onClick: function onClick() {
+              return sortList('created_at');
+            },
+            children: "Date Cr\xE9ation"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("figure", {
             className: "h15 w15 m-l-10 cursor",
             onClick: function onClick() {
               return sortList('created_at');
@@ -26267,7 +26328,7 @@ var ListCollections = function ListCollections() {
             })
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-          className: "w150 p5 txt-c"
+          className: "w150 txt-c"
         })]
       }), !!listCollectionsFiltered && listCollectionsFiltered.map(function (item) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_RowListCollections__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -29628,22 +29689,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Checkbox = function Checkbox(_ref) {
-  var unikId = _ref.unikId;
-
-  function handleCheckBox(e) {
-    console.log(e.target.value);
-  }
-
+  var unikId = _ref.unikId,
+      handleCheckBox = _ref.handleCheckBox,
+      categoriesChecked = _ref.categoriesChecked;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
       type: "checkbox",
       className: "cbx",
       id: unikId,
-      name: unikId,
       value: unikId,
       style: {
         display: "none"
       },
+      checked: categoriesChecked && categoriesChecked.includes(unikId),
       onChange: handleCheckBox
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
       htmlFor: unikId,
