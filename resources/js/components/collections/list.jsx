@@ -12,6 +12,11 @@ const ListCollections = () => {
     const [listCollectionsFiltered, setListCollectionsFiltered] = useState([]);
     const [listCategories, setListCategories] = useState([]);
     const [searchValue, setSearchValue] = useState('');
+    const [imgSort, setImgSort] = useState({
+        imgName: 'az.png',
+        imgDate: '1-2.png',
+        imgCat: 'az.png',
+    });
     const [toggleSort, setToggleSort] = useState({
         nameSens: true,
         categorySens: true,
@@ -82,9 +87,21 @@ const ListCollections = () => {
     // sort list
     function sortList_AZ(item) {
         setListCollectionsFiltered([].concat(listCollectionsFiltered).sort((a, b) => a[item].localeCompare(b[item])));
+        setImgSort((prevState) => ({
+            ...prevState,
+            imgName: 'za.png',
+            imgDate: '2-1.png',
+            imgCat: 'za.png',
+        }));
     }
     function sortList_ZA(item) {
         setListCollectionsFiltered([].concat(listCollectionsFiltered).sort((b, a) => a[item].localeCompare(b[item])));
+        setImgSort((prevState) => ({
+            ...prevState,
+            imgName: 'az.png',
+            imgDate: '1-2.png',
+            imgCat: 'az.png',
+        }));
     }
 
     // renvoi les collection correspondantes à ce qui est tapé dans la barre de recherche dans List collection
@@ -93,44 +110,65 @@ const ListCollections = () => {
         setListCollectionsFiltered(listCollections.filter(item => item.name.toLowerCase().includes(e.target.value.toLowerCase())));
     }
 
+    function categoriesFilter(categories) {
+        categories.length > 0 ? setListCollectionsFiltered(listCollections.filter(item => categories.includes(item.categoryName))) : setListCollectionsFiltered(listCollections);
+    }
 
     return (
-        <section className='div-vert-align listCollections'>
+        <section className='div-vert-align listCollections min-h100pct'>
             <div className='sub-div-horiz-align'>
-                <input className="w50pct m-l-10 h50 m-b-10 p-lr-20 radius5 brd-gray-light-1" type="text" value={searchValue} onChange={handleSearch} />
                 <div>
                     <button type="button" className='btn'><Link to="/add-collection">Ajouter une collection</Link></button>
                 </div>
             </div>
             <ul className='sub-div-vert-align'>
                 <li className='sub-div-horiz-align bg-white p15 m10'>
-                    <div className='w50 p5'><CheckBox unikId={'all'} /></div>
-                    <div className='w20pct p5 flex-row'>
-                        <span className='cursor' onClick={() => sortList('name')}>Nom</span>
-                        <figure className='h15 w15 m-l-10 cursor' onClick={() => sortList('name')}>
-                            <img src={window.location.origin + '/images/icons/sort.png'} />
+                    <div className='w50 p5 m-r-10'><CheckBox unikId={'all'} /></div>
+
+                    <div className='flex-row h50' style={{width: "calc(25% + 120px", padding: "5px 0 5px 5px"}}>
+
+                        <span className='cursor noshrink' onClick={() => sortList('name')}>Nom</span>
+
+                        <figure className='h25 w25 m-lr-5 cursor noshrink' onClick={() => sortList('name')}>
+                            <img src={window.location.origin + '/images/icons/' + imgSort.imgName} />
+                        </figure>
+
+                        <div className="flex-row noWrap m-l-auto">
+
+                            <input className="w80pct h50 p-lr-10 radius5-l brd-gray-light-1 input-foc" type="text" value={searchValue} onChange={handleSearch} />
+
+                            <figure className="w20pct h50 p17 flex-row-c brd-t-gray-light-1 brd-b-gray-light-1 brd-r-gray-light-1 radius5-r">
+                                <img className='w100pct' src={window.location.origin + '/images/icons/search.png'} />
+                            </figure>
+
+                        </div>
+                    </div>
+
+
+                    {/* <div className='w100 m-r-20 h50'>
+                        // collection.thumbnail
+                    </div> */}
+                    <div className="w30pct h50 p15 p-r-50 noshrink">
+                        Condition
+                    </div>
+
+
+                    <div className='w20pct h50 p5 flex-row'>
+                        <span className='cursor noshrink' onClick={() => sortList('categoryName')}>Catégorie</span>
+                        <figure className='h25 w25 m-l-5 cursor noshrink' onClick={() => sortList('categoryName')}>
+                            <img src={window.location.origin + '/images/icons/' + imgSort.imgCat} />
+                        </figure>
+                        {listCategories && <CategoriesFilter arrayList={listCategories} categoriesFilter={categoriesFilter} />}
+                    </div>
+
+
+                    <div className='w20pct h50 p5 flex-row'>
+                        <span className='cursor noshrink' onClick={() => sortList('created_at')}>Date Création</span>
+                        <figure className='h25 w25 m-l-5 cursor noshrink' onClick={() => sortList('created_at')}>
+                            <img src={window.location.origin + '/images/icons/' + imgSort.imgDate} />
                         </figure>
                     </div>
-                    <div className='w75'>
-                        {/* collection.thumbnail */}
-                    </div>
-                    <div className="w30pct">
-                        Conditions
-                    </div>
-                    <div className='w20pct flex-row'>
-                        <span className='cursor' onClick={() => sortList('categoryName')}>Catégories</span>
-                        <figure className='h15 w15 m-l-10 cursor' onClick={() => sortList('categoryName')}>
-                            <img src={window.location.origin + '/images/icons/sort.png'} />
-                        </figure>
-                        {listCategories && <CategoriesFilter arrayList={listCategories} />}
-                    </div>
-                    <div className='w20pct flex-row'>
-                        <span className='cursor' onClick={() => sortList('created_at')}>Date Création</span>
-                        <figure className='h15 w15 m-l-10 cursor' onClick={() => sortList('created_at')}>
-                            <img src={window.location.origin + '/images/icons/sort.png'} />
-                        </figure>
-                    </div>
-                    <div className='w150 txt-c'>
+                    <div className='w150 h50 txt-c'>
                         {/* Supprimer */}
                     </div>
                 </li>

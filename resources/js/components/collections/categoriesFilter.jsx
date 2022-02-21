@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import CheckBox from '../elements/checkBox';
-const CategoriesFilter = ({ arrayList }) => {
+const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
 
     const [showCategorySelect, setShowCategorySelect] = useState(false);
     const [categoriesChecked, setCategoriesChecked] = useState([]);
@@ -90,21 +90,22 @@ const CategoriesFilter = ({ arrayList }) => {
     }
 
     useEffect(() => {
-        console.log('categoriesChecked  ', categoriesChecked)
+        console.log('categoriesChecked  ', categoriesChecked);
+        categoriesFilter(categoriesChecked);
     }, [categoriesChecked]);
 
     return (
-        <div className="w50 m-l-10 p0 bg-white radius5 relative" id="selectId">
+        <div className="w50 m-l-10 p0 bg-white relative" id="selectId">
             <button
                 className='flex-row brd-none bg-white'
                 onClick={showHideCategorySelect}>
-                <figure className='h20 w20 mr-20 cursor'>
+                <figure className='h20 w20 m-r-20 cursor'>
                     <img src={window.location.origin + '/images/icons/filter.png'} />
                 </figure>
                 {/* <i className="fas fa-angle-down"></i> */}
             </button>
 
-            <ul className='ul-category dropable scroll1 absolute t40 r0 w250 bg-white shadow'
+            <ul className='ul-category dropable scroll1 absolute t30 r0 w250 bg-white shadow radius10'
                 id='category_select'>
                 {arrayList && arrayList.map((item, index) => (
                     <li className="w100pct h40 p-lr-10 flex-row"

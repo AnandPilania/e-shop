@@ -239,12 +239,13 @@
  }
  
  figure {
-   margin: 0 0 1rem;
+   margin: 0;
+   padding: 0;
  }
  
  img,
  svg {
-   vertical-align: middle;
+   margin: 0;
  }
  
  table {

@@ -23890,10 +23890,10 @@ var RowListCollections = function RowListCollections(_ref) {
         unikId: collection.id
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-      className: "w20pct p5",
+      className: "w25pct p5",
       children: collection && collection.name
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-      className: "w75",
+      className: "w100 m-r-20",
       children: collection.thumbnail && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
         src: window.location.origin + '/' + collection.thumbnail
       })
@@ -24593,7 +24593,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var CategoriesFilter = function CategoriesFilter(_ref) {
-  var arrayList = _ref.arrayList;
+  var arrayList = _ref.arrayList,
+      categoriesFilter = _ref.categoriesFilter;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
@@ -24693,21 +24694,22 @@ var CategoriesFilter = function CategoriesFilter(_ref) {
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     console.log('categoriesChecked  ', categoriesChecked);
+    categoriesFilter(categoriesChecked);
   }, [categoriesChecked]);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-    className: "w50 m-l-10 p0 bg-white radius5 relative",
+    className: "w50 m-l-10 p0 bg-white relative",
     id: "selectId",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
       className: "flex-row brd-none bg-white",
       onClick: showHideCategorySelect,
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("figure", {
-        className: "h20 w20 mr-20 cursor",
+        className: "h20 w20 m-r-20 cursor",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
           src: window.location.origin + '/images/icons/filter.png'
         })
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("ul", {
-      className: "ul-category dropable scroll1 absolute t40 r0 w250 bg-white shadow",
+      className: "ul-category dropable scroll1 absolute t30 r0 w250 bg-white shadow radius10",
       id: "category_select",
       children: arrayList && arrayList.map(function (item, index) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("li", {
@@ -26127,13 +26129,22 @@ var ListCollections = function ListCollections() {
       setSearchValue = _useState8[1];
 
   var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    imgName: 'az.png',
+    imgDate: '1-2.png',
+    imgCat: 'az.png'
+  }),
+      _useState10 = _slicedToArray(_useState9, 2),
+      imgSort = _useState10[0],
+      setImgSort = _useState10[1];
+
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     nameSens: true,
     categorySens: true,
     ceated_atSens: true
   }),
-      _useState10 = _slicedToArray(_useState9, 2),
-      toggleSort = _useState10[0],
-      setToggleSort = _useState10[1];
+      _useState12 = _slicedToArray(_useState11, 2),
+      toggleSort = _useState12[0],
+      setToggleSort = _useState12[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // chargement des collections
@@ -26205,12 +26216,26 @@ var ListCollections = function ListCollections() {
     setListCollectionsFiltered([].concat(listCollectionsFiltered).sort(function (a, b) {
       return a[item].localeCompare(b[item]);
     }));
+    setImgSort(function (prevState) {
+      return _objectSpread(_objectSpread({}, prevState), {}, {
+        imgName: 'za.png',
+        imgDate: '2-1.png',
+        imgCat: 'za.png'
+      });
+    });
   }
 
   function sortList_ZA(item) {
     setListCollectionsFiltered([].concat(listCollectionsFiltered).sort(function (b, a) {
       return a[item].localeCompare(b[item]);
     }));
+    setImgSort(function (prevState) {
+      return _objectSpread(_objectSpread({}, prevState), {}, {
+        imgName: 'az.png',
+        imgDate: '1-2.png',
+        imgCat: 'az.png'
+      });
+    });
   } // renvoi les collection correspondantes à ce qui est tapé dans la barre de recherche dans List collection
 
 
@@ -26221,16 +26246,17 @@ var ListCollections = function ListCollections() {
     }));
   }
 
+  function categoriesFilter(categories) {
+    categories.length > 0 ? setListCollectionsFiltered(listCollections.filter(function (item) {
+      return categories.includes(item.categoryName);
+    })) : setListCollectionsFiltered(listCollections);
+  }
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("section", {
-    className: "div-vert-align listCollections",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+    className: "div-vert-align listCollections min-h100pct",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
       className: "sub-div-horiz-align",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
-        className: "w50pct m-l-10 h50 m-b-10 p-lr-20 radius5 brd-gray-light-1",
-        type: "text",
-        value: searchValue,
-        onChange: handleSearch
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
           type: "button",
           className: "btn",
@@ -26239,76 +26265,93 @@ var ListCollections = function ListCollections() {
             children: "Ajouter une collection"
           })
         })
-      })]
+      })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("ul", {
       className: "sub-div-vert-align",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("li", {
         className: "sub-div-horiz-align bg-white p15 m10",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-          className: "w50 p5",
+          className: "w50 p5 m-r-10",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_elements_checkBox__WEBPACK_IMPORTED_MODULE_4__["default"], {
             unikId: 'all'
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-          className: "w20pct p5 flex-row",
+          className: "flex-row h50",
+          style: {
+            width: "calc(25% + 120px",
+            padding: "5px 0 5px 5px"
+          },
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-            className: "cursor",
+            className: "cursor noshrink",
             onClick: function onClick() {
               return sortList('name');
             },
             children: "Nom"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("figure", {
-            className: "h15 w15 m-l-10 cursor",
+            className: "h25 w25 m-lr-5 cursor noshrink",
             onClick: function onClick() {
               return sortList('name');
             },
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
-              src: window.location.origin + '/images/icons/sort.png'
+              src: window.location.origin + '/images/icons/' + imgSort.imgName
             })
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+            className: "flex-row noWrap m-l-auto",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
+              className: "w80pct h50 p-lr-10 radius5-l brd-gray-light-1 input-foc",
+              type: "text",
+              value: searchValue,
+              onChange: handleSearch
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("figure", {
+              className: "w20pct h50 p17 flex-row-c brd-t-gray-light-1 brd-b-gray-light-1 brd-r-gray-light-1 radius5-r",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
+                className: "w100pct",
+                src: window.location.origin + '/images/icons/search.png'
+              })
+            })]
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-          className: "w75"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-          className: "w30pct",
-          children: "Conditions"
+          className: "w30pct h50 p15 p-r-50 noshrink",
+          children: "Condition"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-          className: "w20pct flex-row",
+          className: "w20pct h50 p5 flex-row",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-            className: "cursor",
+            className: "cursor noshrink",
             onClick: function onClick() {
               return sortList('categoryName');
             },
-            children: "Cat\xE9gories"
+            children: "Cat\xE9gorie"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("figure", {
-            className: "h15 w15 m-l-10 cursor",
+            className: "h25 w25 m-l-5 cursor noshrink",
             onClick: function onClick() {
               return sortList('categoryName');
             },
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
-              src: window.location.origin + '/images/icons/sort.png'
+              src: window.location.origin + '/images/icons/' + imgSort.imgCat
             })
           }), listCategories && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_categoriesFilter__WEBPACK_IMPORTED_MODULE_3__["default"], {
-            arrayList: listCategories
+            arrayList: listCategories,
+            categoriesFilter: categoriesFilter
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-          className: "w20pct flex-row",
+          className: "w20pct h50 p5 flex-row",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-            className: "cursor",
+            className: "cursor noshrink",
             onClick: function onClick() {
               return sortList('created_at');
             },
             children: "Date Cr\xE9ation"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("figure", {
-            className: "h15 w15 m-l-10 cursor",
+            className: "h25 w25 m-l-5 cursor noshrink",
             onClick: function onClick() {
               return sortList('created_at');
             },
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
-              src: window.location.origin + '/images/icons/sort.png'
+              src: window.location.origin + '/images/icons/' + imgSort.imgDate
             })
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-          className: "w150 txt-c"
+          className: "w150 h50 txt-c"
         })]
       }), !!listCollectionsFiltered && listCollectionsFiltered.map(function (item) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_RowListCollections__WEBPACK_IMPORTED_MODULE_2__["default"], {

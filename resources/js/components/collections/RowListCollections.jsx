@@ -120,10 +120,10 @@ const RowListCollections = ({ collection, category }) => {
             <div className='w50 p5 m-r-10'>
                 {collection && <CheckBox unikId={collection.id} />}
             </div>
-            <div className='w20pct p5'>
+            <div className='w25pct p5'>
                 {collection && collection.name}
             </div>
-            <div className='w75'>
+            <div className='w100 m-r-20'>
                 {collection.thumbnail && <img src={window.location.origin + '/' + collection.thumbnail} />}
             </div>
             <div className={`w30pct p15 p-r-50 flex-row ${conditions?.length > 1 && "cursor hover-bg-gray-light"}`} onClick={showHideConditions}>
