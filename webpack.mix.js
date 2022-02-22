@@ -18,7 +18,7 @@ mix.js('resources/js/createProduct.js', 'public/js').react()
     // .js('resources/js/require.js', 'public/js')
     .js('resources/js/app.js', 'public/js')
     // .js('RetrivIt/js/getProduct.js', 'public/js')
-    .sass('resources/sass/backend/app.scss', 'public/css')
+    .sass('resources/sass/backend/myapp.scss', 'public/css')
     .sass('resources/sass/nav-frontend.scss', 'public/frontend/css')
     .sass('resources/sass/index-front.scss', 'public/frontend/css')
     .sass('resources/sass/productSheet.scss', 'public/frontend/css')
@@ -28,6 +28,8 @@ mix.js('resources/js/createProduct.js', 'public/js').react()
     .sass('resources/sass/fontawesome.scss', 'public/css')
     .postCss('resources/css/app.css', 'public/css', [
         require('postcss-import'),
+        require("tailwindcss"),
         require('autoprefixer'),
     ]);
-    
+
+

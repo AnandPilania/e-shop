@@ -8,11 +8,14 @@
     <title>Back-end</title>
     
     <!-- css -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/myapp.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}" />
 
     <!-- fontawesome -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/fontawesome.css') }}" />
 
+    <!-- tailwind -->
+    <link href="/css/app.css" rel="stylesheet">
 
     <!-- Roboto Material-UI -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />

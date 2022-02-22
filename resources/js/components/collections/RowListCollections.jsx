@@ -21,9 +21,6 @@ const useStyles = makeStyles({
         border: '#f4f4f4 solid 1px',
         borderRadius: '5px',
     },
-    trash: {
-        marginLeft: 'auto',
-    }
 });
 
 // affiche les rows dans list.jsx
@@ -116,17 +113,19 @@ const RowListCollections = ({ collection, category }) => {
 
 
     return (
-        <li className='sub-div-horiz-align bg-white p15 m10'>
-            <div className='w50 p5 m-r-10'>
+        // <li className='sub-div-horiz-align bg-white p15 m10'>
+        <li className='grid grid-col-list2 w100pct bg-white p15 m10'>
+
+            <div className='flex-row h50 p5'>
                 {collection && <CheckBox unikId={collection.id} />}
             </div>
-            <div className='w25pct p5'>
+            <div className='flex-row h50 p5'>
                 {collection && collection.name}
             </div>
-            <div className='w100 m-r-20'>
-                {collection.thumbnail && <img src={window.location.origin + '/' + collection.thumbnail} />}
+            <div className='flex-row-c-c h50'>
+                {collection.thumbnail && <img className="h60" src={window.location.origin + '/' + collection.thumbnail} />}
             </div>
-            <div className={`w30pct p15 p-r-50 flex-row ${conditions?.length > 1 && "cursor hover-bg-gray-light"}`} onClick={showHideConditions}>
+            <div className={`flex-row h50 p5 p-r-25 ${conditions?.length > 1 && "cursor hover-bg-gray-light"}`} onClick={showHideConditions}>
                 {conditions !== null ? <div className="sub-div-vert-align">
                     {conditions.length < 2 ? getParameter(conditions[0].parameter) + ' ' + getOperator(conditions[0].operator) + ' ' + conditions[0].value
                         :
@@ -146,20 +145,20 @@ const RowListCollections = ({ collection, category }) => {
                         )
                     }
                 </div> : '_'}
-                {conditions?.length > 1 && <div className="w20 h20">
+                {conditions?.length > 1 && <div className="w20 h20 p5">
                     {!showConditions ? <img src={window.location.origin + '/images/icons/chevronDown.png'} /> : <img src={window.location.origin + '/images/icons/chevronUp.png'} />}
                 </div>}
             </div>
-            <div className='w20pct p5'>
+            <div className='flex-row h50 p5'>
                 <span className='radius5 p-l-10 p-r-10 p-t-3 p-b-3 white' style={{ backgroundColor: `${category && category.color}` }}>{category && category.name}</span>
             </div>
-            <div className='w20pct p5'>
+            <div className='flex-row h50 p5'>
                 {collection && getOnlyDate(collection.created_at)}
             </div>
-            <div className='w150 p5 txt-c'>
-                {collection && <i className={classes.trash + " far fa-trash-alt trash-alt-dropZone tooltip_ h20"} style={{ display: "block", marginLeft: "auto" }} onClick={() => { handleDeletCollection(collection.id) }}>
+            <div className='flex-row-c-c h50 p5'>
+                {collection && <img src={window.location.origin + '/images/icons/trash-flat.png'} className="w25 h25 tooltip_" style={{ margin: "0" }} onClick={() => { handleDeletCollection(collection.id) }}>
                     {/* <span className="tooltiptext">Supprimer la collection</span> */}
-                </i>}
+                </img>}
             </div>
         </li>
     );

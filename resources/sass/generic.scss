@@ -1,4 +1,7 @@
 //width px
+.w-auto {
+    width: auto;
+}
 .w5 {
     width: 5px;
 }
@@ -142,6 +145,9 @@
 }
 
 //height
+.h-auto {
+    height: auto;
+}
 .h5 {
     height: 5px;
 }
@@ -166,8 +172,23 @@
 .h40 {
     height: 40px;
 }
+.h45 {
+    height: 45px;
+}
 .h50 {
     height: 50px;
+}
+.h60 {
+    height: 60px;
+}
+.h70 {
+    height: 70px;
+}
+.h80 {
+    height: 80px;
+}
+.h90 {
+    height: 90px;
 }
 .h100 {
     height: 100px;
@@ -186,6 +207,9 @@
 }
 
 // min-height px
+.min-h0 {
+    min-height: 0px;
+}
 .min-h50 {
     min-height: 50px;
 }
@@ -464,6 +488,9 @@
 .p20 {
     padding: 20px;
 }
+.p22 {
+    padding: 22px;
+}
 .p25 {
     padding: 25px;
 }
@@ -680,10 +707,16 @@
     align-items: center;
 }
 
-.flex-row-c {
+.flex-row-s-c {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    align-items: center;
+}
+.flex-row-c-c {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     align-items: center;
 }
 
@@ -742,6 +775,20 @@
     flex-wrap: wrap;
     align-items: flex-end;
 }
+
+.grid {
+    display: grid;
+}
+.grid-col-list1 {
+    grid-template-columns: 5% 25% 25% 20% 15% 10%;
+    align-items: center;
+}
+.grid-col-list2 {
+    grid-template-columns: 5% 15% 10% 25% 20% 15% 10%;
+    align-items: center;
+}
+    // grid-template-rows: 80px minmax(100px, 1fr);
+    
 
 .noWrap {
     flex-wrap: nowrap;
@@ -1029,11 +1076,11 @@
 }
 .cbx:checked + .check svg path {
   stroke-dashoffset: 60;
-  transition: all 0.3s linear;
+  transition: all 0.2s linear;
 }
 .cbx:checked + .check svg polyline {
   stroke-dashoffset: 42;
-  transition: all 0.2s linear;
+  transition: all 0.15s linear;
   transition-delay: 0.15s;
 }
 // ----------------------------------------------------------- checkBox

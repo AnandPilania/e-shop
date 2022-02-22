@@ -64,33 +64,57 @@ class HackerRank_Test extends Controller
     // }    
 
 
+    // function hackerRanck()
+    // {
+    //     $s = 7;
+    //     $t = 11;
+    //     $a = 5;
+    //     $b = 15;
+    //     //3 2
+    //     $apples = [-2, 2, 1];
+    //     $oranges = [5, -6,];
+    //     $appOut = 0;
+    //     $oraOut = 0;
+
+    //     foreach ($apples as $item) {
+    //         $dist = $a + $item;
+    //         if ($dist >= $s && $dist <= $t) {
+    //             $appOut += 1;
+    //         }
+    //     }
+    //     foreach ($oranges as $item) {
+    //         $dist = $b + $item;
+    //         if ($dist >= $s && $dist <= $t) {
+    //             $oraOut += 1;
+    //         }
+    //     }
+    //     print $appOut;
+    //     echo "\n";
+    //     print $oraOut;
+
+    // }    
+
     function hackerRanck()
     {
-        $s = 7;
-        $t = 11;
-        $a = 5;
-        $b = 15;
-        //3 2
-        $apples = [-2, 2, 1];
-        $oranges = [5, -6,];
-        $appOut = 0;
-        $oraOut = 0;
+        $x1 = 4;
+        $v1 = 3;
+        $x2 = 4;
+        $v2 = 2;
 
-        foreach ($apples as $item) {
-            $dist = $a + $item;
-            if ($dist >= $s && $dist <= $t) {
-                $appOut += 1;
-            }
-        }
-        foreach ($oranges as $item) {
-            $dist = $b + $item;
-            if ($dist >= $s && $dist <= $t) {
-                $oraOut += 1;
-            }
-        }
-        print $appOut;
-        echo "\n";
-        print $oraOut;
 
+        $response = 'NO';
+        $limit = 0;
+
+        while ($limit < 10001) {
+            $x1 += $v1;
+            $x2 += $v2;
+            if ($x1 === $x2) {
+                $response = "YES";
+                break;
+            }
+            $limit = max($x1, $x2);
+        }
+
+        dd($response);
     }
 }

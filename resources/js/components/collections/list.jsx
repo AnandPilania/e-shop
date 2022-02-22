@@ -122,10 +122,11 @@ const ListCollections = () => {
                 </div>
             </div>
             <ul className='sub-div-vert-align'>
-                <li className='sub-div-horiz-align bg-white p15 m10'>
-                    <div className='w50 p5 m-r-10'><CheckBox unikId={'all'} /></div>
+                <li className='grid grid-col-list1 w100pct bg-white p15 m10'>
 
-                    <div className='flex-row h50' style={{width: "calc(25% + 120px", padding: "5px 0 5px 5px"}}>
+                    <div className='flex-row h50 p5'><CheckBox unikId={'all'} /></div>
+
+                    <div className='flex-row h50 p5'>
 
                         <span className='cursor noshrink' onClick={() => sortList('name')}>Nom</span>
 
@@ -133,12 +134,12 @@ const ListCollections = () => {
                             <img src={window.location.origin + '/images/icons/' + imgSort.imgName} />
                         </figure>
 
-                        <div className="flex-row noWrap m-l-auto">
+                        <div className="flex-row w80pct noWrap m-l-10">
 
-                            <input className="w80pct h50 p-lr-10 radius5-l brd-gray-light-1 input-foc" type="text" value={searchValue} onChange={handleSearch} />
+                            <input className="w80pct h40 p-lr-10 radius5-l brd-gray-light-1 input-foc" type="text" value={searchValue} onChange={handleSearch} />
 
-                            <figure className="w20pct h50 p17 flex-row-c brd-t-gray-light-1 brd-b-gray-light-1 brd-r-gray-light-1 radius5-r">
-                                <img className='w100pct' src={window.location.origin + '/images/icons/search.png'} />
+                            <figure className="w40 h40 flex-row-c-c brd-t-gray-light-1 brd-b-gray-light-1 brd-r-gray-light-1 radius5-r">
+                                <img className='w15 h-auto' src={window.location.origin + '/images/icons/search.png'} />
                             </figure>
 
                         </div>
@@ -148,12 +149,12 @@ const ListCollections = () => {
                     {/* <div className='w100 m-r-20 h50'>
                         // collection.thumbnail
                     </div> */}
-                    <div className="w30pct h50 p15 p-r-50 noshrink">
+                    <div className="h50 p5 flex-row noshrink">
                         Condition
                     </div>
 
 
-                    <div className='w20pct h50 p5 flex-row'>
+                    <div className='h50 p5 flex-row'>
                         <span className='cursor noshrink' onClick={() => sortList('categoryName')}>Catégorie</span>
                         <figure className='h25 w25 m-l-5 cursor noshrink' onClick={() => sortList('categoryName')}>
                             <img src={window.location.origin + '/images/icons/' + imgSort.imgCat} />
@@ -162,14 +163,14 @@ const ListCollections = () => {
                     </div>
 
 
-                    <div className='w20pct h50 p5 flex-row'>
+                    <div className='h50 p5 flex-row'>
                         <span className='cursor noshrink' onClick={() => sortList('created_at')}>Date Création</span>
                         <figure className='h25 w25 m-l-5 cursor noshrink' onClick={() => sortList('created_at')}>
                             <img src={window.location.origin + '/images/icons/' + imgSort.imgDate} />
                         </figure>
                     </div>
-                    <div className='w150 h50 txt-c'>
-                        {/* Supprimer */}
+                    <div className='h50 flex-row-c-c txt-c'>
+                        Supprimer
                     </div>
                 </li>
                 {!!listCollectionsFiltered && listCollectionsFiltered.map(item =>

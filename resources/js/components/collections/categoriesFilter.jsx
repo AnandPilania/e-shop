@@ -14,18 +14,28 @@ const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
     useEffect(() => {
         // dropDown optimisation
         var dropable = document.getElementById('category_select');
+        var filterCard = document.getElementById('cat-filter-card');
+        var filterCardSpan = document.getElementById('cat-span-id');
+        
         if (!showCategorySelect) {
             // cache borders sinon y a un bout qui reste visible
             setTimeout(function () {
                 dropable.style.borderLeft = 'none';
                 dropable.style.borderRight = 'none';
                 dropable.style.borderBottom = 'none';
-                document.getElementsByClassName('shadow')[0].style.boxShadow = "none"
+                document.getElementsByClassName('shadow')[0].style.boxShadow = "none";
             }, 250);
+            filterCard.style.maxHeight = null;
+            filterCardSpan.style.maxHeight = null;
+
             dropable.style.maxHeight = null;
             dropable.style.paddingTop = 0;
 
         } else {
+            filterCard.style.maxHeight = "auto";
+            filterCard.style.padding = "15px";
+            filterCardSpan.style.maxHeight = "auto";
+
             dropable.style.maxHeight = "250px";
             dropable.style.paddingTop = "5px";
             // montre les borders quand ouvert seulement
@@ -36,18 +46,18 @@ const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
         }
     }, [showCategorySelect]);
 
-    // get id for back-end
-    const handleCategory = (cat_id) => {
-        setCategoryId(cat_id);
-        setShowCategorySelect(false);
-        localStorage.setItem("categoryId", cat_id);
-    };
+    // // get id for back-end
+    // const handleCategory = (cat_id) => {
+    //     setCategoryId(cat_id);
+    //     setShowCategorySelect(false);
+    //     localStorage.setItem("categoryId", cat_id);
+    // };
 
-    // nom affiché dans le select
-    const handleCategoryName = (cat_name) => {
-        setCategoryName(cat_name);
-        localStorage.setItem("categoryName", cat_name);
-    };
+    // // nom affiché dans le select
+    // const handleCategoryName = (cat_name) => {
+    //     setCategoryName(cat_name);
+    //     localStorage.setItem("categoryName", cat_name);
+    // };
 
     useEffect(() => {
         // empèche l'erreur-> Warning: Can't perform a React state update on an unmounted
@@ -90,7 +100,6 @@ const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
     }
 
     useEffect(() => {
-        console.log('categoriesChecked  ', categoriesChecked);
         categoriesFilter(categoriesChecked);
     }, [categoriesChecked]);
 
@@ -105,16 +114,19 @@ const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
                 {/* <i className="fas fa-angle-down"></i> */}
             </button>
 
-            <ul className='ul-category dropable scroll1 absolute t30 r0 w250 bg-white shadow radius10'
-                id='category_select'>
-                {arrayList && arrayList.map((item, index) => (
-                    <li className="w100pct h40 p-lr-10 flex-row"
-                        key={index}>
-                        <CheckBox unikId={item.name} handleCheckBox={handleCheckBox} categoriesChecked={categoriesChecked}
-                        />
-                        {item.name.length > 25 ? <span className='cursor' value={item.name} onClick={handleCheckBox}>{item.name.substring(0, 25) + '...'}</span> : <span className='cursor' value={item.name} onClick={handleCheckBox}>{item.name}</span>}
-                    </li>))}
-            </ul>
+            <div id="cat-filter-card" className="min-h0">
+                <span className="m-b-15" id="cat-span-id">Trier par:</span>
+                <ul className='ul-category dropable scroll1 absolute t30 r0 w250 h200 bg-white shadow radius10'
+                    id='category_select'>
+                    {arrayList && arrayList.map((item, index) => (
+                        <li className="w100pct h40 p-lr-10 flex-row"
+                            key={index}>
+                            <CheckBox unikId={item.name} handleCheckBox={handleCheckBox} categoriesChecked={categoriesChecked}
+                            />
+                            {item.name.length > 25 ? <span className='cursor' value={item.name} onClick={handleCheckBox}>{item.name.substring(0, 25) + '...'}</span> : <span className='cursor' value={item.name} onClick={handleCheckBox}>{item.name}</span>}
+                        </li>))}
+                </ul>
+            </div>
 
         </div>
     );
