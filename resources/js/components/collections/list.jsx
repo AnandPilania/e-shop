@@ -1,10 +1,9 @@
 import { React, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import Axios from 'axios';
 import RowListCollections from './RowListCollections';
 import CategoriesFilter from './categoriesFilter';
 import CheckBox from '../elements/checkBox';
-
+import HeaderListCollections from './headerListCollections';
 
 const ListCollections = () => {
 
@@ -115,69 +114,71 @@ const ListCollections = () => {
     }
 
     return (
-        <section className='div-vert-align listCollections min-h100pct'>
-            <div className='sub-div-horiz-align'>
-                <div>
-                    <button type="button" className='btn'><Link to="/add-collection">Ajouter une collection</Link></button>
-                </div>
-            </div>
-            <ul className='sub-div-vert-align'>
-                <li className='grid grid-col-list1 w100pct bg-white p15 m10'>
+        <div>
+            <HeaderListCollections />
+            <section className='div-vert-align listCollections min-h100pct'>
+                <ul className='sub-div-vert-align shadow-lg'>
+                    <li className='grid grid-col-list1 w100pct p15 bg-gray-light radius10-t brd-b-gray-light-1'>
 
-                    <div className='flex-row h50 p5'><CheckBox unikId={'all'} /></div>
+                        <div className='flex-row-c-c h20 p10 brd-b-black-1'>Toutes</div>
+                    </li>
+                    <li className='grid grid-col-list1 w100pct p15 bg-gray-light radius10-t'>
 
-                    <div className='flex-row h50 p5'>
+                        <div className='flex-row h50 p5'><CheckBox unikId={'all'} /></div>
 
-                        <span className='cursor noshrink' onClick={() => sortList('name')}>Nom</span>
+                        <div className='flex-row h50 p5'>
 
-                        <figure className='h25 w25 m-lr-5 cursor noshrink' onClick={() => sortList('name')}>
-                            <img src={window.location.origin + '/images/icons/' + imgSort.imgName} />
-                        </figure>
+                            <span className='cursor noshrink' onClick={() => sortList('name')}>Nom</span>
 
-                        <div className="flex-row w80pct noWrap m-l-10">
-
-                            <input className="w80pct h40 p-lr-10 radius5-l brd-gray-light-1 input-foc" type="text" value={searchValue} onChange={handleSearch} />
-
-                            <figure className="w40 h40 flex-row-c-c brd-t-gray-light-1 brd-b-gray-light-1 brd-r-gray-light-1 radius5-r">
-                                <img className='w15 h-auto' src={window.location.origin + '/images/icons/search.png'} />
+                            <figure className='h25 w25 m-lr-5 cursor noshrink' onClick={() => sortList('name')}>
+                                <img src={window.location.origin + '/images/icons/' + imgSort.imgName} />
                             </figure>
 
+                            <div className="flex-row w80pct noWrap m-l-10">
+
+                                <input className="w80pct h40 p-lr-10 radius5-l brd-gray-light-1 input-foc" type="text" value={searchValue} onChange={handleSearch} />
+
+                                <figure className="w40 h40 flex-row-c-c brd-t-gray-light-1 brd-b-gray-light-1 brd-r-gray-light-1 radius5-r">
+                                    <img className='w15 h-auto' src={window.location.origin + '/images/icons/search.png'} />
+                                </figure>
+
+                            </div>
                         </div>
-                    </div>
 
 
-                    {/* <div className='w100 m-r-20 h50'>
+                        {/* <div className='w100 m-r-20 h50'>
                         // collection.thumbnail
                     </div> */}
-                    <div className="h50 p5 flex-row noshrink">
-                        Condition
-                    </div>
+                        <div className="h50 p5 flex-row noshrink">
+                            Condition
+                        </div>
 
 
-                    <div className='h50 p5 flex-row'>
-                        <span className='cursor noshrink' onClick={() => sortList('categoryName')}>Catégorie</span>
-                        <figure className='h25 w25 m-l-5 cursor noshrink' onClick={() => sortList('categoryName')}>
-                            <img src={window.location.origin + '/images/icons/' + imgSort.imgCat} />
-                        </figure>
-                        {listCategories && <CategoriesFilter arrayList={listCategories} categoriesFilter={categoriesFilter} />}
-                    </div>
+                        <div className='h50 p5 flex-row'>
+                            <span className='cursor noshrink' onClick={() => sortList('categoryName')}>Catégorie</span>
+                            <figure className='h25 w25 m-l-5 cursor noshrink' onClick={() => sortList('categoryName')}>
+                                <img src={window.location.origin + '/images/icons/' + imgSort.imgCat} />
+                            </figure>
+                            {listCategories && <CategoriesFilter arrayList={listCategories} categoriesFilter={categoriesFilter} />}
+                        </div>
 
 
-                    <div className='h50 p5 flex-row'>
-                        <span className='cursor noshrink' onClick={() => sortList('created_at')}>Date Création</span>
-                        <figure className='h25 w25 m-l-5 cursor noshrink' onClick={() => sortList('created_at')}>
-                            <img src={window.location.origin + '/images/icons/' + imgSort.imgDate} />
-                        </figure>
-                    </div>
-                    <div className='h50 flex-row-c-c txt-c'>
-                        Supprimer
-                    </div>
-                </li>
-                {!!listCollectionsFiltered && listCollectionsFiltered.map(item =>
-                    <RowListCollections key={item.id} collection={item} category={item.category} />
-                )}
-            </ul>
-        </section>
+                        <div className='h50 p5 flex-row'>
+                            <span className='cursor noshrink' onClick={() => sortList('created_at')}>Date Création</span>
+                            <figure className='h25 w25 m-l-5 cursor noshrink' onClick={() => sortList('created_at')}>
+                                <img src={window.location.origin + '/images/icons/' + imgSort.imgDate} />
+                            </figure>
+                        </div>
+                        <div className='h50 flex-row-c-c txt-c'>
+                            Supprimer
+                        </div>
+                    </li>
+                    {!!listCollectionsFiltered && listCollectionsFiltered.map(item =>
+                        <RowListCollections key={item.id} collection={item} category={item.category} />
+                    )}
+                </ul>
+            </section>
+        </div>
     );
 }
 

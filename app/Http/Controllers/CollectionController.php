@@ -41,7 +41,7 @@ class CollectionController extends Controller
     public function collectionsListBackEnd()
     {
         $categories = Category::all('name');
-        $collections = Collection::with('category')->get();
+        $collections = Collection::with('category')->orderBy('created_at', 'desc')->get();
         return json_encode([$collections, $categories]);
     }
 

@@ -697,6 +697,9 @@
 .bg-red {
     background-color: rgb(201, 37, 37);
 }
+.bg-gray-light {
+    background-color: #f9fafb;
+}
 
 // display
 
@@ -730,8 +733,6 @@
 .flex-col {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
 }
 
 .flex-row-align-s {
@@ -774,6 +775,13 @@
     flex-direction: column;
     flex-wrap: wrap;
     align-items: flex-end;
+}
+
+.justify-s {
+    justify-content: flex-start;
+}
+.align-s {
+    align-items: flex-start;
 }
 
 .grid {
@@ -895,6 +903,9 @@
 .radius10 {
     border-radius: 10px;
 }
+.radius10-t {
+    border-radius: 10px 10px 0 0;
+}
 .radius15 {
     border-radius: 15px;
 }
@@ -998,6 +1009,13 @@
 .brd-r-gray-light-1 {
     border-right: solid 1px rgb(220, 220, 220);
 }
+.brd-b-white-1 {
+    border-bottom: solid 1px rgb(255, 255, 255);
+}
+.brd-b-black-1 {
+    border-bottom: solid 1px rgb(0, 0, 0);
+}
+
 
 .brd-red-1 {
     border: solid 1px rgb(196, 0, 0);
@@ -1005,14 +1023,34 @@
 .brd-blue-1 {
     border: solid 1px rgb(18, 62, 255);
 }
+.brd-white-1 {
+    border: solid 1px rgb(255, 255, 255);
+}
+.brd-black-1 {
+    border: solid 1px rgb(0, 0, 0);
+}
+
 
 
 // box-shadow
-.shadow1 {
+.shadow-s {
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
-.shadow2 {
+.shadow-sm {
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+.shadow-md {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+.shadow-lg {
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+.shadow-l {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+}
+.shadow-xs {
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+        rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
 
 
@@ -1085,3 +1123,108 @@
 }
 // ----------------------------------------------------------- checkBox
 
+// tabs slide --------------------------------------------------------
+.Panel {
+    width: 100%;
+    max-width: 600px;
+    margin: 30px auto;
+    &__body {
+      background-color: #f2f2f2;
+      padding: 10px 20px;
+    }
+  }
+  
+  .Tabs {
+    position: relative;
+    background-color: #fff;
+    &:after {
+      content: ' ';
+      display: table;
+      clear: both;
+    }
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    /**
+     * UPDATE: better to animate "transform" property than "left"
+     * property. You can see old code lower down for reference.
+     */
+    &__tab {
+      float: left;
+      width: 33.333%;
+      text-align: center;
+      &:first-child.active ~ .Tabs__presentation-slider {
+        transform: translateX(0) scaleX(0.333);
+      }
+      &:nth-child(2).active ~ .Tabs__presentation-slider {
+        transform: translateX(33.333%) scaleX(0.333);
+      }
+      &:nth-child(3).active ~ .Tabs__presentation-slider {
+        transform: translateX(calc(33.333% * 2)) scaleX(0.333);
+      }
+    }
+    &__presentation-slider {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: #4A66F4;
+      transform-origin: 0 0;
+      transition: transform .25s;
+    }
+    
+    /**
+     * OLD CODE (for reference)
+     * It's a bit easier to understand with "left",
+     * but the animation is not as smooth
+     */
+  
+    /* &__tab {
+      float: left;
+      width: 33.333%;
+      text-align: center;
+      &:first-child.active ~ .Tabs__presentation-slider {
+        left: 0;
+      }
+      &:nth-child(2).active ~ .Tabs__presentation-slider {
+        left: 33.333%;
+      }
+      &:nth-child(3).active ~ .Tabs__presentation-slider {
+        left: calc(33.333% * 2);
+      }
+    }
+    &__presentation-slider {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 33.333%;
+      height: 2px;
+      background-color: #4A66F4;
+      transform-origin: 0 0;
+      transition: left .25s;
+    } */
+  }
+  
+  .Tab {
+    font-family: 'Roboto Slab';
+    > a {
+      display: block;
+      padding: 10px 12px;
+      text-decoration: none;
+      color: #666;
+      transition: color .15s;
+    }
+    &.active {
+      > a {
+        color: #222;
+      }
+    }
+    &:hover {
+      > a {
+        color: #222;
+      }
+    }
+  }
+
+// -------------------------------------------------------- tabs slide

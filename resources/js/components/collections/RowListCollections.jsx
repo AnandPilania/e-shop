@@ -114,7 +114,7 @@ const RowListCollections = ({ collection, category }) => {
 
     return (
         // <li className='sub-div-horiz-align bg-white p15 m10'>
-        <li className='grid grid-col-list2 w100pct bg-white p15 m10'>
+        <li className='grid grid-col-list2 w100pct bg-white p15 brd-b-gray-light-1'>
 
             <div className='flex-row h50 p5'>
                 {collection && <CheckBox unikId={collection.id} />}
@@ -150,7 +150,7 @@ const RowListCollections = ({ collection, category }) => {
                 </div>}
             </div>
             <div className='flex-row h50 p5'>
-                <span className='radius5 p-l-10 p-r-10 p-t-3 p-b-3 white' style={{ backgroundColor: `${category && category.color}` }}>{category && category.name}</span>
+                <span className='radius15 p-l-15 p-r-15 h30 flex-row-c-c white' style={{ backgroundColor: `${category && category.color}` }}>{category && category.name}</span>
             </div>
             <div className='flex-row h50 p5'>
                 {collection && getOnlyDate(collection.created_at)}

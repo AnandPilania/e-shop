@@ -16,7 +16,7 @@ class HackerRank_Test extends Controller
     //         $first += $arr[$i][$i];
     //         $second += $arr[$i][count($arr) - $i - 1];
     //     }
-    //     dd(abs($first - $second));
+    //     return abs($first - $second));
     // }
 
 
@@ -38,7 +38,7 @@ class HackerRank_Test extends Controller
     //             $time = substr_replace($time, $toRep, 0, 2);
     //         } 
     //     } 
-    // dd(strval($time));
+    // return strval($time));
     // }
 
 
@@ -60,7 +60,7 @@ class HackerRank_Test extends Controller
     //             $arr_out[] = $item;
     //         }
     //     }
-    //     dd($arr_out);
+    //     return $arr_out);
     // }    
 
 
@@ -101,20 +101,25 @@ class HackerRank_Test extends Controller
         $x2 = 4;
         $v2 = 2;
 
-
-        $response = 'NO';
-        $limit = 0;
-
-        while ($limit < 10001) {
-            $x1 += $v1;
-            $x2 += $v2;
-            if ($x1 === $x2) {
-                $response = "YES";
-                break;
-            }
-            $limit = max($x1, $x2);
+        if ($x2 > $x1) {
+            if ($v2 < $v1) {
+                if (($x2 - $x1) % ($v1 - $v2) == 0)
+                    return "YES";
+                else
+                    return "NO";
+            } else
+                return "NO";
+        } else {
+            if ($v1 > $v2) {
+                if (($x1 - $x2) % ($v2 - $v1) == 0)
+                    return "YES";
+                else
+                    return "NO";
+            } else if ($x1 == $x2 && $v1 == $v2)
+                return "YES";
+            else
+                return "NO";
         }
 
-        dd($response);
     }
 }

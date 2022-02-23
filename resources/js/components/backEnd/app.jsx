@@ -71,10 +71,6 @@ const App = () => {
                 <BrowserRouter basename='/admin'>
                     <Navbar />
                     <div>
-                        <div className="main-nav">
-                            <span id='nav-text'>my horizontal nav</span>
-                            <button className="btn-main-nav">Login</button>
-                        </div>
                         <Routes>
                             <Route path="/listProduct" element={<List />} />
                             <Route path="/addProduct" element={<FormProduct />} />
