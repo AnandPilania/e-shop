@@ -323,7 +323,7 @@
     bottom: 100%;
     left: -50%;
     margin-bottom: 0;
-    background-color: #f3f4f6; //rgb(255, 255, 255);
+    // background-color: #f3f4f6; //rgb(255, 255, 255);
     color: rgb(75, 75, 75);
     text-align: left;
     padding: 12px 12px 35px 12px;
@@ -355,9 +355,9 @@
 
 // list collection
 
-.listCollections {
-    background-color: #f6f6f7;
-}
+// .listCollections {
+//     background-color: #f6f6f7;
+// }
 
 // .listCollections img {
 //     width: 100%;
@@ -535,7 +535,6 @@
     overflow: hidden;
     transition: max-height 0.05s ease-out;
 }
-
 
 .scroll1::-webkit-scrollbar-track {
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);

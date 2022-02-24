@@ -31,11 +31,10 @@ const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
 
         } else {
             filterCard.style.maxHeight = "300px";
-            filterCard.style.width = "300px";
-            // filterCard.style.paddingBottom = "20px";
+            filterCard.style.width = "250px";
+            filterCard.style.minWidth = "250px";
 
             dropable.style.maxHeight = "250px";
-            // dropable.style.paddingTop = "15px";
             // montre les borders quand ouvert seulement
             dropable.style.borderLeft = 'rgb(220, 220, 220) solid 1px';
             dropable.style.borderRight = 'rgb(220, 220, 220) solid 1px';
@@ -102,7 +101,7 @@ const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
     }, [categoriesChecked]);
 
     return (
-        <div className="w50 m-l-10 p0 bg-gray-light relative" id="selectId">
+        <div className="w50 p0 bg-gray-light relative" id="selectId">
             <button
                 className='flex-row brd-none bg-gray-light'
                 onClick={showHideCategorySelect}>
@@ -112,20 +111,20 @@ const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
                 {/* <i className="fas fa-angle-down"></i> */}
             </button>
 
-            <div id="cat-filter-card" className="w300 flex-col justify-s align-s dropable absolute t30 r0 bg-white shadow-l radius5">
+            <div id="cat-filter-card" className="w-auto flex-col justify-s align-s dropable absolute t30 r0 bg-white shadow-l radius5">
                 <div className='w100pct h60 flex-row bg-gray-light p-l-20'>
                     <span className="w100pct">Filtrer par:</span>
                 </div>
 
                 <div id='category_select' className='w100pct flex-row'>
-                    <ul className='ul-category  scroll1 w100pct h200 bg-white'
+                    <ul className='ul-category scroll1 w100pct h200 bg-white'
                         >
                         {arrayList && arrayList.map((item, index) => (
                             <li className="w100pct h40 p-lr-10 flex-row"
                                 key={index}>
                                 <CheckBox unikId={item.name} handleCheckBox={handleCheckBox} categoriesChecked={categoriesChecked}
                                 />
-                                {item.name.length > 25 ? <span className='cursor' value={item.name} onClick={handleCheckBox}>{item.name.substring(0, 25) + '...'}</span> : <span className='cursor' value={item.name} onClick={handleCheckBox}>{item.name}</span>}
+                                {item.name && <span className='cursor p-lr-10 txt-limit' value={item.name} onClick={handleCheckBox}>{item.name}</span> }
                             </li>))}
                     </ul>
                 </div>

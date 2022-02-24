@@ -12,7 +12,7 @@ import Activation from './activation';
 import Image from './image';
 import Tinyeditor from './tinyEditor';
 import { handleTinyMceTemporary } from '../functions/temporaryStorage/handleTinyMceTemporary';
-
+import { getNow } from '../functions/dateTools';
 
 const CreateCollection = () => {
 

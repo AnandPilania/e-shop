@@ -125,7 +125,7 @@ const Categories = () => {
                 setMessageModal('Ce nom de catégorie existe déjà !');
                 setShowModalSimpleMessage(true); // show modalConfirm
             } else {
-                Axios.post(`http://127.0.0.1:8000/categories`, { name: newCategoryName, color: selectedColor })
+                Axios.post(`http://127.0.0.1:8000/categories`, { name: newCategoryName })
                     .then(res => {
                         setNewCategoryNameUseInMessage(newCategoryName + ' à été ajoutée'); // message affiché après création de la category
                         setShowCreateCategory(false) // hide input create new category
@@ -199,7 +199,7 @@ const Categories = () => {
     // update one category
     const updateCategory = () => {
         if (inputTextModify != '' && inputTextModify.length >= 3) { // au cas où le nouveau nom est vide ou < 3
-            Axios.put(`http://127.0.0.1:8000/categories/${categoryId}`, { name: inputTextModify, color: selectedColor })
+            Axios.put(`http://127.0.0.1:8000/categories/${categoryId}`, { name: inputTextModify })
                 .then(res => {
                     setNewCategoryNameUseInMessage(inputTextModify + ' à été enregistrée'); // message affiché après modification de la category
                     setNewCategorySucces(true);
@@ -256,27 +256,27 @@ const Categories = () => {
 
 
     // react-color
-    const handleClick = () => {
-        setDisplayColorPicker(!displayColorPicker);
-    };
-    const handleClose = () => {
-        setDisplayColorPicker(false);
-    };
-    const popover = {
-        position: 'absolute',
-        zIndex: '2',
-    }
-    const cover = {
-        position: 'fixed',
-        top: '0px',
-        right: '0px',
-        bottom: '0px',
-        left: '-5px',
-    }
+    // const handleClick = () => {
+    //     setDisplayColorPicker(!displayColorPicker);
+    // };
+    // const handleClose = () => {
+    //     setDisplayColorPicker(false);
+    // };
+    // const popover = {
+    //     position: 'absolute',
+    //     zIndex: '2',
+    // }
+    // const cover = {
+    //     position: 'fixed',
+    //     top: '0px',
+    //     right: '0px',
+    //     bottom: '0px',
+    //     left: '-5px',
+    // }
 
-    const handleChangeComplete = (color, event) => {
-        setSelectedColor(color.hex);
-    };
+    // const handleChangeComplete = (color, event) => {
+    //     setSelectedColor(color.hex);
+    // };
 
 
     return (
@@ -329,7 +329,7 @@ const Categories = () => {
                         {/* } */}
                     </div>
                     {/* react-color */}
-                    <div className='p-t-10'>
+                    {/* <div className='p-t-10'>
                         <button className='btn-bcknd' onClick={handleClick}>Couleur<span style={{ height: "20px", width: "20px", backgroundColor: `${selectedColor}`, marginLeft: "15px" }}></span></button>
                         {displayColorPicker ?
                             <div style={popover}>
@@ -341,7 +341,7 @@ const Categories = () => {
                                     width="90%"
                                     presetColors={['#D0021B', '#F5A623', '#F8E71C', '#8B572A', '#7ED321', '#417505', '#BD10E0', '#9013FE', '#4A90E2', '#50E3C2', '#B8E986', '#000000', '#4AEA4A', '#9E9B9B', '#FFFEFF', '#9E13FE', '#4AE0E2', '#5EE3C2', '#E8E986', '#000E00', '#4ACA4A', '#9E9C9B', '#FFEFFF']} />
                             </div> : null}
-                    </div>
+                    </div> */}
                     {newCategorySucces &&
                         <p className='succesMessage'>
                             La catégorie {newCategoryNameUseInMessage}

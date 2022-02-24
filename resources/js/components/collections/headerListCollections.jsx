@@ -20,9 +20,10 @@ const HeaderListCollections = () => {
 
     return (
 
-        <div className='flex-col w100pct bg-white shadow-sm'>
+        <div className='flex-col w100pct'>
 
-            <div className="Panel h150">
+            {/* !!! tabs slide !!! */}
+            {/* <div className="Panel h150">
                 <nav>
                     <ul className="Tabs">
                         <li className="Tabs__tab active Tab"><a href="#">Tab item</a></li>
@@ -35,14 +36,14 @@ const HeaderListCollections = () => {
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis sint, facere aut, mollitia nihil tenetur sed vitae alias dolorum delectus.</p>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt, earum.</p>
                 </div>
-            </div>
+            </div> */}
 
 
-            <div className='w100pct h50 brd-b-gray-light-1 flex-row-c-c'>
+            <div className='w100pct h50 brd-b-gray-light-1 bg-white flex-row-c-c'>
                 <span>my  HeaderListCollections</span>
             </div>
-            <div className='w100pct p20 flex-row bg-gray-light'>
-                <button type="button" className='btn-bcknd'><Link to="/add-collection">Ajouter une collection</Link></button>
+            <div className='w100pct p-lr-5pct h100 flex-row'>
+                <button type="button" className='btn-submit m-l-auto'><Link to="/add-collection">Ajouter une collection</Link></button>
             </div>
         </div>
     );

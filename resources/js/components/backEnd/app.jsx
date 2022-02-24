@@ -70,7 +70,7 @@ const App = () => {
             <AppContext.Provider value={contextValue}>
                 <BrowserRouter basename='/admin'>
                     <Navbar />
-                    <div>
+                    <div className='bg-gray-cool'>
                         <Routes>
                             <Route path="/listProduct" element={<List />} />
                             <Route path="/addProduct" element={<FormProduct />} />

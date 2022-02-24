@@ -5,6 +5,7 @@ import CategoriesFilter from './categoriesFilter';
 import CheckBox from '../elements/checkBox';
 import HeaderListCollections from './headerListCollections';
 
+
 const ListCollections = () => {
 
     const [listCollections, setListCollections] = useState([]);
@@ -47,7 +48,13 @@ const ListCollections = () => {
     function sortList(sender) {
         switch (sender) {
             case 'name':
-                toggleSort.nameSens === true ? sortList_AZ('name') : sortList_ZA('name');
+                if (toggleSort.nameSens === true) {
+                    sortList_AZ('name')
+                    setImgSort((prevState) => ({ ...prevState, imgName: 'za.png', imgCat: 'az.png', imgDate: '1-2.png' }));
+                } else {
+                    sortList_ZA('name');
+                    setImgSort((prevState) => ({ ...prevState, imgName: 'az.png', imgCat: 'az.png', imgDate: '1-2.png' }));
+                }
                 setToggleSort((prevState) => ({
                     ...prevState,
                     nameSens: !toggleSort.nameSens,
@@ -56,7 +63,13 @@ const ListCollections = () => {
                 }));
                 break;
             case 'categoryName':
-                toggleSort.categorySens === true ? sortList_AZ('categoryName') : sortList_ZA('categoryName');
+                if (toggleSort.categorySens === true) {
+                    sortList_AZ('categoryName');
+                    setImgSort((prevState) => ({ ...prevState, imgCat: 'za.png', imgName: 'az.png', imgDate: '1-2.png' }));
+                } else {
+                    sortList_ZA('categoryName');
+                    setImgSort((prevState) => ({ ...prevState, imgCat: 'az.png', imgName: 'az.png', imgDate: '1-2.png' }));
+                }
                 setToggleSort((prevState) => ({
                     ...prevState,
                     categorySens: !toggleSort.categorySens,
@@ -65,7 +78,13 @@ const ListCollections = () => {
                 }));
                 break;
             case 'created_at':
-                toggleSort.ceated_atSens === true ? sortList_AZ('created_at') : sortList_ZA('created_at');
+                if (toggleSort.ceated_atSens === true) {
+                    sortList_AZ('created_at');
+                    setImgSort((prevState) => ({ ...prevState, imgDate: '2-1.png', imgName: 'az.png', imgCat: 'az.png' }));
+                } else {
+                    sortList_ZA('created_at');
+                    setImgSort((prevState) => ({ ...prevState, imgDate: '1-2.png', imgName: 'az.png', imgCat: 'az.png' }));
+                }
                 setToggleSort((prevState) => ({
                     ...prevState,
                     ceated_atSens: !toggleSort.ceated_atSens,
@@ -74,7 +93,13 @@ const ListCollections = () => {
                 }));
                 break;
             default:
-                toggleSort.nameSens === true ? sortList_AZ('name') : sortList_ZA('name');
+                if (toggleSort.nameSens === true) {
+                    sortList_AZ('name')
+                    setImgSort((prevState) => ({ ...prevState, imgName: 'za.png', imgCat: 'az.png', imgDate: '1-2.png' }));
+                } else {
+                    sortList_ZA('name');
+                    setImgSort((prevState) => ({ ...prevState, imgName: 'az.png', imgCat: 'az.png', imgDate: '1-2.png' }));
+                }
                 setToggleSort((prevState) => ({
                     ...prevState,
                     nameSens: !toggleSort.nameSens,
@@ -86,21 +111,9 @@ const ListCollections = () => {
     // sort list
     function sortList_AZ(item) {
         setListCollectionsFiltered([].concat(listCollectionsFiltered).sort((a, b) => a[item].localeCompare(b[item])));
-        setImgSort((prevState) => ({
-            ...prevState,
-            imgName: 'za.png',
-            imgDate: '2-1.png',
-            imgCat: 'za.png',
-        }));
     }
     function sortList_ZA(item) {
         setListCollectionsFiltered([].concat(listCollectionsFiltered).sort((b, a) => a[item].localeCompare(b[item])));
-        setImgSort((prevState) => ({
-            ...prevState,
-            imgName: 'az.png',
-            imgDate: '1-2.png',
-            imgCat: 'az.png',
-        }));
     }
 
     // renvoi les collection correspondantes à ce qui est tapé dans la barre de recherche dans List collection
@@ -114,23 +127,20 @@ const ListCollections = () => {
     }
 
     return (
-        <div>
+        <div className='flex-col-s-c'>
             <HeaderListCollections />
-            <section className='div-vert-align listCollections min-h100pct'>
-                <ul className='sub-div-vert-align shadow-lg'>
-                    <li className='grid grid-col-list1 w100pct p15 bg-gray-light radius10-t brd-b-gray-light-1'>
+            <section className='flex-col justify-s align-s m-b-10 bg-gray-cool min-h100pct w90pct'>
+                <ul className='sub-div-vert-align shadow-md'>
 
-                        <div className='flex-row-c-c h20 p10 brd-b-black-1'>Toutes</div>
-                    </li>
                     <li className='grid grid-col-list1 w100pct p15 bg-gray-light radius10-t'>
 
                         <div className='flex-row h50 p5'><CheckBox unikId={'all'} /></div>
 
                         <div className='flex-row h50 p5'>
 
-                            <span className='cursor noshrink' onClick={() => sortList('name')}>Nom</span>
+                            <span className='cursor noshrink b' onClick={() => sortList('name')}>Nom</span>
 
-                            <figure className='h25 w25 m-lr-5 cursor noshrink' onClick={() => sortList('name')}>
+                            <figure className='h20 w20 m-lr-5 cursor noshrink' onClick={() => sortList('name')}>
                                 <img src={window.location.origin + '/images/icons/' + imgSort.imgName} />
                             </figure>
 
@@ -145,32 +155,34 @@ const ListCollections = () => {
                             </div>
                         </div>
 
-
                         {/* <div className='w100 m-r-20 h50'>
                         // collection.thumbnail
                     </div> */}
-                        <div className="h50 p5 flex-row noshrink">
+                        <div className="h50 p5 flex-row-c-c wrap b">
+                            Produits
+                        </div>
+
+                        <div className="h50 p5 flex-row noshrink b">
                             Condition
                         </div>
 
-
                         <div className='h50 p5 flex-row'>
-                            <span className='cursor noshrink' onClick={() => sortList('categoryName')}>Catégorie</span>
-                            <figure className='h25 w25 m-l-5 cursor noshrink' onClick={() => sortList('categoryName')}>
+                            <span className='cursor noshrink b' onClick={() => sortList('categoryName')}>Catégorie</span>
+                            <figure className='h20 w20 m-l-5 cursor noshrink' onClick={() => sortList('categoryName')}>
                                 <img src={window.location.origin + '/images/icons/' + imgSort.imgCat} />
                             </figure>
                             {listCategories && <CategoriesFilter arrayList={listCategories} categoriesFilter={categoriesFilter} />}
                         </div>
 
+                        <div className='h50 p5 flex-row'>
+                            <span className='noshrink b'>Status</span>
+                        </div>
 
                         <div className='h50 p5 flex-row'>
-                            <span className='cursor noshrink' onClick={() => sortList('created_at')}>Date Création</span>
-                            <figure className='h25 w25 m-l-5 cursor noshrink' onClick={() => sortList('created_at')}>
+                            <span className='cursor noshrink b' onClick={() => sortList('created_at')}>Date Création</span>
+                            <figure className='h20 w20 m-l-5 cursor noshrink' onClick={() => sortList('created_at')}>
                                 <img src={window.location.origin + '/images/icons/' + imgSort.imgDate} />
                             </figure>
-                        </div>
-                        <div className='h50 flex-row-c-c txt-c'>
-                            Supprimer
                         </div>
                     </li>
                     {!!listCollectionsFiltered && listCollectionsFiltered.map(item =>

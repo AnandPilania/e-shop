@@ -144,6 +144,53 @@
     min-width: 100%;
 }
 
+// max width %
+.max-w10pct {
+    max-width: 10%;
+}
+.max-w20pct {
+    max-width: 20%;
+}
+.max-w30pct {
+    max-width: 30%;
+}
+.max-w40pct {
+    max-width: 40%;
+}
+.max-w50pct {
+    max-width: 50%;
+}
+.max-w60pct {
+    max-width: 60%;
+}
+.max-w70pct {
+    max-width: 70%;
+}
+.max-w80pct {
+    max-width: 80%;
+}
+.max-w90pct {
+    max-width: 90%;
+}
+.max-w100pct {
+    max-width: 100%;
+}
+
+// max-width px
+.max-w150 {
+    max-width: 150px;
+}
+.max-w200 {
+    max-width: 200px;
+}
+.max-w250 {
+    max-width: 250px;
+}
+.max-w300 {
+    max-width: 300px;
+}
+
+
 //height
 .h-auto {
     height: auto;
@@ -206,6 +253,11 @@
     height: 300px;
 }
 
+// height %
+.h100pct {
+    height: 100%;
+}
+
 // min-height px
 .min-h0 {
     min-height: 0px;
@@ -266,6 +318,9 @@
 
 
 // margin
+.m-auto {
+    margin: auto;
+}
 .m0 {
     margin: 0;
 }
@@ -504,6 +559,27 @@
     padding: 50px;
 }
 
+// padding %
+.p-lr-5pct {
+    padding: 0 5%;
+}
+.p-lr-10pct {
+    padding: 0 10%;
+}
+.p-lr-15pct {
+    padding: 0 15%;
+}
+.p-lr-20pct {
+    padding: 0 20%;
+}
+.p-lr-25pct {
+    padding: 0 25%;
+}
+.p-lr-30pct {
+    padding: 0 30%;
+}
+
+
 // padding left
 .p-l-5 {
     padding-left: 5px;
@@ -691,6 +767,12 @@
 .bg-white {
     background-color: #ffffffff;
 }
+.bg-cyan {
+    background-color: $cyan;
+}
+.bg-blue-light {
+    background-color: $blue-light;
+}
 .bg-blue {
     background-color: rgb(78, 137, 248);
 }
@@ -699,6 +781,16 @@
 }
 .bg-gray-light {
     background-color: #f9fafb;
+}
+.bg-gray-cool {
+    background-color: #f6f6f7;
+}
+// buttons colors
+.active-collection {
+    background-color: $active;
+}
+.unactive-collection {
+    background-color: $unactive;
 }
 
 // display
@@ -715,6 +807,12 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+}
+.flex-row-s-s {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 .flex-row-c-c {
     display: flex;
@@ -733,6 +831,18 @@
 .flex-col {
     display: flex;
     flex-direction: column;
+}
+.flex-col-s-c {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+.flex-col-s-s {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .flex-row-align-s {
@@ -788,16 +898,19 @@
     display: grid;
 }
 .grid-col-list1 {
-    grid-template-columns: 5% 25% 25% 20% 15% 10%;
+    grid-template-columns: 5% 25% 7% 23% 15% 15% 10%;
     align-items: center;
 }
 .grid-col-list2 {
-    grid-template-columns: 5% 15% 10% 25% 20% 15% 10%;
+    grid-template-columns: 5% 18% 7% 7% 23% 15% 15% 10%;
     align-items: center;
 }
     // grid-template-rows: 80px minmax(100px, 1fr);
     
 
+.wrap {
+    flex-wrap: wrap;
+}
 .noWrap {
     flex-wrap: nowrap;
 }
@@ -806,6 +919,9 @@
 }
 
 .inline {
+    display: inline;
+}
+.inline-block {
     display: inline;
 }
 .block {
@@ -837,6 +953,12 @@
 
 .txt-j {
     text-align: justify;
+}
+
+.txt-limit {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 
@@ -884,6 +1006,8 @@
     color: white;
 }
 
+
+
 // border-radius
 .radius5 {
     border-radius: 5px;
@@ -912,7 +1036,13 @@
 .radius20 {
     border-radius: 20px;
 }
+.radius30 {
+    border-radius: 30px;
+}
 
+.radius-round {
+    border-radius: 50%;
+}
 
 // position
 .relative {
@@ -989,6 +1119,10 @@
     left: 0;
 }
 
+// bold
+.b {
+    font-weight: bold;
+}
 
 // border
 .brd-none {
@@ -1124,6 +1258,7 @@
 // ----------------------------------------------------------- checkBox
 
 // tabs slide --------------------------------------------------------
+// !!!!! dans HeaderListCollections !!!!!
 .Panel {
     width: 100%;
     max-width: 600px;
