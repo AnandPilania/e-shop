@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from "react-router-dom";
 import { makeStyles } from '@material-ui/styles';
 import { getOnlyDate } from '../functions/dateTools';
-import AppContext from '../contexts/AppContext';
 import CheckBox from '../elements/checkBox';
 import { getNowUs } from '../functions/dateTools';
 
@@ -29,9 +29,7 @@ const RowListCollections = ({ collection, category }) => {
     const classes = useStyles();
     const [conditions, setConditions] = useState(null);
     const [showConditions, setShowConditions] = useState(false);
-    const [timeOut, setTimeOut] = useState(null);
-
-    const { selectedColor, setSelectedColor } = useContext(AppContext);
+    var navigate = useNavigate();
 
     useEffect(() => {
         setConditions(JSON.parse(collection.objConditions));
@@ -96,51 +94,23 @@ const RowListCollections = ({ collection, category }) => {
         }
     }
 
-
-    // delay before dropUp list conditions
-    // const showHideConditions = () => {
-    //     if (!showConditions) {
-    //         setShowConditions(true);
-    //         setTimeOut(setTimeout(() => setShowConditions(false), 10000));
-    //     } else if (showConditions) {
-    //         setTimeOut(clearTimeout(timeOut));
-    //         setShowConditions(false);
-    //     }
-    // }
-
     const showHideConditions = () => {
         setShowConditions(!showConditions);
     }
 
-    useEffect(() => {
-        if (conditions !== null) {
-            // dropDown optimisation
-            var dropable = document.getElementById('conditions_drop');
+    const cover = {
+        position: 'fixed',
+        top: '0px',
+        right: '0px',
+        bottom: '0px',
+        left: '-5px',
+        zIndex: '-10',
+    }
 
-            if (!showConditions) {
-                // cache borders sinon y a un bout qui reste visible
-                dropable.style.borderLeft = 'none';
-                dropable.style.borderRight = 'none';
-                dropable.style.borderBottom = 'none';
-                document.getElementsByClassName('shadow-l')[0].style.boxShadow = "none";
+    const editCollection = (id) => {
+        navigate('/add-collection', { state: { collectionId: id, isEdit: true } });
+    }
 
-                filterCard.style.maxHeight = null;
-                filterCard.style.paddingBottom = '0';
-
-                dropable.style.maxHeight = null;
-                dropable.style.paddingTop = 0;
-
-            } else {
-
-                dropable.style.maxHeight = "250px";
-                // montre les borders quand ouvert seulement
-                dropable.style.borderLeft = 'rgb(220, 220, 220) solid 1px';
-                dropable.style.borderRight = 'rgb(220, 220, 220) solid 1px';
-                dropable.style.borderBottom = 'rgb(220, 220, 220) solid 1px';
-                document.getElementsByClassName('shadow-l')[0].style.boxShadow = "rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px";
-            }
-        }
-    }, [showConditions]);
 
     return (
         // <li className='sub-div-horiz-align bg-white p15 m10'>
@@ -149,7 +119,7 @@ const RowListCollections = ({ collection, category }) => {
             <div className='flex-row min-h50 p5'>
                 {collection && <CheckBox unikId={collection.id} />}
             </div>
-            <div className='flex-row min-h50 p5'>
+            <div className='flex-row min-h50 p5 cursor' onClick={() => editCollection(collection.id)}>
                 {collection && collection.name}
             </div>
             <div className='flex-row-c-c min-h50 w50'>
@@ -162,20 +132,43 @@ const RowListCollections = ({ collection, category }) => {
             </div>
 
 
-            <div className={`relative flex-row wrap min-h50 p5 ${conditions?.length > 1 && "cursor hover-bg-gray-light"}`}
+            <div className={`flex-row min-h50 ${conditions?.length > 1 && "cursor"}`}
                 onClick={showHideConditions}>
-                {conditions !== null ?
-                    <div id='conditions_drop' className='w-auto flex-col justify-s align-s dropable absolute t30 r0 bg-white shadow-l radius5'>
-                        {getParameter(conditions[0].parameter) + ' ' + getOperator(conditions[0].operator) + ' ' + conditions[0].value}
 
-                        <ul className="ul-category scroll1 w100pct h200 bg-white">
-                            {conditions.map((item, index) =>
-                                index > 0 && <li key={index}>
-                                    {getParameter(item.parameter) + ' ' + getOperator(item.operator) + ' ' + item.value}
-                                </li>)}
-                        </ul>
+                {conditions !== null ?
+                    <div className='relative w-auto flex-col justify-s align-s bg-white radius5'>
+
+                        {!showConditions ?
+                            <div className='w100pct'>
+                                <span>
+                                    {getParameter(conditions[0].parameter) + ' ' + getOperator(conditions[0].operator) + ' ' + conditions[0].value}
+                                </span>
+                            </div>
+                            :
+
+                            conditions.length > 1 ?
+                                <div className="w-auto flex-col-s-s w300 max-h250 absolute t0 l0 bg-white shadow-l radius5 z3">
+                                    <div style={cover} onClick={showHideConditions} />
+                                    <div className='w100pct h50 p-l-20  flex-row-s-c bg-gray-light'>
+                                        <span className="w30 h30 radius-round bg-blue white flex-row-c-c fs12">{conditions.length} </span>  &nbsp; Conditions
+
+                                    </div>
+                                    <ul className="scrolly scroll flex-col-s-s  w300 max-h200 p20 bg-white ul">
+                                        {conditions.map((item, index) =>
+                                            <li key={index} className="w100pct word-break">
+                                                {getParameter(item.parameter) + ' ' + getOperator(item.operator) + ' ' + item.value}
+                                            </li>)}
+                                    </ul>
+                                </div> :
+                                <div className='w100pct'>
+                                    <span>
+                                        {getParameter(conditions[0].parameter) + ' ' + getOperator(conditions[0].operator) + ' ' + conditions[0].value}
+                                    </span>
+                                </div>
+                        }
                     </div> : '_'}
-                {conditions?.length > 1 && <div className="w20 h20 m-r-10">
+
+                {conditions?.length > 1 && <div className="w20 h20 m-r-10 m-l-auto">
                     {!showConditions ? <img src={window.location.origin + '/images/icons/chevronDown.png'} /> : <img src={window.location.origin + '/images/icons/chevronUp.png'} />}
                 </div>}
             </div>

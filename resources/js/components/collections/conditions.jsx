@@ -131,7 +131,7 @@ const Conditions = () => {
                             Manuel
                         </label>
                     </div>
-                    <p>Ajouter un produit à la fois dans cette collection. <a href='#'>Plus d'informations sur les collections manuelles.</a></p>
+                    <p>Ajouter un produit à la fois dans cette collection</p>
                 </div>
                 <div className="sub-div-vert-align">
                     <div className="div-radio-label">
@@ -143,7 +143,7 @@ const Conditions = () => {
                             Automatisé
                         </label>
                     </div>
-                    <p>Ajouter automatiquement les produits lorsqu'ils correspondent aux règles définies. <a href='#'>Plus d'informations sur les collections automatisées.</a></p>
+                    <p>Ajouter automatiquement les produits lorsqu'ils correspondent aux règles définies</p>
                 </div>
                 {/* conditions */}
                 <div className="sub-div-vert-align dropable"

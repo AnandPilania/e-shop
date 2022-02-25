@@ -1,4 +1,5 @@
-import { React, useState, useEffect } from 'react';
+import { React, useState, useEffect, useContext } from 'react';
+import AppContext from '../contexts/AppContext';
 import Axios from 'axios';
 import RowListCollections from './RowListCollections';
 import CategoriesFilter from './categoriesFilter';
@@ -8,7 +9,6 @@ import HeaderListCollections from './headerListCollections';
 
 const ListCollections = () => {
 
-    const [listCollections, setListCollections] = useState([]);
     const [listCollectionsFiltered, setListCollectionsFiltered] = useState([]);
     const [listCategories, setListCategories] = useState([]);
     const [searchValue, setSearchValue] = useState('');
@@ -22,19 +22,22 @@ const ListCollections = () => {
         categorySens: true,
         ceated_atSens: true
     });
+    const {listCollections, setListCollections} = useContext(AppContext);
 
 
     useEffect(() => {
-        // chargement des collections
-        Axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
-            .then(res => {
-                // listCollections -> liste complète des collections pour handleSearch
-                setListCollections(res.data[0]);
-                setListCollectionsFiltered(res.data[0]);
-                setListCategories(res.data[1]);
-            }).catch(function (error) {
-                console.log('error:   ' + error);
-            });
+        if (listCollections.length === 0) {
+            // chargement des collections
+            Axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
+                .then(res => {
+                    // listCollections -> liste complète des collections pour handleSearch
+                    setListCollections(res.data[0]);
+                    setListCollectionsFiltered(res.data[0]);
+                    setListCategories(res.data[1]);
+                }).catch(function (error) {
+                    console.log('error:   ' + error);
+                });
+        }
     }, []);
 
     useEffect(() => {
@@ -44,7 +47,7 @@ const ListCollections = () => {
         })
     }, [listCollections]);
 
-    // sort routing 
+    // sort router 
     function sortList(sender) {
         switch (sender) {
             case 'name':
@@ -159,7 +162,7 @@ const ListCollections = () => {
                         // collection.thumbnail
                     </div> */}
                         <div className="h50 p5 flex-row-c-c wrap b">
-                            Produits
+                            Produit
                         </div>
 
                         <div className="h50 p5 flex-row noshrink b">
@@ -175,7 +178,7 @@ const ListCollections = () => {
                         </div>
 
                         <div className='h50 p5 flex-row'>
-                            <span className='noshrink b'>Status</span>
+                            <span className='noshrink b'>Statut</span>
                         </div>
 
                         <div className='h50 p5 flex-row'>

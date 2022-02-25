@@ -1,4 +1,5 @@
 import { React, useState, useEffect, useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 import AppContext from '../contexts/AppContext';
 import CollectionContext from '../contexts/CollectionContext';
 import Axios from 'axios';
@@ -60,29 +61,28 @@ const CreateCollection = () => {
         setShowModalInput(false);
     };
 
-    // récupère et formatte la date et l'heure de maintenant
-    const getNow = () => {
-        var now = new Date();
-        var year = now.getFullYear();
-        var month = now.getMonth() + 1;
-        var day = now.getDate();
-        var hour = now.getHours();
-        let minute = '00';
-        let seconde = '00';
-        var localDatetime =
-            (day < 10 ? "0" + day.toString() : day) + "-" +
-            (month < 10 ? "0" + month.toString() : month) + "-" +
-            year + ' ' +
-            (hour < 10 ? "0" + hour.toString() : hour) + ":" +
-            (minute.toString()) + ":" +
-            (seconde.toString());
-        return localDatetime;
-    }
+    // // récupère et formatte la date et l'heure de maintenant
+    // const getNow = () => {
+    //     var now = new Date();
+    //     var year = now.getFullYear();
+    //     var month = now.getMonth() + 1;
+    //     var day = now.getDate();
+    //     var hour = now.getHours();
+    //     let minute = '00';
+    //     let seconde = '00';
+    //     var localDatetime =
+    //         (day < 10 ? "0" + day.toString() : day) + "-" +
+    //         (month < 10 ? "0" + month.toString() : month) + "-" +
+    //         year + ' ' +
+    //         (hour < 10 ? "0" + hour.toString() : hour) + ":" +
+    //         (minute.toString()) + ":" +
+    //         (seconde.toString());
+    //     return localDatetime;
+    // }
 
     const {
         image, setImage, setImagePath, setFollowThisLink, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage,
-        setShowModalInput, messageModal, setMessageModal, sender, setSender, textButtonConfirm, setTextButtonConfirm,
-        imageModal, setImageModal, darkMode, setDarkMode
+        setShowModalInput, messageModal, setMessageModal, sender, setSender, textButtonConfirm, setTextButtonConfirm, imageModal, setImageModal, darkMode, setDarkMode
     } = useContext(AppContext);
 
     // context de create collection
@@ -106,7 +106,7 @@ const CreateCollection = () => {
         handleModalCancel,
         deleteThisCategory, setDeleteThisCategory,
         dateField, setDateField,
-        tinyLanguage
+        tinyLanguage,
     }
 
 
@@ -184,8 +184,23 @@ const CreateCollection = () => {
                 setTinyLanguage('fr_FR');
         }
 
-
     }, []);
+
+
+    // when click on name in collection list it send collection id to db request for make edit collection
+    const { state } = useLocation();
+    const { collectionId, isEdit } = state ? state : false;
+    useEffect(() => {
+        if (isEdit) {
+            Axios.get(`http://127.0.0.1:8000/getCollectionById/${collectionId}`)
+                .then(res => {
+                    console.log('res.data  ', res.data);
+                }).catch(function (error) {
+                    console.log('error:   ' + error);
+                });
+        }
+    }, []);
+
 
     const handleNameCollection = (e) => {
         setNameCollection(e.target.value);
@@ -231,8 +246,8 @@ const CreateCollection = () => {
         setMetaDescription('');
         setMetaUrl(window.location.origin + '/');
         setAlt('');
-        setImageName('');  
-        setImagePath('');                        
+        setImageName('');
+        setImagePath('');
         setImage([]);
         setCategoryName('Aucune catégorie');
         setCategoryId('');
@@ -343,8 +358,8 @@ const CreateCollection = () => {
         let toDelete = new FormData;
         for (var i = 0; i < keys_toDelete.length; i++) {
             toDelete.append('keys[]', keys_toDelete[i]);
-          }
-        
+        }
+
         Axios.post(`http://127.0.0.1:8000/cleanTemporayStorage`, toDelete,
             {
                 headers: {

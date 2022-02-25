@@ -118,7 +118,6 @@ const DropZone = (props) => {
             Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage`)
                 .then(res => {
                     if (res.data !== undefined && res.data != '') {
-                        console.log('res data  ', res.data)
                         // get --> image path <-- for croppe
                         setImagePath('/' + res.data);
                         // get --> image <-- for preview

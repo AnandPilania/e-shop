@@ -45,6 +45,13 @@ class CollectionController extends Controller
         return json_encode([$collections, $categories]);
     }
 
+    // renvoi vers la page de liste des collections dans le backend
+    public function getCollectionById($id)
+    {
+        $collections = Collection::find($id);
+        return json_encode($collections);
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -167,9 +174,9 @@ class CollectionController extends Controller
     public function show($link)
     {
         // récupération de l'id de la collection
-        $collection = Collection::where('link', $link)->first();
-        $categories = Category::all();
-        return view('front-end.products', ['categories' => $categories, 'collection' => $collection]);
+        // $collection = Collection::where('link', $link)->first();
+        // $categories = Category::all();
+        // return view('front-end.products', ['categories' => $categories, 'collection' => $collection]);
     }
 
     /**

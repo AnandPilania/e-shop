@@ -1110,21 +1110,6 @@ table td img {
   transition: max-height 0.05s ease-out;
 }
 
-.scroll1::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: #f5f5f5;
-}
-
-.scroll1::-webkit-scrollbar {
-  width: 9px;
-  background-color: #f5f5f5;
-}
-
-.scroll1::-webkit-scrollbar-thumb {
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: #adc3ff;
-}
-
 .li-category {
   min-width: 250px;
   height: 40px;
@@ -1893,6 +1878,18 @@ a.link:hover {
   min-height: 300px;
 }
 
+.max-h200 {
+  max-height: 200px;
+}
+
+.max-h250 {
+  max-height: 250px;
+}
+
+.max-h300 {
+  max-height: 300px;
+}
+
 .min-h10pct {
   min-height: 10%;
 }
@@ -2055,6 +2052,10 @@ a.link:hover {
 
 .m-r-50 {
   margin-right: 50px;
+}
+
+.m-t-auto {
+  margin-top: auto;
 }
 
 .m-t-5 {
@@ -2671,6 +2672,30 @@ a.link:hover {
   visibility: visible;
 }
 
+.fs10 {
+  font-size: 10px;
+}
+
+.fs12 {
+  font-size: 12px;
+}
+
+.fs14 {
+  font-size: 14px;
+}
+
+.fs16 {
+  font-size: 16px;
+}
+
+.fs18 {
+  font-size: 18px;
+}
+
+.fs20 {
+  font-size: 20px;
+}
+
 .txt-l {
   text-align: left;
 }
@@ -2691,6 +2716,39 @@ a.link:hover {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.word-break {
+  -ms-word-break: break-all;
+  word-break: break-all;
+  /* Non standard for webkit */
+  word-break: break-word;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+}
+
+.scrolly {
+  overflow-y: scroll;
+}
+
+.scroll::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #f5f5f5;
+}
+
+.scroll::-webkit-scrollbar {
+  width: 9px;
+  background-color: #f5f5f5;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #adc3ff;
+}
+
+.ul {
+  list-style: inside;
 }
 
 .sub-div-horiz-align {
@@ -2843,6 +2901,18 @@ a.link:hover {
   right: 0;
 }
 
+.r5 {
+  right: 5;
+}
+
+.r10 {
+  right: 10;
+}
+
+.r20 {
+  right: 20;
+}
+
 .r-10 {
   right: -10px;
 }
@@ -2851,8 +2921,28 @@ a.link:hover {
   left: 0;
 }
 
+.l5 {
+  left: 5;
+}
+
 .b0 {
   bottom: 0;
+}
+
+.b5 {
+  bottom: 5;
+}
+
+.b10 {
+  bottom: 10;
+}
+
+.b15 {
+  bottom: 15;
+}
+
+.b20 {
+  bottom: 20;
 }
 
 .tr0 {
@@ -2949,6 +3039,34 @@ a.link:hover {
 
 .shadow-xs {
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+
+.z-10 {
+  z-index: -10;
+}
+
+.z1 {
+  z-index: 1;
+}
+
+.z3 {
+  z-index: 3;
+}
+
+.z5 {
+  z-index: 5;
+}
+
+.z10 {
+  z-index: 10;
+}
+
+.z15 {
+  z-index: 15;
+}
+
+.z20 {
+  z-index: 20;
 }
 
 .check {

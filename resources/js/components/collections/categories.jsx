@@ -179,7 +179,7 @@ const Categories = () => {
                 setMessageModal('Suppression réussie')
                 setTextButtonConfirm('Fermer');
                 setImageModal('../images/icons/trash.png');
-                setShowModalConfirm(true);
+                setShowModalSimpleMessage(true);
 
 
                 // chargement des collections
@@ -283,22 +283,20 @@ const Categories = () => {
         <div>
             <div className="div-vert-align">
                 <div className="div-label-inputTxt">
-                    <h2>Catégorie parente</h2>
-                    <p>Attribuer une catégorie à cette collection.
-                        (<strong>*optionnel</strong>)
-                    </p>
+                    <h2>Catégorie</h2>
                     <div className="categorySelect" id="categorySelect">
                         <button
                             className='btn-select-category'
                             onClick={showHideCategorySelect}>
-                            {categoryName.length > 25 ? categoryName.substring(0, 25) + '...' : categoryName}
+                            <span className='inline txt-limit'>{categoryName}
+                            </span>
                             <i className="fas fa-angle-down"></i>
                         </button>
-                        {/* {showCategorySelect && */}
-                        <ul className='ul-category dropable'
+
+                        <ul className='ul-category dropable scrolly scroll'
                             id='category_select'>
                             {categoryName != 'Aucune catégorie' &&
-                                <li className="li-category"
+                                <li className="li-category txt-limit"
                                     onClick={() => {
                                         handleCategory(0),
                                             handleCategoryName('Aucune catégorie')
@@ -313,7 +311,7 @@ const Categories = () => {
                                         handleCategory(cat.id);
                                         handleCategoryName(cat.name);
                                     }} >
-                                    {cat.name.length > 25 ? <span>{cat.name.substring(0, 25) + '...'}</span> : <span>{cat.name}</span>}
+                                    <span className='inline w70pct txt-limit'>{cat.name}</span>
                                     <div>
                                         <i className="fas fa-recycle"
                                             onClick={() => {
@@ -326,7 +324,7 @@ const Categories = () => {
                                     </div>
                                 </li>))}
                         </ul>
-                        {/* } */}
+
                     </div>
                     {/* react-color */}
                     {/* <div className='p-t-10'>
@@ -381,7 +379,7 @@ const Categories = () => {
             <ModalSimpleMessage
                 show={showModalSimpleMessage} // true/false show modal
                 handleModalCancel={handleModalCancel}
-                >
+            >
                 <h2 className="childrenModal">{messageModal}</h2>
             </ModalSimpleMessage>
         </div>

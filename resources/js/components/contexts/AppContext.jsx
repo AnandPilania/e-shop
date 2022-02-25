@@ -29,4 +29,7 @@ export default React.createContext({
     setDarkMode: () => { },
     selectedColor: '', 
     setSelectedColor: () => { },
+    listCollections: '',  
+    setListCollections: () => { },
+
 });

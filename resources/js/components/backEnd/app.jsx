@@ -36,7 +36,7 @@ const App = () => {
     const [textButtonConfirm, setTextButtonConfirm] = useState('Confirmer');
     const [imageModal, setImageModal] = useState('');
     const [selectedColor, setSelectedColor] = useState('#4A90E2');
-
+    const [listCollections, setListCollections] = useState([]);
 
     const handleModalApp = () => {
         setShowModalApp(false);
@@ -62,6 +62,7 @@ const App = () => {
         imageModal, setImageModal,
         darkMode, setDarkMode,
         selectedColor, setSelectedColor,
+        listCollections, setListCollections,
     }
 
 

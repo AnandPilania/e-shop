@@ -536,22 +536,22 @@
     transition: max-height 0.05s ease-out;
 }
 
-.scroll1::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    // border-radius: 10px;
-    background-color: #f5f5f5;
-}
+// .scroll1::-webkit-scrollbar-track {
+//     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+//     // border-radius: 10px;
+//     background-color: #f5f5f5;
+// }
 
-.scroll1::-webkit-scrollbar {
-    width: 9px;
-    background-color: #f5f5f5;
-}
+// .scroll1::-webkit-scrollbar {
+//     width: 9px;
+//     background-color: #f5f5f5;
+// }
 
-.scroll1::-webkit-scrollbar-thumb {
-    // border-radius: 10px;
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    background-color: rgb(173, 195, 255);
-}
+// .scroll1::-webkit-scrollbar-thumb {
+//     // border-radius: 10px;
+//     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+//     background-color: rgb(173, 195, 255);
+// }
 
 .li-category {
     min-width: 250px;

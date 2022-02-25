@@ -93,6 +93,9 @@ Route::get('/listtype', [Type_detail_productController::class, 'listtype']);
 // utilisé dans selectCollections.jsx 
 Route::get('/getCollections', [CollectionController::class, 'getCollections']);
 
+// récupère une collection pour l'éditer
+Route::get('/getCollectionById/{id}', [CollectionController::class, 'getCollectionById']);
+
 Route::get('/editProduct/{productId}', [ProductController::class, 'editProduct']);
 Route::get('/selectCollections/{productId}', [ProductController::class, 'selectCollections']);
 

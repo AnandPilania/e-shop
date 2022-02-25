@@ -35,7 +35,6 @@ const Image = () => {
             <div className="div-vert-align">
                 <div className="div-label-inputTxt">
                     <h2>Image</h2>
-                    <p>Ajouter une image pour cette collection. (*optionnel)</p>
                     <DropZone multiple={false} />
                 </div>
 
@@ -52,7 +51,7 @@ const Image = () => {
                     </div>
                     <div className="div-label-inputTxt">
                         <div className="sub-div-horiz-align-m">
-                            <label>Changer le nom de l'image (*optionnel) </label>
+                            <label>Modifier le nom de l'image</label>
                             <i className="fas fa-question-circle tooltip_">
                                 <span className="tooltiptext">Donnez un nom en rapport avec le contenu de l'image. Ceci améliore le référencement de votre boutique dans les recherches par image.</span>
                             </i>

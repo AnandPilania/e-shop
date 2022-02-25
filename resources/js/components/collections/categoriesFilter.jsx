@@ -111,7 +111,7 @@ const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
                 {/* <i className="fas fa-angle-down"></i> */}
             </button>
 
-            <div id="cat-filter-card" className="w-auto flex-col justify-s align-s dropable absolute t30 r0 bg-white shadow-l radius5">
+            <div id="cat-filter-card" className="w-auto flex-col justify-s align-s dropable absolute t30 r0 bg-white shadow-l radius5 z5">
                 <div className='w100pct h60 flex-row bg-gray-light p-l-20'>
                     <span className="w100pct">Filtrer par:</span>
                 </div>
