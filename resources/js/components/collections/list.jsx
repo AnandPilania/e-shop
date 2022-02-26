@@ -10,7 +10,6 @@ import HeaderListCollections from './headerListCollections';
 const ListCollections = () => {
 
     const [listCollectionsFiltered, setListCollectionsFiltered] = useState([]);
-    const [listCategories, setListCategories] = useState([]);
     const [searchValue, setSearchValue] = useState('');
     const [imgSort, setImgSort] = useState({
         imgName: 'az.png',
@@ -22,7 +21,7 @@ const ListCollections = () => {
         categorySens: true,
         ceated_atSens: true
     });
-    const {listCollections, setListCollections} = useContext(AppContext);
+    const {listCollections, setListCollections, listCategories, setListCategories} = useContext(AppContext);
 
 
     useEffect(() => {

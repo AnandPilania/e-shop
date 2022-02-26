@@ -45,6 +45,7 @@ const CreateCollection = () => {
     const [isDirty, setIsDirty] = useState(false);
     const [warningIdCondition, setWarningIdCondition] = useState([]);
     const [tinyLanguage, setTinyLanguage] = useState('fr_FR');
+    const [id, setId] = useState(null);
 
     // remove caracteres unauthorized for url
     const normalizUrl = (str) => {
@@ -195,11 +196,36 @@ const CreateCollection = () => {
             Axios.get(`http://127.0.0.1:8000/getCollectionById/${collectionId}`)
                 .then(res => {
                     console.log('res.data  ', res.data);
+
+                    setConditions(JSON.parse(res.data.objConditions));
+                    // res.data.automatise === 1 ? setIsAutoConditions('true') : setIsAutoConditions('false');
+                    res.data.automatise === 1 ? localStorage.setItem('isAutoConditions', true) : localStorage.setItem('isAutoConditions', false);
+                    res.data.allConditionsNeeded === 1 ? setAllConditionsNeeded(true) : setAllConditionsNeeded(false);
+                    res.data.notIncludePrevProduct === 1 ? setNotIncludePrevProduct(true) : setNotIncludePrevProduct(false);
+                    setId(res.data.id);
+                    setNameCollection(res.data.name);
+                    setDescriptionCollection(res.data.description);
+                    setMetaTitle(res.data.meta_title);
+                    setMetaDescription(res.data.meta_description);
+                    setMetaUrl(res.data.meta_url);
+                    setImageName(res.data.image);
+                    setAlt(res.data.alt);
+                    setCategoryName(res.data.category.name);
+                    setCategoryId(res.data.category_id);
+                    setDateField(res.data.created_at);
+                    setDescriptionCollectionForMeta();
+
+                    console.log('isAutoConditions inside useefect ', isAutoConditions);
+                    console.log('objConditions inside useefect ', res.data.objConditions);
+
                 }).catch(function (error) {
                     console.log('error:   ' + error);
                 });
         }
     }, []);
+
+console.log('isAutoConditions  ', isAutoConditions);
+console.log('conditions ', conditions);
 
 
     const handleNameCollection = (e) => {

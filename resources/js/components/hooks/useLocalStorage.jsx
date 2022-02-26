@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 // récupère les données de key ou met defaultValue s'il n'y en a pas
 function getStorageValue(key, defaultValue) {
-    if (localStorage.getItem(key) != '') {
+    if (localStorage.getItem(key) != '' && localStorage.getItem(key) != 'undefined') {
         return JSON.parse(localStorage.getItem(key)) || defaultValue;
     } else {
         return defaultValue;

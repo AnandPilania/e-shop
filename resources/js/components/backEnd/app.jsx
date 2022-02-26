@@ -37,6 +37,8 @@ const App = () => {
     const [imageModal, setImageModal] = useState('');
     const [selectedColor, setSelectedColor] = useState('#4A90E2');
     const [listCollections, setListCollections] = useState([]);
+    const [listCategories, setListCategories] = useState([]);
+
 
     const handleModalApp = () => {
         setShowModalApp(false);
@@ -63,6 +65,7 @@ const App = () => {
         darkMode, setDarkMode,
         selectedColor, setSelectedColor,
         listCollections, setListCollections,
+        listCategories, setListCategories,
     }
 
 

@@ -29,6 +29,8 @@ const RowListCollections = ({ collection, category }) => {
     const classes = useStyles();
     const [conditions, setConditions] = useState(null);
     const [showConditions, setShowConditions] = useState(false);
+    const [distanceFromBottom, setDistanceFromBottom] = useState(null);
+
     var navigate = useNavigate();
 
     useEffect(() => {
@@ -94,10 +96,14 @@ const RowListCollections = ({ collection, category }) => {
         }
     }
 
-    const showHideConditions = () => {
+    const showHideConditions = (e) => {
+        // getBoundingClientRect give position of div, ul or li
+        var element = e.target;
+        setDistanceFromBottom(window.innerHeight - element.getBoundingClientRect().bottom);
         setShowConditions(!showConditions);
     }
 
+    // permet la fermeture du popover quand on clique n'importe où en dehors du popover
     const cover = {
         position: 'fixed',
         top: '0px',
@@ -105,15 +111,16 @@ const RowListCollections = ({ collection, category }) => {
         bottom: '0px',
         left: '-5px',
         zIndex: '-10',
+        cursor: 'default',
     }
 
+    // isEdit indique qu'on veut éditer la collection 
     const editCollection = (id) => {
         navigate('/add-collection', { state: { collectionId: id, isEdit: true } });
     }
 
 
     return (
-        // <li className='sub-div-horiz-align bg-white p15 m10'>
         <li className='grid grid-col-list2 w100pct h-auto min-h50 bg-white p15 brd-b-gray-light-1'>
 
             <div className='flex-row min-h50 p5'>
@@ -131,7 +138,6 @@ const RowListCollections = ({ collection, category }) => {
                 50
             </div>
 
-
             <div className={`flex-row min-h50 ${conditions?.length > 1 && "cursor"}`}
                 onClick={showHideConditions}>
 
@@ -145,21 +151,20 @@ const RowListCollections = ({ collection, category }) => {
                                 </span>
                             </div>
                             :
-
                             conditions.length > 1 ?
-                                <div className="w-auto flex-col-s-s w300 max-h250 absolute t0 l0 bg-white shadow-l radius5 z3">
+                                <div className={`flex-col-s-s w300 max-h310 absolute l0 bg-white shadow-l radius5 z3 ${distanceFromBottom < 300 ? "b0" : "t0"}`}>
                                     <div style={cover} onClick={showHideConditions} />
-                                    <div className='w100pct h50 p-l-20  flex-row-s-c bg-gray-light'>
+                                    <div className='w100pct h60 p-l-20  flex-row-s-c bg-gray-light'>
                                         <span className="w30 h30 radius-round bg-blue white flex-row-c-c fs12">{conditions.length} </span>  &nbsp; Conditions
-
                                     </div>
-                                    <ul className="scrolly scroll flex-col-s-s  w300 max-h200 p20 bg-white ul">
+                                    <ul className="scrolly scroll flex-col-s-s  w300 max-h265 p20 bg-white ul">
                                         {conditions.map((item, index) =>
                                             <li key={index} className="w100pct word-break">
                                                 {getParameter(item.parameter) + ' ' + getOperator(item.operator) + ' ' + item.value}
                                             </li>)}
                                     </ul>
-                                </div> :
+                                </div>
+                                :
                                 <div className='w100pct'>
                                     <span>
                                         {getParameter(conditions[0].parameter) + ' ' + getOperator(conditions[0].operator) + ' ' + conditions[0].value}
@@ -172,7 +177,6 @@ const RowListCollections = ({ collection, category }) => {
                     {!showConditions ? <img src={window.location.origin + '/images/icons/chevronDown.png'} /> : <img src={window.location.origin + '/images/icons/chevronUp.png'} />}
                 </div>}
             </div>
-
 
             <div className='flex-row min-h50 p5'>
                 <span className='h30'>{category && category.name}</span>

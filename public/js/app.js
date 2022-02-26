@@ -23710,6 +23710,11 @@ var App = function App() {
       listCollections = _useState36[0],
       setListCollections = _useState36[1];
 
+  var _useState37 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState38 = _slicedToArray(_useState37, 2),
+      listCategories = _useState38[0],
+      setListCategories = _useState38[1];
+
   var handleModalApp = function handleModalApp() {
     setShowModalApp(false);
   };
@@ -23748,7 +23753,9 @@ var App = function App() {
     selectedColor: selectedColor,
     setSelectedColor: setSelectedColor,
     listCollections: listCollections,
-    setListCollections: setListCollections
+    setListCollections: setListCollections,
+    listCategories: listCategories,
+    setListCategories: setListCategories
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
     className: "app-container",
@@ -23890,6 +23897,11 @@ var RowListCollections = function RowListCollections(_ref) {
       showConditions = _useState4[0],
       setShowConditions = _useState4[1];
 
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      _useState6 = _slicedToArray(_useState5, 2),
+      distanceFromBottom = _useState6[0],
+      setDistanceFromBottom = _useState6[1];
+
   var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_5__.useNavigate)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     setConditions(JSON.parse(collection.objConditions));
@@ -23969,9 +23981,13 @@ var RowListCollections = function RowListCollections(_ref) {
     }
   }
 
-  var showHideConditions = function showHideConditions() {
+  var showHideConditions = function showHideConditions(e) {
+    // getBoundingClientRect give position of div, ul or li
+    var element = e.target;
+    setDistanceFromBottom(window.innerHeight - element.getBoundingClientRect().bottom);
     setShowConditions(!showConditions);
-  };
+  }; // permet la fermeture du popover quand on clique n'importe où en dehors du popover
+
 
   var cover = {
     position: 'fixed',
@@ -23979,8 +23995,9 @@ var RowListCollections = function RowListCollections(_ref) {
     right: '0px',
     bottom: '0px',
     left: '-5px',
-    zIndex: '-10'
-  };
+    zIndex: '-10',
+    cursor: 'default'
+  }; // isEdit indique qu'on veut éditer la collection 
 
   var editCollection = function editCollection(id) {
     navigate('/add-collection', {
@@ -23991,96 +24008,92 @@ var RowListCollections = function RowListCollections(_ref) {
     });
   };
 
-  return (
-    /*#__PURE__*/
-    // <li className='sub-div-horiz-align bg-white p15 m10'>
-    (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
-      className: "grid grid-col-list2 w100pct h-auto min-h50 bg-white p15 brd-b-gray-light-1",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "flex-row min-h50 p5",
-        children: collection && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_elements_checkBox__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          unikId: collection.id
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
+    className: "grid grid-col-list2 w100pct h-auto min-h50 bg-white p15 brd-b-gray-light-1",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      className: "flex-row min-h50 p5",
+      children: collection && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_elements_checkBox__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        unikId: collection.id
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      className: "flex-row min-h50 p5 cursor",
+      onClick: function onClick() {
+        return editCollection(collection.id);
+      },
+      children: collection && collection.name
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      className: "flex-row-c-c min-h50 w50",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("figure", {
+        className: "h50 w50 radius-round",
+        children: collection.thumbnail && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+          className: "h100pct radius-round",
+          src: window.location.origin + '/' + collection.thumbnail
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "flex-row min-h50 p5 cursor",
-        onClick: function onClick() {
-          return editCollection(collection.id);
-        },
-        children: collection && collection.name
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "flex-row-c-c min-h50 w50",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("figure", {
-          className: "h50 w50 radius-round",
-          children: collection.thumbnail && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
-            className: "h100pct radius-round",
-            src: window.location.origin + '/' + collection.thumbnail
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      className: "flex-row-c-c w40 h40 radius-round bg-blue-light m-auto",
+      children: "50"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      className: "flex-row min-h50 ".concat((conditions === null || conditions === void 0 ? void 0 : conditions.length) > 1 && "cursor"),
+      onClick: showHideConditions,
+      children: [conditions !== null ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "relative w-auto flex-col justify-s align-s bg-white radius5",
+        children: !showConditions ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "w100pct",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+            children: getParameter(conditions[0].parameter) + ' ' + getOperator(conditions[0].operator) + ' ' + conditions[0].value
           })
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "flex-row-c-c w40 h40 radius-round bg-blue-light m-auto",
-        children: "50"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-        className: "flex-row min-h50 ".concat((conditions === null || conditions === void 0 ? void 0 : conditions.length) > 1 && "cursor"),
-        onClick: showHideConditions,
-        children: [conditions !== null ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-          className: "relative w-auto flex-col justify-s align-s bg-white radius5",
-          children: !showConditions ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-            className: "w100pct",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-              children: getParameter(conditions[0].parameter) + ' ' + getOperator(conditions[0].operator) + ' ' + conditions[0].value
+        }) : conditions.length > 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "flex-col-s-s w300 max-h310 absolute l0 bg-white shadow-l radius5 z3 ".concat(distanceFromBottom < 300 ? "b0" : "t0"),
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+            style: cover,
+            onClick: showHideConditions
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+            className: "w100pct h60 p-l-20  flex-row-s-c bg-gray-light",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("span", {
+              className: "w30 h30 radius-round bg-blue white flex-row-c-c fs12",
+              children: [conditions.length, " "]
+            }), "  \xA0 Conditions"]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
+            className: "scrolly scroll flex-col-s-s  w300 max-h265 p20 bg-white ul",
+            children: conditions.map(function (item, index) {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+                className: "w100pct word-break",
+                children: getParameter(item.parameter) + ' ' + getOperator(item.operator) + ' ' + item.value
+              }, index);
             })
-          }) : conditions.length > 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-            className: "w-auto flex-col-s-s w300 max-h250 absolute t0 l0 bg-white shadow-l radius5 z3",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-              style: cover,
-              onClick: showHideConditions
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-              className: "w100pct h50 p-l-20  flex-row-s-c bg-gray-light",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("span", {
-                className: "w30 h30 radius-round bg-blue white flex-row-c-c fs12",
-                children: [conditions.length, " "]
-              }), "  \xA0 Conditions"]
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
-              className: "scrolly scroll flex-col-s-s  w300 max-h200 p20 bg-white ul",
-              children: conditions.map(function (item, index) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
-                  className: "w100pct word-break",
-                  children: getParameter(item.parameter) + ' ' + getOperator(item.operator) + ' ' + item.value
-                }, index);
-              })
-            })]
-          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-            className: "w100pct",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-              children: getParameter(conditions[0].parameter) + ' ' + getOperator(conditions[0].operator) + ' ' + conditions[0].value
-            })
+          })]
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "w100pct",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+            children: getParameter(conditions[0].parameter) + ' ' + getOperator(conditions[0].operator) + ' ' + conditions[0].value
           })
-        }) : '_', (conditions === null || conditions === void 0 ? void 0 : conditions.length) > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-          className: "w20 h20 m-r-10 m-l-auto",
-          children: !showConditions ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
-            src: window.location.origin + '/images/icons/chevronDown.png'
-          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
-            src: window.location.origin + '/images/icons/chevronUp.png'
-          })
-        })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "flex-row min-h50 p5",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-          className: "h30",
-          children: category && category.name
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "flex-row min-h50 p5",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-          className: "noshrink flex-row-c-c radius15 h30 p-lr-15 ".concat((collection === null || collection === void 0 ? void 0 : collection.dateActivation) < (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_1__.getNowUs)() ? 'active-collection' : 'unactive-collection'),
-          children: (collection === null || collection === void 0 ? void 0 : collection.dateActivation) < (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_1__.getNowUs)() ? "Activée" : "Non activée"
+      }) : '_', (conditions === null || conditions === void 0 ? void 0 : conditions.length) > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "w20 h20 m-r-10 m-l-auto",
+        children: !showConditions ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+          src: window.location.origin + '/images/icons/chevronDown.png'
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+          src: window.location.origin + '/images/icons/chevronUp.png'
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "flex-row min-h50 p5",
-        children: collection && (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_1__.getOnlyDate)(collection.created_at)
       })]
-    })
-  );
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      className: "flex-row min-h50 p5",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+        className: "h30",
+        children: category && category.name
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      className: "flex-row min-h50 p5",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+        className: "noshrink flex-row-c-c radius15 h30 p-lr-15 ".concat((collection === null || collection === void 0 ? void 0 : collection.dateActivation) < (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_1__.getNowUs)() ? 'active-collection' : 'unactive-collection'),
+        children: (collection === null || collection === void 0 ? void 0 : collection.dateActivation) < (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_1__.getNowUs)() ? "Activée" : "Non activée"
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      className: "flex-row min-h50 p5",
+      children: collection && (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_1__.getOnlyDate)(collection.created_at)
+    })]
+  });
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RowListCollections);
@@ -24722,9 +24735,9 @@ var CategoriesFilter = function CategoriesFilter(_ref) {
       dropable.style.paddingTop = 0;
     } else {
       filterCard.style.maxHeight = "300px";
-      filterCard.style.width = "250px";
-      filterCard.style.minWidth = "250px";
-      dropable.style.maxHeight = "250px"; // montre les borders quand ouvert seulement
+      filterCard.style.width = "300px"; // filterCard.style.minWidth = "250px";
+
+      dropable.style.maxHeight = "300px"; // montre les borders quand ouvert seulement
 
       dropable.style.borderLeft = 'rgb(220, 220, 220) solid 1px';
       dropable.style.borderRight = 'rgb(220, 220, 220) solid 1px';
@@ -24804,7 +24817,7 @@ var CategoriesFilter = function CategoriesFilter(_ref) {
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
       id: "cat-filter-card",
-      className: "w-auto flex-col justify-s align-s dropable absolute t30 r0 bg-white shadow-l radius5 z5",
+      className: "w300 flex-col justify-s align-s dropable absolute t30 r0 bg-white shadow-l radius5 z5",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "w100pct h60 flex-row bg-gray-light p-l-20",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
@@ -24815,7 +24828,7 @@ var CategoriesFilter = function CategoriesFilter(_ref) {
         id: "category_select",
         className: "w100pct flex-row",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("ul", {
-          className: "ul-category scroll1 w100pct h200 bg-white",
+          className: "ul-category scrolly scroll w100pct h200 bg-white",
           children: arrayList && arrayList.map(function (item, index) {
             return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("li", {
               className: "w100pct h40 p-lr-10 flex-row",
@@ -25208,6 +25221,7 @@ var Conditions = function Conditions() {
       warningIdCondition = _useContext.warningIdCondition,
       setWarningIdCondition = _useContext.setWarningIdCondition;
 
+  console.log('conditions in conditions  ', conditions);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // détermine si on montre le block conditions
     if (localStorage.getItem('isAutoConditions')) {
@@ -25225,7 +25239,7 @@ var Conditions = function Conditions() {
       setIsAutoConditions(true);
     } else {
       localStorage.setItem('isAutoConditions', false);
-      setIsAutoConditions(false); // réinitialise conditions
+      setIsAutoConditions(false); // réinitialise conditions quand on passe en conditions manuelles
 
       setConditions([{
         id: 0,
@@ -25359,7 +25373,7 @@ var Conditions = function Conditions() {
             children: "Automatis\xE9"
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-          children: "Ajouter automatiquement les produits lorsqu'ils correspondent aux r\xE8gles d\xE9finies"
+          children: "Ajouter automatiquement les produits lorsqu'ils correspondent aux conditions d\xE9finies"
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "sub-div-vert-align dropable",
@@ -25572,7 +25586,7 @@ var Image = function Image() {
             className: "w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1",
             type: "text",
             name: "alt",
-            value: alt,
+            value: (alt === null || alt === void 0 ? void 0 : alt.length) > 0 ? alt : '',
             maxLength: "255",
             onChange: handleAlt
           })]
@@ -25593,7 +25607,7 @@ var Image = function Image() {
             className: "w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1",
             type: "text",
             name: "imgColection",
-            value: imageName,
+            value: (imageName === null || imageName === void 0 ? void 0 : imageName.length) > 0 ? imageName : '',
             maxLength: "255",
             onChange: handleImageName
           })]
@@ -25774,7 +25788,12 @@ var CreateCollection = function CreateCollection() {
   var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('fr_FR'),
       _useState24 = _slicedToArray(_useState23, 2),
       tinyLanguage = _useState24[0],
-      setTinyLanguage = _useState24[1]; // remove caracteres unauthorized for url
+      setTinyLanguage = _useState24[1];
+
+  var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      _useState26 = _slicedToArray(_useState25, 2),
+      id = _useState26[0],
+      setId = _useState26[1]; // remove caracteres unauthorized for url
 
 
   var normalizUrl = function normalizUrl(str) {
@@ -25947,11 +25966,32 @@ var CreateCollection = function CreateCollection() {
     if (isEdit) {
       axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/getCollectionById/".concat(collectionId)).then(function (res) {
         console.log('res.data  ', res.data);
+        setConditions(JSON.parse(res.data.objConditions)); // res.data.automatise === 1 ? setIsAutoConditions('true') : setIsAutoConditions('false');
+
+        res.data.automatise === 1 ? localStorage.setItem('isAutoConditions', true) : localStorage.setItem('isAutoConditions', false);
+        res.data.allConditionsNeeded === 1 ? setAllConditionsNeeded(true) : setAllConditionsNeeded(false);
+        res.data.notIncludePrevProduct === 1 ? setNotIncludePrevProduct(true) : setNotIncludePrevProduct(false);
+        setId(res.data.id);
+        setNameCollection(res.data.name);
+        setDescriptionCollection(res.data.description);
+        setMetaTitle(res.data.meta_title);
+        setMetaDescription(res.data.meta_description);
+        setMetaUrl(res.data.meta_url);
+        setImageName(res.data.image);
+        setAlt(res.data.alt);
+        setCategoryName(res.data.category.name);
+        setCategoryId(res.data.category_id);
+        setDateField(res.data.created_at);
+        setDescriptionCollectionForMeta();
+        console.log('isAutoConditions inside useefect ', isAutoConditions);
+        console.log('objConditions inside useefect ', res.data.objConditions);
       })["catch"](function (error) {
         console.log('error:   ' + error);
       });
     }
   }, []);
+  console.log('isAutoConditions  ', isAutoConditions);
+  console.log('conditions ', conditions);
 
   var handleNameCollection = function handleNameCollection(e) {
     setNameCollection(e.target.value);
@@ -26292,37 +26332,34 @@ var ListCollections = function ListCollections() {
       listCollectionsFiltered = _useState2[0],
       setListCollectionsFiltered = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState4 = _slicedToArray(_useState3, 2),
-      listCategories = _useState4[0],
-      setListCategories = _useState4[1];
+      searchValue = _useState4[0],
+      setSearchValue = _useState4[1];
 
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState6 = _slicedToArray(_useState5, 2),
-      searchValue = _useState6[0],
-      setSearchValue = _useState6[1];
-
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     imgName: 'az.png',
     imgDate: '1-2.png',
     imgCat: 'az.png'
   }),
-      _useState8 = _slicedToArray(_useState7, 2),
-      imgSort = _useState8[0],
-      setImgSort = _useState8[1];
+      _useState6 = _slicedToArray(_useState5, 2),
+      imgSort = _useState6[0],
+      setImgSort = _useState6[1];
 
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     nameSens: true,
     categorySens: true,
     ceated_atSens: true
   }),
-      _useState10 = _slicedToArray(_useState9, 2),
-      toggleSort = _useState10[0],
-      setToggleSort = _useState10[1];
+      _useState8 = _slicedToArray(_useState7, 2),
+      toggleSort = _useState8[0],
+      setToggleSort = _useState8[1];
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       listCollections = _useContext.listCollections,
-      setListCollections = _useContext.setListCollections;
+      setListCollections = _useContext.setListCollections,
+      listCategories = _useContext.listCategories,
+      setListCategories = _useContext.setListCategories;
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (listCollections.length === 0) {
@@ -26767,21 +26804,21 @@ var Optimisation = function Optimisation() {
             checked: isShowOptimisation,
             onChange: showHideOptimisation
           })]
-        }), metaUrl.length > (window.location.origin.toString() + '/').length ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+        }), (metaUrl === null || metaUrl === void 0 ? void 0 : metaUrl.length) > (window.location.origin.toString() + '/').length ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
           style: {
             marginBottom: "10px"
           },
           className: "btn-bcknd",
           onClick: initOptimisationForm,
           children: "Annuler L'optimisation"
-        }) : metaTitle.length > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+        }) : (metaTitle === null || metaTitle === void 0 ? void 0 : metaTitle.length) > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
           style: {
             marginBottom: "10px"
           },
           className: "btn-bcknd",
           onClick: initOptimisationForm,
           children: "Annuler"
-        }) : metaDescription.length > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+        }) : (metaDescription === null || metaDescription === void 0 ? void 0 : metaDescription.length) > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
           style: {
             marginBottom: "10px"
           },
@@ -26814,7 +26851,7 @@ var Optimisation = function Optimisation() {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
             type: "text",
             className: "w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1",
-            value: metaUrl,
+            value: (metaUrl === null || metaUrl === void 0 ? void 0 : metaUrl.length) > 0 ? metaUrl : '',
             onChange: handleMetaUrl,
             placeholder: "Url de cette collection",
             maxLength: "2047"
@@ -26835,14 +26872,14 @@ var Optimisation = function Optimisation() {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
             type: "text",
             className: "w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1",
-            value: metaTitle,
+            value: (metaTitle === null || metaTitle === void 0 ? void 0 : metaTitle.length) > 0 ? metaTitle : '',
             onChange: handleMetaTitle
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
             className: "sub-div-vert-align",
             children: [metaTitlebiggerThan50 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
               className: "inRed",
               children: " Seuls les 50 \xE0 60 premiers caract\xE8res seront affich\xE9s par les moteurs de recherche"
-            }), "Nombre de caract\xE8res: ", metaTitle.length]
+            }), "Nombre de caract\xE8res: ", (metaTitle === null || metaTitle === void 0 ? void 0 : metaTitle.length) > 0 ? metaTitle.length : 0]
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
           className: "div-label-inputTxt",
@@ -26859,14 +26896,14 @@ var Optimisation = function Optimisation() {
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("textarea", {
             // style={{ opacity: "0.6" }}
-            value: metaDescription,
+            value: (metaDescription === null || metaDescription === void 0 ? void 0 : metaDescription.length) > 0 ? metaDescription : '',
             onChange: handleMetaDescription
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
             className: "sub-div-vert-align",
             children: [metaDescriptionbiggerThan130 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
               className: "inRed",
               children: " Seuls les 120 \xE0 130 premiers caract\xE8res seront affich\xE9s par les moteurs de recherche"
-            }), "Nombre de caract\xE8res: ", metaDescription.length]
+            }), "Nombre de caract\xE8res: ", (metaDescription === null || metaDescription === void 0 ? void 0 : metaDescription.length) > 0 ? metaDescription.length : 0]
           })]
         })]
       })]
@@ -27174,7 +27211,9 @@ __webpack_require__.r(__webpack_exports__);
   selectedColor: '',
   setSelectedColor: function setSelectedColor() {},
   listCollections: '',
-  setListCollections: function setListCollections() {}
+  setListCollections: function setListCollections() {},
+  listCategories: '',
+  setListCategories: function setListCategories() {}
 }));
 
 /***/ }),
@@ -30166,7 +30205,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
  // récupère les données de key ou met defaultValue s'il n'y en a pas
 
 function getStorageValue(key, defaultValue) {
-  if (localStorage.getItem(key) != '') {
+  if (localStorage.getItem(key) != '' && localStorage.getItem(key) != 'undefined') {
     return JSON.parse(localStorage.getItem(key)) || defaultValue;
   } else {
     return defaultValue;

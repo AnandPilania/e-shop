@@ -130,21 +130,21 @@ const Optimisation = () => {
                             checked={isShowOptimisation}
                             onChange={showHideOptimisation} />
                     </div>
-                    {metaUrl.length > (window.location.origin.toString() + '/').length ?
+                    {metaUrl?.length > (window.location.origin.toString() + '/').length ?
                         (<button
                             style={{ marginBottom: "10px" }}
                             className='btn-bcknd'
                             onClick={initOptimisationForm}>
                             Annuler L'optimisation
                         </button>) :
-                        metaTitle.length > 0 ?
+                        metaTitle?.length > 0 ?
                             (<button
                                 style={{ marginBottom: "10px" }}
                                 className='btn-bcknd'
                                 onClick={initOptimisationForm}>
                                 Annuler
                             </button>) :
-                            metaDescription.length > 0 ?
+                            metaDescription?.length > 0 ?
                                 (<button
                                     style={{ marginBottom: "10px" }}
                                     className='btn-bcknd'
@@ -169,7 +169,7 @@ const Optimisation = () => {
                         </div>
                         <input type='text'
                         className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"
-                            value={metaUrl}
+                            value={metaUrl?.length > 0 ? metaUrl : ''}
                             onChange={handleMetaUrl}
                             placeholder="Url de cette collection"
                             maxLength="2047"
@@ -188,14 +188,14 @@ const Optimisation = () => {
                         </div>
                         <input type='text'
                         className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"
-                            value={metaTitle}
+                            value={metaTitle?.length > 0 ? metaTitle : ''}
                             onChange={handleMetaTitle}
                         />
                         <div className='sub-div-vert-align'>
                             {metaTitlebiggerThan50 &&
                                 <span className="inRed"> Seuls les 50 à 60 premiers caractères seront affichés par les moteurs de recherche
                                 </span>}
-                            Nombre de caractères: {metaTitle.length}
+                            Nombre de caractères: {metaTitle?.length > 0 ?  metaTitle.length : 0}
                         </div>
                     </div>
 
@@ -209,14 +209,14 @@ const Optimisation = () => {
                         </div>
                         <textarea
                             // style={{ opacity: "0.6" }}
-                            value={metaDescription}
+                            value={metaDescription?.length > 0 ? metaDescription : ''}
                             onChange={handleMetaDescription}>
                         </textarea>
                         <div className='sub-div-vert-align'>
                             {metaDescriptionbiggerThan130 &&
                                 <span className="inRed"> Seuls les 120 à 130 premiers caractères seront affichés par les moteurs de recherche
                                 </span>}
-                            Nombre de caractères: {metaDescription.length}
+                            Nombre de caractères: {metaDescription?.length > 0 ? metaDescription.length : 0}
                         </div>
                     </div>
                 </div>

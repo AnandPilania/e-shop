@@ -13,6 +13,9 @@ const Conditions = () => {
         warningIdCondition, setWarningIdCondition,
     } = useContext(CollectionContext);
 
+
+console.log('conditions in conditions  ', conditions)
+
     useEffect(() => {
         // détermine si on montre le block conditions
         if (localStorage.getItem('isAutoConditions')) {
@@ -32,7 +35,7 @@ const Conditions = () => {
         } else {
             localStorage.setItem('isAutoConditions', false);
             setIsAutoConditions(false);
-            // réinitialise conditions
+            // réinitialise conditions quand on passe en conditions manuelles
             setConditions([{
                 id: 0,
                 parameter: '1',
@@ -143,7 +146,7 @@ const Conditions = () => {
                             Automatisé
                         </label>
                     </div>
-                    <p>Ajouter automatiquement les produits lorsqu'ils correspondent aux règles définies</p>
+                    <p>Ajouter automatiquement les produits lorsqu'ils correspondent aux conditions définies</p>
                 </div>
                 {/* conditions */}
                 <div className="sub-div-vert-align dropable"

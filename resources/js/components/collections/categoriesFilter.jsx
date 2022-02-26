@@ -31,10 +31,10 @@ const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
 
         } else {
             filterCard.style.maxHeight = "300px";
-            filterCard.style.width = "250px";
-            filterCard.style.minWidth = "250px";
+            filterCard.style.width = "300px";
+            // filterCard.style.minWidth = "250px";
 
-            dropable.style.maxHeight = "250px";
+            dropable.style.maxHeight = "300px";
             // montre les borders quand ouvert seulement
             dropable.style.borderLeft = 'rgb(220, 220, 220) solid 1px';
             dropable.style.borderRight = 'rgb(220, 220, 220) solid 1px';
@@ -111,13 +111,13 @@ const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
                 {/* <i className="fas fa-angle-down"></i> */}
             </button>
 
-            <div id="cat-filter-card" className="w-auto flex-col justify-s align-s dropable absolute t30 r0 bg-white shadow-l radius5 z5">
+            <div id="cat-filter-card" className="w300 flex-col justify-s align-s dropable absolute t30 r0 bg-white shadow-l radius5 z5">
                 <div className='w100pct h60 flex-row bg-gray-light p-l-20'>
                     <span className="w100pct">Filtrer par:</span>
                 </div>
 
                 <div id='category_select' className='w100pct flex-row'>
-                    <ul className='ul-category scroll1 w100pct h200 bg-white'
+                    <ul className='ul-category scrolly scroll w100pct h200 bg-white'
                         >
                         {arrayList && arrayList.map((item, index) => (
                             <li className="w100pct h40 p-lr-10 flex-row"

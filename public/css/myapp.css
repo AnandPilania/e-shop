@@ -1886,8 +1886,16 @@ a.link:hover {
   max-height: 250px;
 }
 
+.max-h265 {
+  max-height: 265px;
+}
+
 .max-h300 {
   max-height: 300px;
+}
+
+.max-h310 {
+  max-height: 310px;
 }
 
 .min-h10pct {

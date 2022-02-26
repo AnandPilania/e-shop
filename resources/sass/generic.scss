@@ -48,6 +48,7 @@
     width: 300px;
 }
 
+
 // min-width px
 .min-w50 {
     min-width: 50px;
@@ -291,8 +292,14 @@
 .max-h250 {
     max-height: 250px;
 }
+.max-h265 {
+    max-height: 265px; // <- popover list collection
+}
 .max-h300 {
     max-height: 300px;
+}
+.max-h310 {
+    max-height: 310px;
 }
 
 

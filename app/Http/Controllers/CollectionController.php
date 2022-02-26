@@ -48,8 +48,8 @@ class CollectionController extends Controller
     // renvoi vers la page de liste des collections dans le backend
     public function getCollectionById($id)
     {
-        $collections = Collection::find($id);
-        return json_encode($collections);
+        $collection = Collection::where('id', $id)->with('category')->first();
+        return json_encode($collection);
     }
 
 

@@ -31,5 +31,7 @@ export default React.createContext({
     setSelectedColor: () => { },
     listCollections: '',  
     setListCollections: () => { },
+    listCategories: '', 
+    setListCategories: () => { },
 
 });

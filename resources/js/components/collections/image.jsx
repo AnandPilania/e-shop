@@ -47,7 +47,7 @@ const Image = () => {
                                 <span className="tooltiptext">Ajouter une brève description de l'image ex. "Jeans noir avec fermeture éclair". Ceci améliore l'accessibilité et le référencement de votre boutique.</span>
                             </i>
                         </div>
-                        <input className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1" type="text" name="alt" value={alt} maxLength="255" onChange={handleAlt} />
+                        <input className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1" type="text" name="alt" value={alt?.length > 0 ? alt : ''} maxLength="255" onChange={handleAlt} />
                     </div>
                     <div className="div-label-inputTxt">
                         <div className="sub-div-horiz-align-m">
@@ -56,7 +56,7 @@ const Image = () => {
                                 <span className="tooltiptext">Donnez un nom en rapport avec le contenu de l'image. Ceci améliore le référencement de votre boutique dans les recherches par image.</span>
                             </i>
                         </div>
-                        <input className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1" type="text" name="imgColection" value={imageName} maxLength="255" onChange={handleImageName} />
+                        <input className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1" type="text" name="imgColection" value={imageName?.length > 0 ? imageName : ''} maxLength="255" onChange={handleImageName} />
                     </div>
                 </div>
             </div>
