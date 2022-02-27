@@ -39,7 +39,7 @@ class GetArrayOfConditions
                     $field = 'stock';
                     break;
                 case '9':
-                    $field = 'sku_name'; // variante name
+                    $field = 'varianteId'; // variante id
                     break;
                 default:
                     $field = 'name';

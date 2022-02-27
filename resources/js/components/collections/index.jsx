@@ -195,11 +195,13 @@ const CreateCollection = () => {
         if (isEdit) {
             Axios.get(`http://127.0.0.1:8000/getCollectionById/${collectionId}`)
                 .then(res => {
-                    console.log('res.data  ', res.data);
-
-                    setConditions(JSON.parse(res.data.objConditions));
-                    // res.data.automatise === 1 ? setIsAutoConditions('true') : setIsAutoConditions('false');
+                    res.data.objConditions?.length > 0 ? setConditions(JSON.parse(res.data.objConditions)) : setConditions([{id: 0, parameter: '1', operator: '1', value: ''}]);
+                    // autoConditions doit être mis à false avant d'être mis à true pour s'assurer qu'il déclenche le ussefect[autoConditions] dans conditions pour obtenir la bonne hauteur de l'affichage de conditions
+                    setIsAutoConditions(false);
+                    res.data.automatise === 1 ? setIsAutoConditions(true) : setIsAutoConditions(false);
                     res.data.automatise === 1 ? localStorage.setItem('isAutoConditions', true) : localStorage.setItem('isAutoConditions', false);
+
+
                     res.data.allConditionsNeeded === 1 ? setAllConditionsNeeded(true) : setAllConditionsNeeded(false);
                     res.data.notIncludePrevProduct === 1 ? setNotIncludePrevProduct(true) : setNotIncludePrevProduct(false);
                     setId(res.data.id);
@@ -215,17 +217,13 @@ const CreateCollection = () => {
                     setDateField(res.data.created_at);
                     setDescriptionCollectionForMeta();
 
-                    console.log('isAutoConditions inside useefect ', isAutoConditions);
-                    console.log('objConditions inside useefect ', res.data.objConditions);
-
                 }).catch(function (error) {
                     console.log('error:   ' + error);
                 });
         }
     }, []);
 
-console.log('isAutoConditions  ', isAutoConditions);
-console.log('conditions ', conditions);
+
 
 
     const handleNameCollection = (e) => {
@@ -323,23 +321,27 @@ console.log('conditions ', conditions);
         // !!!! CHECK AUSSI LES CONDITIONS !!!!
 
         // VALIDATION !!!
-        if (metaTitle.length === 0) {
-            formData.append("metaTitle", nameCollection);
-        } else {
+        if (metaTitle?.length > 0) {
             formData.append("metaTitle", metaTitle);
+        } else {
+            formData.append("metaTitle", nameCollection);
         }
 
-        if (metaDescription.length === 0) {
-            formData.append("metaDescription", '');
-        } else {
+        if (metaDescription?.length > 0) {
             formData.append("metaDescription", metaDescription);
+        } else {
+            formData.append("metaDescription", '');
         }
 
-        let urlLength = (window.location.origin + '/').length;
-        if (metaUrl.length === urlLength) {
-            formData.append("metaUrl", normalizUrl(nameCollection));
+        let meta_url = (window.location.origin + '/');
+        if (metaUrl?.length > 0) {
+            if (metaUrl === meta_url) {
+                formData.append("metaUrl", normalizUrl(nameCollection));
+            } else {
+                formData.append("metaUrl", normalizUrl(metaUrl.slice(meta_url.length)));
+            }
         } else {
-            formData.append("metaUrl", normalizUrl(metaUrl.slice(urlLength)));
+            formData.append("metaUrl", normalizUrl(nameCollection));
         }
 
         // check if there is at least one condition value empty

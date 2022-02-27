@@ -67,14 +67,14 @@ class CollectionController extends Controller
 
     public function storeAndAssign(StoreCollectionRequest $request)
     {
-        // dd($request->image);
+        // dd($request);
         // dd($request->metaDescription);
 
         $conditions = json_decode($request->objConditions);
         // renvoi un ou plusieurs tableaux avec les produits qui correspondes aux conditions demandées
         $getMatchedProduct = new GetArrayOfConditions;
         $list_match = $getMatchedProduct->getArrayOfConditions($conditions);
-
+        dd($request);
         $stack = [];
         // met tous les ids des produits de tous les tableaux dans stack pour avoir un seul tableau sur lequel tester si les produits correspondent à toutes les conditions
         foreach ($list_match as $item_match) {

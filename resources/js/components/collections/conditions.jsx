@@ -13,9 +13,6 @@ const Conditions = () => {
         warningIdCondition, setWarningIdCondition,
     } = useContext(CollectionContext);
 
-
-console.log('conditions in conditions  ', conditions)
-
     useEffect(() => {
         // détermine si on montre le block conditions
         if (localStorage.getItem('isAutoConditions')) {
@@ -86,13 +83,12 @@ console.log('conditions in conditions  ', conditions)
     //add condition
     const addCondition = () => {
         // get bigger id for define the next id to insert in conditions
-        var arr = [...conditions];
-        const BiggerId = arr.reduce((acc, current) => acc = acc > current.id ? acc : current.id, 0);
-        var condition_id = BiggerId + 1;
-
+        const objWithBiggerId = conditions.reduce(function (prev, current) {
+            return (prev.id > current.id) ? prev : current
+        });
         setConditions([
             ...conditions, {
-                id: condition_id,
+                id: objWithBiggerId.id + 1,
                 parameter: '1',
                 operator: '1',
                 value: ''
@@ -104,7 +100,7 @@ console.log('conditions in conditions  ', conditions)
         dropable.style.maxHeight = parseInt(dropable.scrollHeight + 60) + "px";
     };
 
-    // delete la condition dont l'id correspond à l'id transmis
+    // delete la condition dont l'id correspond à l'id transmit
     const deleteCondition = (id) => {
         var arr = [...conditions];
         var index_arr = arr.findIndex(obj => obj.id == id);

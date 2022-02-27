@@ -58,7 +58,7 @@ const ConditionCollection = (props) => {
         hideUselessOperatorReset();
         setTypeValue('')
 
-        if (param == 1 || param == 2 || param == 3 || param == 9) {
+        if (param == 1 || param == 2 || param == 3) {
             setHideOp1('show');
             setHideOp2('show');
             setHideOp5('show');
@@ -104,6 +104,13 @@ const ConditionCollection = (props) => {
             setInputType('number');
             setInputStep('0.01');
         }
+
+        if (param == 9) {
+            setHideOp1('show');
+            setInputType('number');
+            setInputStep('0.01');
+        }
+
         if (param == 10) {
             setHideOp1('show');
             setHideOp2('show');
@@ -113,7 +120,6 @@ const ConditionCollection = (props) => {
         }
 
     }
-
 
     // récup le param et l'envoi à handleChangeParam pour mettre à jours l'obj conditions + l'envoi à showOnlyUsableOperator pour détermine quelle liste d'opérators afficher
     const changeParamValue = (e) => {
@@ -148,7 +154,7 @@ const ConditionCollection = (props) => {
                     <option value="6">Prix avant réduction</option>
                     <option value="7">Poids</option>
                     <option value="8">Stock</option>
-                    <option value="9">Nom de variante</option>
+                    <option value="9">Id de la variante</option>
                     <option value="10">Date ajout produit</option>
                     <option value="11">Unité vendue par mois</option>
                     <option value="12">Total d'unité vendue</option>

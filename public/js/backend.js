@@ -24968,7 +24968,7 @@ var ConditionCollection = function ConditionCollection(props) {
     hideUselessOperatorReset();
     setTypeValue('');
 
-    if (param == 1 || param == 2 || param == 3 || param == 9) {
+    if (param == 1 || param == 2 || param == 3) {
       setHideOp1('show');
       setHideOp2('show');
       setHideOp5('show');
@@ -25016,6 +25016,12 @@ var ConditionCollection = function ConditionCollection(props) {
 
     if (param == 7) {
       setTypeValue('Kg');
+      setInputType('number');
+      setInputStep('0.01');
+    }
+
+    if (param == 9) {
+      setHideOp1('show');
       setInputType('number');
       setInputStep('0.01');
     }
@@ -25073,7 +25079,7 @@ var ConditionCollection = function ConditionCollection(props) {
           children: "Stock"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
           value: "9",
-          children: "Nom de variante"
+          children: "Id de la variante"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
           value: "10",
           children: "Date ajout produit"
@@ -25201,7 +25207,6 @@ var Conditions = function Conditions() {
       warningIdCondition = _useContext.warningIdCondition,
       setWarningIdCondition = _useContext.setWarningIdCondition;
 
-  console.log('conditions in conditions  ', conditions);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // détermine si on montre le block conditions
     if (localStorage.getItem('isAutoConditions')) {
@@ -25279,14 +25284,11 @@ var Conditions = function Conditions() {
 
   var addCondition = function addCondition() {
     // get bigger id for define the next id to insert in conditions
-    var arr = _toConsumableArray(conditions);
-
-    var BiggerId = arr.reduce(function (acc, current) {
-      return acc = acc > current.id ? acc : current.id;
-    }, 0);
-    var condition_id = BiggerId + 1;
+    var objWithBiggerId = conditions.reduce(function (prev, current) {
+      return prev.id > current.id ? prev : current;
+    });
     setConditions([].concat(_toConsumableArray(conditions), [{
-      id: condition_id,
+      id: objWithBiggerId.id + 1,
       parameter: '1',
       operator: '1',
       value: ''
@@ -25294,7 +25296,7 @@ var Conditions = function Conditions() {
 
     var dropable = document.getElementById('conditions_collection');
     dropable.style.maxHeight = parseInt(dropable.scrollHeight + 60) + "px";
-  }; // delete la condition dont l'id correspond à l'id transmis
+  }; // delete la condition dont l'id correspond à l'id transmit
 
 
   var deleteCondition = function deleteCondition(id) {
@@ -25945,9 +25947,17 @@ var CreateCollection = function CreateCollection() {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (isEdit) {
       axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/getCollectionById/".concat(collectionId)).then(function (res) {
-        console.log('res.data  ', res.data);
-        setConditions(JSON.parse(res.data.objConditions)); // res.data.automatise === 1 ? setIsAutoConditions('true') : setIsAutoConditions('false');
+        var _res$data$objConditio;
 
+        ((_res$data$objConditio = res.data.objConditions) === null || _res$data$objConditio === void 0 ? void 0 : _res$data$objConditio.length) > 0 ? setConditions(JSON.parse(res.data.objConditions)) : setConditions([{
+          id: 0,
+          parameter: '1',
+          operator: '1',
+          value: ''
+        }]); // autoConditions doit être mis à false avant d'être mis à true pour s'assurer qu'il déclenche le ussefect[autoConditions] dans conditions pour obtenir la bonne hauteur de l'affichage de conditions
+
+        setIsAutoConditions(false);
+        res.data.automatise === 1 ? setIsAutoConditions(true) : setIsAutoConditions(false);
         res.data.automatise === 1 ? localStorage.setItem('isAutoConditions', true) : localStorage.setItem('isAutoConditions', false);
         res.data.allConditionsNeeded === 1 ? setAllConditionsNeeded(true) : setAllConditionsNeeded(false);
         res.data.notIncludePrevProduct === 1 ? setNotIncludePrevProduct(true) : setNotIncludePrevProduct(false);
@@ -25963,15 +25973,11 @@ var CreateCollection = function CreateCollection() {
         setCategoryId(res.data.category_id);
         setDateField(res.data.created_at);
         setDescriptionCollectionForMeta();
-        console.log('isAutoConditions inside useefect ', isAutoConditions);
-        console.log('objConditions inside useefect ', res.data.objConditions);
       })["catch"](function (error) {
         console.log('error:   ' + error);
       });
     }
   }, []);
-  console.log('isAutoConditions  ', isAutoConditions);
-  console.log('conditions ', conditions);
 
   var handleNameCollection = function handleNameCollection(e) {
     setNameCollection(e.target.value);
@@ -26067,24 +26073,28 @@ var CreateCollection = function CreateCollection() {
   var validation = function validation() {
     // !!!! CHECK AUSSI LES CONDITIONS !!!!
     // VALIDATION !!!
-    if (metaTitle.length === 0) {
-      formData.append("metaTitle", nameCollection);
-    } else {
+    if ((metaTitle === null || metaTitle === void 0 ? void 0 : metaTitle.length) > 0) {
       formData.append("metaTitle", metaTitle);
+    } else {
+      formData.append("metaTitle", nameCollection);
     }
 
-    if (metaDescription.length === 0) {
-      formData.append("metaDescription", '');
-    } else {
+    if ((metaDescription === null || metaDescription === void 0 ? void 0 : metaDescription.length) > 0) {
       formData.append("metaDescription", metaDescription);
+    } else {
+      formData.append("metaDescription", '');
     }
 
-    var urlLength = (window.location.origin + '/').length;
+    var meta_url = window.location.origin + '/';
 
-    if (metaUrl.length === urlLength) {
-      formData.append("metaUrl", normalizUrl(nameCollection));
+    if ((metaUrl === null || metaUrl === void 0 ? void 0 : metaUrl.length) > 0) {
+      if (metaUrl === meta_url) {
+        formData.append("metaUrl", normalizUrl(nameCollection));
+      } else {
+        formData.append("metaUrl", normalizUrl(metaUrl.slice(meta_url.length)));
+      }
     } else {
-      formData.append("metaUrl", normalizUrl(metaUrl.slice(urlLength)));
+      formData.append("metaUrl", normalizUrl(nameCollection));
     } // check if there is at least one condition value empty
 
 
