@@ -83,7 +83,7 @@ const CreateCollection = () => {
 
     const {
         image, setImage, setImagePath, setFollowThisLink, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage,
-        setShowModalInput, messageModal, setMessageModal, sender, setSender, textButtonConfirm, setTextButtonConfirm, imageModal, setImageModal, darkMode, setDarkMode
+        setShowModalInput, messageModal, setMessageModal, sender, setSender, textButtonConfirm, setTextButtonConfirm, imageModal, setImageModal, is_Edit, setIs_Edit, darkMode, setDarkMode
     } = useContext(AppContext);
 
     // context de create collection
@@ -193,9 +193,15 @@ const CreateCollection = () => {
     const { collectionId, isEdit } = state ? state : false;
     useEffect(() => {
         if (isEdit) {
+            
+            initCollectionForm();
+            // gére le netoyage des images et vidéos dans  temporaryStorage 
+            let keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection']
+            cleanTemporayStorage(keys_toDelete);
+
             Axios.get(`http://127.0.0.1:8000/getCollectionById/${collectionId}`)
                 .then(res => {
-                    res.data.objConditions?.length > 0 ? setConditions(JSON.parse(res.data.objConditions)) : setConditions([{id: 0, parameter: '1', operator: '1', value: ''}]);
+                    res.data.objConditions?.length > 0 ? setConditions(JSON.parse(res.data.objConditions)) : setConditions([{ id: 0, parameter: '1', operator: '1', value: '' }]);
                     // autoConditions doit être mis à false avant d'être mis à true pour s'assurer qu'il déclenche le ussefect[autoConditions] dans conditions pour obtenir la bonne hauteur de l'affichage de conditions
                     setIsAutoConditions(false);
                     res.data.automatise === 1 ? setIsAutoConditions(true) : setIsAutoConditions(false);
@@ -210,13 +216,16 @@ const CreateCollection = () => {
                     setMetaTitle(res.data.meta_title);
                     setMetaDescription(res.data.meta_description);
                     setMetaUrl(res.data.meta_url);
+                    setImage(res.data.image);
                     setImageName(res.data.image);
+
+
                     setAlt(res.data.alt);
                     setCategoryName(res.data.category.name);
                     setCategoryId(res.data.category_id);
                     setDateField(res.data.created_at);
                     setDescriptionCollectionForMeta();
-
+                    setIs_Edit(true);
                 }).catch(function (error) {
                     console.log('error:   ' + error);
                 });

@@ -66,7 +66,7 @@ const useStyles = makeStyles({
 
 const DropZone = (props) => {
     const classes = useStyles();
-    const { image, setImage, imagePath, setImagePath, setImageModal, setShowModalSimpleMessage, setMessageModal } = useContext(AppContext);
+    const { image, setImage, imagePath, setImagePath, setImageModal, setShowModalSimpleMessage, setMessageModal, is_Edit, setIs_Edit } = useContext(AppContext);
     var navigate = useNavigate();
     var dropRegion = null;
     var imagePreviewRegion = null;
@@ -115,8 +115,11 @@ const DropZone = (props) => {
 
         // init preview image
         try {
+
             Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage`)
-                .then(res => {
+                .then(res => { 
+                    console.log('res data  ', res.data)
+                    console.log('res data -> image  ', image)
                     if (res.data !== undefined && res.data != '') {
                         // get --> image path <-- for croppe
                         setImagePath('/' + res.data);
@@ -134,13 +137,31 @@ const DropZone = (props) => {
         } catch (error) {
             console.error('error  ' + error);
         }
+
     }, []);
 
-
+    useEffect(() => {
+        if (is_Edit) {
+            console.log('image  ', image)
+            setImagePath('/' + image);
+            // get --> image <-- for preview
+            fetch('/' + image)
+                .then(function (response) {
+                    return response.blob();
+                })
+                .then(function (BlobImage) {
+                    previewImage(BlobImage);
+                    setImage(BlobImage);
+                });
+            setIs_Edit(false);
+        }
+    }, [is_Edit]);
+    
+    
     const handleChangeImage = (imageFile) => {
         // when image is changed, save it in temporaryStorage before load it and setImagePath with  
         let response = async () => {
-            
+
             return saveInTemporaryStorage('tmp_imageCollection', imageFile)
         }
         response().then(() => {

@@ -33,5 +33,7 @@ export default React.createContext({
     setListCollections: () => { },
     listCategories: '', 
     setListCategories: () => { },
+    is_Edit: '', 
+    setIs_Edit: () => { },
 
 });

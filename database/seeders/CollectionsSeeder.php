@@ -25,7 +25,7 @@ class CollectionsSeeder extends Seeder
             'automatise' => '1',
             'notIncludePrevProduct' => '1',
             'allConditionsNeeded' => '1',
-            'dateActivation' => '2022/06/30 12',
+            'dateActivation' => '2021/02/30 12',
         ]);
 
         DB::table('collections')->insert([
@@ -39,7 +39,7 @@ class CollectionsSeeder extends Seeder
             'automatise' => '1',
             'notIncludePrevProduct' => '1',
             'allConditionsNeeded' => '1',
-            'dateActivation' => '2022/06/30 12',
+            'dateActivation' => '2021/06/30 12',
         ]);
 
         DB::table('collections')->insert([
@@ -53,7 +53,7 @@ class CollectionsSeeder extends Seeder
             'automatise' => '1',
             'notIncludePrevProduct' => '1',
             'allConditionsNeeded' => '1',
-            'dateActivation' => '2022/06/30 12',
+            'dateActivation' => '2021/10/30 12',
         ]);
 
         DB::table('collections')->insert([
@@ -67,7 +67,7 @@ class CollectionsSeeder extends Seeder
             'automatise' => '1',
             'notIncludePrevProduct' => '1',
             'allConditionsNeeded' => '1',
-            'dateActivation' => '2022/06/30 12',
+            'dateActivation' => '2022/01/30 12',
         ]);
         DB::table('collections')->insert([
             'name' => 'Parfums',
@@ -94,7 +94,7 @@ class CollectionsSeeder extends Seeder
             'automatise' => '1',
             'notIncludePrevProduct' => '1',
             'allConditionsNeeded' => '1',
-            'dateActivation' => '2022/06/30 12',
+            'dateActivation' => '2022/08/30 12',
         ]);
     }
 }

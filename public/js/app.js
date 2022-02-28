@@ -23715,6 +23715,11 @@ var App = function App() {
       listCategories = _useState38[0],
       setListCategories = _useState38[1];
 
+  var _useState39 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState40 = _slicedToArray(_useState39, 2),
+      is_Edit = _useState40[0],
+      setIs_Edit = _useState40[1];
+
   var handleModalApp = function handleModalApp() {
     setShowModalApp(false);
   };
@@ -23755,7 +23760,9 @@ var App = function App() {
     listCollections: listCollections,
     setListCollections: setListCollections,
     listCategories: listCategories,
-    setListCategories: setListCategories
+    setListCategories: setListCategories,
+    is_Edit: is_Edit,
+    setIs_Edit: setIs_Edit
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
     className: "app-container",
@@ -24988,7 +24995,7 @@ var ConditionCollection = function ConditionCollection(props) {
     hideUselessOperatorReset();
     setTypeValue('');
 
-    if (param == 1 || param == 2 || param == 3) {
+    if (param == 1 || param == 2 || param == 3 || param == 9) {
       setHideOp1('show');
       setHideOp2('show');
       setHideOp5('show');
@@ -25036,12 +25043,6 @@ var ConditionCollection = function ConditionCollection(props) {
 
     if (param == 7) {
       setTypeValue('Kg');
-      setInputType('number');
-      setInputStep('0.01');
-    }
-
-    if (param == 9) {
-      setHideOp1('show');
       setInputType('number');
       setInputStep('0.01');
     }
@@ -25099,7 +25100,7 @@ var ConditionCollection = function ConditionCollection(props) {
           children: "Stock"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
           value: "9",
-          children: "Id de la variante"
+          children: "Nom de la variante"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
           value: "10",
           children: "Date ajout produit"
@@ -25539,15 +25540,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Image = function Image() {
-  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
-      image = _useContext.image,
-      setImage = _useContext.setImage;
-
-  var _useContext2 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_2__["default"]),
-      imageName = _useContext2.imageName,
-      setImageName = _useContext2.setImageName,
-      alt = _useContext2.alt,
-      setAlt = _useContext2.setAlt;
+  // const {
+  //     image, setImage
+  // } = useContext(AppContext);
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_2__["default"]),
+      imageName = _useContext.imageName,
+      setImageName = _useContext.setImageName,
+      alt = _useContext.alt,
+      setAlt = _useContext.setAlt;
 
   var handleAlt = function handleAlt(e) {
     setAlt(e.target.value);
@@ -25848,6 +25848,8 @@ var CreateCollection = function CreateCollection() {
       setTextButtonConfirm = _useContext.setTextButtonConfirm,
       imageModal = _useContext.imageModal,
       setImageModal = _useContext.setImageModal,
+      is_Edit = _useContext.is_Edit,
+      setIs_Edit = _useContext.setIs_Edit,
       darkMode = _useContext.darkMode,
       setDarkMode = _useContext.setDarkMode; // context de create collection
 
@@ -25966,6 +25968,10 @@ var CreateCollection = function CreateCollection() {
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (isEdit) {
+      initCollectionForm(); // gére le netoyage des images et vidéos dans  temporaryStorage 
+
+      var keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection'];
+      cleanTemporayStorage(keys_toDelete);
       axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/getCollectionById/".concat(collectionId)).then(function (res) {
         var _res$data$objConditio;
 
@@ -25987,12 +25993,14 @@ var CreateCollection = function CreateCollection() {
         setMetaTitle(res.data.meta_title);
         setMetaDescription(res.data.meta_description);
         setMetaUrl(res.data.meta_url);
+        setImage(res.data.image);
         setImageName(res.data.image);
         setAlt(res.data.alt);
         setCategoryName(res.data.category.name);
         setCategoryId(res.data.category_id);
         setDateField(res.data.created_at);
         setDescriptionCollectionForMeta();
+        setIs_Edit(true);
       })["catch"](function (error) {
         console.log('error:   ' + error);
       });
@@ -27223,7 +27231,9 @@ __webpack_require__.r(__webpack_exports__);
   listCollections: '',
   setListCollections: function setListCollections() {},
   listCategories: '',
-  setListCategories: function setListCategories() {}
+  setListCategories: function setListCategories() {},
+  is_Edit: '',
+  setIs_Edit: function setIs_Edit() {}
 }));
 
 /***/ }),
@@ -31292,7 +31302,9 @@ var DropZone = function DropZone(props) {
       setImagePath = _useContext.setImagePath,
       setImageModal = _useContext.setImageModal,
       setShowModalSimpleMessage = _useContext.setShowModalSimpleMessage,
-      setMessageModal = _useContext.setMessageModal;
+      setMessageModal = _useContext.setMessageModal,
+      is_Edit = _useContext.is_Edit,
+      setIs_Edit = _useContext.setIs_Edit;
 
   var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_7__.useNavigate)();
   var dropRegion = null;
@@ -31336,6 +31348,9 @@ var DropZone = function DropZone(props) {
 
     try {
       axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getSingleTemporaryImage").then(function (res) {
+        console.log('res data  ', res.data);
+        console.log('res data -> image  ', image);
+
         if (res.data !== undefined && res.data != '') {
           // get --> image path <-- for croppe
           setImagePath('/' + res.data); // get --> image <-- for preview
@@ -31352,6 +31367,20 @@ var DropZone = function DropZone(props) {
       console.error('error  ' + error);
     }
   }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
+    if (is_Edit) {
+      console.log('image  ', image);
+      setImagePath('/' + image); // get --> image <-- for preview
+
+      fetch('/' + image).then(function (response) {
+        return response.blob();
+      }).then(function (BlobImage) {
+        previewImage(BlobImage);
+        setImage(BlobImage);
+      });
+      setIs_Edit(false);
+    }
+  }, [is_Edit]);
 
   var handleChangeImage = function handleChangeImage(imageFile) {
     // when image is changed, save it in temporaryStorage before load it and setImagePath with  

@@ -8,9 +8,9 @@ import DropZone from '../tools/dropZone';
 const Image = () => {
 
 
-    const {
-        image, setImage
-    } = useContext(AppContext);
+    // const {
+    //     image, setImage
+    // } = useContext(AppContext);
 
     const {
         imageName, setImageName,

@@ -38,6 +38,7 @@ const App = () => {
     const [selectedColor, setSelectedColor] = useState('#4A90E2');
     const [listCollections, setListCollections] = useState([]);
     const [listCategories, setListCategories] = useState([]);
+    const [is_Edit, setIs_Edit] = useState(false);
 
 
     const handleModalApp = () => {
@@ -66,6 +67,7 @@ const App = () => {
         selectedColor, setSelectedColor,
         listCollections, setListCollections,
         listCategories, setListCategories,
+        is_Edit, setIs_Edit,
     }
 
 

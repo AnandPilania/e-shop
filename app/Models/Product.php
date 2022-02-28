@@ -17,14 +17,9 @@ class Product extends Model
         'description',
     ];
 
-    public function collections()
+    public function ali_product_info()
     {
-        return $this->belongsToMany(Collection::class)->withTimestamps();
-    }
-
-    public function orders()
-    {
-        return $this->belongsToMany(Order::class);
+        return $this->hasOne(Ali_product_info::class);
     }
 
     public function carts()
@@ -32,44 +27,9 @@ class Product extends Model
         return $this->belongsToMany(Cart::class);
     }
 
-    public function taxe()
+    public function collections()
     {
-        return $this->belongsTo(Taxe::class);
-    } 
-
-    public function images_products()
-    {
-        return $this->hasMany(Images_product::class);
-    } 
-
-    public function product_sheet()
-    {
-        return $this->hasOne(Product_sheet::class);
-    }
-
-    public function product_details()
-    {
-        return $this->hasMany(Product_detail::class);
-    }
-
-    public function reviews()
-    {
-        return $this->hasMany(Review::class);
-    }
-
-    public function order_details()
-    {
-        return $this->hasMany(Order_detail::class);
-    }
-
-    public function tags()
-    {
-        return $this->belongsToMany(Tag::class);
-    }
-
-    public function variants()
-    {
-        return $this->hasMany(Variant::class);
+        return $this->belongsToMany(Collection::class)->withTimestamps();
     }
 
     public function image_ali_import_temps()
@@ -77,9 +37,39 @@ class Product extends Model
         return $this->hasMany(Image_ali_import_temp::class);
     }
 
-    public function ali_product_info()
+    public function order_details()
     {
-        return $this->hasOne(Ali_product_info::class);
+        return $this->hasMany(Order_detail::class);
+    }
+
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class);
+    }
+
+    public function product_details()
+    {
+        return $this->hasMany(Product_detail::class);
+    }
+
+    public function product_sheet()
+    {
+        return $this->hasOne(Product_sheet::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
+    public function variantes()
+    {
+        return $this->hasMany(Variante::class);
     }
 
 }

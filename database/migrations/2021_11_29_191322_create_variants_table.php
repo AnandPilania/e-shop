@@ -15,18 +15,25 @@ class CreateVariantsTable extends Migration
     {
         Schema::create('variants', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('product_id')->nullable()->default(null);
             $table->foreign('product_id')->references('id')->on('products');
-            $table->integer('varianteId');
-            $table->float('cost', 8, 2);
-            $table->float('price', 8, 2);
-            $table->integer('stock');
-            $table->string('image_path');
-            $table->string('thumbnail');
-            $table->tinyInteger('used')->default(0);
-            $table->float('shipping_cost', 8, 2);
-            $table->string('currency_cost_shipping');
-            $table->string('delivery_company');
+            $table->unsignedBigInteger('variante_id')->nullable()->default(null);
+            $table->foreign('variante_id')->references('id')->on('variantes');
+            $table->float('cost', 8, 2)->nullable()->default(null);
+            $table->float('price', 8, 2)->nullable()->default(null);
+            $table->double('weight', 8, 2)->nullable()->default(null);
+            $table->integer('stock')->nullable()->default(null);
+            $table->float('shipping_cost', 8, 2)->nullable()->default(null);
+            $table->string('currency_cost_shipping')->nullable()->default(null);
+            $table->tinyInteger('active')->default('0');
+            $table->string('delivery_company')->nullable()->default(null);
+            $table->string('link');
+            $table->string('type')->nullable()->default(null);
+            $table->string('tag')->nullable()->default(null);
+            $table->integer('ordre')->nullable()->default(null);
+            $table->json('characteristic')->nullable()->default(null);
+            $table->unsignedBigInteger('taxe_id')->nullable()->default(null);
+            $table->foreign('taxe_id')->references('id')->on('taxes');
             $table->timestamps();
         });
     }

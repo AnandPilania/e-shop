@@ -19,8 +19,4 @@ class Product_detail extends Model
         return $this->belongsTo(Type_detail_product::class);
     }
 
-    public function variant()
-    {
-        return $this->belongsTo(Variant::class);
-    }
 }
