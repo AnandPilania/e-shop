@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { makeStyles } from '@material-ui/styles';
 import Axios from 'axios';
 import AppContext from '../contexts/AppContext';
+import CollectionContext from '../contexts/CollectionContext';
 import { saveInTemporaryStorage } from '../functions/temporaryStorage/saveInTemporaryStorage';
 
 
@@ -66,8 +67,13 @@ const useStyles = makeStyles({
 
 const DropZone = (props) => {
     const classes = useStyles();
+
     const { image, setImage, imagePath, setImagePath, setImageModal, setShowModalSimpleMessage, setMessageModal, is_Edit, setIs_Edit } = useContext(AppContext);
+
+    const { id, setId } = useContext(CollectionContext);
+
     var navigate = useNavigate();
+
     var dropRegion = null;
     var imagePreviewRegion = null;
     var tab = [];
@@ -115,11 +121,8 @@ const DropZone = (props) => {
 
         // init preview image
         try {
-
-            Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage`)
-                .then(res => { 
-                    console.log('res data  ', res.data)
-                    console.log('res data -> image  ', image)
+            Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage/${id}`)
+                .then(res => {
                     if (res.data !== undefined && res.data != '') {
                         // get --> image path <-- for croppe
                         setImagePath('/' + res.data);
@@ -137,36 +140,44 @@ const DropZone = (props) => {
         } catch (error) {
             console.error('error  ' + error);
         }
-
     }, []);
 
+    // when collection is edited
     useEffect(() => {
         if (is_Edit) {
-            console.log('image  ', image)
-            setImagePath('/' + image);
-            // get --> image <-- for preview
-            fetch('/' + image)
-                .then(function (response) {
-                    return response.blob();
-                })
-                .then(function (BlobImage) {
-                    previewImage(BlobImage);
-                    setImage(BlobImage);
-                });
+            try {
+                Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage/${id}`)
+                    .then(res => {
+                        if (res.data !== undefined && res.data != '') {
+                            // get --> image path <-- for croppe
+                            setImagePath('/' + res.data);
+                            // get --> image <-- for preview
+                            fetch('/' + res.data)
+                                .then(function (response) {
+                                    return response.blob();
+                                })
+                                .then(function (BlobImage) {
+                                    previewImage(BlobImage);
+                                    setImage(BlobImage);
+                                    handleChangeImage(BlobImage);
+                                })
+                        }
+                    });
+            } catch (error) {
+                console.error('error  ' + error);
+            }
             setIs_Edit(false);
         }
     }, [is_Edit]);
-    
-    
-    const handleChangeImage = (imageFile) => {
-        // when image is changed, save it in temporaryStorage before load it and setImagePath with  
-        let response = async () => {
 
+    // when image is changed, save it in temporaryStorage before load it and setImagePath with  
+    const handleChangeImage = (imageFile) => {
+        let response = async () => {
             return saveInTemporaryStorage('tmp_imageCollection', imageFile)
         }
         response().then(() => {
             try {
-                Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage`)
+                Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage/${id}`)
                     .then(res => {
                         if (res.data !== undefined) {
                             // get --> image path <-- for croppe

@@ -67,14 +67,22 @@ class CollectionController extends Controller
 
     public function storeAndAssign(StoreCollectionRequest $request)
     {
+
+        // !!! ON SUPPRIME TOUT AVANT DE SAUVEGARDER SI ON EDIT !!!
+
+
         // dd($request);
-        // dd($request->metaDescription);
+        if ($request->id > 0) {
+            $collection = Collection::find($request->id);
+        } else {
+            $collection = new Collection;
+        }
 
         $conditions = json_decode($request->objConditions);
         // renvoi un ou plusieurs tableaux avec les produits qui correspondes aux conditions demandées
         $getMatchedProduct = new GetArrayOfConditions;
         $list_match = $getMatchedProduct->getArrayOfConditions($conditions);
-        dd($request);
+        // dd($request);
         $stack = [];
         // met tous les ids des produits de tous les tableaux dans stack pour avoir un seul tableau sur lequel tester si les produits correspondent à toutes les conditions
         foreach ($list_match as $item_match) {
@@ -93,7 +101,6 @@ class CollectionController extends Controller
             next($tmp_tab);
         }
 
-        $collection = new Collection;
         $collection->name = $request->name;
         $collection->description = str_replace('temporaryStorage', 'images', $request->description);
         $collection->automatise = $request->automatise === 'true' ? 1 : 0;
@@ -160,7 +167,6 @@ class CollectionController extends Controller
             Temporary_storage::destroy($toDelete->id);
         }
 
-        // dd($all_conditions_matched);
         return 'ok';
     }
 

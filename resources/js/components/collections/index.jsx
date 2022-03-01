@@ -45,7 +45,7 @@ const CreateCollection = () => {
     const [isDirty, setIsDirty] = useState(false);
     const [warningIdCondition, setWarningIdCondition] = useState([]);
     const [tinyLanguage, setTinyLanguage] = useState('fr_FR');
-    const [id, setId] = useState(null);
+    const [id, setId] = useState(0);
 
     // remove caracteres unauthorized for url
     const normalizUrl = (str) => {
@@ -83,7 +83,7 @@ const CreateCollection = () => {
 
     const {
         image, setImage, setImagePath, setFollowThisLink, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage,
-        setShowModalInput, messageModal, setMessageModal, sender, setSender, textButtonConfirm, setTextButtonConfirm, imageModal, setImageModal, is_Edit, setIs_Edit, darkMode, setDarkMode
+        setShowModalInput, messageModal, setMessageModal, sender, setSender, textButtonConfirm, setTextButtonConfirm, imageModal, setImageModal, is_Edit, setIs_Edit, setListCollections, setListCategories, darkMode, setDarkMode
     } = useContext(AppContext);
 
     // context de create collection
@@ -108,6 +108,7 @@ const CreateCollection = () => {
         deleteThisCategory, setDeleteThisCategory,
         dateField, setDateField,
         tinyLanguage,
+        id, setId,
     }
 
 
@@ -193,19 +194,22 @@ const CreateCollection = () => {
     const { collectionId, isEdit } = state ? state : false;
     useEffect(() => {
         if (isEdit) {
-            
+
             initCollectionForm();
-            // gére le netoyage des images et vidéos dans  temporaryStorage 
-            let keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection']
-            cleanTemporayStorage(keys_toDelete);
 
             Axios.get(`http://127.0.0.1:8000/getCollectionById/${collectionId}`)
                 .then(res => {
                     res.data.objConditions?.length > 0 ? setConditions(JSON.parse(res.data.objConditions)) : setConditions([{ id: 0, parameter: '1', operator: '1', value: '' }]);
+
                     // autoConditions doit être mis à false avant d'être mis à true pour s'assurer qu'il déclenche le ussefect[autoConditions] dans conditions pour obtenir la bonne hauteur de l'affichage de conditions
                     setIsAutoConditions(false);
                     res.data.automatise === 1 ? setIsAutoConditions(true) : setIsAutoConditions(false);
                     res.data.automatise === 1 ? localStorage.setItem('isAutoConditions', true) : localStorage.setItem('isAutoConditions', false);
+
+
+
+                    // FAIRE UNE COPIE DE IMAGE DANS TEMPORARYSTORAGE dans le controller  -->--> pour tinnyMCE aussi !!!
+
 
 
                     res.data.allConditionsNeeded === 1 ? setAllConditionsNeeded(true) : setAllConditionsNeeded(false);
@@ -216,8 +220,16 @@ const CreateCollection = () => {
                     setMetaTitle(res.data.meta_title);
                     setMetaDescription(res.data.meta_description);
                     setMetaUrl(res.data.meta_url);
-                    setImage(res.data.image);
+
                     setImageName(res.data.image);
+                    setImagePath(res.data.image);
+                    fetch('/' + res.data.image)
+                        .then(function (response) {
+                            return response.blob();
+                        })
+                        .then(function (BlobImage) {
+                            setImage(BlobImage);
+                        })
 
 
                     setAlt(res.data.alt);
@@ -226,6 +238,7 @@ const CreateCollection = () => {
                     setDateField(res.data.created_at);
                     setDescriptionCollectionForMeta();
                     setIs_Edit(true);
+
                 }).catch(function (error) {
                     console.log('error:   ' + error);
                 });
@@ -437,6 +450,7 @@ const CreateCollection = () => {
             formData.append("categoryId", categoryId);
             formData.append("alt", alt);
             formData.append("imageName", imageName);
+            formData.append("id", id);
             image.length > 0 && formData.append("image", imageFile);
 
             Axios.post(`http://127.0.0.1:8000/save-collection`, formData,
@@ -452,6 +466,17 @@ const CreateCollection = () => {
                         // gére le netoyage des images et vidéos dans  temporaryStorage 
                         let keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection']
                         cleanTemporayStorage(keys_toDelete);
+                        setId(0);
+
+                        // chargement des collections
+                        Axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
+                            .then(res => {
+                                // listCollections -> liste complète des collections pour handleSearch
+                                setListCollections(res.data[0]);
+                                setListCategories(res.data[1]);
+                            }).catch(function (error) {
+                                console.log('error:   ' + error);
+                            });
                     }
                 });
         }

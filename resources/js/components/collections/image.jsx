@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import AppContext from '../contexts/AppContext';
 import CollectionContext from '../contexts/CollectionContext';
 import DropZone from '../tools/dropZone';
 
@@ -7,10 +6,6 @@ import DropZone from '../tools/dropZone';
 
 const Image = () => {
 
-
-    // const {
-    //     image, setImage
-    // } = useContext(AppContext);
 
     const {
         imageName, setImageName,

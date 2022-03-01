@@ -21,7 +21,7 @@ const ListCollections = () => {
         categorySens: true,
         ceated_atSens: true
     });
-    const {listCollections, setListCollections, listCategories, setListCategories} = useContext(AppContext);
+    const { listCollections, setListCollections, listCategories, setListCategories } = useContext(AppContext);
 
 
     useEffect(() => {

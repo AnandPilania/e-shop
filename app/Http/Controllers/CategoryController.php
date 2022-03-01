@@ -25,10 +25,20 @@ class CategoryController extends Controller
     {
         $this->validate($request, ['name' => 'required']);
 
-        $category = new Category;
-        $category->name = $request->name;
+        if (Category::find(1)) {
+            $category = new Category;
+            $category->name = $request->name;
+            $category->save();
+        } else {
+            $withoutCategory = new Category;
+            $withoutCategory->name = 'Sans catégorie';
+            $withoutCategory->save();
+            $category = new Category;
+            $category->name = $request->name;
+            $category->save();
+        }
 
-        $category->save();
+
 
         return 'ok';
     }

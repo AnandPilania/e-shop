@@ -77,7 +77,7 @@ Route::get('/collections-list-back-end', [CollectionController::class, 'collecti
 Route::post('/temporaryStoreImages', [TemporaryStorageController::class, 'temporaryStoreImages']);
 
 // get temporary collection image
-Route::get('/getSingleTemporaryImage', [TemporaryStorageController::class, 'getSingleTemporaryImage']);
+Route::get('/getSingleTemporaryImage/{id}', [TemporaryStorageController::class, 'getSingleTemporaryImage']);
 
 // delete temporary collection image
 Route::post('/deleteTemporayStoredElements', [TemporaryStorageController::class, 'deleteTemporayStoredElements']);

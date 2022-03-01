@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Collection;
 use Illuminate\Http\Request;
 use App\Models\Temporary_storage;
 use Illuminate\Support\Facades\File;
@@ -11,11 +12,21 @@ use App\Http\Controllers\Functions\StringTools;
 
 class TemporaryStorageController extends Controller
 {
-    public function getSingleTemporaryImage()
+    public function getSingleTemporaryImage($id)
     {
-
+        // if not collection is edit theb get image path from temporaryStockage table
         $tmp_img = Temporary_storage::where('key', 'tmp_imageCollection')->first();
-        if (isset($tmp_img->value)) return $tmp_img->value;
+        if ($tmp_img !== null) {
+            return $tmp_img->value;
+        } else {
+            // if is edit collection get image path from collection table with id
+            $tmp_img = Collection::where('id', $id)->first();
+            if ($tmp_img !== null) {
+                return $tmp_img->image;
+            } else {
+                return '';
+            }
+        }
     }
 
 

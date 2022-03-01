@@ -15,6 +15,11 @@ class CategoriesSeeder extends Seeder
     public function run()
     {
         DB::table('categories')->insert([
+            'name' => 'Sans catégorie',
+            'color' => '#9013FE',
+        ]);
+
+        DB::table('categories')->insert([
             'name' => 'Vêtements',
             'color' => '#9013FE',
         ]);
