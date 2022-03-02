@@ -24185,17 +24185,11 @@ var Activation = function Activation() {
                 var minute = '00';
                 var seconde = '00';
                 var dateActivation = (day < 10 ? "0" + day.toString() : day) + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + year + " " + (hour < 10 ? "0" + hour.toString() : hour) + ":" + minute.toString() + ":" + seconde.toString();
-                console.log('dateActivation   ', dateActivation);
                 setDateField(dateActivation);
                 localStorage.setItem("dateActivation", dateActivation);
               }
             })]
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("p", {
-          children: [" ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
-            href: "#",
-            children: "Plus d'informations sur l'activation des collections."
-          })]
         })]
       })
     })
@@ -25787,7 +25781,7 @@ var CreateCollection = function CreateCollection() {
       tinyLanguage = _useState24[0],
       setTinyLanguage = _useState24[1];
 
-  var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+  var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState26 = _slicedToArray(_useState25, 2),
       id = _useState26[0],
       setId = _useState26[1]; // remove caracteres unauthorized for url
@@ -25969,7 +25963,7 @@ var CreateCollection = function CreateCollection() {
     if (isEdit) {
       initCollectionForm();
       axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/getCollectionById/".concat(collectionId)).then(function (res) {
-        var _res$data$objConditio;
+        var _res$data$objConditio, _res$data$category, _res$data$category2;
 
         ((_res$data$objConditio = res.data.objConditions) === null || _res$data$objConditio === void 0 ? void 0 : _res$data$objConditio.length) > 0 ? setConditions(JSON.parse(res.data.objConditions)) : setConditions([{
           id: 0,
@@ -25989,19 +25983,25 @@ var CreateCollection = function CreateCollection() {
         setDescriptionCollection(res.data.description);
         setMetaTitle(res.data.meta_title);
         setMetaDescription(res.data.meta_description);
-        setMetaUrl(res.data.meta_url);
-        setImageName(res.data.image);
-        setImagePath(res.data.image);
-        fetch('/' + res.data.image).then(function (response) {
-          return response.blob();
-        }).then(function (BlobImage) {
-          setImage(BlobImage);
-        });
+        setMetaUrl(res.data.meta_url); // setImageName(res.data.image.substring(0, res.data.image.lastIndexOf( "-" )).replace('images/', ''));
+
+        console.log('immaaggee  ', res.data);
+        setImageName(res.data.image.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''));
+        setImagePath(res.data.image); // fetch('/' + res.data.image)
+        //     .then(function (response) {
+        //         return response.blob();
+        //     })
+        //     .then(function (BlobImage) {
+        //         setImage(BlobImage);
+        //     })
+
         setAlt(res.data.alt);
-        setCategoryName(res.data.category.name);
-        setCategoryId(res.data.category_id);
-        setDateField(res.data.created_at);
-        setDescriptionCollectionForMeta();
+        ((_res$data$category = res.data.category) === null || _res$data$category === void 0 ? void 0 : _res$data$category.name) !== undefined ? setCategoryName((_res$data$category2 = res.data.category) === null || _res$data$category2 === void 0 ? void 0 : _res$data$category2.name) : 'Aucune catégorie';
+        res.data.category_id !== null ? setCategoryId(res.data.category_id) : 0;
+        setDateField((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_14__.getDateTime)(new Date(res.data.created_at)));
+        setDescriptionCollectionForMeta(); // 2 x pour que dropZone recharge la bonne image
+
+        setIs_Edit(true);
         setIs_Edit(true);
       })["catch"](function (error) {
         console.log('error:   ' + error);
@@ -26212,7 +26212,7 @@ var CreateCollection = function CreateCollection() {
       formData.append("alt", alt);
       formData.append("imageName", imageName);
       formData.append("id", id);
-      image.length > 0 && formData.append("image", imageFile);
+      imageFile !== null && formData.append("image", imageFile);
       axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/save-collection", formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
@@ -26226,6 +26226,7 @@ var CreateCollection = function CreateCollection() {
           var keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection'];
           cleanTemporayStorage(keys_toDelete);
           setId(0); // chargement des collections
+          // refresh data after save new collection
 
           axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/collections-list-back-end").then(function (res) {
             // listCollections -> liste complète des collections pour handleSearch
@@ -30067,15 +30068,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getOnlyDate": () => (/* binding */ getOnlyDate),
 /* harmony export */   "getNow": () => (/* binding */ getNow),
-/* harmony export */   "getNowUs": () => (/* binding */ getNowUs)
+/* harmony export */   "getNowUs": () => (/* binding */ getNowUs),
+/* harmony export */   "getDateTime": () => (/* binding */ getDateTime)
 /* harmony export */ });
 function getOnlyDate(date) {
   if (date !== null) {
     var timsetamp = Date.parse(date);
-    var toString = new Date(timsetamp);
-    var year = toString.getFullYear();
-    var month = toString.getMonth() + 1;
-    var day = toString.getDate();
+
+    var _toString = new Date(timsetamp);
+
+    var year = _toString.getFullYear();
+
+    var month = _toString.getMonth() + 1;
+
+    var day = _toString.getDate();
+
     var onlyDate = (day < 10 ? "0" + day.toString() : day) + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + year;
     return onlyDate;
   }
@@ -30105,23 +30112,17 @@ function getNowUs() {
   var seconde = '00';
   var localDatetime = year + '-' + (month < 10 ? "0" + month.toString() : month) + "-" + (day < 10 ? "0" + day.toString() : day) + " " + (hour < 10 ? "0" + hour.toString() : hour) + ":" + minute.toString() + ":" + seconde.toString();
   return localDatetime;
-} // function getDateTime(date) {
-//     var now = new Date();
-//     var year = date.getFullYear();
-//     var month = date.getMonth() + 1;
-//     var day = date.getDate();
-//     var hour = date.getHours();
-//     let minute = date.getMinutes();
-//     let seconde = date.getSecondes();
-//     var onlyDate =
-//         (day < 10 ? "0" + day.toString() : day) + "-" +
-//         (month < 10 ? "0" + month.toString() : month) + "-" +
-//         year + ' ' +
-//         (hour < 10 ? "0" + hour.toString() : hour) + ":" +
-//         (minute.toString()) + ":" +
-//         (seconde.toString());
-//     return onlyDate;
-// }
+}
+function getDateTime(date) {
+  var year = date.getFullYear();
+  var month = date.getMonth() + 1;
+  var day = date.getDate();
+  var hour = date.getHours();
+  var minute = '00';
+  var seconde = '00';
+  var localDatetime = (day < 10 ? "0" + day.toString() : day) + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + year + ' ' + (hour < 10 ? "0" + hour.toString() : hour) + ":" + minute.toString() + ":" + seconde.toString();
+  return localDatetime;
+}
 
 /***/ }),
 
@@ -31364,22 +31365,27 @@ var DropZone = function DropZone(props) {
     dropRegion.addEventListener('dragleave', unhighlight, false);
     dropRegion.addEventListener('drop', unhighlight, false); // init preview image
 
-    try {
-      axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getSingleTemporaryImage/".concat(id)).then(function (res) {
-        if (res.data !== undefined && res.data != '') {
-          // get --> image path <-- for croppe
-          setImagePath('/' + res.data); // get --> image <-- for preview
+    if (!is_Edit) {
+      try {
+        axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getSingleTemporaryImage/".concat(id)).then(function (res) {
+          if (res.data !== undefined && res.data != '') {
+            // get --> image path <-- for croppe
+            setImagePath('/' + res.data); // empèche de fetcher une image qui vient d'être supprimée
+            // if (!res.data.includes('blob')) {
 
-          fetch('/' + res.data).then(function (response) {
-            return response.blob();
-          }).then(function (BlobImage) {
-            previewImage(BlobImage);
-            setImage(BlobImage);
-          });
-        }
-      });
-    } catch (error) {
-      console.error('error  ' + error);
+            console.log('res.data   ', res.data); // get --> image <-- for preview
+
+            fetch('/' + res.data).then(function (response) {
+              return response.blob();
+            }).then(function (BlobImage) {
+              previewImage(BlobImage);
+              setImage(BlobImage);
+            }); // }
+          }
+        });
+      } catch (error) {
+        console.error('error  ' + error);
+      }
     }
   }, []); // when collection is edited
 

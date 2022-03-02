@@ -31,5 +31,4 @@ export default React.createContext({
     setDateField: () => { },
     tinyLangauage: '',
 
-
 });

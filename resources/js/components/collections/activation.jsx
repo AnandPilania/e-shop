@@ -55,14 +55,13 @@ const Activation = () => {
                                         (hour < 10 ? "0" + hour.toString() : hour) + ":" +
                                         (minute.toString()) + ":" +
                                         (seconde.toString());
-                                    console.log('dateActivation   ', dateActivation);
+
                                     setDateField(dateActivation);
                                     localStorage.setItem("dateActivation", dateActivation);
                                 }}
                             />
                         </div>
                     </div>
-                    <p> <a href='#'>Plus d'informations sur l'activation des collections.</a></p>
                 </div>
             </div>
         </div>

@@ -120,25 +120,31 @@ const DropZone = (props) => {
         dropRegion.addEventListener('drop', unhighlight, false);
 
         // init preview image
-        try {
-            Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage/${id}`)
-                .then(res => {
-                    if (res.data !== undefined && res.data != '') {
-                        // get --> image path <-- for croppe
-                        setImagePath('/' + res.data);
-                        // get --> image <-- for preview
-                        fetch('/' + res.data)
-                            .then(function (response) {
-                                return response.blob();
-                            })
-                            .then(function (BlobImage) {
-                                previewImage(BlobImage);
-                                setImage(BlobImage);
-                            })
-                    }
-                });
-        } catch (error) {
-            console.error('error  ' + error);
+        if (!is_Edit) {
+            try {
+                Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage/${id}`)
+                    .then(res => {
+                        if (res.data !== undefined && res.data != '') {
+                            // get --> image path <-- for croppe
+                            setImagePath('/' + res.data);
+                            // empèche de fetcher une image qui vient d'être supprimée
+                            // if (!res.data.includes('blob')) {
+                                console.log('res.data   ', res.data)
+                                // get --> image <-- for preview
+                                fetch('/' + res.data)
+                                    .then(function (response) {
+                                        return response.blob();
+                                    })
+                                    .then(function (BlobImage) {
+                                        previewImage(BlobImage);
+                                        setImage(BlobImage);
+                                    })
+                            // }
+                        }
+                    });
+            } catch (error) {
+                console.error('error  ' + error);
+            }
         }
     }, []);
 

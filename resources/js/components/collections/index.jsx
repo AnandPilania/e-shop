@@ -13,7 +13,7 @@ import Activation from './activation';
 import Image from './image';
 import Tinyeditor from './tinyEditor';
 import { handleTinyMceTemporary } from '../functions/temporaryStorage/handleTinyMceTemporary';
-import { getNow } from '../functions/dateTools';
+import { getNow, getDateTime } from '../functions/dateTools';
 
 const CreateCollection = () => {
 
@@ -45,7 +45,7 @@ const CreateCollection = () => {
     const [isDirty, setIsDirty] = useState(false);
     const [warningIdCondition, setWarningIdCondition] = useState([]);
     const [tinyLanguage, setTinyLanguage] = useState('fr_FR');
-    const [id, setId] = useState(0);
+    const [id, setId] = useState(null);
 
     // remove caracteres unauthorized for url
     const normalizUrl = (str) => {
@@ -189,6 +189,7 @@ const CreateCollection = () => {
     }, []);
 
 
+
     // when click on name in collection list it send collection id to db request for make edit collection
     const { state } = useLocation();
     const { collectionId, isEdit } = state ? state : false;
@@ -221,22 +222,27 @@ const CreateCollection = () => {
                     setMetaDescription(res.data.meta_description);
                     setMetaUrl(res.data.meta_url);
 
-                    setImageName(res.data.image);
+                    // setImageName(res.data.image.substring(0, res.data.image.lastIndexOf( "-" )).replace('images/', ''));
+                    console.log('immaaggee  ', res.data)
+                    setImageName(res.data.image.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''));
+
                     setImagePath(res.data.image);
-                    fetch('/' + res.data.image)
-                        .then(function (response) {
-                            return response.blob();
-                        })
-                        .then(function (BlobImage) {
-                            setImage(BlobImage);
-                        })
-
-
+                    // fetch('/' + res.data.image)
+                    //     .then(function (response) {
+                    //         return response.blob();
+                    //     })
+                    //     .then(function (BlobImage) {
+                    //         setImage(BlobImage);
+                    //     })
                     setAlt(res.data.alt);
-                    setCategoryName(res.data.category.name);
-                    setCategoryId(res.data.category_id);
-                    setDateField(res.data.created_at);
+
+                    res.data.category?.name !== undefined ? setCategoryName(res.data.category?.name) : 'Aucune catégorie';
+                    res.data.category_id !== null ? setCategoryId(res.data.category_id) : 0;
+                    
+                    setDateField(getDateTime(new Date(res.data.created_at)));
                     setDescriptionCollectionForMeta();
+                    // 2 x pour que dropZone recharge la bonne image
+                    setIs_Edit(true);
                     setIs_Edit(true);
 
                 }).catch(function (error) {
@@ -283,7 +289,7 @@ const CreateCollection = () => {
     }
 
     // réinitialisation des states du form 
-    const initCollectionForm = () => {
+    const initCollectionForm = () => {  
 
         setNameCollection('');
         setDescriptionCollection('');
@@ -305,6 +311,7 @@ const CreateCollection = () => {
             value: ''
         }]);
         setDateField(getNow());
+
         // gére le netoyage des images et vidéos dans  temporayStorage 
         let keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection']
         cleanTemporayStorage(keys_toDelete);
@@ -338,6 +345,7 @@ const CreateCollection = () => {
 
     }
     //----------------------------------------------------------------Reset Form
+
 
     const validation = () => {
         // !!!! CHECK AUSSI LES CONDITIONS !!!!
@@ -404,7 +412,7 @@ const CreateCollection = () => {
 
 
     // remove records and images files from folders and temporaryStorage db when unused 
-    function cleanTemporayStorage(keys_toDelete) {
+    function cleanTemporayStorage(keys_toDelete) { 
         let toDelete = new FormData;
         for (var i = 0; i < keys_toDelete.length; i++) {
             toDelete.append('keys[]', keys_toDelete[i]);
@@ -425,6 +433,7 @@ const CreateCollection = () => {
             });
     }
 
+
     // submit
     function handleSubmit() {
         let valid = validation();
@@ -432,12 +441,13 @@ const CreateCollection = () => {
 
         if (valid) {
             let imageFile = null;
-            if (image instanceof FileList) {
+            if (image instanceof FileList) { 
                 imageFile = image[0];
             }
-            if (image instanceof Blob) {
+            if (image instanceof Blob) { 
                 imageFile = image;
             }
+
             let objConditions = JSON.stringify(conditions);
             formData.append("name", nameCollection);
             formData.append("description", descriptionCollection);
@@ -451,7 +461,7 @@ const CreateCollection = () => {
             formData.append("alt", alt);
             formData.append("imageName", imageName);
             formData.append("id", id);
-            image.length > 0 && formData.append("image", imageFile);
+            imageFile !== null && formData.append("image", imageFile);
 
             Axios.post(`http://127.0.0.1:8000/save-collection`, formData,
                 {
@@ -469,6 +479,7 @@ const CreateCollection = () => {
                         setId(0);
 
                         // chargement des collections
+                        // refresh data after save new collection
                         Axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
                             .then(res => {
                                 // listCollections -> liste complète des collections pour handleSearch

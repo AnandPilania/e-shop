@@ -43,7 +43,7 @@ class StringTools
     {
         // on explode pour récuppérer le nom sans l'extention
         $str = explode(".", $string);
-        $index = strpos($str[0], '-');
+        $index = strripos($str[0], '-');
         $index > 0 && $str[0] = substr($str[0], 0, $index);
         $pattern = '/[\!\^\$\?\+\*\|&"\'_=\- ]+/i';
         $str[0] =  preg_replace($pattern, '-', $str[0]);

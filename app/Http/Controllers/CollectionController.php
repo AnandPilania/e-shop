@@ -68,11 +68,9 @@ class CollectionController extends Controller
     public function storeAndAssign(StoreCollectionRequest $request)
     {
 
-        // !!! ON SUPPRIME TOUT AVANT DE SAUVEGARDER SI ON EDIT !!!
-
-
         // dd($request);
         if ($request->id > 0) {
+            // if collection is edited
             $collection = Collection::find($request->id);
         } else {
             $collection = new Collection;
@@ -130,6 +128,7 @@ class CollectionController extends Controller
             } else {
                 $input['image'] = $tools->nameGeneratorFromFile($image);
             }
+
             $destinationPath = public_path('/images');
             $imgFile = Image::make($image);
             $thumbnail = Image::make($image);

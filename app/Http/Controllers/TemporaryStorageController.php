@@ -16,6 +16,7 @@ class TemporaryStorageController extends Controller
     {
         // if not collection is edit theb get image path from temporaryStockage table
         $tmp_img = Temporary_storage::where('key', 'tmp_imageCollection')->first();
+        
         if ($tmp_img !== null) {
             return $tmp_img->value;
         } else {
