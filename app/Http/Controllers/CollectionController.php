@@ -85,9 +85,10 @@ class CollectionController extends Controller
         // met tous les ids des produits de tous les tableaux dans stack pour avoir un seul tableau sur lequel tester si les produits correspondent à toutes les conditions
         foreach ($list_match as $item_match) {
             foreach ($item_match as $item) {
-                array_push($stack, $item->id);
+                array_push($stack, $item);
             }
         }
+        dd($stack);
         // renvoi un tableau avec comme key les ids des produits que l'on doit compter et comme value leur nombre d'occurence dans le tableau $stack
         $tmp_tab = array_count_values($stack);
         $all_conditions_matched = [];

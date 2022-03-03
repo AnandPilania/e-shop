@@ -14,6 +14,7 @@ class VarianteFactory extends Factory
      */
     protected $model = Variante::class;
     private static $ordre = 1;
+    private static $prod_id = 1;
 
     /**
      * Define the model's default state.
@@ -38,13 +39,13 @@ class VarianteFactory extends Factory
             'stock' => rand(0,50),
             'shipping_cost' => rand(1,30), 
             'currency_cost_shipping' => rand(1,3),
-            'active' => true, 
+            'active' => 1, 
             'link' => $link, 
             'type' => 'type', 
-            'taxes_id' => 1, 
+            'taxe_id' => 1, 
             'ordre' => self::$ordre++, 
-            'characteristic' => ['color' => 'red', 'size' => 'm'], 
-            'product_id' => $this->faker->unique(true)->numberBetween(1, 30),
+            'characteristic' => "['color' => 'red', 'size' => 'm']", 
+            'product_id' => self::$prod_id++,
             'supplier_id' => 1,
             'delivery_company_id' => 1,
         ];

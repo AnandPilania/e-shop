@@ -25967,14 +25967,7 @@ var CreateCollection = function CreateCollection() {
 
         console.log('immaaggee  ', res.data);
         setImageName(res.data.image.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''));
-        setImagePath(res.data.image); // fetch('/' + res.data.image)
-        //     .then(function (response) {
-        //         return response.blob();
-        //     })
-        //     .then(function (BlobImage) {
-        //         setImage(BlobImage);
-        //     })
-
+        setImagePath(res.data.image);
         setAlt(res.data.alt);
         ((_res$data$category = res.data.category) === null || _res$data$category === void 0 ? void 0 : _res$data$category.name) !== undefined ? setCategoryName((_res$data$category2 = res.data.category) === null || _res$data$category2 === void 0 ? void 0 : _res$data$category2.name) : 'Aucune catégorie';
         res.data.category_id !== null ? setCategoryId(res.data.category_id) : 0;

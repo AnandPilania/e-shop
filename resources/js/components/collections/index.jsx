@@ -227,13 +227,6 @@ const CreateCollection = () => {
                     setImageName(res.data.image.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''));
 
                     setImagePath(res.data.image);
-                    // fetch('/' + res.data.image)
-                    //     .then(function (response) {
-                    //         return response.blob();
-                    //     })
-                    //     .then(function (BlobImage) {
-                    //         setImage(BlobImage);
-                    //     })
                     setAlt(res.data.alt);
 
                     res.data.category?.name !== undefined ? setCategoryName(res.data.category?.name) : 'Aucune catégorie';

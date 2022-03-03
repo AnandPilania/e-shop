@@ -34,7 +34,7 @@
             <a href="" class="gallery_3_lien">Voir les chaussures</a>
         </div>
     </div>
-
+<!-- 
     <div class="best_seller_wrapper">
         @isset($bestSellers[0])
         @for ($i = 0; $i < 5; $i++) 
@@ -47,7 +47,7 @@
         </div>
         @endfor
         @endisset
-    </div>
+    </div> -->
 
 </div>
 

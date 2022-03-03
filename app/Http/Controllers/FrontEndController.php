@@ -27,11 +27,10 @@ class FrontEndController extends Controller
 
         $jumbo = Jumbo::all();
         $bannieres = Banniere::all() ? Banniere::all() : '';
-        $bestSellers = Product::where('best_sell', 1)->limit(5)->get();
 
         if ($jumbo->count() > 0) {
 
-            return view('front-end.index', ['jumbo' => $jumbo, 'bannieres' => $bannieres, 'bestSellers' => $bestSellers]);
+            return view('front-end.index', ['jumbo' => $jumbo, 'bannieres' => $bannieres]);
         } else {
 
             $jumbo = new Jumbo;
@@ -43,7 +42,7 @@ class FrontEndController extends Controller
 
             $jumbo = Jumbo::all();
 
-            return view('front-end.index', ['jumbo' => $jumbo, 'bannieres' => $bannieres, 'bestSellers' => $bestSellers]);
+            return view('front-end.index', ['jumbo' => $jumbo, 'bannieres' => $bannieres]);
         }
     }
 

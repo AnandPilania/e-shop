@@ -18,14 +18,16 @@ class StringTools
 
     public function nameGeneratorFromFile($file)
     {
-        // on crée une random string pour ajouter au nom de l'image
-        // $random = substr(str_shuffle("0123456789abcdefghijklmnopqrstvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 10);
-        // on explode pour récuppérer le nom sans l'extention
-        $imageName = explode(".", $file->getClientOriginalName());
-        $index = strpos($imageName[0], '-');
-        $index > 0 && $imageName[0] = substr($imageName[0], 0, $index);
-        $pattern = '/[\!\^\$\?\+\*\|&"\'_=\- ]+/i';
-        $imageName[0] =  preg_replace($pattern, '-', $imageName[0]);
+        $str = $file->getClientOriginalName();
+
+        $pattern = '/(-\d+\.[a-zA-Z]{2,4})$/';
+        $str = preg_replace($pattern, '', $str);
+
+        $pattern = '/(\.[a-zA-Z]{2,4})$/';
+        $str = preg_replace($pattern, '', $str);
+
+        $pattern = '/[\!\^\$\?\+\*\|&"\'_=\-\.\(\)\{\}¤£¨\/,;:ù%µ€ ]+/i';
+        $str = preg_replace($pattern, '-', $str);
 
         if ($file->getClientOriginalExtension() !== '') {
             $ext = $file->getClientOriginalExtension();
@@ -34,22 +36,25 @@ class StringTools
         }
         
         // remplace all specials caracteres and lowerCase
-        $newName = $this->cleanCaracters($imageName[0]) . '-' . time() . '.' . $ext;
+        $newName = $this->cleanCaracters($str) . '-' . time() . '.' . $ext;
 
         return $newName;
     }
 
     public function nameGeneratorFromString($string, $file)
     {
-        // on explode pour récuppérer le nom sans l'extention
-        $str = explode(".", $string);
-        $index = strripos($str[0], '-');
-        $index > 0 && $str[0] = substr($str[0], 0, $index);
-        $pattern = '/[\!\^\$\?\+\*\|&"\'_=\- ]+/i';
-        $str[0] =  preg_replace($pattern, '-', $str[0]);
+        $pattern = '/(-\d+\.[a-zA-Z]{2,4})$/';
+        $str = preg_replace($pattern, '', $string);
+
+        $pattern = '/(\.[a-zA-Z]{2,4})$/';
+        $str = preg_replace($pattern, '', $str);
+
+        $pattern = '/[\!\^\$\?\+\*\|&"\'_=\-\.\(\)\{\}¤£¨\/,;:ù%µ€ ]+/i';
+        $str = preg_replace($pattern, '-', $str);
+
         $ext = $this->getExtesion($file);
         // remplace all specials caracteres and lowerCase
-        $newName = $this->cleanCaracters($str[0]) . '-' . time() . '.' . $ext;
+        $newName = $this->cleanCaracters($str) . '-' . time() . '.' . $ext;
 
         return $newName;
     }
