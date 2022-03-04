@@ -34,7 +34,7 @@ const ConditionCollection = (props) => {
         // when data comes from localStorage it get only the operators needed to show
         showOnlyUsableOperator(props.condition.parameter);
 
-        document.getElementById('parameterValue').value == 10 ? setinputTypeDate('inputTypeDate') : setinputTypeDate('');
+        document.getElementById('parameterValue').value == 9 ? setinputTypeDate('inputTypeDate') : setinputTypeDate('');
 
     }, []);
 
@@ -58,7 +58,7 @@ const ConditionCollection = (props) => {
         hideUselessOperatorReset();
         setTypeValue('')
 
-        if (param == 1 || param == 2 || param == 3 || param == 9) {
+        if (param == 1 || param == 2 || param == 3) {
             setHideOp1('show');
             setHideOp2('show');
             setHideOp5('show');
@@ -105,7 +105,7 @@ const ConditionCollection = (props) => {
             setInputStep('0.01');
         }
 
-        if (param == 10) {
+        if (param == 9) {
             setHideOp1('show');
             setHideOp2('show');
             setHideOp3('show');
@@ -121,7 +121,7 @@ const ConditionCollection = (props) => {
         let param = e.target.value;
 
         // active la class .inputTypeDate quand l'input devient de type date pour le styliser 
-        param == 10 ? setinputTypeDate('inputTypeDate') : setinputTypeDate('');
+        param == 9 ? setinputTypeDate('inputTypeDate') : setinputTypeDate('');
 
         props.handleChangeParam(param, props.condition.id);
         showOnlyUsableOperator(param);
@@ -142,16 +142,12 @@ const ConditionCollection = (props) => {
                     id="parameterValue">
                     <option value="1">Nom du produit</option>
                     <option value="2">Type du produit</option>
-                    <option value="3">Distributeur du produit</option>
+                    <option value="3">Fournisseur</option>
                     <option value="4">Prix du produit</option>
                     <option value="5">Balise du produit</option>
                     <option value="6">Prix avant réduction</option>
                     <option value="7">Poids</option>
                     <option value="8">Stock</option>
-                    <option value="9">Nom de la variante</option>
-                    <option value="10">Date ajout produit</option>
-                    <option value="11">Unité vendue par mois</option>
-                    <option value="12">Total d'unité vendue</option>
                 </select>
             </div>
 

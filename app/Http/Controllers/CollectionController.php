@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Collection;
 use Illuminate\Http\Request;
 use App\Models\Temporary_storage;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use App\Http\Controllers\Functions\CleanLink;
@@ -76,29 +77,31 @@ class CollectionController extends Controller
             $collection = new Collection;
         }
 
-        $conditions = json_decode($request->objConditions);
-        // renvoi un ou plusieurs tableaux avec les produits qui correspondes aux conditions demandées
-        $getMatchedProduct = new GetArrayOfConditions;
-        $list_match = $getMatchedProduct->getArrayOfConditions($conditions);
-        // dd($request);
-        $stack = [];
-        // met tous les ids des produits de tous les tableaux dans stack pour avoir un seul tableau sur lequel tester si les produits correspondent à toutes les conditions
-        foreach ($list_match as $item_match) {
-            foreach ($item_match as $item) {
-                array_push($stack, $item);
+        // check if has conditions
+        if ($request->automatise === "true") {
+            $conditions = json_decode($request->objConditions);
+            // renvoi un ou plusieurs tableaux avec les produits qui correspondes aux conditions demandées
+            $getMatchedProduct = new GetArrayOfConditions;
+            $list_match = $getMatchedProduct->getArrayOfConditions($conditions);
+            // dd($request);
+            $stack = [];
+            // met tous les ids des variantes de tous les tableaux dans stack pour avoir un seul tableau sur lequel tester si les variantes correspondent à toutes les conditions
+            foreach ($list_match as $item_match) {
+                foreach ($item_match as $item) {
+                    array_push($stack, $item->id);
+                }
             }
-        }
-        dd($stack);
-        // renvoi un tableau avec comme key les ids des produits que l'on doit compter et comme value leur nombre d'occurence dans le tableau $stack
-        $tmp_tab = array_count_values($stack);
-        $all_conditions_matched = [];
-        // si un produit correspond à toutes les conditions donc qu'il apparait dans tous les tableaux à l'interieur du tableau $list_match alors on le met dans all_conditions_matched pour insertion dans la table pivot collection_product
-        while ($item = current($tmp_tab)) {
-            if ($item == count($list_match)) {
-                array_push($all_conditions_matched, key($tmp_tab));
+            // renvoi un tableau avec comme key les ids des produits que l'on doit compter et comme value leur nombre d'occurence dans le tableau $stack
+            $tmp_tab = array_count_values($stack);
+            $all_conditions_matched = [];
+            // si un produit correspond à toutes les conditions donc qu'il apparait dans tous les tableaux à l'interieur du tableau $list_match alors on le met dans all_conditions_matched pour insertion dans la table pivot collection_product
+            while ($item = current($tmp_tab)) {
+                if ($item == count(json_decode($request->objConditions))) {
+                    array_push($all_conditions_matched, key($tmp_tab));
+                }
+                next($tmp_tab);
             }
-            next($tmp_tab);
-        }
+        } 
 
         $collection->name = $request->name;
         $collection->description = str_replace('temporaryStorage', 'images', $request->description);
@@ -156,8 +159,11 @@ class CollectionController extends Controller
         $collection->save();
 
         // fill pivot table with relations between collection and product
-        foreach ($all_conditions_matched as $id) {
-            $collection->products()->attach($id);
+        if (isset($all_conditions_matched)) {
+            DB::table('collection_product')->where('collection_id', $collection->id)->delete();
+            foreach ($all_conditions_matched as $id) {
+                $collection->products()->attach($id);
+            }
         }
 
         // remove image collection from temporaryStorage, folder and db 

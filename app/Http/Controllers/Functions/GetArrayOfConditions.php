@@ -39,13 +39,12 @@ class GetArrayOfConditions
                 case '8':
                     $field = 'stock';
                     break;
-                case '9':
-                    $field = 'varianteName'; // variante id
-                    break;
                 default:
                     $field = 'name';
                     break;
             }
+
+            // if($field === 'created_at') echo $condition->value . '<br>';
 
             // check de quel operator il s'agit
             $value = trim($condition->value);
@@ -53,91 +52,114 @@ class GetArrayOfConditions
                 case '1':
                     // est égale à
                     if ($field === 'name') {
-                        $list[] = Product::where($field, $value)->get();
-                        foreach($list as $item) {
-                            $list_match[] = Variante::where('product_id', $item->id)->get('product_id');
+                        $products = Product::where($field, $value)->get();
+                        foreach ($products as $item) {
+                            $list_match[] = Variante::where('product_id', $item->id)->get('id');
                         }
-                        dd($list_match);
                         break;
                     } else {
-                        $list_match[] = Variante::where($field, $value)->get('product_id');
+                        $list_match[] = Variante::where($field, $value)->get('id');
                         break;
                     }
                 case '2':
                     // n'est pas égale à
                     if ($field === 'name') {
-                        $list_match[] = Product::where($field, '!=', $value)->get('id');
+                        $products = Product::where($field, '!=', $value)->get('id');
+                        foreach ($products as $item) {
+                            $list_match[] = Variante::where('product_id', $item->id)->get('id');
+                        }
                         break;
                     } else {
-                        $list_match[] = Variante::where($field, '!=', $value)->get('product_id');
+                        $list_match[] = Variante::where($field, '!=', $value)->get('id');
                         break;
                     }
                 case '3':
                     // est suppérieur à
-                    $list_match[] = Variante::where($field, '>', $value)->get('product_id');
+                    $list_match[] = Variante::where($field, '>', $value)->get('id');
                     break;
                 case '4':
                     // est infèrieur à
-                    $list_match[] = Variante::where($field, '<', $value)->get('product_id');
+                    $list_match[] = Variante::where($field, '<', $value)->get('id');
                     break;
                 case '5':
                     // commence par
                     if ($field === 'name') {
-                        $list_match[] = Product::where($field, 'like', $value . ' %')->get('id');
+                        $products = Product::where($field, 'like', $value . ' %')->get('id');
+                        foreach ($products as $item) {
+                            $list_match[] = Variante::where('product_id', $item->id)->get('id');
+                        }
                         break;
                     } else {
-                        $list_match[] = Variante::where($field, 'like', $value . ' %')->get('product_id');
+                        $list_match[] = Variante::where($field, 'like', $value . ' %')->get('id');
                         break;
                     }
                 case '6':
                     //  se termine par
                     if ($field === 'name') {
-                        $list_match[] = Product::where($field, 'like', '% ' . $value)->get('id');
+                        $products = Product::where($field, 'like', '% ' . $value)->get('id');
+                        foreach ($products as $item) {
+                            $list_match[] = Variante::where('product_id', $item->id)->get('id');
+                        }
                         break;
                     } else {
-                        $list_match[] = Variante::where($field, 'like', '% ' . $value)->get('product_id');
+                        $list_match[] = Variante::where($field, 'like', '% ' . $value)->get('id');
                         break;
                     }
                 case '7':
                     // contient
                     if ($field === 'name') {
-                        $list_match[] = Product::where($field, $value)
-                        ->orWhere($field, 'like', $value . ' %')
-                        ->orWhere($field, 'like', '% ' . $value)
-                        ->orWhere($field, 'like', '% ' . $value . ' %')->get('id');
+                        $products = Product::where($field, $value)
+                            ->orWhere($field, 'like', $value . ' %')
+                            ->orWhere($field, 'like', '% ' . $value)
+                            ->orWhere($field, 'like', '% ' . $value . ' %')->get();
+                        foreach ($products as $item) {
+                            $list_match[] = Variante::where('product_id', $item->id)->get('id');
+                        }
                         break;
                     } else {
                         $list_match[] = Variante::where($field, $value)
                             ->orWhere($field, 'like', $value . ' %')
                             ->orWhere($field, 'like', '% ' . $value)
-                            ->orWhere($field, 'like', '% ' . $value . ' %')->get('product_id');
+                            ->orWhere($field, 'like', '% ' . $value . ' %')->get('id');
                         break;
                     }
                 case '8':
                     // ne contient pas
                     if ($field === 'name') {
-                        $list_match[] = Product::where($field, 'not like', '%' . $value . '%')->get('id');
+                        $products = Product::where($field, 'not like', '%' . $value . '%')->get('id');
+                        foreach ($products as $item) {
+                            $list_match[] = Variante::where('product_id', $item->id)->get('id');
+                        }
                         break;
                     } else {
-                        $list_match[] = Variante::where($field, 'not like', '%' . $value . '%')->get('product_id');
+                        $products = Variante::where($field, 'not like', '%' . $value . '%')->get('id');
+                        foreach ($products as $item) {
+                            $list_match[] = Variante::where('product_id', $item->id)->get('id');
+                        }
                         break;
                     }
                 case '9':
                     // n'est pas vide
                     if ($field === 'name') {
-                        $list_match[] = Product::whereNotNull($field, 'not like', '')->get('id');
+                        $products = Product::whereNotNull($field, 'not like', '')->get('id');
+                        foreach ($products as $item) {
+                            $list_match[] = Variante::where('product_id', $item->id)->get('id');
+                        }
                         break;
                     } else {
-                        $list_match[] = Variante::whereNotNull($field)->where($field, 'not like', '')->get('product_id');
+                        $list_match[] = Variante::whereNotNull($field)->where($field, 'not like', '')->get('id');
                         break;
                     }
                 case '10':
                     // est vide
                     if ($field === 'name') {
-                        $list_match[] = Product::whereNull($field, 'like', '')->get('id');
+                        $products = Product::whereNull($field, 'like', '')->get('id');
+                        foreach ($products as $item) {
+                            $list_match[] = Variante::where('product_id', $item->id)->get('id');
+                        }
                         break;
                     } else {
-                        $list_match[] = Variante::whereNull($field)->where($field, 'like', '')->get('product_id');
+                        $list_match[] = Variante::whereNull($field)->where($field, 'like', '')->get('id');
                         break;
                     }
                 default:

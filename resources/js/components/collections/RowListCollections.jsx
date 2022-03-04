@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from '@material-ui/styles';
-import { getOnlyDate } from '../functions/dateTools';
 import CheckBox from '../elements/checkBox';
-import { getNowUs } from '../functions/dateTools';
+import { getNowUs, getOnlyDate, getOnlyDateAndHour } from '../functions/dateTools';
 
 
 const useStyles = makeStyles({
@@ -61,8 +60,6 @@ const RowListCollections = ({ collection, category }) => {
                 return 'Le poids';
             case '8':
                 return 'Le stock';
-            case '9':
-                return 'Le nom de la variante';
             default:
                 return '';
         }
@@ -182,7 +179,7 @@ const RowListCollections = ({ collection, category }) => {
                 <span className='h30'>{category && category.name}</span>
             </div>
             <div className='flex-row min-h50 p5'>
-                <span className={`noshrink flex-row-c-c radius15 h30 p-lr-15 ${collection?.dateActivation < getNowUs() ? 'active-collection' : 'unactive-collection'}`}>{collection?.dateActivation < getNowUs() ? "Activée" : "Non activée"}</span>
+                <span className={`noshrink flex-row-c-c radius15 h30 p-lr-15 ${collection?.dateActivation < getNowUs() ? 'active-collection' : 'unactive-collection'}`}>{collection?.dateActivation < getNowUs() ? "Activée" : `${getOnlyDateAndHour(collection?.dateActivation)}`}</span>
             </div>
             <div className='flex-row min-h50 p5'>
                 {collection && getOnlyDate(collection.created_at)}

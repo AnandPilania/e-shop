@@ -35,5 +35,7 @@ export default React.createContext({
     setListCategories: () => { },
     is_Edit: '', 
     setIs_Edit: () => { },
-
+    categoriesChecked: '',
+    setCategoriesChecked: () => { },
+    
 });

@@ -16,12 +16,14 @@ const ListCollections = () => {
         imgDate: '1-2.png',
         imgCat: 'az.png',
     });
+
     const [toggleSort, setToggleSort] = useState({
         nameSens: true,
         categorySens: true,
         ceated_atSens: true
     });
-    const { listCollections, setListCollections, listCategories, setListCategories } = useContext(AppContext);
+
+    const { listCollections, setListCollections, listCategories, setListCategories, setCategoriesChecked } = useContext(AppContext);
 
 
     useEffect(() => {
@@ -123,6 +125,10 @@ const ListCollections = () => {
         setSearchValue(e.target.value);
         setListCollectionsFiltered(listCollections.filter(item => item.name.toLowerCase().includes(e.target.value.toLowerCase())));
     }
+    // useEffect(() => {
+    //     // uncheck all categoies filter when handleSearch
+    //     setCategoriesChecked([]);
+    // }, [searchValue]);
 
     function categoriesFilter(categories) {
         categories.length > 0 ? setListCollectionsFiltered(listCollections.filter(item => categories.includes(item.categoryName))) : setListCollectionsFiltered(listCollections);

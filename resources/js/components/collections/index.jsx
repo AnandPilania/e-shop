@@ -109,6 +109,7 @@ const CreateCollection = () => {
         dateField, setDateField,
         tinyLanguage,
         id, setId,
+
     }
 
 

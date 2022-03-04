@@ -23720,6 +23720,11 @@ var App = function App() {
       is_Edit = _useState40[0],
       setIs_Edit = _useState40[1];
 
+  var _useState41 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState42 = _slicedToArray(_useState41, 2),
+      categoriesChecked = _useState42[0],
+      setCategoriesChecked = _useState42[1];
+
   var handleModalApp = function handleModalApp() {
     setShowModalApp(false);
   };
@@ -23762,7 +23767,9 @@ var App = function App() {
     listCategories: listCategories,
     setListCategories: setListCategories,
     is_Edit: is_Edit,
-    setIs_Edit: setIs_Edit
+    setIs_Edit: setIs_Edit,
+    categoriesChecked: categoriesChecked,
+    setCategoriesChecked: setCategoriesChecked
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
     className: "app-container",
@@ -23848,8 +23855,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
 /* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
-/* harmony import */ var _functions_dateTools__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../functions/dateTools */ "./resources/js/components/functions/dateTools.js");
-/* harmony import */ var _elements_checkBox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../elements/checkBox */ "./resources/js/components/elements/checkBox.jsx");
+/* harmony import */ var _elements_checkBox__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../elements/checkBox */ "./resources/js/components/elements/checkBox.jsx");
+/* harmony import */ var _functions_dateTools__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../functions/dateTools */ "./resources/js/components/functions/dateTools.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -23862,7 +23869,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 
 
 
@@ -23943,9 +23949,6 @@ var RowListCollections = function RowListCollections(_ref) {
       case '8':
         return 'Le stock';
 
-      case '9':
-        return 'Le nom de la variante';
-
       default:
         return '';
     }
@@ -24019,7 +24022,7 @@ var RowListCollections = function RowListCollections(_ref) {
     className: "grid grid-col-list2 w100pct h-auto min-h50 bg-white p15 brd-b-gray-light-1",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "flex-row min-h50 p5",
-      children: collection && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_elements_checkBox__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      children: collection && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_elements_checkBox__WEBPACK_IMPORTED_MODULE_1__["default"], {
         unikId: collection.id
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
@@ -24093,12 +24096,12 @@ var RowListCollections = function RowListCollections(_ref) {
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "flex-row min-h50 p5",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-        className: "noshrink flex-row-c-c radius15 h30 p-lr-15 ".concat((collection === null || collection === void 0 ? void 0 : collection.dateActivation) < (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_1__.getNowUs)() ? 'active-collection' : 'unactive-collection'),
-        children: (collection === null || collection === void 0 ? void 0 : collection.dateActivation) < (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_1__.getNowUs)() ? "Activée" : "Non activée"
+        className: "noshrink flex-row-c-c radius15 h30 p-lr-15 ".concat((collection === null || collection === void 0 ? void 0 : collection.dateActivation) < (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_2__.getNowUs)() ? 'active-collection' : 'unactive-collection'),
+        children: (collection === null || collection === void 0 ? void 0 : collection.dateActivation) < (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_2__.getNowUs)() ? "Activée" : "".concat((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_2__.getOnlyDateAndHour)(collection === null || collection === void 0 ? void 0 : collection.dateActivation))
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "flex-row min-h50 p5",
-      children: collection && (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_1__.getOnlyDate)(collection.created_at)
+      children: collection && (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_2__.getOnlyDate)(collection.created_at)
     })]
   });
 };
@@ -24673,8 +24676,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _elements_checkBox__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../elements/checkBox */ "./resources/js/components/elements/checkBox.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
+/* harmony import */ var _elements_checkBox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../elements/checkBox */ "./resources/js/components/elements/checkBox.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -24700,6 +24704,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var CategoriesFilter = function CategoriesFilter(_ref) {
   var arrayList = _ref.arrayList,
       categoriesFilter = _ref.categoriesFilter;
@@ -24709,10 +24714,9 @@ var CategoriesFilter = function CategoriesFilter(_ref) {
       showCategorySelect = _useState2[0],
       setShowCategorySelect = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState4 = _slicedToArray(_useState3, 2),
-      categoriesChecked = _useState4[0],
-      setCategoriesChecked = _useState4[1]; // show hide select menu
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
+      categoriesChecked = _useContext.categoriesChecked,
+      setCategoriesChecked = _useContext.setCategoriesChecked; // show hide select menu
 
 
   var showHideCategorySelect = function showHideCategorySelect() {
@@ -24792,6 +24796,9 @@ var CategoriesFilter = function CategoriesFilter(_ref) {
       cat = e.target.textContent;
     }
 
+    console.log('cat   ', cat);
+    console.log('categoriesChecked   ', categoriesChecked);
+
     if (!categoriesChecked.includes(cat)) {
       setCategoriesChecked([].concat(_toConsumableArray(categoriesChecked), [cat]));
     } else {
@@ -24804,40 +24811,39 @@ var CategoriesFilter = function CategoriesFilter(_ref) {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     categoriesFilter(categoriesChecked);
   }, [categoriesChecked]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
     className: "w50 p0 bg-gray-light relative",
     id: "selectId",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
       className: "flex-row brd-none bg-gray-light",
       onClick: showHideCategorySelect,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("figure", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("figure", {
         className: "h20 w20 m-r-20 cursor",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
           src: window.location.origin + '/images/icons/filter.png'
         })
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
       id: "cat-filter-card",
       className: "w300 flex-col justify-s align-s dropable absolute t30 r0 bg-white shadow-l radius5 z5",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "w100pct h60 flex-row bg-gray-light p-l-20",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
           className: "w100pct",
           children: "Filtrer par:"
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         id: "category_select",
         className: "w100pct flex-row",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("ul", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
           className: "ul-category scrolly scroll w100pct h200 bg-white",
           children: arrayList && arrayList.map(function (item, index) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("li", {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
               className: "w100pct h40 p-lr-10 flex-row",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_elements_checkBox__WEBPACK_IMPORTED_MODULE_1__["default"], {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_elements_checkBox__WEBPACK_IMPORTED_MODULE_2__["default"], {
                 unikId: item.name,
-                handleCheckBox: handleCheckBox,
-                categoriesChecked: categoriesChecked
-              }), item.name && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+                handleCheckBox: handleCheckBox
+              }), item.name && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
                 className: "cursor p-lr-10 txt-limit",
                 value: item.name,
                 onClick: handleCheckBox,
@@ -24968,7 +24974,7 @@ var ConditionCollection = function ConditionCollection(props) {
     setHideOp8('show'); // when data comes from localStorage it get only the operators needed to show
 
     showOnlyUsableOperator(props.condition.parameter);
-    document.getElementById('parameterValue').value == 10 ? setinputTypeDate('inputTypeDate') : setinputTypeDate('');
+    document.getElementById('parameterValue').value == 9 ? setinputTypeDate('inputTypeDate') : setinputTypeDate('');
   }, []); // met hide pour tous les paramètres
 
   var hideUselessOperatorReset = function hideUselessOperatorReset() {
@@ -24989,7 +24995,7 @@ var ConditionCollection = function ConditionCollection(props) {
     hideUselessOperatorReset();
     setTypeValue('');
 
-    if (param == 1 || param == 2 || param == 3 || param == 9) {
+    if (param == 1 || param == 2 || param == 3) {
       setHideOp1('show');
       setHideOp2('show');
       setHideOp5('show');
@@ -25041,7 +25047,7 @@ var ConditionCollection = function ConditionCollection(props) {
       setInputStep('0.01');
     }
 
-    if (param == 10) {
+    if (param == 9) {
       setHideOp1('show');
       setHideOp2('show');
       setHideOp3('show');
@@ -25054,7 +25060,7 @@ var ConditionCollection = function ConditionCollection(props) {
   var changeParamValue = function changeParamValue(e) {
     var param = e.target.value; // active la class .inputTypeDate quand l'input devient de type date pour le styliser 
 
-    param == 10 ? setinputTypeDate('inputTypeDate') : setinputTypeDate('');
+    param == 9 ? setinputTypeDate('inputTypeDate') : setinputTypeDate('');
     props.handleChangeParam(param, props.condition.id);
     showOnlyUsableOperator(param);
   };
@@ -25076,7 +25082,7 @@ var ConditionCollection = function ConditionCollection(props) {
           children: "Type du produit"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
           value: "3",
-          children: "Distributeur du produit"
+          children: "Fournisseur"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
           value: "4",
           children: "Prix du produit"
@@ -25092,18 +25098,6 @@ var ConditionCollection = function ConditionCollection(props) {
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
           value: "8",
           children: "Stock"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
-          value: "9",
-          children: "Nom de la variante"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
-          value: "10",
-          children: "Date ajout produit"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
-          value: "11",
-          children: "Unit\xE9 vendue par mois"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
-          value: "12",
-          children: "Total d'unit\xE9 vendue"
         })]
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
@@ -26383,7 +26377,8 @@ var ListCollections = function ListCollections() {
       listCollections = _useContext.listCollections,
       setListCollections = _useContext.setListCollections,
       listCategories = _useContext.listCategories,
-      setListCategories = _useContext.setListCategories;
+      setListCategories = _useContext.setListCategories,
+      setCategoriesChecked = _useContext.setCategoriesChecked;
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (listCollections.length === 0) {
@@ -26547,7 +26542,11 @@ var ListCollections = function ListCollections() {
     setListCollectionsFiltered(listCollections.filter(function (item) {
       return item.name.toLowerCase().includes(e.target.value.toLowerCase());
     }));
-  }
+  } // useEffect(() => {
+  //     // uncheck all categoies filter when handleSearch
+  //     setCategoriesChecked([]);
+  // }, [searchValue]);
+
 
   function categoriesFilter(categories) {
     categories.length > 0 ? setListCollectionsFiltered(listCollections.filter(function (item) {
@@ -27239,7 +27238,9 @@ __webpack_require__.r(__webpack_exports__);
   listCategories: '',
   setListCategories: function setListCategories() {},
   is_Edit: '',
-  setIs_Edit: function setIs_Edit() {}
+  setIs_Edit: function setIs_Edit() {},
+  categoriesChecked: '',
+  setCategoriesChecked: function setCategoriesChecked() {}
 }));
 
 /***/ }),
@@ -30009,17 +30010,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
 
 
 
 
 var Checkbox = function Checkbox(_ref) {
   var unikId = _ref.unikId,
-      handleCheckBox = _ref.handleCheckBox,
-      categoriesChecked = _ref.categoriesChecked;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+      handleCheckBox = _ref.handleCheckBox;
+
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
+      categoriesChecked = _useContext.categoriesChecked;
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
       type: "checkbox",
       className: "cbx",
       id: unikId,
@@ -30028,17 +30034,19 @@ var Checkbox = function Checkbox(_ref) {
         display: "none"
       },
       checked: categoriesChecked && categoriesChecked.includes(unikId),
-      onChange: handleCheckBox
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
+      onChange: function onChange(e) {
+        return handleCheckBox(e);
+      }
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
       htmlFor: unikId,
       className: "check",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("svg", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("svg", {
         width: "18px",
         height: "18px",
         viewBox: "0 0 18 18",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("path", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("path", {
           d: "M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("polyline", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("polyline", {
           points: "1 9 7 14 15 4"
         })]
       })
@@ -30060,6 +30068,7 @@ var Checkbox = function Checkbox(_ref) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "getOnlyDate": () => (/* binding */ getOnlyDate),
+/* harmony export */   "getOnlyDateAndHour": () => (/* binding */ getOnlyDateAndHour),
 /* harmony export */   "getNow": () => (/* binding */ getNow),
 /* harmony export */   "getNowUs": () => (/* binding */ getNowUs),
 /* harmony export */   "getDateTime": () => (/* binding */ getDateTime)
@@ -30078,6 +30087,27 @@ function getOnlyDate(date) {
 
     var onlyDate = (day < 10 ? "0" + day.toString() : day) + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + year;
     return onlyDate;
+  }
+
+  return '';
+}
+function getOnlyDateAndHour(date) {
+  if (date !== null) {
+    var timsetamp = Date.parse(date);
+
+    var _toString2 = new Date(timsetamp);
+
+    var year = _toString2.getFullYear();
+
+    var month = _toString2.getMonth() + 1;
+
+    var day = _toString2.getDate();
+
+    var hour = _toString2.getHours();
+
+    var minute = '00';
+    var onlyDateAndHour = (day < 10 ? "0" + day.toString() : day) + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + year + ' ' + (hour < 10 ? "0" + hour.toString() : hour) + ":" + minute.toString();
+    return onlyDateAndHour;
   }
 
   return '';

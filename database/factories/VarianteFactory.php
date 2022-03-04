@@ -46,7 +46,7 @@ class VarianteFactory extends Factory
             'ordre' => self::$ordre++, 
             'characteristic' => "['color' => 'red', 'size' => 'm']", 
             'product_id' => self::$prod_id++,
-            'supplier_id' => 1,
+            'supplier_id' => rand(1,5),
             'delivery_company_id' => 1,
         ];
     }

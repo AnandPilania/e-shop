@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import AppContext from '../contexts/AppContext';
 import CheckBox from '../elements/checkBox';
+
+
+
 const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
 
     const [showCategorySelect, setShowCategorySelect] = useState(false);
-    const [categoriesChecked, setCategoriesChecked] = useState([]);
-
+    const { categoriesChecked, setCategoriesChecked } = useContext(AppContext);
 
     // show hide select menu
     const showHideCategorySelect = () => {
@@ -80,25 +83,28 @@ const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
         // click outside.
         setShowCategorySelect(false);
     }
-    function handleCheckBox(e) {
+
+
+    function handleCheckBox(e) { 
         let cat = '';
         if (e.target.textContent === '') {
             cat = e.target.value;
         } else {
             cat = e.target.textContent;
         }
-
+console.log('cat   ', cat);
+console.log('categoriesChecked   ', categoriesChecked);
         if (!categoriesChecked.includes(cat)) {
             setCategoriesChecked([...categoriesChecked, cat]);
         } else {
             setCategoriesChecked([...categoriesChecked.filter(e => e !== cat)]);
         }
-
     }
 
     useEffect(() => {
         categoriesFilter(categoriesChecked);
     }, [categoriesChecked]);
+
 
     return (
         <div className="w50 p0 bg-gray-light relative" id="selectId">
@@ -118,13 +124,13 @@ const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
 
                 <div id='category_select' className='w100pct flex-row'>
                     <ul className='ul-category scrolly scroll w100pct h200 bg-white'
-                        >
+                    >
                         {arrayList && arrayList.map((item, index) => (
                             <li className="w100pct h40 p-lr-10 flex-row"
                                 key={index}>
-                                <CheckBox unikId={item.name} handleCheckBox={handleCheckBox} categoriesChecked={categoriesChecked}
+                                <CheckBox unikId={item.name} handleCheckBox={handleCheckBox} 
                                 />
-                                {item.name && <span className='cursor p-lr-10 txt-limit' value={item.name} onClick={handleCheckBox}>{item.name}</span> }
+                                {item.name && <span className='cursor p-lr-10 txt-limit' value={item.name} onClick={handleCheckBox}>{item.name}</span>}
                             </li>))}
                     </ul>
                 </div>

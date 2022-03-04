@@ -14,7 +14,7 @@ class ProductDetailsSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 1; $i < 101; $i++) {
+        for ($i = 1; $i < 31; $i++) {
             // product_details
             // taille
             DB::table('product_details')->insert([
@@ -90,10 +90,10 @@ class ProductDetailsSeeder extends Seeder
             ]);
 
             // collection_product
-            DB::table('collection_product')->insert([
-                'collection_id' => rand(1,6),
-                'product_id' => $i,
-            ]);
+            // DB::table('collection_product')->insert([
+            //     'collection_id' => rand(1,6),
+            //     'product_id' => $i,
+            // ]);
         }
     }
 }

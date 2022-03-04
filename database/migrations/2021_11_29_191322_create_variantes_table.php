@@ -29,8 +29,6 @@ class CreateVariantesTable extends Migration
             $table->text('characteristic')->nullable()->default(null);
             $table->unsignedBigInteger('product_id')->nullable()->default(null);
             $table->foreign('product_id')->references('id')->on('products');
-            $table->unsignedBigInteger('variante_id')->nullable()->default(null);
-            $table->foreign('variante_id')->references('id')->on('variantes');
             $table->unsignedBigInteger('supplier_id')->nullable()->default(null);
             $table->foreign('supplier_id')->references('id')->on('suppliers');
             $table->unsignedBigInteger('delivery_company_id')->nullable()->default(null);
