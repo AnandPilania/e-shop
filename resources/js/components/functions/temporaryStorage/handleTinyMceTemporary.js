@@ -1,6 +1,6 @@
 import Axios from "axios";
 
-export function handleTinyMceTemporary(htmlContent) {
+export function handleTinyMceTemporary(htmlContent, id) {
     let div_html_content = document.createElement("div");
 
     // get data htmlContent from tiny Editor
@@ -16,9 +16,10 @@ export function handleTinyMceTemporary(htmlContent) {
     });
 
     let tinySrcList = new FormData;
-    // containt a aaray with name and folder of images
+    // containt a array with name and folder of images
     // !! array become string with ',' as separator
     tinySrcList.append('value', img_video_dom_tab_src);
+    tinySrcList.append('id', id);
 
     Axios.post(`http://127.0.0.1:8000/handleTinyMceTemporaryElements`, tinySrcList,
         {

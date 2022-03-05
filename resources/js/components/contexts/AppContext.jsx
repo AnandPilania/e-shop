@@ -37,5 +37,7 @@ export default React.createContext({
     setIs_Edit: () => { },
     categoriesChecked: '',
     setCategoriesChecked: () => { },
-    
+    searchValue: '',
+    setSearchValue: () => { },
+
 });

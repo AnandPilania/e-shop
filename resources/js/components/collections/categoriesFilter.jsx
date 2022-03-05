@@ -7,7 +7,7 @@ import CheckBox from '../elements/checkBox';
 const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
 
     const [showCategorySelect, setShowCategorySelect] = useState(false);
-    const { categoriesChecked, setCategoriesChecked } = useContext(AppContext);
+    const { categoriesChecked, setCategoriesChecked, searchValue, setSearchValue } = useContext(AppContext);
 
     // show hide select menu
     const showHideCategorySelect = () => {
@@ -86,14 +86,15 @@ const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
 
 
     function handleCheckBox(e) { 
+        // clean input search name collection
+        setSearchValue('');
+
         let cat = '';
         if (e.target.textContent === '') {
             cat = e.target.value;
         } else {
             cat = e.target.textContent;
         }
-console.log('cat   ', cat);
-console.log('categoriesChecked   ', categoriesChecked);
         if (!categoriesChecked.includes(cat)) {
             setCategoriesChecked([...categoriesChecked, cat]);
         } else {
@@ -102,7 +103,8 @@ console.log('categoriesChecked   ', categoriesChecked);
     }
 
     useEffect(() => {
-        categoriesFilter(categoriesChecked);
+        // on vérifie que searchValue est vide pour raffraichir categoriesFilter sinon cela empèche la collection list name search bar de fonctionner
+        searchValue.length === 0 && categoriesFilter(categoriesChecked);
     }, [categoriesChecked]);
 
 

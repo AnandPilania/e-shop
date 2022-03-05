@@ -431,7 +431,9 @@ const CreateCollection = () => {
     // submit
     function handleSubmit() {
         let valid = validation();
-        handleTinyMceTemporary(descriptionCollection);
+
+        // delete removed tinyMCE images in folder and db
+        handleTinyMceTemporary(descriptionCollection, id);
 
         if (valid) {
             let imageFile = null;

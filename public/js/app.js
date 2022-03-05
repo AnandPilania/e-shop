@@ -23725,6 +23725,11 @@ var App = function App() {
       categoriesChecked = _useState42[0],
       setCategoriesChecked = _useState42[1];
 
+  var _useState43 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState44 = _slicedToArray(_useState43, 2),
+      searchValue = _useState44[0],
+      setSearchValue = _useState44[1];
+
   var handleModalApp = function handleModalApp() {
     setShowModalApp(false);
   };
@@ -23769,7 +23774,9 @@ var App = function App() {
     is_Edit: is_Edit,
     setIs_Edit: setIs_Edit,
     categoriesChecked: categoriesChecked,
-    setCategoriesChecked: setCategoriesChecked
+    setCategoriesChecked: setCategoriesChecked,
+    searchValue: searchValue,
+    setSearchValue: setSearchValue
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("div", {
     className: "app-container",
@@ -24716,7 +24723,9 @@ var CategoriesFilter = function CategoriesFilter(_ref) {
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       categoriesChecked = _useContext.categoriesChecked,
-      setCategoriesChecked = _useContext.setCategoriesChecked; // show hide select menu
+      setCategoriesChecked = _useContext.setCategoriesChecked,
+      searchValue = _useContext.searchValue,
+      setSearchValue = _useContext.setSearchValue; // show hide select menu
 
 
   var showHideCategorySelect = function showHideCategorySelect() {
@@ -24788,6 +24797,8 @@ var CategoriesFilter = function CategoriesFilter(_ref) {
   }
 
   function handleCheckBox(e) {
+    // clean input search name collection
+    setSearchValue('');
     var cat = '';
 
     if (e.target.textContent === '') {
@@ -24795,9 +24806,6 @@ var CategoriesFilter = function CategoriesFilter(_ref) {
     } else {
       cat = e.target.textContent;
     }
-
-    console.log('cat   ', cat);
-    console.log('categoriesChecked   ', categoriesChecked);
 
     if (!categoriesChecked.includes(cat)) {
       setCategoriesChecked([].concat(_toConsumableArray(categoriesChecked), [cat]));
@@ -24809,7 +24817,8 @@ var CategoriesFilter = function CategoriesFilter(_ref) {
   }
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    categoriesFilter(categoriesChecked);
+    // on vérifie que searchValue est vide pour raffraichir categoriesFilter sinon cela empèche la collection list name search bar de fonctionner
+    searchValue.length === 0 && categoriesFilter(categoriesChecked);
   }, [categoriesChecked]);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
     className: "w50 p0 bg-gray-light relative",
@@ -26172,8 +26181,9 @@ var CreateCollection = function CreateCollection() {
 
 
   function handleSubmit() {
-    var valid = validation();
-    (0,_functions_temporaryStorage_handleTinyMceTemporary__WEBPACK_IMPORTED_MODULE_13__.handleTinyMceTemporary)(descriptionCollection);
+    var valid = validation(); // delete removed tinyMCE images in folder and db
+
+    (0,_functions_temporaryStorage_handleTinyMceTemporary__WEBPACK_IMPORTED_MODULE_13__.handleTinyMceTemporary)(descriptionCollection, id);
 
     if (valid) {
       var imageFile = null;
@@ -26313,7 +26323,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _RowListCollections__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./RowListCollections */ "./resources/js/components/collections/RowListCollections.jsx");
 /* harmony import */ var _categoriesFilter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./categoriesFilter */ "./resources/js/components/collections/categoriesFilter.jsx");
-/* harmony import */ var _elements_checkBox__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../elements/checkBox */ "./resources/js/components/elements/checkBox.jsx");
+/* harmony import */ var _elements_Checkbox_listCollection__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../elements/Checkbox_listCollection */ "./resources/js/components/elements/Checkbox_listCollection.jsx");
 /* harmony import */ var _headerListCollections__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./headerListCollections */ "./resources/js/components/collections/headerListCollections.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -26350,35 +26360,32 @@ var ListCollections = function ListCollections() {
       listCollectionsFiltered = _useState2[0],
       setListCollectionsFiltered = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState4 = _slicedToArray(_useState3, 2),
-      searchValue = _useState4[0],
-      setSearchValue = _useState4[1];
-
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     imgName: 'az.png',
     imgDate: '1-2.png',
     imgCat: 'az.png'
   }),
-      _useState6 = _slicedToArray(_useState5, 2),
-      imgSort = _useState6[0],
-      setImgSort = _useState6[1];
+      _useState4 = _slicedToArray(_useState3, 2),
+      imgSort = _useState4[0],
+      setImgSort = _useState4[1];
 
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     nameSens: true,
     categorySens: true,
     ceated_atSens: true
   }),
-      _useState8 = _slicedToArray(_useState7, 2),
-      toggleSort = _useState8[0],
-      setToggleSort = _useState8[1];
+      _useState6 = _slicedToArray(_useState5, 2),
+      toggleSort = _useState6[0],
+      setToggleSort = _useState6[1];
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       listCollections = _useContext.listCollections,
       setListCollections = _useContext.setListCollections,
       listCategories = _useContext.listCategories,
       setListCategories = _useContext.setListCategories,
-      setCategoriesChecked = _useContext.setCategoriesChecked;
+      setCategoriesChecked = _useContext.setCategoriesChecked,
+      searchValue = _useContext.searchValue,
+      setSearchValue = _useContext.setSearchValue;
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (listCollections.length === 0) {
@@ -26538,15 +26545,13 @@ var ListCollections = function ListCollections() {
 
 
   function handleSearch(e) {
+    // uncheck all categoies filter when handleSearch
+    setCategoriesChecked([]);
     setSearchValue(e.target.value);
     setListCollectionsFiltered(listCollections.filter(function (item) {
       return item.name.toLowerCase().includes(e.target.value.toLowerCase());
     }));
-  } // useEffect(() => {
-  //     // uncheck all categoies filter when handleSearch
-  //     setCategoriesChecked([]);
-  // }, [searchValue]);
-
+  }
 
   function categoriesFilter(categories) {
     categories.length > 0 ? setListCollectionsFiltered(listCollections.filter(function (item) {
@@ -26564,7 +26569,7 @@ var ListCollections = function ListCollections() {
           className: "grid grid-col-list1 w100pct p15 bg-gray-light radius10-t",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
             className: "flex-row h50 p5",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_elements_checkBox__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_elements_Checkbox_listCollection__WEBPACK_IMPORTED_MODULE_5__["default"], {
               unikId: 'all'
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
@@ -27240,7 +27245,9 @@ __webpack_require__.r(__webpack_exports__);
   is_Edit: '',
   setIs_Edit: function setIs_Edit() {},
   categoriesChecked: '',
-  setCategoriesChecked: function setCategoriesChecked() {}
+  setCategoriesChecked: function setCategoriesChecked() {},
+  searchValue: '',
+  setSearchValue: function setSearchValue() {}
 }));
 
 /***/ }),
@@ -29998,6 +30005,67 @@ var CroppeImage = function CroppeImage() {
 
 /***/ }),
 
+/***/ "./resources/js/components/elements/Checkbox_listCollection.jsx":
+/*!**********************************************************************!*\
+  !*** ./resources/js/components/elements/Checkbox_listCollection.jsx ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+var CheckboxListCollection = function CheckboxListCollection(_ref) {
+  var unikId = _ref.unikId,
+      handleCheckBox = _ref.handleCheckBox;
+
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
+      categoriesChecked = _useContext.categoriesChecked; //  !!!  A TERMINER !!!
+
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+      type: "checkbox",
+      className: "cbx",
+      id: unikId,
+      value: unikId,
+      style: {
+        display: "none"
+      },
+      checked: categoriesChecked && categoriesChecked.includes(unikId),
+      onChange: function onChange(e) {
+        return handleCheckBox(e);
+      }
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+      htmlFor: unikId,
+      className: "check",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("svg", {
+        width: "18px",
+        height: "18px",
+        viewBox: "0 0 18 18",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("path", {
+          d: "M1,9 L1,3.5 C1,2 2,1 3.5,1 L14.5,1 C16,1 17,2 17,3.5 L17,14.5 C17,16 16,17 14.5,17 L3.5,17 C2,17 1,16 1,14.5 L1,9 Z"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("polyline", {
+          points: "1 9 7 14 15 4"
+        })]
+      })
+    })]
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CheckboxListCollection);
+
+/***/ }),
+
 /***/ "./resources/js/components/elements/checkBox.jsx":
 /*!*******************************************************!*\
   !*** ./resources/js/components/elements/checkBox.jsx ***!
@@ -30163,7 +30231,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
-function handleTinyMceTemporary(htmlContent) {
+function handleTinyMceTemporary(htmlContent, id) {
   var div_html_content = document.createElement("div"); // get data htmlContent from tiny Editor
 
   if (htmlContent.length > 0) div_html_content.innerHTML = htmlContent;
@@ -30174,10 +30242,11 @@ function handleTinyMceTemporary(htmlContent) {
   img_video_dom_tab.forEach(function (item) {
     img_video_dom_tab_src.push(item.src.replace(window.location.origin + '/', ''));
   });
-  var tinySrcList = new FormData(); // containt a aaray with name and folder of images
+  var tinySrcList = new FormData(); // containt a array with name and folder of images
   // !! array become string with ',' as separator
 
   tinySrcList.append('value', img_video_dom_tab_src);
+  tinySrcList.append('id', id);
   axios__WEBPACK_IMPORTED_MODULE_0___default().post("http://127.0.0.1:8000/handleTinyMceTemporaryElements", tinySrcList, {
     headers: {
       'Content-Type': 'multipart/form-data'

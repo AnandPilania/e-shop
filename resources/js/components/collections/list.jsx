@@ -3,14 +3,13 @@ import AppContext from '../contexts/AppContext';
 import Axios from 'axios';
 import RowListCollections from './RowListCollections';
 import CategoriesFilter from './categoriesFilter';
-import CheckBox from '../elements/checkBox';
+import CheckboxListCollection from '../elements/Checkbox_listCollection';
 import HeaderListCollections from './headerListCollections';
 
 
 const ListCollections = () => {
 
     const [listCollectionsFiltered, setListCollectionsFiltered] = useState([]);
-    const [searchValue, setSearchValue] = useState('');
     const [imgSort, setImgSort] = useState({
         imgName: 'az.png',
         imgDate: '1-2.png',
@@ -23,7 +22,7 @@ const ListCollections = () => {
         ceated_atSens: true
     });
 
-    const { listCollections, setListCollections, listCategories, setListCategories, setCategoriesChecked } = useContext(AppContext);
+    const { listCollections, setListCollections, listCategories, setListCategories, setCategoriesChecked, searchValue, setSearchValue } = useContext(AppContext);
 
 
     useEffect(() => {
@@ -122,13 +121,12 @@ const ListCollections = () => {
 
     // renvoi les collection correspondantes à ce qui est tapé dans la barre de recherche dans List collection
     function handleSearch(e) {
+        // uncheck all categoies filter when handleSearch
+        setCategoriesChecked([]);
+
         setSearchValue(e.target.value);
         setListCollectionsFiltered(listCollections.filter(item => item.name.toLowerCase().includes(e.target.value.toLowerCase())));
     }
-    // useEffect(() => {
-    //     // uncheck all categoies filter when handleSearch
-    //     setCategoriesChecked([]);
-    // }, [searchValue]);
 
     function categoriesFilter(categories) {
         categories.length > 0 ? setListCollectionsFiltered(listCollections.filter(item => categories.includes(item.categoryName))) : setListCollectionsFiltered(listCollections);
@@ -142,7 +140,7 @@ const ListCollections = () => {
 
                     <li className='grid grid-col-list1 w100pct p15 bg-gray-light radius10-t'>
 
-                        <div className='flex-row h50 p5'><CheckBox unikId={'all'} /></div>
+                        <div className='flex-row h50 p5'><CheckboxListCollection unikId={'all'} /></div>
 
                         <div className='flex-row h50 p5'>
 

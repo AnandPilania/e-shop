@@ -73,6 +73,9 @@ class CollectionController extends Controller
         if ($request->id > 0) {
             // if collection is edited
             $collection = Collection::find($request->id);
+            // to delete previous images and thumbnail - see above
+            $imageToDelete = public_path('/') . $collection->image;
+            $thumbNailToDelete = public_path('/') . $collection->thumbnail;
         } else {
             $collection = new Collection;
         }
@@ -172,6 +175,9 @@ class CollectionController extends Controller
             File::delete(public_path($toDelete->value));
             Temporary_storage::destroy($toDelete->id);
         }
+
+        // if is edit collection then remove previous image and thumbnail from images folder
+        File::delete($imageToDelete, $thumbNailToDelete);
 
         return 'ok';
     }

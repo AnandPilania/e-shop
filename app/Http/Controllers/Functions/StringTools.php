@@ -18,7 +18,8 @@ class StringTools
 
     public function nameGeneratorFromFile($file)
     {
-        $str = $file->getClientOriginalName();
+        $str = $this->cleanCaracters($file->getClientOriginalName());
+        $str = str_replace(strrchr($str, '.'), '', $str);
 
         $pattern = '/(-\d+\.[a-zA-Z]{2,4})$/';
         $str = preg_replace($pattern, '', $str);
@@ -26,7 +27,7 @@ class StringTools
         $pattern = '/(\.[a-zA-Z]{2,4})$/';
         $str = preg_replace($pattern, '', $str);
 
-        $pattern = '/[\!\^\$\?\+\*\|&"\'_=\-\.\(\)\{\}¤£¨\/,;:ù%µ€ ]+/i';
+        $pattern = '/[\!\^\$\?\+\*\|&"\'_=\-\.\(\)\{\}¤£¨\/,;:ù%µ@€ ]+/';
         $str = preg_replace($pattern, '-', $str);
 
         if ($file->getClientOriginalExtension() !== '') {
@@ -49,7 +50,7 @@ class StringTools
         $pattern = '/(\.[a-zA-Z]{2,4})$/';
         $str = preg_replace($pattern, '', $str);
 
-        $pattern = '/[\!\^\$\?\+\*\|&"\'_=\-\.\(\)\{\}¤£¨\/,;:ù%µ€ ]+/i';
+        $pattern = '/[\!\^\$\?\+\*\|&"\'_=\-\.\(\)\{\}¤£¨\/,;:ù%µ@€ ]+/i';
         $str = preg_replace($pattern, '-', $str);
 
         $ext = $this->getExtesion($file);

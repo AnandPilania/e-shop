@@ -40,6 +40,7 @@ const App = () => {
     const [listCategories, setListCategories] = useState([]);
     const [is_Edit, setIs_Edit] = useState(false);
     const [categoriesChecked, setCategoriesChecked] = useState([]);
+    const [searchValue, setSearchValue] = useState('');
 
     const handleModalApp = () => {
         setShowModalApp(false);
@@ -69,7 +70,8 @@ const App = () => {
         listCategories, setListCategories,
         is_Edit, setIs_Edit,
         categoriesChecked, 
-        setCategoriesChecked
+        setCategoriesChecked,
+        searchValue, setSearchValue
     }
 
 
