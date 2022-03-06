@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DateTime;
+use DOMDocument;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Collection;
@@ -70,7 +71,9 @@ class CollectionController extends Controller
     {
 
         // dd($request);
-        if ($request->id > 0) {
+
+        
+        if ($request->id !== 'null') {
             // if collection is edited
             $collection = Collection::find($request->id);
             // to delete previous images and thumbnail - see above
@@ -106,8 +109,10 @@ class CollectionController extends Controller
             }
         } 
 
-        $collection->name = $request->name;
-        $collection->description = str_replace('temporaryStorage', 'images', $request->description);
+        $collection->name = $request->name;  
+        // remplace dans la description le dossier temporaryStorage par celui de la destionation finale des images et vidéos. !!! c'est handleTinyMceTemporaryElements qui se charge de déplacer les fichiers dans ces dossiers !!!
+        $tmp_description = str_replace('temporaryStorage', 'images', $request->description);      
+        $collection->description = str_replace('<source src="http://127.0.0.1:8000/images', '<source src="http://127.0.0.1:8000/videos', $tmp_description);
         $collection->automatise = $request->automatise === 'true' ? 1 : 0;
         $collection->notIncludePrevProduct = $request->notIncludePrevProduct === 'true' ? 1 : 0;
         $collection->allConditionsNeeded = $request->allConditionsNeeded === 'true' ? 1 : 0;
@@ -177,7 +182,7 @@ class CollectionController extends Controller
         }
 
         // if is edit collection then remove previous image and thumbnail from images folder
-        File::delete($imageToDelete, $thumbNailToDelete);
+        isset($imageToDelete) && File::delete($imageToDelete, $thumbNailToDelete);
 
         return 'ok';
     }

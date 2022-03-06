@@ -15,7 +15,7 @@ class TemporaryStorageController extends Controller
 {
     public function getSingleTemporaryImage($id)
     {
-        // if not collection is edit theb get image path from temporaryStockage table
+        // if not collection is edit then get image path from temporaryStockage table
         $tmp_img = Temporary_storage::where('key', 'tmp_imageCollection')->first();
 
         if ($tmp_img !== null) {
@@ -55,17 +55,17 @@ class TemporaryStorageController extends Controller
             $tools = new StringTools;
             $newName = $tools->nameGeneratorFromFile($file);
 
-            if (in_array($mimeType, $mimeType_images_array)) { 
-                $Path = public_path('temporaryStorage/'); 
+            if (in_array($mimeType, $mimeType_images_array)) {
+                $Path = public_path('temporaryStorage/');
                 $imgFile = Image::make($file);
                 $imgFile->save($Path . $newName, 80, 'jpg');
 
                 $tmp_storage->key = $request->key;
                 $tmp_storage->value = 'temporaryStorage/' . $newName;
                 $tmp_storage->save();
-                
+
                 return $tmp_storage->value;
-            } elseif (in_array($mimeType, $mimeType_videos_array)) {
+            } else if (in_array($mimeType, $mimeType_videos_array)) {
                 $path = 'temporaryStorage/';
                 $file->move($path, $newName);
 
@@ -107,11 +107,39 @@ class TemporaryStorageController extends Controller
     public function handleTinyMceTemporaryElements(Request $request)
     {
         // dd($request);
-        $tab_data = explode(',', $request->value);
 
+        // delete previous images or videos from images and videos folders
+        // $description = Collection::where('id', $request->id)->first('description');
+        // // dd($description);
+        // $doc = new DOMDocument();
+        // @$doc->loadHTML($description);
+        // $xpath = new \DOMXpath($doc);
+
+        // $tags = $xpath->query('//img/@src | //source/@src');
+        // foreach ($tags as $tag) {
+        //     $is_video = strstr($tag->value, '\/videos\/');
+        //     $is_image = strstr($tag->value, '\/images\/');
+        //     $tab = array("\/images\/", "\/videos\/", "\\");
+        //     if ($is_video !== false) {
+        //         $to_delete = str_replace($tab, '', $is_video);
+        //         $to_delete = substr($to_delete, 0, -1);
+        //         $pattern = '/(\.\w{2,4})/';
+        //         // $to_delete = preg_replace($pattern, '', $to_delete);
+        //         // dd(public_path('videos/' . $to_delete));
+        //         if (File::exists(public_path('videos/' . $to_delete))) File::delete(public_path('videos/' . $to_delete));
+        //         // $to_delete[] = str_replace($tab, 'videos/', $is_video);
+        //     }
+        //     if ($is_image !== false) {
+        //         $to_delete[] = str_replace($tab, 'images/', $is_image);
+        //     }
+        // }
+        // dd($to_delete);
+
+        $tab_data = explode(',', $request->value);
         $tinyImagesVideosInDB = Temporary_storage::where('key', 'tmp_tinyMceImages')->orWhere('key', 'tmp_tinyMceVideos')->get();
         $destinationFolder = '';
-        foreach ($tinyImagesVideosInDB as $item) {
+
+        foreach ($tinyImagesVideosInDB as $item) { dd(public_path($item->value));
             // check if is video or image for determine destination folder
             foreach ([".mp4", ".mpeg", ".ogv", ".webm", ".mov", "avi", ".wmv"] as $ext) {
                 if (str_ends_with($item->value, $ext)) {
@@ -121,32 +149,6 @@ class TemporaryStorageController extends Controller
                     $destinationFolder = 'images/';
                 }
             }
-
-            // delete previous images or videos fropm images folders
-            // $description = Collection::where('id', $request->id)->first('description');
-            // dd($description);
-            // $doc = new DOMDocument();
-            // @$doc->loadHTML($description);
-            // $xpath = new \DOMXpath($doc);
-            
-            // $tags = $xpath->query('//img/@src | //source/@src');
-            // dd($tags);
-            // for ($i = 0; $i < $tags->length; $i++) {
-            //     if ($tags[$i]->nodeName == 'img') {
-            //         preg_match_all('/blob\-\d+\.[a-zA-Z]{2,4}/',$tags[$i]->value, $result); 
-            //         echo $result . '<br>';
-            //     } else {
-            //         $tst = strstr($tags[$i]->value, 'images\/');
-            //         $tab = array('images\/', '\"');
-            //         $tst = str_replace($tab, '', $tst);
-            //         echo $tst . '<br>';
-            //     }
-            // }
-            // dd('ok');
-
-            // $name = str_replace('temporaryStorage/', 'images/', $item->value);
-            // dd($description);
-            // if (File::exists(public_path($name))) File::delete(public_path($name));
 
             // si une image ou video en db n'est pas dans les images qu'on a reçu alors on la delete sinon on la déplace dans son dossier permanent  
             if (!in_array($item->value, $tab_data) && $tab_data[0] !== "") {

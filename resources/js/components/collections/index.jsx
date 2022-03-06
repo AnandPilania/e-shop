@@ -472,7 +472,7 @@ const CreateCollection = () => {
                         // gére le netoyage des images et vidéos dans  temporaryStorage 
                         let keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection']
                         cleanTemporayStorage(keys_toDelete);
-                        setId(0);
+                        setId(null);
 
                         // chargement des collections
                         // refresh data after save new collection

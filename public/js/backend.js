@@ -26202,7 +26202,7 @@ var CreateCollection = function CreateCollection() {
 
           var keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection'];
           cleanTemporayStorage(keys_toDelete);
-          setId(0); // chargement des collections
+          setId(null); // chargement des collections
           // refresh data after save new collection
 
           axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/collections-list-back-end").then(function (res) {
