@@ -2635,12 +2635,12 @@ a.link:hover {
 }
 
 .grid-col-list1 {
-  grid-template-columns: 5% 25% 7% 23% 15% 15% 10%;
+  grid-template-columns: 5% 25% 7% 19% 12% 12% 10% 10%;
   align-items: center;
 }
 
 .grid-col-list2 {
-  grid-template-columns: 5% 18% 7% 7% 23% 15% 15% 10%;
+  grid-template-columns: 5% 18% 7% 7% 19% 12% 12% 10% 10%;
   align-items: center;
 }
 

@@ -14,7 +14,7 @@ export function handleTinyMceTemporary(htmlContent, id) {
     img_video_dom_tab.forEach(item => {
         img_video_dom_tab_src.push(item.src.replace(window.location.origin + '/', ''))
     });
-
+    console.log(img_video_dom_tab_src);
     let tinySrcList = new FormData;
     // containt a array with name and folder of images
     // !! array become string with ',' as separator

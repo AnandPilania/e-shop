@@ -106,40 +106,41 @@ class TemporaryStorageController extends Controller
     // delete removed tinyMCE images in folder and db
     public function handleTinyMceTemporaryElements(Request $request)
     {
-        // dd($request);
+        $tab_data = explode(',', $request->value);
+        // dd($tab_data);
+        // dans tiny editor on a 3 sources possibles pour le stockages des images et vidéos. 1 public/temporaryStocage, 2 public/images, 3 public/videos. Ici on supprime les images ou vidéos qui ne sont plus dans l'editor dans chacun de ces dossiers.
 
         // delete previous images or videos from images and videos folders
-        // $description = Collection::where('id', $request->id)->first('description');
-        // // dd($description);
-        // $doc = new DOMDocument();
-        // @$doc->loadHTML($description);
-        // $xpath = new \DOMXpath($doc);
+        $description = Collection::where('id', $request->id)->first('description');
+        $doc = new DOMDocument();
+        @$doc->loadHTML($description);
+        $xpath = new \DOMXpath($doc);
+        $tags = $xpath->query('//img/@src | //source/@src');
+        $tab = array("\/images\/", "\/videos\/", "\\");
+        foreach ($tags as $tag) {
+            $is_video = strstr($tag->value, '\/videos\/');
+            $is_image = strstr($tag->value, '\/images\/');
+            if ($is_video !== false) {
+                $to_delete = str_replace($tab, '', $is_video);
+                $to_delete = 'videos/' . substr($to_delete, 0, -1);
+                if (!in_array($to_delete, $tab_data) && $tab_data[0] !== "") {
+                    if (File::exists(public_path($to_delete))) File::delete(public_path($to_delete));
+                }
+            }
+            if ($is_image !== false) {
+                $to_delete = str_replace($tab, '', $is_image);
+                $to_delete = 'images/' . substr($to_delete, 0, -1);
+                if (!in_array($to_delete, $tab_data) && $tab_data[0] !== "") {
+                    if (File::exists(public_path($to_delete))) File::delete(public_path($to_delete));
+                }
+            }
+        }
 
-        // $tags = $xpath->query('//img/@src | //source/@src');
-        // foreach ($tags as $tag) {
-        //     $is_video = strstr($tag->value, '\/videos\/');
-        //     $is_image = strstr($tag->value, '\/images\/');
-        //     $tab = array("\/images\/", "\/videos\/", "\\");
-        //     if ($is_video !== false) {
-        //         $to_delete = str_replace($tab, '', $is_video);
-        //         $to_delete = substr($to_delete, 0, -1);
-        //         $pattern = '/(\.\w{2,4})/';
-        //         // $to_delete = preg_replace($pattern, '', $to_delete);
-        //         // dd(public_path('videos/' . $to_delete));
-        //         if (File::exists(public_path('videos/' . $to_delete))) File::delete(public_path('videos/' . $to_delete));
-        //         // $to_delete[] = str_replace($tab, 'videos/', $is_video);
-        //     }
-        //     if ($is_image !== false) {
-        //         $to_delete[] = str_replace($tab, 'images/', $is_image);
-        //     }
-        // }
-        // dd($to_delete);
-
-        $tab_data = explode(',', $request->value);
+        // supprime les images et vidéos dans le dossier temporaryStorage qui ne sont plus dans le tiny editor. Celles qui y sont encore sont déplacées dans leurs dossiers finaux. cette fonction est appelée dans index submit collection
         $tinyImagesVideosInDB = Temporary_storage::where('key', 'tmp_tinyMceImages')->orWhere('key', 'tmp_tinyMceVideos')->get();
         $destinationFolder = '';
 
-        foreach ($tinyImagesVideosInDB as $item) { dd(public_path($item->value));
+        foreach ($tinyImagesVideosInDB as $item) {
             // check if is video or image for determine destination folder
             foreach ([".mp4", ".mpeg", ".ogv", ".webm", ".mov", "avi", ".wmv"] as $ext) {
                 if (str_ends_with($item->value, $ext)) {
@@ -149,15 +150,13 @@ class TemporaryStorageController extends Controller
                     $destinationFolder = 'images/';
                 }
             }
-
-            // si une image ou video en db n'est pas dans les images qu'on a reçu alors on la delete sinon on la déplace dans son dossier permanent  
+            // si une image ou video en db n'est pas dans les images ou vidéos qu'on a reçu alors on les delete sinon on les déplace dans leurs dossiers permanents  
             if (!in_array($item->value, $tab_data) && $tab_data[0] !== "") {
                 File::delete(public_path($item->value));
             } else {
                 $name = str_replace('temporaryStorage/', '', $item->value);
                 File::move(public_path($item->value), public_path($destinationFolder . $name));
             }
-
             Temporary_storage::destroy($item->id);
         }
     }

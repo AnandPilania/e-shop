@@ -110,9 +110,9 @@ class CollectionController extends Controller
         } 
 
         $collection->name = $request->name;  
-        // remplace dans la description le dossier temporaryStorage par celui de la destionation finale des images et vidéos. !!! c'est handleTinyMceTemporaryElements qui se charge de déplacer les fichiers dans ces dossiers !!!
+        // remplace dans les src de la description le dossier temporaryStorage par celui de la destionation finale des images et vidéos. !!! c'est handleTinyMceTemporaryElements qui se charge de déplacer les fichiers dans ces dossiers !!!
         $tmp_description = str_replace('temporaryStorage', 'images', $request->description);      
-        $collection->description = str_replace('<source src="http://127.0.0.1:8000/images', '<source src="http://127.0.0.1:8000/videos', $tmp_description);
+        $collection->description = preg_replace('/(<source src=").+(images)/', '<source src="' . url('') . '/videos', $tmp_description);
         $collection->automatise = $request->automatise === 'true' ? 1 : 0;
         $collection->notIncludePrevProduct = $request->notIncludePrevProduct === 'true' ? 1 : 0;
         $collection->allConditionsNeeded = $request->allConditionsNeeded === 'true' ? 1 : 0;
@@ -271,11 +271,13 @@ class CollectionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Collection $collection)
+    public function deleteCollection(Request $request)
     {
-        File::delete(public_path($collection->image));
+        dd($request->id);
 
-        $collection->delete();
-        return back();
+        // File::delete(public_path($collection->image));
+
+        // $collection->delete();
+        return 'Collection has been removed';
     }
 }

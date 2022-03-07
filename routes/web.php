@@ -96,6 +96,9 @@ Route::get('/getCollections', [CollectionController::class, 'getCollections']);
 // récupère une collection pour l'éditer
 Route::get('/getCollectionById/{id}', [CollectionController::class, 'getCollectionById']);
 
+// supprime une collection
+Route::post('/deleteCollection', [CollectionController::class, 'deleteCollection']);
+
 Route::get('/editProduct/{productId}', [ProductController::class, 'editProduct']);
 Route::get('/selectCollections/{productId}', [ProductController::class, 'selectCollections']);
 

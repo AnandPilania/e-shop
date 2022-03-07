@@ -132,6 +132,7 @@ const ListCollections = () => {
         categories.length > 0 ? setListCollectionsFiltered(listCollections.filter(item => categories.includes(item.categoryName))) : setListCollectionsFiltered(listCollections);
     }
 
+
     return (
         <div className='flex-col-s-c'>
             <HeaderListCollections />
@@ -189,6 +190,9 @@ const ListCollections = () => {
                             <figure className='h20 w20 m-l-5 cursor noshrink' onClick={() => sortList('created_at')}>
                                 <img src={window.location.origin + '/images/icons/' + imgSort.imgDate} />
                             </figure>
+                        </div>
+                        <div className='flex-row min-h50 p5 b'>
+                            Opérations
                         </div>
                     </li>
                     {!!listCollectionsFiltered && listCollectionsFiltered.map(item =>

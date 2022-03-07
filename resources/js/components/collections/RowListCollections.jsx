@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from '@material-ui/styles';
+import Axios from 'axios';
 import CheckBox from '../elements/checkBox';
 import { getNowUs, getOnlyDate, getOnlyDateAndHour } from '../functions/dateTools';
 
@@ -116,6 +117,18 @@ const RowListCollections = ({ collection, category }) => {
         navigate('/add-collection', { state: { collectionId: id, isEdit: true } });
     }
 
+    // delete collection
+    const deleteCollection = (id) => {
+        let idToDelete = new FormData;
+        idToDelete.append('id', id);
+
+        Axios.post(`http://127.0.0.1:8000/deleteCollection`, idToDelete)
+        .then(res => {
+            console.log(res.data);
+            setId(null);
+        });
+    }    
+    
 
     return (
         <li className='grid grid-col-list2 w100pct h-auto min-h50 bg-white p15 brd-b-gray-light-1'>
@@ -123,7 +136,7 @@ const RowListCollections = ({ collection, category }) => {
             <div className='flex-row min-h50 p5'>
                 {collection && <CheckBox unikId={collection.id} />}
             </div>
-            <div className='flex-row min-h50 p5 cursor' onClick={() => editCollection(collection.id)}>
+            <div className='flex-row min-h50 p5 cursor'>
                 {collection && collection.name}
             </div>
             <div className='flex-row-c-c min-h50 w50'>
@@ -184,6 +197,16 @@ const RowListCollections = ({ collection, category }) => {
             <div className='flex-row min-h50 p5'>
                 {collection && getOnlyDate(collection.created_at)}
             </div>
+            <div>
+                <i className="fas fa-recycle m-r-20"
+                    onClick={() => {
+                        editCollection(collection.id);
+                    }}>
+                </i>
+                <i className="far fa-trash-alt"
+                    onClick={() => deleteCollection(collection.id)}></i>
+            </div>
+
             {/* <div className='flex-row-c-c min-h50 p5'>
                 {collection && <img src={window.location.origin + '/images/icons/trash-flat.png'} className="w25 h25 tooltip_" style={{ margin: "0" }} onClick={() => { handleDeletCollection(collection.id) }}>
                   //  <span className="tooltiptext">Supprimer la collection</span>
