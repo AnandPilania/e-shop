@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import AppContext from '../contexts/AppContext';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useLocalStorage } from "../hooks/useLocalStorage";
@@ -11,6 +11,7 @@ import ListCollections from '../collections/list';
 import CreateCollection from '../collections/index';
 import ModalApp from '../modal/modalApp';
 import CroppeImage from '../croppeJs/croppeJs';
+import Axios from 'axios';
 
 
 
@@ -41,6 +42,23 @@ const App = () => {
     const [is_Edit, setIs_Edit] = useState(false);
     const [categoriesChecked, setCategoriesChecked] = useState([]);
     const [searchValue, setSearchValue] = useState('');
+    const [isDirty, setIsDirty] = useState(false);
+    const [tmp_parameter, setTmp_parameter] = useState(); // pour stocker provisoirement une variable
+    const [deleteThisCategory, setDeleteThisCategory] = useState(null);
+
+
+    useEffect(() => {
+        if (listCollections.length === 0) {
+            // chargement des collections
+            Axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
+                .then(res => { 
+                    setListCollections(res.data[0]);
+                    setListCategories(res.data[1]);
+                }).catch(function (error) {
+                    console.log('error:   ' + error);
+                });
+        }
+    }, []);
 
     const handleModalApp = () => {
         setShowModalApp(false);
@@ -48,6 +66,33 @@ const App = () => {
 
     const handleModalAppCancel = () => {
         setShowModalApp(false);
+    };
+
+    //ModalConfirm--------------------------------------------------------------
+    const handleModalConfirm = () => {
+        setShowModalConfirm(false);
+
+        switch (sender) {
+            case 'deleteCategory': // if confirm delete
+                setDeleteThisCategory(tmp_parameter);
+                break;
+            case 'initCollectionForm':
+                initCollectionForm();
+                break;
+            case 'editCollection':
+                // déclenche dans RowListCollection useEffect[sender]
+                setSender('goEditCollection');
+                break;
+            default:
+                '';
+        }
+    };
+    //--------------------------------------------------------------ModalConfirm
+
+    const handleModalCancel = () => {
+        setShowModalConfirm(false);
+        setShowModalSimpleMessage(false);
+        setShowModalInput(false);
     };
 
 
@@ -71,7 +116,11 @@ const App = () => {
         is_Edit, setIs_Edit,
         categoriesChecked, 
         setCategoriesChecked,
-        searchValue, setSearchValue
+        searchValue, setSearchValue,
+        isDirty, setIsDirty,
+        tmp_parameter, setTmp_parameter,
+        deleteThisCategory, setDeleteThisCategory,
+        handleModalConfirm, handleModalCancel,
     }
 
 

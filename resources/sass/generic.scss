@@ -109,6 +109,9 @@
 .w90pct {
     width: 90%;
 }
+.w95pct {
+    width: 95%;
+}
 .w100pct {
     width: 100%;
 }
@@ -1076,6 +1079,20 @@
 .hover-bg-gray-light:hover {
     background-color: rgb(250, 250, 250);
 }
+.hover-bold:hover {
+    font-weight: bold;
+}
+
+.hover-red:hover {
+    color: rgb(224, 0, 0);
+}
+.hover-blue:hover {
+    color: rgb(38, 96, 255);
+}
+.hover-green:hover {
+    color: rgb(6, 189, 0);
+}
+
 
 // focus
 .input-foc:focus {
@@ -1086,7 +1103,9 @@
 .white {
     color: white;
 }
-
+.red {
+    color: red;
+}
 
 
 // border-radius

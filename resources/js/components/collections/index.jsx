@@ -37,12 +37,11 @@ const CreateCollection = () => {
     const [descriptionCollectionForMeta, setDescriptionCollectionForMeta] = useState('');
     //--------------------------------------------------------------------Form
 
-    const [deleteThisCategory, setDeleteThisCategory] = useState(null);
+ 
     const [isAutoConditions, setIsAutoConditions] = useState(true);
     const [notIncludePrevProduct, setNotIncludePrevProduct] = useState(false);
     const [allConditionsNeeded, setAllConditionsNeeded] = useState(true);
-    const [tmp_parameter, setTmp_parameter] = useState(); // pour stocker provisoirement une variable
-    const [isDirty, setIsDirty] = useState(false);
+
     const [warningIdCondition, setWarningIdCondition] = useState([]);
     const [tinyLanguage, setTinyLanguage] = useState('fr_FR');
     const [id, setId] = useState(null);
@@ -56,34 +55,9 @@ const CreateCollection = () => {
         return urlName;
     };
 
-    const handleModalCancel = () => {
-        setShowModalConfirm(false);
-        setShowModalSimpleMessage(false);
-        setShowModalInput(false);
-    };
-
-    // // récupère et formatte la date et l'heure de maintenant
-    // const getNow = () => {
-    //     var now = new Date();
-    //     var year = now.getFullYear();
-    //     var month = now.getMonth() + 1;
-    //     var day = now.getDate();
-    //     var hour = now.getHours();
-    //     let minute = '00';
-    //     let seconde = '00';
-    //     var localDatetime =
-    //         (day < 10 ? "0" + day.toString() : day) + "-" +
-    //         (month < 10 ? "0" + month.toString() : month) + "-" +
-    //         year + ' ' +
-    //         (hour < 10 ? "0" + hour.toString() : hour) + ":" +
-    //         (minute.toString()) + ":" +
-    //         (seconde.toString());
-    //     return localDatetime;
-    // }
-
     const {
         image, setImage, setImagePath, setFollowThisLink, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage,
-        setShowModalInput, messageModal, setMessageModal, sender, setSender, textButtonConfirm, setTextButtonConfirm, imageModal, setImageModal, is_Edit, setIs_Edit, setListCollections, setListCategories, darkMode, setDarkMode
+        setShowModalInput, messageModal, setMessageModal, sender, setSender, textButtonConfirm, setTextButtonConfirm, imageModal, setImageModal, is_Edit, setIs_Edit, listCollections, setListCollections, setListCategories, isDirty, setIsDirty, tmp_parameter, setTmp_parameter, darkMode, setDarkMode, handleModalConfirm, handleModalCancel
     } = useContext(AppContext);
 
     // context de create collection
@@ -103,9 +77,6 @@ const CreateCollection = () => {
         alt, setAlt,
         categoryName, setCategoryName,
         categoryId, setCategoryId,
-        tmp_parameter, setTmp_parameter,
-        handleModalCancel,
-        deleteThisCategory, setDeleteThisCategory,
         dateField, setDateField,
         tinyLanguage,
         id, setId,
@@ -115,6 +86,10 @@ const CreateCollection = () => {
 
 
     var formData = new FormData;
+
+    // when click on edit in collection list it send collection id to db request for make edit collection
+    const { state } = useLocation();
+    const { collectionId, isEdit } = state !== null ? state : { collectionId: null, isEdit: false };
 
     useEffect(() => {
         // set date field with localStorage Data
@@ -187,14 +162,7 @@ const CreateCollection = () => {
                 setTinyLanguage('fr_FR');
         }
 
-    }, []);
 
-
-
-    // when click on name in collection list it send collection id to db request for make edit collection
-    const { state } = useLocation();
-    const { collectionId, isEdit } = state ? state : false;
-    useEffect(() => {
         if (isEdit) {
 
             initCollectionForm();
@@ -202,18 +170,10 @@ const CreateCollection = () => {
             Axios.get(`http://127.0.0.1:8000/getCollectionById/${collectionId}`)
                 .then(res => {
                     res.data.objConditions?.length > 0 ? setConditions(JSON.parse(res.data.objConditions)) : setConditions([{ id: 0, parameter: '1', operator: '1', value: '' }]);
-
                     // autoConditions doit être mis à false avant d'être mis à true pour s'assurer qu'il déclenche le ussefect[autoConditions] dans conditions pour obtenir la bonne hauteur de l'affichage de conditions
                     setIsAutoConditions(false);
                     res.data.automatise === 1 ? setIsAutoConditions(true) : setIsAutoConditions(false);
                     res.data.automatise === 1 ? localStorage.setItem('isAutoConditions', true) : localStorage.setItem('isAutoConditions', false);
-
-
-
-                    // FAIRE UNE COPIE DE IMAGE DANS TEMPORARYSTORAGE dans le controller  -->--> pour tinnyMCE aussi !!!
-
-
-
                     res.data.allConditionsNeeded === 1 ? setAllConditionsNeeded(true) : setAllConditionsNeeded(false);
                     res.data.notIncludePrevProduct === 1 ? setNotIncludePrevProduct(true) : setNotIncludePrevProduct(false);
                     setId(res.data.id);
@@ -222,18 +182,12 @@ const CreateCollection = () => {
                     setMetaTitle(res.data.meta_title);
                     setMetaDescription(res.data.meta_description);
                     setMetaUrl(res.data.meta_url);
-
-                    // setImageName(res.data.image.substring(0, res.data.image.lastIndexOf( "-" )).replace('images/', ''));
-                    console.log('immaaggee  ', res.data)
                     setImageName(res.data.image.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''));
-
                     setImagePath(res.data.image);
                     setAlt(res.data.alt);
-
                     res.data.category?.name !== undefined ? setCategoryName(res.data.category?.name) : 'Aucune catégorie';
                     res.data.category_id !== null ? setCategoryId(res.data.category_id) : 0;
-                    
-                    setDateField(getDateTime(new Date(res.data.created_at)));
+                    setDateField(getDateTime(new Date(res.data.dateActivation)));
                     setDescriptionCollectionForMeta();
                     // 2 x pour que dropZone recharge la bonne image
                     setIs_Edit(true);
@@ -254,22 +208,6 @@ const CreateCollection = () => {
     };
 
 
-    //ModalConfirm--------------------------------------------------------------
-    const handleModalConfirm = () => {
-        setShowModalConfirm(false);
-
-        switch (sender) {
-            case 'deleteCategory': // if confirm delete
-                setDeleteThisCategory(tmp_parameter);
-                break;
-            case 'initCollectionForm':
-                initCollectionForm();
-                break;
-            default:
-                '';
-        }
-    };
-    //--------------------------------------------------------------ModalConfirm
 
     // Reset Form---------------------------------------------------------------
     // confirm reinitialisatio form
@@ -283,7 +221,7 @@ const CreateCollection = () => {
     }
 
     // réinitialisation des states du form 
-    const initCollectionForm = () => {  
+    const initCollectionForm = () => {
 
         setNameCollection('');
         setDescriptionCollection('');
@@ -384,6 +322,15 @@ const CreateCollection = () => {
             return false;
         }
 
+        // check if nema of collection already exist
+        let listCollectionName = listCollections.map(item => item.name);
+        if (!isEdit && listCollectionName.includes(nameCollection)) {
+            setMessageModal('Le nom de collection que vous avez entré éxiste déjà. Veuillez entrer un nom différent');
+            setImageModal('../images/icons/trash_dirty.png');
+            setShowModalSimpleMessage(true);
+            return false;
+        }
+
         if (nameCollection.length === 0) {
             document.getElementById('titreCollection').style.border = "solid 1px rgb(212, 0, 0)";
             setMessageModal('Le champ Nom de la collection est obligatoire');
@@ -398,6 +345,12 @@ const CreateCollection = () => {
             setImageModal('../images/icons/trash_dirty.png');
             setShowModalSimpleMessage(true);
             return false;
+        } else if (nameCollection.length > 191) {
+            document.getElementById('titreCollection').style.border = "solid 1px rgb(212, 0, 0)";
+            setMessageModal('Le nom de la collection ne doit pas dépasser 191 caractères');
+            setImageModal('../images/icons/trash_dirty.png');
+            setShowModalSimpleMessage(true);
+            return false;
         } else {
             document.getElementById('titreCollection').style.border = "solid 1px rgb(220, 220, 220)";
             return true;
@@ -406,7 +359,7 @@ const CreateCollection = () => {
 
 
     // remove records and images files from folders and temporaryStorage db when unused 
-    function cleanTemporayStorage(keys_toDelete) { 
+    function cleanTemporayStorage(keys_toDelete) {
         let toDelete = new FormData;
         for (var i = 0; i < keys_toDelete.length; i++) {
             toDelete.append('keys[]', keys_toDelete[i]);
@@ -437,10 +390,10 @@ const CreateCollection = () => {
 
         if (valid) {
             let imageFile = null;
-            if (image instanceof FileList) { 
+            if (image instanceof FileList) {
                 imageFile = image[0];
             }
-            if (image instanceof Blob) { 
+            if (image instanceof Blob) {
                 imageFile = image;
             }
 
@@ -507,6 +460,7 @@ const CreateCollection = () => {
                                 value={nameCollection}
                                 onChange={handleNameCollection}
                             />
+                            <span className={`fs14 red ${nameCollection.length > 191 ? "block" : "none"}`}>Le nom de la collection ne peut pas dépasser 191 caractères</span>
                         </div>
                         {/* description */}
                         <div className="div-label-inputTxt">

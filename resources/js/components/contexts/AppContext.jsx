@@ -39,5 +39,13 @@ export default React.createContext({
     setCategoriesChecked: () => { },
     searchValue: '',
     setSearchValue: () => { },
+    isDirty: '',
+    setIsDirty: () => { },
+    tmp_parameter: '',
+    setTmp_parameter: () => { },
+    deleteThisCategory: '', 
+    setDeleteThisCategory: () => { },
+    handleModalConfirm: () => { },
+    handleModalCancel: () => { },
 
 });

@@ -43,7 +43,7 @@ class CollectionController extends Controller
     public function collectionsListBackEnd()
     {
         $categories = Category::all('name');
-        $collections = Collection::with('category')->orderBy('created_at', 'desc')->get();
+        $collections = Collection::with('category', 'products')->orderBy('created_at', 'desc')->get();
         return json_encode([$collections, $categories]);
     }
 
@@ -55,28 +55,15 @@ class CollectionController extends Controller
     }
 
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $categories = Category::all();
-        return view('collection.form')->with('categories', $categories);
-    }
-
-
     public function storeAndAssign(StoreCollectionRequest $request)
     {
 
         // dd($request);
 
-        
         if ($request->id !== 'null') {
             // if collection is edited
             $collection = Collection::find($request->id);
-            // to delete previous images and thumbnail - see above
+            // to delete previous image collection and thumbnail - see above
             $imageToDelete = public_path('/') . $collection->image;
             $thumbNailToDelete = public_path('/') . $collection->thumbnail;
         } else {
@@ -187,83 +174,7 @@ class CollectionController extends Controller
         return 'ok';
     }
 
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($link)
-    {
-        // récupération de l'id de la collection
-        // $collection = Collection::where('link', $link)->first();
-        // $categories = Category::all();
-        // return view('front-end.products', ['categories' => $categories, 'collection' => $collection]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $collection = Collection::find($id);
-        $categories = Category::all();
-        return view('collection.edit', ['collection' => $collection, 'categories' => $categories]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        // dd($request);
-        $this->validate($request, ['name' => 'required', 'category' => 'required', 'alt' => 'required']);
-
-        $collection =  Collection::find($id);
-        $collection->name = $request->name;
-        $collection->category_id = $request->category;
-        $collection->alt = $request->alt;
-
-        $link = str_replace(' ', '-', $request->name);
-        $search = array('À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'à', 'á', 'â', 'ã', 'ä', 'å', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ð', 'ò', 'ó', 'ô', 'õ', 'ö', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ');
-        $replace = array('A', 'A', 'A', 'A', 'A', 'A', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y', 'a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y');
-        $cleanLink = str_replace($search, $replace, $link);
-        $collection->link = strtolower($cleanLink);
-
-        if ($request->hasFile('image')) {
-
-            File::delete(public_path($collection->image));
-
-            $image = $request->file('image');
-            $input['image'] = time() . '.' . $image->getClientOriginalExtension();
-
-            $destinationPath = public_path('/images');
-
-            $imgFile = Image::make($image->getRealPath());
-
-            $imgFile->resize(1080, 480, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($destinationPath . '/' . $input['image']);
-
-            $image->move($destinationPath, $input['image']);
-
-            $collection->image = 'images/' . $input['image'];
-        } else {
-            $collection->image = $collection->image;
-        }
-
-        $collection->save();
-
-        return redirect('/collectionsBackEnd')->with('status', 'La modification a été éffectuée');
-    }
+    
 
     /**
      * Remove the specified resource from storage.

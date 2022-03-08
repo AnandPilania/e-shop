@@ -4,7 +4,6 @@ import CollectionContext from '../contexts/CollectionContext';
 import Axios from 'axios';
 import ModalInput from '../modal/modalInput';
 import ModalSimpleMessage from '../modal/modalSimpleMessage';
-import { SketchPicker } from 'react-color';
 
 
 const Categories = () => {
@@ -19,14 +18,13 @@ const Categories = () => {
     const [newCategoryNameUseInMessage, setNewCategoryNameUseInMessage] = useState(''); // pour stocker le nom de la catégorie qui doit être afficher dans le message de confirmation de la creation de la catégorie
 
     const {
-        setShowModalConfirm, showModalInput, setShowModalInput, messageModal, setMessageModal, showModalSimpleMessage, setShowModalSimpleMessage, setSender, inputTextModify, setInputTextModify, selectedColor, setSelectedColor, setTextButtonConfirm, setImageModal } = useContext(AppContext);
+        setShowModalConfirm, showModalInput, setShowModalInput, messageModal, setMessageModal, showModalSimpleMessage, setShowModalSimpleMessage, setSender, inputTextModify, setInputTextModify, selectedColor, setSelectedColor, setTextButtonConfirm, setImageModal,         deleteThisCategory, setDeleteThisCategory, } = useContext(AppContext);
 
     const {
         categoryName, setCategoryName,
         categoryId, setCategoryId,
         setTmp_parameter,
         handleModalCancel,
-        deleteThisCategory, setDeleteThisCategory,
     } = useContext(CollectionContext);
 
     useEffect(() => {

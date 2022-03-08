@@ -24,12 +24,11 @@ const ListCollections = () => {
 
     const { listCollections, setListCollections, listCategories, setListCategories, setCategoriesChecked, searchValue, setSearchValue } = useContext(AppContext);
 
-
     useEffect(() => {
-        if (listCollections.length === 0) {
+        if (listCollectionsFiltered.length === 0) {
             // chargement des collections
             Axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
-                .then(res => {
+                .then(res => {  
                     // listCollections -> liste complète des collections pour handleSearch
                     setListCollections(res.data[0]);
                     setListCollectionsFiltered(res.data[0]);

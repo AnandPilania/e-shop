@@ -1662,6 +1662,10 @@ a.link:hover {
   width: 90%;
 }
 
+.w95pct {
+  width: 95%;
+}
+
 .w100pct {
   width: 100%;
 }
@@ -2792,12 +2796,32 @@ a.link:hover {
   background-color: #fafafa;
 }
 
+.hover-bold:hover {
+  font-weight: bold;
+}
+
+.hover-red:hover {
+  color: #e00000;
+}
+
+.hover-blue:hover {
+  color: #2660ff;
+}
+
+.hover-green:hover {
+  color: #06bd00;
+}
+
 .input-foc:focus {
   outline: none;
 }
 
 .white {
   color: white;
+}
+
+.red {
+  color: red;
 }
 
 .radius5 {

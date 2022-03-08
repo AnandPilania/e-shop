@@ -23,13 +23,13 @@ export function getOnlyDateAndHour(date) {
         let month = toString.getMonth() + 1;
         let day = toString.getDate();
         let hour = toString.getHours();
-        let minute = '00';
+        // let minute = '00';
         let onlyDateAndHour =
             (day < 10 ? "0" + day.toString() : day) + "-" +
             (month < 10 ? "0" + month.toString() : month) + "-" +
             year + ' ' +
-            (hour < 10 ? "0" + hour.toString() : hour) + ":" +
-            (minute.toString());
+            (hour < 10 ? "0" + hour.toString() : hour);
+            //  + ":" + (minute.toString());
         return onlyDateAndHour;
     }
     return '';

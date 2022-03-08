@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from '@material-ui/styles';
+import AppContext from '../contexts/AppContext';
 import Axios from 'axios';
 import CheckBox from '../elements/checkBox';
 import { getNowUs, getOnlyDate, getOnlyDateAndHour } from '../functions/dateTools';
+import ModalConfirm from '../modal/modalConfirm';
 
 
 const useStyles = makeStyles({
@@ -30,6 +32,9 @@ const RowListCollections = ({ collection, category }) => {
     const [conditions, setConditions] = useState(null);
     const [showConditions, setShowConditions] = useState(false);
     const [distanceFromBottom, setDistanceFromBottom] = useState(null);
+    const [idToEdit, setIdToEdit] = useState(null);
+
+    const { isDirty, setMessageModal, sender, setSender, setImageModal, setTmp_parameter, showModalConfirm, setShowModalConfirm, textButtonConfirm, setTextButtonConfirm, handleModalConfirm, handleModalCancel, imageModal, messageModal } = useContext(AppContext);
 
     var navigate = useNavigate();
 
@@ -112,10 +117,39 @@ const RowListCollections = ({ collection, category }) => {
         cursor: 'default',
     }
 
-    // isEdit indique qu'on veut éditer la collection 
+
+
+
+    
+
     const editCollection = (id) => {
-        navigate('/add-collection', { state: { collectionId: id, isEdit: true } });
+        if (isDirty) {
+            setIdToEdit(id);
+            setMessageModal('Le formulaire d\'édition contient d\'anciennes données non sauvegardées. ')
+            setTextButtonConfirm('Confirmer');
+            setImageModal('../images/icons/trash_dirty.png');
+            setSender('editCollection');
+            setTmp_parameter(id);
+            setShowModalConfirm(true);
+        } else {
+            // isEdit indique qu'on veut éditer la collection
+            navigate('/add-collection', { state: { collectionId: id, isEdit: true } });
+        }
     }
+
+    // si confirm edit collection avec modalConfirm alors on edit collection
+    useEffect(() => {
+        if (sender === 'goEditCollection') {
+            // isEdit indique qu'on veut éditer la collection
+            navigate('/add-collection', { state: { collectionId: idToEdit, isEdit: true } });
+        }
+    }, [sender]);
+
+
+
+
+
+
 
     // delete collection
     const deleteCollection = (id) => {
@@ -123,12 +157,12 @@ const RowListCollections = ({ collection, category }) => {
         idToDelete.append('id', id);
 
         Axios.post(`http://127.0.0.1:8000/deleteCollection`, idToDelete)
-        .then(res => {
-            console.log(res.data);
-            setId(null);
-        });
-    }    
-    
+            .then(res => {
+                console.log(res.data);
+                setId(null);
+            });
+    }
+
 
     return (
         <li className='grid grid-col-list2 w100pct h-auto min-h50 bg-white p15 brd-b-gray-light-1'>
@@ -136,7 +170,7 @@ const RowListCollections = ({ collection, category }) => {
             <div className='flex-row min-h50 p5'>
                 {collection && <CheckBox unikId={collection.id} />}
             </div>
-            <div className='flex-row min-h50 p5 cursor'>
+            <div className='flex-row min-h50 p5 p-l-10 w95pct cursor word-break'>
                 {collection && collection.name}
             </div>
             <div className='flex-row-c-c min-h50 w50'>
@@ -145,7 +179,7 @@ const RowListCollections = ({ collection, category }) => {
                 </figure>
             </div>
             <div className="flex-row-c-c w40 h40 radius-round bg-blue-light m-auto">
-                50
+                {collection.products.length}
             </div>
 
             <div className={`flex-row min-h50 ${conditions?.length > 1 && "cursor"}`}
@@ -189,7 +223,7 @@ const RowListCollections = ({ collection, category }) => {
             </div>
 
             <div className='flex-row min-h50 p5'>
-                <span className='h30'>{category && category.name}</span>
+                <span>{category && category.name}</span>
             </div>
             <div className='flex-row min-h50 p5'>
                 <span className={`noshrink flex-row-c-c radius15 h30 p-lr-15 ${collection?.dateActivation < getNowUs() ? 'active-collection' : 'unactive-collection'}`}>{collection?.dateActivation < getNowUs() ? "Activée" : `${getOnlyDateAndHour(collection?.dateActivation)}`}</span>
@@ -198,12 +232,12 @@ const RowListCollections = ({ collection, category }) => {
                 {collection && getOnlyDate(collection.created_at)}
             </div>
             <div>
-                <i className="fas fa-recycle m-r-20"
+                <i className="fas fa-recycle m-r-20 cursor fs20 hover-green"
                     onClick={() => {
                         editCollection(collection.id);
                     }}>
                 </i>
-                <i className="far fa-trash-alt"
+                <i className="far fa-trash-alt cursor fs20 hover-red"
                     onClick={() => deleteCollection(collection.id)}></i>
             </div>
 
@@ -212,6 +246,16 @@ const RowListCollections = ({ collection, category }) => {
                   //  <span className="tooltiptext">Supprimer la collection</span>
                 </img>}
             </div> */}
+
+            {/* modal for confirmation */}
+            <ModalConfirm
+                show={showModalConfirm} // true/false show modal
+                handleModalConfirm={handleModalConfirm}
+                handleModalCancel={handleModalCancel}
+                textButtonConfirm={textButtonConfirm}
+                image={imageModal}>
+                <h2 className="childrenModal">{messageModal}</h2>
+            </ModalConfirm>
         </li>
     );
 }
