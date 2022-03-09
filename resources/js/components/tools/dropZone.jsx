@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { makeStyles } from '@material-ui/styles';
 import Axios from 'axios';
 import AppContext from '../contexts/AppContext';
-import CollectionContext from '../contexts/CollectionContext';
 import { saveInTemporaryStorage } from '../functions/temporaryStorage/saveInTemporaryStorage';
 
 
@@ -68,9 +67,7 @@ const useStyles = makeStyles({
 const DropZone = (props) => {
     const classes = useStyles();
 
-    const { image, setImage, imagePath, setImagePath, setImageModal, setShowModalSimpleMessage, setMessageModal, is_Edit, setIs_Edit } = useContext(AppContext);
-
-    const { id, setId } = useContext(CollectionContext);
+    const { image, setImage, imagePath, setImagePath, setImageModal, setShowModalSimpleMessage, setMessageModal, is_Edit, setIs_Edit, id, setId } = useContext(AppContext);
 
     var navigate = useNavigate();
 
@@ -121,15 +118,14 @@ const DropZone = (props) => {
 
         // init preview image
         if (!is_Edit) {
-            try {
-                Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage/${id}`)
-                    .then(res => {
-                        if (res.data !== undefined && res.data != '') {
-                            // get --> image path <-- for croppe
-                            setImagePath('/' + res.data);
-                            // empèche de fetcher une image qui vient d'être supprimée
-                            // if (!res.data.includes('blob')) {
-                                console.log('res.data   ', res.data)
+            // if (id !== null) { 
+                alert('not isEdit');
+                try {
+                    Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage/${id}`)
+                        .then(res => {
+                            if (res.data !== undefined && res.data != '') {
+                                // get --> image path <-- for croppe
+                                setImagePath('/' + res.data);
                                 // get --> image <-- for preview
                                 fetch('/' + res.data)
                                     .then(function (response) {
@@ -139,12 +135,12 @@ const DropZone = (props) => {
                                         previewImage(BlobImage);
                                         setImage(BlobImage);
                                     })
-                            // }
-                        }
-                    });
-            } catch (error) {
-                console.error('error  ' + error);
-            }
+                            }
+                        });
+                } catch (error) {
+                    console.error('error  ' + error);
+                }
+            // }
         }
     }, []);
 

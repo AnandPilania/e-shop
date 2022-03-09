@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import CollectionContext from '../contexts/CollectionContext';
+import AppContext from '../contexts/AppContext';
 
 
 const Optimisation = () => {
@@ -13,7 +13,7 @@ const Optimisation = () => {
         metaTitle, setMetaTitle,
         metaDescription, setMetaDescription,
         metaUrl, setMetaUrl,
-    } = useContext(CollectionContext);
+    } = useContext(AppContext);
 
 
     useEffect(() => {

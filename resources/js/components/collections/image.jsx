@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import CollectionContext from '../contexts/CollectionContext';
+import AppContext from '../contexts/AppContext';
 import DropZone from '../tools/dropZone';
 
 
@@ -10,7 +10,7 @@ const Image = () => {
     const {
         imageName, setImageName,
         alt, setAlt,
-    } = useContext(CollectionContext);
+    } = useContext(AppContext);
 
 
     const handleAlt = (e) => {

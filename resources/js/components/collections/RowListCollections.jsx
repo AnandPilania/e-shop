@@ -34,7 +34,7 @@ const RowListCollections = ({ collection, category }) => {
     const [distanceFromBottom, setDistanceFromBottom] = useState(null);
     const [idToEdit, setIdToEdit] = useState(null);
 
-    const { isDirty, setMessageModal, sender, setSender, setImageModal, setTmp_parameter, showModalConfirm, setShowModalConfirm, textButtonConfirm, setTextButtonConfirm, handleModalConfirm, handleModalCancel, imageModal, messageModal } = useContext(AppContext);
+    const { isDirty, setIsDirty, setMessageModal, sender, setSender, setImageModal, setTmp_parameter, showModalConfirm, setShowModalConfirm, textButtonConfirm, setTextButtonConfirm, handleModalConfirm, handleModalCancel, imageModal, messageModal } = useContext(AppContext);
 
     var navigate = useNavigate();
 
@@ -117,16 +117,11 @@ const RowListCollections = ({ collection, category }) => {
         cursor: 'default',
     }
 
-
-
-
-    
-
     const editCollection = (id) => {
         if (isDirty) {
             setIdToEdit(id);
             setMessageModal('Le formulaire d\'édition contient d\'anciennes données non sauvegardées. ')
-            setTextButtonConfirm('Confirmer');
+            setTextButtonConfirm('Continuer');
             setImageModal('../images/icons/trash_dirty.png');
             setSender('editCollection');
             setTmp_parameter(id);
@@ -136,19 +131,6 @@ const RowListCollections = ({ collection, category }) => {
             navigate('/add-collection', { state: { collectionId: id, isEdit: true } });
         }
     }
-
-    // si confirm edit collection avec modalConfirm alors on edit collection
-    useEffect(() => {
-        if (sender === 'goEditCollection') {
-            // isEdit indique qu'on veut éditer la collection
-            navigate('/add-collection', { state: { collectionId: idToEdit, isEdit: true } });
-        }
-    }, [sender]);
-
-
-
-
-
 
 
     // delete collection

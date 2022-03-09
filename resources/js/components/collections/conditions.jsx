@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import CollectionContext from '../contexts/CollectionContext';
+import AppContext from '../contexts/AppContext';
 import ConditionCollection from './conditionCollection';
 
 
@@ -11,7 +11,7 @@ const Conditions = () => {
         allConditionsNeeded, setAllConditionsNeeded,
         notIncludePrevProduct, setNotIncludePrevProduct,
         warningIdCondition, setWarningIdCondition,
-    } = useContext(CollectionContext);
+    } = useContext(AppContext);
 
     useEffect(() => {
         // détermine si on montre le block conditions
@@ -45,9 +45,9 @@ const Conditions = () => {
     useEffect(() => {
         // dropDown conditions
         var dropable = document.getElementById('conditions_collection');
-        if (dropable.style.maxHeight) {
+        if (isAutoConditions === false) {
             dropable.style.maxHeight = null;
-        } else {
+        } else if (isAutoConditions === true) {
             dropable.style.maxHeight = dropable.scrollHeight + "px";
         }
     }, [isAutoConditions]);

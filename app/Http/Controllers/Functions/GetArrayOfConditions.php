@@ -48,6 +48,7 @@ class GetArrayOfConditions
 
             // check de quel operator il s'agit
             $value = trim($condition->value);
+            $list_match = [];
             switch ($condition->operator) {
                 case '1':
                     // est égale à

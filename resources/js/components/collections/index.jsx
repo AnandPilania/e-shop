@@ -1,9 +1,7 @@
-import { React, useState, useEffect, useContext } from 'react';
+import { React, useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import AppContext from '../contexts/AppContext';
-import CollectionContext from '../contexts/CollectionContext';
 import Axios from 'axios';
-import { useLocalStorage } from "../hooks/useLocalStorage";
 import ModalConfirm from '../modal/modalConfirm';
 import ModalSimpleMessage from '../modal/modalSimpleMessage';
 import Conditions from './conditions';
@@ -17,73 +15,15 @@ import { getNow, getDateTime } from '../functions/dateTools';
 
 const CreateCollection = () => {
 
-    // form-------------------------------------------------------------------
-    const [conditions, setConditions] = useLocalStorage("conditions", [{
-        id: 0,
-        parameter: '1',
-        operator: '1',
-        value: ''
-    }]);
-    const [nameCollection, setNameCollection] = useLocalStorage("nameCollection", "");
-    const [descriptionCollection, setDescriptionCollection] = useState(localStorage.getItem('descriptionCollection') ? localStorage.getItem('descriptionCollection') : '');
-    const [metaTitle, setMetaTitle] = useLocalStorage("metaTitle", "");
-    const [metaDescription, setMetaDescription] = useLocalStorage("metaDescription", "");
-    const [metaUrl, setMetaUrl] = useState(window.location.origin + '/');
-    const [imageName, setImageName] = useLocalStorage("imageName", "");
-    const [alt, setAlt] = useLocalStorage("altCollection", "");
-    const [categoryName, setCategoryName] = useLocalStorage('categoryName', 'Aucune catégorie');
-    const [categoryId, setCategoryId] = useLocalStorage("categoryId", "");
-    const [dateField, setDateField] = useState('');
-    const [descriptionCollectionForMeta, setDescriptionCollectionForMeta] = useState('');
-    //--------------------------------------------------------------------Form
-
- 
-    const [isAutoConditions, setIsAutoConditions] = useState(true);
-    const [notIncludePrevProduct, setNotIncludePrevProduct] = useState(false);
-    const [allConditionsNeeded, setAllConditionsNeeded] = useState(true);
-
-    const [warningIdCondition, setWarningIdCondition] = useState([]);
-    const [tinyLanguage, setTinyLanguage] = useState('fr_FR');
-    const [id, setId] = useState(null);
-
-    // remove caracteres unauthorized for url
-    const normalizUrl = (str) => {
-        let urlName = str.replaceAll(' ', '-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        urlName = urlName.replaceAll(/-{2,}/g, '-');
-        urlName = urlName.replace(/[<>\?\.\[\]'"°@\|\\§.,\/#\!\$%\^&\*;:\{\}=\+_`~\(\)]/g, "").replaceAll(/-{2,}/g, '-'); // <-- all ist ok 
-
-        return urlName;
-    };
-
     const {
         image, setImage, setImagePath, setFollowThisLink, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage,
-        setShowModalInput, messageModal, setMessageModal, sender, setSender, textButtonConfirm, setTextButtonConfirm, imageModal, setImageModal, is_Edit, setIs_Edit, listCollections, setListCollections, setListCategories, isDirty, setIsDirty, tmp_parameter, setTmp_parameter, darkMode, setDarkMode, handleModalConfirm, handleModalCancel
+        setShowModalInput, messageModal, setMessageModal, sender, setSender, textButtonConfirm, setTextButtonConfirm, imageModal, setImageModal, is_Edit, setIs_Edit, listCollections, setListCollections, setListCategories, isDirty, setIsDirty, tmp_parameter, nameCollection, setNameCollection, descriptionCollection, setDescriptionCollection,
+        descriptionCollectionForMeta, setDescriptionCollectionForMeta, conditions, setConditions, isAutoConditions, setIsAutoConditions,
+        allConditionsNeeded, setAllConditionsNeeded, notIncludePrevProduct, setNotIncludePrevProduct, warningIdCondition, setWarningIdCondition,
+        normalizUrl, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, imageName, setImageName,
+        alt, setAlt, categoryName, setCategoryName, categoryId, setCategoryId,
+        dateField, setDateField, tinyLanguage, setTinyLanguage, id, setId, setTmp_parameter, handleModalConfirm, handleModalCancel, initCollectionForm, cleanTemporayStorage
     } = useContext(AppContext);
-
-    // context de create collection
-    const collectionContextValue = {
-        descriptionCollection, setDescriptionCollection,
-        descriptionCollectionForMeta, setDescriptionCollectionForMeta,
-        conditions, setConditions,
-        isAutoConditions, setIsAutoConditions,
-        allConditionsNeeded, setAllConditionsNeeded,
-        notIncludePrevProduct, setNotIncludePrevProduct,
-        warningIdCondition, setWarningIdCondition,
-        normalizUrl,
-        metaTitle, setMetaTitle,
-        metaDescription, setMetaDescription,
-        metaUrl, setMetaUrl,
-        imageName, setImageName,
-        alt, setAlt,
-        categoryName, setCategoryName,
-        categoryId, setCategoryId,
-        dateField, setDateField,
-        tinyLanguage,
-        id, setId,
-
-    }
-
-
 
     var formData = new FormData;
 
@@ -92,6 +32,7 @@ const CreateCollection = () => {
     const { collectionId, isEdit } = state !== null ? state : { collectionId: null, isEdit: false };
 
     useEffect(() => {
+
         // set date field with localStorage Data
         localStorage.getItem('dateActivation') ? setDateField(localStorage.getItem('dateActivation')) : setDateField(getNow());
 
@@ -105,7 +46,6 @@ const CreateCollection = () => {
                 conditonDirty = true;
             }
         })
-        // check if form is dirty
         if (
             nameCollection != '' ||
             descriptionCollection != '' ||
@@ -164,14 +104,12 @@ const CreateCollection = () => {
 
 
         if (isEdit) {
-
+            alert('on edit')
+            console.log('collectionId  ', collectionId)
             initCollectionForm();
-
             Axios.get(`http://127.0.0.1:8000/getCollectionById/${collectionId}`)
                 .then(res => {
                     res.data.objConditions?.length > 0 ? setConditions(JSON.parse(res.data.objConditions)) : setConditions([{ id: 0, parameter: '1', operator: '1', value: '' }]);
-                    // autoConditions doit être mis à false avant d'être mis à true pour s'assurer qu'il déclenche le ussefect[autoConditions] dans conditions pour obtenir la bonne hauteur de l'affichage de conditions
-                    setIsAutoConditions(false);
                     res.data.automatise === 1 ? setIsAutoConditions(true) : setIsAutoConditions(false);
                     res.data.automatise === 1 ? localStorage.setItem('isAutoConditions', true) : localStorage.setItem('isAutoConditions', false);
                     res.data.allConditionsNeeded === 1 ? setAllConditionsNeeded(true) : setAllConditionsNeeded(false);
@@ -188,7 +126,7 @@ const CreateCollection = () => {
                     res.data.category?.name !== undefined ? setCategoryName(res.data.category?.name) : 'Aucune catégorie';
                     res.data.category_id !== null ? setCategoryId(res.data.category_id) : 0;
                     setDateField(getDateTime(new Date(res.data.dateActivation)));
-                    setDescriptionCollectionForMeta();
+                    setDescriptionCollectionForMeta('');
                     // 2 x pour que dropZone recharge la bonne image
                     setIs_Edit(true);
                     setIs_Edit(true);
@@ -200,6 +138,9 @@ const CreateCollection = () => {
     }, []);
 
 
+    // useEffect(() => {
+    //     setIsDirty(true);
+    // }, [nameCollection, descriptionCollection, conditions, allConditionsNeeded, notIncludePrevProduct, metaTitle, metaDescription, metaUrl, imageName, alt, categoryName, dateField]);
 
 
     const handleNameCollection = (e) => {
@@ -219,64 +160,6 @@ const CreateCollection = () => {
         setTmp_parameter('');
         setShowModalConfirm(true);
     }
-
-    // réinitialisation des states du form 
-    const initCollectionForm = () => {
-
-        setNameCollection('');
-        setDescriptionCollection('');
-        setDescriptionCollectionForMeta('');
-        setMetaTitle('');
-        setMetaDescription('');
-        setMetaUrl(window.location.origin + '/');
-        setAlt('');
-        setImageName('');
-        setImagePath('');
-        setImage([]);
-        setCategoryName('Aucune catégorie');
-        setCategoryId('');
-        setIsDirty(false);
-        setConditions([{
-            id: 0,
-            parameter: '1',
-            operator: '1',
-            value: ''
-        }]);
-        setDateField(getNow());
-
-        // gére le netoyage des images et vidéos dans  temporayStorage 
-        let keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection']
-        cleanTemporayStorage(keys_toDelete);
-
-        // éfface l'image de la dropZone
-        var imagesToRemove = document.getElementsByClassName('image-view-dropZone') && document.getElementsByClassName('image-view-dropZone');
-        if (imagesToRemove.length > 0) {
-            for (let i = 0; i < imagesToRemove.length; i++) {
-                imagesToRemove[i].remove();
-            }
-        }
-        // remet l'image de fond
-        document.getElementById('drop-region-dropZone').style.backgroundColor = 'none';
-        document.getElementById('drop-region-dropZone').style.background = 'no-repeat url("../images/icons/backgroundDropZone.png")';
-        document.getElementById('drop-region-dropZone').style.backgroundPosition = 'center 90%';
-        document.getElementById("drop-message-dropZone").style.display = 'block';
-
-        // vide le localStorage
-        localStorage.removeItem('nameCollection');
-        localStorage.removeItem('descriptionCollection');
-        localStorage.removeItem('metaTitle');
-        localStorage.removeItem('metaDescription');
-        localStorage.removeItem('image');
-        localStorage.removeItem('imageName');
-        localStorage.removeItem('altCollection');
-        localStorage.removeItem('metaUrl');
-        localStorage.removeItem('categoryName');
-        localStorage.removeItem('categoryId');
-        localStorage.removeItem('conditions');
-        localStorage.removeItem('dateActivation');
-
-    }
-    //----------------------------------------------------------------Reset Form
 
 
     const validation = () => {
@@ -358,29 +241,6 @@ const CreateCollection = () => {
     }
 
 
-    // remove records and images files from folders and temporaryStorage db when unused 
-    function cleanTemporayStorage(keys_toDelete) {
-        let toDelete = new FormData;
-        for (var i = 0; i < keys_toDelete.length; i++) {
-            toDelete.append('keys[]', keys_toDelete[i]);
-        }
-
-        Axios.post(`http://127.0.0.1:8000/cleanTemporayStorage`, toDelete,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-            .then(res => {
-                console.log('images handled');
-                return res.data;
-            })
-            .catch(error => {
-                console.log('Error : ' + error.status);
-            });
-    }
-
-
     // submit
     function handleSubmit() {
         let valid = validation();
@@ -445,61 +305,59 @@ const CreateCollection = () => {
 
     return (
         <div className="collection-main-container">
-            <CollectionContext.Provider value={collectionContextValue}>
-                <div className="collection-block-container">
-                    <div className="div-vert-align">
-                        {/* réinitialisation */}
-                        {isDirty && (<button className='btn-effacer-tout'
-                            onClick={confirmInitCollectionForm}>
-                            Réinitialiser
-                        </button>)}
-                        {/* nom */}
-                        <div className="div-label-inputTxt">
-                            <h2>Nom de la collection</h2>
-                            <input className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1" type='text' id='titreCollection'
-                                value={nameCollection}
-                                onChange={handleNameCollection}
-                            />
-                            <span className={`fs14 red ${nameCollection.length > 191 ? "block" : "none"}`}>Le nom de la collection ne peut pas dépasser 191 caractères</span>
-                        </div>
-                        {/* description */}
-                        <div className="div-label-inputTxt">
-                            <h2>Description (optionnel)</h2>
-                        </div>
-                        <Tinyeditor />
-                    </div>
-                    <Conditions />
-                    <Optimisation />
-                    {/* submit */}
+            <div className="collection-block-container">
+                <div className="div-vert-align">
+                    {/* réinitialisation */}
+                    {isDirty && (<button className='btn-effacer-tout'
+                        onClick={confirmInitCollectionForm}>
+                        Réinitialiser
+                    </button>)}
+                    {/* nom */}
                     <div className="div-label-inputTxt">
-                        <button className="btn-submit" onClick={handleSubmit}>
-                            Enregistrer
-                        </button>
+                        <h2>Nom de la collection</h2>
+                        <input className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1" type='text' id='titreCollection'
+                            value={nameCollection}
+                            onChange={handleNameCollection}
+                        />
+                        <span className={`fs14 red ${nameCollection.length > 191 ? "block" : "none"}`}>Le nom de la collection ne peut pas dépasser 191 caractères</span>
                     </div>
+                    {/* description */}
+                    <div className="div-label-inputTxt">
+                        <h2>Description (optionnel)</h2>
+                    </div>
+                    <Tinyeditor />
                 </div>
-                {/* ----------  side  ---------- */}
-                <div className='side-create-collection'>
-                    <Image />
-                    <Categories />
-                    <Activation />
-                    {/* modal for confirmation */}
-                    <ModalConfirm
-                        show={showModalConfirm} // true/false show modal
-                        handleModalConfirm={handleModalConfirm}
-                        handleModalCancel={handleModalCancel}
-                        textButtonConfirm={textButtonConfirm}
-                        image={imageModal}>
-                        <h2 className="childrenModal">{messageModal}</h2>
-                    </ModalConfirm>
-                    {/* modal for simple message */}
-                    <ModalSimpleMessage
-                        show={showModalSimpleMessage} // true/false show modal
-                        handleModalCancel={handleModalCancel}
-                        image={imageModal}>
-                        <h2 className="childrenModal">{messageModal}</h2>
-                    </ModalSimpleMessage>
+                <Conditions />
+                <Optimisation />
+                {/* submit */}
+                <div className="div-label-inputTxt">
+                    <button className="btn-submit" onClick={handleSubmit}>
+                        Enregistrer
+                    </button>
                 </div>
-            </CollectionContext.Provider>
+            </div>
+            {/* ----------  side  ---------- */}
+            <div className='side-create-collection'>
+                <Image />
+                <Categories />
+                <Activation />
+                {/* modal for confirmation */}
+                <ModalConfirm
+                    show={showModalConfirm} // true/false show modal
+                    handleModalConfirm={handleModalConfirm}
+                    handleModalCancel={handleModalCancel}
+                    textButtonConfirm={textButtonConfirm}
+                    image={imageModal}>
+                    <h2 className="childrenModal">{messageModal}</h2>
+                </ModalConfirm>
+                {/* modal for simple message */}
+                <ModalSimpleMessage
+                    show={showModalSimpleMessage} // true/false show modal
+                    handleModalCancel={handleModalCancel}
+                    image={imageModal}>
+                    <h2 className="childrenModal">{messageModal}</h2>
+                </ModalSimpleMessage>
+            </div>
         </div>
     );
 }

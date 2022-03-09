@@ -23470,22 +23470,61 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+/* harmony import */ var _appContainer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./appContainer */ "./resources/js/components/backEnd/appContainer.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+var App = function App() {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+    className: "app-container",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.BrowserRouter, {
+      basename: "/admin",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_appContainer__WEBPACK_IMPORTED_MODULE_1__["default"], {})
+    })
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App); //setTextButtonModalApp('Quitter');
+//setTextButtonModalApp2('Annuler');
+//setMessageModalApp('Quitter cette page sans sauvegarder vos données ?');
+//setImageModalApp('../images/icons/warning.png');
+//setFollowThisLink(-1);
+//setShowModalApp(true);
+
+/***/ }),
+
+/***/ "./resources/js/components/backEnd/appContainer.jsx":
+/*!**********************************************************!*\
+  !*** ./resources/js/components/backEnd/appContainer.jsx ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
 /* harmony import */ var _hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../hooks/useLocalStorage */ "./resources/js/components/hooks/useLocalStorage.jsx");
-/* harmony import */ var _navBar_navBar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../navBar/navBar */ "./resources/js/components/navBar/navBar.jsx");
-/* harmony import */ var _createProduct_formProduct__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../createProduct/formProduct */ "./resources/js/components/createProduct/formProduct.jsx");
-/* harmony import */ var _createProduct_editProduct__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../createProduct/editProduct */ "./resources/js/components/createProduct/editProduct.jsx");
-/* harmony import */ var _createProduct_edit_images__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../createProduct/edit_images */ "./resources/js/components/createProduct/edit_images.jsx");
-/* harmony import */ var _createProduct_list__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../createProduct/list */ "./resources/js/components/createProduct/list.jsx");
-/* harmony import */ var _collections_list__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../collections/list */ "./resources/js/components/collections/list.jsx");
-/* harmony import */ var _collections_index__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../collections/index */ "./resources/js/components/collections/index.jsx");
-/* harmony import */ var _modal_modalApp__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../modal/modalApp */ "./resources/js/components/modal/modalApp.jsx");
-/* harmony import */ var _croppeJs_croppeJs__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../croppeJs/croppeJs */ "./resources/js/components/croppeJs/croppeJs.jsx");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _functions_dateTools__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../functions/dateTools */ "./resources/js/components/functions/dateTools.js");
+/* harmony import */ var _navBar_navBar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../navBar/navBar */ "./resources/js/components/navBar/navBar.jsx");
+/* harmony import */ var _createProduct_formProduct__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../createProduct/formProduct */ "./resources/js/components/createProduct/formProduct.jsx");
+/* harmony import */ var _createProduct_editProduct__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../createProduct/editProduct */ "./resources/js/components/createProduct/editProduct.jsx");
+/* harmony import */ var _createProduct_edit_images__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../createProduct/edit_images */ "./resources/js/components/createProduct/edit_images.jsx");
+/* harmony import */ var _createProduct_list__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../createProduct/list */ "./resources/js/components/createProduct/list.jsx");
+/* harmony import */ var _collections_list__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../collections/list */ "./resources/js/components/collections/list.jsx");
+/* harmony import */ var _collections_index__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../collections/index */ "./resources/js/components/collections/index.jsx");
+/* harmony import */ var _modal_modalApp__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../modal/modalApp */ "./resources/js/components/modal/modalApp.jsx");
+/* harmony import */ var _croppeJs_croppeJs__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../croppeJs/croppeJs */ "./resources/js/components/croppeJs/croppeJs.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -23515,155 +23554,327 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var App = function App() {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+
+
+var Appcontainer = function Appcontainer() {
+  // collection form----------------------------------------------------------
+  var _useLocalStorage = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__.useLocalStorage)("conditions", [{
+    id: 0,
+    parameter: '1',
+    operator: '1',
+    value: ''
+  }]),
+      _useLocalStorage2 = _slicedToArray(_useLocalStorage, 2),
+      conditions = _useLocalStorage2[0],
+      setConditions = _useLocalStorage2[1];
+
+  var _useLocalStorage3 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__.useLocalStorage)("nameCollection", ""),
+      _useLocalStorage4 = _slicedToArray(_useLocalStorage3, 2),
+      nameCollection = _useLocalStorage4[0],
+      setNameCollection = _useLocalStorage4[1];
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(localStorage.getItem('descriptionCollection') ? localStorage.getItem('descriptionCollection') : ''),
       _useState2 = _slicedToArray(_useState, 2),
-      showModalApp = _useState2[0],
-      setShowModalApp = _useState2[1];
+      descriptionCollection = _useState2[0],
+      setDescriptionCollection = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
+  var _useLocalStorage5 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__.useLocalStorage)("metaTitle", ""),
+      _useLocalStorage6 = _slicedToArray(_useLocalStorage5, 2),
+      metaTitle = _useLocalStorage6[0],
+      setMetaTitle = _useLocalStorage6[1];
+
+  var _useLocalStorage7 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__.useLocalStorage)("metaDescription", ""),
+      _useLocalStorage8 = _slicedToArray(_useLocalStorage7, 2),
+      metaDescription = _useLocalStorage8[0],
+      setMetaDescription = _useLocalStorage8[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.location.origin + '/'),
       _useState4 = _slicedToArray(_useState3, 2),
-      textButtonModalApp = _useState4[0],
-      setTextButtonModalApp = _useState4[1];
+      metaUrl = _useState4[0],
+      setMetaUrl = _useState4[1];
 
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
+  var _useLocalStorage9 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__.useLocalStorage)("imageName", ""),
+      _useLocalStorage10 = _slicedToArray(_useLocalStorage9, 2),
+      imageName = _useLocalStorage10[0],
+      setImageName = _useLocalStorage10[1];
+
+  var _useLocalStorage11 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__.useLocalStorage)("altCollection", ""),
+      _useLocalStorage12 = _slicedToArray(_useLocalStorage11, 2),
+      alt = _useLocalStorage12[0],
+      setAlt = _useLocalStorage12[1];
+
+  var _useLocalStorage13 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__.useLocalStorage)('categoryName', 'Aucune catégorie'),
+      _useLocalStorage14 = _slicedToArray(_useLocalStorage13, 2),
+      categoryName = _useLocalStorage14[0],
+      setCategoryName = _useLocalStorage14[1];
+
+  var _useLocalStorage15 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__.useLocalStorage)("categoryId", ""),
+      _useLocalStorage16 = _slicedToArray(_useLocalStorage15, 2),
+      categoryId = _useLocalStorage16[0],
+      setCategoryId = _useLocalStorage16[1];
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState6 = _slicedToArray(_useState5, 2),
-      textButtonModalApp2 = _useState6[0],
-      setTextButtonModalApp2 = _useState6[1];
+      dateField = _useState6[0],
+      setDateField = _useState6[1];
 
   var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState8 = _slicedToArray(_useState7, 2),
-      imageModalApp = _useState8[0],
-      setImageModalApp = _useState8[1];
+      descriptionCollectionForMeta = _useState8[0],
+      setDescriptionCollectionForMeta = _useState8[1]; //---------------------------------------------------------- collection Form
+  // collection --------------------------------------------------------------
 
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState10 = _slicedToArray(_useState9, 2),
-      messageModalApp = _useState10[0],
-      setMessageModalApp = _useState10[1];
+      isAutoConditions = _useState10[0],
+      setIsAutoConditions = _useState10[1];
 
-  var _useLocalStorage = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__.useLocalStorage)("followThisLink", ""),
-      _useLocalStorage2 = _slicedToArray(_useLocalStorage, 2),
-      followThisLink = _useLocalStorage2[0],
-      setFollowThisLink = _useLocalStorage2[1];
-
-  var _useLocalStorage3 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__.useLocalStorage)("imagePath", ""),
-      _useLocalStorage4 = _slicedToArray(_useLocalStorage3, 2),
-      imagePath = _useLocalStorage4[0],
-      setImagePath = _useLocalStorage4[1];
-
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState12 = _slicedToArray(_useState11, 2),
-      image = _useState12[0],
-      setImage = _useState12[1];
+      notIncludePrevProduct = _useState12[0],
+      setNotIncludePrevProduct = _useState12[1];
 
-  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState14 = _slicedToArray(_useState13, 2),
-      darkMode = _useState14[0],
-      setDarkMode = _useState14[1];
+      allConditionsNeeded = _useState14[0],
+      setAllConditionsNeeded = _useState14[1];
 
-  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState16 = _slicedToArray(_useState15, 2),
-      showModalConfirm = _useState16[0],
-      setShowModalConfirm = _useState16[1];
+      warningIdCondition = _useState16[0],
+      setWarningIdCondition = _useState16[1];
 
-  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('fr_FR'),
       _useState18 = _slicedToArray(_useState17, 2),
-      showModalSimpleMessage = _useState18[0],
-      setShowModalSimpleMessage = _useState18[1];
+      tinyLanguage = _useState18[0],
+      setTinyLanguage = _useState18[1];
 
-  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState20 = _slicedToArray(_useState19, 2),
-      showModalCroppeImage = _useState20[0],
-      setShowModalCroppeImage = _useState20[1];
+      id = _useState20[0],
+      setId = _useState20[1]; // ------------------------------------------------------------- collection 
+
 
   var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState22 = _slicedToArray(_useState21, 2),
-      showModalInput = _useState22[0],
-      setShowModalInput = _useState22[1];
+      showModalApp = _useState22[0],
+      setShowModalApp = _useState22[1];
 
-  var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
       _useState24 = _slicedToArray(_useState23, 2),
-      messageModal = _useState24[0],
-      setMessageModal = _useState24[1];
+      textButtonModalApp = _useState24[0],
+      setTextButtonModalApp = _useState24[1];
 
-  var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
       _useState26 = _slicedToArray(_useState25, 2),
-      sender = _useState26[0],
-      setSender = _useState26[1]; // for modal
-
+      textButtonModalApp2 = _useState26[0],
+      setTextButtonModalApp2 = _useState26[1];
 
   var _useState27 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState28 = _slicedToArray(_useState27, 2),
-      inputTextModify = _useState28[0],
-      setInputTextModify = _useState28[1];
+      imageModalApp = _useState28[0],
+      setImageModalApp = _useState28[1];
 
-  var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
+  var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState30 = _slicedToArray(_useState29, 2),
-      textButtonConfirm = _useState30[0],
-      setTextButtonConfirm = _useState30[1];
+      messageModalApp = _useState30[0],
+      setMessageModalApp = _useState30[1];
 
-  var _useState31 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useLocalStorage17 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__.useLocalStorage)("followThisLink", ""),
+      _useLocalStorage18 = _slicedToArray(_useLocalStorage17, 2),
+      followThisLink = _useLocalStorage18[0],
+      setFollowThisLink = _useLocalStorage18[1];
+
+  var _useLocalStorage19 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__.useLocalStorage)("imagePath", ""),
+      _useLocalStorage20 = _slicedToArray(_useLocalStorage19, 2),
+      imagePath = _useLocalStorage20[0],
+      setImagePath = _useLocalStorage20[1];
+
+  var _useState31 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState32 = _slicedToArray(_useState31, 2),
-      imageModal = _useState32[0],
-      setImageModal = _useState32[1];
+      image = _useState32[0],
+      setImage = _useState32[1];
 
-  var _useState33 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('#4A90E2'),
+  var _useState33 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState34 = _slicedToArray(_useState33, 2),
-      selectedColor = _useState34[0],
-      setSelectedColor = _useState34[1];
+      showModalConfirm = _useState34[0],
+      setShowModalConfirm = _useState34[1];
 
-  var _useState35 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState35 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState36 = _slicedToArray(_useState35, 2),
-      listCollections = _useState36[0],
-      setListCollections = _useState36[1];
+      showModalSimpleMessage = _useState36[0],
+      setShowModalSimpleMessage = _useState36[1];
 
-  var _useState37 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState37 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState38 = _slicedToArray(_useState37, 2),
-      listCategories = _useState38[0],
-      setListCategories = _useState38[1];
+      showModalCroppeImage = _useState38[0],
+      setShowModalCroppeImage = _useState38[1];
 
   var _useState39 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState40 = _slicedToArray(_useState39, 2),
-      is_Edit = _useState40[0],
-      setIs_Edit = _useState40[1];
+      showModalInput = _useState40[0],
+      setShowModalInput = _useState40[1];
 
-  var _useState41 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState41 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState42 = _slicedToArray(_useState41, 2),
-      categoriesChecked = _useState42[0],
-      setCategoriesChecked = _useState42[1];
+      messageModal = _useState42[0],
+      setMessageModal = _useState42[1];
 
   var _useState43 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState44 = _slicedToArray(_useState43, 2),
-      searchValue = _useState44[0],
-      setSearchValue = _useState44[1];
+      sender = _useState44[0],
+      setSender = _useState44[1]; // for modal
 
-  var _useState45 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+
+  var _useState45 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState46 = _slicedToArray(_useState45, 2),
-      isDirty = _useState46[0],
-      setIsDirty = _useState46[1];
+      inputTextModify = _useState46[0],
+      setInputTextModify = _useState46[1];
 
-  var _useState47 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
+  var _useState47 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
       _useState48 = _slicedToArray(_useState47, 2),
-      tmp_parameter = _useState48[0],
-      setTmp_parameter = _useState48[1]; // pour stocker provisoirement une variable
+      textButtonConfirm = _useState48[0],
+      setTextButtonConfirm = _useState48[1];
 
-
-  var _useState49 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+  var _useState49 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState50 = _slicedToArray(_useState49, 2),
-      deleteThisCategory = _useState50[0],
-      setDeleteThisCategory = _useState50[1];
+      imageModal = _useState50[0],
+      setImageModal = _useState50[1];
 
+  var _useState51 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('#4A90E2'),
+      _useState52 = _slicedToArray(_useState51, 2),
+      selectedColor = _useState52[0],
+      setSelectedColor = _useState52[1];
+
+  var _useState53 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState54 = _slicedToArray(_useState53, 2),
+      listCollections = _useState54[0],
+      setListCollections = _useState54[1];
+
+  var _useState55 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState56 = _slicedToArray(_useState55, 2),
+      listCategories = _useState56[0],
+      setListCategories = _useState56[1];
+
+  var _useState57 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState58 = _slicedToArray(_useState57, 2),
+      is_Edit = _useState58[0],
+      setIs_Edit = _useState58[1]; // -->  dropZone
+
+
+  var _useState59 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState60 = _slicedToArray(_useState59, 2),
+      categoriesChecked = _useState60[0],
+      setCategoriesChecked = _useState60[1];
+
+  var _useState61 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState62 = _slicedToArray(_useState61, 2),
+      searchValue = _useState62[0],
+      setSearchValue = _useState62[1];
+
+  var _useState63 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState64 = _slicedToArray(_useState63, 2),
+      isDirty = _useState64[0],
+      setIsDirty = _useState64[1];
+
+  var _useState65 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
+      _useState66 = _slicedToArray(_useState65, 2),
+      tmp_parameter = _useState66[0],
+      setTmp_parameter = _useState66[1]; // pour stocker provisoirement une variable
+
+
+  var _useState67 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      _useState68 = _slicedToArray(_useState67, 2),
+      deleteThisCategory = _useState68[0],
+      setDeleteThisCategory = _useState68[1];
+
+  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_15__.useNavigate)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // chargement des collections
     if (listCollections.length === 0) {
-      // chargement des collections
-      axios__WEBPACK_IMPORTED_MODULE_12___default().get("http://127.0.0.1:8000/collections-list-back-end").then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/collections-list-back-end").then(function (res) {
         setListCollections(res.data[0]);
         setListCategories(res.data[1]);
       })["catch"](function (error) {
         console.log('error:   ' + error);
       });
     }
-  }, []);
+  }, []); // remove records and images files from folders and temporaryStorage db when unused 
+
+  function cleanTemporayStorage(keys_toDelete) {
+    var toDelete = new FormData();
+
+    for (var i = 0; i < keys_toDelete.length; i++) {
+      toDelete.append('keys[]', keys_toDelete[i]);
+    }
+
+    axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/cleanTemporayStorage", toDelete, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }).then(function (res) {
+      console.log('images handled');
+      return res.data;
+    })["catch"](function (error) {
+      console.log('Error : ' + error.status);
+    });
+  } // réinitialisation des states du form -------------------------------------
+
+
+  var initCollectionForm = function initCollectionForm() {
+    setNameCollection('');
+    setDescriptionCollection('');
+    setDescriptionCollectionForMeta('');
+    setMetaTitle('');
+    setMetaDescription('');
+    setMetaUrl(window.location.origin + '/');
+    setAlt('');
+    setImageName('');
+    setImagePath('');
+    setImage([]);
+    setCategoryName('Aucune catégorie');
+    setCategoryId('');
+    setIsDirty(false);
+    setConditions([{
+      id: 0,
+      parameter: '1',
+      operator: '1',
+      value: ''
+    }]);
+    setDateField((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_4__.getNow)()); // gére le netoyage des images et vidéos dans  temporayStorage 
+
+    var keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection'];
+    cleanTemporayStorage(keys_toDelete); // éfface l'image de la dropZone
+
+    var imagesToRemove = document.getElementsByClassName('image-view-dropZone') && document.getElementsByClassName('image-view-dropZone');
+
+    if (imagesToRemove.length > 0) {
+      for (var i = 0; i < imagesToRemove.length; i++) {
+        imagesToRemove[i].remove();
+      }
+    } // remet l'image de fond
+
+
+    document.getElementById('drop-region-dropZone').style.backgroundColor = 'none';
+    document.getElementById('drop-region-dropZone').style.background = 'no-repeat url("../images/icons/backgroundDropZone.png")';
+    document.getElementById('drop-region-dropZone').style.backgroundPosition = 'center 90%';
+    document.getElementById("drop-message-dropZone").style.display = 'block'; // vide le localStorage
+
+    localStorage.removeItem('nameCollection');
+    localStorage.removeItem('descriptionCollection');
+    localStorage.removeItem('metaTitle');
+    localStorage.removeItem('metaDescription');
+    localStorage.removeItem('image');
+    localStorage.removeItem('imageName');
+    localStorage.removeItem('altCollection');
+    localStorage.removeItem('metaUrl');
+    localStorage.removeItem('categoryName');
+    localStorage.removeItem('categoryId');
+    localStorage.removeItem('conditions');
+    localStorage.removeItem('dateActivation');
+  }; //----------------------------------------------------------------Reset Form
+
 
   var handleModalApp = function handleModalApp() {
     setShowModalApp(false);
@@ -23671,6 +23882,15 @@ var App = function App() {
 
   var handleModalAppCancel = function handleModalAppCancel() {
     setShowModalApp(false);
+  }; // remove caracteres unauthorized for url
+
+
+  var normalizUrl = function normalizUrl(str) {
+    var urlName = str.replaceAll(' ', '-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    urlName = urlName.replaceAll(/-{2,}/g, '-');
+    urlName = urlName.replace(/[<>\?\.\[\]'"°@\|\\§.,\/#\!\$%\^&\*;:\{\}=\+_`~\(\)]/g, "").replaceAll(/-{2,}/g, '-'); // <-- all ist ok 
+
+    return urlName;
   }; //ModalConfirm--------------------------------------------------------------
 
 
@@ -23688,8 +23908,13 @@ var App = function App() {
         break;
 
       case 'editCollection':
-        // déclenche dans RowListCollection useEffect[sender]
-        setSender('goEditCollection');
+        // isEdit indique qu'on veut éditer la collection
+        navigate('/add-collection', {
+          state: {
+            collectionId: tmp_parameter,
+            isEdit: true
+          }
+        });
         break;
 
       default:
@@ -23729,8 +23954,6 @@ var App = function App() {
     setTextButtonConfirm: setTextButtonConfirm,
     imageModal: imageModal,
     setImageModal: setImageModal,
-    darkMode: darkMode,
-    setDarkMode: setDarkMode,
     selectedColor: selectedColor,
     setSelectedColor: setSelectedColor,
     listCollections: listCollections,
@@ -23750,75 +23973,90 @@ var App = function App() {
     deleteThisCategory: deleteThisCategory,
     setDeleteThisCategory: setDeleteThisCategory,
     handleModalConfirm: handleModalConfirm,
-    handleModalCancel: handleModalCancel
+    handleModalCancel: handleModalCancel,
+    nameCollection: nameCollection,
+    setNameCollection: setNameCollection,
+    descriptionCollection: descriptionCollection,
+    setDescriptionCollection: setDescriptionCollection,
+    descriptionCollectionForMeta: descriptionCollectionForMeta,
+    setDescriptionCollectionForMeta: setDescriptionCollectionForMeta,
+    conditions: conditions,
+    setConditions: setConditions,
+    isAutoConditions: isAutoConditions,
+    setIsAutoConditions: setIsAutoConditions,
+    allConditionsNeeded: allConditionsNeeded,
+    setAllConditionsNeeded: setAllConditionsNeeded,
+    notIncludePrevProduct: notIncludePrevProduct,
+    setNotIncludePrevProduct: setNotIncludePrevProduct,
+    warningIdCondition: warningIdCondition,
+    setWarningIdCondition: setWarningIdCondition,
+    normalizUrl: normalizUrl,
+    metaTitle: metaTitle,
+    setMetaTitle: setMetaTitle,
+    metaDescription: metaDescription,
+    setMetaDescription: setMetaDescription,
+    metaUrl: metaUrl,
+    setMetaUrl: setMetaUrl,
+    imageName: imageName,
+    setImageName: setImageName,
+    alt: alt,
+    setAlt: setAlt,
+    categoryName: categoryName,
+    setCategoryName: setCategoryName,
+    categoryId: categoryId,
+    setCategoryId: setCategoryId,
+    dateField: dateField,
+    setDateField: setDateField,
+    tinyLanguage: tinyLanguage,
+    setTinyLanguage: setTinyLanguage,
+    id: id,
+    setId: setId,
+    initCollectionForm: initCollectionForm,
+    cleanTemporayStorage: cleanTemporayStorage
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
-    className: "app-container",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"].Provider, {
-      value: contextValue,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.BrowserRouter, {
-        basename: "/admin",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_navBar_navBar__WEBPACK_IMPORTED_MODULE_3__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
-          className: "bg-gray-cool",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Routes, {
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
-              path: "/listProduct",
-              element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_createProduct_list__WEBPACK_IMPORTED_MODULE_7__["default"], {})
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
-              path: "/addProduct",
-              element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_createProduct_formProduct__WEBPACK_IMPORTED_MODULE_4__["default"], {})
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
-              path: "/editProduct/:productId",
-              element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_createProduct_editProduct__WEBPACK_IMPORTED_MODULE_5__["default"], {})
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
-              path: "/editImagesProduct/:product_id",
-              element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_createProduct_edit_images__WEBPACK_IMPORTED_MODULE_6__["default"], {})
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
-              path: "/collections-list",
-              element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_collections_list__WEBPACK_IMPORTED_MODULE_8__["default"], {})
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
-              path: "/add-collection",
-              element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_collections_index__WEBPACK_IMPORTED_MODULE_9__["default"], {})
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
-              path: "/cropImage",
-              element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_croppeJs_croppeJs__WEBPACK_IMPORTED_MODULE_11__["default"], {})
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
-              path: "*",
-              element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("main", {
-                style: {
-                  padding: "1rem"
-                },
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
-                  children: "There's nothing here!"
-                })
-              })
-            })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_modal_modalApp__WEBPACK_IMPORTED_MODULE_10__["default"], {
-            show: showModalApp // true/false show modal
-            ,
-            handleModalApp: handleModalApp,
-            handleModalAppCancel: handleModalAppCancel,
-            textButtonModalApp: textButtonModalApp,
-            textButtonModalApp2: textButtonModalApp2,
-            image: imageModalApp,
-            followThisLink: followThisLink,
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
-              className: "childrenModal",
-              children: messageModalApp
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"].Provider, {
+    value: contextValue,
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_navBar_navBar__WEBPACK_IMPORTED_MODULE_5__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
+      className: "bg-gray-cool",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Routes, {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
+          path: "/listProduct",
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_createProduct_list__WEBPACK_IMPORTED_MODULE_9__["default"], {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
+          path: "/addProduct",
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_createProduct_formProduct__WEBPACK_IMPORTED_MODULE_6__["default"], {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
+          path: "/editProduct/:productId",
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_createProduct_editProduct__WEBPACK_IMPORTED_MODULE_7__["default"], {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
+          path: "/editImagesProduct/:product_id",
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_createProduct_edit_images__WEBPACK_IMPORTED_MODULE_8__["default"], {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
+          path: "/collections-list",
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_collections_list__WEBPACK_IMPORTED_MODULE_10__["default"], {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
+          path: "/add-collection",
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_collections_index__WEBPACK_IMPORTED_MODULE_11__["default"], {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
+          path: "/cropImage",
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_croppeJs_croppeJs__WEBPACK_IMPORTED_MODULE_13__["default"], {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
+          path: "*",
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("main", {
+            style: {
+              padding: "1rem"
+            },
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("p", {
+              children: "There's nothing here!"
             })
-          })]
+          })
         })]
       })
-    })
+    })]
   });
 };
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App); //setTextButtonModalApp('Quitter');
-//setTextButtonModalApp2('Annuler');
-//setMessageModalApp('Quitter cette page sans sauvegarder vos données ?');
-//setImageModalApp('../images/icons/warning.png');
-//setFollowThisLink(-1);
-//setShowModalApp(true);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Appcontainer);
 
 /***/ }),
 
@@ -23910,6 +24148,7 @@ var RowListCollections = function RowListCollections(_ref) {
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       isDirty = _useContext.isDirty,
+      setIsDirty = _useContext.setIsDirty,
       setMessageModal = _useContext.setMessageModal,
       sender = _useContext.sender,
       setSender = _useContext.setSender,
@@ -24022,7 +24261,7 @@ var RowListCollections = function RowListCollections(_ref) {
     if (isDirty) {
       setIdToEdit(id);
       setMessageModal('Le formulaire d\'édition contient d\'anciennes données non sauvegardées. ');
-      setTextButtonConfirm('Confirmer');
+      setTextButtonConfirm('Continuer');
       setImageModal('../images/icons/trash_dirty.png');
       setSender('editCollection');
       setTmp_parameter(id);
@@ -24036,20 +24275,8 @@ var RowListCollections = function RowListCollections(_ref) {
         }
       });
     }
-  }; // si confirm edit collection avec modalConfirm alors on edit collection
+  }; // delete collection
 
-
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    if (sender === 'goEditCollection') {
-      // isEdit indique qu'on veut éditer la collection
-      navigate('/add-collection', {
-        state: {
-          collectionId: idToEdit,
-          isEdit: true
-        }
-      });
-    }
-  }, [sender]); // delete collection
 
   var deleteCollection = function deleteCollection(id) {
     var idToDelete = new FormData();
@@ -24187,7 +24414,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/CollectionContext */ "./resources/js/components/contexts/CollectionContext.jsx");
+/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
 /* harmony import */ var react_flatpickr__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-flatpickr */ "./node_modules/react-flatpickr/build/index.js");
 /* harmony import */ var flatpickr_dist_themes_material_blue_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! flatpickr/dist/themes/material_blue.css */ "./node_modules/flatpickr/dist/themes/material_blue.css");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
@@ -24199,7 +24426,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Activation = function Activation() {
-  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       dateField = _useContext.dateField,
       setDateField = _useContext.setDateField;
 
@@ -24277,12 +24504,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
-/* harmony import */ var _contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../contexts/CollectionContext */ "./resources/js/components/contexts/CollectionContext.jsx");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _modal_modalInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modal/modalInput */ "./resources/js/components/modal/modalInput.jsx");
-/* harmony import */ var _modal_modalSimpleMessage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../modal/modalSimpleMessage */ "./resources/js/components/modal/modalSimpleMessage.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _modal_modalInput__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../modal/modalInput */ "./resources/js/components/modal/modalInput.jsx");
+/* harmony import */ var _modal_modalSimpleMessage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modal/modalSimpleMessage */ "./resources/js/components/modal/modalSimpleMessage.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -24294,7 +24520,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 
 
 
@@ -24362,15 +24587,13 @@ var Categories = function Categories() {
       setTextButtonConfirm = _useContext.setTextButtonConfirm,
       setImageModal = _useContext.setImageModal,
       deleteThisCategory = _useContext.deleteThisCategory,
-      setDeleteThisCategory = _useContext.setDeleteThisCategory;
-
-  var _useContext2 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_2__["default"]),
-      categoryName = _useContext2.categoryName,
-      setCategoryName = _useContext2.setCategoryName,
-      categoryId = _useContext2.categoryId,
-      setCategoryId = _useContext2.setCategoryId,
-      setTmp_parameter = _useContext2.setTmp_parameter,
-      handleModalCancel = _useContext2.handleModalCancel;
+      setDeleteThisCategory = _useContext.setDeleteThisCategory,
+      categoryName = _useContext.categoryName,
+      setCategoryName = _useContext.setCategoryName,
+      categoryId = _useContext.categoryId,
+      setCategoryId = _useContext.setCategoryId,
+      setTmp_parameter = _useContext.setTmp_parameter,
+      handleModalCancel = _useContext.handleModalCancel;
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (deleteThisCategory !== null) {
@@ -24380,7 +24603,7 @@ var Categories = function Categories() {
   }, [deleteThisCategory]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // chargement des Categories
-    axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
+    axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
       setCategoriesList(res.data);
     })["catch"](function (error) {
       console.log('error:   ' + error);
@@ -24467,7 +24690,7 @@ var Categories = function Categories() {
         setMessageModal('Ce nom de catégorie existe déjà !');
         setShowModalSimpleMessage(true); // show modalConfirm
       } else {
-        axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/categories", {
+        axios__WEBPACK_IMPORTED_MODULE_2___default().post("http://127.0.0.1:8000/categories", {
           name: newCategoryName
         }).then(function (res) {
           setNewCategoryNameUseInMessage(newCategoryName + ' à été ajoutée'); // message affiché après création de la category
@@ -24487,7 +24710,7 @@ var Categories = function Categories() {
           console.log('error:   ' + error);
         }); // chargement des collections
 
-        axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
           setCategoriesList(res.data);
         })["catch"](function (error) {
           console.log('error:   ' + error);
@@ -24517,14 +24740,14 @@ var Categories = function Categories() {
 
 
   var deleteCategory = function deleteCategory(cat_id) {
-    axios__WEBPACK_IMPORTED_MODULE_3___default()["delete"]("http://127.0.0.1:8000/categories/".concat(cat_id)).then(function (res) {
+    axios__WEBPACK_IMPORTED_MODULE_2___default()["delete"]("http://127.0.0.1:8000/categories/".concat(cat_id)).then(function (res) {
       setShowCategorySelect(false);
       setMessageModal('Suppression réussie');
       setTextButtonConfirm('Fermer');
       setImageModal('../images/icons/trash.png');
       setShowModalSimpleMessage(true); // chargement des collections
 
-      axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
         setCategoriesList(res.data);
       })["catch"](function (error) {
         console.log('error:   ' + error);
@@ -24539,7 +24762,7 @@ var Categories = function Categories() {
   var updateCategory = function updateCategory() {
     if (inputTextModify != '' && inputTextModify.length >= 3) {
       // au cas où le nouveau nom est vide ou < 3
-      axios__WEBPACK_IMPORTED_MODULE_3___default().put("http://127.0.0.1:8000/categories/".concat(categoryId), {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().put("http://127.0.0.1:8000/categories/".concat(categoryId), {
         name: inputTextModify
       }).then(function (res) {
         setNewCategoryNameUseInMessage(inputTextModify + ' à été enregistrée'); // message affiché après modification de la category
@@ -24551,7 +24774,7 @@ var Categories = function Categories() {
         console.log('error:   ' + error);
       }); // chargement des collections
 
-      axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
         setCategoriesList(res.data);
       })["catch"](function (error) {
         console.log('error:   ' + error);
@@ -24612,52 +24835,52 @@ var Categories = function Categories() {
   // };
 
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
       className: "div-vert-align",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
         className: "div-label-inputTxt",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h2", {
           children: "Cat\xE9gorie"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
           className: "categorySelect",
           id: "categorySelect",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("button", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("button", {
             className: "btn-select-category",
             onClick: showHideCategorySelect,
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
               className: "inline txt-limit",
               children: categoryName
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
               className: "fas fa-angle-down"
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("ul", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("ul", {
             className: "ul-category dropable scrolly scroll",
             id: "category_select",
-            children: [categoryName != 'Aucune catégorie' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("li", {
+            children: [categoryName != 'Aucune catégorie' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
               className: "li-category txt-limit",
               onClick: function onClick() {
                 handleCategory(0), handleCategoryName('Aucune catégorie');
               },
               children: "Aucune cat\xE9gorie"
             }), categoriesList && categoriesList.map(function (cat, index) {
-              return cat.name != categoryName && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("li", {
+              return cat.name != categoryName && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("li", {
                 className: "li-category",
                 onClick: function onClick() {
                   handleCategory(cat.id);
                   handleCategoryName(cat.name);
                 },
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
                   className: "inline w70pct txt-limit",
                   children: cat.name
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
                     className: "fas fa-recycle",
                     onClick: function onClick() {
                       handleCategory(cat.id);
                       handleShowModalInput();
                     }
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
                     className: "far fa-trash-alt",
                     onClick: function onClick() {
                       return confirmDeleteCategory(cat.id, cat.name);
@@ -24667,51 +24890,51 @@ var Categories = function Categories() {
               }, index);
             })]
           })]
-        }), newCategorySucces && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("p", {
+        }), newCategorySucces && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("p", {
           className: "succesMessage",
           children: ["La cat\xE9gorie ", newCategoryNameUseInMessage]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
         className: "pos-abs-bot-rig-15 m-t-20",
         onClick: function onClick(e) {
           handleShowCreateCategory(e);
         },
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("a", {
           href: "",
           children: linkCreateCategory
         })
-      }), showCreateCategory && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+      }), showCreateCategory && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
         className: "sub-div-vert-align",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("label", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("label", {
           children: "Nom de la cat\xE9gorie"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
           type: "text",
           value: newCategoryName,
           onChange: handleNewCategoryName,
           maxLength: "255",
           placeholder: "Entrez un nom"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
           className: "btn-bcknd",
           onClick: saveNewCategory,
           children: "Sauvegarder"
         })]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_modal_modalInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_modal_modalInput__WEBPACK_IMPORTED_MODULE_3__["default"], {
       show: showModalInput,
       updateCategory: updateCategory,
       handleModalCancel: handleModalCancel,
       setInputTextModify: setInputTextModify,
       inputTextModify: inputTextModify,
       image: '../images/icons/changeCategory.png',
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h2", {
         className: "childrenModal",
         children: messageModal
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_modal_modalSimpleMessage__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_modal_modalSimpleMessage__WEBPACK_IMPORTED_MODULE_4__["default"], {
       show: showModalSimpleMessage // true/false show modal
       ,
       handleModalCancel: handleModalCancel,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h2", {
         className: "childrenModal",
         children: messageModal
       })
@@ -25243,7 +25466,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/CollectionContext */ "./resources/js/components/contexts/CollectionContext.jsx");
+/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
 /* harmony import */ var _conditionCollection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./conditionCollection */ "./resources/js/components/collections/conditionCollection.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -25265,7 +25488,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 
 var Conditions = function Conditions() {
-  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       conditions = _useContext.conditions,
       setConditions = _useContext.setConditions,
       isAutoConditions = _useContext.isAutoConditions,
@@ -25309,9 +25532,9 @@ var Conditions = function Conditions() {
     // dropDown conditions
     var dropable = document.getElementById('conditions_collection');
 
-    if (dropable.style.maxHeight) {
+    if (isAutoConditions === false) {
       dropable.style.maxHeight = null;
-    } else {
+    } else if (isAutoConditions === true) {
       dropable.style.maxHeight = dropable.scrollHeight + "px";
     }
   }, [isAutoConditions]);
@@ -25577,7 +25800,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/CollectionContext */ "./resources/js/components/contexts/CollectionContext.jsx");
+/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
 /* harmony import */ var _tools_dropZone__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../tools/dropZone */ "./resources/js/components/tools/dropZone.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
@@ -25587,7 +25810,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Image = function Image() {
-  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       imageName = _useContext.imageName,
       setImageName = _useContext.setImageName,
       alt = _useContext.alt,
@@ -25679,37 +25902,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
-/* harmony import */ var _contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../contexts/CollectionContext */ "./resources/js/components/contexts/CollectionContext.jsx");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../hooks/useLocalStorage */ "./resources/js/components/hooks/useLocalStorage.jsx");
-/* harmony import */ var _modal_modalConfirm__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../modal/modalConfirm */ "./resources/js/components/modal/modalConfirm.jsx");
-/* harmony import */ var _modal_modalSimpleMessage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../modal/modalSimpleMessage */ "./resources/js/components/modal/modalSimpleMessage.jsx");
-/* harmony import */ var _conditions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./conditions */ "./resources/js/components/collections/conditions.jsx");
-/* harmony import */ var _optimisation__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./optimisation */ "./resources/js/components/collections/optimisation.jsx");
-/* harmony import */ var _categories__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./categories */ "./resources/js/components/collections/categories.jsx");
-/* harmony import */ var _activation__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./activation */ "./resources/js/components/collections/activation.jsx");
-/* harmony import */ var _image__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./image */ "./resources/js/components/collections/image.jsx");
-/* harmony import */ var _tinyEditor__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./tinyEditor */ "./resources/js/components/collections/tinyEditor.jsx");
-/* harmony import */ var _functions_temporaryStorage_handleTinyMceTemporary__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../functions/temporaryStorage/handleTinyMceTemporary */ "./resources/js/components/functions/temporaryStorage/handleTinyMceTemporary.js");
-/* harmony import */ var _functions_dateTools__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../functions/dateTools */ "./resources/js/components/functions/dateTools.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _modal_modalConfirm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../modal/modalConfirm */ "./resources/js/components/modal/modalConfirm.jsx");
+/* harmony import */ var _modal_modalSimpleMessage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modal/modalSimpleMessage */ "./resources/js/components/modal/modalSimpleMessage.jsx");
+/* harmony import */ var _conditions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./conditions */ "./resources/js/components/collections/conditions.jsx");
+/* harmony import */ var _optimisation__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./optimisation */ "./resources/js/components/collections/optimisation.jsx");
+/* harmony import */ var _categories__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./categories */ "./resources/js/components/collections/categories.jsx");
+/* harmony import */ var _activation__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./activation */ "./resources/js/components/collections/activation.jsx");
+/* harmony import */ var _image__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./image */ "./resources/js/components/collections/image.jsx");
+/* harmony import */ var _tinyEditor__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./tinyEditor */ "./resources/js/components/collections/tinyEditor.jsx");
+/* harmony import */ var _functions_temporaryStorage_handleTinyMceTemporary__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../functions/temporaryStorage/handleTinyMceTemporary */ "./resources/js/components/functions/temporaryStorage/handleTinyMceTemporary.js");
+/* harmony import */ var _functions_dateTools__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../functions/dateTools */ "./resources/js/components/functions/dateTools.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 
@@ -25728,112 +25935,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var CreateCollection = function CreateCollection() {
-  // form-------------------------------------------------------------------
-  var _useLocalStorage = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_4__.useLocalStorage)("conditions", [{
-    id: 0,
-    parameter: '1',
-    operator: '1',
-    value: ''
-  }]),
-      _useLocalStorage2 = _slicedToArray(_useLocalStorage, 2),
-      conditions = _useLocalStorage2[0],
-      setConditions = _useLocalStorage2[1];
-
-  var _useLocalStorage3 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_4__.useLocalStorage)("nameCollection", ""),
-      _useLocalStorage4 = _slicedToArray(_useLocalStorage3, 2),
-      nameCollection = _useLocalStorage4[0],
-      setNameCollection = _useLocalStorage4[1];
-
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(localStorage.getItem('descriptionCollection') ? localStorage.getItem('descriptionCollection') : ''),
-      _useState2 = _slicedToArray(_useState, 2),
-      descriptionCollection = _useState2[0],
-      setDescriptionCollection = _useState2[1];
-
-  var _useLocalStorage5 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_4__.useLocalStorage)("metaTitle", ""),
-      _useLocalStorage6 = _slicedToArray(_useLocalStorage5, 2),
-      metaTitle = _useLocalStorage6[0],
-      setMetaTitle = _useLocalStorage6[1];
-
-  var _useLocalStorage7 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_4__.useLocalStorage)("metaDescription", ""),
-      _useLocalStorage8 = _slicedToArray(_useLocalStorage7, 2),
-      metaDescription = _useLocalStorage8[0],
-      setMetaDescription = _useLocalStorage8[1];
-
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.location.origin + '/'),
-      _useState4 = _slicedToArray(_useState3, 2),
-      metaUrl = _useState4[0],
-      setMetaUrl = _useState4[1];
-
-  var _useLocalStorage9 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_4__.useLocalStorage)("imageName", ""),
-      _useLocalStorage10 = _slicedToArray(_useLocalStorage9, 2),
-      imageName = _useLocalStorage10[0],
-      setImageName = _useLocalStorage10[1];
-
-  var _useLocalStorage11 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_4__.useLocalStorage)("altCollection", ""),
-      _useLocalStorage12 = _slicedToArray(_useLocalStorage11, 2),
-      alt = _useLocalStorage12[0],
-      setAlt = _useLocalStorage12[1];
-
-  var _useLocalStorage13 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_4__.useLocalStorage)('categoryName', 'Aucune catégorie'),
-      _useLocalStorage14 = _slicedToArray(_useLocalStorage13, 2),
-      categoryName = _useLocalStorage14[0],
-      setCategoryName = _useLocalStorage14[1];
-
-  var _useLocalStorage15 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_4__.useLocalStorage)("categoryId", ""),
-      _useLocalStorage16 = _slicedToArray(_useLocalStorage15, 2),
-      categoryId = _useLocalStorage16[0],
-      setCategoryId = _useLocalStorage16[1];
-
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState6 = _slicedToArray(_useState5, 2),
-      dateField = _useState6[0],
-      setDateField = _useState6[1];
-
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState8 = _slicedToArray(_useState7, 2),
-      descriptionCollectionForMeta = _useState8[0],
-      setDescriptionCollectionForMeta = _useState8[1]; //--------------------------------------------------------------------Form
-
-
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
-      _useState10 = _slicedToArray(_useState9, 2),
-      isAutoConditions = _useState10[0],
-      setIsAutoConditions = _useState10[1];
-
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState12 = _slicedToArray(_useState11, 2),
-      notIncludePrevProduct = _useState12[0],
-      setNotIncludePrevProduct = _useState12[1];
-
-  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
-      _useState14 = _slicedToArray(_useState13, 2),
-      allConditionsNeeded = _useState14[0],
-      setAllConditionsNeeded = _useState14[1];
-
-  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState16 = _slicedToArray(_useState15, 2),
-      warningIdCondition = _useState16[0],
-      setWarningIdCondition = _useState16[1];
-
-  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('fr_FR'),
-      _useState18 = _slicedToArray(_useState17, 2),
-      tinyLanguage = _useState18[0],
-      setTinyLanguage = _useState18[1];
-
-  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
-      _useState20 = _slicedToArray(_useState19, 2),
-      id = _useState20[0],
-      setId = _useState20[1]; // remove caracteres unauthorized for url
-
-
-  var normalizUrl = function normalizUrl(str) {
-    var urlName = str.replaceAll(' ', '-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    urlName = urlName.replaceAll(/-{2,}/g, '-');
-    urlName = urlName.replace(/[<>\?\.\[\]'"°@\|\\§.,\/#\!\$%\^&\*;:\{\}=\+_`~\(\)]/g, "").replaceAll(/-{2,}/g, '-'); // <-- all ist ok 
-
-    return urlName;
-  };
-
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       image = _useContext.image,
       setImage = _useContext.setImage,
@@ -25860,52 +25961,52 @@ var CreateCollection = function CreateCollection() {
       isDirty = _useContext.isDirty,
       setIsDirty = _useContext.setIsDirty,
       tmp_parameter = _useContext.tmp_parameter,
+      nameCollection = _useContext.nameCollection,
+      setNameCollection = _useContext.setNameCollection,
+      descriptionCollection = _useContext.descriptionCollection,
+      setDescriptionCollection = _useContext.setDescriptionCollection,
+      descriptionCollectionForMeta = _useContext.descriptionCollectionForMeta,
+      setDescriptionCollectionForMeta = _useContext.setDescriptionCollectionForMeta,
+      conditions = _useContext.conditions,
+      setConditions = _useContext.setConditions,
+      isAutoConditions = _useContext.isAutoConditions,
+      setIsAutoConditions = _useContext.setIsAutoConditions,
+      allConditionsNeeded = _useContext.allConditionsNeeded,
+      setAllConditionsNeeded = _useContext.setAllConditionsNeeded,
+      notIncludePrevProduct = _useContext.notIncludePrevProduct,
+      setNotIncludePrevProduct = _useContext.setNotIncludePrevProduct,
+      warningIdCondition = _useContext.warningIdCondition,
+      setWarningIdCondition = _useContext.setWarningIdCondition,
+      normalizUrl = _useContext.normalizUrl,
+      metaTitle = _useContext.metaTitle,
+      setMetaTitle = _useContext.setMetaTitle,
+      metaDescription = _useContext.metaDescription,
+      setMetaDescription = _useContext.setMetaDescription,
+      metaUrl = _useContext.metaUrl,
+      setMetaUrl = _useContext.setMetaUrl,
+      imageName = _useContext.imageName,
+      setImageName = _useContext.setImageName,
+      alt = _useContext.alt,
+      setAlt = _useContext.setAlt,
+      categoryName = _useContext.categoryName,
+      setCategoryName = _useContext.setCategoryName,
+      categoryId = _useContext.categoryId,
+      setCategoryId = _useContext.setCategoryId,
+      dateField = _useContext.dateField,
+      setDateField = _useContext.setDateField,
+      tinyLanguage = _useContext.tinyLanguage,
+      setTinyLanguage = _useContext.setTinyLanguage,
+      id = _useContext.id,
+      setId = _useContext.setId,
       setTmp_parameter = _useContext.setTmp_parameter,
-      darkMode = _useContext.darkMode,
-      setDarkMode = _useContext.setDarkMode,
       handleModalConfirm = _useContext.handleModalConfirm,
-      handleModalCancel = _useContext.handleModalCancel; // context de create collection
+      handleModalCancel = _useContext.handleModalCancel,
+      initCollectionForm = _useContext.initCollectionForm,
+      cleanTemporayStorage = _useContext.cleanTemporayStorage;
 
-
-  var collectionContextValue = {
-    descriptionCollection: descriptionCollection,
-    setDescriptionCollection: setDescriptionCollection,
-    descriptionCollectionForMeta: descriptionCollectionForMeta,
-    setDescriptionCollectionForMeta: setDescriptionCollectionForMeta,
-    conditions: conditions,
-    setConditions: setConditions,
-    isAutoConditions: isAutoConditions,
-    setIsAutoConditions: setIsAutoConditions,
-    allConditionsNeeded: allConditionsNeeded,
-    setAllConditionsNeeded: setAllConditionsNeeded,
-    notIncludePrevProduct: notIncludePrevProduct,
-    setNotIncludePrevProduct: setNotIncludePrevProduct,
-    warningIdCondition: warningIdCondition,
-    setWarningIdCondition: setWarningIdCondition,
-    normalizUrl: normalizUrl,
-    metaTitle: metaTitle,
-    setMetaTitle: setMetaTitle,
-    metaDescription: metaDescription,
-    setMetaDescription: setMetaDescription,
-    metaUrl: metaUrl,
-    setMetaUrl: setMetaUrl,
-    imageName: imageName,
-    setImageName: setImageName,
-    alt: alt,
-    setAlt: setAlt,
-    categoryName: categoryName,
-    setCategoryName: setCategoryName,
-    categoryId: categoryId,
-    setCategoryId: setCategoryId,
-    dateField: dateField,
-    setDateField: setDateField,
-    tinyLanguage: tinyLanguage,
-    id: id,
-    setId: setId
-  };
   var formData = new FormData(); // when click on edit in collection list it send collection id to db request for make edit collection
 
-  var _useLocation = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_16__.useLocation)(),
+  var _useLocation = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_14__.useLocation)(),
       state = _useLocation.state;
 
   var _ref = state !== null ? state : {
@@ -25917,7 +26018,7 @@ var CreateCollection = function CreateCollection() {
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // set date field with localStorage Data
-    localStorage.getItem('dateActivation') ? setDateField(localStorage.getItem('dateActivation')) : setDateField((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_14__.getNow)()); // init metaUrl, "useLocalStorage déclenche des erreurs "
+    localStorage.getItem('dateActivation') ? setDateField(localStorage.getItem('dateActivation')) : setDateField((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_12__.getNow)()); // init metaUrl, "useLocalStorage déclenche des erreurs "
 
     localStorage.getItem('metaUrl') ? setMetaUrl(localStorage.getItem('metaUrl')) : setMetaUrl(window.location.origin + '/'); // check if form is dirty
 
@@ -25926,7 +26027,7 @@ var CreateCollection = function CreateCollection() {
       if (condition.value != '') {
         conditonDirty = true;
       }
-    }); // check if form is dirty
+    });
 
     if (nameCollection != '' || descriptionCollection != '' || alt != '' || imageName != '' || metaTitle != '' || metaDescription != '' || metaUrl != window.location.origin + '/' || image != '' || categoryName != 'Aucune catégorie' || categoryId != 0 || localStorage.getItem('dateActivation') != null || conditonDirty == true) {
       setIsDirty(true);
@@ -25980,8 +26081,10 @@ var CreateCollection = function CreateCollection() {
     }
 
     if (isEdit) {
+      alert('on edit');
+      console.log('collectionId  ', collectionId);
       initCollectionForm();
-      axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/getCollectionById/".concat(collectionId)).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getCollectionById/".concat(collectionId)).then(function (res) {
         var _res$data$objConditio, _res$data$category, _res$data$category2;
 
         ((_res$data$objConditio = res.data.objConditions) === null || _res$data$objConditio === void 0 ? void 0 : _res$data$objConditio.length) > 0 ? setConditions(JSON.parse(res.data.objConditions)) : setConditions([{
@@ -25989,9 +26092,7 @@ var CreateCollection = function CreateCollection() {
           parameter: '1',
           operator: '1',
           value: ''
-        }]); // autoConditions doit être mis à false avant d'être mis à true pour s'assurer qu'il déclenche le ussefect[autoConditions] dans conditions pour obtenir la bonne hauteur de l'affichage de conditions
-
-        setIsAutoConditions(false);
+        }]);
         res.data.automatise === 1 ? setIsAutoConditions(true) : setIsAutoConditions(false);
         res.data.automatise === 1 ? localStorage.setItem('isAutoConditions', true) : localStorage.setItem('isAutoConditions', false);
         res.data.allConditionsNeeded === 1 ? setAllConditionsNeeded(true) : setAllConditionsNeeded(false);
@@ -26007,8 +26108,8 @@ var CreateCollection = function CreateCollection() {
         setAlt(res.data.alt);
         ((_res$data$category = res.data.category) === null || _res$data$category === void 0 ? void 0 : _res$data$category.name) !== undefined ? setCategoryName((_res$data$category2 = res.data.category) === null || _res$data$category2 === void 0 ? void 0 : _res$data$category2.name) : 'Aucune catégorie';
         res.data.category_id !== null ? setCategoryId(res.data.category_id) : 0;
-        setDateField((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_14__.getDateTime)(new Date(res.data.dateActivation)));
-        setDescriptionCollectionForMeta(); // 2 x pour que dropZone recharge la bonne image
+        setDateField((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_12__.getDateTime)(new Date(res.data.dateActivation)));
+        setDescriptionCollectionForMeta(''); // 2 x pour que dropZone recharge la bonne image
 
         setIs_Edit(true);
         setIs_Edit(true);
@@ -26016,7 +26117,9 @@ var CreateCollection = function CreateCollection() {
         console.log('error:   ' + error);
       });
     }
-  }, []);
+  }, []); // useEffect(() => {
+  //     setIsDirty(true);
+  // }, [nameCollection, descriptionCollection, conditions, allConditionsNeeded, notIncludePrevProduct, metaTitle, metaDescription, metaUrl, imageName, alt, categoryName, dateField]);
 
   var handleNameCollection = function handleNameCollection(e) {
     setNameCollection(e.target.value);
@@ -26032,62 +26135,7 @@ var CreateCollection = function CreateCollection() {
     setSender('initCollectionForm');
     setTmp_parameter('');
     setShowModalConfirm(true);
-  }; // réinitialisation des states du form 
-
-
-  var initCollectionForm = function initCollectionForm() {
-    setNameCollection('');
-    setDescriptionCollection('');
-    setDescriptionCollectionForMeta('');
-    setMetaTitle('');
-    setMetaDescription('');
-    setMetaUrl(window.location.origin + '/');
-    setAlt('');
-    setImageName('');
-    setImagePath('');
-    setImage([]);
-    setCategoryName('Aucune catégorie');
-    setCategoryId('');
-    setIsDirty(false);
-    setConditions([{
-      id: 0,
-      parameter: '1',
-      operator: '1',
-      value: ''
-    }]);
-    setDateField((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_14__.getNow)()); // gére le netoyage des images et vidéos dans  temporayStorage 
-
-    var keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection'];
-    cleanTemporayStorage(keys_toDelete); // éfface l'image de la dropZone
-
-    var imagesToRemove = document.getElementsByClassName('image-view-dropZone') && document.getElementsByClassName('image-view-dropZone');
-
-    if (imagesToRemove.length > 0) {
-      for (var i = 0; i < imagesToRemove.length; i++) {
-        imagesToRemove[i].remove();
-      }
-    } // remet l'image de fond
-
-
-    document.getElementById('drop-region-dropZone').style.backgroundColor = 'none';
-    document.getElementById('drop-region-dropZone').style.background = 'no-repeat url("../images/icons/backgroundDropZone.png")';
-    document.getElementById('drop-region-dropZone').style.backgroundPosition = 'center 90%';
-    document.getElementById("drop-message-dropZone").style.display = 'block'; // vide le localStorage
-
-    localStorage.removeItem('nameCollection');
-    localStorage.removeItem('descriptionCollection');
-    localStorage.removeItem('metaTitle');
-    localStorage.removeItem('metaDescription');
-    localStorage.removeItem('image');
-    localStorage.removeItem('imageName');
-    localStorage.removeItem('altCollection');
-    localStorage.removeItem('metaUrl');
-    localStorage.removeItem('categoryName');
-    localStorage.removeItem('categoryId');
-    localStorage.removeItem('conditions');
-    localStorage.removeItem('dateActivation');
-  }; //----------------------------------------------------------------Reset Form
-
+  };
 
   var validation = function validation() {
     // !!!! CHECK AUSSI LES CONDITIONS !!!!
@@ -26168,33 +26216,13 @@ var CreateCollection = function CreateCollection() {
       document.getElementById('titreCollection').style.border = "solid 1px rgb(220, 220, 220)";
       return true;
     }
-  }; // remove records and images files from folders and temporaryStorage db when unused 
-
-
-  function cleanTemporayStorage(keys_toDelete) {
-    var toDelete = new FormData();
-
-    for (var i = 0; i < keys_toDelete.length; i++) {
-      toDelete.append('keys[]', keys_toDelete[i]);
-    }
-
-    axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/cleanTemporayStorage", toDelete, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    }).then(function (res) {
-      console.log('images handled');
-      return res.data;
-    })["catch"](function (error) {
-      console.log('Error : ' + error.status);
-    });
-  } // submit
+  }; // submit
 
 
   function handleSubmit() {
     var valid = validation(); // delete removed tinyMCE images in folder and db
 
-    (0,_functions_temporaryStorage_handleTinyMceTemporary__WEBPACK_IMPORTED_MODULE_13__.handleTinyMceTemporary)(descriptionCollection, id);
+    (0,_functions_temporaryStorage_handleTinyMceTemporary__WEBPACK_IMPORTED_MODULE_11__.handleTinyMceTemporary)(descriptionCollection, id);
 
     if (valid) {
       var imageFile = null;
@@ -26221,7 +26249,7 @@ var CreateCollection = function CreateCollection() {
       formData.append("imageName", imageName);
       formData.append("id", id);
       imageFile !== null && formData.append("image", imageFile);
-      axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/save-collection", formData, {
+      axios__WEBPACK_IMPORTED_MODULE_2___default().post("http://127.0.0.1:8000/save-collection", formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -26236,7 +26264,7 @@ var CreateCollection = function CreateCollection() {
           setId(null); // chargement des collections
           // refresh data after save new collection
 
-          axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/collections-list-back-end").then(function (res) {
+          axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/collections-list-back-end").then(function (res) {
             // listCollections -> liste complète des collections pour handleSearch
             setListCollections(res.data[0]);
             setListCategories(res.data[1]);
@@ -26248,71 +26276,68 @@ var CreateCollection = function CreateCollection() {
     }
   }
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
     className: "collection-main-container",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)(_contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_2__["default"].Provider, {
-      value: collectionContextValue,
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
-        className: "collection-block-container",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
-          className: "div-vert-align",
-          children: [isDirty && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("button", {
-            className: "btn-effacer-tout",
-            onClick: confirmInitCollectionForm,
-            children: "R\xE9initialiser"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
-            className: "div-label-inputTxt",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h2", {
-              children: "Nom de la collection"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("input", {
-              className: "w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1",
-              type: "text",
-              id: "titreCollection",
-              value: nameCollection,
-              onChange: handleNameCollection
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("span", {
-              className: "fs14 red ".concat(nameCollection.length > 191 ? "block" : "none"),
-              children: "Le nom de la collection ne peut pas d\xE9passer 191 caract\xE8res"
-            })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
-            className: "div-label-inputTxt",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h2", {
-              children: "Description (optionnel)"
-            })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_tinyEditor__WEBPACK_IMPORTED_MODULE_12__["default"], {})]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_conditions__WEBPACK_IMPORTED_MODULE_7__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_optimisation__WEBPACK_IMPORTED_MODULE_8__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+      className: "collection-block-container",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+        className: "div-vert-align",
+        children: [isDirty && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
+          className: "btn-effacer-tout",
+          onClick: confirmInitCollectionForm,
+          children: "R\xE9initialiser"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
           className: "div-label-inputTxt",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("button", {
-            className: "btn-submit",
-            onClick: handleSubmit,
-            children: "Enregistrer"
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+            children: "Nom de la collection"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("input", {
+            className: "w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1",
+            type: "text",
+            id: "titreCollection",
+            value: nameCollection,
+            onChange: handleNameCollection
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("span", {
+            className: "fs14 red ".concat(nameCollection.length > 191 ? "block" : "none"),
+            children: "Le nom de la collection ne peut pas d\xE9passer 191 caract\xE8res"
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+          className: "div-label-inputTxt",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+            children: "Description (optionnel)"
           })
-        })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
-        className: "side-create-collection",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_image__WEBPACK_IMPORTED_MODULE_11__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_categories__WEBPACK_IMPORTED_MODULE_9__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_activation__WEBPACK_IMPORTED_MODULE_10__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_modal_modalConfirm__WEBPACK_IMPORTED_MODULE_5__["default"], {
-          show: showModalConfirm // true/false show modal
-          ,
-          handleModalConfirm: handleModalConfirm,
-          handleModalCancel: handleModalCancel,
-          textButtonConfirm: textButtonConfirm,
-          image: imageModal,
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h2", {
-            className: "childrenModal",
-            children: messageModal
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_modal_modalSimpleMessage__WEBPACK_IMPORTED_MODULE_6__["default"], {
-          show: showModalSimpleMessage // true/false show modal
-          ,
-          handleModalCancel: handleModalCancel,
-          image: imageModal,
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h2", {
-            className: "childrenModal",
-            children: messageModal
-          })
-        })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_tinyEditor__WEBPACK_IMPORTED_MODULE_10__["default"], {})]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_conditions__WEBPACK_IMPORTED_MODULE_5__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_optimisation__WEBPACK_IMPORTED_MODULE_6__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
+        className: "div-label-inputTxt",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
+          className: "btn-submit",
+          onClick: handleSubmit,
+          children: "Enregistrer"
+        })
       })]
-    })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
+      className: "side-create-collection",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_image__WEBPACK_IMPORTED_MODULE_9__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_categories__WEBPACK_IMPORTED_MODULE_7__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_activation__WEBPACK_IMPORTED_MODULE_8__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_modal_modalConfirm__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        show: showModalConfirm // true/false show modal
+        ,
+        handleModalConfirm: handleModalConfirm,
+        handleModalCancel: handleModalCancel,
+        textButtonConfirm: textButtonConfirm,
+        image: imageModal,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+          className: "childrenModal",
+          children: messageModal
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_modal_modalSimpleMessage__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        show: showModalSimpleMessage // true/false show modal
+        ,
+        handleModalCancel: handleModalCancel,
+        image: imageModal,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("h2", {
+          className: "childrenModal",
+          children: messageModal
+        })
+      })]
+    })]
   });
 };
 
@@ -26399,7 +26424,8 @@ var ListCollections = function ListCollections() {
       setListCategories = _useContext.setListCategories,
       setCategoriesChecked = _useContext.setCategoriesChecked,
       searchValue = _useContext.searchValue,
-      setSearchValue = _useContext.setSearchValue;
+      setSearchValue = _useContext.setSearchValue,
+      initCollectionForm = _useContext.initCollectionForm;
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (listCollectionsFiltered.length === 0) {
@@ -26412,7 +26438,11 @@ var ListCollections = function ListCollections() {
       })["catch"](function (error) {
         console.log('error:   ' + error);
       });
-    }
+    } // pour vider le form de creat collection quand on edit sans rien changer et qu'on revient sur List collections
+
+
+    console.log('initCollectionForm list');
+    initCollectionForm;
   }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // add category name in the new property categoryName
@@ -26697,7 +26727,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/CollectionContext */ "./resources/js/components/contexts/CollectionContext.jsx");
+/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -26732,7 +26762,7 @@ var Optimisation = function Optimisation() {
       metaDescriptionbiggerThan130 = _useState6[0],
       setMetaDescriptionbiggerThan130 = _useState6[1];
 
-  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       normalizUrl = _useContext.normalizUrl,
       metaTitle = _useContext.metaTitle,
       setMetaTitle = _useContext.setMetaTitle,
@@ -26974,7 +27004,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../contexts/CollectionContext */ "./resources/js/components/contexts/CollectionContext.jsx");
+/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var axios_progress_bar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios-progress-bar */ "./node_modules/axios-progress-bar/dist/index.js");
@@ -26997,7 +27027,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 var Tinyeditor = function Tinyeditor() {
-  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_2__["default"]),
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_2__["default"]),
       descriptionCollection = _useContext.descriptionCollection,
       setDescriptionCollection = _useContext.setDescriptionCollection,
       setDescriptionCollectionForMeta = _useContext.setDescriptionCollectionForMeta,
@@ -27225,8 +27255,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var _React$createContext;
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createContext({
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createContext((_React$createContext = {
   image: '',
   setImage: function setImage() {},
   imagePath: '',
@@ -27251,8 +27285,6 @@ __webpack_require__.r(__webpack_exports__);
   setTextButtonConfirm: function setTextButtonConfirm() {},
   imageModal: '',
   setImageModal: function setImageModal() {},
-  darkMode: '',
-  setDarkMode: function setDarkMode() {},
   selectedColor: '',
   setSelectedColor: function setSelectedColor() {},
   listCollections: '',
@@ -27272,29 +27304,7 @@ __webpack_require__.r(__webpack_exports__);
   deleteThisCategory: '',
   setDeleteThisCategory: function setDeleteThisCategory() {},
   handleModalConfirm: function handleModalConfirm() {},
-  handleModalCancel: function handleModalCancel() {}
-}));
-
-/***/ }),
-
-/***/ "./resources/js/components/contexts/CollectionContext.jsx":
-/*!****************************************************************!*\
-  !*** ./resources/js/components/contexts/CollectionContext.jsx ***!
-  \****************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-var _React$createContext;
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createContext((_React$createContext = {
+  handleModalCancel: function handleModalCancel() {},
   nameCollection: '',
   setNameCollection: function setNameCollection() {},
   descriptionCollection: '',
@@ -27312,16 +27322,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   categoryName: '',
   setCategoryName: function setCategoryName() {},
   categoryId: '',
-  setCategoryId: function setCategoryId() {},
-  tmp_parameter: '',
-  setTmp_parameter: function setTmp_parameter() {},
-  dateField: '',
-  setDateField: function setDateField() {},
-  normalizUrl: function normalizUrl() {},
-  handleModalCancel: function handleModalCancel() {},
-  deleteThisCategory: '',
-  setDeleteThisCategory: function setDeleteThisCategory() {}
-}, _defineProperty(_React$createContext, "dateField", ''), _defineProperty(_React$createContext, "setDateField", function setDateField() {}), _defineProperty(_React$createContext, "tinyLangauage", ''), _React$createContext)));
+  setCategoryId: function setCategoryId() {}
+}, _defineProperty(_React$createContext, "tmp_parameter", ''), _defineProperty(_React$createContext, "setTmp_parameter", function setTmp_parameter() {}), _defineProperty(_React$createContext, "dateField", ''), _defineProperty(_React$createContext, "setDateField", function setDateField() {}), _defineProperty(_React$createContext, "normalizUrl", function normalizUrl() {}), _defineProperty(_React$createContext, "handleModalCancel", function handleModalCancel() {}), _defineProperty(_React$createContext, "deleteThisCategory", ''), _defineProperty(_React$createContext, "setDeleteThisCategory", function setDeleteThisCategory() {}), _defineProperty(_React$createContext, "dateField", ''), _defineProperty(_React$createContext, "setDateField", function setDateField() {}), _defineProperty(_React$createContext, "tinyLangauage", ''), _defineProperty(_React$createContext, "setTinyLanguage", function setTinyLanguage() {}), _defineProperty(_React$createContext, "initCollectionForm", function initCollectionForm() {}), _defineProperty(_React$createContext, "cleanTemporayStorage", function cleanTemporayStorage() {}), _React$createContext)));
 
 /***/ }),
 
@@ -31334,14 +31336,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
-/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
-/* harmony import */ var _contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../contexts/CollectionContext */ "./resources/js/components/contexts/CollectionContext.jsx");
-/* harmony import */ var _functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../functions/temporaryStorage/saveInTemporaryStorage */ "./resources/js/components/functions/temporaryStorage/saveInTemporaryStorage.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../functions/temporaryStorage/saveInTemporaryStorage */ "./resources/js/components/functions/temporaryStorage/saveInTemporaryStorage.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -31369,8 +31370,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
-
-var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_7__["default"])({
+var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_6__["default"])({
   wrapperForm: {
     width: '100%',
     overflow: 'hidden',
@@ -31438,13 +31438,11 @@ var DropZone = function DropZone(props) {
       setShowModalSimpleMessage = _useContext.setShowModalSimpleMessage,
       setMessageModal = _useContext.setMessageModal,
       is_Edit = _useContext.is_Edit,
-      setIs_Edit = _useContext.setIs_Edit;
+      setIs_Edit = _useContext.setIs_Edit,
+      id = _useContext.id,
+      setId = _useContext.setId;
 
-  var _useContext2 = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_contexts_CollectionContext__WEBPACK_IMPORTED_MODULE_4__["default"]),
-      id = _useContext2.id,
-      setId = _useContext2.setId;
-
-  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useNavigate)();
+  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_7__.useNavigate)();
   var dropRegion = null;
   var imagePreviewRegion = null;
   var tab = [];
@@ -31485,26 +31483,27 @@ var DropZone = function DropZone(props) {
     dropRegion.addEventListener('drop', unhighlight, false); // init preview image
 
     if (!is_Edit) {
+      // if (id !== null) { 
+      alert('not isEdit');
+
       try {
         axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getSingleTemporaryImage/".concat(id)).then(function (res) {
           if (res.data !== undefined && res.data != '') {
             // get --> image path <-- for croppe
-            setImagePath('/' + res.data); // empèche de fetcher une image qui vient d'être supprimée
-            // if (!res.data.includes('blob')) {
-
-            console.log('res.data   ', res.data); // get --> image <-- for preview
+            setImagePath('/' + res.data); // get --> image <-- for preview
 
             fetch('/' + res.data).then(function (response) {
               return response.blob();
             }).then(function (BlobImage) {
               previewImage(BlobImage);
               setImage(BlobImage);
-            }); // }
+            });
           }
         });
       } catch (error) {
         console.error('error  ' + error);
-      }
+      } // }
+
     }
   }, []); // when collection is edited
 
@@ -31540,7 +31539,7 @@ var DropZone = function DropZone(props) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                return _context.abrupt("return", (0,_functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_5__.saveInTemporaryStorage)('tmp_imageCollection', imageFile));
+                return _context.abrupt("return", (0,_functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_4__.saveInTemporaryStorage)('tmp_imageCollection', imageFile));
 
               case 1:
               case "end":
@@ -31764,37 +31763,37 @@ var DropZone = function DropZone(props) {
     return 'draggable' in div || 'ondragstart' in div && 'ondrop' in div;
   }
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
       className: classes.wrapperForm,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
         id: "drop-region-dropZone",
         className: classes.drop_region,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
           className: classes.drop_message,
           id: "drop-message-dropZone",
-          children: ["D\xE9posez ici une image ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("br", {}), "ou cliquez pour charger une image"]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+          children: ["D\xE9posez ici une image ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("br", {}), "ou cliquez pour charger une image"]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
           id: "image-preview-dropZone"
         })]
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("span", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
       className: classes.removeImage,
-      children: [!!imagePath && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("i", {
+      children: [!!imagePath && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("i", {
         className: "fas fa-crop tooltip_",
         onClick: goToCrop,
-        children: [" ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+        children: [" ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
           className: "tooltiptext",
           children: "Redimensionner l'image"
         })]
-      }), !!imagePath && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+      }), !!imagePath && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
         className: "far fa-trash-alt trash-alt-dropZone tooltip_",
         style: {
           display: "block",
           marginLeft: "15px"
         },
         onClick: removeImagePreview,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
           className: "tooltiptext",
           children: "Supprimer l'image"
         })

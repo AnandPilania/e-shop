@@ -22,7 +22,7 @@ const ListCollections = () => {
         ceated_atSens: true
     });
 
-    const { listCollections, setListCollections, listCategories, setListCategories, setCategoriesChecked, searchValue, setSearchValue } = useContext(AppContext);
+    const { listCollections, setListCollections, listCategories, setListCategories, setCategoriesChecked, searchValue, setSearchValue, initCollectionForm } = useContext(AppContext);
 
     useEffect(() => {
         if (listCollectionsFiltered.length === 0) {
@@ -37,6 +37,9 @@ const ListCollections = () => {
                     console.log('error:   ' + error);
                 });
         }
+        // pour vider le form de creat collection quand on edit sans rien changer et qu'on revient sur List collections
+        console.log('initCollectionForm list')
+        initCollectionForm;
     }, []);
 
     useEffect(() => {

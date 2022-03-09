@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import CollectionContext from '../contexts/CollectionContext';
+import AppContext from '../contexts/AppContext';
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 
@@ -7,7 +7,7 @@ const Activation = () => {
 
     const {
         dateField, setDateField
-    } = useContext(CollectionContext);
+    } = useContext(AppContext);
 
     return (
         <div>

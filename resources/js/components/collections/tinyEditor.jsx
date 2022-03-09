@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react';
-import CollectionContext from '../contexts/CollectionContext';
+import AppContext from '../contexts/AppContext';
 import Axios from 'axios';
 import { loadProgressBar } from 'axios-progress-bar';
 import { Editor } from '@tinymce/tinymce-react';
@@ -10,7 +10,7 @@ const Tinyeditor = () => {
 
     const {
         descriptionCollection, setDescriptionCollection, setDescriptionCollectionForMeta, tinyLanguage
-    } = useContext(CollectionContext);
+    } = useContext(AppContext);
 
     const editorRef = useRef(null);
 
