@@ -75,6 +75,10 @@ const Appcontainer = () => {
     const [isDirty, setIsDirty] = useState(false);
     const [tmp_parameter, setTmp_parameter] = useState(); // pour stocker provisoirement une variable
     const [deleteThisCategory, setDeleteThisCategory] = useState(null);
+    const [is, setIs] = useState({
+        leaveEditCollectionWithoutSaveChange: false,
+    });
+
 
     var navigate = useNavigate();
 
@@ -151,10 +155,13 @@ const Appcontainer = () => {
             }
         }
         // remet l'image de fond
-        document.getElementById('drop-region-dropZone').style.backgroundColor = 'none';
-        document.getElementById('drop-region-dropZone').style.background = 'no-repeat url("../images/icons/backgroundDropZone.png")';
-        document.getElementById('drop-region-dropZone').style.backgroundPosition = 'center 90%';
-        document.getElementById("drop-message-dropZone").style.display = 'block';
+        let checkDropZoneExist = document.getElementById('drop-region-dropZone');
+        if (document.body.contains(checkDropZoneExist)) {
+            document.getElementById('drop-region-dropZone').style.backgroundColor = 'none';
+            document.getElementById('drop-region-dropZone').style.background = 'no-repeat url("../images/icons/backgroundDropZone.png")';
+            document.getElementById('drop-region-dropZone').style.backgroundPosition = 'center 90%';
+            document.getElementById("drop-message-dropZone").style.display = 'block';
+        }
 
         // vide le localStorage
         localStorage.removeItem('nameCollection');
@@ -202,8 +209,16 @@ const Appcontainer = () => {
                 initCollectionForm();
                 break;
             case 'editCollection':
+                setIs({ ...is, leaveEditCollectionWithoutSaveChange: true });
                 // isEdit indique qu'on veut éditer la collection
                 navigate('/add-collection', { state: { collectionId: tmp_parameter, isEdit: true } });
+                break;
+            case 'leaveEditCollectionWithoutChange':
+                // vider form creat collection quand on edit sans rien changer
+                setIs_Edit(false);
+                setIs({ ...is, leaveEditCollectionWithoutSaveChange: false });
+                setId(null);
+                initCollectionForm();
                 break;
             default:
                 '';
@@ -263,6 +278,7 @@ const Appcontainer = () => {
         id, setId,
         initCollectionForm,
         cleanTemporayStorage,
+        is, setIs
     }
 
 

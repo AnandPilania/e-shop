@@ -34,7 +34,7 @@ const RowListCollections = ({ collection, category }) => {
     const [distanceFromBottom, setDistanceFromBottom] = useState(null);
     const [idToEdit, setIdToEdit] = useState(null);
 
-    const { isDirty, setIsDirty, setMessageModal, sender, setSender, setImageModal, setTmp_parameter, showModalConfirm, setShowModalConfirm, textButtonConfirm, setTextButtonConfirm, handleModalConfirm, handleModalCancel, imageModal, messageModal } = useContext(AppContext);
+    const { isDirty, setIsDirty, setMessageModal, sender, setSender, setImageModal, setTmp_parameter, showModalConfirm, setShowModalConfirm, textButtonConfirm, setTextButtonConfirm, handleModalConfirm, handleModalCancel, imageModal, messageModal, is, setIs } = useContext(AppContext);
 
     var navigate = useNavigate();
 
@@ -127,6 +127,7 @@ const RowListCollections = ({ collection, category }) => {
             setTmp_parameter(id);
             setShowModalConfirm(true);
         } else {
+            setIs({ ...is, isLeaveEditCollectionWithoutSaveChange: true });
             // isEdit indique qu'on veut éditer la collection
             navigate('/add-collection', { state: { collectionId: id, isEdit: true } });
         }

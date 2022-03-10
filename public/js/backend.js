@@ -23505,6 +23505,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modal_modalApp__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../modal/modalApp */ "./resources/js/components/modal/modalApp.jsx");
 /* harmony import */ var _croppeJs_croppeJs__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../croppeJs/croppeJs */ "./resources/js/components/croppeJs/croppeJs.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -23769,6 +23775,13 @@ var Appcontainer = function Appcontainer() {
       deleteThisCategory = _useState68[0],
       setDeleteThisCategory = _useState68[1];
 
+  var _useState69 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    leaveEditCollectionWithoutSaveChange: false
+  }),
+      _useState70 = _slicedToArray(_useState69, 2),
+      is = _useState70[0],
+      setIs = _useState70[1];
+
   var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_15__.useNavigate)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // chargement des collections
@@ -23836,10 +23849,15 @@ var Appcontainer = function Appcontainer() {
     } // remet l'image de fond
 
 
-    document.getElementById('drop-region-dropZone').style.backgroundColor = 'none';
-    document.getElementById('drop-region-dropZone').style.background = 'no-repeat url("../images/icons/backgroundDropZone.png")';
-    document.getElementById('drop-region-dropZone').style.backgroundPosition = 'center 90%';
-    document.getElementById("drop-message-dropZone").style.display = 'block'; // vide le localStorage
+    var checkDropZoneExist = document.getElementById('drop-region-dropZone');
+
+    if (document.body.contains(checkDropZoneExist)) {
+      document.getElementById('drop-region-dropZone').style.backgroundColor = 'none';
+      document.getElementById('drop-region-dropZone').style.background = 'no-repeat url("../images/icons/backgroundDropZone.png")';
+      document.getElementById('drop-region-dropZone').style.backgroundPosition = 'center 90%';
+      document.getElementById("drop-message-dropZone").style.display = 'block';
+    } // vide le localStorage
+
 
     localStorage.removeItem('nameCollection');
     localStorage.removeItem('descriptionCollection');
@@ -23888,13 +23906,26 @@ var Appcontainer = function Appcontainer() {
         break;
 
       case 'editCollection':
-        // isEdit indique qu'on veut éditer la collection
+        setIs(_objectSpread(_objectSpread({}, is), {}, {
+          leaveEditCollectionWithoutSaveChange: true
+        })); // isEdit indique qu'on veut éditer la collection
+
         navigate('/add-collection', {
           state: {
             collectionId: tmp_parameter,
             isEdit: true
           }
         });
+        break;
+
+      case 'leaveEditCollectionWithoutChange':
+        // vider form creat collection quand on edit sans rien changer
+        setIs_Edit(false);
+        setIs(_objectSpread(_objectSpread({}, is), {}, {
+          leaveEditCollectionWithoutSaveChange: false
+        }));
+        setId(null);
+        initCollectionForm();
         break;
 
       default:
@@ -23992,7 +24023,9 @@ var Appcontainer = function Appcontainer() {
     id: id,
     setId: setId,
     initCollectionForm: initCollectionForm,
-    cleanTemporayStorage: cleanTemporayStorage
+    cleanTemporayStorage: cleanTemporayStorage,
+    is: is,
+    setIs: setIs
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"].Provider, {
     value: contextValue,
@@ -24061,6 +24094,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _functions_dateTools__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../functions/dateTools */ "./resources/js/components/functions/dateTools.js");
 /* harmony import */ var _modal_modalConfirm__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../modal/modalConfirm */ "./resources/js/components/modal/modalConfirm.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -24141,7 +24180,9 @@ var RowListCollections = function RowListCollections(_ref) {
       handleModalConfirm = _useContext.handleModalConfirm,
       handleModalCancel = _useContext.handleModalCancel,
       imageModal = _useContext.imageModal,
-      messageModal = _useContext.messageModal;
+      messageModal = _useContext.messageModal,
+      is = _useContext.is,
+      setIs = _useContext.setIs;
 
   var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useNavigate)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
@@ -24247,7 +24288,10 @@ var RowListCollections = function RowListCollections(_ref) {
       setTmp_parameter(id);
       setShowModalConfirm(true);
     } else {
-      // isEdit indique qu'on veut éditer la collection
+      setIs(_objectSpread(_objectSpread({}, is), {}, {
+        isLeaveEditCollectionWithoutSaveChange: true
+      })); // isEdit indique qu'on veut éditer la collection
+
       navigate('/add-collection', {
         state: {
           collectionId: id,
@@ -25897,6 +25941,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _functions_temporaryStorage_handleTinyMceTemporary__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../functions/temporaryStorage/handleTinyMceTemporary */ "./resources/js/components/functions/temporaryStorage/handleTinyMceTemporary.js");
 /* harmony import */ var _functions_dateTools__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../functions/dateTools */ "./resources/js/components/functions/dateTools.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -25966,6 +26016,7 @@ var CreateCollection = function CreateCollection() {
       setMetaUrl = _useContext.setMetaUrl,
       imageName = _useContext.imageName,
       setImageName = _useContext.setImageName,
+      imagePath = _useContext.imagePath,
       alt = _useContext.alt,
       setAlt = _useContext.setAlt,
       categoryName = _useContext.categoryName,
@@ -25982,7 +26033,9 @@ var CreateCollection = function CreateCollection() {
       handleModalConfirm = _useContext.handleModalConfirm,
       handleModalCancel = _useContext.handleModalCancel,
       initCollectionForm = _useContext.initCollectionForm,
-      cleanTemporayStorage = _useContext.cleanTemporayStorage;
+      cleanTemporayStorage = _useContext.cleanTemporayStorage,
+      is = _useContext.is,
+      setIs = _useContext.setIs;
 
   var formData = new FormData(); // when click on edit in collection list it send collection id to db request for make edit collection
 
@@ -26061,8 +26114,6 @@ var CreateCollection = function CreateCollection() {
     }
 
     if (isEdit) {
-      alert('on edit');
-      console.log('collectionId  ', collectionId);
       initCollectionForm();
       axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getCollectionById/".concat(collectionId)).then(function (res) {
         var _res$data$objConditio, _res$data$category, _res$data$category2;
@@ -26089,17 +26140,16 @@ var CreateCollection = function CreateCollection() {
         ((_res$data$category = res.data.category) === null || _res$data$category === void 0 ? void 0 : _res$data$category.name) !== undefined ? setCategoryName((_res$data$category2 = res.data.category) === null || _res$data$category2 === void 0 ? void 0 : _res$data$category2.name) : 'Aucune catégorie';
         res.data.category_id !== null ? setCategoryId(res.data.category_id) : 0;
         setDateField((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_12__.getDateTime)(new Date(res.data.dateActivation)));
-        setDescriptionCollectionForMeta(''); // 2 x pour que dropZone recharge la bonne image
-
+        setDescriptionCollectionForMeta('');
         setIs_Edit(true);
-        setIs_Edit(true);
+        setIs(_objectSpread(_objectSpread({}, is), {}, {
+          leaveEditCollectionWithoutSaveChange: true
+        }));
       })["catch"](function (error) {
         console.log('error:   ' + error);
       });
     }
-  }, []); // useEffect(() => {
-  //     setIsDirty(true);
-  // }, [nameCollection, descriptionCollection, conditions, allConditionsNeeded, notIncludePrevProduct, metaTitle, metaDescription, metaUrl, imageName, alt, categoryName, dateField]);
+  }, []);
 
   var handleNameCollection = function handleNameCollection(e) {
     setNameCollection(e.target.value);
@@ -26264,7 +26314,10 @@ var CreateCollection = function CreateCollection() {
         className: "div-vert-align",
         children: [isDirty && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("button", {
           className: "btn-effacer-tout",
-          onClick: confirmInitCollectionForm,
+          onClick: function onClick() {
+            setId(null);
+            confirmInitCollectionForm();
+          },
           children: "R\xE9initialiser"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)("div", {
           className: "div-label-inputTxt",
@@ -26344,7 +26397,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _categoriesFilter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./categoriesFilter */ "./resources/js/components/collections/categoriesFilter.jsx");
 /* harmony import */ var _elements_Checkbox_listCollection__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../elements/Checkbox_listCollection */ "./resources/js/components/elements/Checkbox_listCollection.jsx");
 /* harmony import */ var _headerListCollections__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./headerListCollections */ "./resources/js/components/collections/headerListCollections.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _modal_modalConfirm__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../modal/modalConfirm */ "./resources/js/components/modal/modalConfirm.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -26362,6 +26416,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -26405,7 +26460,19 @@ var ListCollections = function ListCollections() {
       setCategoriesChecked = _useContext.setCategoriesChecked,
       searchValue = _useContext.searchValue,
       setSearchValue = _useContext.setSearchValue,
-      initCollectionForm = _useContext.initCollectionForm;
+      is = _useContext.is,
+      messageModal = _useContext.messageModal,
+      setMessageModal = _useContext.setMessageModal,
+      textButtonConfirm = _useContext.textButtonConfirm,
+      setTextButtonConfirm = _useContext.setTextButtonConfirm,
+      imageModal = _useContext.imageModal,
+      setImageModal = _useContext.setImageModal,
+      setSender = _useContext.setSender,
+      setTmp_parameter = _useContext.setTmp_parameter,
+      showModalConfirm = _useContext.showModalConfirm,
+      setShowModalConfirm = _useContext.setShowModalConfirm,
+      handleModalConfirm = _useContext.handleModalConfirm,
+      handleModalCancel = _useContext.handleModalCancel;
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (listCollectionsFiltered.length === 0) {
@@ -26421,8 +26488,14 @@ var ListCollections = function ListCollections() {
     } // pour vider le form de creat collection quand on edit sans rien changer et qu'on revient sur List collections
 
 
-    console.log('initCollectionForm list');
-    initCollectionForm;
+    if (is.leaveEditCollectionWithoutSaveChange === true) {
+      setMessageModal('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?');
+      setTextButtonConfirm('Confirmer');
+      setImageModal('../images/icons/trash_dirty.png');
+      setSender('leaveEditCollectionWithoutChange');
+      setTmp_parameter('');
+      setShowModalConfirm(true);
+    }
   }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // add category name in the new property categoryName
@@ -26583,109 +26656,120 @@ var ListCollections = function ListCollections() {
     })) : setListCollectionsFiltered(listCollections);
   }
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
     className: "flex-col-s-c",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_headerListCollections__WEBPACK_IMPORTED_MODULE_6__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("section", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_headerListCollections__WEBPACK_IMPORTED_MODULE_6__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("section", {
       className: "flex-col justify-s align-s m-b-10 bg-gray-cool min-h100pct w90pct",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("ul", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("ul", {
         className: "sub-div-vert-align shadow-md",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("li", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("li", {
           className: "grid grid-col-list1 w100pct p15 bg-gray-light radius10-t",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
             className: "flex-row h50 p5",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_elements_Checkbox_listCollection__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_elements_Checkbox_listCollection__WEBPACK_IMPORTED_MODULE_5__["default"], {
               unikId: 'all'
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
             className: "flex-row h50 p5",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
               className: "cursor noshrink b",
               onClick: function onClick() {
                 return sortList('name');
               },
               children: "Nom"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("figure", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("figure", {
               className: "h20 w20 m-lr-5 cursor noshrink",
               onClick: function onClick() {
                 return sortList('name');
               },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("img", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("img", {
                 src: window.location.origin + '/images/icons/' + imgSort.imgName
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
               className: "flex-row w80pct noWrap m-l-10",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
                 className: "w80pct h40 p-lr-10 radius5-l brd-gray-light-1 input-foc",
                 type: "text",
                 value: searchValue,
                 onChange: handleSearch
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("figure", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("figure", {
                 className: "w40 h40 flex-row-c-c brd-t-gray-light-1 brd-b-gray-light-1 brd-r-gray-light-1 radius5-r",
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("img", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("img", {
                   className: "w15 h-auto",
                   src: window.location.origin + '/images/icons/search.png'
                 })
               })]
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
             className: "h50 p5 flex-row-c-c wrap b",
             children: "Produit"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
             className: "h50 p5 flex-row noshrink b",
             children: "Condition"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
             className: "h50 p5 flex-row",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
               className: "cursor noshrink b",
               onClick: function onClick() {
                 return sortList('categoryName');
               },
               children: "Cat\xE9gorie"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("figure", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("figure", {
               className: "h20 w20 m-l-5 cursor noshrink",
               onClick: function onClick() {
                 return sortList('categoryName');
               },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("img", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("img", {
                 src: window.location.origin + '/images/icons/' + imgSort.imgCat
               })
-            }), listCategories && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_categoriesFilter__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            }), listCategories && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_categoriesFilter__WEBPACK_IMPORTED_MODULE_4__["default"], {
               arrayList: listCategories,
               categoriesFilter: categoriesFilter
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
             className: "h50 p5 flex-row",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
               className: "noshrink b",
               children: "Statut"
             })
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
             className: "h50 p5 flex-row",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
               className: "cursor noshrink b",
               onClick: function onClick() {
                 return sortList('created_at');
               },
               children: "Date Cr\xE9ation"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("figure", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("figure", {
               className: "h20 w20 m-l-5 cursor noshrink",
               onClick: function onClick() {
                 return sortList('created_at');
               },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("img", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("img", {
                 src: window.location.origin + '/images/icons/' + imgSort.imgDate
               })
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
             className: "flex-row min-h50 p5 b",
             children: "Op\xE9rations"
           })]
         }), !!listCollectionsFiltered && listCollectionsFiltered.map(function (item) {
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_RowListCollections__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_RowListCollections__WEBPACK_IMPORTED_MODULE_3__["default"], {
             collection: item,
             category: item.category
           }, item.id);
         })]
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_modal_modalConfirm__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      show: showModalConfirm // true/false show modal
+      ,
+      handleModalConfirm: handleModalConfirm,
+      handleModalCancel: handleModalCancel,
+      textButtonConfirm: textButtonConfirm,
+      image: imageModal,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h2", {
+        className: "childrenModal",
+        children: messageModal
       })
     })]
   });
@@ -27303,7 +27387,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   setCategoryName: function setCategoryName() {},
   categoryId: '',
   setCategoryId: function setCategoryId() {}
-}, _defineProperty(_React$createContext, "tmp_parameter", ''), _defineProperty(_React$createContext, "setTmp_parameter", function setTmp_parameter() {}), _defineProperty(_React$createContext, "dateField", ''), _defineProperty(_React$createContext, "setDateField", function setDateField() {}), _defineProperty(_React$createContext, "normalizUrl", function normalizUrl() {}), _defineProperty(_React$createContext, "handleModalCancel", function handleModalCancel() {}), _defineProperty(_React$createContext, "deleteThisCategory", ''), _defineProperty(_React$createContext, "setDeleteThisCategory", function setDeleteThisCategory() {}), _defineProperty(_React$createContext, "dateField", ''), _defineProperty(_React$createContext, "setDateField", function setDateField() {}), _defineProperty(_React$createContext, "tinyLangauage", ''), _defineProperty(_React$createContext, "setTinyLanguage", function setTinyLanguage() {}), _defineProperty(_React$createContext, "initCollectionForm", function initCollectionForm() {}), _defineProperty(_React$createContext, "cleanTemporayStorage", function cleanTemporayStorage() {}), _React$createContext)));
+}, _defineProperty(_React$createContext, "tmp_parameter", ''), _defineProperty(_React$createContext, "setTmp_parameter", function setTmp_parameter() {}), _defineProperty(_React$createContext, "dateField", ''), _defineProperty(_React$createContext, "setDateField", function setDateField() {}), _defineProperty(_React$createContext, "normalizUrl", function normalizUrl() {}), _defineProperty(_React$createContext, "handleModalCancel", function handleModalCancel() {}), _defineProperty(_React$createContext, "deleteThisCategory", ''), _defineProperty(_React$createContext, "setDeleteThisCategory", function setDeleteThisCategory() {}), _defineProperty(_React$createContext, "dateField", ''), _defineProperty(_React$createContext, "setDateField", function setDateField() {}), _defineProperty(_React$createContext, "tinyLangauage", ''), _defineProperty(_React$createContext, "setTinyLanguage", function setTinyLanguage() {}), _defineProperty(_React$createContext, "initCollectionForm", function initCollectionForm() {}), _defineProperty(_React$createContext, "cleanTemporayStorage", function cleanTemporayStorage() {}), _defineProperty(_React$createContext, "is", ''), _defineProperty(_React$createContext, "setIs", function setIs() {}), _React$createContext)));
 
 /***/ }),
 
@@ -31463,8 +31547,7 @@ var DropZone = function DropZone(props) {
     dropRegion.addEventListener('drop', unhighlight, false); // init preview image
 
     if (!is_Edit) {
-      // if (id !== null) { 
-      alert('not isEdit');
+      console.log('!is_Edi  ', id);
 
       try {
         axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getSingleTemporaryImage/".concat(id)).then(function (res) {
@@ -31482,8 +31565,7 @@ var DropZone = function DropZone(props) {
         });
       } catch (error) {
         console.error('error  ' + error);
-      } // }
-
+      }
     }
   }, []); // when collection is edited
 

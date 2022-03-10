@@ -20,9 +20,7 @@ const CreateCollection = () => {
         setShowModalInput, messageModal, setMessageModal, sender, setSender, textButtonConfirm, setTextButtonConfirm, imageModal, setImageModal, is_Edit, setIs_Edit, listCollections, setListCollections, setListCategories, isDirty, setIsDirty, tmp_parameter, nameCollection, setNameCollection, descriptionCollection, setDescriptionCollection,
         descriptionCollectionForMeta, setDescriptionCollectionForMeta, conditions, setConditions, isAutoConditions, setIsAutoConditions,
         allConditionsNeeded, setAllConditionsNeeded, notIncludePrevProduct, setNotIncludePrevProduct, warningIdCondition, setWarningIdCondition,
-        normalizUrl, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, imageName, setImageName,
-        alt, setAlt, categoryName, setCategoryName, categoryId, setCategoryId,
-        dateField, setDateField, tinyLanguage, setTinyLanguage, id, setId, setTmp_parameter, handleModalConfirm, handleModalCancel, initCollectionForm, cleanTemporayStorage
+        normalizUrl, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, imageName, setImageName, imagePath, alt, setAlt, categoryName, setCategoryName, categoryId, setCategoryId, dateField, setDateField, tinyLanguage, setTinyLanguage, id, setId, setTmp_parameter, handleModalConfirm, handleModalCancel, initCollectionForm, cleanTemporayStorage, is, setIs
     } = useContext(AppContext);
 
     var formData = new FormData;
@@ -103,9 +101,8 @@ const CreateCollection = () => {
         }
 
 
+
         if (isEdit) {
-            alert('on edit')
-            console.log('collectionId  ', collectionId)
             initCollectionForm();
             Axios.get(`http://127.0.0.1:8000/getCollectionById/${collectionId}`)
                 .then(res => {
@@ -127,9 +124,8 @@ const CreateCollection = () => {
                     res.data.category_id !== null ? setCategoryId(res.data.category_id) : 0;
                     setDateField(getDateTime(new Date(res.data.dateActivation)));
                     setDescriptionCollectionForMeta('');
-                    // 2 x pour que dropZone recharge la bonne image
                     setIs_Edit(true);
-                    setIs_Edit(true);
+                    setIs({ ...is, leaveEditCollectionWithoutSaveChange: true });
 
                 }).catch(function (error) {
                     console.log('error:   ' + error);
@@ -138,17 +134,10 @@ const CreateCollection = () => {
     }, []);
 
 
-    // useEffect(() => {
-    //     setIsDirty(true);
-    // }, [nameCollection, descriptionCollection, conditions, allConditionsNeeded, notIncludePrevProduct, metaTitle, metaDescription, metaUrl, imageName, alt, categoryName, dateField]);
-
-
     const handleNameCollection = (e) => {
         setNameCollection(e.target.value);
         localStorage.setItem("nameCollection", e.target.value);
     };
-
-
 
     // Reset Form---------------------------------------------------------------
     // confirm reinitialisatio form
@@ -309,7 +298,10 @@ const CreateCollection = () => {
                 <div className="div-vert-align">
                     {/* réinitialisation */}
                     {isDirty && (<button className='btn-effacer-tout'
-                        onClick={confirmInitCollectionForm}>
+                        onClick={() => {
+                            setId(null);
+                            confirmInitCollectionForm();
+                        }}>
                         Réinitialiser
                     </button>)}
                     {/* nom */}

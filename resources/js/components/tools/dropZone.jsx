@@ -117,9 +117,7 @@ const DropZone = (props) => {
         dropRegion.addEventListener('drop', unhighlight, false);
 
         // init preview image
-        if (!is_Edit) {
-            // if (id !== null) { 
-                alert('not isEdit');
+        if (!is_Edit) { console.log('!is_Edi  ', id)
                 try {
                     Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage/${id}`)
                         .then(res => {
@@ -140,7 +138,6 @@ const DropZone = (props) => {
                 } catch (error) {
                     console.error('error  ' + error);
                 }
-            // }
         }
     }, []);
 

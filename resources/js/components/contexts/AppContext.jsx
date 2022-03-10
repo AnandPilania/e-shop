@@ -77,5 +77,6 @@ export default React.createContext({
     setTinyLanguage: () => { },
     initCollectionForm: () => { },
     cleanTemporayStorage: () => { },
-
+    is: '',
+    setIs: () => { },
 });

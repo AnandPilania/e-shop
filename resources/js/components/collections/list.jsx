@@ -5,6 +5,7 @@ import RowListCollections from './RowListCollections';
 import CategoriesFilter from './categoriesFilter';
 import CheckboxListCollection from '../elements/Checkbox_listCollection';
 import HeaderListCollections from './headerListCollections';
+import ModalConfirm from '../modal/modalConfirm';
 
 
 const ListCollections = () => {
@@ -22,13 +23,13 @@ const ListCollections = () => {
         ceated_atSens: true
     });
 
-    const { listCollections, setListCollections, listCategories, setListCategories, setCategoriesChecked, searchValue, setSearchValue, initCollectionForm } = useContext(AppContext);
+    const { listCollections, setListCollections, listCategories, setListCategories, setCategoriesChecked, searchValue, setSearchValue, is, messageModal, setMessageModal, textButtonConfirm, setTextButtonConfirm, imageModal, setImageModal, setSender, setTmp_parameter, showModalConfirm, setShowModalConfirm, handleModalConfirm, handleModalCancel, } = useContext(AppContext);
 
     useEffect(() => {
         if (listCollectionsFiltered.length === 0) {
             // chargement des collections
             Axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
-                .then(res => {  
+                .then(res => {
                     // listCollections -> liste complète des collections pour handleSearch
                     setListCollections(res.data[0]);
                     setListCollectionsFiltered(res.data[0]);
@@ -38,9 +39,16 @@ const ListCollections = () => {
                 });
         }
         // pour vider le form de creat collection quand on edit sans rien changer et qu'on revient sur List collections
-        console.log('initCollectionForm list')
-        initCollectionForm;
+        if (is.leaveEditCollectionWithoutSaveChange === true) {
+            setMessageModal('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?')
+            setTextButtonConfirm('Confirmer');
+            setImageModal('../images/icons/trash_dirty.png');
+            setSender('leaveEditCollectionWithoutChange');
+            setTmp_parameter('');
+            setShowModalConfirm(true);
+        }
     }, []);
+
 
     useEffect(() => {
         // add category name in the new property categoryName
@@ -202,6 +210,15 @@ const ListCollections = () => {
                     )}
                 </ul>
             </section>
+            {/* modal for confirmation */}
+            <ModalConfirm
+                show={showModalConfirm} // true/false show modal
+                handleModalConfirm={handleModalConfirm}
+                handleModalCancel={handleModalCancel}
+                textButtonConfirm={textButtonConfirm}
+                image={imageModal}>
+                <h2 className="childrenModal">{messageModal}</h2>
+            </ModalConfirm>
         </div>
     );
 }
