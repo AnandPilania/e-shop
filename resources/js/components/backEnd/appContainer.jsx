@@ -36,12 +36,39 @@ const Appcontainer = () => {
     const [categoryId, setCategoryId] = useLocalStorage("categoryId", "");
     const [dateField, setDateField] = useState('');
     const [descriptionCollectionForMeta, setDescriptionCollectionForMeta] = useState('');
-    //---------------------------------------------------------- collection Form
-
-    // collection --------------------------------------------------------------
+    const [imagePath, setImagePath] = useLocalStorage("imagePath", "");
+    const [image, setImage] = useState([]);
     const [isAutoConditions, setIsAutoConditions] = useState(true);
     const [notIncludePrevProduct, setNotIncludePrevProduct] = useState(false);
     const [allConditionsNeeded, setAllConditionsNeeded] = useState(true);
+    const [collectionForm, setCollectionForm] = useState({
+        conditions: [{
+            id: 0,
+            parameter: '1',
+            operator: '1',
+            value: ''
+        }],
+        nameCollection: '',
+        descriptionCollection: '',
+        metaTitle: '',
+        metaDescription: '',
+        metaUrl: window.location.origin + '/',
+        imageName: '',
+        alt: '',
+        categoryName: 'Aucune catégorie',
+        categoryId: '',
+        dateField: '',
+        descriptionCollectionForMeta: '',
+        imagePath: '',
+        image: [],
+        isAutoConditions: true,
+        notIncludePrevProduct: false,
+        allConditionsNeeded: true,
+    })
+    //---------------------------------------------------------- collection Form
+
+    // collection --------------------------------------------------------------
+
 
     const [warningIdCondition, setWarningIdCondition] = useState([]);
     const [tinyLanguage, setTinyLanguage] = useState('fr_FR');
@@ -54,8 +81,7 @@ const Appcontainer = () => {
     const [imageModalApp, setImageModalApp] = useState('');
     const [messageModalApp, setMessageModalApp] = useState('');
     const [followThisLink, setFollowThisLink] = useLocalStorage("followThisLink", "");
-    const [imagePath, setImagePath] = useLocalStorage("imagePath", "");
-    const [image, setImage] = useState([]);
+
 
     const [showModalConfirm, setShowModalConfirm] = useState(false);
     const [showModalSimpleMessage, setShowModalSimpleMessage] = useState(false);
@@ -215,10 +241,12 @@ const Appcontainer = () => {
                 break;
             case 'leaveEditCollectionWithoutChange':
                 // vider form creat collection quand on edit sans rien changer
+                alert('ok')
                 setIs_Edit(false);
                 setIs({ ...is, leaveEditCollectionWithoutSaveChange: false });
                 setId(null);
-                initCollectionForm();
+                setIsDirty(false);
+                // initCollectionForm();
                 break;
             default:
                 '';
@@ -278,7 +306,8 @@ const Appcontainer = () => {
         id, setId,
         initCollectionForm,
         cleanTemporayStorage,
-        is, setIs
+        is, setIs,
+        collectionForm, setCollectionForm
     }
 
 

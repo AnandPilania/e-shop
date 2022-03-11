@@ -23,7 +23,7 @@ const ListCollections = () => {
         ceated_atSens: true
     });
 
-    const { listCollections, setListCollections, listCategories, setListCategories, setCategoriesChecked, searchValue, setSearchValue, is, messageModal, setMessageModal, textButtonConfirm, setTextButtonConfirm, imageModal, setImageModal, setSender, setTmp_parameter, showModalConfirm, setShowModalConfirm, handleModalConfirm, handleModalCancel, } = useContext(AppContext);
+    const { listCollections, setListCollections, listCategories, setListCategories, setCategoriesChecked, searchValue, setSearchValue, is, messageModal, textButtonConfirm, imageModal, showModalConfirm, handleModalConfirm, handleModalCancel } = useContext(AppContext);
 
     useEffect(() => {
         if (listCollectionsFiltered.length === 0) {
@@ -37,15 +37,6 @@ const ListCollections = () => {
                 }).catch(function (error) {
                     console.log('error:   ' + error);
                 });
-        }
-        // pour vider le form de creat collection quand on edit sans rien changer et qu'on revient sur List collections
-        if (is.leaveEditCollectionWithoutSaveChange === true) {
-            setMessageModal('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?')
-            setTextButtonConfirm('Confirmer');
-            setImageModal('../images/icons/trash_dirty.png');
-            setSender('leaveEditCollectionWithoutChange');
-            setTmp_parameter('');
-            setShowModalConfirm(true);
         }
     }, []);
 

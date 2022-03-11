@@ -79,4 +79,6 @@ export default React.createContext({
     cleanTemporayStorage: () => { },
     is: '',
     setIs: () => { },
+    collectionForm: '',
+    setCollectionForm: () => { },
 });
