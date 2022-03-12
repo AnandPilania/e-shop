@@ -8,6 +8,7 @@ import HeaderListCollections from './headerListCollections';
 import ModalConfirm from '../modal/modalConfirm';
 
 
+
 const ListCollections = () => {
 
     const [listCollectionsFiltered, setListCollectionsFiltered] = useState([]);
@@ -132,6 +133,7 @@ const ListCollections = () => {
     function categoriesFilter(categories) {
         categories.length > 0 ? setListCollectionsFiltered(listCollections.filter(item => categories.includes(item.categoryName))) : setListCollectionsFiltered(listCollections);
     }
+
 
 
     return (

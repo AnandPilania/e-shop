@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from 'react';
 import AppContext from '../contexts/AppContext';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import Axios from 'axios';
 import { getNow } from '../functions/dateTools';
@@ -103,6 +103,7 @@ const Appcontainer = () => {
     const [deleteThisCategory, setDeleteThisCategory] = useState(null);
     const [is, setIs] = useState({
         leaveEditCollectionWithoutSaveChange: false,
+        leave: false,
     });
 
 
@@ -223,6 +224,8 @@ const Appcontainer = () => {
         return urlName;
     };
 
+    const location = useLocation();
+
     //ModalConfirm--------------------------------------------------------------
     const handleModalConfirm = () => {
         setShowModalConfirm(false);
@@ -240,13 +243,12 @@ const Appcontainer = () => {
                 navigate('/add-collection', { state: { collectionId: tmp_parameter, isEdit: true } });
                 break;
             case 'leaveEditCollectionWithoutChange':
+                setIs({ ...is, leave: true });
                 // vider form creat collection quand on edit sans rien changer
-                alert('ok')
                 setIs_Edit(false);
-                setIs({ ...is, leaveEditCollectionWithoutSaveChange: false });
                 setId(null);
                 setIsDirty(false);
-                // initCollectionForm();
+                initCollectionForm();
                 break;
             default:
                 '';
@@ -307,7 +309,8 @@ const Appcontainer = () => {
         initCollectionForm,
         cleanTemporayStorage,
         is, setIs,
-        collectionForm, setCollectionForm
+        collectionForm, setCollectionForm,
+
     }
 
 

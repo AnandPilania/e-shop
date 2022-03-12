@@ -1,7 +1,7 @@
 import { React, useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import AppContext from '../contexts/AppContext';
-import { usePrompt } from '../hooks/usePrompt';
+import { usePromptCollection } from '../hooks/usePromptCollection';
 import Axios from 'axios';
 import ModalConfirm from '../modal/modalConfirm';
 import ModalSimpleMessage from '../modal/modalSimpleMessage';
@@ -21,7 +21,7 @@ const CreateCollection = () => {
         setShowModalInput, messageModal, setMessageModal, sender, setSender, textButtonConfirm, setTextButtonConfirm, imageModal, setImageModal, is_Edit, setIs_Edit, listCollections, setListCollections, setListCategories, isDirty, setIsDirty, tmp_parameter, nameCollection, setNameCollection, descriptionCollection, setDescriptionCollection,
         descriptionCollectionForMeta, setDescriptionCollectionForMeta, conditions, setConditions, isAutoConditions, setIsAutoConditions,
         allConditionsNeeded, setAllConditionsNeeded, notIncludePrevProduct, setNotIncludePrevProduct, warningIdCondition, setWarningIdCondition,
-        normalizUrl, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, imageName, setImageName, imagePath, alt, setAlt, categoryName, setCategoryName, categoryId, setCategoryId, dateField, setDateField, tinyLanguage, setTinyLanguage, id, setId, setTmp_parameter, handleModalConfirm, handleModalCancel, initCollectionForm, cleanTemporayStorage, is, setIs, collectionForm, setCollectionForm
+        normalizUrl, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, imageName, setImageName, imagePath, alt, setAlt, categoryName, setCategoryName, categoryId, setCategoryId, dateField, setDateField, tinyLanguage, setTinyLanguage, id, setId, setTmp_parameter, handleModalConfirm, handleModalCancel, initCollectionForm, cleanTemporayStorage, is, setIs, collectionForm, setCollectionForm,
     } = useContext(AppContext);
 
     var formData = new FormData;
@@ -60,7 +60,7 @@ const CreateCollection = () => {
             conditonDirty == true
         ) {
             setIsDirty(true);
-            
+
         }
 
         // set l'URL de cette page
@@ -145,10 +145,7 @@ const CreateCollection = () => {
                         allConditionsNeeded: res.data.allConditionsNeeded === 1 ? true : false
                     })
 
-
                     setIs_Edit(true);
-                    // dès qu'on édite, on met leaveEdit... à true pour indiquer qu'on quitte peut être sans sauver, un check sera fait pour vérifier si c'est le cas
-                    setIs({ ...is, leaveEditCollectionWithoutSaveChange: true });
 
                 }).catch(function (error) {
                     console.log('error:   ' + error);
@@ -156,9 +153,8 @@ const CreateCollection = () => {
         }
     }, []);
 
-    console.log('isDirty index  ', isDirty)
-    const formIsDirty = is.leaveEditCollectionWithoutSaveChange; // Condition to trigger the prompt.
-	usePrompt( 'Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?', isDirty );
+
+    usePromptCollection('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?', isDirty, 'leaveEditCollectionWithoutChange');
 
 
     const handleNameCollection = (e) => {

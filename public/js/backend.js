@@ -23804,7 +23804,8 @@ var Appcontainer = function Appcontainer() {
       setDeleteThisCategory = _useState70[1];
 
   var _useState71 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
-    leaveEditCollectionWithoutSaveChange: false
+    leaveEditCollectionWithoutSaveChange: false,
+    leave: false
   }),
       _useState72 = _slicedToArray(_useState71, 2),
       is = _useState72[0],
@@ -23917,8 +23918,9 @@ var Appcontainer = function Appcontainer() {
     urlName = urlName.replace(/[<>\?\.\[\]'"°@\|\\§.,\/#\!\$%\^&\*;:\{\}=\+_`~\(\)]/g, "").replaceAll(/-{2,}/g, '-'); // <-- all ist ok 
 
     return urlName;
-  }; //ModalConfirm--------------------------------------------------------------
+  };
 
+  var location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_15__.useLocation)(); //ModalConfirm--------------------------------------------------------------
 
   var handleModalConfirm = function handleModalConfirm() {
     setShowModalConfirm(false);
@@ -23947,15 +23949,14 @@ var Appcontainer = function Appcontainer() {
         break;
 
       case 'leaveEditCollectionWithoutChange':
-        // vider form creat collection quand on edit sans rien changer
-        alert('ok');
-        setIs_Edit(false);
         setIs(_objectSpread(_objectSpread({}, is), {}, {
-          leaveEditCollectionWithoutSaveChange: false
-        }));
-        setId(null);
-        setIsDirty(false); // initCollectionForm();
+          leave: true
+        })); // vider form creat collection quand on edit sans rien changer
 
+        setIs_Edit(false);
+        setId(null);
+        setIsDirty(false);
+        initCollectionForm();
         break;
 
       default:
@@ -25960,7 +25961,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
-/* harmony import */ var _hooks_usePrompt__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../hooks/usePrompt */ "./resources/js/components/hooks/usePrompt.jsx");
+/* harmony import */ var _hooks_usePromptCollection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../hooks/usePromptCollection */ "./resources/js/components/hooks/usePromptCollection.jsx");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _modal_modalConfirm__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modal/modalConfirm */ "./resources/js/components/modal/modalConfirm.jsx");
@@ -25974,12 +25975,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _functions_temporaryStorage_handleTinyMceTemporary__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../functions/temporaryStorage/handleTinyMceTemporary */ "./resources/js/components/functions/temporaryStorage/handleTinyMceTemporary.js");
 /* harmony import */ var _functions_dateTools__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../functions/dateTools */ "./resources/js/components/functions/dateTools.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 
@@ -26200,20 +26195,13 @@ var CreateCollection = function CreateCollection() {
           notIncludePrevProduct: res.data.notIncludePrevProduct === 1 ? true : false,
           allConditionsNeeded: res.data.allConditionsNeeded === 1 ? true : false
         });
-        setIs_Edit(true); // dès qu'on édite, on met leaveEdit... à true pour indiquer qu'on quitte peut être sans sauver, un check sera fait pour vérifier si c'est le cas
-
-        setIs(_objectSpread(_objectSpread({}, is), {}, {
-          leaveEditCollectionWithoutSaveChange: true
-        }));
+        setIs_Edit(true);
       })["catch"](function (error) {
         console.log('error:   ' + error);
       });
     }
   }, []);
-  console.log('isDirty index  ', isDirty);
-  var formIsDirty = is.leaveEditCollectionWithoutSaveChange; // Condition to trigger the prompt.
-
-  (0,_hooks_usePrompt__WEBPACK_IMPORTED_MODULE_2__.usePrompt)('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?', isDirty);
+  (0,_hooks_usePromptCollection__WEBPACK_IMPORTED_MODULE_2__.usePromptCollection)('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?', isDirty, 'leaveEditCollectionWithoutChange');
 
   var handleNameCollection = function handleNameCollection(e) {
     setNameCollection(e.target.value);
@@ -27435,7 +27423,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   setCategoryName: function setCategoryName() {},
   categoryId: '',
   setCategoryId: function setCategoryId() {}
-}, _defineProperty(_React$createContext, "tmp_parameter", ''), _defineProperty(_React$createContext, "setTmp_parameter", function setTmp_parameter() {}), _defineProperty(_React$createContext, "dateField", ''), _defineProperty(_React$createContext, "setDateField", function setDateField() {}), _defineProperty(_React$createContext, "normalizUrl", function normalizUrl() {}), _defineProperty(_React$createContext, "handleModalCancel", function handleModalCancel() {}), _defineProperty(_React$createContext, "deleteThisCategory", ''), _defineProperty(_React$createContext, "setDeleteThisCategory", function setDeleteThisCategory() {}), _defineProperty(_React$createContext, "dateField", ''), _defineProperty(_React$createContext, "setDateField", function setDateField() {}), _defineProperty(_React$createContext, "tinyLangauage", ''), _defineProperty(_React$createContext, "setTinyLanguage", function setTinyLanguage() {}), _defineProperty(_React$createContext, "initCollectionForm", function initCollectionForm() {}), _defineProperty(_React$createContext, "cleanTemporayStorage", function cleanTemporayStorage() {}), _defineProperty(_React$createContext, "is", ''), _defineProperty(_React$createContext, "setIs", function setIs() {}), _defineProperty(_React$createContext, "collectionForm", ''), _defineProperty(_React$createContext, "setCollectionForm", function setCollectionForm() {}), _React$createContext)));
+}, _defineProperty(_React$createContext, "tmp_parameter", ''), _defineProperty(_React$createContext, "setTmp_parameter", function setTmp_parameter() {}), _defineProperty(_React$createContext, "dateField", ''), _defineProperty(_React$createContext, "setDateField", function setDateField() {}), _defineProperty(_React$createContext, "normalizUrl", function normalizUrl() {}), _defineProperty(_React$createContext, "handleModalCancel", function handleModalCancel() {}), _defineProperty(_React$createContext, "deleteThisCategory", ''), _defineProperty(_React$createContext, "setDeleteThisCategory", function setDeleteThisCategory() {}), _defineProperty(_React$createContext, "dateField", ''), _defineProperty(_React$createContext, "setDateField", function setDateField() {}), _defineProperty(_React$createContext, "tinyLangauage", ''), _defineProperty(_React$createContext, "setTinyLanguage", function setTinyLanguage() {}), _defineProperty(_React$createContext, "initCollectionForm", function initCollectionForm() {}), _defineProperty(_React$createContext, "cleanTemporayStorage", function cleanTemporayStorage() {}), _defineProperty(_React$createContext, "is", ''), _defineProperty(_React$createContext, "setIs", function setIs() {}), _defineProperty(_React$createContext, "collectionForm", ''), _defineProperty(_React$createContext, "setCollectionForm", function setCollectionForm() {}), _defineProperty(_React$createContext, "id", ''), _defineProperty(_React$createContext, "setId", function setId() {}), _React$createContext)));
 
 /***/ }),
 
@@ -30558,56 +30546,46 @@ var useLocalStorage = function useLocalStorage(key, defaultValue) {
 
 /***/ }),
 
-/***/ "./resources/js/components/hooks/usePrompt.jsx":
-/*!*****************************************************!*\
-  !*** ./resources/js/components/hooks/usePrompt.jsx ***!
-  \*****************************************************/
+/***/ "./resources/js/components/hooks/usePromptCollection.jsx":
+/*!***************************************************************!*\
+  !*** ./resources/js/components/hooks/usePromptCollection.jsx ***!
+  \***************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "usePrompt": () => (/* binding */ usePrompt)
+/* harmony export */   "usePromptCollection": () => (/* binding */ usePromptCollection)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
 /* harmony import */ var _useBlocker__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./useBlocker */ "./resources/js/components/hooks/useBlocker.jsx");
-/* harmony import */ var _modal_modalUsePrompt__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../modal/modalUsePrompt */ "./resources/js/components/modal/modalUsePrompt.jsx");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
 
-
-
-function usePrompt(messageObj, shouldPrompt) {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState2 = _slicedToArray(_useState, 2),
-      confirmedNavigation = _useState2[0],
-      setConfirmedNavigation = _useState2[1];
-
+function usePromptCollection(messageObj, shouldPrompt, sendedBy) {
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       is = _useContext.is,
+      setIs = _useContext.setIs,
       setMessageModal = _useContext.setMessageModal,
       setTextButtonConfirm = _useContext.setTextButtonConfirm,
       setImageModal = _useContext.setImageModal,
       setSender = _useContext.setSender,
       setTmp_parameter = _useContext.setTmp_parameter,
       setShowModalConfirm = _useContext.setShowModalConfirm,
-      collectionForm = _useContext.collectionForm,
-      conditions = _useContext.conditions,
+      setIsDirty = _useContext.setIsDirty,
       nameCollection = _useContext.nameCollection,
       descriptionCollection = _useContext.descriptionCollection,
+      conditions = _useContext.conditions,
+      isAutoConditions = _useContext.isAutoConditions,
+      allConditionsNeeded = _useContext.allConditionsNeeded,
+      notIncludePrevProduct = _useContext.notIncludePrevProduct,
       metaTitle = _useContext.metaTitle,
       metaDescription = _useContext.metaDescription,
       metaUrl = _useContext.metaUrl,
@@ -30616,112 +30594,116 @@ function usePrompt(messageObj, shouldPrompt) {
       categoryName = _useContext.categoryName,
       categoryId = _useContext.categoryId,
       dateField = _useContext.dateField,
-      isAutoConditions = _useContext.isAutoConditions,
-      notIncludePrevProduct = _useContext.notIncludePrevProduct,
-      allConditionsNeeded = _useContext.allConditionsNeeded,
-      initCollectionForm = _useContext.initCollectionForm,
-      isDirty = _useContext.isDirty;
+      collectionForm = _useContext.collectionForm,
+      setIs_Edit = _useContext.setIs_Edit,
+      setId = _useContext.setId,
+      initCollectionForm = _useContext.initCollectionForm;
+
+  var retryFn = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(function () {});
+
+  var checkDirty = function checkDirty() {
+    switch (true) {
+      case JSON.stringify(collectionForm.conditions) !== JSON.stringify(conditions):
+        setIsDirty(true);
+        return true;
+
+      case collectionForm.nameCollection !== nameCollection:
+        setIsDirty(true);
+        return true;
+
+      case collectionForm.descriptionCollection !== descriptionCollection:
+        setIsDirty(true);
+        return true;
+
+      case collectionForm.metaTitle !== metaTitle:
+        setIsDirty(true);
+        return true;
+
+      case collectionForm.metaDescription !== metaDescription:
+        setIsDirty(true);
+        return true;
+
+      case collectionForm.metaUrl !== metaUrl:
+        setIsDirty(true);
+        return true;
+
+      case collectionForm.imageName !== imageName:
+        setIsDirty(true);
+        return true;
+
+      case collectionForm.alt !== alt:
+        setIsDirty(true);
+        return true;
+
+      case collectionForm.categoryName !== categoryName:
+        setIsDirty(true);
+        return true;
+
+      case collectionForm.categoryId !== categoryId:
+        setIsDirty(true);
+        return true;
+
+      case collectionForm.dateField !== dateField:
+        setIsDirty(true);
+        return true;
+
+      case collectionForm.isAutoConditions !== isAutoConditions:
+        setIsDirty(true);
+        return true;
+
+      case collectionForm.notIncludePrevProduct !== notIncludePrevProduct:
+        setIsDirty(true);
+        return true;
+
+      case collectionForm.allConditionsNeeded !== allConditionsNeeded:
+        setIsDirty(true);
+        return true;
+    }
+  };
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    if (confirmedNavigation) {
-      alert('ok');
+    if (is.leave) {
+      setIs(_objectSpread(_objectSpread({}, is), {}, {
+        leave: false
+      }));
+      retryFn.current();
     }
-  }, [confirmedNavigation]);
+  }, [is.leave]);
+
+  function openModal() {
+    setMessageModal(messageObj);
+    setTextButtonConfirm('Confirmer');
+    setImageModal('../images/icons/trash_dirty.png');
+    setSender(sendedBy);
+    setTmp_parameter('');
+    setShowModalConfirm(true);
+  }
 
   var handleBlockNavigation = function handleBlockNavigation(_ref) {
     var retry = _ref.retry;
     var shouldDisplayPrompt = typeof shouldPrompt === "boolean" ? shouldPrompt : shouldPrompt();
 
     if (shouldDisplayPrompt) {
-      // setMessageModal('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?')
-      setMessageModal(messageObj);
-      setTextButtonConfirm('Confirmer');
-      setImageModal('../images/icons/trash_dirty.png');
-      setSender('leaveEditCollectionWithoutChange');
-      setTmp_parameter('');
-      setShowModalConfirm(true);
+      openModal();
+      retryFn.current = retry;
     } else {
-      retry();
+      console.log('checkDirty   ', checkDirty()); // si on click pour éditer mais qu'on change rien et qu'on quitte isDirty reste false mais si on change qlq chose isDirty ne se met pas à true et donc on "checkDirty" pour voir si qlq chose a changée 
+
+      if (checkDirty()) {
+        openModal();
+        retryFn.current = retry;
+      } else {
+        // rien a changé mais on initialise pour nettoyer le form
+        setIs_Edit(false);
+        setId(null);
+        initCollectionForm();
+        retry();
+      }
     }
   };
 
-  (0,_useBlocker__WEBPACK_IMPORTED_MODULE_2__.useBlocker)(handleBlockNavigation, !confirmedNavigation);
-} // /**
-//  * Prompts the user with an Alert before they leave the current screen.
-//  *
-//  * @param  message
-//  * @param  when
-//  */
-// export function usePrompt(message, when = true) {
-//     const { is, setMessageModal, setTextButtonConfirm, setImageModal, setSender, setTmp_parameter, setShowModalConfirm, collectionForm, conditions, nameCollection, descriptionCollection, metaTitle, metaDescription, metaUrl, imageName, alt, categoryName, categoryId, dateField, isAutoConditions, notIncludePrevProduct, allConditionsNeeded, initCollectionForm, isDirty } = useContext(AppContext);
-//     console.log('isDirty prompt  ', isDirty)
-//     const blocker = useCallback(
-//         (tx) => {
-//             // eslint-disable-next-line no-alert
-//             // if ( window.confirm( message ) ) tx.retry();
-//             // setMessageModal('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?')
-//             setMessageModal(message);
-//             setTextButtonConfirm('Confirmer');
-//             setImageModal('../images/icons/trash_dirty.png');
-//             setSender('leaveEditCollectionWithoutChange');
-//             setTmp_parameter('');
-//             setShowModalConfirm(true);
-//             if (!isDirty) {
-//                 tx.retry();
-//             }
-//         },
-//         [message]
-//     );
-//     useBlocker(blocker, when);
-// }
-// pour vider le form de creat collection quand on edit sans rien changer et qu'on revient sur List collections
-// if (is.leaveEditCollectionWithoutSaveChange === true) {
-//     let isLeavehoutSaveChange = false;
-//     switch (true) {
-//         case JSON.stringify(collectionForm.conditions) !== JSON.stringify(conditions):
-//             isLeavehoutSaveChange = true;
-//             break;
-//         case collectionForm.nameCollection !== nameCollection:
-//             isLeavehoutSaveChange = true;
-//             break;
-//         case collectionForm.descriptionCollection !== descriptionCollection:
-//             isLeavehoutSaveChange = true;
-//             break;
-//         case collectionForm.metaTitle !== metaTitle:
-//             isLeavehoutSaveChange = true;
-//             break;
-//         case collectionForm.metaDescription !== metaDescription:
-//             isLeavehoutSaveChange = true;
-//             break;
-//         case collectionForm.metaUrl !== metaUrl:
-//             isLeavehoutSaveChange = true;
-//             break;
-//         case collectionForm.imageName !== imageName:
-//             isLeavehoutSaveChange = true;
-//             break;
-//         case collectionForm.alt !== alt:
-//             isLeavehoutSaveChange = true;
-//             break;
-//         case collectionForm.categoryName !== categoryName:
-//             isLeavehoutSaveChange = true;
-//             break;
-//         case collectionForm.categoryId !== categoryId:
-//             isLeavehoutSaveChange = true;
-//             break;
-//         case collectionForm.dateField !== dateField:
-//             isLeavehoutSaveChange = true;
-//             break;
-//         case collectionForm.isAutoConditions !== isAutoConditions:
-//             isLeavehoutSaveChange = true;
-//             break;
-//         case collectionForm.notIncludePrevProduct !== notIncludePrevProduct:
-//             isLeavehoutSaveChange = true;
-//             break;
-//         case collectionForm.allConditionsNeeded !== allConditionsNeeded:
-//             isLeavehoutSaveChange = true;
-//             break;
-//     }
-// }
+  (0,_useBlocker__WEBPACK_IMPORTED_MODULE_2__.useBlocker)(handleBlockNavigation, !is.leave);
+}
 
 /***/ }),
 
@@ -31305,146 +31287,6 @@ var ModalSimpleMessage = function ModalSimpleMessage(_ref) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ModalSimpleMessage);
-
-/***/ }),
-
-/***/ "./resources/js/components/modal/modalUsePrompt.jsx":
-/*!**********************************************************!*\
-  !*** ./resources/js/components/modal/modalUsePrompt.jsx ***!
-  \**********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-
-
-
-
-var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_2__["default"])({
-  modal: {
-    position: 'fixed',
-    top: '0',
-    left: '0',
-    width: '100%',
-    height: ' 100%',
-    background: 'rgba(255, 255, 255, 0.75)',
-    zIndex: '10000000'
-  },
-  modalMain: {
-    position: 'fixed',
-    background: 'white',
-    width: '30%',
-    minWidth: '300px',
-    padding: '50px',
-    top: ' 50%',
-    left: '50%',
-    transform: 'translate(-50%,-50%)',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    borderRadius: '5px',
-    boxShadow: 'rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px',
-    zIndex: '10000000'
-  },
-  BlockButtons: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: '30px'
-  },
-  btnModal: {
-    width: '150px',
-    height: '50px',
-    padding: '0 25px',
-    margin: '20px 20px 0 0',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgb(52, 115, 252)',
-    color: 'white',
-    fontSize: '20px',
-    borderRadius: '5px',
-    border: 'solid 1px rgb(220, 220, 220)',
-    transition: 'ease-in-out 0.15s',
-    '&:hover': {
-      cursor: 'pointer',
-      color: '#eeeeee'
-    }
-  },
-  close: {
-    position: 'absolute',
-    top: '0px',
-    right: '0px',
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'flex-end',
-    paddingRight: '25px',
-    paddingTop: '25px'
-  },
-  image: {
-    margin: '20px 0'
-  },
-  faTimes: {
-    fontSize: '26px',
-    transition: 'ease-in-out .15s',
-    color: '#333333',
-    '&:hover': {
-      cursor: 'pointer',
-      transform: 'scale(1.15)'
-    }
-  },
-  displayBlock: {
-    display: 'block'
-  },
-  displayNone: {
-    display: 'none'
-  }
-});
-
-var ModalUsePrompt = function ModalUsePrompt(_ref) {
-  var textButtonConfirm = _ref.textButtonConfirm,
-      show = _ref.show,
-      image = _ref.image,
-      children = _ref.children;
-  var classes = useStyles();
-  var showHideClassName = show ? classes.displayBlock : classes.displayNone;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-    className: classes.modal + ' ' + showHideClassName,
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("section", {
-      className: classes.modalMain,
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-        className: classes.close,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
-          className: classes.faTimes + ' ' + "fas fa-times",
-          onClick: handleModalCancel
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
-        src: image
-      }), children, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-        className: classes.BlockButtons,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-          className: classes.btnModal,
-          onClick: handleModalConfirm,
-          children: textButtonConfirm
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-          className: classes.btnModal,
-          onClick: handleModalCancel,
-          children: "Annuler"
-        })]
-      })]
-    })
-  });
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ModalUsePrompt);
 
 /***/ }),
 

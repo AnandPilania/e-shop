@@ -81,4 +81,7 @@ export default React.createContext({
     setIs: () => { },
     collectionForm: '',
     setCollectionForm: () => { },
+    id: '',
+    setId: () => { },
+
 });
