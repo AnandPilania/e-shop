@@ -23884,7 +23884,31 @@ var Appcontainer = function Appcontainer() {
       operator: '1',
       value: ''
     }]);
-    setDateField((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_4__.getNow)()); // gére le netoyage des images et vidéos dans  temporayStorage 
+    setDateField((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_4__.getNow)());
+    setCollectionForm({
+      conditions: [{
+        id: 0,
+        parameter: '1',
+        operator: '1',
+        value: ''
+      }],
+      nameCollection: '',
+      descriptionCollection: '',
+      metaTitle: '',
+      metaDescription: '',
+      metaUrl: window.location.origin + '/',
+      imageName: '',
+      alt: '',
+      categoryName: 'Aucune catégorie',
+      categoryId: '',
+      dateField: (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_4__.getNow)(),
+      descriptionCollectionForMeta: '',
+      imagePath: '',
+      image: [],
+      isAutoConditions: true,
+      notIncludePrevProduct: false,
+      allConditionsNeeded: true
+    }); // gére le netoyage des images et vidéos dans  temporayStorage 
 
     var keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection'];
     cleanTemporayStorage(keys_toDelete); // éfface l'image de la dropZone
@@ -26191,7 +26215,7 @@ var CreateCollection = function CreateCollection() {
         ((_res$data$category = res.data.category) === null || _res$data$category === void 0 ? void 0 : _res$data$category.name) !== undefined ? setCategoryName((_res$data$category2 = res.data.category) === null || _res$data$category2 === void 0 ? void 0 : _res$data$category2.name) : 'Aucune catégorie';
         res.data.category_id !== null ? setCategoryId(res.data.category_id) : 0;
         setDateField((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_13__.getDateTime)(new Date(res.data.dateActivation)));
-        setDescriptionCollectionForMeta(''); // to check if leave edit without save change --> in List 
+        setDescriptionCollectionForMeta(''); // check if leave edit without save change --> in usePromptCollection 
 
         setCollectionForm({
           conditions: ((_res$data$objConditio2 = res.data.objConditions) === null || _res$data$objConditio2 === void 0 ? void 0 : _res$data$objConditio2.length) > 0 ? JSON.parse(res.data.objConditions) : [{
@@ -26221,6 +26245,13 @@ var CreateCollection = function CreateCollection() {
       });
     }
   }, []);
+
+  if (collectionForm.descriptionCollection === descriptionCollection) {
+    console.log('yes');
+  } else {
+    console.log('not');
+  }
+
   (0,_hooks_usePromptCollection__WEBPACK_IMPORTED_MODULE_2__.usePromptCollection)('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?', isDirty, 'leaveEditCollectionWithoutChange');
 
   var handleNameCollection = function handleNameCollection(e) {
@@ -30390,7 +30421,6 @@ function handleTinyMceTemporary(htmlContent, id) {
   img_video_dom_tab.forEach(function (item) {
     img_video_dom_tab_src.push(item.src.replace(window.location.origin + '/', ''));
   });
-  console.log(img_video_dom_tab_src);
   var tinySrcList = new FormData(); // containt a array with name and folder of images
   // !! array become string with ',' as separator
 
@@ -30599,6 +30629,7 @@ function usePromptCollection(messageObj, shouldPrompt, sendedBy) {
       setSender = _useContext.setSender,
       setTmp_parameter = _useContext.setTmp_parameter,
       setShowModalConfirm = _useContext.setShowModalConfirm,
+      isDirty = _useContext.isDirty,
       setIsDirty = _useContext.setIsDirty,
       nameCollection = _useContext.nameCollection,
       descriptionCollection = _useContext.descriptionCollection,
@@ -30622,16 +30653,29 @@ function usePromptCollection(messageObj, shouldPrompt, sendedBy) {
   var retryFn = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(function () {});
 
   var checkDirty = function checkDirty() {
+    if (collectionForm.nameCollection !== nameCollection) {
+      var smallerString = Math.min(collectionForm.descriptionCollection.length, descriptionCollection.length);
+      smallerString = smallerString > 5 ? smallerString - 5 : smallerString;
+      var a = descriptionCollection.substring(0, smallerString);
+      var b = collectionForm.descriptionCollection.substring(0, smallerString);
+      var pattern = /\w[\!\^\$\?\+\*\|&"\'_=\-\.\(\)\{\}¤£¨\/,;:ù%µ@€ ]*/;
+      var aa = a.match(pattern);
+      var bb = b.match(pattern);
+
+      if (aa !== bb) {
+        setIsDirty(true);
+        return true;
+      }
+    }
+
+    console.log('descriptionCollection  ', descriptionCollection);
+
     switch (true) {
       case JSON.stringify(collectionForm.conditions) !== JSON.stringify(conditions):
         setIsDirty(true);
         return true;
 
       case collectionForm.nameCollection !== nameCollection:
-        setIsDirty(true);
-        return true;
-
-      case collectionForm.descriptionCollection !== descriptionCollection:
         setIsDirty(true);
         return true;
 

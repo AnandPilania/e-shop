@@ -5,19 +5,37 @@ import { useBlocker } from './useBlocker';
 
 export function usePromptCollection(messageObj, shouldPrompt, sendedBy) {
 
-    const { is, setIs, setMessageModal, setTextButtonConfirm, setImageModal, setSender, setTmp_parameter, setShowModalConfirm, setIsDirty, nameCollection, descriptionCollection, conditions, isAutoConditions, allConditionsNeeded, notIncludePrevProduct, metaTitle, metaDescription, metaUrl, imageName, alt, categoryName, categoryId, dateField, collectionForm, setIs_Edit, setId, initCollectionForm } = useContext(AppContext);
+    const { is, setIs, setMessageModal, setTextButtonConfirm, setImageModal, setSender, setTmp_parameter, setShowModalConfirm, isDirty, setIsDirty, nameCollection, descriptionCollection, conditions, isAutoConditions, allConditionsNeeded, notIncludePrevProduct, metaTitle, metaDescription, metaUrl, imageName, alt, categoryName, categoryId, dateField, collectionForm, setIs_Edit, setId, initCollectionForm } = useContext(AppContext);
 
     const retryFn = useRef(() => { });
 
+
     const checkDirty = () => {
+
+        if (collectionForm.nameCollection !== nameCollection) {
+            let smallerString = Math.min(collectionForm.descriptionCollection.length, descriptionCollection.length);
+            smallerString = smallerString > 5 ? (smallerString - 5) : smallerString;
+    
+            let a = descriptionCollection.substring(0, smallerString);
+            let b = collectionForm.descriptionCollection.substring(0, smallerString);
+    
+            let pattern = /\w[\!\^\$\?\+\*\|&"\'_=\-\.\(\)\{\}¤£¨\/,;:ù%µ@€ ]*/;
+            let aa = a.match(pattern);
+            let bb = b.match(pattern);
+    
+            if (aa !== bb) {
+                setIsDirty(true);
+                return true;
+            } 
+        }
+
+
+        console.log('descriptionCollection  ', descriptionCollection);
         switch (true) {
             case JSON.stringify(collectionForm.conditions) !== JSON.stringify(conditions):
                 setIsDirty(true);
                 return true;
             case collectionForm.nameCollection !== nameCollection:
-                setIsDirty(true);
-                return true;
-            case collectionForm.descriptionCollection !== descriptionCollection:
                 setIsDirty(true);
                 return true;
             case collectionForm.metaTitle !== metaTitle:
@@ -55,6 +73,7 @@ export function usePromptCollection(messageObj, shouldPrompt, sendedBy) {
                 return true;
         }
     }
+
 
 
     useEffect(() => {

@@ -170,6 +170,31 @@ const Appcontainer = () => {
         }]);
         setDateField(getNow());
 
+        setCollectionForm({
+            conditions: [{
+                id: 0,
+                parameter: '1',
+                operator: '1',
+                value: ''
+            }],
+            nameCollection: '',
+            descriptionCollection: '',
+            metaTitle: '',
+            metaDescription: '',
+            metaUrl: window.location.origin + '/',
+            imageName: '',
+            alt: '',
+            categoryName: 'Aucune catégorie',
+            categoryId: '',
+            dateField: getNow(),
+            descriptionCollectionForMeta: '',
+            imagePath: '',
+            image: [],
+            isAutoConditions: true,
+            notIncludePrevProduct: false,
+            allConditionsNeeded: true,
+        })
+
         // gére le netoyage des images et vidéos dans  temporayStorage 
         let keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection']
         cleanTemporayStorage(keys_toDelete);
@@ -310,7 +335,7 @@ const Appcontainer = () => {
         cleanTemporayStorage,
         is, setIs,
         collectionForm, setCollectionForm,
-
+        
     }
 
 

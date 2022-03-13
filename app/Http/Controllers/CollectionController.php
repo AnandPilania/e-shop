@@ -94,11 +94,11 @@ class CollectionController extends Controller
                 }
                 next($tmp_tab);
             }
-        } 
+        }
 
-        $collection->name = $request->name;  
-        // remplace dans les src de la description le dossier temporaryStorage par celui de la destionation finale des images et vidéos. !!! c'est handleTinyMceTemporaryElements qui se charge de déplacer les fichiers dans ces dossiers !!!
-        $tmp_description = str_replace('temporaryStorage', 'images', $request->description);      
+        $collection->name = $request->name;
+        // remplace dans les src de la description le chemin du dossier temporaryStorage par celui de la destionation finale des images et vidéos. !!! c'est handleTinyMceTemporaryElements qui se charge de déplacer les fichiers dans ces dossiers !!!
+        $tmp_description = str_replace('temporaryStorage', 'images', $request->description);
         $collection->description = preg_replace('/(<source src=").+(images)/', '<source src="' . url('') . '/videos', $tmp_description);
         $collection->automatise = $request->automatise === 'true' ? 1 : 0;
         $collection->notIncludePrevProduct = $request->notIncludePrevProduct === 'true' ? 1 : 0;
@@ -174,7 +174,7 @@ class CollectionController extends Controller
         return 'ok';
     }
 
-    
+
 
     /**
      * Remove the specified resource from storage.
@@ -184,11 +184,42 @@ class CollectionController extends Controller
      */
     public function deleteCollection(Request $request)
     {
-        dd($request->id);
 
-        // File::delete(public_path($collection->image));
+        $collection = Collection::find($request->id);
 
-        // $collection->delete();
+        // remove image collection and thumbnail from images folder
+        $imageToDelete = public_path('/') . $collection->image;
+        $thumbNailToDelete = public_path('/') . $collection->thumbnail;
+        isset($imageToDelete) && File::delete($imageToDelete, $thumbNailToDelete);
+
+        // delete tiny images or videos from images and videos folders
+        $description = Collection::where('id', $request->id)->first('description');
+        $doc = new DOMDocument();
+        @$doc->loadHTML($description);
+        $xpath = new \DOMXpath($doc);
+        $tags = $xpath->query('//img/@src | //source/@src');
+        $tab = array("\/images\/", "\/videos\/", "\\");
+        foreach ($tags as $tag) {
+            // strstr retourne une sous-chaîne allant de la première occurrence (incluse) jusqu'à la fin de la chaîne
+            $is_video = strstr($tag->value, '\/videos\/');
+            $is_image = strstr($tag->value, '\/images\/');
+            if ($is_video !== false) {
+                $to_delete = str_replace($tab, '', $is_video);
+                $to_delete = 'videos/' . substr($to_delete, 0, -1);
+                if (File::exists(public_path($to_delete))) File::delete(public_path($to_delete));
+            }
+            if ($is_image !== false) {
+                $to_delete = str_replace($tab, '', $is_image);
+                $to_delete = 'images/' . substr($to_delete, 0, -1);
+                if (File::exists(public_path($to_delete))) File::delete(public_path($to_delete));
+            }
+        }
+
+        // delete relations from pivot table
+        DB::table('collection_product')->where('collection_id', $collection->id)->delete();
+
+        $collection->delete();
+        
         return 'Collection has been removed';
     }
 }

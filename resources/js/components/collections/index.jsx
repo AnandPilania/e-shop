@@ -21,7 +21,7 @@ const CreateCollection = () => {
         setShowModalInput, messageModal, setMessageModal, sender, setSender, textButtonConfirm, setTextButtonConfirm, imageModal, setImageModal, is_Edit, setIs_Edit, listCollections, setListCollections, setListCategories, isDirty, setIsDirty, tmp_parameter, nameCollection, setNameCollection, descriptionCollection, setDescriptionCollection,
         descriptionCollectionForMeta, setDescriptionCollectionForMeta, conditions, setConditions, isAutoConditions, setIsAutoConditions,
         allConditionsNeeded, setAllConditionsNeeded, notIncludePrevProduct, setNotIncludePrevProduct, warningIdCondition, setWarningIdCondition,
-        normalizUrl, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, imageName, setImageName, imagePath, alt, setAlt, categoryName, setCategoryName, categoryId, setCategoryId, dateField, setDateField, tinyLanguage, setTinyLanguage, id, setId, setTmp_parameter, handleModalConfirm, handleModalCancel, initCollectionForm, cleanTemporayStorage, is, setIs, collectionForm, setCollectionForm,
+        normalizUrl, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, imageName, setImageName, imagePath, alt, setAlt, categoryName, setCategoryName, categoryId, setCategoryId, dateField, setDateField, tinyLanguage, setTinyLanguage, id, setId, setTmp_parameter, handleModalConfirm, handleModalCancel, initCollectionForm, cleanTemporayStorage, is, setIs, collectionForm, setCollectionForm
     } = useContext(AppContext);
 
     var formData = new FormData;
@@ -115,7 +115,7 @@ const CreateCollection = () => {
                     res.data.notIncludePrevProduct === 1 ? setNotIncludePrevProduct(true) : setNotIncludePrevProduct(false);
                     setId(res.data.id);
                     setNameCollection(res.data.name);
-                    setDescriptionCollection(res.data.description);
+                    setDescriptionCollection(res.data.description); 
                     setMetaTitle(res.data.meta_title);
                     setMetaDescription(res.data.meta_description);
                     setMetaUrl(res.data.meta_url);
@@ -127,7 +127,7 @@ const CreateCollection = () => {
                     setDateField(getDateTime(new Date(res.data.dateActivation)));
                     setDescriptionCollectionForMeta('');
 
-                    // to check if leave edit without save change --> in List 
+                    // check if leave edit without save change --> in usePromptCollection 
                     setCollectionForm({
                         conditions: res.data.objConditions?.length > 0 ? JSON.parse(res.data.objConditions) : [{ id: 0, parameter: '1', operator: '1', value: '' }],
                         nameCollection: res.data.name,
@@ -153,6 +153,13 @@ const CreateCollection = () => {
         }
     }, []);
 
+
+    if (collectionForm.descriptionCollection === descriptionCollection) {
+        console.log('yes')
+    } else {
+        console.log('not')
+    }
+   
 
     usePromptCollection('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?', isDirty, 'leaveEditCollectionWithoutChange');
 

@@ -118,6 +118,7 @@ class TemporaryStorageController extends Controller
         $tags = $xpath->query('//img/@src | //source/@src');
         $tab = array("\/images\/", "\/videos\/", "\\");
         foreach ($tags as $tag) {
+            // strstr retourne une sous-chaîne allant de la première occurrence (incluse) jusqu'à la fin de la chaîne
             $is_video = strstr($tag->value, '\/videos\/');
             $is_image = strstr($tag->value, '\/images\/');
             if ($is_video !== false) {
