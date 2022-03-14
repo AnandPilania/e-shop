@@ -67,7 +67,7 @@ const useStyles = makeStyles({
 const DropZone = (props) => {
     const classes = useStyles();
 
-    const { image, setImage, imagePath, setImagePath, setImageModal, setShowModalSimpleMessage, setMessageModal, is_Edit, setIs_Edit, id, setId } = useContext(AppContext);
+    const { image, setImage, imagePath, setImagePath, setImageModal, setShowModalSimpleMessage, setMessageModal, is_Edit, setIs_Edit, idCollection } = useContext(AppContext);
 
     var navigate = useNavigate();
 
@@ -117,9 +117,9 @@ const DropZone = (props) => {
         dropRegion.addEventListener('drop', unhighlight, false);
 
         // init preview image
-        if (!is_Edit) { console.log('!is_Edi  ', id)
+        if (!is_Edit) { 
                 try {
-                    Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage/${id}`)
+                    Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage/${idCollection}`)
                         .then(res => {
                             if (res.data !== undefined && res.data != '') {
                                 // get --> image path <-- for croppe
@@ -145,10 +145,10 @@ const DropZone = (props) => {
     useEffect(() => {
         if (is_Edit) {
             try {
-                Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage/${id}`)
+                Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage/${idCollection}`)
                     .then(res => {
                         if (res.data !== undefined && res.data != '') {
-                            // get --> image path <-- for croppe
+                              // get --> image path <-- for croppe
                             setImagePath('/' + res.data);
                             // get --> image <-- for preview
                             fetch('/' + res.data)
@@ -176,7 +176,7 @@ const DropZone = (props) => {
         }
         response().then(() => {
             try {
-                Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage/${id}`)
+                Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage/${idCollection}`)
                     .then(res => {
                         if (res.data !== undefined) {
                             // get --> image path <-- for croppe
@@ -364,9 +364,10 @@ const DropZone = (props) => {
 
             document.getElementById("drop-message-dropZone").style.display = 'block';
 
-            // supprime l'image temporaire dans la db et dans le dossier temporaire
+            // supprime l'image temporaire dans la db et dans le dossier temporaire OU DANS LE DOSSIER IMAGE ET DANS LA DB COLLECTION CHAMP -> IMAGE
             var formData = new FormData;
             formData.append('key', 'tmp_imageCollection');
+            formData.append('idCollection', idCollection);
             Axios.post(`http://127.0.0.1:8000/deleteTemporayStoredElements`, formData)
                 .then(res => {
                     console.log('res.data  --->  ok');

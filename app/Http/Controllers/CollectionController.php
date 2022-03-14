@@ -149,6 +149,9 @@ class CollectionController extends Controller
             $thumbnail->save($destinationPath . '/' . 'thumbnail_' . $input['image']);
             $collection->image = 'images/' . $input['image'];
             $collection->thumbnail = 'images/' . 'thumbnail_' . $input['image'];
+        } else {
+            $collection->image = '';
+            $collection->thumbnail = '';
         }
 
         $collection->save();

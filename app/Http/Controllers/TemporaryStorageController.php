@@ -80,7 +80,7 @@ class TemporaryStorageController extends Controller
         }
     }
 
-    // delete all images which have the provided key
+    // delete all images which have the provided key from Temporary_storage
     public function deleteTemporayStoredElements(Request $request)
     {
         $tmp_storage = Temporary_storage::where('key', $request->key)->get();
@@ -88,8 +88,19 @@ class TemporaryStorageController extends Controller
             File::delete(public_path($toDelete->value));
             Temporary_storage::destroy($toDelete->id);
         }
+
+        // si la collection a déjà été suvegardée on supprime l'image et la thumbnail dans la db et dans le dossier images
+        $collection = Collection::find($request->idCollection)->first();
+        if ($collection !== null) {
+            File::delete(public_path($collection->image));
+            File::delete(public_path($collection->thumbnail));
+            $collection->image = null;
+            $collection->thumbnail = null;
+            $collection->save();
+        }
         return 'ok';
     }
+    
 
     // remove records from db and files from folders 
     public function cleanTemporayStorage(Request $request)
@@ -107,7 +118,7 @@ class TemporaryStorageController extends Controller
     public function handleTinyMceTemporaryElements(Request $request)
     {
         $tab_data = explode(',', $request->value);
-        // dd($tab_data);
+
         // dans tiny editor on a 3 sources possibles pour le stockages des images et vidéos. 1 public/temporaryStocage, 2 public/images, 3 public/videos. Ici on supprime les images ou vidéos qui ne sont plus dans l'editor dans chacun de ces dossiers.
 
         // delete previous images or videos from images and videos folders

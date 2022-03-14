@@ -72,7 +72,7 @@ const Appcontainer = () => {
 
     const [warningIdCondition, setWarningIdCondition] = useState([]);
     const [tinyLanguage, setTinyLanguage] = useState('fr_FR');
-    const [id, setId] = useState(null);
+    const [idCollection, setIdCollection] = useState(null);
     // ------------------------------------------------------------- collection 
 
     const [showModalApp, setShowModalApp] = useState(false);
@@ -148,7 +148,6 @@ const Appcontainer = () => {
 
     // réinitialisation des states du form -------------------------------------
     const initCollectionForm = () => {
-
         setNameCollection('');
         setDescriptionCollection('');
         setDescriptionCollectionForMeta('');
@@ -159,8 +158,8 @@ const Appcontainer = () => {
         setImageName('');
         setImagePath('');
         setImage([]);
-        setCategoryName('Aucune catégorie');
-        setCategoryId('');
+        setCategoryName('Sans catégorie');
+        setCategoryId(1);
         setIsDirty(false);
         setConditions([{
             id: 0,
@@ -184,8 +183,8 @@ const Appcontainer = () => {
             metaUrl: window.location.origin + '/',
             imageName: '',
             alt: '',
-            categoryName: 'Aucune catégorie',
-            categoryId: '',
+            categoryName: 'Sans catégorie',
+            categoryId: 1,
             dateField: getNow(),
             descriptionCollectionForMeta: '',
             imagePath: '',
@@ -271,7 +270,7 @@ const Appcontainer = () => {
                 setIs({ ...is, leave: true });
                 // vider form creat collection quand on edit sans rien changer
                 setIs_Edit(false);
-                setId(null);
+                setIdCollection(null);
                 setIsDirty(false);
                 initCollectionForm();
                 break;
@@ -330,7 +329,7 @@ const Appcontainer = () => {
         categoryId, setCategoryId,
         dateField, setDateField,
         tinyLanguage, setTinyLanguage,
-        id, setId,
+        idCollection, setIdCollection,
         initCollectionForm,
         cleanTemporayStorage,
         is, setIs,

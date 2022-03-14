@@ -16,8 +16,7 @@ class CollectionsSeeder extends Seeder
     {
         DB::table('collections')->insert([
             'name' => 'Robes',
-            'image' => 'images/1631127753.jpg
-            ',
+            'image' => '',
             'alt' => 'mon alt',
             'link' => 'robes',
             'category_id' => 1,
@@ -31,8 +30,7 @@ class CollectionsSeeder extends Seeder
 
         DB::table('collections')->insert([
             'name' => 'Bottes',
-            'image' => 'images/1631127767.jpg
-            ',
+            'image' => '',
             'alt' => 'mon alt',
             'link' => 'bottes',
             'category_id' => 2,
@@ -46,8 +44,7 @@ class CollectionsSeeder extends Seeder
 
         DB::table('collections')->insert([
             'name' => 'Sacs',
-            'image' => 'images/1631127779.jpg
-            ',
+            'image' => '',
             'alt' => 'mon alt',
             'link' => 'sacs',
             'category_id' => 3,
@@ -61,8 +58,7 @@ class CollectionsSeeder extends Seeder
 
         DB::table('collections')->insert([
             'name' => 'Chapeaux',
-            'image' => 'images/1631127923.jpg
-            ',
+            'image' => '',
             'alt' => 'mon alt',
             'link' => 'chapeaux',
             'category_id' => 4,
@@ -75,8 +71,7 @@ class CollectionsSeeder extends Seeder
         ]);
         DB::table('collections')->insert([
             'name' => 'Parfums',
-            'image' => 'images/1631127798.jpg
-            ',
+            'image' => '',
             'alt' => 'mon alt',
             'link' => 'parfums',
             'category_id' => 5,
@@ -90,8 +85,7 @@ class CollectionsSeeder extends Seeder
 
         DB::table('collections')->insert([
             'name' => 'Rouge à lèvres',
-            'image' => 'images/1631127827.jpg
-            ',
+            'image' => '',
             'alt' => 'mon alt',
             'link' => 'rouge-a-levres',
             'category_id' => 6,

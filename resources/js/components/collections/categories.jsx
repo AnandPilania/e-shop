@@ -47,7 +47,6 @@ const Categories = () => {
     }
 
     useEffect(() => {
-        // dropDown optimisation
         var dropable = document.getElementById('category_select');
         if (!showCategorySelect) {
             // cache borders sinon y a un bout qui reste visible
@@ -183,7 +182,7 @@ const Categories = () => {
                     }).catch(function (error) {
                         console.log('error:   ' + error);
                     });
-                setCategoryName('Aucune catégorie');
+                setCategoryName('Sans catégorie');
 
             }).catch(function (error) {
                 console.log('error:   ' + error);
@@ -204,7 +203,7 @@ const Categories = () => {
                     console.log('error:   ' + error);
                 });
 
-            // chargement des collections
+            // rechargement des catégories
             Axios.get(`http://127.0.0.1:8000/getCategories`)
                 .then(res => {
                     setCategoriesList(res.data);
@@ -213,7 +212,7 @@ const Categories = () => {
                 });
 
             setShowModalInput(false);
-            setCategoryName('Aucune catégorie');
+            setCategoryName('Sans catégorie');
             setInputTextModify('');
 
         } else { // warning new modified category name is empty
@@ -289,13 +288,13 @@ const Categories = () => {
 
                         <ul className='ul-category dropable scrolly scroll'
                             id='category_select'>
-                            {categoryName != 'Aucune catégorie' &&
+                            {categoryName != 'Sans catégorie' &&
                                 <li className="li-category txt-limit"
                                     onClick={() => {
-                                        handleCategory(0),
-                                            handleCategoryName('Aucune catégorie')
+                                        handleCategory(1),
+                                            handleCategoryName('Sans catégorie')
                                     }}
-                                >Aucune catégorie
+                                >Sans catégorie
                                 </li>}
                             {categoriesList && categoriesList.map((cat, index) => (
                                 cat.name != categoryName &&

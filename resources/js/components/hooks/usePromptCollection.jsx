@@ -5,32 +5,35 @@ import { useBlocker } from './useBlocker';
 
 export function usePromptCollection(messageObj, shouldPrompt, sendedBy) {
 
-    const { is, setIs, setMessageModal, setTextButtonConfirm, setImageModal, setSender, setTmp_parameter, setShowModalConfirm, isDirty, setIsDirty, nameCollection, descriptionCollection, conditions, isAutoConditions, allConditionsNeeded, notIncludePrevProduct, metaTitle, metaDescription, metaUrl, imageName, alt, categoryName, categoryId, dateField, collectionForm, setIs_Edit, setId, initCollectionForm } = useContext(AppContext);
+    const { is, setIs, setMessageModal, setTextButtonConfirm, setImageModal, setSender, setTmp_parameter, setShowModalConfirm, isDirty, setIsDirty, nameCollection, descriptionCollection, conditions, isAutoConditions, allConditionsNeeded, notIncludePrevProduct, metaTitle, metaDescription, metaUrl, imageName, alt, categoryName, categoryId, dateField, collectionForm, setIs_Edit, setIdCollection, initCollectionForm } = useContext(AppContext);
 
     const retryFn = useRef(() => { });
 
 
     const checkDirty = () => {
 
-        if (collectionForm.nameCollection !== nameCollection) {
-            let smallerString = Math.min(collectionForm.descriptionCollection.length, descriptionCollection.length);
-            smallerString = smallerString > 5 ? (smallerString - 5) : smallerString;
-    
-            let a = descriptionCollection.substring(0, smallerString);
-            let b = collectionForm.descriptionCollection.substring(0, smallerString);
-    
-            let pattern = /\w[\!\^\$\?\+\*\|&"\'_=\-\.\(\)\{\}¤£¨\/,;:ù%µ@€ ]*/;
-            let aa = a.match(pattern);
-            let bb = b.match(pattern);
-    
-            if (aa !== bb) {
+        // tinyMCE ajoute des caractères undefined qui e permettent pas de faire une comparaison alors on compte chaque caractères dans les deux texte et on compare leur nombre pour avoir plus de chances de repérer les textes différents 
+        let maxLength = Math.max(collectionForm.descriptionCollection.length, descriptionCollection.length);
+        var a = descriptionCollection;
+        var b = collectionForm.descriptionCollection;
+        var tab = [];
+        for (let i = 0; i < maxLength; i++) {
+            if (!tab.includes(a[i]) && a[i] !== null) {
+                tab.push(a[i]);
+            }
+        }
+        var occurenceA = 0;
+        var occurenceB = 0;
+        for (let i = 0; i < tab.length; i++) {
+            occurenceA = [...a].filter(item => item === tab[i]).length;
+            occurenceB = [...b].filter(item => item === tab[i]).length;
+            if (occurenceA !== occurenceB) {
                 setIsDirty(true);
                 return true;
-            } 
+            }
         }
 
 
-        console.log('descriptionCollection  ', descriptionCollection);
         switch (true) {
             case JSON.stringify(collectionForm.conditions) !== JSON.stringify(conditions):
                 setIsDirty(true);
@@ -71,6 +74,7 @@ export function usePromptCollection(messageObj, shouldPrompt, sendedBy) {
             case collectionForm.allConditionsNeeded !== allConditionsNeeded:
                 setIsDirty(true);
                 return true;
+            default: return false
         }
     }
 
@@ -99,7 +103,7 @@ export function usePromptCollection(messageObj, shouldPrompt, sendedBy) {
             openModal();
             retryFn.current = retry;
         } else {
-            console.log('checkDirty   ', checkDirty())
+
             // si on click pour éditer mais qu'on change rien et qu'on quitte isDirty reste false mais si on change qlq chose isDirty ne se met pas à true et donc on "checkDirty" pour voir si qlq chose a changée 
             if (checkDirty()) {
                 openModal();
@@ -107,7 +111,7 @@ export function usePromptCollection(messageObj, shouldPrompt, sendedBy) {
             } else {
                 // rien a changé mais on initialise pour nettoyer le form
                 setIs_Edit(false);
-                setId(null);
+                setIdCollection(null);
                 initCollectionForm();
                 retry();
             }

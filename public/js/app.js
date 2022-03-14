@@ -23696,8 +23696,8 @@ var Appcontainer = function Appcontainer() {
 
   var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState24 = _slicedToArray(_useState23, 2),
-      id = _useState24[0],
-      setId = _useState24[1]; // ------------------------------------------------------------- collection 
+      idCollection = _useState24[0],
+      setIdCollection = _useState24[1]; // ------------------------------------------------------------- collection 
 
 
   var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
@@ -23875,8 +23875,8 @@ var Appcontainer = function Appcontainer() {
     setImageName('');
     setImagePath('');
     setImage([]);
-    setCategoryName('Aucune catégorie');
-    setCategoryId('');
+    setCategoryName('Sans catégorie');
+    setCategoryId(1);
     setIsDirty(false);
     setConditions([{
       id: 0,
@@ -23899,8 +23899,8 @@ var Appcontainer = function Appcontainer() {
       metaUrl: window.location.origin + '/',
       imageName: '',
       alt: '',
-      categoryName: 'Aucune catégorie',
-      categoryId: '',
+      categoryName: 'Sans catégorie',
+      categoryId: 1,
       dateField: (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_4__.getNow)(),
       descriptionCollectionForMeta: '',
       imagePath: '',
@@ -23998,7 +23998,7 @@ var Appcontainer = function Appcontainer() {
         })); // vider form creat collection quand on edit sans rien changer
 
         setIs_Edit(false);
-        setId(null);
+        setIdCollection(null);
         setIsDirty(false);
         initCollectionForm();
         break;
@@ -24095,8 +24095,8 @@ var Appcontainer = function Appcontainer() {
     setDateField: setDateField,
     tinyLanguage: tinyLanguage,
     setTinyLanguage: setTinyLanguage,
-    id: id,
-    setId: setId,
+    idCollection: idCollection,
+    setIdCollection: setIdCollection,
     initCollectionForm: initCollectionForm,
     cleanTemporayStorage: cleanTemporayStorage,
     is: is,
@@ -24716,7 +24716,6 @@ var Categories = function Categories() {
   };
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    // dropDown optimisation
     var dropable = document.getElementById('category_select');
 
     if (!showCategorySelect) {
@@ -24853,7 +24852,7 @@ var Categories = function Categories() {
       })["catch"](function (error) {
         console.log('error:   ' + error);
       });
-      setCategoryName('Aucune catégorie');
+      setCategoryName('Sans catégorie');
     })["catch"](function (error) {
       console.log('error:   ' + error);
     });
@@ -24873,7 +24872,7 @@ var Categories = function Categories() {
         console.log('res.data  --->  ok');
       })["catch"](function (error) {
         console.log('error:   ' + error);
-      }); // chargement des collections
+      }); // rechargement des catégories
 
       axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getCategories").then(function (res) {
         setCategoriesList(res.data);
@@ -24881,7 +24880,7 @@ var Categories = function Categories() {
         console.log('error:   ' + error);
       });
       setShowModalInput(false);
-      setCategoryName('Aucune catégorie');
+      setCategoryName('Sans catégorie');
       setInputTextModify('');
     } else {
       // warning new modified category name is empty
@@ -24958,12 +24957,12 @@ var Categories = function Categories() {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("ul", {
             className: "ul-category dropable scrolly scroll",
             id: "category_select",
-            children: [categoryName != 'Aucune catégorie' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
+            children: [categoryName != 'Sans catégorie' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
               className: "li-category txt-limit",
               onClick: function onClick() {
-                handleCategory(0), handleCategoryName('Aucune catégorie');
+                handleCategory(1), handleCategoryName('Sans catégorie');
               },
-              children: "Aucune cat\xE9gorie"
+              children: "Sans cat\xE9gorie"
             }), categoriesList && categoriesList.map(function (cat, index) {
               return cat.name != categoryName && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("li", {
                 className: "li-category",
@@ -26100,8 +26099,8 @@ var CreateCollection = function CreateCollection() {
       setDateField = _useContext.setDateField,
       tinyLanguage = _useContext.tinyLanguage,
       setTinyLanguage = _useContext.setTinyLanguage,
-      id = _useContext.id,
-      setId = _useContext.setId,
+      idCollection = _useContext.idCollection,
+      setIdCollection = _useContext.setIdCollection,
       setTmp_parameter = _useContext.setTmp_parameter,
       handleModalConfirm = _useContext.handleModalConfirm,
       handleModalCancel = _useContext.handleModalCancel,
@@ -26112,6 +26111,7 @@ var CreateCollection = function CreateCollection() {
       collectionForm = _useContext.collectionForm,
       setCollectionForm = _useContext.setCollectionForm;
 
+  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_15__.useNavigate)();
   var formData = new FormData(); // when click on edit in collection list it send collection id to db request for make edit collection
 
   var _useLocation = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_15__.useLocation)(),
@@ -26191,7 +26191,7 @@ var CreateCollection = function CreateCollection() {
     if (isEdit) {
       initCollectionForm();
       axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/getCollectionById/".concat(collectionId)).then(function (res) {
-        var _res$data$objConditio, _res$data$category, _res$data$category2, _res$data$objConditio2, _res$data$category3, _res$data$category4;
+        var _res$data$objConditio, _res$data$objConditio2, _res$data$image, _res$data$category;
 
         ((_res$data$objConditio = res.data.objConditions) === null || _res$data$objConditio === void 0 ? void 0 : _res$data$objConditio.length) > 0 ? setConditions(JSON.parse(res.data.objConditions)) : setConditions([{
           id: 0,
@@ -26203,19 +26203,27 @@ var CreateCollection = function CreateCollection() {
         res.data.automatise === 1 ? localStorage.setItem('isAutoConditions', true) : localStorage.setItem('isAutoConditions', false);
         res.data.allConditionsNeeded === 1 ? setAllConditionsNeeded(true) : setAllConditionsNeeded(false);
         res.data.notIncludePrevProduct === 1 ? setNotIncludePrevProduct(true) : setNotIncludePrevProduct(false);
-        setId(res.data.id);
+        setIdCollection(res.data.id);
         setNameCollection(res.data.name);
         setDescriptionCollection(res.data.description);
         setMetaTitle(res.data.meta_title);
         setMetaDescription(res.data.meta_description);
         setMetaUrl(res.data.meta_url);
-        setImageName(res.data.image.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''));
-        setImagePath(res.data.image);
+
+        if (res.data.image !== null && res.data.image !== '') {
+          setImageName(res.data.image.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''));
+          setImagePath(res.data.image);
+        } else {
+          setImageName('');
+          setImagePath('');
+        }
+
         setAlt(res.data.alt);
-        ((_res$data$category = res.data.category) === null || _res$data$category === void 0 ? void 0 : _res$data$category.name) !== undefined ? setCategoryName((_res$data$category2 = res.data.category) === null || _res$data$category2 === void 0 ? void 0 : _res$data$category2.name) : 'Aucune catégorie';
-        res.data.category_id !== null ? setCategoryId(res.data.category_id) : 0;
+        setCategoryName(res.data.category !== null ? res.data.category.name : 'Sans catégorie');
+        setCategoryId(res.data.category_id !== null ? res.data.category_id : 1);
         setDateField((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_13__.getDateTime)(new Date(res.data.dateActivation)));
-        setDescriptionCollectionForMeta(''); // check if leave edit without save change --> in usePromptCollection 
+        setDescriptionCollectionForMeta('');
+        setCategoryId(res.data.category_id !== null ? res.data.category_id : 1); // check if leave edit without save change --> in usePromptCollection 
 
         setCollectionForm({
           conditions: ((_res$data$objConditio2 = res.data.objConditions) === null || _res$data$objConditio2 === void 0 ? void 0 : _res$data$objConditio2.length) > 0 ? JSON.parse(res.data.objConditions) : [{
@@ -26229,28 +26237,35 @@ var CreateCollection = function CreateCollection() {
           metaTitle: res.data.meta_title,
           metaDescription: res.data.meta_description,
           metaUrl: res.data.meta_url,
-          imageName: res.data.image.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''),
+          imageName: (_res$data$image = res.data.image) === null || _res$data$image === void 0 ? void 0 : _res$data$image.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''),
           alt: res.data.alt,
-          categoryName: ((_res$data$category3 = res.data.category) === null || _res$data$category3 === void 0 ? void 0 : _res$data$category3.name) !== undefined ? (_res$data$category4 = res.data.category) === null || _res$data$category4 === void 0 ? void 0 : _res$data$category4.name : 'Aucune catégorie',
-          categoryId: res.data.category_id !== null ? res.data.category_id : 0,
+          categoryName: ((_res$data$category = res.data.category) === null || _res$data$category === void 0 ? void 0 : _res$data$category.name) !== undefined ? res.data.category.name : 'Sans catégorie',
+          categoryId: res.data.category_id !== null ? res.data.category_id : 1,
           dateField: (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_13__.getDateTime)(new Date(res.data.dateActivation)),
           imagePath: res.data.image,
           isAutoConditions: res.data.automatise === 1 ? true : false,
           notIncludePrevProduct: res.data.notIncludePrevProduct === 1 ? true : false,
           allConditionsNeeded: res.data.allConditionsNeeded === 1 ? true : false
-        });
+        }); // if (res.data.image !== null && res.data.image !== '') {
+        //     setCollectionForm({
+        //         ...collectionForm,
+        //         imageName: res.data.image.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''),
+        //         imagePath: res.data.image
+        //     });
+        // } else {
+        //     setCollectionForm({
+        //         ...collectionForm,
+        //         imageName: '',
+        //         imagePath: ''
+        //     });
+        // }
+
         setIs_Edit(true);
       })["catch"](function (error) {
         console.log('error:   ' + error);
       });
     }
-  }, []);
-
-  if (collectionForm.descriptionCollection === descriptionCollection) {
-    console.log('yes');
-  } else {
-    console.log('not');
-  }
+  }, []); // demande confirmation avant de quitter le form sans sauvegarder
 
   (0,_hooks_usePromptCollection__WEBPACK_IMPORTED_MODULE_2__.usePromptCollection)('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?', isDirty, 'leaveEditCollectionWithoutChange');
 
@@ -26355,7 +26370,7 @@ var CreateCollection = function CreateCollection() {
   function handleSubmit() {
     var valid = validation(); // delete removed tinyMCE images in folder and db
 
-    (0,_functions_temporaryStorage_handleTinyMceTemporary__WEBPACK_IMPORTED_MODULE_12__.handleTinyMceTemporary)(descriptionCollection, id);
+    (0,_functions_temporaryStorage_handleTinyMceTemporary__WEBPACK_IMPORTED_MODULE_12__.handleTinyMceTemporary)(descriptionCollection, idCollection);
 
     if (valid) {
       var imageFile = null;
@@ -26380,7 +26395,7 @@ var CreateCollection = function CreateCollection() {
       formData.append("categoryId", categoryId);
       formData.append("alt", alt);
       formData.append("imageName", imageName);
-      formData.append("id", id);
+      formData.append("id", idCollection);
       imageFile !== null && formData.append("image", imageFile);
       axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/save-collection", formData, {
         headers: {
@@ -26394,13 +26409,14 @@ var CreateCollection = function CreateCollection() {
 
           var keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection'];
           cleanTemporayStorage(keys_toDelete);
-          setId(null); // chargement des collections
+          setIdCollection(null); // chargement des collections
           // refresh data after save new collection
 
           axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/collections-list-back-end").then(function (res) {
             // listCollections -> liste complète des collections pour handleSearch
             setListCollections(res.data[0]);
             setListCategories(res.data[1]);
+            navigate('/collections-list');
           })["catch"](function (error) {
             console.log('error:   ' + error);
           });
@@ -26418,7 +26434,7 @@ var CreateCollection = function CreateCollection() {
         children: [isDirty && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("button", {
           className: "btn-effacer-tout",
           onClick: function onClick() {
-            setId(null);
+            setIdCollection(null);
             confirmInitCollectionForm();
           },
           children: "R\xE9initialiser"
@@ -27474,7 +27490,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   setCategoryName: function setCategoryName() {},
   categoryId: '',
   setCategoryId: function setCategoryId() {}
-}, _defineProperty(_React$createContext, "tmp_parameter", ''), _defineProperty(_React$createContext, "setTmp_parameter", function setTmp_parameter() {}), _defineProperty(_React$createContext, "dateField", ''), _defineProperty(_React$createContext, "setDateField", function setDateField() {}), _defineProperty(_React$createContext, "normalizUrl", function normalizUrl() {}), _defineProperty(_React$createContext, "handleModalCancel", function handleModalCancel() {}), _defineProperty(_React$createContext, "deleteThisCategory", ''), _defineProperty(_React$createContext, "setDeleteThisCategory", function setDeleteThisCategory() {}), _defineProperty(_React$createContext, "dateField", ''), _defineProperty(_React$createContext, "setDateField", function setDateField() {}), _defineProperty(_React$createContext, "tinyLangauage", ''), _defineProperty(_React$createContext, "setTinyLanguage", function setTinyLanguage() {}), _defineProperty(_React$createContext, "initCollectionForm", function initCollectionForm() {}), _defineProperty(_React$createContext, "cleanTemporayStorage", function cleanTemporayStorage() {}), _defineProperty(_React$createContext, "is", ''), _defineProperty(_React$createContext, "setIs", function setIs() {}), _defineProperty(_React$createContext, "collectionForm", ''), _defineProperty(_React$createContext, "setCollectionForm", function setCollectionForm() {}), _defineProperty(_React$createContext, "id", ''), _defineProperty(_React$createContext, "setId", function setId() {}), _React$createContext)));
+}, _defineProperty(_React$createContext, "tmp_parameter", ''), _defineProperty(_React$createContext, "setTmp_parameter", function setTmp_parameter() {}), _defineProperty(_React$createContext, "dateField", ''), _defineProperty(_React$createContext, "setDateField", function setDateField() {}), _defineProperty(_React$createContext, "normalizUrl", function normalizUrl() {}), _defineProperty(_React$createContext, "handleModalCancel", function handleModalCancel() {}), _defineProperty(_React$createContext, "deleteThisCategory", ''), _defineProperty(_React$createContext, "setDeleteThisCategory", function setDeleteThisCategory() {}), _defineProperty(_React$createContext, "dateField", ''), _defineProperty(_React$createContext, "setDateField", function setDateField() {}), _defineProperty(_React$createContext, "tinyLangauage", ''), _defineProperty(_React$createContext, "setTinyLanguage", function setTinyLanguage() {}), _defineProperty(_React$createContext, "initCollectionForm", function initCollectionForm() {}), _defineProperty(_React$createContext, "cleanTemporayStorage", function cleanTemporayStorage() {}), _defineProperty(_React$createContext, "is", ''), _defineProperty(_React$createContext, "setIs", function setIs() {}), _defineProperty(_React$createContext, "collectionForm", ''), _defineProperty(_React$createContext, "setCollectionForm", function setCollectionForm() {}), _defineProperty(_React$createContext, "idCollection", ''), _defineProperty(_React$createContext, "setIdCollection", function setIdCollection() {}), _React$createContext)));
 
 /***/ }),
 
@@ -30616,6 +30632,20 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
 
 
 
@@ -30647,28 +30677,48 @@ function usePromptCollection(messageObj, shouldPrompt, sendedBy) {
       dateField = _useContext.dateField,
       collectionForm = _useContext.collectionForm,
       setIs_Edit = _useContext.setIs_Edit,
-      setId = _useContext.setId,
+      setIdCollection = _useContext.setIdCollection,
       initCollectionForm = _useContext.initCollectionForm;
 
   var retryFn = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(function () {});
 
   var checkDirty = function checkDirty() {
-    if (collectionForm.nameCollection !== nameCollection) {
-      var smallerString = Math.min(collectionForm.descriptionCollection.length, descriptionCollection.length);
-      smallerString = smallerString > 5 ? smallerString - 5 : smallerString;
-      var a = descriptionCollection.substring(0, smallerString);
-      var b = collectionForm.descriptionCollection.substring(0, smallerString);
-      var pattern = /\w[\!\^\$\?\+\*\|&"\'_=\-\.\(\)\{\}¤£¨\/,;:ù%µ@€ ]*/;
-      var aa = a.match(pattern);
-      var bb = b.match(pattern);
+    // tinyMCE ajoute des caractères undefined qui e permettent pas de faire une comparaison alors on compte chaque caractères dans les deux texte et on compare leur nombre pour avoir plus de chances de repérer les textes différents 
+    var maxLength = Math.max(collectionForm.descriptionCollection.length, descriptionCollection.length);
+    var a = descriptionCollection;
+    var b = collectionForm.descriptionCollection;
+    var tab = [];
 
-      if (aa !== bb) {
-        setIsDirty(true);
-        return true;
+    for (var i = 0; i < maxLength; i++) {
+      if (!tab.includes(a[i]) && a[i] !== null) {
+        tab.push(a[i]);
       }
     }
 
-    console.log('descriptionCollection  ', descriptionCollection);
+    var occurenceA = 0;
+    var occurenceB = 0;
+
+    var _loop = function _loop(_i) {
+      occurenceA = _toConsumableArray(a).filter(function (item) {
+        return item === tab[_i];
+      }).length;
+      occurenceB = _toConsumableArray(b).filter(function (item) {
+        return item === tab[_i];
+      }).length;
+
+      if (occurenceA !== occurenceB) {
+        setIsDirty(true);
+        return {
+          v: true
+        };
+      }
+    };
+
+    for (var _i = 0; _i < tab.length; _i++) {
+      var _ret = _loop(_i);
+
+      if (_typeof(_ret) === "object") return _ret.v;
+    }
 
     switch (true) {
       case JSON.stringify(collectionForm.conditions) !== JSON.stringify(conditions):
@@ -30722,6 +30772,9 @@ function usePromptCollection(messageObj, shouldPrompt, sendedBy) {
       case collectionForm.allConditionsNeeded !== allConditionsNeeded:
         setIsDirty(true);
         return true;
+
+      default:
+        return false;
     }
   };
 
@@ -30751,15 +30804,14 @@ function usePromptCollection(messageObj, shouldPrompt, sendedBy) {
       openModal();
       retryFn.current = retry;
     } else {
-      console.log('checkDirty   ', checkDirty()); // si on click pour éditer mais qu'on change rien et qu'on quitte isDirty reste false mais si on change qlq chose isDirty ne se met pas à true et donc on "checkDirty" pour voir si qlq chose a changée 
-
+      // si on click pour éditer mais qu'on change rien et qu'on quitte isDirty reste false mais si on change qlq chose isDirty ne se met pas à true et donc on "checkDirty" pour voir si qlq chose a changée 
       if (checkDirty()) {
         openModal();
         retryFn.current = retry;
       } else {
         // rien a changé mais on initialise pour nettoyer le form
         setIs_Edit(false);
-        setId(null);
+        setIdCollection(null);
         initCollectionForm();
         retry();
       }
@@ -31826,8 +31878,7 @@ var DropZone = function DropZone(props) {
       setMessageModal = _useContext.setMessageModal,
       is_Edit = _useContext.is_Edit,
       setIs_Edit = _useContext.setIs_Edit,
-      id = _useContext.id,
-      setId = _useContext.setId;
+      idCollection = _useContext.idCollection;
 
   var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_7__.useNavigate)();
   var dropRegion = null;
@@ -31870,10 +31921,8 @@ var DropZone = function DropZone(props) {
     dropRegion.addEventListener('drop', unhighlight, false); // init preview image
 
     if (!is_Edit) {
-      console.log('!is_Edi  ', id);
-
       try {
-        axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getSingleTemporaryImage/".concat(id)).then(function (res) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getSingleTemporaryImage/".concat(idCollection)).then(function (res) {
           if (res.data !== undefined && res.data != '') {
             // get --> image path <-- for croppe
             setImagePath('/' + res.data); // get --> image <-- for preview
@@ -31895,7 +31944,7 @@ var DropZone = function DropZone(props) {
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     if (is_Edit) {
       try {
-        axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getSingleTemporaryImage/".concat(id)).then(function (res) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getSingleTemporaryImage/".concat(idCollection)).then(function (res) {
           if (res.data !== undefined && res.data != '') {
             // get --> image path <-- for croppe
             setImagePath('/' + res.data); // get --> image <-- for preview
@@ -31941,7 +31990,7 @@ var DropZone = function DropZone(props) {
 
     response().then(function () {
       try {
-        axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getSingleTemporaryImage/".concat(id)).then(function (res) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getSingleTemporaryImage/".concat(idCollection)).then(function (res) {
           if (res.data !== undefined) {
             // get --> image path <-- for croppe
             setImagePath('/' + res.data);
@@ -32124,10 +32173,11 @@ var DropZone = function DropZone(props) {
       document.getElementById('drop-region-dropZone').style.backgroundColor = 'none';
       document.getElementById('drop-region-dropZone').style.background = 'no-repeat url("../images/icons/backgroundDropZone.png")';
       document.getElementById('drop-region-dropZone').style.backgroundPosition = 'center 90%';
-      document.getElementById("drop-message-dropZone").style.display = 'block'; // supprime l'image temporaire dans la db et dans le dossier temporaire
+      document.getElementById("drop-message-dropZone").style.display = 'block'; // supprime l'image temporaire dans la db et dans le dossier temporaire OU DANS LE DOSSIER IMAGE ET DANS LA DB COLLECTION CHAMP -> IMAGE
 
       var formData = new FormData();
       formData.append('key', 'tmp_imageCollection');
+      formData.append('idCollection', idCollection);
       axios__WEBPACK_IMPORTED_MODULE_2___default().post("http://127.0.0.1:8000/deleteTemporayStoredElements", formData).then(function (res) {
         console.log('res.data  --->  ok');
       });

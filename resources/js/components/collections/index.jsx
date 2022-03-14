@@ -1,5 +1,5 @@
 import { React, useEffect, useContext } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import AppContext from '../contexts/AppContext';
 import { usePromptCollection } from '../hooks/usePromptCollection';
 import Axios from 'axios';
@@ -21,9 +21,10 @@ const CreateCollection = () => {
         setShowModalInput, messageModal, setMessageModal, sender, setSender, textButtonConfirm, setTextButtonConfirm, imageModal, setImageModal, is_Edit, setIs_Edit, listCollections, setListCollections, setListCategories, isDirty, setIsDirty, tmp_parameter, nameCollection, setNameCollection, descriptionCollection, setDescriptionCollection,
         descriptionCollectionForMeta, setDescriptionCollectionForMeta, conditions, setConditions, isAutoConditions, setIsAutoConditions,
         allConditionsNeeded, setAllConditionsNeeded, notIncludePrevProduct, setNotIncludePrevProduct, warningIdCondition, setWarningIdCondition,
-        normalizUrl, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, imageName, setImageName, imagePath, alt, setAlt, categoryName, setCategoryName, categoryId, setCategoryId, dateField, setDateField, tinyLanguage, setTinyLanguage, id, setId, setTmp_parameter, handleModalConfirm, handleModalCancel, initCollectionForm, cleanTemporayStorage, is, setIs, collectionForm, setCollectionForm
+        normalizUrl, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, imageName, setImageName, imagePath, alt, setAlt, categoryName, setCategoryName, categoryId, setCategoryId, dateField, setDateField, tinyLanguage, setTinyLanguage, idCollection, setIdCollection, setTmp_parameter, handleModalConfirm, handleModalCancel, initCollectionForm, cleanTemporayStorage, is, setIs, collectionForm, setCollectionForm
     } = useContext(AppContext);
 
+    var navigate = useNavigate();
     var formData = new FormData;
 
     // when click on edit in collection list it send collection id to db request for make edit collection
@@ -107,26 +108,32 @@ const CreateCollection = () => {
         if (isEdit) {
             initCollectionForm();
             Axios.get(`http://127.0.0.1:8000/getCollectionById/${collectionId}`)
+
                 .then(res => {
                     res.data.objConditions?.length > 0 ? setConditions(JSON.parse(res.data.objConditions)) : setConditions([{ id: 0, parameter: '1', operator: '1', value: '' }]);
                     res.data.automatise === 1 ? setIsAutoConditions(true) : setIsAutoConditions(false);
                     res.data.automatise === 1 ? localStorage.setItem('isAutoConditions', true) : localStorage.setItem('isAutoConditions', false);
                     res.data.allConditionsNeeded === 1 ? setAllConditionsNeeded(true) : setAllConditionsNeeded(false);
                     res.data.notIncludePrevProduct === 1 ? setNotIncludePrevProduct(true) : setNotIncludePrevProduct(false);
-                    setId(res.data.id);
+                    setIdCollection(res.data.id);
                     setNameCollection(res.data.name);
-                    setDescriptionCollection(res.data.description); 
+                    setDescriptionCollection(res.data.description);
                     setMetaTitle(res.data.meta_title);
                     setMetaDescription(res.data.meta_description);
                     setMetaUrl(res.data.meta_url);
-                    setImageName(res.data.image.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''));
-                    setImagePath(res.data.image);
+                    if (res.data.image !== null && res.data.image !== '') {
+                        setImageName(res.data.image.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''));
+                        setImagePath(res.data.image);
+                    } else {
+                        setImageName('');
+                        setImagePath('');
+                    }
                     setAlt(res.data.alt);
-                    res.data.category?.name !== undefined ? setCategoryName(res.data.category?.name) : 'Aucune catégorie';
-                    res.data.category_id !== null ? setCategoryId(res.data.category_id) : 0;
+                    setCategoryName(res.data.category !== null ? res.data.category.name : 'Sans catégorie');
+                    setCategoryId(res.data.category_id !== null ? res.data.category_id : 1);
                     setDateField(getDateTime(new Date(res.data.dateActivation)));
                     setDescriptionCollectionForMeta('');
-
+                    setCategoryId(res.data.category_id !== null ? res.data.category_id : 1);
                     // check if leave edit without save change --> in usePromptCollection 
                     setCollectionForm({
                         conditions: res.data.objConditions?.length > 0 ? JSON.parse(res.data.objConditions) : [{ id: 0, parameter: '1', operator: '1', value: '' }],
@@ -135,15 +142,30 @@ const CreateCollection = () => {
                         metaTitle: res.data.meta_title,
                         metaDescription: res.data.meta_description,
                         metaUrl: res.data.meta_url,
-                        imageName: res.data.image.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''),
+                        imageName: res.data.image?.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''),
                         alt: res.data.alt,
-                        categoryName: res.data.category?.name !== undefined ? res.data.category?.name : 'Aucune catégorie', categoryId: res.data.category_id !== null ? res.data.category_id : 0,
+                        categoryName: res.data.category?.name !== undefined ? res.data.category.name : 'Sans catégorie',
+                        categoryId: res.data.category_id !== null ? res.data.category_id : 1,
                         dateField: getDateTime(new Date(res.data.dateActivation)),
                         imagePath: res.data.image,
                         isAutoConditions: res.data.automatise === 1 ? true : false,
                         notIncludePrevProduct: res.data.notIncludePrevProduct === 1 ? true : false,
                         allConditionsNeeded: res.data.allConditionsNeeded === 1 ? true : false
                     })
+
+                    // if (res.data.image !== null && res.data.image !== '') {
+                    //     setCollectionForm({
+                    //         ...collectionForm,
+                    //         imageName: res.data.image.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''),
+                    //         imagePath: res.data.image
+                    //     });
+                    // } else {
+                    //     setCollectionForm({
+                    //         ...collectionForm,
+                    //         imageName: '',
+                    //         imagePath: ''
+                    //     });
+                    // }
 
                     setIs_Edit(true);
 
@@ -154,13 +176,7 @@ const CreateCollection = () => {
     }, []);
 
 
-    if (collectionForm.descriptionCollection === descriptionCollection) {
-        console.log('yes')
-    } else {
-        console.log('not')
-    }
-   
-
+    // demande confirmation avant de quitter le form sans sauvegarder
     usePromptCollection('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?', isDirty, 'leaveEditCollectionWithoutChange');
 
 
@@ -265,7 +281,7 @@ const CreateCollection = () => {
         let valid = validation();
 
         // delete removed tinyMCE images in folder and db
-        handleTinyMceTemporary(descriptionCollection, id);
+        handleTinyMceTemporary(descriptionCollection, idCollection);
 
         if (valid) {
             let imageFile = null;
@@ -288,7 +304,7 @@ const CreateCollection = () => {
             formData.append("categoryId", categoryId);
             formData.append("alt", alt);
             formData.append("imageName", imageName);
-            formData.append("id", id);
+            formData.append("id", idCollection);
             imageFile !== null && formData.append("image", imageFile);
 
             Axios.post(`http://127.0.0.1:8000/save-collection`, formData,
@@ -304,7 +320,7 @@ const CreateCollection = () => {
                         // gére le netoyage des images et vidéos dans  temporaryStorage 
                         let keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection']
                         cleanTemporayStorage(keys_toDelete);
-                        setId(null);
+                        setIdCollection(null);
 
                         // chargement des collections
                         // refresh data after save new collection
@@ -313,6 +329,7 @@ const CreateCollection = () => {
                                 // listCollections -> liste complète des collections pour handleSearch
                                 setListCollections(res.data[0]);
                                 setListCategories(res.data[1]);
+                                navigate('/collections-list');
                             }).catch(function (error) {
                                 console.log('error:   ' + error);
                             });
@@ -329,7 +346,7 @@ const CreateCollection = () => {
                     {/* réinitialisation */}
                     {isDirty && (<button className='btn-effacer-tout'
                         onClick={() => {
-                            setId(null);
+                            setIdCollection(null);
                             confirmInitCollectionForm();
                         }}>
                         Réinitialiser
