@@ -32,9 +32,8 @@ const RowListCollections = ({ collection, category }) => {
     const [conditions, setConditions] = useState(null);
     const [showConditions, setShowConditions] = useState(false);
     const [distanceFromBottom, setDistanceFromBottom] = useState(null);
-    const [idToEdit, setIdToEdit] = useState(null);
 
-    const { isDirty, setIsDirty, setMessageModal, sender, setSender, setImageModal, setTmp_parameter, showModalConfirm, setShowModalConfirm, textButtonConfirm, setTextButtonConfirm, handleModalConfirm, handleModalCancel, imageModal, messageModal, is, setIs } = useContext(AppContext);
+    const { setIdCollection, setListCollections, is, setIs } = useContext(AppContext);
 
     var navigate = useNavigate();
 
@@ -118,21 +117,9 @@ const RowListCollections = ({ collection, category }) => {
     }
 
     const editCollection = (id) => {
-        if (isDirty) {
-            setIdToEdit(id);
-            setMessageModal('Le formulaire d\'édition contient d\'anciennes données non sauvegardées. ')
-            setTextButtonConfirm('Continuer');
-            setImageModal('../images/icons/trash_dirty.png');
-            setSender('editCollection');
-            setTmp_parameter(id);
-            setShowModalConfirm(true);
-        } else {
-            setIs({ ...is, isLeaveEditCollectionWithoutSaveChange: true });
-            // isEdit indique qu'on veut éditer la collection
-            navigate('/add-collection', { state: { collectionId: id, isEdit: true } });
-        }
+        // isEdit indique qu'on veut éditer la collection
+        navigate('/add-collection', { state: { collectionId: id, isEdit: true } });
     }
-
 
     // delete collection
     const deleteCollection = (id) => {
@@ -141,8 +128,9 @@ const RowListCollections = ({ collection, category }) => {
 
         Axios.post(`http://127.0.0.1:8000/deleteCollection`, idToDelete)
             .then(res => {
-                console.log(res.data);
-                setId(null);
+                setListCollections(res.data);
+                setIdCollection(null);
+                setIs({ ...is, collectionDeleted: true });
             });
     }
 
@@ -229,16 +217,6 @@ const RowListCollections = ({ collection, category }) => {
                   //  <span className="tooltiptext">Supprimer la collection</span>
                 </img>}
             </div> */}
-
-            {/* modal for confirmation */}
-            <ModalConfirm
-                show={showModalConfirm} // true/false show modal
-                handleModalConfirm={handleModalConfirm}
-                handleModalCancel={handleModalCancel}
-                textButtonConfirm={textButtonConfirm}
-                image={imageModal}>
-                <h2 className="childrenModal">{messageModal}</h2>
-            </ModalConfirm>
         </li>
     );
 }

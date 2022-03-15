@@ -222,7 +222,9 @@ class CollectionController extends Controller
         DB::table('collection_product')->where('collection_id', $collection->id)->delete();
 
         $collection->delete();
+
+        $collections = Collection::orderBy('created_at', 'desc')->get();
+        return json_encode([$collections]);
         
-        return 'Collection has been removed';
     }
 }

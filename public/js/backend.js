@@ -23544,97 +23544,97 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var Appcontainer = function Appcontainer() {
   // collection form----------------------------------------------------------
-  var _useLocalStorage = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__.useLocalStorage)("conditions", [{
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
     id: 0,
     parameter: '1',
     operator: '1',
     value: ''
   }]),
-      _useLocalStorage2 = _slicedToArray(_useLocalStorage, 2),
-      conditions = _useLocalStorage2[0],
-      setConditions = _useLocalStorage2[1];
-
-  var _useLocalStorage3 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__.useLocalStorage)("nameCollection", ""),
-      _useLocalStorage4 = _slicedToArray(_useLocalStorage3, 2),
-      nameCollection = _useLocalStorage4[0],
-      setNameCollection = _useLocalStorage4[1];
-
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(localStorage.getItem('descriptionCollection') ? localStorage.getItem('descriptionCollection') : ''),
       _useState2 = _slicedToArray(_useState, 2),
-      descriptionCollection = _useState2[0],
-      setDescriptionCollection = _useState2[1];
+      conditions = _useState2[0],
+      setConditions = _useState2[1];
 
-  var _useLocalStorage5 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__.useLocalStorage)("metaTitle", ""),
-      _useLocalStorage6 = _slicedToArray(_useLocalStorage5, 2),
-      metaTitle = _useLocalStorage6[0],
-      setMetaTitle = _useLocalStorage6[1];
-
-  var _useLocalStorage7 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__.useLocalStorage)("metaDescription", ""),
-      _useLocalStorage8 = _slicedToArray(_useLocalStorage7, 2),
-      metaDescription = _useLocalStorage8[0],
-      setMetaDescription = _useLocalStorage8[1];
-
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.location.origin + '/'),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState4 = _slicedToArray(_useState3, 2),
-      metaUrl = _useState4[0],
-      setMetaUrl = _useState4[1];
-
-  var _useLocalStorage9 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__.useLocalStorage)("imageName", ""),
-      _useLocalStorage10 = _slicedToArray(_useLocalStorage9, 2),
-      imageName = _useLocalStorage10[0],
-      setImageName = _useLocalStorage10[1];
-
-  var _useLocalStorage11 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__.useLocalStorage)("altCollection", ""),
-      _useLocalStorage12 = _slicedToArray(_useLocalStorage11, 2),
-      alt = _useLocalStorage12[0],
-      setAlt = _useLocalStorage12[1];
-
-  var _useLocalStorage13 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__.useLocalStorage)('categoryName', 'Aucune catégorie'),
-      _useLocalStorage14 = _slicedToArray(_useLocalStorage13, 2),
-      categoryName = _useLocalStorage14[0],
-      setCategoryName = _useLocalStorage14[1];
-
-  var _useLocalStorage15 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__.useLocalStorage)("categoryId", ""),
-      _useLocalStorage16 = _slicedToArray(_useLocalStorage15, 2),
-      categoryId = _useLocalStorage16[0],
-      setCategoryId = _useLocalStorage16[1];
+      nameCollection = _useState4[0],
+      setNameCollection = _useState4[1];
 
   var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState6 = _slicedToArray(_useState5, 2),
-      dateField = _useState6[0],
-      setDateField = _useState6[1];
+      descriptionCollection = _useState6[0],
+      setDescriptionCollection = _useState6[1];
 
   var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState8 = _slicedToArray(_useState7, 2),
-      descriptionCollectionForMeta = _useState8[0],
-      setDescriptionCollectionForMeta = _useState8[1];
+      metaTitle = _useState8[0],
+      setMetaTitle = _useState8[1];
 
-  var _useLocalStorage17 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__.useLocalStorage)("imagePath", ""),
-      _useLocalStorage18 = _slicedToArray(_useLocalStorage17, 2),
-      imagePath = _useLocalStorage18[0],
-      setImagePath = _useLocalStorage18[1];
-
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState10 = _slicedToArray(_useState9, 2),
-      image = _useState10[0],
-      setImage = _useState10[1];
+      metaDescription = _useState10[0],
+      setMetaDescription = _useState10[1];
 
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.location.origin + '/'),
       _useState12 = _slicedToArray(_useState11, 2),
-      isAutoConditions = _useState12[0],
-      setIsAutoConditions = _useState12[1];
+      metaUrl = _useState12[0],
+      setMetaUrl = _useState12[1];
 
-  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState14 = _slicedToArray(_useState13, 2),
-      notIncludePrevProduct = _useState14[0],
-      setNotIncludePrevProduct = _useState14[1];
+      imageName = _useState14[0],
+      setImageName = _useState14[1];
 
-  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState16 = _slicedToArray(_useState15, 2),
-      allConditionsNeeded = _useState16[0],
-      setAllConditionsNeeded = _useState16[1];
+      alt = _useState16[0],
+      setAlt = _useState16[1];
 
-  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Sans catégorie'),
+      _useState18 = _slicedToArray(_useState17, 2),
+      categoryName = _useState18[0],
+      setCategoryName = _useState18[1];
+
+  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1),
+      _useState20 = _slicedToArray(_useState19, 2),
+      categoryId = _useState20[0],
+      setCategoryId = _useState20[1];
+
+  var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_4__.getNow)()),
+      _useState22 = _slicedToArray(_useState21, 2),
+      dateField = _useState22[0],
+      setDateField = _useState22[1];
+
+  var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState24 = _slicedToArray(_useState23, 2),
+      descriptionCollectionForMeta = _useState24[0],
+      setDescriptionCollectionForMeta = _useState24[1];
+
+  var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState26 = _slicedToArray(_useState25, 2),
+      imagePath = _useState26[0],
+      setImagePath = _useState26[1];
+
+  var _useState27 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState28 = _slicedToArray(_useState27, 2),
+      image = _useState28[0],
+      setImage = _useState28[1];
+
+  var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+      _useState30 = _slicedToArray(_useState29, 2),
+      isAutoConditions = _useState30[0],
+      setIsAutoConditions = _useState30[1];
+
+  var _useState31 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState32 = _slicedToArray(_useState31, 2),
+      notIncludePrevProduct = _useState32[0],
+      setNotIncludePrevProduct = _useState32[1];
+
+  var _useState33 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+      _useState34 = _slicedToArray(_useState33, 2),
+      allConditionsNeeded = _useState34[0],
+      setAllConditionsNeeded = _useState34[1];
+
+  var _useState35 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     conditions: [{
       id: 0,
       parameter: '1',
@@ -23648,9 +23648,9 @@ var Appcontainer = function Appcontainer() {
     metaUrl: window.location.origin + '/',
     imageName: '',
     alt: '',
-    categoryName: 'Aucune catégorie',
-    categoryId: '',
-    dateField: '',
+    categoryName: 'Sans catégorie',
+    categoryId: 1,
+    dateField: (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_4__.getNow)(),
     descriptionCollectionForMeta: '',
     imagePath: '',
     image: [],
@@ -23658,158 +23658,159 @@ var Appcontainer = function Appcontainer() {
     notIncludePrevProduct: false,
     allConditionsNeeded: true
   }),
-      _useState18 = _slicedToArray(_useState17, 2),
-      collectionForm = _useState18[0],
-      setCollectionForm = _useState18[1]; //---------------------------------------------------------- collection Form
+      _useState36 = _slicedToArray(_useState35, 2),
+      collectionForm = _useState36[0],
+      setCollectionForm = _useState36[1]; //---------------------------------------------------------- collection Form
   // collection --------------------------------------------------------------
 
 
-  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState20 = _slicedToArray(_useState19, 2),
-      warningIdCondition = _useState20[0],
-      setWarningIdCondition = _useState20[1];
-
-  var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('fr_FR'),
-      _useState22 = _slicedToArray(_useState21, 2),
-      tinyLanguage = _useState22[0],
-      setTinyLanguage = _useState22[1];
-
-  var _useState23 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
-      _useState24 = _slicedToArray(_useState23, 2),
-      idCollection = _useState24[0],
-      setIdCollection = _useState24[1]; // ------------------------------------------------------------- collection 
-
-
-  var _useState25 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState26 = _slicedToArray(_useState25, 2),
-      showModalApp = _useState26[0],
-      setShowModalApp = _useState26[1];
-
-  var _useState27 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
-      _useState28 = _slicedToArray(_useState27, 2),
-      textButtonModalApp = _useState28[0],
-      setTextButtonModalApp = _useState28[1];
-
-  var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
-      _useState30 = _slicedToArray(_useState29, 2),
-      textButtonModalApp2 = _useState30[0],
-      setTextButtonModalApp2 = _useState30[1];
-
-  var _useState31 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState32 = _slicedToArray(_useState31, 2),
-      imageModalApp = _useState32[0],
-      setImageModalApp = _useState32[1];
-
-  var _useState33 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState34 = _slicedToArray(_useState33, 2),
-      messageModalApp = _useState34[0],
-      setMessageModalApp = _useState34[1];
-
-  var _useLocalStorage19 = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__.useLocalStorage)("followThisLink", ""),
-      _useLocalStorage20 = _slicedToArray(_useLocalStorage19, 2),
-      followThisLink = _useLocalStorage20[0],
-      setFollowThisLink = _useLocalStorage20[1];
-
-  var _useState35 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState36 = _slicedToArray(_useState35, 2),
-      showModalConfirm = _useState36[0],
-      setShowModalConfirm = _useState36[1];
-
-  var _useState37 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState37 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState38 = _slicedToArray(_useState37, 2),
-      showModalSimpleMessage = _useState38[0],
-      setShowModalSimpleMessage = _useState38[1];
+      warningIdCondition = _useState38[0],
+      setWarningIdCondition = _useState38[1];
 
-  var _useState39 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState39 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('fr_FR'),
       _useState40 = _slicedToArray(_useState39, 2),
-      showModalCroppeImage = _useState40[0],
-      setShowModalCroppeImage = _useState40[1];
+      tinyLanguage = _useState40[0],
+      setTinyLanguage = _useState40[1];
 
-  var _useState41 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState41 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState42 = _slicedToArray(_useState41, 2),
-      showModalInput = _useState42[0],
-      setShowModalInput = _useState42[1];
+      idCollection = _useState42[0],
+      setIdCollection = _useState42[1]; // ------------------------------------------------------------- collection 
 
-  var _useState43 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+
+  var _useState43 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState44 = _slicedToArray(_useState43, 2),
-      messageModal = _useState44[0],
-      setMessageModal = _useState44[1];
+      showModalApp = _useState44[0],
+      setShowModalApp = _useState44[1];
 
-  var _useState45 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState45 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
       _useState46 = _slicedToArray(_useState45, 2),
-      sender = _useState46[0],
-      setSender = _useState46[1]; // for modal
+      textButtonModalApp = _useState46[0],
+      setTextButtonModalApp = _useState46[1];
 
-
-  var _useState47 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState47 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
       _useState48 = _slicedToArray(_useState47, 2),
-      inputTextModify = _useState48[0],
-      setInputTextModify = _useState48[1];
+      textButtonModalApp2 = _useState48[0],
+      setTextButtonModalApp2 = _useState48[1];
 
-  var _useState49 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
+  var _useState49 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState50 = _slicedToArray(_useState49, 2),
-      textButtonConfirm = _useState50[0],
-      setTextButtonConfirm = _useState50[1];
+      imageModalApp = _useState50[0],
+      setImageModalApp = _useState50[1];
 
   var _useState51 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState52 = _slicedToArray(_useState51, 2),
-      imageModal = _useState52[0],
-      setImageModal = _useState52[1];
+      messageModalApp = _useState52[0],
+      setMessageModalApp = _useState52[1];
 
-  var _useState53 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('#4A90E2'),
+  var _useLocalStorage = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__.useLocalStorage)("followThisLink", ""),
+      _useLocalStorage2 = _slicedToArray(_useLocalStorage, 2),
+      followThisLink = _useLocalStorage2[0],
+      setFollowThisLink = _useLocalStorage2[1];
+
+  var _useState53 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState54 = _slicedToArray(_useState53, 2),
-      selectedColor = _useState54[0],
-      setSelectedColor = _useState54[1];
+      showModalConfirm = _useState54[0],
+      setShowModalConfirm = _useState54[1];
 
-  var _useState55 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState55 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState56 = _slicedToArray(_useState55, 2),
-      listCollections = _useState56[0],
-      setListCollections = _useState56[1];
+      showModalSimpleMessage = _useState56[0],
+      setShowModalSimpleMessage = _useState56[1];
 
-  var _useState57 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState57 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState58 = _slicedToArray(_useState57, 2),
-      listCategories = _useState58[0],
-      setListCategories = _useState58[1];
+      showModalCroppeImage = _useState58[0],
+      setShowModalCroppeImage = _useState58[1];
 
   var _useState59 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState60 = _slicedToArray(_useState59, 2),
-      is_Edit = _useState60[0],
-      setIs_Edit = _useState60[1]; // -->  dropZone
+      showModalInput = _useState60[0],
+      setShowModalInput = _useState60[1];
 
-
-  var _useState61 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState61 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState62 = _slicedToArray(_useState61, 2),
-      categoriesChecked = _useState62[0],
-      setCategoriesChecked = _useState62[1];
+      messageModal = _useState62[0],
+      setMessageModal = _useState62[1];
 
   var _useState63 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState64 = _slicedToArray(_useState63, 2),
-      searchValue = _useState64[0],
-      setSearchValue = _useState64[1];
+      sender = _useState64[0],
+      setSender = _useState64[1]; // for modal
 
-  var _useState65 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+
+  var _useState65 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState66 = _slicedToArray(_useState65, 2),
-      isDirty = _useState66[0],
-      setIsDirty = _useState66[1];
+      inputTextModify = _useState66[0],
+      setInputTextModify = _useState66[1];
 
-  var _useState67 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
+  var _useState67 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
       _useState68 = _slicedToArray(_useState67, 2),
-      tmp_parameter = _useState68[0],
-      setTmp_parameter = _useState68[1]; // pour stocker provisoirement une variable
+      textButtonConfirm = _useState68[0],
+      setTextButtonConfirm = _useState68[1];
 
-
-  var _useState69 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+  var _useState69 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState70 = _slicedToArray(_useState69, 2),
-      deleteThisCategory = _useState70[0],
-      setDeleteThisCategory = _useState70[1];
+      imageModal = _useState70[0],
+      setImageModal = _useState70[1];
 
-  var _useState71 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
-    leaveEditCollectionWithoutSaveChange: false,
-    leave: false
-  }),
+  var _useState71 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('#4A90E2'),
       _useState72 = _slicedToArray(_useState71, 2),
-      is = _useState72[0],
-      setIs = _useState72[1];
+      selectedColor = _useState72[0],
+      setSelectedColor = _useState72[1];
+
+  var _useState73 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState74 = _slicedToArray(_useState73, 2),
+      listCollections = _useState74[0],
+      setListCollections = _useState74[1];
+
+  var _useState75 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState76 = _slicedToArray(_useState75, 2),
+      listCategories = _useState76[0],
+      setListCategories = _useState76[1];
+
+  var _useState77 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState78 = _slicedToArray(_useState77, 2),
+      is_Edit = _useState78[0],
+      setIs_Edit = _useState78[1]; // -->  dropZone
+
+
+  var _useState79 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState80 = _slicedToArray(_useState79, 2),
+      categoriesChecked = _useState80[0],
+      setCategoriesChecked = _useState80[1];
+
+  var _useState81 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState82 = _slicedToArray(_useState81, 2),
+      searchValue = _useState82[0],
+      setSearchValue = _useState82[1];
+
+  var _useState83 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState84 = _slicedToArray(_useState83, 2),
+      isDirty = _useState84[0],
+      setIsDirty = _useState84[1];
+
+  var _useState85 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
+      _useState86 = _slicedToArray(_useState85, 2),
+      tmp_parameter = _useState86[0],
+      setTmp_parameter = _useState86[1]; // pour stocker provisoirement une variable
+
+
+  var _useState87 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      _useState88 = _slicedToArray(_useState87, 2),
+      deleteThisCategory = _useState88[0],
+      setDeleteThisCategory = _useState88[1];
+
+  var _useState89 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    leaveEditCollectionWithoutSaveChange: false,
+    newCollection: false,
+    collectionDeleted: false
+  }),
+      _useState90 = _slicedToArray(_useState89, 2),
+      is = _useState90[0],
+      setIs = _useState90[1];
 
   var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_15__.useNavigate)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
@@ -23845,6 +23846,7 @@ var Appcontainer = function Appcontainer() {
 
 
   var initCollectionForm = function initCollectionForm() {
+    console.log('initCollectionForm');
     setNameCollection('');
     setDescriptionCollection('');
     setDescriptionCollectionForMeta('');
@@ -23959,22 +23961,9 @@ var Appcontainer = function Appcontainer() {
         initCollectionForm();
         break;
 
-      case 'editCollection':
+      case 'leaveEditCollectionWithoutSaveChange':
         setIs(_objectSpread(_objectSpread({}, is), {}, {
           leaveEditCollectionWithoutSaveChange: true
-        })); // isEdit indique qu'on veut éditer la collection
-
-        navigate('/add-collection', {
-          state: {
-            collectionId: tmp_parameter,
-            isEdit: true
-          }
-        });
-        break;
-
-      case 'leaveEditCollectionWithoutChange':
-        setIs(_objectSpread(_objectSpread({}, is), {}, {
-          leave: true
         })); // vider form creat collection quand on edit sans rien changer
 
         setIs_Edit(false);
@@ -24217,27 +24206,9 @@ var RowListCollections = function RowListCollections(_ref) {
       distanceFromBottom = _useState6[0],
       setDistanceFromBottom = _useState6[1];
 
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
-      _useState8 = _slicedToArray(_useState7, 2),
-      idToEdit = _useState8[0],
-      setIdToEdit = _useState8[1];
-
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
-      isDirty = _useContext.isDirty,
-      setIsDirty = _useContext.setIsDirty,
-      setMessageModal = _useContext.setMessageModal,
-      sender = _useContext.sender,
-      setSender = _useContext.setSender,
-      setImageModal = _useContext.setImageModal,
-      setTmp_parameter = _useContext.setTmp_parameter,
-      showModalConfirm = _useContext.showModalConfirm,
-      setShowModalConfirm = _useContext.setShowModalConfirm,
-      textButtonConfirm = _useContext.textButtonConfirm,
-      setTextButtonConfirm = _useContext.setTextButtonConfirm,
-      handleModalConfirm = _useContext.handleModalConfirm,
-      handleModalCancel = _useContext.handleModalCancel,
-      imageModal = _useContext.imageModal,
-      messageModal = _useContext.messageModal,
+      setIdCollection = _useContext.setIdCollection,
+      setListCollections = _useContext.setListCollections,
       is = _useContext.is,
       setIs = _useContext.setIs;
 
@@ -24336,26 +24307,13 @@ var RowListCollections = function RowListCollections(_ref) {
   };
 
   var editCollection = function editCollection(id) {
-    if (isDirty) {
-      setIdToEdit(id);
-      setMessageModal('Le formulaire d\'édition contient d\'anciennes données non sauvegardées. ');
-      setTextButtonConfirm('Continuer');
-      setImageModal('../images/icons/trash_dirty.png');
-      setSender('editCollection');
-      setTmp_parameter(id);
-      setShowModalConfirm(true);
-    } else {
-      setIs(_objectSpread(_objectSpread({}, is), {}, {
-        isLeaveEditCollectionWithoutSaveChange: true
-      })); // isEdit indique qu'on veut éditer la collection
-
-      navigate('/add-collection', {
-        state: {
-          collectionId: id,
-          isEdit: true
-        }
-      });
-    }
+    // isEdit indique qu'on veut éditer la collection
+    navigate('/add-collection', {
+      state: {
+        collectionId: id,
+        isEdit: true
+      }
+    });
   }; // delete collection
 
 
@@ -24363,8 +24321,11 @@ var RowListCollections = function RowListCollections(_ref) {
     var idToDelete = new FormData();
     idToDelete.append('id', id);
     axios__WEBPACK_IMPORTED_MODULE_2___default().post("http://127.0.0.1:8000/deleteCollection", idToDelete).then(function (res) {
-      console.log(res.data);
-      setId(null);
+      setListCollections(res.data);
+      setIdCollection(null);
+      setIs(_objectSpread(_objectSpread({}, is), {}, {
+        collectionDeleted: true
+      }));
     });
   };
 
@@ -24460,17 +24421,6 @@ var RowListCollections = function RowListCollections(_ref) {
           return deleteCollection(collection.id);
         }
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_modal_modalConfirm__WEBPACK_IMPORTED_MODULE_5__["default"], {
-      show: showModalConfirm // true/false show modal
-      ,
-      handleModalConfirm: handleModalConfirm,
-      handleModalCancel: handleModalCancel,
-      textButtonConfirm: textButtonConfirm,
-      image: imageModal,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h2", {
-        className: "childrenModal",
-        children: messageModal
-      })
     })]
   });
 };
@@ -25823,14 +25773,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
 
 
 
 
 
 var HeaderListCollections = function HeaderListCollections() {
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
+      setIsDirty = _useContext.setIsDirty,
+      setIs_Edit = _useContext.setIs_Edit,
+      is = _useContext.is,
+      setIs = _useContext.setIs;
+
   var tabs = document.getElementsByClassName('Tab');
   Array.prototype.forEach.call(tabs, function (tab) {
     tab.addEventListener('click', setActiveClass);
@@ -25843,19 +25807,26 @@ var HeaderListCollections = function HeaderListCollections() {
     evt.currentTarget.classList.add('active');
   }
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
     className: "flex-col w100pct",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "w100pct h50 brd-b-gray-light-1 bg-white flex-row-c-c",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
-        children: "my  HeaderListCollections"
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+        children: "my HeaderListCollections"
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: "w100pct p-lr-5pct h100 flex-row",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
         type: "button",
         className: "btn-submit m-l-auto",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
+        onClick: function onClick() {
+          setIsDirty(false);
+          setIs_Edit(false);
+          setIs(_objectSpread(_objectSpread({}, is), {}, {
+            newCollection: true
+          }));
+        },
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
           to: "/add-collection",
           children: "Ajouter une collection"
         })
@@ -25998,6 +25969,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _functions_temporaryStorage_handleTinyMceTemporary__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../functions/temporaryStorage/handleTinyMceTemporary */ "./resources/js/components/functions/temporaryStorage/handleTinyMceTemporary.js");
 /* harmony import */ var _functions_dateTools__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../functions/dateTools */ "./resources/js/components/functions/dateTools.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -26019,17 +25996,14 @@ __webpack_require__.r(__webpack_exports__);
 var CreateCollection = function CreateCollection() {
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       image = _useContext.image,
-      setImage = _useContext.setImage,
       setImagePath = _useContext.setImagePath,
       setFollowThisLink = _useContext.setFollowThisLink,
       showModalConfirm = _useContext.showModalConfirm,
       setShowModalConfirm = _useContext.setShowModalConfirm,
       showModalSimpleMessage = _useContext.showModalSimpleMessage,
       setShowModalSimpleMessage = _useContext.setShowModalSimpleMessage,
-      setShowModalInput = _useContext.setShowModalInput,
       messageModal = _useContext.messageModal,
       setMessageModal = _useContext.setMessageModal,
-      sender = _useContext.sender,
       setSender = _useContext.setSender,
       textButtonConfirm = _useContext.textButtonConfirm,
       setTextButtonConfirm = _useContext.setTextButtonConfirm,
@@ -26042,7 +26016,6 @@ var CreateCollection = function CreateCollection() {
       setListCategories = _useContext.setListCategories,
       isDirty = _useContext.isDirty,
       setIsDirty = _useContext.setIsDirty,
-      tmp_parameter = _useContext.tmp_parameter,
       nameCollection = _useContext.nameCollection,
       setNameCollection = _useContext.setNameCollection,
       descriptionCollection = _useContext.descriptionCollection,
@@ -26057,7 +26030,6 @@ var CreateCollection = function CreateCollection() {
       setAllConditionsNeeded = _useContext.setAllConditionsNeeded,
       notIncludePrevProduct = _useContext.notIncludePrevProduct,
       setNotIncludePrevProduct = _useContext.setNotIncludePrevProduct,
-      warningIdCondition = _useContext.warningIdCondition,
       setWarningIdCondition = _useContext.setWarningIdCondition,
       normalizUrl = _useContext.normalizUrl,
       metaTitle = _useContext.metaTitle,
@@ -26077,7 +26049,6 @@ var CreateCollection = function CreateCollection() {
       setCategoryId = _useContext.setCategoryId,
       dateField = _useContext.dateField,
       setDateField = _useContext.setDateField,
-      tinyLanguage = _useContext.tinyLanguage,
       setTinyLanguage = _useContext.setTinyLanguage,
       idCollection = _useContext.idCollection,
       setIdCollection = _useContext.setIdCollection,
@@ -26085,7 +26056,6 @@ var CreateCollection = function CreateCollection() {
       handleModalConfirm = _useContext.handleModalConfirm,
       handleModalCancel = _useContext.handleModalCancel,
       initCollectionForm = _useContext.initCollectionForm,
-      cleanTemporayStorage = _useContext.cleanTemporayStorage,
       is = _useContext.is,
       setIs = _useContext.setIs,
       collectionForm = _useContext.collectionForm,
@@ -26105,22 +26075,10 @@ var CreateCollection = function CreateCollection() {
       isEdit = _ref.isEdit;
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    // set date field with localStorage Data
-    localStorage.getItem('dateActivation') ? setDateField(localStorage.getItem('dateActivation')) : setDateField((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_13__.getNow)()); // init metaUrl, "useLocalStorage déclenche des erreurs "
+    // set date field at now
+    setDateField((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_13__.getNow)()); // init metaUrl with base url
 
-    localStorage.getItem('metaUrl') ? setMetaUrl(localStorage.getItem('metaUrl')) : setMetaUrl(window.location.origin + '/'); // check if form is dirty
-
-    var conditonDirty = false;
-    conditions.forEach(function (condition) {
-      if (condition.value != '') {
-        conditonDirty = true;
-      }
-    });
-
-    if (nameCollection != '' || descriptionCollection != '' || alt != '' || imageName != '' || metaTitle != '' || metaDescription != '' || metaUrl != window.location.origin + '/' || image != '' || categoryName != 'Aucune catégorie' || categoryId != 0 || localStorage.getItem('dateActivation') != null || conditonDirty == true) {
-      setIsDirty(true);
-    } // set l'URL de cette page
-
+    setMetaUrl(window.location.origin + '/'); // set l'URL de cette page
 
     var path = window.location.pathname.replace('admin/', '');
     setFollowThisLink(path); // detection navigator language
@@ -26170,6 +26128,9 @@ var CreateCollection = function CreateCollection() {
 
     if (isEdit) {
       initCollectionForm();
+      setIs(_objectSpread(_objectSpread({}, is), {}, {
+        newCollection: false
+      }));
       axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/getCollectionById/".concat(collectionId)).then(function (res) {
         var _res$data$objConditio, _res$data$objConditio2, _res$data$image, _res$data$category;
 
@@ -26245,9 +26206,11 @@ var CreateCollection = function CreateCollection() {
         console.log('error:   ' + error);
       });
     }
-  }, []); // demande confirmation avant de quitter le form sans sauvegarder
+  }, []);
+  console.log('newCollection ndx ', is.newCollection); //  // FAUT IL CONTINUER A CHECKER SI IS DIRTY ???
+  // demande confirmation avant de quitter le form sans sauvegarder
 
-  (0,_hooks_usePromptCollection__WEBPACK_IMPORTED_MODULE_2__.usePromptCollection)('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?', isDirty, 'leaveEditCollectionWithoutChange');
+  (0,_hooks_usePromptCollection__WEBPACK_IMPORTED_MODULE_2__.usePromptCollection)('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?', isDirty);
 
   var handleNameCollection = function handleNameCollection(e) {
     setNameCollection(e.target.value);
@@ -26306,7 +26269,7 @@ var CreateCollection = function CreateCollection() {
       setImageModal('../images/icons/trash_dirty.png');
       setShowModalSimpleMessage(true);
       return false;
-    } // check if nema of collection already exist
+    } // check if neme of collection already exist
 
 
     var listCollectionName = listCollections.map(function (item) {
@@ -26385,10 +26348,7 @@ var CreateCollection = function CreateCollection() {
         console.log('res.data  --->  ok');
 
         if (res.data === 'ok') {
-          initCollectionForm(); // gére le netoyage des images et vidéos dans  temporaryStorage 
-
-          var keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection'];
-          cleanTemporayStorage(keys_toDelete);
+          initCollectionForm();
           setIdCollection(null); // chargement des collections
           // refresh data after save new collection
 
@@ -26560,6 +26520,7 @@ var ListCollections = function ListCollections() {
       searchValue = _useContext.searchValue,
       setSearchValue = _useContext.setSearchValue,
       is = _useContext.is,
+      setIs = _useContext.setIs,
       messageModal = _useContext.messageModal,
       textButtonConfirm = _useContext.textButtonConfirm,
       imageModal = _useContext.imageModal,
@@ -26580,6 +26541,20 @@ var ListCollections = function ListCollections() {
       });
     }
   }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // re-chargement des collections quand on delete une collection
+    axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/collections-list-back-end").then(function (res) {
+      // listCollections -> liste complète des collections pour handleSearch
+      setListCollections(res.data[0]);
+      setListCollectionsFiltered(res.data[0]);
+      setListCategories(res.data[1]);
+      setIs(_objectSpread(_objectSpread({}, is), {}, {
+        collectionDeleted: false
+      }));
+    })["catch"](function (error) {
+      console.log('error:   ' + error);
+    });
+  }, [is.collectionDeleted]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // add category name in the new property categoryName
     listCollections && listCollections.map(function (item, index) {
@@ -30606,12 +30581,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
 /* harmony import */ var _useBlocker__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./useBlocker */ "./resources/js/components/hooks/useBlocker.jsx");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+/* harmony import */ var _functions_dateTools__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../functions/dateTools */ "./resources/js/components/functions/dateTools.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -30626,10 +30596,17 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
-function usePromptCollection(messageObj, shouldPrompt, sendedBy) {
+
+
+function usePromptCollection(messageObj, shouldPrompt) {
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       is = _useContext.is,
       setIs = _useContext.setIs,
@@ -30650,6 +30627,7 @@ function usePromptCollection(messageObj, shouldPrompt, sendedBy) {
       metaTitle = _useContext.metaTitle,
       metaDescription = _useContext.metaDescription,
       metaUrl = _useContext.metaUrl,
+      image = _useContext.image,
       imageName = _useContext.imageName,
       alt = _useContext.alt,
       categoryName = _useContext.categoryName,
@@ -30663,115 +30641,155 @@ function usePromptCollection(messageObj, shouldPrompt, sendedBy) {
   var retryFn = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(function () {});
 
   var checkDirty = function checkDirty() {
-    // tinyMCE ajoute des caractères undefined qui e permettent pas de faire une comparaison alors on compte chaque caractères dans les deux texte et on compare leur nombre pour avoir plus de chances de repérer les textes différents 
-    var maxLength = Math.max(collectionForm.descriptionCollection.length, descriptionCollection.length);
-    var a = descriptionCollection;
-    var b = collectionForm.descriptionCollection;
-    var tab = [];
+    setIs(_objectSpread(_objectSpread({}, is), {}, {
+      newCollection: false
+    }));
+    return false;
 
-    for (var i = 0; i < maxLength; i++) {
-      if (!tab.includes(a[i]) && a[i] !== null) {
-        tab.push(a[i]);
+    if (!is.newCollection) {
+      // tinyMCE ajoute des caractères undefined qui e permettent pas de faire une comparaison alors on compte chaque caractères dans les deux texte et on compare leur nombre pour avoir plus de chances de repérer les textes différents 
+      var maxLength = Math.max(collectionForm.descriptionCollection.length, descriptionCollection.length);
+      var a = descriptionCollection;
+      var b = collectionForm.descriptionCollection;
+      var tab = [];
+
+      for (var i = 0; i < maxLength; i++) {
+        if (!tab.includes(a[i]) && a[i] !== null) {
+          tab.push(a[i]);
+        }
       }
-    }
 
-    var occurenceA = 0;
-    var occurenceB = 0;
+      var occurenceA = 0;
+      var occurenceB = 0;
 
-    var _loop = function _loop(_i) {
-      occurenceA = _toConsumableArray(a).filter(function (item) {
-        return item === tab[_i];
-      }).length;
-      occurenceB = _toConsumableArray(b).filter(function (item) {
-        return item === tab[_i];
-      }).length;
+      var _loop = function _loop(_i) {
+        occurenceA = _toConsumableArray(a).filter(function (item) {
+          return item === tab[_i];
+        }).length;
+        occurenceB = _toConsumableArray(b).filter(function (item) {
+          return item === tab[_i];
+        }).length;
 
-      if (occurenceA !== occurenceB) {
-        setIsDirty(true);
-        return {
-          v: true
-        };
+        if (occurenceA !== occurenceB) {
+          setIsDirty(true);
+          return {
+            v: true
+          };
+        }
+      };
+
+      for (var _i = 0; _i < tab.length; _i++) {
+        var _ret = _loop(_i);
+
+        if (_typeof(_ret) === "object") return _ret.v;
       }
-    };
 
-    for (var _i = 0; _i < tab.length; _i++) {
-      var _ret = _loop(_i);
+      switch (true) {
+        case JSON.stringify(collectionForm.conditions) !== JSON.stringify(conditions):
+          setIsDirty(true);
+          return true;
 
-      if (_typeof(_ret) === "object") return _ret.v;
-    }
+        case collectionForm.nameCollection !== nameCollection:
+          setIsDirty(true);
+          return true;
 
-    switch (true) {
-      case JSON.stringify(collectionForm.conditions) !== JSON.stringify(conditions):
-        setIsDirty(true);
-        return true;
+        case collectionForm.metaTitle !== metaTitle:
+          setIsDirty(true);
+          return true;
 
-      case collectionForm.nameCollection !== nameCollection:
-        setIsDirty(true);
-        return true;
+        case collectionForm.metaDescription !== metaDescription:
+          setIsDirty(true);
+          return true;
 
-      case collectionForm.metaTitle !== metaTitle:
-        setIsDirty(true);
-        return true;
+        case collectionForm.metaUrl !== metaUrl:
+          setIsDirty(true);
+          return true;
 
-      case collectionForm.metaDescription !== metaDescription:
-        setIsDirty(true);
-        return true;
+        case collectionForm.imageName !== imageName:
+          setIsDirty(true);
+          return true;
 
-      case collectionForm.metaUrl !== metaUrl:
-        setIsDirty(true);
-        return true;
+        case collectionForm.alt !== alt:
+          setIsDirty(true);
+          return true;
 
-      case collectionForm.imageName !== imageName:
-        setIsDirty(true);
-        return true;
+        case collectionForm.categoryName !== categoryName:
+          setIsDirty(true);
+          return true;
 
-      case collectionForm.alt !== alt:
-        setIsDirty(true);
-        return true;
+        case collectionForm.categoryId !== categoryId:
+          setIsDirty(true);
+          return true;
 
-      case collectionForm.categoryName !== categoryName:
-        setIsDirty(true);
-        return true;
+        case collectionForm.dateField !== dateField:
+          setIsDirty(true);
+          return true;
 
-      case collectionForm.categoryId !== categoryId:
-        setIsDirty(true);
-        return true;
+        case collectionForm.isAutoConditions !== isAutoConditions:
+          setIsDirty(true);
+          return true;
 
-      case collectionForm.dateField !== dateField:
-        setIsDirty(true);
-        return true;
+        case collectionForm.notIncludePrevProduct !== notIncludePrevProduct:
+          setIsDirty(true);
+          return true;
 
-      case collectionForm.isAutoConditions !== isAutoConditions:
-        setIsDirty(true);
-        return true;
+        case collectionForm.allConditionsNeeded !== allConditionsNeeded:
+          setIsDirty(true);
+          return true;
 
-      case collectionForm.notIncludePrevProduct !== notIncludePrevProduct:
-        setIsDirty(true);
-        return true;
+        default:
+          setIsDirty(false);
+          setIs(_objectSpread(_objectSpread({}, is), {}, {
+            newCollection: false
+          }));
+          return false;
+      }
+    } // if (is.newCollection) {
+    //     setIs({...is, newCollection: false});
+    //     // check if form is dirty
+    //     var conditonDirty = false;
+    //     conditions.forEach(condition => {
+    //         if (condition.value != '') {
+    //             conditonDirty = true;
+    //         }
+    //     })
+    //     if (
+    //         nameCollection != '' ||
+    //         descriptionCollection != '' ||
+    //         alt != '' ||
+    //         imageName != '' ||
+    //         metaTitle != '' ||
+    //         metaDescription != '' ||
+    //         metaUrl != window.location.origin + '/' ||
+    //         image != '' ||
+    //         categoryName != 'Sans catégorie' ||
+    //         categoryId != 1 ||
+    //         // dateField != getNow() ||
+    //         conditonDirty == true
+    //     ) {
+    //         setIsDirty(true);
+    //         return true;
+    //     } else {
+    //         setIsDirty(false);
+    //     }
+    // }
 
-      case collectionForm.allConditionsNeeded !== allConditionsNeeded:
-        setIsDirty(true);
-        return true;
-
-      default:
-        return false;
-    }
   };
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    if (is.leave) {
+    if (is.leaveEditCollectionWithoutSaveChange) {
       setIs(_objectSpread(_objectSpread({}, is), {}, {
-        leave: false
+        leaveEditCollectionWithoutSaveChange: false
       }));
       retryFn.current();
     }
-  }, [is.leave]);
+  }, [is.leaveEditCollectionWithoutSaveChange]); // confirm leave without save collection modal
 
   function openModal() {
     setMessageModal(messageObj);
     setTextButtonConfirm('Confirmer');
     setImageModal('../images/icons/trash_dirty.png');
-    setSender(sendedBy);
+    setSender('leaveEditCollectionWithoutSaveChange');
     setTmp_parameter('');
     setShowModalConfirm(true);
   }
@@ -30786,10 +30804,11 @@ function usePromptCollection(messageObj, shouldPrompt, sendedBy) {
     } else {
       // si on click pour éditer mais qu'on change rien et qu'on quitte isDirty reste false mais si on change qlq chose isDirty ne se met pas à true et donc on "checkDirty" pour voir si qlq chose a changée 
       if (checkDirty()) {
+        console.log('checkDirty()  ', checkDirty());
         openModal();
         retryFn.current = retry;
       } else {
-        // rien a changé mais on initialise pour nettoyer le form
+        // rien a changé mais on initialise pour nettoyer le form !Important
         setIs_Edit(false);
         setIdCollection(null);
         initCollectionForm();

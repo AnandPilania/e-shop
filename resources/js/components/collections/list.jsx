@@ -24,7 +24,7 @@ const ListCollections = () => {
         ceated_atSens: true
     });
 
-    const { listCollections, setListCollections, listCategories, setListCategories, setCategoriesChecked, searchValue, setSearchValue, is, messageModal, textButtonConfirm, imageModal, showModalConfirm, handleModalConfirm, handleModalCancel } = useContext(AppContext);
+    const { listCollections, setListCollections, listCategories, setListCategories, setCategoriesChecked, searchValue, setSearchValue, is, setIs, messageModal, textButtonConfirm, imageModal, showModalConfirm, handleModalConfirm, handleModalCancel } = useContext(AppContext);
 
     useEffect(() => {
         if (listCollectionsFiltered.length === 0) {
@@ -41,12 +41,27 @@ const ListCollections = () => {
         }
     }, []);
 
+    useEffect(() => {
+        // re-chargement des collections quand on delete une collection
+        Axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
+            .then(res => {
+                // listCollections -> liste complète des collections pour handleSearch
+                setListCollections(res.data[0]);
+                setListCollectionsFiltered(res.data[0]);
+                setListCategories(res.data[1]);
+                setIs({ ...is, collectionDeleted: false });
+            }).catch(function (error) {
+                console.log('error:   ' + error);
+            });
+    }, [is.collectionDeleted]);
+
 
     useEffect(() => {
         // add category name in the new property categoryName
         listCollections && listCollections.map((item, index) => {
             listCollections[index].categoryName = item.category ? item.category.name : '';
         })
+
     }, [listCollections]);
 
     // sort router 

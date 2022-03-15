@@ -17,11 +17,8 @@ import { getNow, getDateTime } from '../functions/dateTools';
 const CreateCollection = () => {
 
     const {
-        image, setImage, setImagePath, setFollowThisLink, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage,
-        setShowModalInput, messageModal, setMessageModal, sender, setSender, textButtonConfirm, setTextButtonConfirm, imageModal, setImageModal, is_Edit, setIs_Edit, listCollections, setListCollections, setListCategories, isDirty, setIsDirty, tmp_parameter, nameCollection, setNameCollection, descriptionCollection, setDescriptionCollection,
-        descriptionCollectionForMeta, setDescriptionCollectionForMeta, conditions, setConditions, isAutoConditions, setIsAutoConditions,
-        allConditionsNeeded, setAllConditionsNeeded, notIncludePrevProduct, setNotIncludePrevProduct, warningIdCondition, setWarningIdCondition,
-        normalizUrl, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, imageName, setImageName, imagePath, alt, setAlt, categoryName, setCategoryName, categoryId, setCategoryId, dateField, setDateField, tinyLanguage, setTinyLanguage, idCollection, setIdCollection, setTmp_parameter, handleModalConfirm, handleModalCancel, initCollectionForm, cleanTemporayStorage, is, setIs, collectionForm, setCollectionForm
+        image, setImagePath, setFollowThisLink, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage,
+        messageModal, setMessageModal, setSender, textButtonConfirm, setTextButtonConfirm, imageModal, setImageModal, is_Edit, setIs_Edit, listCollections, setListCollections, setListCategories, isDirty, setIsDirty, nameCollection, setNameCollection, descriptionCollection, setDescriptionCollection, descriptionCollectionForMeta, setDescriptionCollectionForMeta, conditions, setConditions, isAutoConditions, setIsAutoConditions, allConditionsNeeded, setAllConditionsNeeded, notIncludePrevProduct, setNotIncludePrevProduct, setWarningIdCondition, normalizUrl, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, imageName, setImageName, imagePath, alt, setAlt, categoryName, setCategoryName, categoryId, setCategoryId, dateField, setDateField, setTinyLanguage, idCollection, setIdCollection, setTmp_parameter, handleModalConfirm, handleModalCancel, initCollectionForm, is, setIs, collectionForm, setCollectionForm
     } = useContext(AppContext);
 
     var navigate = useNavigate();
@@ -33,36 +30,11 @@ const CreateCollection = () => {
 
     useEffect(() => {
 
-        // set date field with localStorage Data
-        localStorage.getItem('dateActivation') ? setDateField(localStorage.getItem('dateActivation')) : setDateField(getNow());
+        // set date field at now
+        setDateField(getNow());
 
-        // init metaUrl, "useLocalStorage déclenche des erreurs "
-        localStorage.getItem('metaUrl') ? setMetaUrl(localStorage.getItem('metaUrl')) : setMetaUrl(window.location.origin + '/');
-
-        // check if form is dirty
-        var conditonDirty = false;
-        conditions.forEach(condition => {
-            if (condition.value != '') {
-                conditonDirty = true;
-            }
-        })
-        if (
-            nameCollection != '' ||
-            descriptionCollection != '' ||
-            alt != '' ||
-            imageName != '' ||
-            metaTitle != '' ||
-            metaDescription != '' ||
-            metaUrl != window.location.origin + '/' ||
-            image != '' ||
-            categoryName != 'Aucune catégorie' ||
-            categoryId != 0 ||
-            localStorage.getItem('dateActivation') != null ||
-            conditonDirty == true
-        ) {
-            setIsDirty(true);
-
-        }
+        // init metaUrl with base url
+        setMetaUrl(window.location.origin + '/');
 
         // set l'URL de cette page
         let path = window.location.pathname.replace('admin/', '');
@@ -103,12 +75,12 @@ const CreateCollection = () => {
                 setTinyLanguage('fr_FR');
         }
 
-
+        
 
         if (isEdit) {
             initCollectionForm();
+            setIs({...is, newCollection: false});
             Axios.get(`http://127.0.0.1:8000/getCollectionById/${collectionId}`)
-
                 .then(res => {
                     res.data.objConditions?.length > 0 ? setConditions(JSON.parse(res.data.objConditions)) : setConditions([{ id: 0, parameter: '1', operator: '1', value: '' }]);
                     res.data.automatise === 1 ? setIsAutoConditions(true) : setIsAutoConditions(false);
@@ -175,11 +147,12 @@ const CreateCollection = () => {
         }
     }, []);
 
+    console.log('newCollection ndx ', is.newCollection)
+    //  // FAUT IL CONTINUER A CHECKER SI IS DIRTY ???
 
     // demande confirmation avant de quitter le form sans sauvegarder
-    usePromptCollection('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?', isDirty, 'leaveEditCollectionWithoutChange');
-
-
+    usePromptCollection('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?', isDirty);
+    
     const handleNameCollection = (e) => {
         setNameCollection(e.target.value);
         localStorage.setItem("nameCollection", e.target.value);
@@ -240,7 +213,7 @@ const CreateCollection = () => {
             return false;
         }
 
-        // check if nema of collection already exist
+        // check if neme of collection already exist
         let listCollectionName = listCollections.map(item => item.name);
         if (!isEdit && listCollectionName.includes(nameCollection)) {
             setMessageModal('Le nom de collection que vous avez entré éxiste déjà. Veuillez entrer un nom différent');
@@ -317,9 +290,6 @@ const CreateCollection = () => {
                     console.log('res.data  --->  ok');
                     if (res.data === 'ok') {
                         initCollectionForm();
-                        // gére le netoyage des images et vidéos dans  temporaryStorage 
-                        let keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection']
-                        cleanTemporayStorage(keys_toDelete);
                         setIdCollection(null);
 
                         // chargement des collections

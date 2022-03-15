@@ -19,24 +19,24 @@ import CroppeImage from '../croppeJs/croppeJs';
 const Appcontainer = () => {
 
     // collection form----------------------------------------------------------
-    const [conditions, setConditions] = useLocalStorage("conditions", [{
+    const [conditions, setConditions] = useState([{
         id: 0,
         parameter: '1',
         operator: '1',
         value: ''
     }]);
-    const [nameCollection, setNameCollection] = useLocalStorage("nameCollection", "");
-    const [descriptionCollection, setDescriptionCollection] = useState(localStorage.getItem('descriptionCollection') ? localStorage.getItem('descriptionCollection') : '');
-    const [metaTitle, setMetaTitle] = useLocalStorage("metaTitle", "");
-    const [metaDescription, setMetaDescription] = useLocalStorage("metaDescription", "");
+    const [nameCollection, setNameCollection] = useState('');
+    const [descriptionCollection, setDescriptionCollection] = useState('');
+    const [metaTitle, setMetaTitle] = useState('');
+    const [metaDescription, setMetaDescription] = useState('');
     const [metaUrl, setMetaUrl] = useState(window.location.origin + '/');
-    const [imageName, setImageName] = useLocalStorage("imageName", "");
-    const [alt, setAlt] = useLocalStorage("altCollection", "");
-    const [categoryName, setCategoryName] = useLocalStorage('categoryName', 'Aucune catégorie');
-    const [categoryId, setCategoryId] = useLocalStorage("categoryId", "");
-    const [dateField, setDateField] = useState('');
+    const [imageName, setImageName] = useState('');
+    const [alt, setAlt] = useState('');
+    const [categoryName, setCategoryName] = useState('Sans catégorie');
+    const [categoryId, setCategoryId] = useState(1);
+    const [dateField, setDateField] = useState(getNow());
     const [descriptionCollectionForMeta, setDescriptionCollectionForMeta] = useState('');
-    const [imagePath, setImagePath] = useLocalStorage("imagePath", "");
+    const [imagePath, setImagePath] = useState('');
     const [image, setImage] = useState([]);
     const [isAutoConditions, setIsAutoConditions] = useState(true);
     const [notIncludePrevProduct, setNotIncludePrevProduct] = useState(false);
@@ -55,9 +55,9 @@ const Appcontainer = () => {
         metaUrl: window.location.origin + '/',
         imageName: '',
         alt: '',
-        categoryName: 'Aucune catégorie',
-        categoryId: '',
-        dateField: '',
+        categoryName: 'Sans catégorie',
+        categoryId: 1,
+        dateField: getNow(),
         descriptionCollectionForMeta: '',
         imagePath: '',
         image: [],
@@ -103,7 +103,8 @@ const Appcontainer = () => {
     const [deleteThisCategory, setDeleteThisCategory] = useState(null);
     const [is, setIs] = useState({
         leaveEditCollectionWithoutSaveChange: false,
-        leave: false,
+        newCollection: false,
+        collectionDeleted: false,
     });
 
 
@@ -147,7 +148,8 @@ const Appcontainer = () => {
 
 
     // réinitialisation des states du form -------------------------------------
-    const initCollectionForm = () => {
+    const initCollectionForm = () => {  
+        console.log('initCollectionForm')
         setNameCollection('');
         setDescriptionCollection('');
         setDescriptionCollectionForMeta('');
@@ -261,13 +263,8 @@ const Appcontainer = () => {
             case 'initCollectionForm':
                 initCollectionForm();
                 break;
-            case 'editCollection':
+            case 'leaveEditCollectionWithoutSaveChange':
                 setIs({ ...is, leaveEditCollectionWithoutSaveChange: true });
-                // isEdit indique qu'on veut éditer la collection
-                navigate('/add-collection', { state: { collectionId: tmp_parameter, isEdit: true } });
-                break;
-            case 'leaveEditCollectionWithoutChange':
-                setIs({ ...is, leave: true });
                 // vider form creat collection quand on edit sans rien changer
                 setIs_Edit(false);
                 setIdCollection(null);

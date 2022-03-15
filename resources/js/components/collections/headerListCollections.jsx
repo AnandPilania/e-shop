@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import AppContext from '../contexts/AppContext';
 import { Link } from 'react-router-dom';
 
 
 const HeaderListCollections = () => {
+
+    const { setIsDirty, setIs_Edit, is, setIs } = useContext(AppContext);
+
 
     var tabs = document.getElementsByClassName('Tab');
 
@@ -40,10 +44,16 @@ const HeaderListCollections = () => {
 
 
             <div className='w100pct h50 brd-b-gray-light-1 bg-white flex-row-c-c'>
-                <span>my  HeaderListCollections</span>
+                <span>my HeaderListCollections</span>
             </div>
             <div className='w100pct p-lr-5pct h100 flex-row'>
-                <button type="button" className='btn-submit m-l-auto'><Link to="/add-collection">Ajouter une collection</Link></button>
+                <button type="button" className='btn-submit m-l-auto'
+                    onClick={() => {
+                        setIsDirty(false);
+                        setIs_Edit(false);
+                        setIs({...is, newCollection: true});
+                    }
+                    }><Link to="/add-collection">Ajouter une collection</Link></button>
             </div>
         </div>
     );
