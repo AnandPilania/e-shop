@@ -1,5 +1,5 @@
-import { React, useEffect, useContext } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { React, useEffect, useContext, useCallback } from 'react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import AppContext from '../contexts/AppContext';
 import { usePromptCollection } from '../hooks/usePromptCollection';
 import Axios from 'axios';
@@ -75,11 +75,12 @@ const CreateCollection = () => {
                 setTinyLanguage('fr_FR');
         }
 
-        
+
 
         if (isEdit) {
             initCollectionForm();
-            setIs({...is, newCollection: false});
+            setIs({ ...is, newCollection: false });
+            setIsDirty(true);
             Axios.get(`http://127.0.0.1:8000/getCollectionById/${collectionId}`)
                 .then(res => {
                     res.data.objConditions?.length > 0 ? setConditions(JSON.parse(res.data.objConditions)) : setConditions([{ id: 0, parameter: '1', operator: '1', value: '' }]);
@@ -125,20 +126,6 @@ const CreateCollection = () => {
                         allConditionsNeeded: res.data.allConditionsNeeded === 1 ? true : false
                     })
 
-                    // if (res.data.image !== null && res.data.image !== '') {
-                    //     setCollectionForm({
-                    //         ...collectionForm,
-                    //         imageName: res.data.image.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''),
-                    //         imagePath: res.data.image
-                    //     });
-                    // } else {
-                    //     setCollectionForm({
-                    //         ...collectionForm,
-                    //         imageName: '',
-                    //         imagePath: ''
-                    //     });
-                    // }
-
                     setIs_Edit(true);
 
                 }).catch(function (error) {
@@ -147,15 +134,98 @@ const CreateCollection = () => {
         }
     }, []);
 
-    console.log('newCollection ndx ', is.newCollection)
-    //  // FAUT IL CONTINUER A CHECKER SI IS DIRTY ???
+    const checkIfIsDirty = () => {
+        if (!is.newCollection) {
+            // tinyMCE ajoute des caractères undefined qui e permettent pas de faire une comparaison alors on compte chaque caractères dans les deux texte et on compare leur nombre pour avoir plus de chances de repérer les textes différents 
+            let maxLength = Math.max(collectionForm.descriptionCollection.length, descriptionCollection.length);
+            var a = descriptionCollection;
+            var b = collectionForm.descriptionCollection;
+            var tab = [];
+            for (let i = 0; i < maxLength; i++) {
+                if (!tab.includes(a[i]) && a[i] !== null) {
+                    tab.push(a[i]);
+                }
+            }
+            var occurenceA = 0;
+            var occurenceB = 0;
+            for (let i = 0; i < tab.length; i++) {
+                occurenceA = [...a].filter(item => item === tab[i]).length;
+                occurenceB = [...b].filter(item => item === tab[i]).length;
+                if (occurenceA !== occurenceB) {
+                    return true;
+                }
+            }
+            switch (true) {
+                case JSON.stringify(collectionForm.conditions) !== JSON.stringify(conditions):
+                    return true;
+                case collectionForm.nameCollection !== nameCollection:
+                    return true;
+                case collectionForm.metaTitle !== metaTitle:
+                    return true;
+                case collectionForm.metaDescription !== metaDescription:
+                    return true;
+                case collectionForm.metaUrl !== metaUrl:
+                    return true;
+                case collectionForm.imageName !== imageName:
+                    return true;
+                case collectionForm.alt !== alt:
+                    return true;
+                case collectionForm.categoryName !== categoryName:
+                    return true;
+                case collectionForm.categoryId !== categoryId:
+                    return true;
+                case collectionForm.dateField !== dateField:
+                     return true;
+                case collectionForm.isAutoConditions !== isAutoConditions:
+                    return true;
+                case collectionForm.notIncludePrevProduct !== notIncludePrevProduct:
+                    return true;
+                case collectionForm.allConditionsNeeded !== allConditionsNeeded:
+                    return true;
+                default:
+                    setIs_Edit(false);
+                    setIdCollection(null);
+                    return false;
+            }
+        }
+
+        if (is.newCollection) {
+            setIs({ ...is, newCollection: false });
+            var conditonDirty = false;
+            conditions.forEach(condition => {
+                if (condition.value != '') {
+                    conditonDirty = true;
+                }
+            })
+            if (
+                nameCollection != '' ||
+                descriptionCollection != '' ||
+                alt != '' ||
+                imageName != '' ||
+                metaTitle != '' ||
+                metaDescription != '' ||
+                metaUrl != window.location.origin + '/' ||
+                image != '' ||
+                categoryName != 'Sans catégorie' ||
+                categoryId != 1 ||
+                // dateField != getNow() ||
+                conditonDirty == true
+            ) {
+                return true;
+            } else {
+                setIdCollection(null);
+                return false;
+            }
+        }
+    }
 
     // demande confirmation avant de quitter le form sans sauvegarder
-    usePromptCollection('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?', isDirty);
-    
+    usePromptCollection('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?', checkIfIsDirty);
+
+
     const handleNameCollection = (e) => {
         setNameCollection(e.target.value);
-        localStorage.setItem("nameCollection", e.target.value);
+        nameCollection.length > 0 && setIsDirty(true);
     };
 
     // Reset Form---------------------------------------------------------------
@@ -249,6 +319,7 @@ const CreateCollection = () => {
     }
 
 
+
     // submit
     function handleSubmit() {
         let valid = validation();
@@ -291,7 +362,6 @@ const CreateCollection = () => {
                     if (res.data === 'ok') {
                         initCollectionForm();
                         setIdCollection(null);
-
                         // chargement des collections
                         // refresh data after save new collection
                         Axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
@@ -342,6 +412,7 @@ const CreateCollection = () => {
                 <div className="div-label-inputTxt">
                     <button className="btn-submit" onClick={handleSubmit}>
                         Enregistrer
+                        {/* <Link to="/collections-list">Enregistrer</Link> */}
                     </button>
                 </div>
             </div>

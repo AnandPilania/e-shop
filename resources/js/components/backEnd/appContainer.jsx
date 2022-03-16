@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from 'react';
 import AppContext from '../contexts/AppContext';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import Axios from 'axios';
 import { getNow } from '../functions/dateTools';
@@ -12,7 +12,6 @@ import EditImages from '../createProduct/edit_images';
 import List from '../createProduct/list';
 import ListCollections from '../collections/list';
 import CreateCollection from '../collections/index';
-import ModalApp from '../modal/modalApp';
 import CroppeImage from '../croppeJs/croppeJs';
 
 
@@ -38,7 +37,7 @@ const Appcontainer = () => {
     const [descriptionCollectionForMeta, setDescriptionCollectionForMeta] = useState('');
     const [imagePath, setImagePath] = useState('');
     const [image, setImage] = useState([]);
-    const [isAutoConditions, setIsAutoConditions] = useState(true);
+    const [isAutoConditions, setIsAutoConditions] = useState(false);
     const [notIncludePrevProduct, setNotIncludePrevProduct] = useState(false);
     const [allConditionsNeeded, setAllConditionsNeeded] = useState(true);
     const [collectionForm, setCollectionForm] = useState({
@@ -105,10 +104,8 @@ const Appcontainer = () => {
         leaveEditCollectionWithoutSaveChange: false,
         newCollection: false,
         collectionDeleted: false,
-    });
+     });
 
-
-    var navigate = useNavigate();
 
     useEffect(() => {
         // chargement des collections
@@ -149,7 +146,6 @@ const Appcontainer = () => {
 
     // réinitialisation des states du form -------------------------------------
     const initCollectionForm = () => {  
-        console.log('initCollectionForm')
         setNameCollection('');
         setDescriptionCollection('');
         setDescriptionCollectionForMeta('');
@@ -169,6 +165,7 @@ const Appcontainer = () => {
             operator: '1',
             value: ''
         }]);
+        setIsAutoConditions(false);
         setDateField(getNow());
 
         setCollectionForm({
@@ -191,7 +188,7 @@ const Appcontainer = () => {
             descriptionCollectionForMeta: '',
             imagePath: '',
             image: [],
-            isAutoConditions: true,
+            isAutoConditions: false,
             notIncludePrevProduct: false,
             allConditionsNeeded: true,
         })
@@ -216,19 +213,6 @@ const Appcontainer = () => {
             document.getElementById("drop-message-dropZone").style.display = 'block';
         }
 
-        // vide le localStorage
-        localStorage.removeItem('nameCollection');
-        localStorage.removeItem('descriptionCollection');
-        localStorage.removeItem('metaTitle');
-        localStorage.removeItem('metaDescription');
-        localStorage.removeItem('image');
-        localStorage.removeItem('imageName');
-        localStorage.removeItem('altCollection');
-        localStorage.removeItem('metaUrl');
-        localStorage.removeItem('categoryName');
-        localStorage.removeItem('categoryId');
-        localStorage.removeItem('conditions');
-        localStorage.removeItem('dateActivation');
 
     }
     //----------------------------------------------------------------Reset Form
@@ -357,17 +341,6 @@ const Appcontainer = () => {
                         }
                     />
                 </Routes>
-                {/* modal for confirmation */}
-                {/* <ModalApp
-                    show={showModalApp} // true/false show modal
-                    handleModalApp={handleModalApp}
-                    handleModalAppCancel={handleModalAppCancel}
-                    textButtonModalApp={textButtonModalApp}
-                    textButtonModalApp2={textButtonModalApp2}
-                    image={imageModalApp}
-                    followThisLink={followThisLink}>
-                    <h2 className="childrenModal">{messageModalApp}</h2>
-                </ModalApp> */}
             </div>
         </AppContext.Provider>
     );

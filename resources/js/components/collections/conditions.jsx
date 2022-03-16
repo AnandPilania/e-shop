@@ -52,9 +52,6 @@ const Conditions = () => {
         }
     }, [isAutoConditions]);
 
-    useEffect(() => {
-        localStorage.setItem("conditions", JSON.stringify(conditions));
-    }, [conditions]);
 
     // gère le paramètre à changer dans les conditions automatiques
     const handleChangeParam = (param, id) => {

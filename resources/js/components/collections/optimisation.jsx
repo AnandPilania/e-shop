@@ -27,22 +27,20 @@ const Optimisation = () => {
         }
 
         // affiche en rouge un avertissement sur la longeur du méta title
-        if (localStorage.getItem('metaDescription') !== null && localStorage.getItem('metaDescription') !== undefined) {
-            if (localStorage.getItem('metaTitle').length > 50) {
-                setMetaTitleBiggerThan50(true);
-            } else {
-                setMetaTitleBiggerThan50(false);
-            }
+        if (metaTitle.length > 50) {
+            setMetaTitleBiggerThan50(true);
+        } else {
+            setMetaTitleBiggerThan50(false);
         }
 
+
         // affiche en rouge un avertissement sur la longeur de la méta description
-        if (localStorage.getItem('metaDescription') !== null && localStorage.getItem('metaDescription') !== undefined) {
-            if (localStorage.getItem('metaDescription').length > 130) {
-                setMetaDescriptionbiggerThan130(true);
-            } else {
-                setMetaDescriptionbiggerThan130(false);
-            }
+        if (metaDescription.length > 130) {
+            setMetaDescriptionbiggerThan130(true);
+        } else {
+            setMetaDescriptionbiggerThan130(false);
         }
+
 
 
 
@@ -77,10 +75,6 @@ const Optimisation = () => {
         setMetaTitle('');
         setMetaDescription('');
         setMetaUrl(window.location.origin + '/');
-
-        localStorage.removeItem('metaTitle');
-        localStorage.removeItem('metaDescription');
-        localStorage.removeItem('metaUrl');
     }
 
 
@@ -90,12 +84,10 @@ const Optimisation = () => {
         let urlName = normalizUrl(e.target.value.substring(window.location.origin.length, 2047));
 
         setMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
-        localStorage.setItem("metaUrl", window.location.origin + '/' + urlName.substring(0, urlLength));
     };
 
     const handleMetaTitle = (e) => {
         setMetaTitle(e.target.value);
-        localStorage.setItem("metaTitle", e.target.value);
 
         // affiche en rouge un avertissement sur la longeur du méta title
         if (e.target.value.length > 50) {
@@ -108,7 +100,6 @@ const Optimisation = () => {
     const handleMetaDescription = (e) => {
         setMetaDescription('');
         setMetaDescription(e.target.value);
-        localStorage.setItem("metaDescription", e.target.value);
 
         // affiche en rouge un avertissement sur la longeur du méta title
         if (e.target.value.length > 130) {
@@ -168,7 +159,7 @@ const Optimisation = () => {
                             </i>
                         </div>
                         <input type='text'
-                        className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"
+                            className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"
                             value={metaUrl?.length > 0 ? metaUrl : ''}
                             onChange={handleMetaUrl}
                             placeholder="Url de cette collection"
@@ -187,7 +178,7 @@ const Optimisation = () => {
                             </i>
                         </div>
                         <input type='text'
-                        className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"
+                            className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"
                             value={metaTitle?.length > 0 ? metaTitle : ''}
                             onChange={handleMetaTitle}
                         />
@@ -195,7 +186,7 @@ const Optimisation = () => {
                             {metaTitlebiggerThan50 &&
                                 <span className="inRed"> Seuls les 50 à 60 premiers caractères seront affichés par les moteurs de recherche
                                 </span>}
-                            Nombre de caractères: {metaTitle?.length > 0 ?  metaTitle.length : 0}
+                            Nombre de caractères: {metaTitle?.length > 0 ? metaTitle.length : 0}
                         </div>
                     </div>
 

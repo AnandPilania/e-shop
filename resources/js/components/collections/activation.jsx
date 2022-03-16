@@ -57,7 +57,6 @@ const Activation = () => {
                                         (seconde.toString());
 
                                     setDateField(dateActivation);
-                                    localStorage.setItem("dateActivation", dateActivation);
                                 }}
                             />
                         </div>

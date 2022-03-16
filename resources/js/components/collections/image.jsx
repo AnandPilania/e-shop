@@ -15,11 +15,9 @@ const Image = () => {
 
     const handleAlt = (e) => {
         setAlt(e.target.value);
-        localStorage.setItem("altCollection", e.target.value);
     };
     const handleImageName = (e) => {
         setImageName(e.target.value);
-        localStorage.setItem("imageName", e.target.value);
     };
 
 

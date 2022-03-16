@@ -23490,7 +23490,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
 /* harmony import */ var _hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../hooks/useLocalStorage */ "./resources/js/components/hooks/useLocalStorage.jsx");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
@@ -23502,9 +23502,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _createProduct_list__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../createProduct/list */ "./resources/js/components/createProduct/list.jsx");
 /* harmony import */ var _collections_list__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../collections/list */ "./resources/js/components/collections/list.jsx");
 /* harmony import */ var _collections_index__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../collections/index */ "./resources/js/components/collections/index.jsx");
-/* harmony import */ var _modal_modalApp__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../modal/modalApp */ "./resources/js/components/modal/modalApp.jsx");
-/* harmony import */ var _croppeJs_croppeJs__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../croppeJs/croppeJs */ "./resources/js/components/croppeJs/croppeJs.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _croppeJs_croppeJs__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../croppeJs/croppeJs */ "./resources/js/components/croppeJs/croppeJs.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -23522,7 +23521,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 
 
 
@@ -23619,7 +23617,7 @@ var Appcontainer = function Appcontainer() {
       image = _useState28[0],
       setImage = _useState28[1];
 
-  var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState30 = _slicedToArray(_useState29, 2),
       isAutoConditions = _useState30[0],
       setIsAutoConditions = _useState30[1];
@@ -23812,7 +23810,6 @@ var Appcontainer = function Appcontainer() {
       is = _useState90[0],
       setIs = _useState90[1];
 
-  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_15__.useNavigate)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // chargement des collections
     if (listCollections.length === 0) {
@@ -23846,7 +23843,6 @@ var Appcontainer = function Appcontainer() {
 
 
   var initCollectionForm = function initCollectionForm() {
-    console.log('initCollectionForm');
     setNameCollection('');
     setDescriptionCollection('');
     setDescriptionCollectionForMeta('');
@@ -23866,6 +23862,7 @@ var Appcontainer = function Appcontainer() {
       operator: '1',
       value: ''
     }]);
+    setIsAutoConditions(false);
     setDateField((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_4__.getNow)());
     setCollectionForm({
       conditions: [{
@@ -23887,7 +23884,7 @@ var Appcontainer = function Appcontainer() {
       descriptionCollectionForMeta: '',
       imagePath: '',
       image: [],
-      isAutoConditions: true,
+      isAutoConditions: false,
       notIncludePrevProduct: false,
       allConditionsNeeded: true
     }); // gére le netoyage des images et vidéos dans  temporayStorage 
@@ -23911,21 +23908,7 @@ var Appcontainer = function Appcontainer() {
       document.getElementById('drop-region-dropZone').style.background = 'no-repeat url("../images/icons/backgroundDropZone.png")';
       document.getElementById('drop-region-dropZone').style.backgroundPosition = 'center 90%';
       document.getElementById("drop-message-dropZone").style.display = 'block';
-    } // vide le localStorage
-
-
-    localStorage.removeItem('nameCollection');
-    localStorage.removeItem('descriptionCollection');
-    localStorage.removeItem('metaTitle');
-    localStorage.removeItem('metaDescription');
-    localStorage.removeItem('image');
-    localStorage.removeItem('imageName');
-    localStorage.removeItem('altCollection');
-    localStorage.removeItem('metaUrl');
-    localStorage.removeItem('categoryName');
-    localStorage.removeItem('categoryId');
-    localStorage.removeItem('conditions');
-    localStorage.removeItem('dateActivation');
+    }
   }; //----------------------------------------------------------------Reset Form
 
 
@@ -23946,7 +23929,7 @@ var Appcontainer = function Appcontainer() {
     return urlName;
   };
 
-  var location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_15__.useLocation)(); //ModalConfirm--------------------------------------------------------------
+  var location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_14__.useLocation)(); //ModalConfirm--------------------------------------------------------------
 
   var handleModalConfirm = function handleModalConfirm() {
     setShowModalConfirm(false);
@@ -24073,39 +24056,39 @@ var Appcontainer = function Appcontainer() {
     collectionForm: collectionForm,
     setCollectionForm: setCollectionForm
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"].Provider, {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"].Provider, {
     value: contextValue,
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_navBar_navBar__WEBPACK_IMPORTED_MODULE_5__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_navBar_navBar__WEBPACK_IMPORTED_MODULE_5__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("div", {
       className: "bg-gray-cool",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Routes, {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Routes, {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
           path: "/listProduct",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_createProduct_list__WEBPACK_IMPORTED_MODULE_9__["default"], {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_createProduct_list__WEBPACK_IMPORTED_MODULE_9__["default"], {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
           path: "/addProduct",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_createProduct_formProduct__WEBPACK_IMPORTED_MODULE_6__["default"], {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_createProduct_formProduct__WEBPACK_IMPORTED_MODULE_6__["default"], {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
           path: "/editProduct/:productId",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_createProduct_editProduct__WEBPACK_IMPORTED_MODULE_7__["default"], {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_createProduct_editProduct__WEBPACK_IMPORTED_MODULE_7__["default"], {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
           path: "/editImagesProduct/:product_id",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_createProduct_edit_images__WEBPACK_IMPORTED_MODULE_8__["default"], {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_createProduct_edit_images__WEBPACK_IMPORTED_MODULE_8__["default"], {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
           path: "/collections-list",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_collections_list__WEBPACK_IMPORTED_MODULE_10__["default"], {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_collections_list__WEBPACK_IMPORTED_MODULE_10__["default"], {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
           path: "/add-collection",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_collections_index__WEBPACK_IMPORTED_MODULE_11__["default"], {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_collections_index__WEBPACK_IMPORTED_MODULE_11__["default"], {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
           path: "/cropImage",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_croppeJs_croppeJs__WEBPACK_IMPORTED_MODULE_13__["default"], {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Route, {
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_croppeJs_croppeJs__WEBPACK_IMPORTED_MODULE_12__["default"], {})
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
           path: "*",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("main", {
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("main", {
             style: {
               padding: "1rem"
             },
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("p", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("p", {
               children: "There's nothing here!"
             })
           })
@@ -24508,7 +24491,6 @@ var Activation = function Activation() {
                 var seconde = '00';
                 var dateActivation = (day < 10 ? "0" + day.toString() : day) + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + year + " " + (hour < 10 ? "0" + hour.toString() : hour) + ":" + minute.toString() + ":" + seconde.toString();
                 setDateField(dateActivation);
-                localStorage.setItem("dateActivation", dateActivation);
               }
             })]
           })
@@ -24670,13 +24652,11 @@ var Categories = function Categories() {
   var handleCategory = function handleCategory(cat_id) {
     setCategoryId(cat_id);
     setShowCategorySelect(false);
-    localStorage.setItem("categoryId", cat_id);
   }; // nom affiché dans le select
 
 
   var handleCategoryName = function handleCategoryName(cat_name) {
     setCategoryName(cat_name);
-    localStorage.setItem("categoryName", cat_name);
   }; // show/hide input create new category
 
 
@@ -25067,12 +25047,10 @@ var CategoriesFilter = function CategoriesFilter(_ref) {
   // const handleCategory = (cat_id) => {
   //     setCategoryId(cat_id);
   //     setShowCategorySelect(false);
-  //     localStorage.setItem("categoryId", cat_id);
   // };
   // // nom affiché dans le select
   // const handleCategoryName = (cat_name) => {
   //     setCategoryName(cat_name);
-  //     localStorage.setItem("categoryName", cat_name);
   // };
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
@@ -25567,10 +25545,7 @@ var Conditions = function Conditions() {
     } else if (isAutoConditions === true) {
       dropable.style.maxHeight = dropable.scrollHeight + "px";
     }
-  }, [isAutoConditions]);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    localStorage.setItem("conditions", JSON.stringify(conditions));
-  }, [conditions]); // gère le paramètre à changer dans les conditions automatiques
+  }, [isAutoConditions]); // gère le paramètre à changer dans les conditions automatiques
 
   var handleChangeParam = function handleChangeParam(param, id) {
     var tmp_conditions = _toConsumableArray(conditions);
@@ -25790,10 +25765,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var HeaderListCollections = function HeaderListCollections() {
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
-      setIsDirty = _useContext.setIsDirty,
       setIs_Edit = _useContext.setIs_Edit,
       is = _useContext.is,
-      setIs = _useContext.setIs;
+      setIs = _useContext.setIs,
+      initCollectionForm = _useContext.initCollectionForm;
 
   var tabs = document.getElementsByClassName('Tab');
   Array.prototype.forEach.call(tabs, function (tab) {
@@ -25820,7 +25795,7 @@ var HeaderListCollections = function HeaderListCollections() {
         type: "button",
         className: "btn-submit m-l-auto",
         onClick: function onClick() {
-          setIsDirty(false);
+          initCollectionForm();
           setIs_Edit(false);
           setIs(_objectSpread(_objectSpread({}, is), {}, {
             newCollection: true
@@ -25869,12 +25844,10 @@ var Image = function Image() {
 
   var handleAlt = function handleAlt(e) {
     setAlt(e.target.value);
-    localStorage.setItem("altCollection", e.target.value);
   };
 
   var handleImageName = function handleImageName(e) {
     setImageName(e.target.value);
-    localStorage.setItem("imageName", e.target.value);
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
@@ -25969,6 +25942,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _functions_temporaryStorage_handleTinyMceTemporary__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../functions/temporaryStorage/handleTinyMceTemporary */ "./resources/js/components/functions/temporaryStorage/handleTinyMceTemporary.js");
 /* harmony import */ var _functions_dateTools__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../functions/dateTools */ "./resources/js/components/functions/dateTools.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -26131,6 +26118,7 @@ var CreateCollection = function CreateCollection() {
       setIs(_objectSpread(_objectSpread({}, is), {}, {
         newCollection: false
       }));
+      setIsDirty(true);
       axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/getCollectionById/".concat(collectionId)).then(function (res) {
         var _res$data$objConditio, _res$data$objConditio2, _res$data$image, _res$data$category;
 
@@ -26187,34 +26175,126 @@ var CreateCollection = function CreateCollection() {
           isAutoConditions: res.data.automatise === 1 ? true : false,
           notIncludePrevProduct: res.data.notIncludePrevProduct === 1 ? true : false,
           allConditionsNeeded: res.data.allConditionsNeeded === 1 ? true : false
-        }); // if (res.data.image !== null && res.data.image !== '') {
-        //     setCollectionForm({
-        //         ...collectionForm,
-        //         imageName: res.data.image.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''),
-        //         imagePath: res.data.image
-        //     });
-        // } else {
-        //     setCollectionForm({
-        //         ...collectionForm,
-        //         imageName: '',
-        //         imagePath: ''
-        //     });
-        // }
-
+        });
         setIs_Edit(true);
       })["catch"](function (error) {
         console.log('error:   ' + error);
       });
     }
   }, []);
-  console.log('newCollection ndx ', is.newCollection); //  // FAUT IL CONTINUER A CHECKER SI IS DIRTY ???
-  // demande confirmation avant de quitter le form sans sauvegarder
 
-  (0,_hooks_usePromptCollection__WEBPACK_IMPORTED_MODULE_2__.usePromptCollection)('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?', isDirty);
+  var checkIfIsDirty = function checkIfIsDirty() {
+    if (!is.newCollection) {
+      // tinyMCE ajoute des caractères undefined qui e permettent pas de faire une comparaison alors on compte chaque caractères dans les deux texte et on compare leur nombre pour avoir plus de chances de repérer les textes différents 
+      var maxLength = Math.max(collectionForm.descriptionCollection.length, descriptionCollection.length);
+      var a = descriptionCollection;
+      var b = collectionForm.descriptionCollection;
+      var tab = [];
+
+      for (var i = 0; i < maxLength; i++) {
+        if (!tab.includes(a[i]) && a[i] !== null) {
+          tab.push(a[i]);
+        }
+      }
+
+      var occurenceA = 0;
+      var occurenceB = 0;
+
+      var _loop = function _loop(_i) {
+        occurenceA = _toConsumableArray(a).filter(function (item) {
+          return item === tab[_i];
+        }).length;
+        occurenceB = _toConsumableArray(b).filter(function (item) {
+          return item === tab[_i];
+        }).length;
+
+        if (occurenceA !== occurenceB) {
+          return {
+            v: true
+          };
+        }
+      };
+
+      for (var _i = 0; _i < tab.length; _i++) {
+        var _ret = _loop(_i);
+
+        if (_typeof(_ret) === "object") return _ret.v;
+      }
+
+      switch (true) {
+        case JSON.stringify(collectionForm.conditions) !== JSON.stringify(conditions):
+          return true;
+
+        case collectionForm.nameCollection !== nameCollection:
+          return true;
+
+        case collectionForm.metaTitle !== metaTitle:
+          return true;
+
+        case collectionForm.metaDescription !== metaDescription:
+          return true;
+
+        case collectionForm.metaUrl !== metaUrl:
+          return true;
+
+        case collectionForm.imageName !== imageName:
+          return true;
+
+        case collectionForm.alt !== alt:
+          return true;
+
+        case collectionForm.categoryName !== categoryName:
+          return true;
+
+        case collectionForm.categoryId !== categoryId:
+          return true;
+
+        case collectionForm.dateField !== dateField:
+          return true;
+
+        case collectionForm.isAutoConditions !== isAutoConditions:
+          return true;
+
+        case collectionForm.notIncludePrevProduct !== notIncludePrevProduct:
+          return true;
+
+        case collectionForm.allConditionsNeeded !== allConditionsNeeded:
+          return true;
+
+        default:
+          setIs_Edit(false);
+          setIdCollection(null);
+          return false;
+      }
+    }
+
+    if (is.newCollection) {
+      setIs(_objectSpread(_objectSpread({}, is), {}, {
+        newCollection: false
+      }));
+      var conditonDirty = false;
+      conditions.forEach(function (condition) {
+        if (condition.value != '') {
+          conditonDirty = true;
+        }
+      });
+
+      if (nameCollection != '' || descriptionCollection != '' || alt != '' || imageName != '' || metaTitle != '' || metaDescription != '' || metaUrl != window.location.origin + '/' || image != '' || categoryName != 'Sans catégorie' || categoryId != 1 || // dateField != getNow() ||
+      conditonDirty == true) {
+        return true;
+      } else {
+        setIdCollection(null);
+        return false;
+      }
+    }
+  }; // demande confirmation avant de quitter le form sans sauvegarder
+
+
+  (0,_hooks_usePromptCollection__WEBPACK_IMPORTED_MODULE_2__.usePromptCollection)('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?', checkIfIsDirty);
 
   var handleNameCollection = function handleNameCollection(e) {
     setNameCollection(e.target.value);
-    localStorage.setItem("nameCollection", e.target.value);
+    nameCollection.length > 0 && setIsDirty(true);
   }; // Reset Form---------------------------------------------------------------
   // confirm reinitialisatio form
 
@@ -26904,21 +26984,17 @@ var Optimisation = function Optimisation() {
     } // affiche en rouge un avertissement sur la longeur du méta title
 
 
-    if (localStorage.getItem('metaDescription') !== null && localStorage.getItem('metaDescription') !== undefined) {
-      if (localStorage.getItem('metaTitle').length > 50) {
-        setMetaTitleBiggerThan50(true);
-      } else {
-        setMetaTitleBiggerThan50(false);
-      }
+    if (metaTitle.length > 50) {
+      setMetaTitleBiggerThan50(true);
+    } else {
+      setMetaTitleBiggerThan50(false);
     } // affiche en rouge un avertissement sur la longeur de la méta description
 
 
-    if (localStorage.getItem('metaDescription') !== null && localStorage.getItem('metaDescription') !== undefined) {
-      if (localStorage.getItem('metaDescription').length > 130) {
-        setMetaDescriptionbiggerThan130(true);
-      } else {
-        setMetaDescriptionbiggerThan130(false);
-      }
+    if (metaDescription.length > 130) {
+      setMetaDescriptionbiggerThan130(true);
+    } else {
+      setMetaDescriptionbiggerThan130(false);
     }
   }, []); // show / hide optimisation title & description & url
 
@@ -26950,9 +27026,6 @@ var Optimisation = function Optimisation() {
     setMetaTitle('');
     setMetaDescription('');
     setMetaUrl(window.location.origin + '/');
-    localStorage.removeItem('metaTitle');
-    localStorage.removeItem('metaDescription');
-    localStorage.removeItem('metaUrl');
   };
 
   var handleMetaUrl = function handleMetaUrl(e) {
@@ -26960,12 +27033,10 @@ var Optimisation = function Optimisation() {
     var urlLength = 2047 - window.location.origin.length;
     var urlName = normalizUrl(e.target.value.substring(window.location.origin.length, 2047));
     setMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
-    localStorage.setItem("metaUrl", window.location.origin + '/' + urlName.substring(0, urlLength));
   };
 
   var handleMetaTitle = function handleMetaTitle(e) {
-    setMetaTitle(e.target.value);
-    localStorage.setItem("metaTitle", e.target.value); // affiche en rouge un avertissement sur la longeur du méta title
+    setMetaTitle(e.target.value); // affiche en rouge un avertissement sur la longeur du méta title
 
     if (e.target.value.length > 50) {
       setMetaTitleBiggerThan50(true);
@@ -26976,8 +27047,7 @@ var Optimisation = function Optimisation() {
 
   var handleMetaDescription = function handleMetaDescription(e) {
     setMetaDescription('');
-    setMetaDescription(e.target.value);
-    localStorage.setItem("metaDescription", e.target.value); // affiche en rouge un avertissement sur la longeur du méta title
+    setMetaDescription(e.target.value); // affiche en rouge un avertissement sur la longeur du méta title
 
     if (e.target.value.length > 130) {
       setMetaDescriptionbiggerThan130(true);
@@ -27165,7 +27235,6 @@ var Tinyeditor = function Tinyeditor() {
 
   var handleDescriptionCollection = function handleDescriptionCollection(description, editor) {
     setDescriptionCollection(description);
-    localStorage.setItem("descriptionCollection", description);
   }; // save tinymce images in temporary Storage folder and db 
 
 
@@ -30581,27 +30650,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
 /* harmony import */ var _useBlocker__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./useBlocker */ "./resources/js/components/hooks/useBlocker.jsx");
-/* harmony import */ var _functions_dateTools__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../functions/dateTools */ "./resources/js/components/functions/dateTools.js");
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 
@@ -30615,167 +30668,9 @@ function usePromptCollection(messageObj, shouldPrompt) {
       setImageModal = _useContext.setImageModal,
       setSender = _useContext.setSender,
       setTmp_parameter = _useContext.setTmp_parameter,
-      setShowModalConfirm = _useContext.setShowModalConfirm,
-      isDirty = _useContext.isDirty,
-      setIsDirty = _useContext.setIsDirty,
-      nameCollection = _useContext.nameCollection,
-      descriptionCollection = _useContext.descriptionCollection,
-      conditions = _useContext.conditions,
-      isAutoConditions = _useContext.isAutoConditions,
-      allConditionsNeeded = _useContext.allConditionsNeeded,
-      notIncludePrevProduct = _useContext.notIncludePrevProduct,
-      metaTitle = _useContext.metaTitle,
-      metaDescription = _useContext.metaDescription,
-      metaUrl = _useContext.metaUrl,
-      image = _useContext.image,
-      imageName = _useContext.imageName,
-      alt = _useContext.alt,
-      categoryName = _useContext.categoryName,
-      categoryId = _useContext.categoryId,
-      dateField = _useContext.dateField,
-      collectionForm = _useContext.collectionForm,
-      setIs_Edit = _useContext.setIs_Edit,
-      setIdCollection = _useContext.setIdCollection,
-      initCollectionForm = _useContext.initCollectionForm;
+      setShowModalConfirm = _useContext.setShowModalConfirm;
 
   var retryFn = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(function () {});
-
-  var checkDirty = function checkDirty() {
-    setIs(_objectSpread(_objectSpread({}, is), {}, {
-      newCollection: false
-    }));
-    return false;
-
-    if (!is.newCollection) {
-      // tinyMCE ajoute des caractères undefined qui e permettent pas de faire une comparaison alors on compte chaque caractères dans les deux texte et on compare leur nombre pour avoir plus de chances de repérer les textes différents 
-      var maxLength = Math.max(collectionForm.descriptionCollection.length, descriptionCollection.length);
-      var a = descriptionCollection;
-      var b = collectionForm.descriptionCollection;
-      var tab = [];
-
-      for (var i = 0; i < maxLength; i++) {
-        if (!tab.includes(a[i]) && a[i] !== null) {
-          tab.push(a[i]);
-        }
-      }
-
-      var occurenceA = 0;
-      var occurenceB = 0;
-
-      var _loop = function _loop(_i) {
-        occurenceA = _toConsumableArray(a).filter(function (item) {
-          return item === tab[_i];
-        }).length;
-        occurenceB = _toConsumableArray(b).filter(function (item) {
-          return item === tab[_i];
-        }).length;
-
-        if (occurenceA !== occurenceB) {
-          setIsDirty(true);
-          return {
-            v: true
-          };
-        }
-      };
-
-      for (var _i = 0; _i < tab.length; _i++) {
-        var _ret = _loop(_i);
-
-        if (_typeof(_ret) === "object") return _ret.v;
-      }
-
-      switch (true) {
-        case JSON.stringify(collectionForm.conditions) !== JSON.stringify(conditions):
-          setIsDirty(true);
-          return true;
-
-        case collectionForm.nameCollection !== nameCollection:
-          setIsDirty(true);
-          return true;
-
-        case collectionForm.metaTitle !== metaTitle:
-          setIsDirty(true);
-          return true;
-
-        case collectionForm.metaDescription !== metaDescription:
-          setIsDirty(true);
-          return true;
-
-        case collectionForm.metaUrl !== metaUrl:
-          setIsDirty(true);
-          return true;
-
-        case collectionForm.imageName !== imageName:
-          setIsDirty(true);
-          return true;
-
-        case collectionForm.alt !== alt:
-          setIsDirty(true);
-          return true;
-
-        case collectionForm.categoryName !== categoryName:
-          setIsDirty(true);
-          return true;
-
-        case collectionForm.categoryId !== categoryId:
-          setIsDirty(true);
-          return true;
-
-        case collectionForm.dateField !== dateField:
-          setIsDirty(true);
-          return true;
-
-        case collectionForm.isAutoConditions !== isAutoConditions:
-          setIsDirty(true);
-          return true;
-
-        case collectionForm.notIncludePrevProduct !== notIncludePrevProduct:
-          setIsDirty(true);
-          return true;
-
-        case collectionForm.allConditionsNeeded !== allConditionsNeeded:
-          setIsDirty(true);
-          return true;
-
-        default:
-          setIsDirty(false);
-          setIs(_objectSpread(_objectSpread({}, is), {}, {
-            newCollection: false
-          }));
-          return false;
-      }
-    } // if (is.newCollection) {
-    //     setIs({...is, newCollection: false});
-    //     // check if form is dirty
-    //     var conditonDirty = false;
-    //     conditions.forEach(condition => {
-    //         if (condition.value != '') {
-    //             conditonDirty = true;
-    //         }
-    //     })
-    //     if (
-    //         nameCollection != '' ||
-    //         descriptionCollection != '' ||
-    //         alt != '' ||
-    //         imageName != '' ||
-    //         metaTitle != '' ||
-    //         metaDescription != '' ||
-    //         metaUrl != window.location.origin + '/' ||
-    //         image != '' ||
-    //         categoryName != 'Sans catégorie' ||
-    //         categoryId != 1 ||
-    //         // dateField != getNow() ||
-    //         conditonDirty == true
-    //     ) {
-    //         setIsDirty(true);
-    //         return true;
-    //     } else {
-    //         setIsDirty(false);
-    //     }
-    // }
-
-  };
-
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (is.leaveEditCollectionWithoutSaveChange) {
       setIs(_objectSpread(_objectSpread({}, is), {}, {
@@ -30802,171 +30697,12 @@ function usePromptCollection(messageObj, shouldPrompt) {
       openModal();
       retryFn.current = retry;
     } else {
-      // si on click pour éditer mais qu'on change rien et qu'on quitte isDirty reste false mais si on change qlq chose isDirty ne se met pas à true et donc on "checkDirty" pour voir si qlq chose a changée 
-      if (checkDirty()) {
-        console.log('checkDirty()  ', checkDirty());
-        openModal();
-        retryFn.current = retry;
-      } else {
-        // rien a changé mais on initialise pour nettoyer le form !Important
-        setIs_Edit(false);
-        setIdCollection(null);
-        initCollectionForm();
-        retry();
-      }
+      retry();
     }
   };
 
-  (0,_useBlocker__WEBPACK_IMPORTED_MODULE_2__.useBlocker)(handleBlockNavigation, !is.leave);
+  (0,_useBlocker__WEBPACK_IMPORTED_MODULE_2__.useBlocker)(handleBlockNavigation, !is.leaveEditCollectionWithoutSaveChange);
 }
-
-/***/ }),
-
-/***/ "./resources/js/components/modal/modalApp.jsx":
-/*!****************************************************!*\
-  !*** ./resources/js/components/modal/modalApp.jsx ***!
-  \****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
-/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-
-
-
-
-
-var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_2__["default"])({
-  modal: {
-    position: 'fixed',
-    top: '0',
-    left: '0',
-    width: '100%',
-    height: ' 100%',
-    background: 'rgba(255, 255, 255, 0.75)',
-    zIndex: '10000000'
-  },
-  modalMain: {
-    position: 'fixed',
-    background: 'white',
-    width: '30%',
-    minWidth: '300px',
-    padding: '50px',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%,-50%)',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    borderRadius: '5px',
-    boxShadow: 'rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px',
-    zIndex: '10000000'
-  },
-  BlockButtons: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: '30px'
-  },
-  btnModal: {
-    width: '150px',
-    height: '50px',
-    padding: '0 25px',
-    margin: '20px 0',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgb(52, 115, 252)',
-    color: 'white',
-    fontSize: '20px',
-    borderRadius: '5px',
-    border: 'solid 1px rgb(220, 220, 220)',
-    transition: 'ease-in-out 0.15s',
-    '&:hover': {
-      cursor: 'pointer',
-      color: '#eeeeee'
-    }
-  },
-  close: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'flex-end',
-    paddingRight: '25px',
-    paddingTop: '25px',
-    marginBottom: 'auto'
-  },
-  image: {
-    margin: '20px 0'
-  },
-  faTimes: {
-    fontSize: '26px',
-    transition: 'ease-in-out .15s',
-    color: '#333333',
-    '&:hover': {
-      cursor: 'pointer',
-      transform: 'scale(1.15)'
-    }
-  },
-  displayBlock: {
-    display: 'block'
-  },
-  displayNone: {
-    display: 'none'
-  }
-});
-
-var ModalApp = function ModalApp(_ref) {
-  var followThisLink = _ref.followThisLink,
-      handleModalApp = _ref.handleModalApp,
-      handleModalAppCancel = _ref.handleModalAppCancel,
-      textButtonModalApp = _ref.textButtonModalApp,
-      textButtonModalApp2 = _ref.textButtonModalApp2,
-      show = _ref.show,
-      image = _ref.image,
-      children = _ref.children;
-  var classes = useStyles();
-  var showHideClassName = show ? classes.displayBlock : classes.displayNone;
-  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.useNavigate)();
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-    className: classes.modal + ' ' + showHideClassName,
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("section", {
-      className: classes.modalMain,
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-        className: classes.close,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
-          className: classes.faTimes + " fas fa-times",
-          onClick: handleModalAppCancel
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
-        src: image
-      }), children, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-        className: classes.BlockButtons,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-          className: classes.btnModal,
-          onClick: function onClick() {
-            handleModalApp();
-            navigate(followThisLink);
-          },
-          children: textButtonModalApp
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-          className: classes.btnModal,
-          onClick: handleModalAppCancel,
-          children: textButtonModalApp2
-        })]
-      })]
-    })
-  });
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ModalApp);
 
 /***/ }),
 

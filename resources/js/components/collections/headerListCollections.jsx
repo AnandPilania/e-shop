@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const HeaderListCollections = () => {
 
-    const { setIsDirty, setIs_Edit, is, setIs } = useContext(AppContext);
+    const { setIs_Edit, is, setIs, initCollectionForm } = useContext(AppContext);
 
 
     var tabs = document.getElementsByClassName('Tab');
@@ -49,7 +49,7 @@ const HeaderListCollections = () => {
             <div className='w100pct p-lr-5pct h100 flex-row'>
                 <button type="button" className='btn-submit m-l-auto'
                     onClick={() => {
-                        setIsDirty(false);
+                        initCollectionForm();
                         setIs_Edit(false);
                         setIs({...is, newCollection: true});
                     }

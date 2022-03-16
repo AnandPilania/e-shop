@@ -50,13 +50,11 @@ const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
     // const handleCategory = (cat_id) => {
     //     setCategoryId(cat_id);
     //     setShowCategorySelect(false);
-    //     localStorage.setItem("categoryId", cat_id);
     // };
 
     // // nom affiché dans le select
     // const handleCategoryName = (cat_name) => {
     //     setCategoryName(cat_name);
-    //     localStorage.setItem("categoryName", cat_name);
     // };
 
     useEffect(() => {

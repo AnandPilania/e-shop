@@ -21,7 +21,6 @@ const Tinyeditor = () => {
 
     const handleDescriptionCollection = (description, editor) => {
         setDescriptionCollection(description);
-        localStorage.setItem("descriptionCollection", description);
     };
 
 
