@@ -36,7 +36,6 @@ export function usePromptCollection(messageObj, shouldPrompt) {
         } else {
             retry();
         }
-
     }
 
     useBlocker(handleBlockNavigation, !is.leaveEditCollectionWithoutSaveChange);

@@ -171,8 +171,6 @@ const Categories = () => {
                 setTextButtonConfirm('Fermer');
                 setImageModal('../images/icons/trash.png');
                 setShowModalSimpleMessage(true);
-
-
                 // chargement des collections
                 Axios.get(`http://127.0.0.1:8000/getCategories`)
                     .then(res => {

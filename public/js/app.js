@@ -23647,7 +23647,7 @@ var Appcontainer = function Appcontainer() {
       notIncludePrevProduct = _useState32[0],
       setNotIncludePrevProduct = _useState32[1];
 
-  var _useState33 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState33 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(localStorage.getItem('allConditionsNeeded')),
       _useState34 = _slicedToArray(_useState33, 2),
       allConditionsNeeded = _useState34[0],
       setAllConditionsNeeded = _useState34[1];
@@ -23674,7 +23674,7 @@ var Appcontainer = function Appcontainer() {
     image: [],
     isAutoConditions: true,
     notIncludePrevProduct: false,
-    allConditionsNeeded: true
+    allConditionsNeeded: 1
   }),
       _useState36 = _slicedToArray(_useState35, 2),
       collectionForm = _useState36[0],
@@ -23821,14 +23821,19 @@ var Appcontainer = function Appcontainer() {
       deleteThisCategory = _useState88[0],
       setDeleteThisCategory = _useState88[1];
 
-  var _useState89 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState89 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+      _useState90 = _slicedToArray(_useState89, 2),
+      deleteThisCollection = _useState90[0],
+      setDeleteThisCollection = _useState90[1];
+
+  var _useState91 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     leaveEditCollectionWithoutSaveChange: false,
     newCollection: false,
     collectionDeleted: false
   }),
-      _useState90 = _slicedToArray(_useState89, 2),
-      is = _useState90[0],
-      setIs = _useState90[1];
+      _useState92 = _slicedToArray(_useState91, 2),
+      is = _useState92[0],
+      setIs = _useState92[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // chargement des collections
@@ -23906,7 +23911,7 @@ var Appcontainer = function Appcontainer() {
       image: [],
       isAutoConditions: false,
       notIncludePrevProduct: false,
-      allConditionsNeeded: true
+      allConditionsNeeded: 1
     }); // gére le netoyage des images et vidéos dans  temporayStorage 
 
     var keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection'];
@@ -23956,8 +23961,19 @@ var Appcontainer = function Appcontainer() {
 
     switch (sender) {
       case 'deleteCategory':
-        // if confirm delete
         setDeleteThisCategory(tmp_parameter);
+        break;
+
+      case 'deleteCollection':
+        var idToDelete = new FormData();
+        idToDelete.append('id', tmp_parameter);
+        axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/deleteCollection", idToDelete).then(function (res) {
+          setListCollections(res.data);
+          setIdCollection(null);
+          setIs(_objectSpread(_objectSpread({}, is), {}, {
+            collectionDeleted: true
+          }));
+        });
         break;
 
       case 'initCollectionForm':
@@ -23986,6 +24002,8 @@ var Appcontainer = function Appcontainer() {
     setShowModalSimpleMessage(false);
     setShowModalInput(false);
   };
+
+  var triggerFunction = function triggerFunction() {};
 
   var contextValue = {
     image: image,
@@ -24074,7 +24092,9 @@ var Appcontainer = function Appcontainer() {
     is: is,
     setIs: setIs,
     collectionForm: collectionForm,
-    setCollectionForm: setCollectionForm
+    setCollectionForm: setCollectionForm,
+    deleteThisCollection: deleteThisCollection,
+    setDeleteThisCollection: setDeleteThisCollection
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"].Provider, {
     value: contextValue,
@@ -24143,12 +24163,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _functions_dateTools__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../functions/dateTools */ "./resources/js/components/functions/dateTools.js");
 /* harmony import */ var _modal_modalConfirm__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../modal/modalConfirm */ "./resources/js/components/modal/modalConfirm.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -24210,18 +24224,17 @@ var RowListCollections = function RowListCollections(_ref) {
       setDistanceFromBottom = _useState6[1];
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
-      setIdCollection = _useContext.setIdCollection,
-      setListCollections = _useContext.setListCollections,
-      is = _useContext.is,
-      setIs = _useContext.setIs;
+      setShowModalConfirm = _useContext.setShowModalConfirm,
+      setMessageModal = _useContext.setMessageModal,
+      setSender = _useContext.setSender,
+      setTextButtonConfirm = _useContext.setTextButtonConfirm,
+      setImageModal = _useContext.setImageModal,
+      setTmp_parameter = _useContext.setTmp_parameter;
 
   var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useNavigate)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     setConditions(JSON.parse(collection.objConditions));
   }, []);
-
-  function handleDeletCollection(id) {// console.log(id)
-  }
 
   function getParameter(parameter) {
     switch (parameter) {
@@ -24317,19 +24330,16 @@ var RowListCollections = function RowListCollections(_ref) {
         isEdit: true
       }
     });
-  }; // delete collection
+  }; // confirm delete one collection
 
 
-  var deleteCollection = function deleteCollection(id) {
-    var idToDelete = new FormData();
-    idToDelete.append('id', id);
-    axios__WEBPACK_IMPORTED_MODULE_2___default().post("http://127.0.0.1:8000/deleteCollection", idToDelete).then(function (res) {
-      setListCollections(res.data);
-      setIdCollection(null);
-      setIs(_objectSpread(_objectSpread({}, is), {}, {
-        collectionDeleted: true
-      }));
-    });
+  var confirmDeleteCollection = function confirmDeleteCollection(id, name) {
+    setMessageModal('Supprimer la collection "' + name + '" ?');
+    setTextButtonConfirm('Confirmer');
+    setImageModal('../images/icons/trash_dirty.png');
+    setSender('deleteCollection');
+    setTmp_parameter(id);
+    setShowModalConfirm(true);
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("li", {
@@ -24358,7 +24368,7 @@ var RowListCollections = function RowListCollections(_ref) {
       className: "flex-row min-h50 ".concat((conditions === null || conditions === void 0 ? void 0 : conditions.length) > 1 && "cursor"),
       onClick: showHideConditions,
       children: [conditions !== null ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-        className: "relative w-auto flex-col justify-s align-s bg-white radius5",
+        className: "relative w-auto flex-col justify-s align-s bg-white radius5 m-r-10",
         children: !showConditions ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
           className: "w100pct",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
@@ -24376,7 +24386,7 @@ var RowListCollections = function RowListCollections(_ref) {
               children: [conditions.length, " "]
             }), "  \xA0 Conditions"]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("ul", {
-            className: "scrolly scroll flex-col-s-s  w300 max-h265 p20 bg-white ul",
+            className: "scroll flex-col-s-s w300 max-h265 p20 bg-white ul  scrolly",
             children: conditions.map(function (item, index) {
               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("li", {
                 className: "w100pct word-break",
@@ -24391,9 +24401,10 @@ var RowListCollections = function RowListCollections(_ref) {
           })
         })
       }) : '_', (conditions === null || conditions === void 0 ? void 0 : conditions.length) > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-        className: "w20 h20 m-r-10 m-l-auto",
+        className: "w20 h20 m-r-10 m-l-auto min-w20",
         children: !showConditions ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
-          src: window.location.origin + '/images/icons/chevronDown.png'
+          src: window.location.origin + '/images/icons/chevronDown.png',
+          className: "w17"
         }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
           src: window.location.origin + '/images/icons/chevronUp.png'
         })
@@ -24421,7 +24432,7 @@ var RowListCollections = function RowListCollections(_ref) {
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
         className: "far fa-trash-alt cursor fs20 hover-red",
         onClick: function onClick() {
-          return deleteCollection(collection.id);
+          return confirmDeleteCollection(collection.id, collection.name);
         }
       })]
     })]
@@ -25531,11 +25542,16 @@ var Conditions = function Conditions() {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // détermine si on montre le block conditions
     if (localStorage.getItem('isAutoConditions')) {
+      /// <---- A CHNGER !!!
       if (localStorage.getItem('isAutoConditions') == 'false') {
         setIsAutoConditions(false);
       } else {
         setIsAutoConditions(true);
       }
+    }
+
+    if (localStorage.getItem('allConditionsNeeded')) {
+      setIsAutoConditions(localStorage.getItem('allConditionsNeeded'));
     }
   }, []); // show / hide conditions
 
@@ -25632,6 +25648,11 @@ var Conditions = function Conditions() {
     setNotIncludePrevProduct(!notIncludePrevProduct);
   };
 
+  var handleAllConditionsNeeded = function handleAllConditionsNeeded(value) {
+    setAllConditionsNeeded(value);
+    localStorage.setItem('allConditionsNeeded', value);
+  };
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
       className: "div-vert-align",
@@ -25692,10 +25713,10 @@ var Conditions = function Conditions() {
                 type: "radio",
                 name: "condition",
                 id: "allConditions",
-                checked: allConditionsNeeded == true,
                 onChange: function onChange() {
-                  return setAllConditionsNeeded(true);
-                }
+                  return handleAllConditionsNeeded(1);
+                },
+                checked: allConditionsNeeded === 1
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
                 htmlFor: "allConditions",
                 children: "Les produits doivent r\xE9pondre \xE0 toutes les conditions"
@@ -25706,10 +25727,10 @@ var Conditions = function Conditions() {
                 type: "radio",
                 name: "condition",
                 id: "leastOnConditions",
-                checked: allConditionsNeeded == false,
                 onChange: function onChange() {
-                  return setAllConditionsNeeded(false);
-                }
+                  return handleAllConditionsNeeded(0);
+                },
+                checked: allConditionsNeeded === 0
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
                 htmlFor: "leastOnConditions",
                 children: "Les produits doivent r\xE9pondre \xE0 au moins une condition"
@@ -26069,7 +26090,8 @@ var CreateCollection = function CreateCollection() {
       setCollectionForm = _useContext.setCollectionForm;
 
   var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_15__.useNavigate)();
-  var formData = new FormData(); // when click on edit in collection list it send collection id to db request for make edit collection
+  var formData = new FormData();
+  var dontBlock = false; // when click on edit in collection list it send collection id to db request for make edit collection
 
   var _useLocation = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_15__.useLocation)(),
       state = _useLocation.state;
@@ -26142,6 +26164,7 @@ var CreateCollection = function CreateCollection() {
       axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/getCollectionById/".concat(collectionId)).then(function (res) {
         var _res$data$objConditio, _res$data$objConditio2, _res$data$image, _res$data$category;
 
+        console.log(res.data);
         ((_res$data$objConditio = res.data.objConditions) === null || _res$data$objConditio === void 0 ? void 0 : _res$data$objConditio.length) > 0 ? setConditions(JSON.parse(res.data.objConditions)) : setConditions([{
           id: 0,
           parameter: '1',
@@ -26150,7 +26173,7 @@ var CreateCollection = function CreateCollection() {
         }]);
         res.data.automatise === 1 ? setIsAutoConditions(true) : setIsAutoConditions(false);
         res.data.automatise === 1 ? localStorage.setItem('isAutoConditions', true) : localStorage.setItem('isAutoConditions', false);
-        res.data.allConditionsNeeded === 1 ? setAllConditionsNeeded(true) : setAllConditionsNeeded(false);
+        setAllConditionsNeeded(res.data.allConditionsNeeded);
         res.data.notIncludePrevProduct === 1 ? setNotIncludePrevProduct(true) : setNotIncludePrevProduct(false);
         setIdCollection(res.data.id);
         setNameCollection(res.data.name);
@@ -26194,9 +26217,11 @@ var CreateCollection = function CreateCollection() {
           imagePath: res.data.image,
           isAutoConditions: res.data.automatise === 1 ? true : false,
           notIncludePrevProduct: res.data.notIncludePrevProduct === 1 ? true : false,
-          allConditionsNeeded: res.data.allConditionsNeeded === 1 ? true : false
+          allConditionsNeeded: res.data.allConditionsNeeded
         });
         setIs_Edit(true);
+        console.log(collectionForm.allConditionsNeeded);
+        console.log(allConditionsNeeded);
       })["catch"](function (error) {
         console.log('error:   ' + error);
       });
@@ -26212,7 +26237,7 @@ var CreateCollection = function CreateCollection() {
       var tab = [];
 
       for (var i = 0; i < maxLength; i++) {
-        if (!tab.includes(a[i]) && a[i] !== null) {
+        if (!tab.includes(a[i]) && a[i] !== null && a[i] !== undefined) {
           tab.push(a[i]);
         }
       }
@@ -26221,17 +26246,19 @@ var CreateCollection = function CreateCollection() {
       var occurenceB = 0;
 
       var _loop = function _loop(_i) {
-        occurenceA = _toConsumableArray(a).filter(function (item) {
-          return item === tab[_i];
-        }).length;
-        occurenceB = _toConsumableArray(b).filter(function (item) {
-          return item === tab[_i];
-        }).length;
+        if (tab[_i] !== undefined && tab[_i].charCodeAt(0) !== 13) {
+          occurenceA = _toConsumableArray(a).filter(function (item) {
+            return item === tab[_i];
+          }).length;
+          occurenceB = _toConsumableArray(b).filter(function (item) {
+            return item === tab[_i];
+          }).length;
 
-        if (occurenceA !== occurenceB) {
-          return {
-            v: true
-          };
+          if (occurenceA !== occurenceB) {
+            return {
+              v: true
+            };
+          }
         }
       };
 
@@ -26240,6 +26267,9 @@ var CreateCollection = function CreateCollection() {
 
         if (_typeof(_ret) === "object") return _ret.v;
       }
+
+      console.log(collectionForm.allConditionsNeeded);
+      console.log(allConditionsNeeded);
 
       switch (true) {
         case JSON.stringify(collectionForm.conditions) !== JSON.stringify(conditions):
@@ -27466,12 +27496,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-var _React$createContext;
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createContext((_React$createContext = {
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createContext({
   image: '',
   setImage: function setImage() {},
   imagePath: '',
@@ -27505,7 +27531,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   is_Edit: '',
   setIs_Edit: function setIs_Edit() {},
   categoriesChecked: '',
-  setCategoriesChecked: function setCategoriesChecked() {},
+  setCategoriesChecked: '',
   searchValue: '',
   setSearchValue: function setSearchValue() {},
   isDirty: '',
@@ -27514,12 +27540,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   setTmp_parameter: function setTmp_parameter() {},
   deleteThisCategory: '',
   setDeleteThisCategory: function setDeleteThisCategory() {},
-  handleModalConfirm: function handleModalConfirm() {},
+  handleModalConfirm: '',
   handleModalCancel: function handleModalCancel() {},
   nameCollection: '',
   setNameCollection: function setNameCollection() {},
   descriptionCollection: '',
   setDescriptionCollection: function setDescriptionCollection() {},
+  descriptionCollectionForMeta: '',
+  setDescriptionCollectionForMeta: function setDescriptionCollectionForMeta() {},
+  conditions: '',
+  setConditions: function setConditions() {},
+  isAutoConditions: '',
+  setIsAutoConditions: function setIsAutoConditions() {},
+  allConditionsNeeded: '',
+  setAllConditionsNeeded: function setAllConditionsNeeded() {},
+  notIncludePrevProduct: '',
+  setNotIncludePrevProduct: function setNotIncludePrevProduct() {},
+  warningIdCondition: '',
+  setWarningIdCondition: function setWarningIdCondition() {},
+  normalizUrl: '',
   metaTitle: '',
   setMetaTitle: function setMetaTitle() {},
   metaDescription: '',
@@ -27533,8 +27572,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   categoryName: '',
   setCategoryName: function setCategoryName() {},
   categoryId: '',
-  setCategoryId: function setCategoryId() {}
-}, _defineProperty(_React$createContext, "tmp_parameter", ''), _defineProperty(_React$createContext, "setTmp_parameter", function setTmp_parameter() {}), _defineProperty(_React$createContext, "dateField", ''), _defineProperty(_React$createContext, "setDateField", function setDateField() {}), _defineProperty(_React$createContext, "normalizUrl", function normalizUrl() {}), _defineProperty(_React$createContext, "handleModalCancel", function handleModalCancel() {}), _defineProperty(_React$createContext, "deleteThisCategory", ''), _defineProperty(_React$createContext, "setDeleteThisCategory", function setDeleteThisCategory() {}), _defineProperty(_React$createContext, "dateField", ''), _defineProperty(_React$createContext, "setDateField", function setDateField() {}), _defineProperty(_React$createContext, "tinyLangauage", ''), _defineProperty(_React$createContext, "setTinyLanguage", function setTinyLanguage() {}), _defineProperty(_React$createContext, "initCollectionForm", function initCollectionForm() {}), _defineProperty(_React$createContext, "cleanTemporayStorage", function cleanTemporayStorage() {}), _defineProperty(_React$createContext, "is", ''), _defineProperty(_React$createContext, "setIs", function setIs() {}), _defineProperty(_React$createContext, "collectionForm", ''), _defineProperty(_React$createContext, "setCollectionForm", function setCollectionForm() {}), _defineProperty(_React$createContext, "idCollection", ''), _defineProperty(_React$createContext, "setIdCollection", function setIdCollection() {}), _React$createContext)));
+  setCategoryId: function setCategoryId() {},
+  dateField: '',
+  setDateField: function setDateField() {},
+  tinyLanguage: '',
+  setTinyLanguage: function setTinyLanguage() {},
+  idCollection: '',
+  setIdCollection: function setIdCollection() {},
+  initCollectionForm: '',
+  cleanTemporayStorage: '',
+  is: '',
+  setIs: function setIs() {},
+  collectionForm: '',
+  setCollectionForm: function setCollectionForm() {},
+  deleteThisCollection: '',
+  setDeleteThisCollection: function setDeleteThisCollection() {}
+}));
 
 /***/ }),
 

@@ -15,12 +15,15 @@ const Conditions = () => {
 
     useEffect(() => {
         // détermine si on montre le block conditions
-        if (localStorage.getItem('isAutoConditions')) {
+        if (localStorage.getItem('isAutoConditions')) {   /// <---- A CHNGER !!!
             if (localStorage.getItem('isAutoConditions') == 'false') {
                 setIsAutoConditions(false);
             } else {
                 setIsAutoConditions(true);
             }
+        }
+        if (localStorage.getItem('allConditionsNeeded')) {
+                setIsAutoConditions(localStorage.getItem('allConditionsNeeded'));
         }
     }, []);
 
@@ -111,6 +114,10 @@ const Conditions = () => {
         setNotIncludePrevProduct(!notIncludePrevProduct);
     };
 
+    const handleAllConditionsNeeded = (value) => {
+        setAllConditionsNeeded(value);
+        localStorage.setItem('allConditionsNeeded', value);
+    };
 
 
     return (
@@ -150,14 +157,15 @@ const Conditions = () => {
                         <div className="sub-div-horiz-align-m">
                             <div className="div-radio-label">
                                 <input type='radio' name="condition" id='allConditions'
-                                    checked={allConditionsNeeded == true}
-                                    onChange={() => setAllConditionsNeeded(true)} />
+                                    onChange={() => handleAllConditionsNeeded(1)}
+                                    checked={allConditionsNeeded === 1}
+                                />
                                 <label htmlFor='allConditions'>Les produits doivent répondre à toutes les conditions</label>
                             </div>
                             <div className="div-radio-label">
                                 <input type='radio' name="condition" id='leastOnConditions'
-                                    checked={allConditionsNeeded == false}
-                                    onChange={() => setAllConditionsNeeded(false)}
+                                    onChange={() => handleAllConditionsNeeded(0)}
+                                    checked={allConditionsNeeded === 0}
                                 />
                                 <label htmlFor='leastOnConditions'>Les produits doivent répondre à au moins une condition</label>
                             </div>

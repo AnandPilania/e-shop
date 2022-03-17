@@ -9,6 +9,11 @@ class Variante extends Model
 {
     use HasFactory;
 
+    public function collections()
+    {
+        return $this->belongsToMany(Collection::class)->withTimestamps();
+    }
+    
     public function delivery_company()
     {
         return $this->belongsTo(Delivery_company::class);

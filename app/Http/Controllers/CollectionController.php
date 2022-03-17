@@ -102,7 +102,7 @@ class CollectionController extends Controller
         $collection->description = preg_replace('/(<source src=").+(images)/', '<source src="' . url('') . '/videos', $tmp_description);
         $collection->automatise = $request->automatise === 'true' ? 1 : 0;
         $collection->notIncludePrevProduct = $request->notIncludePrevProduct === 'true' ? 1 : 0;
-        $collection->allConditionsNeeded = $request->allConditionsNeeded === 'true' ? 1 : 0;
+        $collection->allConditionsNeeded = $request->allConditionsNeeded;
         $collection->objConditions = $request->objConditions;
         $cleanLink = new CleanLink;
         $collection->link = $cleanLink->cleanLink($request->name);
@@ -158,9 +158,9 @@ class CollectionController extends Controller
 
         // fill pivot table with relations between collection and product
         if (isset($all_conditions_matched)) {
-            DB::table('collection_product')->where('collection_id', $collection->id)->delete();
+            DB::table('collection_variante')->where('collection_id', $collection->id)->delete();
             foreach ($all_conditions_matched as $id) {
-                $collection->products()->attach($id);
+                $collection->variantes()->attach($id);
             }
         }
 
@@ -191,40 +191,47 @@ class CollectionController extends Controller
         $collection = Collection::find($request->id);
 
         // remove image collection and thumbnail from images folder
-        $imageToDelete = public_path('/') . $collection->image;
-        $thumbNailToDelete = public_path('/') . $collection->thumbnail;
-        isset($imageToDelete) && File::delete($imageToDelete, $thumbNailToDelete);
+        if (isset($collection->image) && !empty($collection->image)) {
+            $imageToDelete = public_path('/') . $collection->image;
+            $thumbNailToDelete = public_path('/') . $collection->thumbnail;
+            isset($imageToDelete) && File::delete($imageToDelete, $thumbNailToDelete);
+        }
 
         // delete tiny images or videos from images and videos folders
         $description = Collection::where('id', $request->id)->first('description');
-        $doc = new DOMDocument();
-        @$doc->loadHTML($description);
-        $xpath = new \DOMXpath($doc);
-        $tags = $xpath->query('//img/@src | //source/@src');
-        $tab = array("\/images\/", "\/videos\/", "\\");
-        foreach ($tags as $tag) {
-            // strstr retourne une sous-chaîne allant de la première occurrence (incluse) jusqu'à la fin de la chaîne
-            $is_video = strstr($tag->value, '\/videos\/');
-            $is_image = strstr($tag->value, '\/images\/');
-            if ($is_video !== false) {
-                $to_delete = str_replace($tab, '', $is_video);
-                $to_delete = 'videos/' . substr($to_delete, 0, -1);
-                if (File::exists(public_path($to_delete))) File::delete(public_path($to_delete));
-            }
-            if ($is_image !== false) {
-                $to_delete = str_replace($tab, '', $is_image);
-                $to_delete = 'images/' . substr($to_delete, 0, -1);
-                if (File::exists(public_path($to_delete))) File::delete(public_path($to_delete));
+        if (isset($description) && !empty($description)) {
+            $doc = new DOMDocument();
+            @$doc->loadHTML($description);
+            $xpath = new \DOMXpath($doc);
+            $tags = $xpath->query('//img/@src | //source/@src');
+            $tab = array("\/images\/", "\/videos\/", "\\");
+            foreach ($tags as $tag) {
+                // strstr retourne une sous-chaîne allant de la première occurrence (incluse) jusqu'à la fin de la chaîne
+                $is_video = strstr($tag->value, '\/videos\/');
+                $is_image = strstr($tag->value, '\/images\/');
+                if ($is_video !== false) {
+                    $to_delete = str_replace($tab, '', $is_video);
+                    $to_delete = 'videos/' . substr($to_delete, 0, -1);
+                    if (File::exists(public_path($to_delete))) File::delete(public_path($to_delete));
+                }
+                if ($is_image !== false) {
+                    $to_delete = str_replace($tab, '', $is_image);
+                    $to_delete = 'images/' . substr($to_delete, 0, -1);
+                    if (File::exists(public_path($to_delete))) File::delete(public_path($to_delete));
+                }
             }
         }
 
         // delete relations from pivot table
-        DB::table('collection_product')->where('collection_id', $collection->id)->delete();
+        DB::table('collection_variante')->where('collection_id', $request->id)->delete();
 
-        $collection->delete();
+
+        if (isset($collection) && !empty($collection)) {
+            $collection->delete();
+        }
+
 
         $collections = Collection::orderBy('created_at', 'desc')->get();
         return json_encode([$collections]);
-        
     }
 }

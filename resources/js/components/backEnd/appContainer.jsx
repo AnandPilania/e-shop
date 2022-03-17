@@ -39,7 +39,7 @@ const Appcontainer = () => {
     const [image, setImage] = useState([]);
     const [isAutoConditions, setIsAutoConditions] = useState(false);
     const [notIncludePrevProduct, setNotIncludePrevProduct] = useState(false);
-    const [allConditionsNeeded, setAllConditionsNeeded] = useState(true);
+    const [allConditionsNeeded, setAllConditionsNeeded] = useState(localStorage.getItem('allConditionsNeeded'));
     const [collectionForm, setCollectionForm] = useState({
         conditions: [{
             id: 0,
@@ -62,7 +62,7 @@ const Appcontainer = () => {
         image: [],
         isAutoConditions: true,
         notIncludePrevProduct: false,
-        allConditionsNeeded: true,
+        allConditionsNeeded: 1,
     })
     //---------------------------------------------------------- collection Form
 
@@ -100,11 +100,12 @@ const Appcontainer = () => {
     const [isDirty, setIsDirty] = useState(false);
     const [tmp_parameter, setTmp_parameter] = useState(); // pour stocker provisoirement une variable
     const [deleteThisCategory, setDeleteThisCategory] = useState(null);
+    const [deleteThisCollection, setDeleteThisCollection] = useState(0);
     const [is, setIs] = useState({
         leaveEditCollectionWithoutSaveChange: false,
         newCollection: false,
         collectionDeleted: false,
-     });
+    });
 
 
     useEffect(() => {
@@ -145,7 +146,7 @@ const Appcontainer = () => {
 
 
     // réinitialisation des states du form -------------------------------------
-    const initCollectionForm = () => {  
+    const initCollectionForm = () => {
         setNameCollection('');
         setDescriptionCollection('');
         setDescriptionCollectionForMeta('');
@@ -190,7 +191,7 @@ const Appcontainer = () => {
             image: [],
             isAutoConditions: false,
             notIncludePrevProduct: false,
-            allConditionsNeeded: true,
+            allConditionsNeeded: 1,
         })
 
         // gére le netoyage des images et vidéos dans  temporayStorage 
@@ -241,8 +242,18 @@ const Appcontainer = () => {
         setShowModalConfirm(false);
 
         switch (sender) {
-            case 'deleteCategory': // if confirm delete
+            case 'deleteCategory':
                 setDeleteThisCategory(tmp_parameter);
+                break;
+            case 'deleteCollection':
+                let idToDelete = new FormData;
+                idToDelete.append('id', tmp_parameter);
+                Axios.post(`http://127.0.0.1:8000/deleteCollection`, idToDelete)
+                    .then(res => {
+                        setListCollections(res.data);
+                        setIdCollection(null);
+                        setIs({ ...is, collectionDeleted: true });
+                    });
                 break;
             case 'initCollectionForm':
                 initCollectionForm();
@@ -267,6 +278,9 @@ const Appcontainer = () => {
         setShowModalInput(false);
     };
 
+    const triggerFunction = () => {
+
+    }
 
     const contextValue = {
         image, setImage,
@@ -315,7 +329,8 @@ const Appcontainer = () => {
         cleanTemporayStorage,
         is, setIs,
         collectionForm, setCollectionForm,
-        
+        deleteThisCollection, setDeleteThisCollection,
+
     }
 
 

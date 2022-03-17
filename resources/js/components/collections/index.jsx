@@ -1,4 +1,4 @@
-import { React, useEffect, useContext, useCallback } from 'react';
+import { React, useEffect, useContext } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import AppContext from '../contexts/AppContext';
 import { usePromptCollection } from '../hooks/usePromptCollection';
@@ -23,6 +23,7 @@ const CreateCollection = () => {
 
     var navigate = useNavigate();
     var formData = new FormData;
+    var dontBlock = false;
 
     // when click on edit in collection list it send collection id to db request for make edit collection
     const { state } = useLocation();
@@ -82,11 +83,11 @@ const CreateCollection = () => {
             setIs({ ...is, newCollection: false });
             setIsDirty(true);
             Axios.get(`http://127.0.0.1:8000/getCollectionById/${collectionId}`)
-                .then(res => {
+                .then(res => { console.log(res.data)
                     res.data.objConditions?.length > 0 ? setConditions(JSON.parse(res.data.objConditions)) : setConditions([{ id: 0, parameter: '1', operator: '1', value: '' }]);
                     res.data.automatise === 1 ? setIsAutoConditions(true) : setIsAutoConditions(false);
                     res.data.automatise === 1 ? localStorage.setItem('isAutoConditions', true) : localStorage.setItem('isAutoConditions', false);
-                    res.data.allConditionsNeeded === 1 ? setAllConditionsNeeded(true) : setAllConditionsNeeded(false);
+                    setAllConditionsNeeded(res.data.allConditionsNeeded);
                     res.data.notIncludePrevProduct === 1 ? setNotIncludePrevProduct(true) : setNotIncludePrevProduct(false);
                     setIdCollection(res.data.id);
                     setNameCollection(res.data.name);
@@ -123,11 +124,12 @@ const CreateCollection = () => {
                         imagePath: res.data.image,
                         isAutoConditions: res.data.automatise === 1 ? true : false,
                         notIncludePrevProduct: res.data.notIncludePrevProduct === 1 ? true : false,
-                        allConditionsNeeded: res.data.allConditionsNeeded === 1 ? true : false
+                        allConditionsNeeded: res.data.allConditionsNeeded
                     })
 
                     setIs_Edit(true);
-
+                    console.log(collectionForm.allConditionsNeeded)
+                    console.log(allConditionsNeeded)
                 }).catch(function (error) {
                     console.log('error:   ' + error);
                 });
@@ -142,19 +144,23 @@ const CreateCollection = () => {
             var b = collectionForm.descriptionCollection;
             var tab = [];
             for (let i = 0; i < maxLength; i++) {
-                if (!tab.includes(a[i]) && a[i] !== null) {
+                if (!tab.includes(a[i]) && a[i] !== null && a[i] !== undefined) {
                     tab.push(a[i]);
                 }
             }
             var occurenceA = 0;
             var occurenceB = 0;
             for (let i = 0; i < tab.length; i++) {
-                occurenceA = [...a].filter(item => item === tab[i]).length;
-                occurenceB = [...b].filter(item => item === tab[i]).length;
-                if (occurenceA !== occurenceB) {
-                    return true;
+                if (tab[i] !== undefined && tab[i].charCodeAt(0) !== 13) {
+                    occurenceA = [...a].filter(item => item === tab[i]).length;
+                    occurenceB = [...b].filter(item => item === tab[i]).length;
+                    if (occurenceA !== occurenceB) {
+                        return true;
+                    }
                 }
             }
+            console.log(collectionForm.allConditionsNeeded)
+            console.log(allConditionsNeeded)
             switch (true) {
                 case JSON.stringify(collectionForm.conditions) !== JSON.stringify(conditions):
                     return true;
@@ -175,7 +181,7 @@ const CreateCollection = () => {
                 case collectionForm.categoryId !== categoryId:
                     return true;
                 case collectionForm.dateField !== dateField:
-                     return true;
+                    return true;
                 case collectionForm.isAutoConditions !== isAutoConditions:
                     return true;
                 case collectionForm.notIncludePrevProduct !== notIncludePrevProduct:
@@ -218,6 +224,7 @@ const CreateCollection = () => {
             }
         }
     }
+
 
     // demande confirmation avant de quitter le form sans sauvegarder
     usePromptCollection('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?', checkIfIsDirty);

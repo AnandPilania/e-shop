@@ -33,7 +33,7 @@ const RowListCollections = ({ collection, category }) => {
     const [showConditions, setShowConditions] = useState(false);
     const [distanceFromBottom, setDistanceFromBottom] = useState(null);
 
-    const { setIdCollection, setListCollections, is, setIs } = useContext(AppContext);
+    const { setShowModalConfirm, setMessageModal, setSender, setTextButtonConfirm, setImageModal, setTmp_parameter } = useContext(AppContext);
 
     var navigate = useNavigate();
 
@@ -42,10 +42,6 @@ const RowListCollections = ({ collection, category }) => {
     }, []);
 
 
-
-    function handleDeletCollection(id) {
-        // console.log(id)
-    }
 
     function getParameter(parameter) {
         switch (parameter) {
@@ -103,7 +99,9 @@ const RowListCollections = ({ collection, category }) => {
         var element = e.target;
         setDistanceFromBottom(window.innerHeight - element.getBoundingClientRect().bottom);
         setShowConditions(!showConditions);
+
     }
+
 
     // permet la fermeture du popover quand on clique n'importe où en dehors du popover
     const cover = {
@@ -121,17 +119,14 @@ const RowListCollections = ({ collection, category }) => {
         navigate('/add-collection', { state: { collectionId: id, isEdit: true } });
     }
 
-    // delete collection
-    const deleteCollection = (id) => {
-        let idToDelete = new FormData;
-        idToDelete.append('id', id);
-
-        Axios.post(`http://127.0.0.1:8000/deleteCollection`, idToDelete)
-            .then(res => {
-                setListCollections(res.data);
-                setIdCollection(null);
-                setIs({ ...is, collectionDeleted: true });
-            });
+    // confirm delete one collection
+    const confirmDeleteCollection = (id, name) => {
+        setMessageModal('Supprimer la collection "' + name + '" ?')
+        setTextButtonConfirm('Confirmer');
+        setImageModal('../images/icons/trash_dirty.png');
+        setSender('deleteCollection');
+        setTmp_parameter(id);
+        setShowModalConfirm(true);
     }
 
 
@@ -157,7 +152,7 @@ const RowListCollections = ({ collection, category }) => {
                 onClick={showHideConditions}>
 
                 {conditions !== null ?
-                    <div className='relative w-auto flex-col justify-s align-s bg-white radius5'>
+                    <div className='relative w-auto flex-col justify-s align-s bg-white radius5 m-r-10'>
 
                         {!showConditions ?
                             <div className='w100pct'>
@@ -172,7 +167,7 @@ const RowListCollections = ({ collection, category }) => {
                                     <div className='w100pct h60 p-l-20  flex-row-s-c bg-gray-light'>
                                         <span className="w30 h30 radius-round bg-blue white flex-row-c-c fs12">{conditions.length} </span>  &nbsp; Conditions
                                     </div>
-                                    <ul className="scrolly scroll flex-col-s-s  w300 max-h265 p20 bg-white ul">
+                                    <ul className="scroll flex-col-s-s w300 max-h265 p20 bg-white ul  scrolly">
                                         {conditions.map((item, index) =>
                                             <li key={index} className="w100pct word-break">
                                                 {getParameter(item.parameter) + ' ' + getOperator(item.operator) + ' ' + item.value}
@@ -188,8 +183,8 @@ const RowListCollections = ({ collection, category }) => {
                         }
                     </div> : '_'}
 
-                {conditions?.length > 1 && <div className="w20 h20 m-r-10 m-l-auto">
-                    {!showConditions ? <img src={window.location.origin + '/images/icons/chevronDown.png'} /> : <img src={window.location.origin + '/images/icons/chevronUp.png'} />}
+                {conditions?.length > 1 && <div className="w20 h20 m-r-10 m-l-auto min-w20">
+                    {!showConditions ? <img src={window.location.origin + '/images/icons/chevronDown.png'} className="w17" /> : <img src={window.location.origin + '/images/icons/chevronUp.png'} />}
                 </div>}
             </div>
 
@@ -209,7 +204,7 @@ const RowListCollections = ({ collection, category }) => {
                     }}>
                 </i>
                 <i className="far fa-trash-alt cursor fs20 hover-red"
-                    onClick={() => deleteCollection(collection.id)}></i>
+                    onClick={() => confirmDeleteCollection(collection.id, collection.name)}></i>
             </div>
 
             {/* <div className='flex-row-c-c min-h50 p5'>

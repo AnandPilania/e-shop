@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Functions;
 
 use App\Models\Product;
+use App\Models\Supplier;
 use App\Models\Variante;
 
 
@@ -118,11 +119,22 @@ class GetArrayOfConditions
                         }
                         break;
                     } else {
-                        $list_match[] = Variante::where($field, $value)
-                            ->orWhere($field, 'like', $value . ' %')
-                            ->orWhere($field, 'like', '% ' . $value)
-                            ->orWhere($field, 'like', '% ' . $value . ' %')->get('id');
-                        break;
+                        if ($field === 'supplier') {
+                            $suppliers = Supplier::where('name', $value)
+                                ->orWhere('name', 'like', $value . ' %')
+                                ->orWhere('name', 'like', '% ' . $value)
+                                ->orWhere('name', 'like', '% ' . $value . ' %')->get('id');
+                            foreach ($suppliers as $item) {
+                                $list_match[] = Variante::where('supplier_id', $item->id)->get('id');
+                            }
+                            break;
+                        } else {
+                            $list_match[] = Variante::where($field, $value)
+                                ->orWhere($field, 'like', $value . ' %')
+                                ->orWhere($field, 'like', '% ' . $value)
+                                ->orWhere($field, 'like', '% ' . $value . ' %')->get('id');
+                            break;
+                        }
                     }
                 case '8':
                     // ne contient pas

@@ -11,13 +11,18 @@ class Collection extends Model
 
     // protected $fillable = [];
 
-    public function products()
-    {
-        return $this->belongsToMany(Product::class);
-    }
-
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'collection_variante');
+    }
+
+    public function Variantes()
+    {
+        return $this->belongsToMany(Variante::class);
     }
 }

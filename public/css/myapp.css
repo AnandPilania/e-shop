@@ -1538,6 +1538,10 @@ a.link:hover {
   width: 15px;
 }
 
+.w17 {
+  width: 17px;
+}
+
 .w20 {
   width: 20px;
 }
@@ -1584,6 +1588,10 @@ a.link:hover {
 
 .w300 {
   width: 300px;
+}
+
+.min-w20 {
+  min-width: 20px;
 }
 
 .min-w50 {
@@ -2042,6 +2050,10 @@ a.link:hover {
   margin-right: 10px;
 }
 
+.m-r-12 {
+  margin-right: 12px;
+}
+
 .m-r-15 {
   margin-right: 15px;
 }
@@ -2200,6 +2212,10 @@ a.link:hover {
 
 .p0 {
   padding: 0;
+}
+
+.p2 {
+  padding: 2;
 }
 
 .p5 {
@@ -2741,7 +2757,7 @@ a.link:hover {
 }
 
 .scrolly {
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .scroll::-webkit-scrollbar-track {
