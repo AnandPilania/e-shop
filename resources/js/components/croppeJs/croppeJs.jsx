@@ -96,7 +96,7 @@ const CroppeImage = () => {
 
     const classes = useStyles();
     const [cropper, setCropper] = useState();
-    const { setImage, imagePath, followThisLink } = useContext(AppContext);
+    const { setImage, imagePath, followThisLink, collectionForm, setCollectionForm } = useContext(AppContext);
     var navigate = useNavigate();
 
     const getCropData = () => {
@@ -145,6 +145,8 @@ const CroppeImage = () => {
                     <button
                         className={classes.btnSubmit}
                         onClick={() => {
+                            // empèche checkIfIsDirty dans index de bloquer la navigation
+                            setCollectionForm({ ...collectionForm, hasBeenChanged: true });
                             getCropData();
                         }}>
                         Recadrer
@@ -152,6 +154,8 @@ const CroppeImage = () => {
                     <button
                         className={classes.btnSubmit}
                         onClick={() => {
+                            // empèche checkIfIsDirty dans index de bloquer la navigation
+                            setCollectionForm({ ...collectionForm, hasBeenChanged: false });
                             navigate(followThisLink);
                         }}>
                         Annuler

@@ -37,9 +37,9 @@ const Appcontainer = () => {
     const [descriptionCollectionForMeta, setDescriptionCollectionForMeta] = useState('');
     const [imagePath, setImagePath] = useState('');
     const [image, setImage] = useState([]);
-    const [isAutoConditions, setIsAutoConditions] = useState(false);
-    const [notIncludePrevProduct, setNotIncludePrevProduct] = useState(false);
-    const [allConditionsNeeded, setAllConditionsNeeded] = useState(localStorage.getItem('allConditionsNeeded'));
+    const [isAutoConditions, setIsAutoConditions] = useState(localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 0);
+    const [notIncludePrevProduct, setNotIncludePrevProduct] = useState(localStorage.getItem('notIncludePrevProduct') ? localStorage.getItem('notIncludePrevProduct') : 1);
+    const [allConditionsNeeded, setAllConditionsNeeded] = useState(localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1);
     const [collectionForm, setCollectionForm] = useState({
         conditions: [{
             id: 0,
@@ -60,10 +60,12 @@ const Appcontainer = () => {
         descriptionCollectionForMeta: '',
         imagePath: '',
         image: [],
-        isAutoConditions: true,
-        notIncludePrevProduct: false,
-        allConditionsNeeded: 1,
+        isAutoConditions: localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 0,
+        notIncludePrevProduct: localStorage.getItem('notIncludePrevProduct') ? localStorage.getItem('notIncludePrevProduct') : 1,
+        allConditionsNeeded: localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1,
+        hasBeenChanged: false,
     })
+    const [hasBeenChanged, setHasBeenChanged] = useState(false);
     //---------------------------------------------------------- collection Form
 
     // collection --------------------------------------------------------------
@@ -106,7 +108,6 @@ const Appcontainer = () => {
         newCollection: false,
         collectionDeleted: false,
     });
-
 
     useEffect(() => {
         // chargement des collections
@@ -166,9 +167,11 @@ const Appcontainer = () => {
             operator: '1',
             value: ''
         }]);
-        setIsAutoConditions(false);
+        setIsAutoConditions(localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 0);
+        setAllConditionsNeeded(localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1);
+        setNotIncludePrevProduct(localStorage.getItem('notIncludePrevProduct') ? localStorage.getItem('notIncludePrevProduct') : 1);
         setDateField(getNow());
-
+        setHasBeenChanged(false);
         setCollectionForm({
             conditions: [{
                 id: 0,
@@ -189,9 +192,10 @@ const Appcontainer = () => {
             descriptionCollectionForMeta: '',
             imagePath: '',
             image: [],
-            isAutoConditions: false,
-            notIncludePrevProduct: false,
-            allConditionsNeeded: 1,
+            isAutoConditions: localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 0,
+            notIncludePrevProduct: localStorage.getItem('notIncludePrevProduct') ? localStorage.getItem('notIncludePrevProduct') : 1,
+            allConditionsNeeded: localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1,
+            hasBeenChanged: false,
         })
 
         // gére le netoyage des images et vidéos dans  temporayStorage 
@@ -278,9 +282,6 @@ const Appcontainer = () => {
         setShowModalInput(false);
     };
 
-    const triggerFunction = () => {
-
-    }
 
     const contextValue = {
         image, setImage,
@@ -330,6 +331,7 @@ const Appcontainer = () => {
         is, setIs,
         collectionForm, setCollectionForm,
         deleteThisCollection, setDeleteThisCollection,
+        hasBeenChanged, setHasBeenChanged,
 
     }
 

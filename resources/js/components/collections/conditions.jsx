@@ -13,28 +13,20 @@ const Conditions = () => {
         warningIdCondition, setWarningIdCondition,
     } = useContext(AppContext);
 
-    useEffect(() => {
+    useEffect(() => {  
         // détermine si on montre le block conditions
-        if (localStorage.getItem('isAutoConditions')) {   /// <---- A CHNGER !!!
-            if (localStorage.getItem('isAutoConditions') == 'false') {
-                setIsAutoConditions(false);
-            } else {
-                setIsAutoConditions(true);
-            }
-        }
-        if (localStorage.getItem('allConditionsNeeded')) {
-                setIsAutoConditions(localStorage.getItem('allConditionsNeeded'));
-        }
+        setIsAutoConditions(localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 0);
+        // détermine si toutes les conditions doivent être remplies
+        setAllConditionsNeeded(localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1);
+        // détermine si toutes les conditions doivent être remplies
+        setNotIncludePrevProduct(localStorage.getItem('notIncludePrevProduct') ? localStorage.getItem('notIncludePrevProduct') : 1);
     }, []);
 
     // show / hide conditions
-    const showHideConditions = (auto) => {
-        if (auto) {
-            localStorage.setItem('isAutoConditions', true);
-            setIsAutoConditions(true);
-        } else {
-            localStorage.setItem('isAutoConditions', false);
-            setIsAutoConditions(false);
+    const showHideConditions = (value) => {
+        localStorage.setItem('isAutoConditions', value);
+        setIsAutoConditions(value);
+        if (value === 0) {
             // réinitialise conditions quand on passe en conditions manuelles
             setConditions([{
                 id: 0,
@@ -110,8 +102,9 @@ const Conditions = () => {
     }
 
     // détermine si on inclus les produits déjà enregistrer dans la nouvelle collection
-    const handleNotIncludePrevProducts = () => {
-        setNotIncludePrevProduct(!notIncludePrevProduct);
+    const handleNotIncludePrevProducts = (e) => {
+        setNotIncludePrevProduct(e.target.checked === true ? 1 : 0);
+        localStorage.setItem('notIncludePrevProduct', e.target.checked === true ? 1 : 0);
     };
 
     const handleAllConditionsNeeded = (value) => {
@@ -127,10 +120,10 @@ const Conditions = () => {
                 <div className="sub-div-vert-align">
                     <div className="div-radio-label">
                         <input type='radio'
-                            checked={isAutoConditions == false}
-                            onChange={() => showHideConditions(false)} />
+                            checked={isAutoConditions == 0}
+                            onChange={() => showHideConditions(0)} />
                         <label
-                            onClick={() => showHideConditions(false)}>
+                            onClick={() => showHideConditions(0)}>
                             Manuel
                         </label>
                     </div>
@@ -139,10 +132,10 @@ const Conditions = () => {
                 <div className="sub-div-vert-align">
                     <div className="div-radio-label">
                         <input type='radio'
-                            checked={isAutoConditions == true}
-                            onChange={() => showHideConditions(true)} />
+                            checked={isAutoConditions == 1}
+                            onChange={() => showHideConditions(1)} />
                         <label
-                            onClick={() => showHideConditions(true)}>
+                            onClick={() => showHideConditions(1)}>
                             Automatisé
                         </label>
                     </div>
@@ -188,7 +181,7 @@ const Conditions = () => {
                             <div className="div-radio-label">
                                 <input type='checkbox'
                                     id="includOnlyNewProducts"
-                                    checked={notIncludePrevProduct}
+                                    checked={notIncludePrevProduct === 1 ? true : false}
                                     onChange={handleNotIncludePrevProducts} />
                                 <label
                                     htmlFor='includOnlyNewProducts'>

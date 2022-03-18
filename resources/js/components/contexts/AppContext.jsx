@@ -90,6 +90,8 @@ export default React.createContext({
     setCollectionForm: () => { },
     deleteThisCollection: '',
     setDeleteThisCollection: () => { },
+    hasBeenChanged: '',
+    setHasBeenChanged: () => { },
 
 
 });

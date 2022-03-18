@@ -18,7 +18,7 @@ const CreateCollection = () => {
 
     const {
         image, setImagePath, setFollowThisLink, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage,
-        messageModal, setMessageModal, setSender, textButtonConfirm, setTextButtonConfirm, imageModal, setImageModal, is_Edit, setIs_Edit, listCollections, setListCollections, setListCategories, isDirty, setIsDirty, nameCollection, setNameCollection, descriptionCollection, setDescriptionCollection, descriptionCollectionForMeta, setDescriptionCollectionForMeta, conditions, setConditions, isAutoConditions, setIsAutoConditions, allConditionsNeeded, setAllConditionsNeeded, notIncludePrevProduct, setNotIncludePrevProduct, setWarningIdCondition, normalizUrl, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, imageName, setImageName, imagePath, alt, setAlt, categoryName, setCategoryName, categoryId, setCategoryId, dateField, setDateField, setTinyLanguage, idCollection, setIdCollection, setTmp_parameter, handleModalConfirm, handleModalCancel, initCollectionForm, is, setIs, collectionForm, setCollectionForm
+        messageModal, setMessageModal, setSender, textButtonConfirm, setTextButtonConfirm, imageModal, setImageModal, is_Edit, setIs_Edit, listCollections, setListCollections, setListCategories, isDirty, setIsDirty, nameCollection, setNameCollection, descriptionCollection, setDescriptionCollection, descriptionCollectionForMeta, setDescriptionCollectionForMeta, conditions, setConditions, isAutoConditions, setIsAutoConditions, allConditionsNeeded, setAllConditionsNeeded, notIncludePrevProduct, setNotIncludePrevProduct, setWarningIdCondition, normalizUrl, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, imageName, setImageName, imagePath, alt, setAlt, categoryName, setCategoryName, categoryId, setCategoryId, dateField, setDateField, setTinyLanguage, idCollection, setIdCollection, setTmp_parameter, handleModalConfirm, handleModalCancel, initCollectionForm, is, setIs, collectionForm, setCollectionForm, hasBeenChanged, blockNavigation
     } = useContext(AppContext);
 
     var navigate = useNavigate();
@@ -30,12 +30,6 @@ const CreateCollection = () => {
     const { collectionId, isEdit } = state !== null ? state : { collectionId: null, isEdit: false };
 
     useEffect(() => {
-
-        // set date field at now
-        setDateField(getNow());
-
-        // init metaUrl with base url
-        setMetaUrl(window.location.origin + '/');
 
         // set l'URL de cette page
         let path = window.location.pathname.replace('admin/', '');
@@ -81,20 +75,29 @@ const CreateCollection = () => {
         if (isEdit) {
             initCollectionForm();
             setIs({ ...is, newCollection: false });
+            // pour afficher le bouton initialisation quand on edit
             setIsDirty(true);
             Axios.get(`http://127.0.0.1:8000/getCollectionById/${collectionId}`)
-                .then(res => { console.log(res.data)
+                .then(res => {
                     res.data.objConditions?.length > 0 ? setConditions(JSON.parse(res.data.objConditions)) : setConditions([{ id: 0, parameter: '1', operator: '1', value: '' }]);
-                    res.data.automatise === 1 ? setIsAutoConditions(true) : setIsAutoConditions(false);
-                    res.data.automatise === 1 ? localStorage.setItem('isAutoConditions', true) : localStorage.setItem('isAutoConditions', false);
+
+                    setIsAutoConditions(res.data.automatise);
+                    localStorage.setItem('isAutoConditions', res.data.automatise);
+
                     setAllConditionsNeeded(res.data.allConditionsNeeded);
-                    res.data.notIncludePrevProduct === 1 ? setNotIncludePrevProduct(true) : setNotIncludePrevProduct(false);
+                    localStorage.setItem('allConditionsNeeded', res.data.allConditionsNeeded);
+
+                    setNotIncludePrevProduct(res.data.notIncludePrevProduct);
+                    localStorage.setItem('notIncludePrevProduct', res.data.notIncludePrevProduct);
+
                     setIdCollection(res.data.id);
                     setNameCollection(res.data.name);
                     setDescriptionCollection(res.data.description);
                     setMetaTitle(res.data.meta_title);
                     setMetaDescription(res.data.meta_description);
+
                     setMetaUrl(res.data.meta_url);
+
                     if (res.data.image !== null && res.data.image !== '') {
                         setImageName(res.data.image.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''));
                         setImagePath(res.data.image);
@@ -102,6 +105,7 @@ const CreateCollection = () => {
                         setImageName('');
                         setImagePath('');
                     }
+
                     setAlt(res.data.alt);
                     setCategoryName(res.data.category !== null ? res.data.category.name : 'Sans catégorie');
                     setCategoryId(res.data.category_id !== null ? res.data.category_id : 1);
@@ -122,14 +126,14 @@ const CreateCollection = () => {
                         categoryId: res.data.category_id !== null ? res.data.category_id : 1,
                         dateField: getDateTime(new Date(res.data.dateActivation)),
                         imagePath: res.data.image,
-                        isAutoConditions: res.data.automatise === 1 ? true : false,
-                        notIncludePrevProduct: res.data.notIncludePrevProduct === 1 ? true : false,
-                        allConditionsNeeded: res.data.allConditionsNeeded
+                        isAutoConditions: res.data.automatise,
+                        notIncludePrevProduct: res.data.notIncludePrevProduct,
+                        allConditionsNeeded: res.data.allConditionsNeeded,
+                        hasBeenChanged: collectionForm.hasBeenChanged,
                     })
 
                     setIs_Edit(true);
-                    console.log(collectionForm.allConditionsNeeded)
-                    console.log(allConditionsNeeded)
+
                 }).catch(function (error) {
                     console.log('error:   ' + error);
                 });
@@ -137,7 +141,14 @@ const CreateCollection = () => {
     }, []);
 
     const checkIfIsDirty = () => {
+
         if (!is.newCollection) {
+
+            if (collectionForm.hasBeenChanged !== hasBeenChanged) {
+                setCollectionForm({ ...collectionForm, hasBeenChanged: false });
+                return true;
+            }
+
             // tinyMCE ajoute des caractères undefined qui e permettent pas de faire une comparaison alors on compte chaque caractères dans les deux texte et on compare leur nombre pour avoir plus de chances de repérer les textes différents 
             let maxLength = Math.max(collectionForm.descriptionCollection.length, descriptionCollection.length);
             var a = descriptionCollection;
@@ -159,8 +170,7 @@ const CreateCollection = () => {
                     }
                 }
             }
-            console.log(collectionForm.allConditionsNeeded)
-            console.log(allConditionsNeeded)
+
             switch (true) {
                 case JSON.stringify(collectionForm.conditions) !== JSON.stringify(conditions):
                     return true;
@@ -182,11 +192,11 @@ const CreateCollection = () => {
                     return true;
                 case collectionForm.dateField !== dateField:
                     return true;
-                case collectionForm.isAutoConditions !== isAutoConditions:
+                case collectionForm.isAutoConditions != isAutoConditions:
                     return true;
-                case collectionForm.notIncludePrevProduct !== notIncludePrevProduct:
+                case collectionForm.notIncludePrevProduct != notIncludePrevProduct:
                     return true;
-                case collectionForm.allConditionsNeeded !== allConditionsNeeded:
+                case collectionForm.allConditionsNeeded != allConditionsNeeded:
                     return true;
                 default:
                     setIs_Edit(false);
@@ -227,12 +237,12 @@ const CreateCollection = () => {
 
 
     // demande confirmation avant de quitter le form sans sauvegarder
-    usePromptCollection('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?', checkIfIsDirty);
+        usePromptCollection('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?', checkIfIsDirty);
+
 
 
     const handleNameCollection = (e) => {
         setNameCollection(e.target.value);
-        nameCollection.length > 0 && setIsDirty(true);
     };
 
     // Reset Form---------------------------------------------------------------

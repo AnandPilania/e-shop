@@ -5,10 +5,9 @@ import { useBlocker } from './useBlocker';
 
 export function usePromptCollection(messageObj, shouldPrompt) {
 
-    const { is, setIs, setMessageModal, setTextButtonConfirm, setImageModal, setSender, setTmp_parameter, setShowModalConfirm } = useContext(AppContext);
+    const { is, setIs, setMessageModal, setTextButtonConfirm, setImageModal, setSender, setTmp_parameter, setShowModalConfirm, collectionForm, hasBeenChanged } = useContext(AppContext);
 
     const retryFn = useRef(() => { });
-
 
     useEffect(() => {
         if (is.leaveEditCollectionWithoutSaveChange) {

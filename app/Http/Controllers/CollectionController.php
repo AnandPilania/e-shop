@@ -100,8 +100,8 @@ class CollectionController extends Controller
         // remplace dans les src de la description le chemin du dossier temporaryStorage par celui de la destionation finale des images et vidéos. !!! c'est handleTinyMceTemporaryElements qui se charge de déplacer les fichiers dans ces dossiers !!!
         $tmp_description = str_replace('temporaryStorage', 'images', $request->description);
         $collection->description = preg_replace('/(<source src=").+(images)/', '<source src="' . url('') . '/videos', $tmp_description);
-        $collection->automatise = $request->automatise === 'true' ? 1 : 0;
-        $collection->notIncludePrevProduct = $request->notIncludePrevProduct === 'true' ? 1 : 0;
+        $collection->automatise = $request->automatise;
+        $collection->notIncludePrevProduct = $request->notIncludePrevProduct;
         $collection->allConditionsNeeded = $request->allConditionsNeeded;
         $collection->objConditions = $request->objConditions;
         $cleanLink = new CleanLink;
