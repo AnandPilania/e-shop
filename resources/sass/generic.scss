@@ -955,6 +955,9 @@
 .noshrink {
     flex-shrink: 0;
 }
+.fit-cover {
+    object-fit: fill;
+}
 
 
 .inline {

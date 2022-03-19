@@ -92,6 +92,9 @@ export default React.createContext({
     setDeleteThisCollection: () => { },
     hasBeenChanged: '',
     setHasBeenChanged: () => { },
-
+    wrapIndexcroppe: '',
+    setWrapIndexcroppe: () => { },
+    isNot_isEdit: '',
+    setIsNot_isEdit: () => { },
 
 });

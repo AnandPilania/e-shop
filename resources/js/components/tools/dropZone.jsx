@@ -1,10 +1,9 @@
 import { React, useEffect, useContext } from 'react';
-import { useNavigate } from "react-router-dom";
 import { makeStyles } from '@material-ui/styles';
 import Axios from 'axios';
 import AppContext from '../contexts/AppContext';
 import { saveInTemporaryStorage } from '../functions/temporaryStorage/saveInTemporaryStorage';
-
+import CroppeImage from '../croppeJs/croppeJs';
 
 const useStyles = makeStyles({
     wrapperForm: {
@@ -67,9 +66,8 @@ const useStyles = makeStyles({
 const DropZone = (props) => {
     const classes = useStyles();
 
-    const { image, setImage, imagePath, setImagePath, setImageModal, setShowModalSimpleMessage, setMessageModal, is_Edit, setIs_Edit, idCollection } = useContext(AppContext);
+    const { image, setImage, imagePath, setImagePath, setImageModal, setShowModalSimpleMessage, setMessageModal, is_Edit, setIs_Edit, idCollection, setWrapIndexcroppe, setIsNot_isEdit, collectionForm, setCollectionForm } = useContext(AppContext);
 
-    var navigate = useNavigate();
 
     var dropRegion = null;
     var imagePreviewRegion = null;
@@ -261,6 +259,8 @@ const DropZone = (props) => {
                 previewImage(files[i]);
             }
         }
+        // permet à checkIfIsDirty dans index de bloquer la navigation lorsqu'on ajoute ou change une image sans sauvegarder
+        setCollectionForm({ ...collectionForm, hasBeenChanged: true });
     }
 
 
@@ -380,7 +380,8 @@ const DropZone = (props) => {
         var imageExist = document.getElementsByClassName('image-view-dropZone') && document.getElementsByClassName('image-view-dropZone');
 
         if (imageExist.length > 0) {
-            navigate('/cropImage');
+            setIsNot_isEdit(true);
+            setWrapIndexcroppe(<CroppeImage />)
         }
     }
 

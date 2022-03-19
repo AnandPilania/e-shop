@@ -1,10 +1,11 @@
 import React, { useState, useContext } from "react";
 import AppContext from '../contexts/AppContext';
-import { useNavigate } from "react-router-dom";
 import { makeStyles } from '@material-ui/styles';
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import { saveInTemporaryStorage } from '../functions/temporaryStorage/saveInTemporaryStorage';
+import CreateCollection from '../collections/index';
+
 
 const useStyles = makeStyles({
     main: {
@@ -96,8 +97,8 @@ const CroppeImage = () => {
 
     const classes = useStyles();
     const [cropper, setCropper] = useState();
-    const { setImage, imagePath, followThisLink, collectionForm, setCollectionForm } = useContext(AppContext);
-    var navigate = useNavigate();
+    const { setImage, imagePath, collectionForm, setCollectionForm, setWrapIndexcroppe, setIsNot_isEdit } = useContext(AppContext);
+
 
     const getCropData = () => {
         if (typeof cropper !== "undefined") {
@@ -108,7 +109,8 @@ const CroppeImage = () => {
                 saveInTemporaryStorage('tmp_imageCollection', blob, imageName);
 
                 setImage(blob);
-                navigate(followThisLink);
+                setIsNot_isEdit(true);
+                setWrapIndexcroppe(<CreateCollection />)
             });
         }
     };
@@ -145,7 +147,7 @@ const CroppeImage = () => {
                     <button
                         className={classes.btnSubmit}
                         onClick={() => {
-                            // empèche checkIfIsDirty dans index de bloquer la navigation
+                            // permet à checkIfIsDirty dans index de bloquer la navigation lorsqu'on croppe sans sauvegarder
                             setCollectionForm({ ...collectionForm, hasBeenChanged: true });
                             getCropData();
                         }}>
@@ -154,9 +156,10 @@ const CroppeImage = () => {
                     <button
                         className={classes.btnSubmit}
                         onClick={() => {
-                            // empèche checkIfIsDirty dans index de bloquer la navigation
-                            setCollectionForm({ ...collectionForm, hasBeenChanged: false });
-                            navigate(followThisLink);
+                            // empèche le rechargement des datas quand on annule le croppe. est utilisé dans inedx useeffect
+                            setIsNot_isEdit(true);
+                            // affiche <CreateCollection /> dans wrap_indexCroppe.jsx
+                            setWrapIndexcroppe(<CreateCollection />)
                         }}>
                         Annuler
                     </button>

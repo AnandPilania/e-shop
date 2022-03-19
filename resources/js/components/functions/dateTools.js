@@ -91,3 +91,5 @@ export function getDateTime(date) {
         (seconde.toString());
     return localDatetime;
 }
+
+ 

@@ -40,9 +40,9 @@ const Conditions = () => {
     useEffect(() => {
         // dropDown conditions
         var dropable = document.getElementById('conditions_collection');
-        if (isAutoConditions === false) {
+        if (isAutoConditions === 0) {
             dropable.style.maxHeight = null;
-        } else if (isAutoConditions === true) {
+        } else if (isAutoConditions === 1) {
             dropable.style.maxHeight = dropable.scrollHeight + "px";
         }
     }, [isAutoConditions]);

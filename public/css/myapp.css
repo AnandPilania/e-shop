@@ -2676,6 +2676,11 @@ a.link:hover {
   flex-shrink: 0;
 }
 
+.fit-cover {
+  -o-object-fit: fill;
+     object-fit: fill;
+}
+
 .inline {
   display: inline;
 }

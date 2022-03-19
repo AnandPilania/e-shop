@@ -1,5 +1,5 @@
 import { React, useEffect, useContext } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import AppContext from '../contexts/AppContext';
 import { usePromptCollection } from '../hooks/usePromptCollection';
 import Axios from 'axios';
@@ -18,12 +18,11 @@ const CreateCollection = () => {
 
     const {
         image, setImagePath, setFollowThisLink, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage,
-        messageModal, setMessageModal, setSender, textButtonConfirm, setTextButtonConfirm, imageModal, setImageModal, is_Edit, setIs_Edit, listCollections, setListCollections, setListCategories, isDirty, setIsDirty, nameCollection, setNameCollection, descriptionCollection, setDescriptionCollection, descriptionCollectionForMeta, setDescriptionCollectionForMeta, conditions, setConditions, isAutoConditions, setIsAutoConditions, allConditionsNeeded, setAllConditionsNeeded, notIncludePrevProduct, setNotIncludePrevProduct, setWarningIdCondition, normalizUrl, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, imageName, setImageName, imagePath, alt, setAlt, categoryName, setCategoryName, categoryId, setCategoryId, dateField, setDateField, setTinyLanguage, idCollection, setIdCollection, setTmp_parameter, handleModalConfirm, handleModalCancel, initCollectionForm, is, setIs, collectionForm, setCollectionForm, hasBeenChanged, blockNavigation
+        messageModal, setMessageModal, setSender, textButtonConfirm, setTextButtonConfirm, imageModal, setImageModal, is_Edit, setIs_Edit, listCollections, setListCollections, setListCategories, isDirty, setIsDirty, nameCollection, setNameCollection, descriptionCollection, setDescriptionCollection, descriptionCollectionForMeta, setDescriptionCollectionForMeta, conditions, setConditions, isAutoConditions, setIsAutoConditions, allConditionsNeeded, setAllConditionsNeeded, notIncludePrevProduct, setNotIncludePrevProduct, setWarningIdCondition, normalizUrl, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, imageName, setImageName, imagePath, alt, setAlt, categoryName, setCategoryName, categoryId, setCategoryId, dateField, setDateField, setTinyLanguage, idCollection, setIdCollection, setTmp_parameter, handleModalConfirm, handleModalCancel, initCollectionForm, is, setIs, collectionForm, setCollectionForm, hasBeenChanged, isNot_isEdit
     } = useContext(AppContext);
 
     var navigate = useNavigate();
     var formData = new FormData;
-    var dontBlock = false;
 
     // when click on edit in collection list it send collection id to db request for make edit collection
     const { state } = useLocation();
@@ -71,8 +70,7 @@ const CreateCollection = () => {
         }
 
 
-
-        if (isEdit) {
+        if (isEdit && !isNot_isEdit) {
             initCollectionForm();
             setIs({ ...is, newCollection: false });
             // pour afficher le bouton initialisation quand on edit
@@ -145,7 +143,6 @@ const CreateCollection = () => {
         if (!is.newCollection) {
 
             if (collectionForm.hasBeenChanged !== hasBeenChanged) {
-                setCollectionForm({ ...collectionForm, hasBeenChanged: false });
                 return true;
             }
 
@@ -224,7 +221,7 @@ const CreateCollection = () => {
                 image != '' ||
                 categoryName != 'Sans catégorie' ||
                 categoryId != 1 ||
-                // dateField != getNow() ||
+                dateField != getNow() ||
                 conditonDirty == true
             ) {
                 return true;
@@ -237,8 +234,7 @@ const CreateCollection = () => {
 
 
     // demande confirmation avant de quitter le form sans sauvegarder
-        usePromptCollection('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?', checkIfIsDirty);
-
+    usePromptCollection('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?', checkIfIsDirty);
 
 
     const handleNameCollection = (e) => {
@@ -299,7 +295,8 @@ const CreateCollection = () => {
             setShowModalSimpleMessage(true);
             return false;
         }
-
+        console.log('isEdit  ', isEdit);
+        console.log('isNot_isEdit  ', isNot_isEdit);
         // check if neme of collection already exist
         let listCollectionName = listCollections.map(item => item.name);
         if (!isEdit && listCollectionName.includes(nameCollection)) {

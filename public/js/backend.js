@@ -23502,7 +23502,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _createProduct_list__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../createProduct/list */ "./resources/js/components/createProduct/list.jsx");
 /* harmony import */ var _collections_list__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../collections/list */ "./resources/js/components/collections/list.jsx");
 /* harmony import */ var _collections_index__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../collections/index */ "./resources/js/components/collections/index.jsx");
-/* harmony import */ var _croppeJs_croppeJs__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../croppeJs/croppeJs */ "./resources/js/components/croppeJs/croppeJs.jsx");
+/* harmony import */ var _collections_wrap_IndexCroppe__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../collections/wrap_IndexCroppe */ "./resources/js/components/collections/wrap_IndexCroppe.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
@@ -23664,162 +23664,172 @@ var Appcontainer = function Appcontainer() {
   var _useState37 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState38 = _slicedToArray(_useState37, 2),
       hasBeenChanged = _useState38[0],
-      setHasBeenChanged = _useState38[1]; //---------------------------------------------------------- collection Form
+      setHasBeenChanged = _useState38[1];
+
+  var _useState39 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState40 = _slicedToArray(_useState39, 2),
+      isNot_isEdit = _useState40[0],
+      setIsNot_isEdit = _useState40[1];
+
+  var _useState41 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_collections_index__WEBPACK_IMPORTED_MODULE_11__["default"], {})),
+      _useState42 = _slicedToArray(_useState41, 2),
+      wrapIndexcroppe = _useState42[0],
+      setWrapIndexcroppe = _useState42[1]; //---------------------------------------------------------- collection Form
   // collection --------------------------------------------------------------
 
 
-  var _useState39 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState40 = _slicedToArray(_useState39, 2),
-      warningIdCondition = _useState40[0],
-      setWarningIdCondition = _useState40[1];
-
-  var _useState41 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('fr_FR'),
-      _useState42 = _slicedToArray(_useState41, 2),
-      tinyLanguage = _useState42[0],
-      setTinyLanguage = _useState42[1];
-
-  var _useState43 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+  var _useState43 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState44 = _slicedToArray(_useState43, 2),
-      idCollection = _useState44[0],
-      setIdCollection = _useState44[1]; // ------------------------------------------------------------- collection 
+      warningIdCondition = _useState44[0],
+      setWarningIdCondition = _useState44[1];
 
-
-  var _useState45 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState45 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('fr_FR'),
       _useState46 = _slicedToArray(_useState45, 2),
-      showModalApp = _useState46[0],
-      setShowModalApp = _useState46[1];
+      tinyLanguage = _useState46[0],
+      setTinyLanguage = _useState46[1];
 
-  var _useState47 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
+  var _useState47 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState48 = _slicedToArray(_useState47, 2),
-      textButtonModalApp = _useState48[0],
-      setTextButtonModalApp = _useState48[1];
+      idCollection = _useState48[0],
+      setIdCollection = _useState48[1]; // ------------------------------------------------------------- collection 
 
-  var _useState49 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
+
+  var _useState49 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState50 = _slicedToArray(_useState49, 2),
-      textButtonModalApp2 = _useState50[0],
-      setTextButtonModalApp2 = _useState50[1];
+      showModalApp = _useState50[0],
+      setShowModalApp = _useState50[1];
 
-  var _useState51 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState51 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
       _useState52 = _slicedToArray(_useState51, 2),
-      imageModalApp = _useState52[0],
-      setImageModalApp = _useState52[1];
+      textButtonModalApp = _useState52[0],
+      setTextButtonModalApp = _useState52[1];
 
-  var _useState53 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState53 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
       _useState54 = _slicedToArray(_useState53, 2),
-      messageModalApp = _useState54[0],
-      setMessageModalApp = _useState54[1];
+      textButtonModalApp2 = _useState54[0],
+      setTextButtonModalApp2 = _useState54[1];
+
+  var _useState55 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState56 = _slicedToArray(_useState55, 2),
+      imageModalApp = _useState56[0],
+      setImageModalApp = _useState56[1];
+
+  var _useState57 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState58 = _slicedToArray(_useState57, 2),
+      messageModalApp = _useState58[0],
+      setMessageModalApp = _useState58[1];
 
   var _useLocalStorage = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__.useLocalStorage)("followThisLink", ""),
       _useLocalStorage2 = _slicedToArray(_useLocalStorage, 2),
       followThisLink = _useLocalStorage2[0],
       setFollowThisLink = _useLocalStorage2[1];
 
-  var _useState55 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState56 = _slicedToArray(_useState55, 2),
-      showModalConfirm = _useState56[0],
-      setShowModalConfirm = _useState56[1];
-
-  var _useState57 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState58 = _slicedToArray(_useState57, 2),
-      showModalSimpleMessage = _useState58[0],
-      setShowModalSimpleMessage = _useState58[1];
-
   var _useState59 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState60 = _slicedToArray(_useState59, 2),
-      showModalCroppeImage = _useState60[0],
-      setShowModalCroppeImage = _useState60[1];
+      showModalConfirm = _useState60[0],
+      setShowModalConfirm = _useState60[1];
 
   var _useState61 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState62 = _slicedToArray(_useState61, 2),
-      showModalInput = _useState62[0],
-      setShowModalInput = _useState62[1];
+      showModalSimpleMessage = _useState62[0],
+      setShowModalSimpleMessage = _useState62[1];
 
-  var _useState63 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState63 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState64 = _slicedToArray(_useState63, 2),
-      messageModal = _useState64[0],
-      setMessageModal = _useState64[1];
+      showModalCroppeImage = _useState64[0],
+      setShowModalCroppeImage = _useState64[1];
 
-  var _useState65 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState65 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState66 = _slicedToArray(_useState65, 2),
-      sender = _useState66[0],
-      setSender = _useState66[1]; // for modal
-
+      showModalInput = _useState66[0],
+      setShowModalInput = _useState66[1];
 
   var _useState67 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState68 = _slicedToArray(_useState67, 2),
-      inputTextModify = _useState68[0],
-      setInputTextModify = _useState68[1];
+      messageModal = _useState68[0],
+      setMessageModal = _useState68[1];
 
-  var _useState69 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
+  var _useState69 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState70 = _slicedToArray(_useState69, 2),
-      textButtonConfirm = _useState70[0],
-      setTextButtonConfirm = _useState70[1];
+      sender = _useState70[0],
+      setSender = _useState70[1]; // for modal
+
 
   var _useState71 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState72 = _slicedToArray(_useState71, 2),
-      imageModal = _useState72[0],
-      setImageModal = _useState72[1];
+      inputTextModify = _useState72[0],
+      setInputTextModify = _useState72[1];
 
-  var _useState73 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('#4A90E2'),
+  var _useState73 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
       _useState74 = _slicedToArray(_useState73, 2),
-      selectedColor = _useState74[0],
-      setSelectedColor = _useState74[1];
+      textButtonConfirm = _useState74[0],
+      setTextButtonConfirm = _useState74[1];
 
-  var _useState75 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState75 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState76 = _slicedToArray(_useState75, 2),
-      listCollections = _useState76[0],
-      setListCollections = _useState76[1];
+      imageModal = _useState76[0],
+      setImageModal = _useState76[1];
 
-  var _useState77 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState77 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('#4A90E2'),
       _useState78 = _slicedToArray(_useState77, 2),
-      listCategories = _useState78[0],
-      setListCategories = _useState78[1];
+      selectedColor = _useState78[0],
+      setSelectedColor = _useState78[1];
 
-  var _useState79 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState79 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState80 = _slicedToArray(_useState79, 2),
-      is_Edit = _useState80[0],
-      setIs_Edit = _useState80[1]; // -->  dropZone
-
+      listCollections = _useState80[0],
+      setListCollections = _useState80[1];
 
   var _useState81 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState82 = _slicedToArray(_useState81, 2),
-      categoriesChecked = _useState82[0],
-      setCategoriesChecked = _useState82[1];
+      listCategories = _useState82[0],
+      setListCategories = _useState82[1];
 
-  var _useState83 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState83 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState84 = _slicedToArray(_useState83, 2),
-      searchValue = _useState84[0],
-      setSearchValue = _useState84[1];
+      is_Edit = _useState84[0],
+      setIs_Edit = _useState84[1]; // -->  dropZone
 
-  var _useState85 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+
+  var _useState85 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState86 = _slicedToArray(_useState85, 2),
-      isDirty = _useState86[0],
-      setIsDirty = _useState86[1];
+      categoriesChecked = _useState86[0],
+      setCategoriesChecked = _useState86[1];
 
-  var _useState87 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
+  var _useState87 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState88 = _slicedToArray(_useState87, 2),
-      tmp_parameter = _useState88[0],
-      setTmp_parameter = _useState88[1]; // pour stocker provisoirement une variable
+      searchValue = _useState88[0],
+      setSearchValue = _useState88[1];
 
-
-  var _useState89 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+  var _useState89 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState90 = _slicedToArray(_useState89, 2),
-      deleteThisCategory = _useState90[0],
-      setDeleteThisCategory = _useState90[1];
+      isDirty = _useState90[0],
+      setIsDirty = _useState90[1];
 
-  var _useState91 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+  var _useState91 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
       _useState92 = _slicedToArray(_useState91, 2),
-      deleteThisCollection = _useState92[0],
-      setDeleteThisCollection = _useState92[1];
+      tmp_parameter = _useState92[0],
+      setTmp_parameter = _useState92[1]; // pour stocker provisoirement une variable
 
-  var _useState93 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+
+  var _useState93 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      _useState94 = _slicedToArray(_useState93, 2),
+      deleteThisCategory = _useState94[0],
+      setDeleteThisCategory = _useState94[1];
+
+  var _useState95 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+      _useState96 = _slicedToArray(_useState95, 2),
+      deleteThisCollection = _useState96[0],
+      setDeleteThisCollection = _useState96[1];
+
+  var _useState97 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     leaveEditCollectionWithoutSaveChange: false,
     newCollection: false,
     collectionDeleted: false
   }),
-      _useState94 = _slicedToArray(_useState93, 2),
-      is = _useState94[0],
-      setIs = _useState94[1];
+      _useState98 = _slicedToArray(_useState97, 2),
+      is = _useState98[0],
+      setIs = _useState98[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // chargement des collections
@@ -23902,7 +23912,8 @@ var Appcontainer = function Appcontainer() {
       notIncludePrevProduct: localStorage.getItem('notIncludePrevProduct') ? localStorage.getItem('notIncludePrevProduct') : 1,
       allConditionsNeeded: localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1,
       hasBeenChanged: false
-    }); // gére le netoyage des images et vidéos dans  temporayStorage 
+    });
+    setIsNot_isEdit(false); // gére le netoyage des images et vidéos dans  temporayStorage 
 
     var keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection'];
     cleanTemporayStorage(keys_toDelete); // éfface l'image de la dropZone
@@ -23973,6 +23984,9 @@ var Appcontainer = function Appcontainer() {
       case 'leaveEditCollectionWithoutSaveChange':
         setIs(_objectSpread(_objectSpread({}, is), {}, {
           leaveEditCollectionWithoutSaveChange: true
+        }));
+        setCollectionForm(_objectSpread(_objectSpread({}, collectionForm), {}, {
+          hasBeenChanged: false
         })); // vider form creat collection quand on edit sans rien changer
 
         setIs_Edit(false);
@@ -24084,7 +24098,11 @@ var Appcontainer = function Appcontainer() {
     deleteThisCollection: deleteThisCollection,
     setDeleteThisCollection: setDeleteThisCollection,
     hasBeenChanged: hasBeenChanged,
-    setHasBeenChanged: setHasBeenChanged
+    setHasBeenChanged: setHasBeenChanged,
+    wrapIndexcroppe: wrapIndexcroppe,
+    setWrapIndexcroppe: setWrapIndexcroppe,
+    isNot_isEdit: isNot_isEdit,
+    setIsNot_isEdit: setIsNot_isEdit
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"].Provider, {
     value: contextValue,
@@ -24108,10 +24126,7 @@ var Appcontainer = function Appcontainer() {
           element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_collections_list__WEBPACK_IMPORTED_MODULE_10__["default"], {})
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
           path: "/add-collection",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_collections_index__WEBPACK_IMPORTED_MODULE_11__["default"], {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
-          path: "/cropImage",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_croppeJs_croppeJs__WEBPACK_IMPORTED_MODULE_12__["default"], {})
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_collections_wrap_IndexCroppe__WEBPACK_IMPORTED_MODULE_12__["default"], {})
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
           path: "*",
           element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)("main", {
@@ -24144,15 +24159,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
-/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _elements_checkBox__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../elements/checkBox */ "./resources/js/components/elements/checkBox.jsx");
-/* harmony import */ var _functions_dateTools__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../functions/dateTools */ "./resources/js/components/functions/dateTools.js");
-/* harmony import */ var _modal_modalConfirm__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../modal/modalConfirm */ "./resources/js/components/modal/modalConfirm.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _elements_checkBox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../elements/checkBox */ "./resources/js/components/elements/checkBox.jsx");
+/* harmony import */ var _functions_dateTools__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../functions/dateTools */ "./resources/js/components/functions/dateTools.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -24173,9 +24185,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
-
-var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_7__["default"])({
+var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_5__["default"])({
   inputText: {
     display: 'flex',
     flexDirection: 'row',
@@ -24221,7 +24231,7 @@ var RowListCollections = function RowListCollections(_ref) {
       setImageModal = _useContext.setImageModal,
       setTmp_parameter = _useContext.setTmp_parameter;
 
-  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_8__.useNavigate)();
+  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_6__.useNavigate)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     setConditions(JSON.parse(collection.objConditions));
   }, []);
@@ -24332,94 +24342,99 @@ var RowListCollections = function RowListCollections(_ref) {
     setShowModalConfirm(true);
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("li", {
+  var figureSize = {
+    width: "50px",
+    height: "50px",
+    background: "url(" + window.location.origin + '/' + collection.thumbnail + ")",
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center"
+  };
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("li", {
     className: "grid grid-col-list2 w100pct h-auto min-h50 bg-white p15 brd-b-gray-light-1",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "flex-row min-h50 p5",
-      children: collection && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_elements_checkBox__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      children: collection && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_elements_checkBox__WEBPACK_IMPORTED_MODULE_2__["default"], {
         unikId: collection.id
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "flex-row min-h50 p5 p-l-10 w95pct cursor word-break",
       children: collection && collection.name
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "flex-row-c-c min-h50 w50",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("figure", {
+      children: collection.thumbnail && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("figure", {
         className: "h50 w50 radius-round",
-        children: collection.thumbnail && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
-          className: "h100pct radius-round",
-          src: window.location.origin + '/' + collection.thumbnail
-        })
+        style: figureSize
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "flex-row-c-c w40 h40 radius-round bg-blue-light m-auto",
       children: collection.products.length
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
       className: "flex-row min-h50 ".concat((conditions === null || conditions === void 0 ? void 0 : conditions.length) > 1 && "cursor"),
       onClick: showHideConditions,
-      children: [conditions !== null ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+      children: [conditions !== null ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
         className: "relative w-auto flex-col justify-s align-s bg-white radius5 m-r-10",
-        children: !showConditions ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        children: !showConditions ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
           className: "w100pct",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
             children: getParameter(conditions[0].parameter) + ' ' + getOperator(conditions[0].operator) + ' ' + conditions[0].value
           })
-        }) : conditions.length > 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        }) : conditions.length > 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
           className: "flex-col-s-s w300 max-h310 absolute l0 bg-white shadow-l radius5 z3 ".concat(distanceFromBottom < 300 ? "b0" : "t0"),
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
             style: cover,
             onClick: showHideConditions
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
             className: "w100pct h60 p-l-20  flex-row-s-c bg-gray-light",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("span", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("span", {
               className: "w30 h30 radius-round bg-blue white flex-row-c-c fs12",
               children: [conditions.length, " "]
             }), "  \xA0 Conditions"]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("ul", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("ul", {
             className: "scroll flex-col-s-s w300 max-h265 p20 bg-white ul  scrolly",
             children: conditions.map(function (item, index) {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("li", {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("li", {
                 className: "w100pct word-break",
                 children: getParameter(item.parameter) + ' ' + getOperator(item.operator) + ' ' + item.value
               }, index);
             })
           })]
-        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
           className: "w100pct",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
             children: getParameter(conditions[0].parameter) + ' ' + getOperator(conditions[0].operator) + ' ' + conditions[0].value
           })
         })
-      }) : '_', (conditions === null || conditions === void 0 ? void 0 : conditions.length) > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+      }) : '_', (conditions === null || conditions === void 0 ? void 0 : conditions.length) > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
         className: "w20 h20 m-r-10 m-l-auto min-w20",
-        children: !showConditions ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
+        children: !showConditions ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
           src: window.location.origin + '/images/icons/chevronDown.png',
           className: "w17"
-        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
           src: window.location.origin + '/images/icons/chevronUp.png'
         })
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "flex-row min-h50 p5",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
         children: category && category.name
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "flex-row min-h50 p5",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-        className: "noshrink flex-row-c-c radius15 h30 p-lr-15 ".concat((collection === null || collection === void 0 ? void 0 : collection.dateActivation) < (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_4__.getNowUs)() ? 'active-collection' : 'unactive-collection'),
-        children: (collection === null || collection === void 0 ? void 0 : collection.dateActivation) < (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_4__.getNowUs)() ? "Activée" : "".concat((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_4__.getOnlyDateAndHour)(collection === null || collection === void 0 ? void 0 : collection.dateActivation))
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+        className: "noshrink flex-row-c-c radius15 h30 p-lr-15 ".concat((collection === null || collection === void 0 ? void 0 : collection.dateActivation) < (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_3__.getNowUs)() ? 'active-collection' : 'unactive-collection'),
+        children: (collection === null || collection === void 0 ? void 0 : collection.dateActivation) < (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_3__.getNowUs)() ? "Activée" : "".concat((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_3__.getOnlyDateAndHour)(collection === null || collection === void 0 ? void 0 : collection.dateActivation))
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "flex-row min-h50 p5",
-      children: collection && (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_4__.getOnlyDate)(collection.created_at)
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+      children: collection && (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_3__.getOnlyDate)(collection.created_at)
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
         className: "fas fa-recycle m-r-20 cursor fs20 hover-green",
         onClick: function onClick() {
           editCollection(collection.id);
         }
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
         className: "far fa-trash-alt cursor fs20 hover-red",
         onClick: function onClick() {
           return confirmDeleteCollection(collection.id, collection.name);
@@ -24885,16 +24900,10 @@ var Categories = function Categories() {
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
               className: "fas fa-angle-down"
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("ul", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("ul", {
             className: "ul-category dropable scrolly scroll",
             id: "category_select",
-            children: [categoryName != 'Sans catégorie' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
-              className: "li-category txt-limit",
-              onClick: function onClick() {
-                handleCategory(1), handleCategoryName('Sans catégorie');
-              },
-              children: "Sans cat\xE9gorie"
-            }), categoriesList && categoriesList.map(function (cat, index) {
+            children: categoriesList && categoriesList.map(function (cat, index) {
               return cat.name != categoryName && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("li", {
                 className: "li-category",
                 onClick: function onClick() {
@@ -24919,7 +24928,7 @@ var Categories = function Categories() {
                   })]
                 })]
               }, index);
-            })]
+            })
           })]
         }), newCategorySucces && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("p", {
           className: "succesMessage",
@@ -25557,9 +25566,9 @@ var Conditions = function Conditions() {
     // dropDown conditions
     var dropable = document.getElementById('conditions_collection');
 
-    if (isAutoConditions === false) {
+    if (isAutoConditions === 0) {
       dropable.style.maxHeight = null;
-    } else if (isAutoConditions === true) {
+    } else if (isAutoConditions === 1) {
       dropable.style.maxHeight = dropable.scrollHeight + "px";
     }
   }, [isAutoConditions]); // gère le paramètre à changer dans les conditions automatiques
@@ -26071,11 +26080,10 @@ var CreateCollection = function CreateCollection() {
       collectionForm = _useContext.collectionForm,
       setCollectionForm = _useContext.setCollectionForm,
       hasBeenChanged = _useContext.hasBeenChanged,
-      blockNavigation = _useContext.blockNavigation;
+      isNot_isEdit = _useContext.isNot_isEdit;
 
   var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_15__.useNavigate)();
-  var formData = new FormData();
-  var dontBlock = false; // when click on edit in collection list it send collection id to db request for make edit collection
+  var formData = new FormData(); // when click on edit in collection list it send collection id to db request for make edit collection
 
   var _useLocation = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_15__.useLocation)(),
       state = _useLocation.state;
@@ -26135,7 +26143,7 @@ var CreateCollection = function CreateCollection() {
         setTinyLanguage('fr_FR');
     }
 
-    if (isEdit) {
+    if (isEdit && !isNot_isEdit) {
       initCollectionForm();
       setIs(_objectSpread(_objectSpread({}, is), {}, {
         newCollection: false
@@ -26212,9 +26220,6 @@ var CreateCollection = function CreateCollection() {
   var checkIfIsDirty = function checkIfIsDirty() {
     if (!is.newCollection) {
       if (collectionForm.hasBeenChanged !== hasBeenChanged) {
-        setCollectionForm(_objectSpread(_objectSpread({}, collectionForm), {}, {
-          hasBeenChanged: false
-        }));
         return true;
       } // tinyMCE ajoute des caractères undefined qui e permettent pas de faire une comparaison alors on compte chaque caractères dans les deux texte et on compare leur nombre pour avoir plus de chances de repérer les textes différents 
 
@@ -26314,8 +26319,7 @@ var CreateCollection = function CreateCollection() {
         }
       });
 
-      if (nameCollection != '' || descriptionCollection != '' || alt != '' || imageName != '' || metaTitle != '' || metaDescription != '' || metaUrl != window.location.origin + '/' || image != '' || categoryName != 'Sans catégorie' || categoryId != 1 || // dateField != getNow() ||
-      conditonDirty == true) {
+      if (nameCollection != '' || descriptionCollection != '' || alt != '' || imageName != '' || metaTitle != '' || metaDescription != '' || metaUrl != window.location.origin + '/' || image != '' || categoryName != 'Sans catégorie' || categoryId != 1 || dateField != (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_13__.getNow)() || conditonDirty == true) {
         return true;
       } else {
         setIdCollection(null);
@@ -26383,8 +26387,10 @@ var CreateCollection = function CreateCollection() {
       setImageModal('../images/icons/trash_dirty.png');
       setShowModalSimpleMessage(true);
       return false;
-    } // check if neme of collection already exist
+    }
 
+    console.log('isEdit  ', isEdit);
+    console.log('isNot_isEdit  ', isNot_isEdit); // check if neme of collection already exist
 
     var listCollectionName = listCollections.map(function (item) {
       return item.name;
@@ -27468,6 +27474,39 @@ var Tinyeditor = function Tinyeditor() {
 
 /***/ }),
 
+/***/ "./resources/js/components/collections/wrap_IndexCroppe.jsx":
+/*!******************************************************************!*\
+  !*** ./resources/js/components/collections/wrap_IndexCroppe.jsx ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+var WrapIndexcroppe = function WrapIndexcroppe() {
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
+      wrapIndexcroppe = _useContext.wrapIndexcroppe; // rend soit <CreateCollection /> soit <CroppeImage /> selon ce que contient wrapIndexcroppe. Permet de ne pas utiliser navigate qui pose des problèmes de détection de changement et d'annulation avec croppe
+
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
+    children: wrapIndexcroppe
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (WrapIndexcroppe);
+
+/***/ }),
+
 /***/ "./resources/js/components/contexts/AppContext.jsx":
 /*!*********************************************************!*\
   !*** ./resources/js/components/contexts/AppContext.jsx ***!
@@ -27572,7 +27611,11 @@ __webpack_require__.r(__webpack_exports__);
   deleteThisCollection: '',
   setDeleteThisCollection: function setDeleteThisCollection() {},
   hasBeenChanged: '',
-  setHasBeenChanged: function setHasBeenChanged() {}
+  setHasBeenChanged: function setHasBeenChanged() {},
+  wrapIndexcroppe: '',
+  setWrapIndexcroppe: function setWrapIndexcroppe() {},
+  isNot_isEdit: '',
+  setIsNot_isEdit: function setIsNot_isEdit() {}
 }));
 
 /***/ }),
@@ -29998,12 +30041,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
-/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
+/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
 /* harmony import */ var react_cropper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-cropper */ "./node_modules/react-cropper/dist/react-cropper.es.js");
 /* harmony import */ var cropperjs_dist_cropper_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! cropperjs/dist/cropper.css */ "./node_modules/cropperjs/dist/cropper.css");
 /* harmony import */ var _functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../functions/temporaryStorage/saveInTemporaryStorage */ "./resources/js/components/functions/temporaryStorage/saveInTemporaryStorage.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _collections_index__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../collections/index */ "./resources/js/components/collections/index.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -30032,7 +30075,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_6__["default"])({
+var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_7__["default"])({
   main: {
     background: 'white',
     width: 'calc(100vw - 450px)',
@@ -30128,11 +30171,10 @@ var CroppeImage = function CroppeImage() {
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       setImage = _useContext.setImage,
       imagePath = _useContext.imagePath,
-      followThisLink = _useContext.followThisLink,
       collectionForm = _useContext.collectionForm,
-      setCollectionForm = _useContext.setCollectionForm;
-
-  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_7__.useNavigate)();
+      setCollectionForm = _useContext.setCollectionForm,
+      setWrapIndexcroppe = _useContext.setWrapIndexcroppe,
+      setIsNot_isEdit = _useContext.setIsNot_isEdit;
 
   var getCropData = function getCropData() {
     if (typeof cropper !== "undefined") {
@@ -30140,7 +30182,8 @@ var CroppeImage = function CroppeImage() {
         var imageName = imagePath.replace('/temporaryStorage/', '');
         (0,_functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_4__.saveInTemporaryStorage)('tmp_imageCollection', blob, imageName);
         setImage(blob);
-        navigate(followThisLink);
+        setIsNot_isEdit(true);
+        setWrapIndexcroppe( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_collections_index__WEBPACK_IMPORTED_MODULE_5__["default"], {}));
       });
     }
   };
@@ -30149,10 +30192,10 @@ var CroppeImage = function CroppeImage() {
     cropper.setAspectRatio(ratio); // console.log(cropper.cropBoxData.width)
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("section", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("section", {
       className: classes.main,
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_cropper__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_cropper__WEBPACK_IMPORTED_MODULE_2__["default"], {
         style: {
           height: "calc(100vh - 350px)",
           width: "100%",
@@ -30174,31 +30217,30 @@ var CroppeImage = function CroppeImage() {
           setCropper(instance);
         },
         guides: true
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         className: classes.bottom_panel,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
           className: classes.btnSubmit,
           onClick: function onClick() {
-            // empèche checkIfIsDirty dans index de bloquer la navigation
+            // permet à checkIfIsDirty dans index de bloquer la navigation lorsqu'on croppe sans sauvegarder
             setCollectionForm(_objectSpread(_objectSpread({}, collectionForm), {}, {
               hasBeenChanged: true
             }));
             getCropData();
           },
           children: "Recadrer"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
           className: classes.btnSubmit,
           onClick: function onClick() {
-            // empèche checkIfIsDirty dans index de bloquer la navigation
-            setCollectionForm(_objectSpread(_objectSpread({}, collectionForm), {}, {
-              hasBeenChanged: false
-            }));
-            navigate(followThisLink);
+            // empèche le rechargement des datas quand on annule le croppe. est utilisé dans inedx useeffect
+            setIsNot_isEdit(true); // affiche <CreateCollection /> dans wrap_indexCroppe.jsx
+
+            setWrapIndexcroppe( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_collections_index__WEBPACK_IMPORTED_MODULE_5__["default"], {}));
           },
           children: "Annuler"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
           className: classes.divFormat,
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
             style: {
               marginBottm: "15px",
               width: "auto",
@@ -30206,45 +30248,45 @@ var CroppeImage = function CroppeImage() {
               fontSize: "22px"
             },
             children: "Format"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
             className: classes.divBtnFormat,
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
               className: classes.btnRatio,
               onClick: function onClick() {
                 return handleRatio(1);
               },
               children: "1:1"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
               className: classes.btnRatio,
               onClick: function onClick() {
                 return handleRatio(2 / 3);
               },
               children: "2:3"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
               className: classes.btnRatio,
               onClick: function onClick() {
                 return handleRatio(3 / 2);
               },
               children: "3:2"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
               className: classes.btnRatio,
               onClick: function onClick() {
                 return handleRatio(4 / 3);
               },
               children: "4:3"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
               className: classes.btnRatio,
               onClick: function onClick() {
                 return handleRatio(9 / 16);
               },
               children: "9:16"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
               className: classes.btnRatio,
               onClick: function onClick() {
                 return handleRatio(16 / 9);
               },
               children: "16:9"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
               className: classes.btnRatio,
               onClick: function onClick() {
                 return handleRatio(NaN);
@@ -30252,9 +30294,9 @@ var CroppeImage = function CroppeImage() {
               children: "Free"
             })]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
           className: classes.divFormat,
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
             style: {
               marginBottm: "15px",
               width: "auto",
@@ -30262,25 +30304,25 @@ var CroppeImage = function CroppeImage() {
               fontSize: "22px"
             },
             children: "Zoom"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
             className: classes.divBtnFormat,
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
               className: classes.btnRatio,
               onClick: function onClick() {
                 return cropper.zoom(0.1);
               },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
                 style: {
                   fontSize: "40px"
                 },
                 children: "+"
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
               className: classes.btnRatio,
               onClick: function onClick() {
                 return cropper.zoom(-0.1);
               },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
                 style: {
                   fontSize: "40px"
                 },
@@ -31587,13 +31629,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
-/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
+/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
 /* harmony import */ var _functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../functions/temporaryStorage/saveInTemporaryStorage */ "./resources/js/components/functions/temporaryStorage/saveInTemporaryStorage.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _croppeJs_croppeJs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../croppeJs/croppeJs */ "./resources/js/components/croppeJs/croppeJs.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -31621,7 +31669,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
-var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_6__["default"])({
+var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_7__["default"])({
   wrapperForm: {
     width: '100%',
     overflow: 'hidden',
@@ -31690,9 +31738,12 @@ var DropZone = function DropZone(props) {
       setMessageModal = _useContext.setMessageModal,
       is_Edit = _useContext.is_Edit,
       setIs_Edit = _useContext.setIs_Edit,
-      idCollection = _useContext.idCollection;
+      idCollection = _useContext.idCollection,
+      setWrapIndexcroppe = _useContext.setWrapIndexcroppe,
+      setIsNot_isEdit = _useContext.setIsNot_isEdit,
+      collectionForm = _useContext.collectionForm,
+      setCollectionForm = _useContext.setCollectionForm;
 
-  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_7__.useNavigate)();
   var dropRegion = null;
   var imagePreviewRegion = null;
   var tab = [];
@@ -31891,7 +31942,12 @@ var DropZone = function DropZone(props) {
         handleChangeImage(files[i]);
         previewImage(files[i]);
       }
-    }
+    } // permet à checkIfIsDirty dans index de bloquer la navigation lorsqu'on ajoute ou change une image sans sauvegarder
+
+
+    setCollectionForm(_objectSpread(_objectSpread({}, collectionForm), {}, {
+      hasBeenChanged: true
+    }));
   }
 
   function validateImage(image) {
@@ -32001,7 +32057,8 @@ var DropZone = function DropZone(props) {
     var imageExist = document.getElementsByClassName('image-view-dropZone') && document.getElementsByClassName('image-view-dropZone');
 
     if (imageExist.length > 0) {
-      navigate('/cropImage');
+      setIsNot_isEdit(true);
+      setWrapIndexcroppe( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_croppeJs_croppeJs__WEBPACK_IMPORTED_MODULE_5__["default"], {}));
     }
   }
 
@@ -32010,37 +32067,37 @@ var DropZone = function DropZone(props) {
     return 'draggable' in div || 'ondragstart' in div && 'ondrop' in div;
   }
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
       className: classes.wrapperForm,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         id: "drop-region-dropZone",
         className: classes.drop_region,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
           className: classes.drop_message,
           id: "drop-message-dropZone",
-          children: ["D\xE9posez ici une image ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("br", {}), "ou cliquez pour charger une image"]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+          children: ["D\xE9posez ici une image ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("br", {}), "ou cliquez pour charger une image"]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
           id: "image-preview-dropZone"
         })]
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("span", {
       className: classes.removeImage,
-      children: [!!imagePath && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("i", {
+      children: [!!imagePath && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("i", {
         className: "fas fa-crop tooltip_",
         onClick: goToCrop,
-        children: [" ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+        children: [" ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
           className: "tooltiptext",
           children: "Redimensionner l'image"
         })]
-      }), !!imagePath && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("i", {
+      }), !!imagePath && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("i", {
         className: "far fa-trash-alt trash-alt-dropZone tooltip_",
         style: {
           display: "block",
           marginLeft: "15px"
         },
         onClick: removeImagePreview,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
           className: "tooltiptext",
           children: "Supprimer l'image"
         })

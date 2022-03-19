@@ -2,10 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from '@material-ui/styles';
 import AppContext from '../contexts/AppContext';
-import Axios from 'axios';
 import CheckBox from '../elements/checkBox';
 import { getNowUs, getOnlyDate, getOnlyDateAndHour } from '../functions/dateTools';
-import ModalConfirm from '../modal/modalConfirm';
 
 
 const useStyles = makeStyles({
@@ -130,6 +128,17 @@ const RowListCollections = ({ collection, category }) => {
     }
 
 
+    const figureSize = {
+        width: "50px",
+        height: "50px",
+        background: "url(" + window.location.origin + '/' + collection.thumbnail + ")",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+    }
+
+
+
     return (
         <li className='grid grid-col-list2 w100pct h-auto min-h50 bg-white p15 brd-b-gray-light-1'>
 
@@ -140,9 +149,9 @@ const RowListCollections = ({ collection, category }) => {
                 {collection && collection.name}
             </div>
             <div className='flex-row-c-c min-h50 w50'>
-                <figure className="h50 w50 radius-round">
-                    {collection.thumbnail && <img className="h100pct radius-round" src={window.location.origin + '/' + collection.thumbnail} />}
-                </figure>
+                {collection.thumbnail && 
+                <figure className="h50 w50 radius-round" style={figureSize}>
+                </figure>}
             </div>
             <div className="flex-row-c-c w40 h40 radius-round bg-blue-light m-auto">
                 {collection.products.length}

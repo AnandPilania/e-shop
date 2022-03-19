@@ -284,14 +284,14 @@ const Categories = () => {
 
                         <ul className='ul-category dropable scrolly scroll'
                             id='category_select'>
-                            {categoryName != 'Sans catégorie' &&
+                            {/* {categoryName != 'Sans catégorie' &&
                                 <li className="li-category txt-limit"
                                     onClick={() => {
                                         handleCategory(1),
                                             handleCategoryName('Sans catégorie')
                                     }}
                                 >Sans catégorie
-                                </li>}
+                                </li>} */}
                             {categoriesList && categoriesList.map((cat, index) => (
                                 cat.name != categoryName &&
                                 <li className="li-category"

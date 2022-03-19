@@ -12,8 +12,7 @@ import EditImages from '../createProduct/edit_images';
 import List from '../createProduct/list';
 import ListCollections from '../collections/list';
 import CreateCollection from '../collections/index';
-import CroppeImage from '../croppeJs/croppeJs';
-
+import WrapIndexcroppe from '../collections/wrap_IndexCroppe';
 
 const Appcontainer = () => {
 
@@ -66,6 +65,8 @@ const Appcontainer = () => {
         hasBeenChanged: false,
     })
     const [hasBeenChanged, setHasBeenChanged] = useState(false);
+    const [isNot_isEdit, setIsNot_isEdit] = useState(false);
+    const [wrapIndexcroppe, setWrapIndexcroppe] = useState(<CreateCollection />);
     //---------------------------------------------------------- collection Form
 
     // collection --------------------------------------------------------------
@@ -197,6 +198,7 @@ const Appcontainer = () => {
             allConditionsNeeded: localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1,
             hasBeenChanged: false,
         })
+        setIsNot_isEdit(false);
 
         // gére le netoyage des images et vidéos dans  temporayStorage 
         let keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection']
@@ -264,6 +266,7 @@ const Appcontainer = () => {
                 break;
             case 'leaveEditCollectionWithoutSaveChange':
                 setIs({ ...is, leaveEditCollectionWithoutSaveChange: true });
+                setCollectionForm({ ...collectionForm, hasBeenChanged: false });
                 // vider form creat collection quand on edit sans rien changer
                 setIs_Edit(false);
                 setIdCollection(null);
@@ -332,7 +335,8 @@ const Appcontainer = () => {
         collectionForm, setCollectionForm,
         deleteThisCollection, setDeleteThisCollection,
         hasBeenChanged, setHasBeenChanged,
-
+        wrapIndexcroppe, setWrapIndexcroppe,
+        isNot_isEdit, setIsNot_isEdit, 
     }
 
 
@@ -347,8 +351,8 @@ const Appcontainer = () => {
                     <Route path="/editProduct/:productId" element={<EditProduct />} />
                     <Route path="/editImagesProduct/:product_id" element={<EditImages />} />
                     <Route path="/collections-list" element={<ListCollections />} />
-                    <Route path="/add-collection" element={<CreateCollection />} />
-                    <Route path="/cropImage" element={<CroppeImage />} />
+                    <Route path="/add-collection" element={<WrapIndexcroppe />} />
+                    {/* <Route path="/cropImage" element={<CroppeImage />} /> */}
                     <Route
                         path="*"
                         element={
