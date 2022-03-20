@@ -23,7 +23,6 @@ class CreateVariantesTable extends Migration
             $table->string('currency_cost_shipping')->nullable()->default(null);
             $table->tinyInteger('active')->default('0');
             $table->string('link');
-            $table->string('type')->nullable()->default(null);
             $table->string('tag')->nullable()->default(null);
             $table->integer('ordre')->nullable()->default(null);
             $table->text('characteristic')->nullable()->default(null);

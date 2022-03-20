@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('name');
             $table->mediumText('description')->nullable()->default(null);
-            $table->timestamps();
+            $table->string('type')->nullable()->default(null);            $table->timestamps();
         });
     }
 

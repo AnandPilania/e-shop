@@ -18,11 +18,7 @@ class Collection extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'collection_variante');
+        return $this->belongsToMany(Product::class);
     }
 
-    public function Variantes()
-    {
-        return $this->belongsToMany(Variante::class);
-    }
 }

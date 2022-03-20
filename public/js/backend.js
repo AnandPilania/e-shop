@@ -23617,7 +23617,7 @@ var Appcontainer = function Appcontainer() {
       image = _useState28[0],
       setImage = _useState28[1];
 
-  var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 0),
+  var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 1),
       _useState30 = _slicedToArray(_useState29, 2),
       isAutoConditions = _useState30[0],
       setIsAutoConditions = _useState30[1];
@@ -23652,7 +23652,7 @@ var Appcontainer = function Appcontainer() {
     descriptionCollectionForMeta: '',
     imagePath: '',
     image: [],
-    isAutoConditions: localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 0,
+    isAutoConditions: localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 1,
     notIncludePrevProduct: localStorage.getItem('notIncludePrevProduct') ? localStorage.getItem('notIncludePrevProduct') : 1,
     allConditionsNeeded: localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1,
     hasBeenChanged: false
@@ -23883,7 +23883,7 @@ var Appcontainer = function Appcontainer() {
       operator: '1',
       value: ''
     }]);
-    setIsAutoConditions(localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 0);
+    setIsAutoConditions(localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 1);
     setAllConditionsNeeded(localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1);
     setNotIncludePrevProduct(localStorage.getItem('notIncludePrevProduct') ? localStorage.getItem('notIncludePrevProduct') : 1);
     setDateField((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_4__.getNow)());
@@ -23908,7 +23908,7 @@ var Appcontainer = function Appcontainer() {
       descriptionCollectionForMeta: '',
       imagePath: '',
       image: [],
-      isAutoConditions: localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 0,
+      isAutoConditions: localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 1,
       notIncludePrevProduct: localStorage.getItem('notIncludePrevProduct') ? localStorage.getItem('notIncludePrevProduct') : 1,
       allConditionsNeeded: localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1,
       hasBeenChanged: false
@@ -24235,6 +24235,7 @@ var RowListCollections = function RowListCollections(_ref) {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     setConditions(JSON.parse(collection.objConditions));
   }, []);
+  console.log(collection);
 
   function getParameter(parameter) {
     switch (parameter) {
@@ -25540,7 +25541,7 @@ var Conditions = function Conditions() {
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // détermine si on montre le block conditions
-    setIsAutoConditions(localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 0); // détermine si toutes les conditions doivent être remplies
+    setIsAutoConditions(localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 1); // détermine si toutes les conditions doivent être remplies
 
     setAllConditionsNeeded(localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1); // détermine si toutes les conditions doivent être remplies
 
@@ -25551,7 +25552,7 @@ var Conditions = function Conditions() {
     localStorage.setItem('isAutoConditions', value);
     setIsAutoConditions(value);
 
-    if (value === 0) {
+    if (value == 0) {
       // réinitialise conditions quand on passe en conditions manuelles
       setConditions([{
         id: 0,
@@ -25566,9 +25567,9 @@ var Conditions = function Conditions() {
     // dropDown conditions
     var dropable = document.getElementById('conditions_collection');
 
-    if (isAutoConditions === 0) {
+    if (isAutoConditions == 0) {
       dropable.style.maxHeight = null;
-    } else if (isAutoConditions === 1) {
+    } else if (isAutoConditions == 1) {
       dropable.style.maxHeight = dropable.scrollHeight + "px";
     }
   }, [isAutoConditions]); // gère le paramètre à changer dans les conditions automatiques
@@ -25707,7 +25708,7 @@ var Conditions = function Conditions() {
                 onChange: function onChange() {
                   return handleAllConditionsNeeded(1);
                 },
-                checked: allConditionsNeeded === 1
+                checked: allConditionsNeeded == 1
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
                 htmlFor: "allConditions",
                 children: "Les produits doivent r\xE9pondre \xE0 toutes les conditions"
@@ -25721,7 +25722,7 @@ var Conditions = function Conditions() {
                 onChange: function onChange() {
                   return handleAllConditionsNeeded(0);
                 },
-                checked: allConditionsNeeded === 0
+                checked: allConditionsNeeded == 0
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
                 htmlFor: "leastOnConditions",
                 children: "Les produits doivent r\xE9pondre \xE0 au moins une condition"
@@ -25750,7 +25751,7 @@ var Conditions = function Conditions() {
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
                 type: "checkbox",
                 id: "includOnlyNewProducts",
-                checked: notIncludePrevProduct === 1 ? true : false,
+                checked: notIncludePrevProduct == 1 ? true : false,
                 onChange: handleNotIncludePrevProducts
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
                 htmlFor: "includOnlyNewProducts",
@@ -26028,7 +26029,6 @@ var CreateCollection = function CreateCollection() {
       setTextButtonConfirm = _useContext.setTextButtonConfirm,
       imageModal = _useContext.imageModal,
       setImageModal = _useContext.setImageModal,
-      is_Edit = _useContext.is_Edit,
       setIs_Edit = _useContext.setIs_Edit,
       listCollections = _useContext.listCollections,
       setListCollections = _useContext.setListCollections,
@@ -26387,10 +26387,8 @@ var CreateCollection = function CreateCollection() {
       setImageModal('../images/icons/trash_dirty.png');
       setShowModalSimpleMessage(true);
       return false;
-    }
+    } // check if neme of collection already exist
 
-    console.log('isEdit  ', isEdit);
-    console.log('isNot_isEdit  ', isNot_isEdit); // check if neme of collection already exist
 
     var listCollectionName = listCollections.map(function (item) {
       return item.name;
@@ -31782,26 +31780,28 @@ var DropZone = function DropZone(props) {
     dropRegion.addEventListener('dragover', highlight, false);
     dropRegion.addEventListener('dragleave', unhighlight, false);
     dropRegion.addEventListener('drop', unhighlight, false); // init preview image
-
-    if (!is_Edit) {
-      try {
-        axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getSingleTemporaryImage/".concat(idCollection)).then(function (res) {
-          if (res.data !== undefined && res.data != '') {
-            // get --> image path <-- for croppe
-            setImagePath('/' + res.data); // get --> image <-- for preview
-
-            fetch('/' + res.data).then(function (response) {
-              return response.blob();
-            }).then(function (BlobImage) {
-              previewImage(BlobImage);
-              setImage(BlobImage);
-            });
-          }
-        });
-      } catch (error) {
-        console.error('error  ' + error);
-      }
-    }
+    // if (!is_Edit) { 
+    //         try {
+    //             Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage/${idCollection}`)
+    //                 .then(res => {
+    //                     if (res.data !== undefined && res.data != '') {
+    //                         // get --> image path <-- for croppe
+    //                         setImagePath('/' + res.data);
+    //                         // get --> image <-- for preview
+    //                         fetch('/' + res.data)
+    //                             .then(function (response) {
+    //                                 return response.blob();
+    //                             })
+    //                             .then(function (BlobImage) {
+    //                                 previewImage(BlobImage);
+    //                                 setImage(BlobImage);
+    //                             })
+    //                     }
+    //                 });
+    //         } catch (error) {
+    //             console.error('error  ' + error);
+    //         }
+    // }
   }, []); // when collection is edited
 
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {

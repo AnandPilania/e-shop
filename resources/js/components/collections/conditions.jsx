@@ -13,9 +13,9 @@ const Conditions = () => {
         warningIdCondition, setWarningIdCondition,
     } = useContext(AppContext);
 
-    useEffect(() => {  
+    useEffect(() => {
         // détermine si on montre le block conditions
-        setIsAutoConditions(localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 0);
+        setIsAutoConditions(localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 1);
         // détermine si toutes les conditions doivent être remplies
         setAllConditionsNeeded(localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1);
         // détermine si toutes les conditions doivent être remplies
@@ -26,7 +26,7 @@ const Conditions = () => {
     const showHideConditions = (value) => {
         localStorage.setItem('isAutoConditions', value);
         setIsAutoConditions(value);
-        if (value === 0) {
+        if (value == 0) {
             // réinitialise conditions quand on passe en conditions manuelles
             setConditions([{
                 id: 0,
@@ -40,9 +40,9 @@ const Conditions = () => {
     useEffect(() => {
         // dropDown conditions
         var dropable = document.getElementById('conditions_collection');
-        if (isAutoConditions === 0) {
+        if (isAutoConditions == 0) {
             dropable.style.maxHeight = null;
-        } else if (isAutoConditions === 1) {
+        } else if (isAutoConditions == 1) {
             dropable.style.maxHeight = dropable.scrollHeight + "px";
         }
     }, [isAutoConditions]);
@@ -151,14 +151,14 @@ const Conditions = () => {
                             <div className="div-radio-label">
                                 <input type='radio' name="condition" id='allConditions'
                                     onChange={() => handleAllConditionsNeeded(1)}
-                                    checked={allConditionsNeeded === 1}
+                                    checked={allConditionsNeeded == 1}
                                 />
                                 <label htmlFor='allConditions'>Les produits doivent répondre à toutes les conditions</label>
                             </div>
                             <div className="div-radio-label">
                                 <input type='radio' name="condition" id='leastOnConditions'
                                     onChange={() => handleAllConditionsNeeded(0)}
-                                    checked={allConditionsNeeded === 0}
+                                    checked={allConditionsNeeded == 0}
                                 />
                                 <label htmlFor='leastOnConditions'>Les produits doivent répondre à au moins une condition</label>
                             </div>
@@ -181,7 +181,7 @@ const Conditions = () => {
                             <div className="div-radio-label">
                                 <input type='checkbox'
                                     id="includOnlyNewProducts"
-                                    checked={notIncludePrevProduct === 1 ? true : false}
+                                    checked={notIncludePrevProduct == 1 ? true : false}
                                     onChange={handleNotIncludePrevProducts} />
                                 <label
                                     htmlFor='includOnlyNewProducts'>

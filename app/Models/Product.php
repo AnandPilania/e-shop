@@ -26,7 +26,7 @@ class Product extends Model
 
     public function collections()
     {
-        return $this->belongsToMany(Collection::class, 'collection_variante')->withTimestamps();
+        return $this->belongsToMany(Collection::class)->withTimestamps();
     }
 
     public function image_ali_import_temps()

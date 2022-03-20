@@ -41,7 +41,6 @@ class VarianteFactory extends Factory
             'currency_cost_shipping' => rand(1,3),
             'active' => 1, 
             'link' => $link, 
-            'type' => 'type', 
             'taxe_id' => 1, 
             'ordre' => self::$ordre++, 
             'characteristic' => "['color' => 'red', 'size' => 'm']", 

@@ -13,16 +13,12 @@ class CreateCollectionProductTable extends Migration
      */
     public function up()
     {
-        Schema::create('collection_variante', function (Blueprint $table) {
+        Schema::create('collection_product', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('variante_id');
-            $table->foreign('variante_id')->references('id')->on('variantes')
-            ->onDelete('cascade')
-            ->onUpdate('cascade')->nullable();
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products')
             ->onDelete('cascade')
-            ->onUpdate('cascade')->nullable();
+            ->onUpdate('cascade');
             $table->unsignedBigInteger('collection_id');
             $table->foreign('collection_id')->references('id')->on('collections')->onDelete('cascade')
             ->onUpdate('cascade');
@@ -37,6 +33,6 @@ class CreateCollectionProductTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('collection_variante');
+        Schema::dropIfExists('collection_product');
     }
 }

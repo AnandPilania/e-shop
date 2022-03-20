@@ -22,10 +22,12 @@ class ProductFactory extends Factory
     {
 
         $name = $this->faker->sentence(3, true);
-
+        $type = ['type 1', 'type 2', 'type 3'];
+        $random = rand(0, 2);
         return [
             'name' => $name,
             'description' => $this->faker->sentence(15, true),
+            'type' => $type[$random],
         ];
     }
 }
