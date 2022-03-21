@@ -15,6 +15,7 @@ class VarianteFactory extends Factory
     protected $model = Variante::class;
     private static $ordre = 1;
     private static $prod_id = 1;
+    private static $prev_prod_id = 1;
 
     /**
      * Define the model's default state.
@@ -23,6 +24,9 @@ class VarianteFactory extends Factory
      */
     public function definition()
     {
+        if (self::$prev_prod_id !== self::$prod_id++) {
+
+        }
         $name = $this->faker->sentence(3, true);
 
         $link = str_replace(' ', '-', $name);
@@ -44,7 +48,7 @@ class VarianteFactory extends Factory
             'taxe_id' => 1, 
             'ordre' => self::$ordre++, 
             'characteristic' => "['color' => 'red', 'size' => 'm']", 
-            'product_id' => self::$prod_id++,
+            // 'product_id' => self::$prod_id++,
             'supplier_id' => rand(1,5),
             'delivery_company_id' => 1,
         ];
