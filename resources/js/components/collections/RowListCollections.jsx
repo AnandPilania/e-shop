@@ -39,7 +39,7 @@ const RowListCollections = ({ collection, category }) => {
         setConditions(JSON.parse(collection.objConditions));
     }, []);
 
-console.log(collection)
+
 
     function getParameter(parameter) {
         switch (parameter) {

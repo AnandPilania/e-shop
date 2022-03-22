@@ -15,24 +15,24 @@ class CreateVariantesTable extends Migration
     {
         Schema::create('variantes', function (Blueprint $table) {
             $table->id();
-            $table->float('cost', 8, 2)->default(null);
-            $table->float('price', 8, 2)->default(null);
-            $table->float('price_before_discount', 8, 2)->nullable()->default(null);
-            $table->double('weight', 8, 2)->nullable()->default(null);
-            $table->integer('stock')->default(null);
-            $table->float('shipping_cost', 8, 2)->nullable()->default(null);
-            $table->string('currency_cost_shipping')->nullable()->default(null);
+            $table->float('cost', 8, 2)->nullable()->default(0);
+            $table->float('price', 8, 2)->default(0);
+            $table->float('price_before_discount', 8, 2)->default(0);
+            $table->double('weight', 8, 2)->nullable()->default(0);
+            $table->integer('stock')->nullable()->default(0);
+            $table->float('shipping_cost', 8, 2)->nullable()->default(0);
+            $table->string('currency_cost_shipping')->nullable()->default(0);
             $table->tinyInteger('active')->default('0');
             $table->string('link');
-            $table->integer('ordre')->default(null);
-            $table->text('characteristic')->nullable()->default(null);
-            $table->unsignedBigInteger('product_id')->default(null);
+            $table->integer('ordre')->default(0);
+            $table->text('characteristic')->nullable()->default('');
+            $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products');
             $table->unsignedBigInteger('supplier_id')->nullable()->default(null);
             $table->foreign('supplier_id')->references('id')->on('suppliers');
             $table->unsignedBigInteger('delivery_company_id')->nullable()->default(null);
             $table->foreign('delivery_company_id')->references('id')->on('delivery_companies');
-            $table->unsignedBigInteger('taxe_id')->nullable()->default(null);
+            $table->unsignedBigInteger('taxe_id')->nullable()->default(1);
             $table->foreign('taxe_id')->references('id')->on('taxes');
             $table->timestamps();
         });

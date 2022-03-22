@@ -70,13 +70,13 @@ const CreateCollection = () => {
         }
 
 
-        if (isEdit && !isNot_isEdit) {
+        if (isEdit && !isNot_isEdit) {    
             initCollectionForm();
             setIs({ ...is, newCollection: false });
             // pour afficher le bouton initialisation quand on edit
             setIsDirty(true);
             Axios.get(`http://127.0.0.1:8000/getCollectionById/${collectionId}`)
-                .then(res => {
+                .then(res => { 
                     res.data.objConditions?.length > 0 ? setConditions(JSON.parse(res.data.objConditions)) : setConditions([{ id: 0, parameter: '1', operator: '1', value: '' }]);
 
                     setIsAutoConditions(res.data.automatise);

@@ -57,7 +57,7 @@ const Conditions = () => {
     };
 
     // gère le type d'opérations à éffectuer dans les conditons automatiques
-    const handleChangeOperator = (e, id) => {
+    const handleChangeOperator = (e, id) => { 
         let tmp_conditions = [...conditions];
         var index_arr = tmp_conditions.findIndex(obj => obj.id == id);
         tmp_conditions[index_arr].operator = e.target.value;

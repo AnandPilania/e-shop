@@ -118,39 +118,65 @@ class GetArrayOfConditions
                     }
                 case '3':
                     // est suppérieur à
-                    $list_match[] = Variante::where($field, '>', $value)->get('id');
+                    $variantes = Variante::where($field, '>', $value)
+                        ->groupBy('product_id')
+                        ->get();
+                    foreach ($variantes as $item) {
+                        $list_match[] = $item->product_id;
+                    }
                     break;
                 case '4':
                     // est infèrieur à
-                    $list_match[] = Variante::where($field, '<', $value)->get('id');
+                    $variantes = Variante::where($field, '<', $value)
+                        ->groupBy('product_id')
+                        ->get();
+                    foreach ($variantes as $item) {
+                        $list_match[] = $item->product_id;
+                    }
                     break;
                 case '5':
                     // commence par
-                    if ($field === 'name') {
-                        $products = Product::where($field, 'like', $value . ' %')->get('id');
+                    if ($field === 'name' || $field === 'type') {
+                        $products = Product::where($field, 'like', $value . '%')->get();
                         foreach ($products as $item) {
-                            $list_match[] = Variante::where('product_id', $item->id)->get('id');
+                            $list_match[] = $item->id;
                         }
                         break;
-                    } else {
-                        $list_match[] = Variante::where($field, 'like', $value . ' %')->get('id');
+                    } else if ($field === 'supplier') {
+                        $suppliers = DB::table('products')
+                            ->join('variantes', 'products.id', '=', 'variantes.product_id')
+                            ->join('suppliers', 'suppliers.id', '=', 'variantes.supplier_id')
+                            ->Where('suppliers.name', 'like', $value . '%')
+                            ->groupBy('variantes.product_id')
+                            ->get();
+                        foreach ($suppliers as $supplier) {
+                            $list_match[] = $supplier->product_id;
+                        }
                         break;
                     }
                 case '6':
                     //  se termine par
-                    if ($field === 'name') {
-                        $products = Product::where($field, 'like', '% ' . $value)->get('id');
+                    if ($field === 'name' || $field === 'type') {
+                        $products = Product::where($field, 'like', '%' . $value)->get();
                         foreach ($products as $item) {
-                            $list_match[] = Variante::where('product_id', $item->id)->get('id');
+                            $list_match[] = $item->id;
                         }
                         break;
-                    } else {
-                        $list_match[] = Variante::where($field, 'like', '% ' . $value)->get('id');
+                    } else if ($field === 'supplier') {
+                        $suppliers = DB::table('products')
+                            ->join('variantes', 'products.id', '=', 'variantes.product_id')
+                            ->join('suppliers', 'suppliers.id', '=', 'variantes.supplier_id')
+                            ->Where('suppliers.name', 'like', '%' . $value)
+                            ->groupBy('variantes.product_id')
+                            ->get();
+                        foreach ($suppliers as $supplier) {
+                            $list_match[] = $supplier->product_id;
+                        }
                         break;
                     }
                 case '7':
                     // contient
-                    if ($field === 'name') {
+                    if ($field === 'name' || $field === 'type') {
                         $products = Product::where($field, 'like', '%' . $value . '%')->get();
                         foreach ($products as $item) {
                             $list_match[] = $item->id;
@@ -168,51 +194,68 @@ class GetArrayOfConditions
                                 $list_match[] = $supplier->product_id;
                             }
                             break;
-                        } else {
-                            $list_match[] = Variante::where($field, $value)
-                                ->orWhere($field, 'like', $value . ' %')
-                                ->orWhere($field, 'like', '% ' . $value)
-                                ->orWhere($field, 'like', '% ' . $value . ' %')->get('id');
-                            break;
                         }
                     }
                 case '8':
                     // ne contient pas
-                    if ($field === 'name') {
-                        $products = Product::where($field, 'not like', '%' . $value . '%')->get('id');
+                    if ($field === 'name' || $field === 'type') {
+                        $products = Product::where($field, 'not like', '%' . $value . '%')->get();
                         foreach ($products as $item) {
-                            $list_match[] = Variante::where('product_id', $item->id)->get('id');
+                            $list_match[] = $item->id;
                         }
                         break;
                     } else {
-                        $products = Variante::where($field, 'not like', '%' . $value . '%')->get('id');
-                        foreach ($products as $item) {
-                            $list_match[] = Variante::where('product_id', $item->id)->get('id');
+                        if ($field === 'supplier') {
+                            $suppliers = DB::table('products')
+                                ->join('variantes', 'products.id', '=', 'variantes.product_id')
+                                ->join('suppliers', 'suppliers.id', '=', 'variantes.supplier_id')
+                                ->Where('suppliers.name', 'not like', '%' . $value . '%')
+                                ->groupBy('variantes.product_id')
+                                ->get();
+                            foreach ($suppliers as $supplier) {
+                                $list_match[] = $supplier->product_id;
+                            }
+                            break;
                         }
-                        break;
                     }
                 case '9':
                     // n'est pas vide
-                    if ($field === 'name') {
-                        $products = Product::whereNotNull($field, 'not like', '')->get('id');
-                        foreach ($products as $item) {
-                            $list_match[] = Variante::where('product_id', $item->id)->get('id');
+                    if ($field === 'price_before_discount') {
+                        $variantes = Variante::where($field, '!=', 0)
+                            ->groupBy('product_id')
+                            ->get();
+                        foreach ($variantes as $item) {
+                            $list_match[] = $item->product_id;
                         }
                         break;
                     } else {
-                        $list_match[] = Variante::whereNotNull($field)->where($field, 'not like', '')->get('id');
+                        $variantes = Variante::where($field, '!=', '')
+                            ->orWhere($field, '!=', null)
+                            ->groupBy('product_id')
+                            ->get();
+                        foreach ($variantes as $item) {
+                            $list_match[] = $item->product_id;
+                        }
                         break;
                     }
                 case '10':
                     // est vide
-                    if ($field === 'name') {
-                        $products = Product::whereNull($field, 'like', '')->get('id');
-                        foreach ($products as $item) {
-                            $list_match[] = Variante::where('product_id', $item->id)->get('id');
+                    if ($field === 'price_before_discount') {
+                        $variantes = Variante::where($field, '==', 0)
+                            ->groupBy('product_id')
+                            ->get();
+                        foreach ($variantes as $item) {
+                            $list_match[] = $item->product_id;
                         }
                         break;
                     } else {
-                        $list_match[] = Variante::whereNull($field)->where($field, 'like', '')->get('id');
+                        $variantes = Variante::where($field, '==', '')
+                            ->orWhere($field, '==', null)
+                            ->groupBy('product_id')
+                            ->get();
+                        foreach ($variantes as $item) {
+                            $list_match[] = $item->product_id;
+                        }
                         break;
                     }
                 default:

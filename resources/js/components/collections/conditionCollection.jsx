@@ -1,4 +1,7 @@
-import { React, useState, useEffect } from 'react';
+import { React, useState, useEffect, useContext } from 'react';
+import AppContext from '../contexts/AppContext';
+import FlatpickrDate from '../tools/flatpickr';
+
 
 const ConditionCollection = (props) => {
 
@@ -16,7 +19,9 @@ const ConditionCollection = (props) => {
     const [inputType, setInputType] = useState('text');
     const [inputStep, setInputStep] = useState('0.01');
     const [inputTypeDate, setinputTypeDate] = useState('');
+    const [hideFieldValue, setHideFieldValue] = useState(false);
 
+    const { conditions } = useContext(AppContext);
 
     // initialise à show les operators qui correspondent à "Nom du produit"
     useEffect(() => {
@@ -24,19 +29,26 @@ const ConditionCollection = (props) => {
         hideUselessOperatorReset();
 
         // met à show la première condition par défaut
-        setHideOp1('show');
-        setHideOp2('show');
-        setHideOp5('show');
-        setHideOp6('show');
-        setHideOp7('show');
-        setHideOp8('show');
+        setHideOp1('show'); // est égale à
+        setHideOp2('show'); // n'est pas égale à
+        setHideOp5('show'); // commence par
+        setHideOp6('show'); // se termine par
+        setHideOp7('show'); // contient
+        setHideOp8('show'); // ne contient pas
 
-        // when data comes from localStorage it get only the operators needed to show
         showOnlyUsableOperator(props.condition.parameter);
 
         document.getElementById('parameterValue').value == 9 ? setinputTypeDate('inputTypeDate') : setinputTypeDate('');
 
     }, []);
+
+    // initialise quand on edit
+    useEffect(() => {
+        // met dabord à hide partout
+        hideUselessOperatorReset();
+        showOnlyUsableOperator(props.condition.parameter);
+    }, [conditions]);
+
 
     // met hide pour tous les paramètres
     const hideUselessOperatorReset = () => {
@@ -57,66 +69,88 @@ const ConditionCollection = (props) => {
 
         hideUselessOperatorReset();
         setTypeValue('')
-
+        // Nom du produit / Type du produit / Fournisseur
         if (param == 1 || param == 2 || param == 3) {
-            setHideOp1('show');
-            setHideOp2('show');
-            setHideOp5('show');
-            setHideOp6('show');
-            setHideOp7('show');
-            setHideOp8('show');
+            setHideOp1('show'); // est égale à
+            setHideOp2('show'); // n'est pas égale à
+            setHideOp5('show'); // commence par
+            setHideOp6('show'); // se termine par
+            setHideOp7('show'); // contient
+            setHideOp8('show'); // ne contient pas
             setInputType('text');
         }
-        if (param == 4 || param == 7) {
-            setHideOp1('show');
-            setHideOp2('show');
-            setHideOp3('show');
-            setHideOp4('show');
+        // Prix du produit 
+        if (param == 4) {
+            setHideOp1('show'); // est égale à
+            setHideOp2('show'); // n'est pas égale à
+            setHideOp3('show'); // est suppérieur à
+            setHideOp4('show'); // est infèrieur à
+            setTypeValue('€');
             setInputType('number');
             setInputStep('0.01');
         }
+        // Balise du produit
         if (param == 5) {
-            setHideOp1('show');
+            setHideOp1('show'); // est égale à
             setInputType('text');
         }
+        // Prix avant réduction
         if (param == 6) {
-            setHideOp1('show');
-            setHideOp2('show');
-            setHideOp3('show');
-            setHideOp4('show');
-            setHideOp9('show');
-            setHideOp10('show');
-        }
-        if (param == 8) {
-            setHideOp1('show');
-            setHideOp3('show');
-            setHideOp4('show');
-            setInputType('number');
-            setInputStep('1');
-        }
-        if (param == 4 || param == 6) {
+            setHideOp1('show'); // est égale à
+            setHideOp2('show'); // n'est pas égale à
+            setHideOp3('show'); // est suppérieur à
+            setHideOp4('show'); // est infèrieur à
+            setHideOp9('show'); // n'est pas vide
+            setHideOp10('show'); // est vide
             setTypeValue('€');
             setInputType('number');
+            setInputStep('0.01');
         }
-
+        // Poids
         if (param == 7) {
+            setHideOp1('show'); // est égale à
+            setHideOp2('show'); // n'est pas égale à
+            setHideOp3('show'); // est suppérieur à
+            setHideOp4('show'); // est infèrieur à
             setTypeValue('Kg');
             setInputType('number');
             setInputStep('0.01');
         }
-
+        // Stock
+        if (param == 8) {
+            setHideOp1('show'); // est égale à
+            setHideOp3('show'); // est suppérieur à
+            setHideOp4('show'); // est infèrieur à
+            setInputType('number');
+            setInputStep('1');
+        }
         if (param == 9) {
-            setHideOp1('show');
-            setHideOp2('show');
-            setHideOp3('show');
-            setHideOp4('show');
+            setHideOp1('show'); // est égale à
+            setHideOp2('show'); // n'est pas égale à
+            setHideOp3('show'); // est suppérieur à
+            setHideOp4('show'); // est infèrieur à
             setInputType('date');
         }
 
     }
 
+    // show or hide value field according to operator selected
+    useEffect(() => {
+        handleHideFieldValue();
+    }, [props.condition.operator, props.condition.parameter]);
+
+    const handleHideFieldValue = () => {
+        if ((props.condition.operator == 9 || props.condition.operator == 10) && props.condition.parameter == 6) {
+            setHideFieldValue(true);
+        } else {
+            setHideFieldValue(false);
+        }
+    }
+
     // récup le param et l'envoi à handleChangeParam pour mettre à jours l'obj conditions + l'envoi à showOnlyUsableOperator pour détermine quelle liste d'opérators afficher
     const changeParamValue = (e) => {
+
+        handleHideFieldValue();
 
         let param = e.target.value;
 
@@ -148,6 +182,7 @@ const ConditionCollection = (props) => {
                     <option value="6">Prix avant réduction</option>
                     <option value="7">Poids</option>
                     <option value="8">Stock</option>
+                    <option value="9">Date</option>
                 </select>
             </div>
 
@@ -171,6 +206,7 @@ const ConditionCollection = (props) => {
             </div>
 
             {/* value */}
+            {!hideFieldValue && inputType == 'date' ? <FlatpickrDate placeholder={props.condition.value} setFunction={props.handleChangeValue} /> : 
             <div className="input-span">
                 <input
                     className={inputTypeDate + "w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"}
@@ -184,6 +220,7 @@ const ConditionCollection = (props) => {
                     {typeValue}
                 </span>}
             </div>
+            }
 
             {/* Annuler */}
             <div className="remove-condition">

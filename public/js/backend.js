@@ -24235,7 +24235,6 @@ var RowListCollections = function RowListCollections(_ref) {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     setConditions(JSON.parse(collection.objConditions));
   }, []);
-  console.log(collection);
 
   function getParameter(parameter) {
     switch (parameter) {
@@ -25196,7 +25195,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
+/* harmony import */ var _tools_flatpickr__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../tools/flatpickr */ "./resources/js/components/tools/flatpickr.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -25208,6 +25209,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
 
 
 
@@ -25282,23 +25285,42 @@ var ConditionCollection = function ConditionCollection(props) {
   var _useState27 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState28 = _slicedToArray(_useState27, 2),
       inputTypeDate = _useState28[0],
-      setinputTypeDate = _useState28[1]; // initialise à show les operators qui correspondent à "Nom du produit"
+      setinputTypeDate = _useState28[1];
+
+  var _useState29 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState30 = _slicedToArray(_useState29, 2),
+      hideFieldValue = _useState30[0],
+      setHideFieldValue = _useState30[1];
+
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
+      conditions = _useContext.conditions; // initialise à show les operators qui correspondent à "Nom du produit"
 
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // met dabord à hide partout
     hideUselessOperatorReset(); // met à show la première condition par défaut
 
-    setHideOp1('show');
-    setHideOp2('show');
-    setHideOp5('show');
-    setHideOp6('show');
-    setHideOp7('show');
-    setHideOp8('show'); // when data comes from localStorage it get only the operators needed to show
+    setHideOp1('show'); // est égale à
+
+    setHideOp2('show'); // n'est pas égale à
+
+    setHideOp5('show'); // commence par
+
+    setHideOp6('show'); // se termine par
+
+    setHideOp7('show'); // contient
+
+    setHideOp8('show'); // ne contient pas
 
     showOnlyUsableOperator(props.condition.parameter);
     document.getElementById('parameterValue').value == 9 ? setinputTypeDate('inputTypeDate') : setinputTypeDate('');
-  }, []); // met hide pour tous les paramètres
+  }, []); // initialise quand on edit
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // met dabord à hide partout
+    hideUselessOperatorReset();
+    showOnlyUsableOperator(props.condition.parameter);
+  }, [conditions]); // met hide pour tous les paramètres
 
   var hideUselessOperatorReset = function hideUselessOperatorReset() {
     setHideOp1('hide');
@@ -25316,71 +25338,121 @@ var ConditionCollection = function ConditionCollection(props) {
 
   var showOnlyUsableOperator = function showOnlyUsableOperator(param) {
     hideUselessOperatorReset();
-    setTypeValue('');
+    setTypeValue(''); // Nom du produit / Type du produit / Fournisseur
 
     if (param == 1 || param == 2 || param == 3) {
-      setHideOp1('show');
-      setHideOp2('show');
-      setHideOp5('show');
-      setHideOp6('show');
-      setHideOp7('show');
-      setHideOp8('show');
-      setInputType('text');
-    }
+      setHideOp1('show'); // est égale à
 
-    if (param == 4 || param == 7) {
-      setHideOp1('show');
-      setHideOp2('show');
-      setHideOp3('show');
-      setHideOp4('show');
+      setHideOp2('show'); // n'est pas égale à
+
+      setHideOp5('show'); // commence par
+
+      setHideOp6('show'); // se termine par
+
+      setHideOp7('show'); // contient
+
+      setHideOp8('show'); // ne contient pas
+
+      setInputType('text');
+    } // Prix du produit 
+
+
+    if (param == 4) {
+      setHideOp1('show'); // est égale à
+
+      setHideOp2('show'); // n'est pas égale à
+
+      setHideOp3('show'); // est suppérieur à
+
+      setHideOp4('show'); // est infèrieur à
+
+      setTypeValue('€');
       setInputType('number');
       setInputStep('0.01');
-    }
+    } // Balise du produit
+
 
     if (param == 5) {
-      setHideOp1('show');
+      setHideOp1('show'); // est égale à
+
       setInputType('text');
-    }
+    } // Prix avant réduction
+
 
     if (param == 6) {
-      setHideOp1('show');
-      setHideOp2('show');
-      setHideOp3('show');
-      setHideOp4('show');
-      setHideOp9('show');
-      setHideOp10('show');
-    }
+      setHideOp1('show'); // est égale à
+
+      setHideOp2('show'); // n'est pas égale à
+
+      setHideOp3('show'); // est suppérieur à
+
+      setHideOp4('show'); // est infèrieur à
+
+      setHideOp9('show'); // n'est pas vide
+
+      setHideOp10('show'); // est vide
+
+      setTypeValue('€');
+      setInputType('number');
+      setInputStep('0.01');
+    } // Poids
+
+
+    if (param == 7) {
+      setHideOp1('show'); // est égale à
+
+      setHideOp2('show'); // n'est pas égale à
+
+      setHideOp3('show'); // est suppérieur à
+
+      setHideOp4('show'); // est infèrieur à
+
+      setTypeValue('Kg');
+      setInputType('number');
+      setInputStep('0.01');
+    } // Stock
+
 
     if (param == 8) {
-      setHideOp1('show');
-      setHideOp3('show');
-      setHideOp4('show');
+      setHideOp1('show'); // est égale à
+
+      setHideOp3('show'); // est suppérieur à
+
+      setHideOp4('show'); // est infèrieur à
+
       setInputType('number');
       setInputStep('1');
     }
 
-    if (param == 4 || param == 6) {
-      setTypeValue('€');
-      setInputType('number');
-    }
-
-    if (param == 7) {
-      setTypeValue('Kg');
-      setInputType('number');
-      setInputStep('0.01');
-    }
-
     if (param == 9) {
-      setHideOp1('show');
-      setHideOp2('show');
-      setHideOp3('show');
-      setHideOp4('show');
+      setHideOp1('show'); // est égale à
+
+      setHideOp2('show'); // n'est pas égale à
+
+      setHideOp3('show'); // est suppérieur à
+
+      setHideOp4('show'); // est infèrieur à
+
       setInputType('date');
+    }
+  }; // show or hide value field according to operator selected
+
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    handleHideFieldValue();
+  }, [props.condition.operator, props.condition.parameter]);
+
+  var handleHideFieldValue = function handleHideFieldValue() {
+    if ((props.condition.operator == 9 || props.condition.operator == 10) && props.condition.parameter == 6) {
+      setHideFieldValue(true);
+    } else {
+      setHideFieldValue(false);
     }
   }; // récup le param et l'envoi à handleChangeParam pour mettre à jours l'obj conditions + l'envoi à showOnlyUsableOperator pour détermine quelle liste d'opérators afficher
 
 
   var changeParamValue = function changeParamValue(e) {
+    handleHideFieldValue();
     var param = e.target.value; // active la class .inputTypeDate quand l'input devient de type date pour le styliser 
 
     param == 9 ? setinputTypeDate('inputTypeDate') : setinputTypeDate('');
@@ -25389,82 +25461,88 @@ var ConditionCollection = function ConditionCollection(props) {
   };
 
   var borderRed = props.warningIdCondition.includes(props.condition.id) ? 'borderRed' : '';
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
     className: "block-select-conditions " + borderRed,
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("select", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("select", {
         className: "w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1",
         value: props.condition.parameter,
         onChange: changeParamValue,
         id: "parameterValue",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
           value: "1",
           children: "Nom du produit"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
           value: "2",
           children: "Type du produit"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
           value: "3",
           children: "Fournisseur"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
           value: "4",
           children: "Prix du produit"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
           value: "5",
           children: "Balise du produit"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
           value: "6",
           children: "Prix avant r\xE9duction"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
           value: "7",
           children: "Poids"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
           value: "8",
           children: "Stock"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
+          value: "9",
+          children: "Date"
         })]
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("select", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("select", {
         className: "w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1",
         value: props.condition.operator,
         onChange: function onChange(e) {
           return props.handleChangeOperator(e, props.condition.id);
         },
-        children: [HideOp1 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+        children: [HideOp1 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
           value: "1",
           children: "est \xE9gale \xE0"
-        }), " ", HideOp2 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+        }), " ", HideOp2 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
           value: "2",
           children: "n'est pas \xE9gale \xE0"
-        }), " ", HideOp3 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+        }), " ", HideOp3 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
           value: "3",
           children: "est supp\xE9rieur \xE0"
-        }), " ", HideOp4 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+        }), " ", HideOp4 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
           value: "4",
           children: "est inf\xE8rieur \xE0"
-        }), " ", HideOp5 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+        }), " ", HideOp5 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
           value: "5",
           children: "commence par"
-        }), " ", HideOp6 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+        }), " ", HideOp6 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
           value: "6",
           children: "se termine par"
-        }), " ", HideOp7 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+        }), " ", HideOp7 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
           value: "7",
           children: "contient"
-        }), " ", HideOp8 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+        }), " ", HideOp8 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
           value: "8",
           children: "ne contient pas"
-        }), " ", HideOp9 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+        }), " ", HideOp9 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
           value: "9",
           children: "n'est pas vide"
-        }), " ", HideOp10 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("option", {
+        }), " ", HideOp10 == 'show' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("option", {
           value: "10",
           children: "est vide"
         }), " "]
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    }), !hideFieldValue && inputType == 'date' ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_tools_flatpickr__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      placeholder: props.condition.value,
+      setFunction: props.handleChangeValue
+    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
       className: "input-span",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
         className: inputTypeDate + "w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1",
         type: inputType,
         step: inputStep,
@@ -25473,13 +25551,13 @@ var ConditionCollection = function ConditionCollection(props) {
         onChange: function onChange(e) {
           return props.handleChangeValue(e, props.condition.id);
         }
-      }), typeValue != '' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+      }), typeValue != '' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
         className: "typeValue",
         children: typeValue
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "remove-condition",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("i", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
         className: "fas fa-trash-alt trashRemoveCondition",
         onClick: function onClick() {
           return props.deleteCondition(props.condition.id);
@@ -32107,6 +32185,73 @@ var DropZone = function DropZone(props) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DropZone);
+
+/***/ }),
+
+/***/ "./resources/js/components/tools/flatpickr.jsx":
+/*!*****************************************************!*\
+  !*** ./resources/js/components/tools/flatpickr.jsx ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_flatpickr__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-flatpickr */ "./node_modules/react-flatpickr/build/index.js");
+/* harmony import */ var flatpickr_dist_themes_material_blue_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! flatpickr/dist/themes/material_blue.css */ "./node_modules/flatpickr/dist/themes/material_blue.css");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+var FlatpickrDate = function FlatpickrDate(_ref) {
+  var placeholder = _ref.placeholder,
+      setFunction = _ref.setFunction;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_flatpickr__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      className: "w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1",
+      id: "activationDate",
+      "data-enable-time": true,
+      placeholder: placeholder,
+      position: "auto center",
+      options: {
+        minDate: 'today',
+        altInput: false,
+        disableMobile: "true",
+        locale: {
+          weekdays: {
+            shorthand: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"]
+          },
+          months: {
+            shorthand: ["Jan", "Fév", "Mars", "Avr", "Mai", "Juin", "Juil", "Aout", "Sep", "Oct", "Nov", "Déc"],
+            longhand: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"]
+          },
+          firstDayOfWeek: 0
+        },
+        dateFormat: "d-m-Y H:i:s",
+        time_24hr: true,
+        minuteIncrement: 60
+      },
+      value: "",
+      onChange: function onChange(selectedDates, dateStr, instance) {
+        var day = selectedDates[0].getDate();
+        var month = selectedDates[0].getMonth() + 1;
+        var year = selectedDates[0].getFullYear();
+        var hour = selectedDates[0].getHours();
+        var minute = '00';
+        var seconde = '00';
+        var dateActivation = (day < 10 ? "0" + day.toString() : day) + "-" + (month < 10 ? "0" + month.toString() : month) + "-" + year + " " + (hour < 10 ? "0" + hour.toString() : hour) + ":" + minute.toString() + ":" + seconde.toString();
+        setFunction(dateActivation);
+      }
+    })
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (FlatpickrDate);
 
 /***/ }),
 
