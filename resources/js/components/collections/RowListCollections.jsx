@@ -2,9 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from '@material-ui/styles';
 import AppContext from '../contexts/AppContext';
-import CheckBox from '../elements/checkBox';
 import { getNowUs, getOnlyDate, getOnlyDateAndHour } from '../functions/dateTools';
-
+import CheckboxListCollection from '../elements/Checkbox_listCollection';
 
 const useStyles = makeStyles({
     inputText: {
@@ -25,11 +24,12 @@ const useStyles = makeStyles({
 });
 
 // affiche les rows dans list.jsx
-const RowListCollections = ({ collection, category }) => {
+const RowListCollections = ({ collection, category, handleCheckboxListCollection, listCollectionsChecked }) => {
     const classes = useStyles();
     const [conditions, setConditions] = useState(null);
     const [showConditions, setShowConditions] = useState(false);
     const [distanceFromBottom, setDistanceFromBottom] = useState(null);
+
 
     const { setShowModalConfirm, setMessageModal, setSender, setTextButtonConfirm, setImageModal, setTmp_parameter } = useContext(AppContext);
 
@@ -59,6 +59,8 @@ const RowListCollections = ({ collection, category }) => {
                 return 'Le poids';
             case '8':
                 return 'Le stock';
+            case '9':
+                return 'La date de création du produit';
             default:
                 return '';
         }
@@ -119,7 +121,14 @@ const RowListCollections = ({ collection, category }) => {
 
     // confirm delete one collection
     const confirmDeleteCollection = (id, name) => {
-        setMessageModal('Supprimer la collection "' + name + '" ?')
+        if (Array.isArray(id)) {
+            let names = name.toString().replace(',', '<br>');
+            setMessageModal('Supprimer les collections suivantes ? "' + names);
+            alert('is array');
+        } else {
+            setMessageModal('Supprimer la collection "' + name + '" ?');
+        }
+
         setTextButtonConfirm('Confirmer');
         setImageModal('../images/icons/trash_dirty.png');
         setSender('deleteCollection');
@@ -143,15 +152,15 @@ const RowListCollections = ({ collection, category }) => {
         <li className='grid grid-col-list2 w100pct h-auto min-h50 bg-white p15 brd-b-gray-light-1'>
 
             <div className='flex-row min-h50 p5'>
-                {collection && <CheckBox unikId={collection.id} />}
+                {collection && <CheckboxListCollection unikId={collection.id} handleCheckboxListCollection={handleCheckboxListCollection} listCollectionsChecked={listCollectionsChecked} />}
             </div>
             <div className='flex-row min-h50 p5 p-l-10 w95pct cursor word-break'>
                 {collection && collection.name}
             </div>
             <div className='flex-row-c-c min-h50 w50'>
-                {collection.thumbnail && 
-                <figure className="h50 w50 radius-round" style={figureSize}>
-                </figure>}
+                {collection.thumbnail &&
+                    <figure className="h50 w50 radius-round" style={figureSize}>
+                    </figure>}
             </div>
             <div className="flex-row-c-c w40 h40 radius-round bg-blue-light m-auto">
                 {collection.products.length}

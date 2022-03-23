@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Functions;
 
 use App\Models\Product;
-use App\Models\Supplier;
 use App\Models\Tag;
 use App\Models\Variante;
 use Illuminate\Support\Facades\DB;
@@ -42,6 +41,9 @@ class GetArrayOfConditions
                 case '8':
                     $field = 'stock';
                     break;
+                case '9':
+                    $field = 'created_at';
+                    break;
                 default:
                     $field = 'name';
                     break;
@@ -57,6 +59,13 @@ class GetArrayOfConditions
                     // est égale à
                     if ($field === 'name' || $field === 'type') {
                         $products = Product::where($field, $value)->get();
+                        foreach ($products as $item) {
+                            $list_match[] = $item->id;
+                        }
+                        break;
+                    } else if ($field === 'created_at') {
+                        $value = date_format(date_create(preg_replace('/ (\d|:)+/', '', $value)), "Y/m/d");
+                        $products = Product::whereDate($field, $value)->get();
                         foreach ($products as $item) {
                             $list_match[] = $item->id;
                         }
@@ -96,6 +105,13 @@ class GetArrayOfConditions
                             $list_match[] = $item->id;
                         }
                         break;
+                    } else if ($field === 'created_at') {
+                        $value = date_format(date_create(preg_replace('/ (\d|:)+/', '', $value)), "Y/m/d");
+                        $products = Product::whereDate($field, '!=', $value)->get();
+                        foreach ($products as $item) {
+                            $list_match[] = $item->id;
+                        }
+                        break;
                     } else if ($field === 'supplier') {
                         $suppliers = DB::table('products')
                             ->join('variantes', 'products.id', '=', 'variantes.product_id')
@@ -118,22 +134,40 @@ class GetArrayOfConditions
                     }
                 case '3':
                     // est suppérieur à
-                    $variantes = Variante::where($field, '>', $value)
-                        ->groupBy('product_id')
-                        ->get();
-                    foreach ($variantes as $item) {
-                        $list_match[] = $item->product_id;
+                    if ($field === 'created_at') {
+                        $value = date_format(date_create(preg_replace('/ (\d|:)+/', '', $value)), "Y/m/d");
+                        $products = Product::whereDate($field, '>', $value)->get();
+                        foreach ($products as $item) {
+                            $list_match[] = $item->id;
+                        }
+                        break;
+                    } else {
+                        $variantes = Variante::where($field, '>', $value)
+                            ->groupBy('product_id')
+                            ->get();
+                        foreach ($variantes as $item) {
+                            $list_match[] = $item->product_id;
+                        }
+                        break;
                     }
-                    break;
                 case '4':
                     // est infèrieur à
-                    $variantes = Variante::where($field, '<', $value)
-                        ->groupBy('product_id')
-                        ->get();
-                    foreach ($variantes as $item) {
-                        $list_match[] = $item->product_id;
+                    if ($field === 'created_at') {
+                        $value = date_format(date_create(preg_replace('/ (\d|:)+/', '', $value)), "Y/m/d");
+                        $products = Product::whereDate($field, '<', $value)->get();
+                        foreach ($products as $item) {
+                            $list_match[] = $item->id;
+                        }
+                        break;
+                    } else {
+                        $variantes = Variante::where($field, '<', $value)
+                            ->groupBy('product_id')
+                            ->get();
+                        foreach ($variantes as $item) {
+                            $list_match[] = $item->product_id;
+                        }
+                        break;
                     }
-                    break;
                 case '5':
                     // commence par
                     if ($field === 'name' || $field === 'type') {

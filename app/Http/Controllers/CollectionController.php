@@ -78,7 +78,6 @@ class CollectionController extends Controller
             // list_match contient tous les ids des produits de tous les tableaux pour avoir un seul tableau sur lequel tester si les produits correspondent à toutes les conditions
             $list_match = $getMatchedProduct->getArrayOfConditions($conditions);
             // renvoi un tableau avec comme key les ids des produits que l'on doit compter et comme value leur nombre d'occurence dans le tableau $list_match
-            // dd($list_match);
             $tmp_tab = array_count_values($list_match);
             $all_conditions_matched = [];
             // si un produit correspond à toutes les conditions donc qu'il apparait dans tous les tableaux à l'interieur du tableau $list_match alors on le met dans all_conditions_matched pour insertion dans la table pivot collection_product
@@ -181,7 +180,8 @@ class CollectionController extends Controller
      */
     public function deleteCollection(Request $request)
     {
-
+        $arr = json_decode($request->id);
+        dd($arr, gettype($arr));
         $collection = Collection::find($request->id);
 
         // remove image collection and thumbnail from images folder

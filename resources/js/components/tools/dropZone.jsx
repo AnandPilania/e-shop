@@ -113,30 +113,6 @@ const DropZone = (props) => {
         dropRegion.addEventListener('dragover', highlight, false);
         dropRegion.addEventListener('dragleave', unhighlight, false);
         dropRegion.addEventListener('drop', unhighlight, false);
-
-        // init preview image
-        // if (!is_Edit) { 
-        //         try {
-        //             Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage/${idCollection}`)
-        //                 .then(res => {
-        //                     if (res.data !== undefined && res.data != '') {
-        //                         // get --> image path <-- for croppe
-        //                         setImagePath('/' + res.data);
-        //                         // get --> image <-- for preview
-        //                         fetch('/' + res.data)
-        //                             .then(function (response) {
-        //                                 return response.blob();
-        //                             })
-        //                             .then(function (BlobImage) {
-        //                                 previewImage(BlobImage);
-        //                                 setImage(BlobImage);
-        //                             })
-        //                     }
-        //                 });
-        //         } catch (error) {
-        //             console.error('error  ' + error);
-        //         }
-        // }
     }, []);
 
     // when collection is edited

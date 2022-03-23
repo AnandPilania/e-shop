@@ -60,7 +60,13 @@ const Conditions = () => {
     const handleChangeOperator = (e, id) => { 
         let tmp_conditions = [...conditions];
         var index_arr = tmp_conditions.findIndex(obj => obj.id == id);
-        tmp_conditions[index_arr].operator = e.target.value;
+        // if e is not a event target but just a variable 
+        if (e.target == undefined || e.target == null || e.target == '') {
+            tmp_conditions[index_arr].operator = e
+        } else {
+            tmp_conditions[index_arr].operator = e.target.value;
+        }
+        
         setConditions(tmp_conditions);
     };
 
@@ -68,13 +74,19 @@ const Conditions = () => {
     const handleChangeValue = (e, id) => {
         let tmp_conditions = [...conditions];
         var index_arr = tmp_conditions.findIndex(obj => obj.id == id);
-        tmp_conditions[index_arr].value = e.target.value;
+        // if e comes from FltaPickr then this is not a event target but just a variable 
+        if (e.target == undefined || e.target == null || e.target == '') {
+            tmp_conditions[index_arr].value = e.replace(/ (\d|:)+/, '');
+        } else {
+            tmp_conditions[index_arr].value = e.target.value;
+        }
+        
         setConditions(tmp_conditions);
     };
 
     //add condition
     const addCondition = () => {
-        // get bigger id for define the next id to insert in conditions
+        // get bigger id to define the next id to insert in conditions
         const objWithBiggerId = conditions.reduce(function (prev, current) {
             return (prev.id > current.id) ? prev : current
         });

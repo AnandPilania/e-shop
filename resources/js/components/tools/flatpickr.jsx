@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_blue.css";
 
-const FlatpickrDate = ({ placeholder, setFunction }) => {
+const FlatpickrDate = ({ placeholder, setFunction, id }) => {
+
+    const [value, setValue] = useState(placeholder);
 
     return (
         <div>
@@ -13,7 +15,7 @@ const FlatpickrDate = ({ placeholder, setFunction }) => {
                 placeholder={placeholder}
                 position="auto center"
                 options={{
-                    minDate: 'today',
+                    // minDate: 'today',
                     altInput: false,
                     disableMobile: "true",
                     locale: {
@@ -30,7 +32,7 @@ const FlatpickrDate = ({ placeholder, setFunction }) => {
                     time_24hr: true,
                     minuteIncrement: 60
                 }}
-                value={""}
+                value={value}
                 onChange={(selectedDates, dateStr, instance) => {
                     let day = selectedDates[0].getDate();
                     let month = selectedDates[0].getMonth() + 1;
@@ -45,7 +47,8 @@ const FlatpickrDate = ({ placeholder, setFunction }) => {
                         (minute.toString()) + ":" +
                         (seconde.toString());
 
-                    setFunction(dateActivation);
+                    setValue(dateActivation);
+                    setFunction(dateActivation, id);
                 }}
             />
         </div>

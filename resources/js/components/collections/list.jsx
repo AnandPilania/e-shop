@@ -11,12 +11,14 @@ import ModalConfirm from '../modal/modalConfirm';
 
 const ListCollections = () => {
 
+
     const [listCollectionsFiltered, setListCollectionsFiltered] = useState([]);
     const [imgSort, setImgSort] = useState({
         imgName: 'az.png',
         imgDate: '1-2.png',
         imgCat: 'az.png',
     });
+    const [listCollectionsChecked, setListCollectionsChecked] = useState([]);
 
     const [toggleSort, setToggleSort] = useState({
         nameSens: true,
@@ -149,7 +151,15 @@ const ListCollections = () => {
         categories.length > 0 ? setListCollectionsFiltered(listCollections.filter(item => categories.includes(item.categoryName))) : setListCollectionsFiltered(listCollections);
     }
 
-
+    const handleCheckboxListCollection = (id) => {  
+        if (!listCollectionsChecked.includes(id)) {
+            setListCollectionsChecked([...listCollectionsChecked, id]);
+        } else {
+            setListCollectionsChecked([...listCollectionsChecked.filter(item => item !== id)]);
+        }
+    }
+    
+console.log(listCollectionsChecked);
 
     return (
         <div className='flex-col-s-c'>
@@ -159,7 +169,7 @@ const ListCollections = () => {
 
                     <li className='grid grid-col-list1 w100pct p15 bg-gray-light radius10-t'>
 
-                        <div className='flex-row h50 p5'><CheckboxListCollection unikId={'all'} /></div>
+                        <div className='flex-row h50 p5'><CheckboxListCollection unikId={'all'} handleCheckboxListCollection={handleCheckboxListCollection} listCollectionsChecked={listCollectionsChecked} /></div>
 
                         <div className='flex-row h50 p5'>
 
@@ -214,7 +224,7 @@ const ListCollections = () => {
                         </div>
                     </li>
                     {!!listCollectionsFiltered && listCollectionsFiltered.map(item =>
-                        <RowListCollections key={item.id} collection={item} category={item.category} />
+                        <RowListCollections key={item.id} collection={item} category={item.category} handleCheckboxListCollection={handleCheckboxListCollection} listCollectionsChecked={listCollectionsChecked} />
                     )}
                 </ul>
             </section>

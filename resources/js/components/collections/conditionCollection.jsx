@@ -3,7 +3,7 @@ import AppContext from '../contexts/AppContext';
 import FlatpickrDate from '../tools/flatpickr';
 
 
-const ConditionCollection = (props) => {
+const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, warningIdCondition, handleChangeOperator, deleteCondition }) => {
 
     const [HideOp1, setHideOp1] = useState('hide');
     const [HideOp2, setHideOp2] = useState('hide');
@@ -21,7 +21,7 @@ const ConditionCollection = (props) => {
     const [inputTypeDate, setinputTypeDate] = useState('');
     const [hideFieldValue, setHideFieldValue] = useState(false);
 
-    const { conditions } = useContext(AppContext);
+    const { conditions, dateField } = useContext(AppContext);
 
     // initialise à show les operators qui correspondent à "Nom du produit"
     useEffect(() => {
@@ -36,7 +36,7 @@ const ConditionCollection = (props) => {
         setHideOp7('show'); // contient
         setHideOp8('show'); // ne contient pas
 
-        showOnlyUsableOperator(props.condition.parameter);
+        showOnlyUsableOperator(condition.parameter);
 
         document.getElementById('parameterValue').value == 9 ? setinputTypeDate('inputTypeDate') : setinputTypeDate('');
 
@@ -46,7 +46,7 @@ const ConditionCollection = (props) => {
     useEffect(() => {
         // met dabord à hide partout
         hideUselessOperatorReset();
-        showOnlyUsableOperator(props.condition.parameter);
+        showOnlyUsableOperator(condition.parameter);
     }, [conditions]);
 
 
@@ -137,10 +137,10 @@ const ConditionCollection = (props) => {
     // show or hide value field according to operator selected
     useEffect(() => {
         handleHideFieldValue();
-    }, [props.condition.operator, props.condition.parameter]);
+    }, [condition.operator, condition.parameter]);
 
     const handleHideFieldValue = () => {
-        if ((props.condition.operator == 9 || props.condition.operator == 10) && props.condition.parameter == 6) {
+        if ((condition.operator == 9 || condition.operator == 10) && condition.parameter == 6) {
             setHideFieldValue(true);
         } else {
             setHideFieldValue(false);
@@ -150,6 +150,10 @@ const ConditionCollection = (props) => {
     // récup le param et l'envoi à handleChangeParam pour mettre à jours l'obj conditions + l'envoi à showOnlyUsableOperator pour détermine quelle liste d'opérators afficher
     const changeParamValue = (e) => {
 
+        setHideOp1('show'); // est égale à
+        // met l'opérator à est égale à lorsqu'on change le paramètre. 'c'est un init du champ operator'
+        handleChangeOperator(1, condition.id)
+        // show / hide value field
         handleHideFieldValue();
 
         let param = e.target.value;
@@ -157,11 +161,11 @@ const ConditionCollection = (props) => {
         // active la class .inputTypeDate quand l'input devient de type date pour le styliser 
         param == 9 ? setinputTypeDate('inputTypeDate') : setinputTypeDate('');
 
-        props.handleChangeParam(param, props.condition.id);
+        handleChangeParam(param, condition.id);
         showOnlyUsableOperator(param);
     }
 
-    const borderRed = props.warningIdCondition.includes(props.condition.id) ? 'borderRed' : '';
+    const borderRed = warningIdCondition.includes(condition.id) ? 'borderRed' : '';
 
 
     return (
@@ -171,7 +175,7 @@ const ConditionCollection = (props) => {
             <div>
                 <select
                     className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"
-                    value={props.condition.parameter}
+                    value={condition.parameter}
                     onChange={changeParamValue}
                     id="parameterValue">
                     <option value="1">Nom du produit</option>
@@ -182,7 +186,7 @@ const ConditionCollection = (props) => {
                     <option value="6">Prix avant réduction</option>
                     <option value="7">Poids</option>
                     <option value="8">Stock</option>
-                    <option value="9">Date</option>
+                    <option value="9">Date création produit</option>
                 </select>
             </div>
 
@@ -190,8 +194,8 @@ const ConditionCollection = (props) => {
             <div>
                 <select
                     className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"
-                    value={props.condition.operator}
-                    onChange={(e) => props.handleChangeOperator(e, props.condition.id)} >
+                    value={condition.operator}
+                    onChange={(e) => handleChangeOperator(e, condition.id)} >
                     {HideOp1 == 'show' && <option value="1">est égale à</option>} {/* = */}
                     {HideOp2 == 'show' && <option value="2">n'est pas égale à</option>} {/* != */}
                     {HideOp3 == 'show' && <option value="3">est suppérieur à</option>} {/* > */}
@@ -206,26 +210,26 @@ const ConditionCollection = (props) => {
             </div>
 
             {/* value */}
-            {!hideFieldValue && inputType == 'date' ? <FlatpickrDate placeholder={props.condition.value} setFunction={props.handleChangeValue} /> : 
-            <div className="input-span">
-                <input
-                    className={inputTypeDate + "w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"}
-                    type={inputType}
-                    step={inputStep}
-                    min="0"
-                    value={props.condition.value}
-                    onChange={(e) => props.handleChangeValue(e, props.condition.id)}
-                />
-                {typeValue != '' && <span className="typeValue">
-                    {typeValue}
-                </span>}
-            </div>
+            {!hideFieldValue && inputType == 'date' ? <FlatpickrDate placeholder={condition.value} setFunction={handleChangeValue} id={condition.id} /> :
+                <div className="input-span">
+                    <input
+                        className={inputTypeDate + "w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"}
+                        type={inputType}
+                        step={inputStep}
+                        min="0"
+                        value={condition.value}
+                        onChange={(e) => handleChangeValue(e, condition.id)}
+                    />
+                    {typeValue != '' && <span className="typeValue">
+                        {typeValue}
+                    </span>}
+                </div>
             }
 
             {/* Annuler */}
             <div className="remove-condition">
                 <i className="fas fa-trash-alt trashRemoveCondition"
-                    onClick={() => props.deleteCondition(props.condition.id)}>
+                    onClick={() => deleteCondition(condition.id)}>
 
                 </i>
             </div>

@@ -253,7 +253,14 @@ const Appcontainer = () => {
                 break;
             case 'deleteCollection':
                 let idToDelete = new FormData;
-                idToDelete.append('id', tmp_parameter);
+                if (Array.isArray(tmp_parameter)) {
+                    var ids_arr = JSON.stringify(tmp_parameter);
+                    idToDelete.append('id', ids_arr);
+                    alert('tmp_parameter is array');
+                } else {
+                    idToDelete.append('id', tmp_parameter);
+                }
+                
                 Axios.post(`http://127.0.0.1:8000/deleteCollection`, idToDelete)
                     .then(res => {
                         setListCollections(res.data);
