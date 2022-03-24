@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from '@material-ui/styles';
-import AppContext from '../contexts/AppContext';
 import { getNowUs, getOnlyDate, getOnlyDateAndHour } from '../functions/dateTools';
 import CheckboxListCollection from '../elements/Checkbox_listCollection';
 
@@ -24,14 +23,12 @@ const useStyles = makeStyles({
 });
 
 // affiche les rows dans list.jsx
-const RowListCollections = ({ collection, category, handleCheckboxListCollection, listCollectionsChecked }) => {
+const RowListCollections = ({ collection, category, handleCheckboxListCollection, listCollectionsChecked, confirmDeleteCollection }) => {
+
     const classes = useStyles();
     const [conditions, setConditions] = useState(null);
     const [showConditions, setShowConditions] = useState(false);
     const [distanceFromBottom, setDistanceFromBottom] = useState(null);
-
-
-    const { setShowModalConfirm, setMessageModal, setSender, setTextButtonConfirm, setImageModal, setTmp_parameter } = useContext(AppContext);
 
     var navigate = useNavigate();
 
@@ -119,22 +116,6 @@ const RowListCollections = ({ collection, category, handleCheckboxListCollection
         navigate('/add-collection', { state: { collectionId: id, isEdit: true } });
     }
 
-    // confirm delete one collection
-    const confirmDeleteCollection = (id, name) => {
-        if (Array.isArray(id)) {
-            let names = name.toString().replace(',', '<br>');
-            setMessageModal('Supprimer les collections suivantes ? "' + names);
-            alert('is array');
-        } else {
-            setMessageModal('Supprimer la collection "' + name + '" ?');
-        }
-
-        setTextButtonConfirm('Confirmer');
-        setImageModal('../images/icons/trash_dirty.png');
-        setSender('deleteCollection');
-        setTmp_parameter(id);
-        setShowModalConfirm(true);
-    }
 
 
     const figureSize = {
@@ -146,29 +127,28 @@ const RowListCollections = ({ collection, category, handleCheckboxListCollection
         backgroundPosition: "center",
     }
 
-
-
     return (
         <li className='grid grid-col-list2 w100pct h-auto min-h50 bg-white p15 brd-b-gray-light-1'>
-
+            {/* checkBox */}
             <div className='flex-row min-h50 p5'>
                 {collection && <CheckboxListCollection unikId={collection.id} handleCheckboxListCollection={handleCheckboxListCollection} listCollectionsChecked={listCollectionsChecked} />}
             </div>
+            {/* name */}
             <div className='flex-row min-h50 p5 p-l-10 w95pct cursor word-break'>
                 {collection && collection.name}
             </div>
+            {/* thumbnail */}
             <div className='flex-row-c-c min-h50 w50'>
                 {collection.thumbnail &&
                     <figure className="h50 w50 radius-round" style={figureSize}>
                     </figure>}
             </div>
+            {/* nb product */}
             <div className="flex-row-c-c w40 h40 radius-round bg-blue-light m-auto">
                 {collection.products.length}
             </div>
-
-            <div className={`flex-row min-h50 ${conditions?.length > 1 && "cursor"}`}
-                onClick={showHideConditions}>
-
+            {/* conditions */}
+            <div className={`flex-row min-h50 ${conditions?.length > 1 && "cursor"}`} onClick={showHideConditions}>
                 {conditions !== null ?
                     <div className='relative w-auto flex-col justify-s align-s bg-white radius5 m-r-10'>
 
@@ -205,16 +185,19 @@ const RowListCollections = ({ collection, category, handleCheckboxListCollection
                     {!showConditions ? <img src={window.location.origin + '/images/icons/chevronDown.png'} className="w17" /> : <img src={window.location.origin + '/images/icons/chevronUp.png'} />}
                 </div>}
             </div>
-
+            {/* category */}
             <div className='flex-row min-h50 p5'>
                 <span>{category && category.name}</span>
             </div>
+            {/* date activation */}
             <div className='flex-row min-h50 p5'>
                 <span className={`noshrink flex-row-c-c radius15 h30 p-lr-15 ${collection?.dateActivation < getNowUs() ? 'active-collection' : 'unactive-collection'}`}>{collection?.dateActivation < getNowUs() ? "Activée" : `${getOnlyDateAndHour(collection?.dateActivation)}`}</span>
             </div>
+            {/* created_at */}
             <div className='flex-row min-h50 p5'>
                 {collection && getOnlyDate(collection.created_at)}
             </div>
+            {/* edit & delete */}
             <div>
                 <i className="fas fa-recycle m-r-20 cursor fs20 hover-green"
                     onClick={() => {

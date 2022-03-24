@@ -19,6 +19,7 @@ const ListCollections = () => {
         imgCat: 'az.png',
     });
     const [listCollectionsChecked, setListCollectionsChecked] = useState([]);
+    const [allChecked, setAllChecked] = useState(false);
 
     const [toggleSort, setToggleSort] = useState({
         nameSens: true,
@@ -26,7 +27,7 @@ const ListCollections = () => {
         ceated_atSens: true
     });
 
-    const { listCollections, setListCollections, listCategories, setListCategories, setCategoriesChecked, searchValue, setSearchValue, is, setIs, messageModal, textButtonConfirm, imageModal, showModalConfirm, handleModalConfirm, handleModalCancel } = useContext(AppContext);
+    const { listCollections, setListCollections, listCategories, setListCategories, setCategoriesChecked, searchValue, setSearchValue, is, setIs, messageModal, textButtonConfirm, imageModal, showModalConfirm, handleModalConfirm, handleModalCancel, setShowModalConfirm, setMessageModal, setSender, setTextButtonConfirm, setImageModal, setTmp_parameter } = useContext(AppContext);
 
     useEffect(() => {
         if (listCollectionsFiltered.length === 0) {
@@ -151,19 +152,70 @@ const ListCollections = () => {
         categories.length > 0 ? setListCollectionsFiltered(listCollections.filter(item => categories.includes(item.categoryName))) : setListCollectionsFiltered(listCollections);
     }
 
-    const handleCheckboxListCollection = (id) => {  
-        if (!listCollectionsChecked.includes(id)) {
-            setListCollectionsChecked([...listCollectionsChecked, id]);
-        } else {
-            setListCollectionsChecked([...listCollectionsChecked.filter(item => item !== id)]);
+    const handleCheckboxListCollection = (id) => {
+        var tmp_arr = [];
+        if (id === 'all') {
+            if (!allChecked) {
+                setAllChecked(true);
+                tmp_arr.push('all');
+                listCollectionsFiltered.forEach(item => tmp_arr.push(item.id));
+                setListCollectionsChecked(tmp_arr);
+            } else {
+                setAllChecked(false);
+                tmp_arr = [];
+                setListCollectionsChecked(tmp_arr);
+            }
+        }
+        else {
+            // remove "all" from listCollectionsChecked if uncheck any checkBox 
+            tmp_arr = listCollectionsChecked;
+            let index = tmp_arr.indexOf('all');
+            if (index !== -1) {
+                tmp_arr.splice(index, 1);
+            }
+            setListCollectionsChecked(tmp_arr);
+            setAllChecked(false);
+            // add to listCollectionsChecked id checked
+            if (!listCollectionsChecked.includes(id)) {
+                setListCollectionsChecked([...listCollectionsChecked, id]);
+            } else {
+                setListCollectionsChecked([...listCollectionsChecked.filter(item => item !== id)]);
+            }
         }
     }
-    
-console.log(listCollectionsChecked);
+
+
+
+    // confirm delete one collection
+    const confirmDeleteCollection = (id, name) => {
+        // if "all" is in listCollectionsChecked then remove it 
+        tmp_arr = listCollectionsChecked;
+        let index = tmp_arr.indexOf('all');
+        if (index !== -1) {
+            tmp_arr.splice(index, 1);
+        }
+        if (id === 'from CheckboxListCollection') {
+            var tmp_arr = '';
+            listCollectionsChecked.map(listCol => {
+                let collName = listCollections.filter(item => item.id == listCol);
+                tmp_arr += (collName[0].name) + ',';
+            })
+            let names = tmp_arr.toString().replace(',', '\n');
+            setMessageModal('Supprimer les collections suivantes ? "' + names);
+            setTmp_parameter(listCollectionsChecked);
+        } else {
+            setMessageModal('Supprimer la collection "' + name + '" ?');
+            setTmp_parameter(id);
+        }
+        setTextButtonConfirm('Confirmer');
+        setImageModal('../images/icons/trash_dirty.png');
+        setSender('deleteCollection');
+        setShowModalConfirm(true);
+    }
 
     return (
         <div className='flex-col-s-c'>
-            <HeaderListCollections />
+            <HeaderListCollections confirmDeleteCollection={confirmDeleteCollection} listCollectionsChecked={listCollectionsChecked} />
             <section className='flex-col justify-s align-s m-b-10 bg-gray-cool min-h100pct w90pct'>
                 <ul className='sub-div-vert-align shadow-md'>
 
@@ -224,7 +276,7 @@ console.log(listCollectionsChecked);
                         </div>
                     </li>
                     {!!listCollectionsFiltered && listCollectionsFiltered.map(item =>
-                        <RowListCollections key={item.id} collection={item} category={item.category} handleCheckboxListCollection={handleCheckboxListCollection} listCollectionsChecked={listCollectionsChecked} />
+                        <RowListCollections key={item.id} collection={item} category={item.category} handleCheckboxListCollection={handleCheckboxListCollection} listCollectionsChecked={listCollectionsChecked} confirmDeleteCollection={confirmDeleteCollection} />
                     )}
                 </ul>
             </section>

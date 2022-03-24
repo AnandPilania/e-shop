@@ -3,7 +3,7 @@ import AppContext from '../contexts/AppContext';
 import { Link } from 'react-router-dom';
 
 
-const HeaderListCollections = () => {
+const HeaderListCollections = ({ confirmDeleteCollection, listCollectionsChecked }) => {
 
     const { setIs_Edit, is, setIs, initCollectionForm } = useContext(AppContext);
 
@@ -47,13 +47,20 @@ const HeaderListCollections = () => {
                 <span>my HeaderListCollections</span>
             </div>
             <div className='w100pct p-lr-5pct h100 flex-row'>
+                {!!listCollectionsChecked.length > 0 && <button type="button" className='btn-submit m-l-auto'
+                    onClick={() => {
+                        confirmDeleteCollection('from CheckboxListCollection', null);
+                    }}>
+                    Supprimer les collections
+                </button>}
                 <button type="button" className='btn-submit m-l-auto'
                     onClick={() => {
                         initCollectionForm();
                         setIs_Edit(false);
-                        setIs({...is, newCollection: true});
-                    }
-                    }><Link to="/add-collection">Ajouter une collection</Link></button>
+                        setIs({ ...is, newCollection: true });
+                    }}>
+                    <Link to="/add-collection">Ajouter une collection</Link>
+                </button>
             </div>
         </div>
     );

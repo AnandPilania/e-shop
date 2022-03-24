@@ -256,7 +256,6 @@ const Appcontainer = () => {
                 if (Array.isArray(tmp_parameter)) {
                     var ids_arr = JSON.stringify(tmp_parameter);
                     idToDelete.append('id', ids_arr);
-                    alert('tmp_parameter is array');
                 } else {
                     idToDelete.append('id', tmp_parameter);
                 }

@@ -23991,7 +23991,6 @@ var Appcontainer = function Appcontainer() {
         if (Array.isArray(tmp_parameter)) {
           var ids_arr = JSON.stringify(tmp_parameter);
           idToDelete.append('id', ids_arr);
-          alert('tmp_parameter is array');
         } else {
           idToDelete.append('id', tmp_parameter);
         }
@@ -24187,12 +24186,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
-/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
-/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
-/* harmony import */ var _functions_dateTools__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../functions/dateTools */ "./resources/js/components/functions/dateTools.js");
-/* harmony import */ var _elements_Checkbox_listCollection__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../elements/Checkbox_listCollection */ "./resources/js/components/elements/Checkbox_listCollection.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
+/* harmony import */ var _functions_dateTools__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../functions/dateTools */ "./resources/js/components/functions/dateTools.js");
+/* harmony import */ var _elements_Checkbox_listCollection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../elements/Checkbox_listCollection */ "./resources/js/components/elements/Checkbox_listCollection.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -24212,8 +24210,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
-var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_5__["default"])({
+var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_4__["default"])({
   inputText: {
     display: 'flex',
     flexDirection: 'row',
@@ -24235,7 +24232,8 @@ var RowListCollections = function RowListCollections(_ref) {
   var collection = _ref.collection,
       category = _ref.category,
       handleCheckboxListCollection = _ref.handleCheckboxListCollection,
-      listCollectionsChecked = _ref.listCollectionsChecked;
+      listCollectionsChecked = _ref.listCollectionsChecked,
+      confirmDeleteCollection = _ref.confirmDeleteCollection;
   var classes = useStyles();
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
@@ -24253,15 +24251,7 @@ var RowListCollections = function RowListCollections(_ref) {
       distanceFromBottom = _useState6[0],
       setDistanceFromBottom = _useState6[1];
 
-  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
-      setShowModalConfirm = _useContext.setShowModalConfirm,
-      setMessageModal = _useContext.setMessageModal,
-      setSender = _useContext.setSender,
-      setTextButtonConfirm = _useContext.setTextButtonConfirm,
-      setImageModal = _useContext.setImageModal,
-      setTmp_parameter = _useContext.setTmp_parameter;
-
-  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_6__.useNavigate)();
+  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_5__.useNavigate)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     setConditions(JSON.parse(collection.objConditions));
   }, []);
@@ -24363,23 +24353,6 @@ var RowListCollections = function RowListCollections(_ref) {
         isEdit: true
       }
     });
-  }; // confirm delete one collection
-
-
-  var confirmDeleteCollection = function confirmDeleteCollection(id, name) {
-    if (Array.isArray(id)) {
-      var names = name.toString().replace(',', '<br>');
-      setMessageModal('Supprimer les collections suivantes ? "' + names);
-      alert('is array');
-    } else {
-      setMessageModal('Supprimer la collection "' + name + '" ?');
-    }
-
-    setTextButtonConfirm('Confirmer');
-    setImageModal('../images/icons/trash_dirty.png');
-    setSender('deleteCollection');
-    setTmp_parameter(id);
-    setShowModalConfirm(true);
   };
 
   var figureSize = {
@@ -24390,93 +24363,93 @@ var RowListCollections = function RowListCollections(_ref) {
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center"
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("li", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
     className: "grid grid-col-list2 w100pct h-auto min-h50 bg-white p15 brd-b-gray-light-1",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "flex-row min-h50 p5",
-      children: collection && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_elements_Checkbox_listCollection__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      children: collection && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_elements_Checkbox_listCollection__WEBPACK_IMPORTED_MODULE_2__["default"], {
         unikId: collection.id,
         handleCheckboxListCollection: handleCheckboxListCollection,
         listCollectionsChecked: listCollectionsChecked
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "flex-row min-h50 p5 p-l-10 w95pct cursor word-break",
       children: collection && collection.name
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "flex-row-c-c min-h50 w50",
-      children: collection.thumbnail && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("figure", {
+      children: collection.thumbnail && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("figure", {
         className: "h50 w50 radius-round",
         style: figureSize
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "flex-row-c-c w40 h40 radius-round bg-blue-light m-auto",
       children: collection.products.length
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
       className: "flex-row min-h50 ".concat((conditions === null || conditions === void 0 ? void 0 : conditions.length) > 1 && "cursor"),
       onClick: showHideConditions,
-      children: [conditions !== null ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+      children: [conditions !== null ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "relative w-auto flex-col justify-s align-s bg-white radius5 m-r-10",
-        children: !showConditions ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        children: !showConditions ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
           className: "w100pct",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
             children: getParameter(conditions[0].parameter) + ' ' + getOperator(conditions[0].operator) + ' ' + conditions[0].value
           })
-        }) : conditions.length > 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        }) : conditions.length > 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
           className: "flex-col-s-s w300 max-h310 absolute l0 bg-white shadow-l radius5 z3 ".concat(distanceFromBottom < 300 ? "b0" : "t0"),
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
             style: cover,
             onClick: showHideConditions
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
             className: "w100pct h60 p-l-20  flex-row-s-c bg-gray-light",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("span", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("span", {
               className: "w30 h30 radius-round bg-blue white flex-row-c-c fs12",
               children: [conditions.length, " "]
             }), "  \xA0 Conditions"]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("ul", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
             className: "scroll flex-col-s-s w300 max-h265 p20 bg-white ul  scrolly",
             children: conditions.map(function (item, index) {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("li", {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
                 className: "w100pct word-break",
                 children: getParameter(item.parameter) + ' ' + getOperator(item.operator) + ' ' + item.value
               }, index);
             })
           })]
-        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
           className: "w100pct",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
             children: getParameter(conditions[0].parameter) + ' ' + getOperator(conditions[0].operator) + ' ' + conditions[0].value
           })
         })
-      }) : '_', (conditions === null || conditions === void 0 ? void 0 : conditions.length) > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+      }) : '_', (conditions === null || conditions === void 0 ? void 0 : conditions.length) > 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "w20 h20 m-r-10 m-l-auto min-w20",
-        children: !showConditions ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
+        children: !showConditions ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
           src: window.location.origin + '/images/icons/chevronDown.png',
           className: "w17"
-        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
           src: window.location.origin + '/images/icons/chevronUp.png'
         })
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "flex-row min-h50 p5",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
         children: category && category.name
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "flex-row min-h50 p5",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
-        className: "noshrink flex-row-c-c radius15 h30 p-lr-15 ".concat((collection === null || collection === void 0 ? void 0 : collection.dateActivation) < (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_2__.getNowUs)() ? 'active-collection' : 'unactive-collection'),
-        children: (collection === null || collection === void 0 ? void 0 : collection.dateActivation) < (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_2__.getNowUs)() ? "Activée" : "".concat((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_2__.getOnlyDateAndHour)(collection === null || collection === void 0 ? void 0 : collection.dateActivation))
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+        className: "noshrink flex-row-c-c radius15 h30 p-lr-15 ".concat((collection === null || collection === void 0 ? void 0 : collection.dateActivation) < (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_1__.getNowUs)() ? 'active-collection' : 'unactive-collection'),
+        children: (collection === null || collection === void 0 ? void 0 : collection.dateActivation) < (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_1__.getNowUs)() ? "Activée" : "".concat((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_1__.getOnlyDateAndHour)(collection === null || collection === void 0 ? void 0 : collection.dateActivation))
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "flex-row min-h50 p5",
-      children: collection && (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_2__.getOnlyDate)(collection.created_at)
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
+      children: collection && (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_1__.getOnlyDate)(collection.created_at)
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
         className: "fas fa-recycle m-r-20 cursor fs20 hover-green",
         onClick: function onClick() {
           editCollection(collection.id);
         }
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
         className: "far fa-trash-alt cursor fs20 hover-red",
         onClick: function onClick() {
           return confirmDeleteCollection(collection.id, collection.name);
@@ -25942,7 +25915,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-var HeaderListCollections = function HeaderListCollections() {
+var HeaderListCollections = function HeaderListCollections(_ref) {
+  var confirmDeleteCollection = _ref.confirmDeleteCollection,
+      listCollectionsChecked = _ref.listCollectionsChecked;
+
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       setIs_Edit = _useContext.setIs_Edit,
       is = _useContext.is,
@@ -25968,9 +25944,16 @@ var HeaderListCollections = function HeaderListCollections() {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
         children: "my HeaderListCollections"
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
       className: "w100pct p-lr-5pct h100 flex-row",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+      children: [!!listCollectionsChecked.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+        type: "button",
+        className: "btn-submit m-l-auto",
+        onClick: function onClick() {
+          confirmDeleteCollection('from CheckboxListCollection', null);
+        },
+        children: "Supprimer les collections"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
         type: "button",
         className: "btn-submit m-l-auto",
         onClick: function onClick() {
@@ -25984,7 +25967,7 @@ var HeaderListCollections = function HeaderListCollections() {
           to: "/add-collection",
           children: "Ajouter une collection"
         })
-      })
+      })]
     })]
   });
 };
@@ -26779,14 +26762,19 @@ var ListCollections = function ListCollections() {
       listCollectionsChecked = _useState6[0],
       setListCollectionsChecked = _useState6[1];
 
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState8 = _slicedToArray(_useState7, 2),
+      allChecked = _useState8[0],
+      setAllChecked = _useState8[1];
+
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     nameSens: true,
     categorySens: true,
     ceated_atSens: true
   }),
-      _useState8 = _slicedToArray(_useState7, 2),
-      toggleSort = _useState8[0],
-      setToggleSort = _useState8[1];
+      _useState10 = _slicedToArray(_useState9, 2),
+      toggleSort = _useState10[0],
+      setToggleSort = _useState10[1];
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       listCollections = _useContext.listCollections,
@@ -26803,7 +26791,13 @@ var ListCollections = function ListCollections() {
       imageModal = _useContext.imageModal,
       showModalConfirm = _useContext.showModalConfirm,
       handleModalConfirm = _useContext.handleModalConfirm,
-      handleModalCancel = _useContext.handleModalCancel;
+      handleModalCancel = _useContext.handleModalCancel,
+      setShowModalConfirm = _useContext.setShowModalConfirm,
+      setMessageModal = _useContext.setMessageModal,
+      setSender = _useContext.setSender,
+      setTextButtonConfirm = _useContext.setTextButtonConfirm,
+      setImageModal = _useContext.setImageModal,
+      setTmp_parameter = _useContext.setTmp_parameter;
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (listCollectionsFiltered.length === 0) {
@@ -26992,19 +26986,81 @@ var ListCollections = function ListCollections() {
   }
 
   var handleCheckboxListCollection = function handleCheckboxListCollection(id) {
-    if (!listCollectionsChecked.includes(id)) {
-      setListCollectionsChecked([].concat(_toConsumableArray(listCollectionsChecked), [id]));
+    var tmp_arr = [];
+
+    if (id === 'all') {
+      if (!allChecked) {
+        setAllChecked(true);
+        tmp_arr.push('all');
+        listCollectionsFiltered.forEach(function (item) {
+          return tmp_arr.push(item.id);
+        });
+        setListCollectionsChecked(tmp_arr);
+      } else {
+        setAllChecked(false);
+        tmp_arr = [];
+        setListCollectionsChecked(tmp_arr);
+      }
     } else {
-      setListCollectionsChecked(_toConsumableArray(listCollectionsChecked.filter(function (item) {
-        return item !== id;
-      })));
+      // remove "all" from listCollectionsChecked if uncheck any checkBox 
+      tmp_arr = listCollectionsChecked;
+      var index = tmp_arr.indexOf('all');
+
+      if (index !== -1) {
+        tmp_arr.splice(index, 1);
+      }
+
+      setListCollectionsChecked(tmp_arr);
+      setAllChecked(false); // add to listCollectionsChecked id checked
+
+      if (!listCollectionsChecked.includes(id)) {
+        setListCollectionsChecked([].concat(_toConsumableArray(listCollectionsChecked), [id]));
+      } else {
+        setListCollectionsChecked(_toConsumableArray(listCollectionsChecked.filter(function (item) {
+          return item !== id;
+        })));
+      }
     }
+  }; // confirm delete one collection
+
+
+  var confirmDeleteCollection = function confirmDeleteCollection(id, name) {
+    // if "all" is in listCollectionsChecked then remove it 
+    tmp_arr = listCollectionsChecked;
+    var index = tmp_arr.indexOf('all');
+
+    if (index !== -1) {
+      tmp_arr.splice(index, 1);
+    }
+
+    if (id === 'from CheckboxListCollection') {
+      var tmp_arr = '';
+      listCollectionsChecked.map(function (listCol) {
+        var collName = listCollections.filter(function (item) {
+          return item.id == listCol;
+        });
+        tmp_arr += collName[0].name + ',';
+      });
+      var names = tmp_arr.toString().replace(',', '\n');
+      setMessageModal('Supprimer les collections suivantes ? "' + names);
+      setTmp_parameter(listCollectionsChecked);
+    } else {
+      setMessageModal('Supprimer la collection "' + name + '" ?');
+      setTmp_parameter(id);
+    }
+
+    setTextButtonConfirm('Confirmer');
+    setImageModal('../images/icons/trash_dirty.png');
+    setSender('deleteCollection');
+    setShowModalConfirm(true);
   };
 
-  console.log(listCollectionsChecked);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
     className: "flex-col-s-c",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_headerListCollections__WEBPACK_IMPORTED_MODULE_6__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("section", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_headerListCollections__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      confirmDeleteCollection: confirmDeleteCollection,
+      listCollectionsChecked: listCollectionsChecked
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("section", {
       className: "flex-col justify-s align-s m-b-10 bg-gray-cool min-h100pct w90pct",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("ul", {
         className: "sub-div-vert-align shadow-md",
@@ -27106,7 +27162,8 @@ var ListCollections = function ListCollections() {
             collection: item,
             category: item.category,
             handleCheckboxListCollection: handleCheckboxListCollection,
-            listCollectionsChecked: listCollectionsChecked
+            listCollectionsChecked: listCollectionsChecked,
+            confirmDeleteCollection: confirmDeleteCollection
           }, item.id);
         })]
       })
