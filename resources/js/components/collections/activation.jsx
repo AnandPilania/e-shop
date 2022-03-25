@@ -5,9 +5,7 @@ import "flatpickr/dist/themes/material_blue.css";
 
 const Activation = () => {
 
-    const {
-        dateField, setDateField
-    } = useContext(AppContext);
+    const { dateField, setDateField } = useContext(AppContext);
 
     return (
         <div>

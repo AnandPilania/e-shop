@@ -21,6 +21,7 @@ class CreateCollectionsTable extends Migration
             $table->tinyInteger('notIncludePrevProduct')->nullable();
             $table->tinyInteger('allConditionsNeeded')->nullable();
             $table->longText('objConditions')->nullable();
+            $table->tinyInteger('status');
             $table->dateTime('dateActivation');
             $table->string('alt')->nullable();
             $table->string('image')->nullable(); // image path

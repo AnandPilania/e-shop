@@ -36,7 +36,7 @@ const Appcontainer = () => {
     const [descriptionCollectionForMeta, setDescriptionCollectionForMeta] = useState('');
     const [imagePath, setImagePath] = useState('');
     const [image, setImage] = useState([]);
-    const [isAutoConditions, setIsAutoConditions] = useState(localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 1);
+    const [isAutoConditions, setIsAutoConditions] = useState(localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 0);
     const [notIncludePrevProduct, setNotIncludePrevProduct] = useState(localStorage.getItem('notIncludePrevProduct') ? localStorage.getItem('notIncludePrevProduct') : 1);
     const [allConditionsNeeded, setAllConditionsNeeded] = useState(localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1);
     const [collectionForm, setCollectionForm] = useState({
@@ -96,6 +96,7 @@ const Appcontainer = () => {
     const [imageModal, setImageModal] = useState('');
     const [selectedColor, setSelectedColor] = useState('#4A90E2');
     const [listCollections, setListCollections] = useState([]);
+    const [listCollectionsFiltered, setListCollectionsFiltered] = useState([]);
     const [listCategories, setListCategories] = useState([]);
     const [is_Edit, setIs_Edit] = useState(false); // -->  dropZone
     const [categoriesChecked, setCategoriesChecked] = useState([]);
@@ -109,6 +110,9 @@ const Appcontainer = () => {
         newCollection: false,
         collectionDeleted: false,
     });
+    const [listCollectionsChecked, setListCollectionsChecked] = useState([]);
+
+
 
     useEffect(() => {
         // chargement des collections
@@ -265,6 +269,7 @@ const Appcontainer = () => {
                         setListCollections(res.data);
                         setIdCollection(null);
                         setIs({ ...is, collectionDeleted: true });
+                        setListCollectionsChecked([]);
                     });
                 break;
             case 'initCollectionForm':
@@ -343,6 +348,9 @@ const Appcontainer = () => {
         hasBeenChanged, setHasBeenChanged,
         wrapIndexcroppe, setWrapIndexcroppe,
         isNot_isEdit, setIsNot_isEdit, 
+        listCollectionsChecked, setListCollectionsChecked,
+        listCollectionsFiltered, setListCollectionsFiltered,
+
     }
 
 

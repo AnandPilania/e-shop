@@ -108,6 +108,7 @@ class CollectionController extends Controller
         // Retourne un nouvel objet DateTime représentant la date et l'heure spécifiées par la string time, qui a été formaté dans le format donné.
         $date = DateTime::createFromFormat('d-m-Y H:i:s', $request->dateActivation);
         $collection->dateActivation = $date->format('Y-m-d H:i:s');
+        $collection->status = $date->format('Y-m-d H:i:s') <= date('Y-m-d H:i:s') ? 1 : 2;
         $collection->category_id = $request->categoryId;
         $collection->alt = $request->alt !== null ? $request->alt :  $request->name;
 
@@ -236,5 +237,19 @@ class CollectionController extends Controller
 
         $collections = Collection::orderBy('created_at', 'desc')->get();
         return json_encode([$collections]);
+    }
+
+
+    // change le status d'activation de la collection
+    public function handleStatus(Request $request) 
+    {
+        // dd($request);
+        $collection = Collection::find($request->id);  
+        $collection->status = intval($request->status) == 1 ? 0 : 1;
+        $collection->save();
+
+        $collections = Collection::where('id', $request->id)->with('category', 'products')->orderBy('created_at', 'desc')->first();
+
+        return json_encode($collections);
     }
 }

@@ -12,29 +12,28 @@ import ModalConfirm from '../modal/modalConfirm';
 const ListCollections = () => {
 
 
-    const [listCollectionsFiltered, setListCollectionsFiltered] = useState([]);
+
     const [imgSort, setImgSort] = useState({
         imgName: 'az.png',
         imgDate: '1-2.png',
         imgCat: 'az.png',
     });
-    const [listCollectionsChecked, setListCollectionsChecked] = useState([]);
     const [allChecked, setAllChecked] = useState(false);
 
     const [toggleSort, setToggleSort] = useState({
         nameSens: true,
         categorySens: true,
-        ceated_atSens: true
+        created_atSens: true
     });
 
-    const { listCollections, setListCollections, listCategories, setListCategories, setCategoriesChecked, searchValue, setSearchValue, is, setIs, messageModal, textButtonConfirm, imageModal, showModalConfirm, handleModalConfirm, handleModalCancel, setShowModalConfirm, setMessageModal, setSender, setTextButtonConfirm, setImageModal, setTmp_parameter } = useContext(AppContext);
+    const { listCollections, setListCollections, listCollectionsFiltered, setListCollectionsFiltered, listCategories, setListCategories, setCategoriesChecked, searchValue, setSearchValue, is, setIs, messageModal, textButtonConfirm, imageModal, showModalConfirm, handleModalConfirm, handleModalCancel, setShowModalConfirm, setMessageModal, setSender, setTextButtonConfirm, setImageModal, setTmp_parameter, listCollectionsChecked, setListCollectionsChecked } = useContext(AppContext);
 
-    useEffect(() => {
+    useEffect(() => { 
         if (listCollectionsFiltered.length === 0) {
             // chargement des collections
             Axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
                 .then(res => {
-                    // listCollections -> liste complète des collections pour handleSearch
+                    // listCollections permet de garder la liste complète des collections pour certaines fonctions qui ont besoin que toutes les collections soit parcourues ce qui n'est pas toujours le cas avec listCollectionsFiltered qui est principalement utilisé pour afficher les collections
                     setListCollections(res.data[0]);
                     setListCollectionsFiltered(res.data[0]);
                     setListCategories(res.data[1]);
@@ -48,7 +47,6 @@ const ListCollections = () => {
         // re-chargement des collections quand on delete une collection
         Axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
             .then(res => {
-                // listCollections -> liste complète des collections pour handleSearch
                 setListCollections(res.data[0]);
                 setListCollectionsFiltered(res.data[0]);
                 setListCategories(res.data[1]);
@@ -82,7 +80,7 @@ const ListCollections = () => {
                     ...prevState,
                     nameSens: !toggleSort.nameSens,
                     categorySens: true,
-                    ceated_atSens: true
+                    created_atSens: true
                 }));
                 break;
             case 'categoryName':
@@ -97,11 +95,11 @@ const ListCollections = () => {
                     ...prevState,
                     categorySens: !toggleSort.categorySens,
                     nameSens: true,
-                    ceated_atSens: true
+                    created_atSens: true
                 }));
                 break;
             case 'created_at':
-                if (toggleSort.ceated_atSens === true) {
+                if (toggleSort.created_atSens === true) {
                     sortList_AZ('created_at');
                     setImgSort((prevState) => ({ ...prevState, imgDate: '2-1.png', imgName: 'az.png', imgCat: 'az.png' }));
                 } else {
@@ -110,7 +108,7 @@ const ListCollections = () => {
                 }
                 setToggleSort((prevState) => ({
                     ...prevState,
-                    ceated_atSens: !toggleSort.ceated_atSens,
+                    created_atSens: !toggleSort.created_atSens,
                     nameSens: true,
                     categorySens: true,
                 }));
@@ -127,7 +125,7 @@ const ListCollections = () => {
                     ...prevState,
                     nameSens: !toggleSort.nameSens,
                     categorySens: true,
-                    ceated_atSens: true
+                    created_atSens: true
                 }));
         }
     }
@@ -152,6 +150,7 @@ const ListCollections = () => {
         categories.length > 0 ? setListCollectionsFiltered(listCollections.filter(item => categories.includes(item.categoryName))) : setListCollectionsFiltered(listCollections);
     }
 
+    // gère les checkBox de la list collections
     const handleCheckboxListCollection = (id) => {
         var tmp_arr = [];
         if (id === 'all') {
@@ -196,11 +195,11 @@ const ListCollections = () => {
         }
         if (id === 'from CheckboxListCollection') {
             var tmp_arr = '';
-            listCollectionsChecked.map(listCol => {
-                let collName = listCollections.filter(item => item.id == listCol);
+            listCollectionsChecked.map(checkedId => {
+                let collName = listCollections.filter(item => item.id == checkedId);
                 tmp_arr += (collName[0].name) + ',';
             })
-            let names = tmp_arr.toString().replace(',', '\n');
+            let names = tmp_arr.toString().replace(',', '<br>');
             setMessageModal('Supprimer les collections suivantes ? "' + names);
             setTmp_parameter(listCollectionsChecked);
         } else {
@@ -276,7 +275,12 @@ const ListCollections = () => {
                         </div>
                     </li>
                     {!!listCollectionsFiltered && listCollectionsFiltered.map(item =>
-                        <RowListCollections key={item.id} collection={item} category={item.category} handleCheckboxListCollection={handleCheckboxListCollection} listCollectionsChecked={listCollectionsChecked} confirmDeleteCollection={confirmDeleteCollection} />
+                        <RowListCollections 
+                        key={item.id} 
+                        collectionFiltered={item}  
+                        category={item.category} 
+                        handleCheckboxListCollection={handleCheckboxListCollection} 
+                        listCollectionsChecked={listCollectionsChecked} confirmDeleteCollection={confirmDeleteCollection} />
                     )}
                 </ul>
             </section>

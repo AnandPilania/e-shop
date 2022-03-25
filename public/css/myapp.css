@@ -1574,6 +1574,10 @@ a.link:hover {
   width: 100px;
 }
 
+.w135 {
+  width: 135px;
+}
+
 .w150 {
   width: 150px;
 }
@@ -1758,6 +1762,10 @@ a.link:hover {
   max-width: 100%;
 }
 
+.max-w100 {
+  max-width: 100px;
+}
+
 .max-w150 {
   max-width: 150px;
 }
@@ -1792,6 +1800,10 @@ a.link:hover {
 
 .h20 {
   height: 20px;
+}
+
+.h24 {
+  height: 24px;
 }
 
 .h25 {
@@ -2910,6 +2922,10 @@ a.link:hover {
   top: 0;
 }
 
+.t3 {
+  top: 3px;
+}
+
 .t10 {
   top: 10px;
 }
@@ -3285,6 +3301,64 @@ a.link:hover {
 }
 .Tab:hover > a {
   color: #222;
+}
+
+/* Toggle Button ------------------------------*/
+.checkBoxToggle {
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+}
+
+/* To create surface of toggle button */
+.checkBoxToggle:after {
+  content: "";
+  width: 48px;
+  height: 24px;
+  display: inline-block;
+  background: #ebebeb;
+  border-radius: 12px;
+  clear: both;
+}
+
+/* Contents before checkbox to create toggle handle ----------------------*/
+.checkBoxToggle:before {
+  content: "";
+  width: 24px;
+  height: 24px;
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+/* Shift the handle to left on check event */
+.checkBoxToggle:checked:before {
+  left: 24px;
+  box-shadow: -1px 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+/* Background color when toggle button will be active */
+.checkBoxToggle:checked:after {
+  background: #d1fae5;
+}
+
+/* Transition for smoothness */
+.checkBoxToggle,
+.checkBoxToggle:before,
+.checkBoxToggle:after,
+.checkBoxToggle:checked:before,
+.checkBoxToggle:checked:after {
+  transition: ease 0.3s;
+  -webkit-transition: ease 0.3s;
+  -moz-transition: ease 0.3s;
+  -o-transition: ease 0.3s;
 }
 
 /*!

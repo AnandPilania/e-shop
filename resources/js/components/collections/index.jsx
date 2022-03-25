@@ -253,7 +253,7 @@ const CreateCollection = () => {
     }
 
 
-    const validation = () => {
+    const validation = () => { 
         // !!!! CHECK AUSSI LES CONDITIONS !!!!
 
         // VALIDATION !!!
@@ -283,13 +283,13 @@ const CreateCollection = () => {
         // check if there is at least one condition value empty
         let tmp_tab_conditions = [];
         conditions.forEach(condition => {
-            if (condition.value === '') {
+            if (condition.value == '' || condition.value == null || condition.value == undefined) {
                 tmp_tab_conditions.push(condition.id);
             }
         })
         setWarningIdCondition(tmp_tab_conditions);
 
-        if (isAutoConditions === true && tmp_tab_conditions.length > 0) {
+        if (isAutoConditions == 1 && tmp_tab_conditions.length > 0) { 
             setMessageModal('Veuillez entrer une ou plusieurs conditons ou sélectionner le type de collection "Manuel" ');
             setImageModal('../images/icons/trash_dirty.png');
             setShowModalSimpleMessage(true);

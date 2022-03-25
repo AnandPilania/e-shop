@@ -15,6 +15,22 @@ export function getOnlyDate(date) {
     return '';
 }
 
+export function getOnlyDateShort(date) {
+    if (date !== null) {
+        let timsetamp = Date.parse(date);
+        let toString = new Date(timsetamp);
+        let year = toString.getFullYear();
+        let month = toString.getMonth() + 1;
+        let day = toString.getDate();
+        let onlyDateAndHour =
+            (day < 10 ? "0" + day.toString() : day) + "-" +
+            (month < 10 ? "0" + month.toString() : month) + "-" +
+            year.toString().substring(2);
+        return onlyDateAndHour;
+    }
+    return '';
+}
+
 export function getOnlyDateAndHour(date) {
     if (date !== null) {
         let timsetamp = Date.parse(date);
@@ -34,7 +50,6 @@ export function getOnlyDateAndHour(date) {
     }
     return '';
 }
-
 
 
 // récupère et formatte la date et l'heure de maintenant

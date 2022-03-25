@@ -96,5 +96,8 @@ export default React.createContext({
     setWrapIndexcroppe: () => { },
     isNot_isEdit: '',
     setIsNot_isEdit: () => { },
-
+    listCollectionsChecked: '', 
+    setListCollectionsChecked: () => { },
+    listCollectionsFiltered: '',  
+    setListCollectionsFiltered: () => { },
 });

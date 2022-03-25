@@ -99,8 +99,15 @@ Route::get('/getCollectionById/{id}', [CollectionController::class, 'getCollecti
 // supprime une collection
 Route::post('/deleteCollection', [CollectionController::class, 'deleteCollection']);
 
+// change le status d'activation de la collection
+Route::post('/handleStatus', [CollectionController::class, 'handleStatus']);
+
+
+
+
 Route::get('/editProduct/{productId}', [ProductController::class, 'editProduct']);
 Route::get('/selectCollections/{productId}', [ProductController::class, 'selectCollections']);
+
 
 // pour blade -> edit_images.blade !!! N EST PLUS UTILISE
 // Route::get('/editImagesProduct/{id}', [ProductController::class, 'editImagesProduct']);
