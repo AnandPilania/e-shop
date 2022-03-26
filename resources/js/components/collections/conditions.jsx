@@ -26,7 +26,7 @@ const Conditions = () => {
     const showHideConditions = (value) => {
         localStorage.setItem('isAutoConditions', value);
         setIsAutoConditions(value);
-        if (value == 0) {
+        if (value == 1) {
             // réinitialise conditions quand on passe en conditions manuelles
             setConditions([{
                 id: 0,
@@ -111,6 +111,10 @@ const Conditions = () => {
         arr.splice(index_arr, 1);
 
         setConditions([...arr]);
+
+        // repasse à isAutoConditions = 0 quand on delete toutes les conditions
+        arr.length === 0 && setIsAutoConditions(0);
+        localStorage.setItem('isAutoConditions', 0);
     }
 
     // détermine si on inclus les produits déjà enregistrer dans la nouvelle collection

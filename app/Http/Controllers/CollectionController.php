@@ -243,7 +243,6 @@ class CollectionController extends Controller
     // change le status d'activation de la collection
     public function handleStatus(Request $request) 
     {
-        // dd($request);
         $collection = Collection::find($request->id);  
         $collection->status = intval($request->status) == 1 ? 0 : 1;
         $collection->save();

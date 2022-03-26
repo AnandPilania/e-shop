@@ -207,12 +207,14 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
                 <span>{category && category.name}</span>
             </div>
             {/* date activation */}
-            <div className='flex-row-c-c min-h50'>
-                <span className={`noshrink flex-row-c-c radius15 w135 h24 p-l-15 ${collectionFiltered?.dateActivation < getNowUs() ? 'active-collection' : 'unactive-collection'}`}>{collectionFiltered?.dateActivation < getNowUs() ? "Activée" : `${getOnlyDateShort(collectionFiltered?.dateActivation)}`}
-                    <input type='checkbox'
-                        className="checkBoxToggle t3 m-l-auto"
+            <div className='flex-row min-h50'>
+                <span className={`noshrink flex-row-c-c radius-round15-square w120 h30 p-l-10 ${collectionFiltered?.status == 1 ?collectionFiltered?.dateActivation < getNowUs() ? 'active-collection' : 'soon-collection' : 'unactive-collection'}`}>{collectionFiltered?.status == 1 ? collectionFiltered?.dateActivation < getNowUs() ? "On" : `${getOnlyDateShort(collectionFiltered?.dateActivation)}` : "Off"}
+                    <button
+                        className="flex-row-c-c w30 h30 m-l-auto radius-square-round5 bg-blue-light"
                         checked={collectionFiltered.status == 1}
-                        onChange={() => handleActivation(collectionFiltered.id, collectionFiltered.status)} />
+                        onClick={() => handleActivation(collectionFiltered.id, collectionFiltered.status)}>
+                        <img src='../images/icons/power.PNG' className="h20"/>
+                    </button>
                 </span>
             </div>
             {/* created_at */}

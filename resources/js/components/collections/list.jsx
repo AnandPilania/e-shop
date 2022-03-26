@@ -28,7 +28,7 @@ const ListCollections = () => {
 
     const { listCollections, setListCollections, listCollectionsFiltered, setListCollectionsFiltered, listCategories, setListCategories, setCategoriesChecked, searchValue, setSearchValue, is, setIs, messageModal, textButtonConfirm, imageModal, showModalConfirm, handleModalConfirm, handleModalCancel, setShowModalConfirm, setMessageModal, setSender, setTextButtonConfirm, setImageModal, setTmp_parameter, listCollectionsChecked, setListCollectionsChecked } = useContext(AppContext);
 
-    useEffect(() => { 
+    useEffect(() => {
         if (listCollectionsFiltered.length === 0) {
             // chargement des collections
             Axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
@@ -187,23 +187,21 @@ const ListCollections = () => {
 
     // confirm delete one collection
     const confirmDeleteCollection = (id, name) => {
-        // if "all" is in listCollectionsChecked then remove it 
-        tmp_arr = listCollectionsChecked;
-        let index = tmp_arr.indexOf('all');
-        if (index !== -1) {
-            tmp_arr.splice(index, 1);
-        }
         if (id === 'from CheckboxListCollection') {
             var tmp_arr = '';
             listCollectionsChecked.map(checkedId => {
-                let collName = listCollections.filter(item => item.id == checkedId);
-                tmp_arr += (collName[0].name) + ',';
+                // if "all" is in listCollectionsChecked then dont take it 
+                if (checkedId !== 'all') {
+                    let collName = listCollections.filter(item => item.id == checkedId);
+                    tmp_arr += (collName[0].name) + ', ';
+                }
             })
-            let names = tmp_arr.toString().replace(',', '<br>');
-            setMessageModal('Supprimer les collections suivantes ? "' + names);
+            let names = tmp_arr.toString();
+            let article = listCollectionsChecked.length > 1 ? 'les collections' : 'la collection';
+            setMessageModal('Supprimer ' + article + ' ' + names + ' ?');
             setTmp_parameter(listCollectionsChecked);
         } else {
-            setMessageModal('Supprimer la collection "' + name + '" ?');
+            setMessageModal('Supprimer la collection ' + name + '" ?');
             setTmp_parameter(id);
         }
         setTextButtonConfirm('Confirmer');
@@ -275,12 +273,12 @@ const ListCollections = () => {
                         </div>
                     </li>
                     {!!listCollectionsFiltered && listCollectionsFiltered.map(item =>
-                        <RowListCollections 
-                        key={item.id} 
-                        collectionFiltered={item}  
-                        category={item.category} 
-                        handleCheckboxListCollection={handleCheckboxListCollection} 
-                        listCollectionsChecked={listCollectionsChecked} confirmDeleteCollection={confirmDeleteCollection} />
+                        <RowListCollections
+                            key={item.id}
+                            collectionFiltered={item}
+                            category={item.category}
+                            handleCheckboxListCollection={handleCheckboxListCollection}
+                            listCollectionsChecked={listCollectionsChecked} confirmDeleteCollection={confirmDeleteCollection} />
                     )}
                 </ul>
             </section>

@@ -24464,16 +24464,19 @@ var RowListCollections = function RowListCollections(_ref) {
         children: category && category.name
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-      className: "flex-row-c-c min-h50",
+      className: "flex-row min-h50",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
-        className: "noshrink flex-row-c-c radius15 w135 h24 p-l-15 ".concat((collectionFiltered === null || collectionFiltered === void 0 ? void 0 : collectionFiltered.dateActivation) < (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_3__.getNowUs)() ? 'active-collection' : 'unactive-collection'),
-        children: [(collectionFiltered === null || collectionFiltered === void 0 ? void 0 : collectionFiltered.dateActivation) < (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_3__.getNowUs)() ? "Activée" : "".concat((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_3__.getOnlyDateShort)(collectionFiltered === null || collectionFiltered === void 0 ? void 0 : collectionFiltered.dateActivation)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
-          type: "checkbox",
-          className: "checkBoxToggle t3 m-l-auto",
+        className: "noshrink flex-row-c-c radius-round15-square w120 h30 p-l-10 ".concat((collectionFiltered === null || collectionFiltered === void 0 ? void 0 : collectionFiltered.status) == 1 ? (collectionFiltered === null || collectionFiltered === void 0 ? void 0 : collectionFiltered.dateActivation) < (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_3__.getNowUs)() ? 'active-collection' : 'soon-collection' : 'unactive-collection'),
+        children: [(collectionFiltered === null || collectionFiltered === void 0 ? void 0 : collectionFiltered.status) == 1 ? (collectionFiltered === null || collectionFiltered === void 0 ? void 0 : collectionFiltered.dateActivation) < (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_3__.getNowUs)() ? "On" : "".concat((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_3__.getOnlyDateShort)(collectionFiltered === null || collectionFiltered === void 0 ? void 0 : collectionFiltered.dateActivation)) : "Off", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+          className: "flex-row-c-c w30 h30 m-l-auto radius-square-round5 bg-blue-light",
           checked: collectionFiltered.status == 1,
-          onChange: function onChange() {
+          onClick: function onClick() {
             return handleActivation(collectionFiltered.id, collectionFiltered.status);
-          }
+          },
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
+            src: "../images/icons/power.PNG",
+            className: "h20"
+          })
         })]
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
@@ -25695,7 +25698,7 @@ var Conditions = function Conditions() {
     localStorage.setItem('isAutoConditions', value);
     setIsAutoConditions(value);
 
-    if (value == 0) {
+    if (value == 1) {
       // réinitialise conditions quand on passe en conditions manuelles
       setConditions([{
         id: 0,
@@ -25786,7 +25789,10 @@ var Conditions = function Conditions() {
       return obj.id == id;
     });
     arr.splice(index_arr, 1);
-    setConditions(_toConsumableArray(arr));
+    setConditions(_toConsumableArray(arr)); // repasse à isAutoConditions = 0 quand on delete toutes les conditions
+
+    arr.length === 0 && setIsAutoConditions(0);
+    localStorage.setItem('isAutoConditions', 0);
   }; // détermine si on inclus les produits déjà enregistrer dans la nouvelle collection
 
 
@@ -27055,27 +27061,23 @@ var ListCollections = function ListCollections() {
 
 
   var confirmDeleteCollection = function confirmDeleteCollection(id, name) {
-    // if "all" is in listCollectionsChecked then remove it 
-    tmp_arr = listCollectionsChecked;
-    var index = tmp_arr.indexOf('all');
-
-    if (index !== -1) {
-      tmp_arr.splice(index, 1);
-    }
-
     if (id === 'from CheckboxListCollection') {
       var tmp_arr = '';
       listCollectionsChecked.map(function (checkedId) {
-        var collName = listCollections.filter(function (item) {
-          return item.id == checkedId;
-        });
-        tmp_arr += collName[0].name + ',';
+        // if "all" is in listCollectionsChecked then dont take it 
+        if (checkedId !== 'all') {
+          var collName = listCollections.filter(function (item) {
+            return item.id == checkedId;
+          });
+          tmp_arr += collName[0].name + ', ';
+        }
       });
-      var names = tmp_arr.toString().replace(',', '<br>');
-      setMessageModal('Supprimer les collections suivantes ? "' + names);
+      var names = tmp_arr.toString();
+      var article = listCollectionsChecked.length > 1 ? 'les collections' : 'la collection';
+      setMessageModal('Supprimer ' + article + ' ' + names + ' ?');
       setTmp_parameter(listCollectionsChecked);
     } else {
-      setMessageModal('Supprimer la collection "' + name + '" ?');
+      setMessageModal('Supprimer la collection ' + name + '" ?');
       setTmp_parameter(id);
     }
 
