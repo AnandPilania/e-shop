@@ -25987,17 +25987,13 @@ var HeaderListCollections = function HeaderListCollections(_ref) {
         children: "my HeaderListCollections"
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-      className: "w100pct p-lr-5pct h100 flex-row",
-      children: [!!listCollectionsChecked.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-        type: "button",
-        className: "btn-submit m-l-auto",
-        onClick: function onClick() {
-          confirmDeleteCollection('from CheckboxListCollection', null);
-        },
-        children: "Supprimer les collections"
+      className: "w100pct p-lr-5pct h100 flex-row-s-c",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h1", {
+        className: "fs20 b p-l-5",
+        children: "Collection"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
         type: "button",
-        className: "btn-submit m-l-auto",
+        className: "w200 h40 flex-row-c-c brd-gray-light-1 radius5 m-l-20",
         onClick: function onClick() {
           initCollectionForm();
           setIs_Edit(false);
@@ -26009,6 +26005,13 @@ var HeaderListCollections = function HeaderListCollections(_ref) {
           to: "/add-collection",
           children: "Ajouter une collection"
         })
+      }), !!listCollectionsChecked.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+        type: "button",
+        className: "btn-submit m-l-auto",
+        onClick: function onClick() {
+          confirmDeleteCollection('from CheckboxListCollection', null);
+        },
+        children: "Supprimer les collections"
       })]
     })]
   });
@@ -26131,6 +26134,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
 /* harmony import */ var _hooks_usePromptCollection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../hooks/usePromptCollection */ "./resources/js/components/hooks/usePromptCollection.jsx");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
@@ -26660,13 +26664,24 @@ var CreateCollection = function CreateCollection() {
       className: "collection-block-container",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
         className: "div-vert-align",
-        children: [isDirty && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("button", {
-          className: "btn-effacer-tout",
-          onClick: function onClick() {
-            setIdCollection(null);
-            confirmInitCollectionForm();
-          },
-          children: "R\xE9initialiser"
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+          className: "w100pct h40 flex justify-s align-c",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("button", {
+            className: "w100 h40 flex-row-c-c brd-gray-light-1 radius5",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_16__.Link, {
+              to: "/collections-list",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("i", {
+                "class": "fa-solid fa-left-long"
+              }), "Retour"]
+            })
+          }), isDirty && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("button", {
+            className: "w100 h40 flex-row-c-c brd-gray-light-1 m-l-auto radius5",
+            onClick: function onClick() {
+              setIdCollection(null);
+              confirmInitCollectionForm();
+            },
+            children: "R\xE9initialiser"
+          })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
           className: "div-label-inputTxt",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h2", {

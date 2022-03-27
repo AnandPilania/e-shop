@@ -2570,6 +2570,11 @@ a.link:hover {
   background-color: #fef3c7;
 }
 
+.flex {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
 .flex-row {
   display: flex;
   flex-direction: row;
@@ -2674,6 +2679,14 @@ a.link:hover {
   align-items: flex-start;
 }
 
+.justify-e {
+  justify-content: flex-end;
+}
+
+.align-c {
+  align-items: center;
+}
+
 .grid {
   display: grid;
 }
@@ -2751,6 +2764,14 @@ a.link:hover {
 
 .fs20 {
   font-size: 20px;
+}
+
+.fs30 {
+  font-size: 30px;
+}
+
+.fs40 {
+  font-size: 40px;
 }
 
 .txt-l {

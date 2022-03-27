@@ -1,5 +1,5 @@
 import { React, useEffect, useContext } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import AppContext from '../contexts/AppContext';
 import { usePromptCollection } from '../hooks/usePromptCollection';
 import Axios from 'axios';
@@ -70,13 +70,13 @@ const CreateCollection = () => {
         }
 
 
-        if (isEdit && !isNot_isEdit) {    
+        if (isEdit && !isNot_isEdit) {
             initCollectionForm();
             setIs({ ...is, newCollection: false });
             // pour afficher le bouton initialisation quand on edit
             setIsDirty(true);
             Axios.get(`http://127.0.0.1:8000/getCollectionById/${collectionId}`)
-                .then(res => { 
+                .then(res => {
                     res.data.objConditions?.length > 0 ? setConditions(JSON.parse(res.data.objConditions)) : setConditions([{ id: 0, parameter: '1', operator: '1', value: '' }]);
 
                     setIsAutoConditions(res.data.automatise);
@@ -253,7 +253,7 @@ const CreateCollection = () => {
     }
 
 
-    const validation = () => { 
+    const validation = () => {
         // !!!! CHECK AUSSI LES CONDITIONS !!!!
 
         // VALIDATION !!!
@@ -289,7 +289,7 @@ const CreateCollection = () => {
         })
         setWarningIdCondition(tmp_tab_conditions);
 
-        if (isAutoConditions == 1 && tmp_tab_conditions.length > 0) { 
+        if (isAutoConditions == 1 && tmp_tab_conditions.length > 0) {
             setMessageModal('Veuillez entrer une ou plusieurs conditons ou sélectionner le type de collection "Manuel" ');
             setImageModal('../images/icons/trash_dirty.png');
             setShowModalSimpleMessage(true);
@@ -396,14 +396,22 @@ const CreateCollection = () => {
         <div className="collection-main-container">
             <div className="collection-block-container">
                 <div className="div-vert-align">
-                    {/* réinitialisation */}
-                    {isDirty && (<button className='btn-effacer-tout'
-                        onClick={() => {
-                            setIdCollection(null);
-                            confirmInitCollectionForm();
-                        }}>
-                        Réinitialiser
-                    </button>)}
+                    <div className="w100pct h40 flex justify-s align-c">
+                        <button className="w100 h40 flex-row-c-c brd-gray-light-1 radius5">
+                            <Link to="/collections-list">
+                            <i class="fa-solid fa-left-long"></i>
+                                Retour
+                            </Link>
+                        </button>
+                        {/* réinitialisation */}
+                        {isDirty && (<button className='w100 h40 flex-row-c-c brd-gray-light-1 m-l-auto radius5'
+                            onClick={() => {
+                                setIdCollection(null);
+                                confirmInitCollectionForm();
+                            }}>
+                            Réinitialiser
+                        </button>)}
+                    </div>
                     {/* nom */}
                     <div className="div-label-inputTxt">
                         <h2>Nom de la collection</h2>
@@ -425,7 +433,6 @@ const CreateCollection = () => {
                 <div className="div-label-inputTxt">
                     <button className="btn-submit" onClick={handleSubmit}>
                         Enregistrer
-                        {/* <Link to="/collections-list">Enregistrer</Link> */}
                     </button>
                 </div>
             </div>

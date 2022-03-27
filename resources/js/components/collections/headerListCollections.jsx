@@ -46,14 +46,9 @@ const HeaderListCollections = ({ confirmDeleteCollection, listCollectionsChecked
             <div className='w100pct h50 brd-b-gray-light-1 bg-white flex-row-c-c'>
                 <span>my HeaderListCollections</span>
             </div>
-            <div className='w100pct p-lr-5pct h100 flex-row'>
-                {!!listCollectionsChecked.length > 0 && <button type="button" className='btn-submit m-l-auto'
-                    onClick={() => {
-                        confirmDeleteCollection('from CheckboxListCollection', null);
-                    }}>
-                    Supprimer les collections
-                </button>}
-                <button type="button" className='btn-submit m-l-auto'
+            <div className='w100pct p-lr-5pct h100 flex-row-s-c'>
+                <h1 className="fs20 b p-l-5">Collection</h1>
+                <button type="button" className='w200 h40 flex-row-c-c brd-gray-light-1 radius5 m-l-20'
                     onClick={() => {
                         initCollectionForm();
                         setIs_Edit(false);
@@ -61,6 +56,13 @@ const HeaderListCollections = ({ confirmDeleteCollection, listCollectionsChecked
                     }}>
                     <Link to="/add-collection">Ajouter une collection</Link>
                 </button>
+
+                {!!listCollectionsChecked.length > 0 && <button type="button" className='btn-submit m-l-auto'
+                    onClick={() => {
+                        confirmDeleteCollection('from CheckboxListCollection', null);
+                    }}>
+                    Supprimer les collections
+                </button>}
             </div>
         </div>
     );

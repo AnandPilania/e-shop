@@ -851,6 +851,11 @@
 
 // display
 
+.flex {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
 .flex-row {
     display: flex;
     flex-direction: row;
@@ -949,6 +954,12 @@
 .align-s {
     align-items: flex-start;
 }
+.justify-e {
+    justify-content: flex-end;
+}
+.align-c {
+    align-items: center;
+}
 
 .grid {
     display: grid;
@@ -1015,6 +1026,12 @@
 }
 .fs20 {
     font-size: 20px;
+}
+.fs30 {
+    font-size: 30px;
+}
+.fs40 {
+    font-size: 40px;
 }
 
 
