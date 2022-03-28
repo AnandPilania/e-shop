@@ -19,11 +19,6 @@ use App\Http\Controllers\Functions\GetArrayOfConditions;
 
 class CollectionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     // renvoi la page de présentation de toutes les collections dans le front
     public function index()
     {
@@ -54,11 +49,9 @@ class CollectionController extends Controller
         return json_encode($collection);
     }
 
-
+    // stockage
     public function storeAndAssign(StoreCollectionRequest $request)
     {
-
-        // dd($request);
 
         if ($request->id !== 'null') {
             // if collection is edited
@@ -172,16 +165,8 @@ class CollectionController extends Controller
     }
 
 
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function deleteCollection(Request $request)
     {
-        // dd($request);
         $arr_ids = json_decode($request->id);
 
         // request->id peut être un array ou un integer donc on check ce que c'est et on converti en aaray si c'est pas un array. Ceci poue être sûr de donner un array valid au foreach
@@ -228,12 +213,10 @@ class CollectionController extends Controller
             // delete relations from pivot table
             DB::table('collection_product')->where('collection_id', $id)->delete();
 
-
             if (isset($collection) && !empty($collection)) {
                 $collection->delete();
             }
         }
-
 
         $collections = Collection::orderBy('created_at', 'desc')->get();
         return json_encode([$collections]);
@@ -251,4 +234,7 @@ class CollectionController extends Controller
 
         return json_encode($collections);
     }
+
+
+    
 }

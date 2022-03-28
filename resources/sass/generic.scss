@@ -59,7 +59,12 @@
 .w300 {
     width: 300px;
 }
-
+.w450 {
+    width: 450px;
+}
+.w500 {
+    width: 500px;
+}
 
 // min-width px
 .min-w20 {
@@ -881,6 +886,12 @@
     justify-content: center;
     align-items: center;
 }
+.flex-row-e-c {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
 
 .flex-row-bet {
     display: flex;
@@ -1200,6 +1211,9 @@
 }
 .radius-square-round5 {
     border-radius: 0 5px 5px 0;
+}
+.radius-t-round5-b-square {
+    border-radius: 5px 5px 0 0;
 }
 
 // position

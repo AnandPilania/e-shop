@@ -100,4 +100,5 @@ export default React.createContext({
     setListCollectionsChecked: () => { },
     listCollectionsFiltered: '',  
     setListCollectionsFiltered: () => { },
+    
 });

@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
-import ConditionCollection from './conditionCollection';
+import ConditionsForm from './conditionsForm';
+// import ConditionCollection from './conditionCollection';
 
 
 const Conditions = () => {
@@ -57,7 +58,7 @@ const Conditions = () => {
     };
 
     // gère le type d'opérations à éffectuer dans les conditons automatiques
-    const handleChangeOperator = (e, id) => { 
+    const handleChangeOperator = (e, id) => {
         let tmp_conditions = [...conditions];
         var index_arr = tmp_conditions.findIndex(obj => obj.id == id);
         // if e is not a event target but just a variable 
@@ -66,7 +67,7 @@ const Conditions = () => {
         } else {
             tmp_conditions[index_arr].operator = e.target.value;
         }
-        
+
         setConditions(tmp_conditions);
     };
 
@@ -80,7 +81,7 @@ const Conditions = () => {
         } else {
             tmp_conditions[index_arr].value = e.target.value;
         }
-        
+
         setConditions(tmp_conditions);
     };
 
@@ -181,7 +182,13 @@ const Conditions = () => {
                         </div>
 
                         {/* inputs conditions */}
-                        <div className="sub-div-vert-align">
+                        <ConditionsForm
+                            handleChangeParam={handleChangeParam}
+                            handleChangeOperator={handleChangeOperator} handleChangeValue={handleChangeValue}
+                            deleteCondition={deleteCondition}
+                            addCondition={addCondition}
+                        />
+                        {/* <div className="sub-div-vert-align">
                             {conditions && conditions.map((condition, i) => (
                                 <ConditionCollection
                                     key={i}
@@ -191,8 +198,10 @@ const Conditions = () => {
                                     deleteCondition={deleteCondition}
                                     warningIdCondition={warningIdCondition}
                                 />))}
-                            <button className="btn-bcknd mb15" onClick={addCondition}>Ajouter une condition</button>
-                        </div>
+                            <button className="btn-bcknd mb15" onClick={addCondition}>
+                                Ajouter une condition
+                            </button>
+                        </div> */}
                         <div className="sub-div-horiz-align-m">
                             <div className="div-radio-label">
                                 <input type='checkbox'
@@ -201,7 +210,7 @@ const Conditions = () => {
                                     onChange={handleNotIncludePrevProducts} />
                                 <label
                                     htmlFor='includOnlyNewProducts'>
-                                    Ne pas inclure les produits déjà enregistrés
+                                    Ne pas inclure les produits déjà enregistrés avant la date d'activation
                                 </label>
                             </div>
                         </div>

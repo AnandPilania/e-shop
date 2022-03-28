@@ -12,7 +12,9 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}" />
 
     <!-- fontawesome -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/fontawesome.css') }}" />
+    <!-- <link rel="stylesheet" type="text/css" href="{{ asset('css/fontawesome.css') }}" />
+
+    <script src="https://kit.fontawesome.com/ef36e77939.js" crossorigin="anonymous"></script> -->
 
     <!-- tailwind -->
     <link href="/css/app.css" rel="stylesheet">

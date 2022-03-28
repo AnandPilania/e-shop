@@ -151,7 +151,7 @@ const ListCollections = () => {
     }
 
     // gère les checkBox de la list collections
-    const handleCheckboxListCollection = (id) => {
+    const handleCheckboxListCollection = (id) => { 
         var tmp_arr = [];
         if (id === 'all') {
             if (!allChecked) {
@@ -197,11 +197,12 @@ const ListCollections = () => {
                 }
             })
             let names = tmp_arr.toString();
+            names = names.slice(0, (names.length - 2)).replace(/(\,)(?!.*\1)/g, ' et '); // remove last "," and replace last occurence of "," by " et "
             let article = listCollectionsChecked.length > 1 ? 'les collections' : 'la collection';
             setMessageModal('Supprimer ' + article + ' ' + names + ' ?');
             setTmp_parameter(listCollectionsChecked);
         } else {
-            setMessageModal('Supprimer la collection ' + name + '" ?');
+            setMessageModal('Supprimer la collection ' + name + ' ?');
             setTmp_parameter(id);
         }
         setTextButtonConfirm('Confirmer');
@@ -212,7 +213,7 @@ const ListCollections = () => {
 
     return (
         <div className='flex-col-s-c'>
-            <HeaderListCollections confirmDeleteCollection={confirmDeleteCollection} listCollectionsChecked={listCollectionsChecked} />
+            <HeaderListCollections confirmDeleteCollection={confirmDeleteCollection} />
             <section className='flex-col justify-s align-s m-b-10 bg-gray-cool min-h100pct w90pct'>
                 <ul className='sub-div-vert-align shadow-md'>
 

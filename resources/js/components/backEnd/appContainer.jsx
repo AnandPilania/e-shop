@@ -294,6 +294,7 @@ const Appcontainer = () => {
         setShowModalConfirm(false);
         setShowModalSimpleMessage(false);
         setShowModalInput(false);
+        setShowModalListOperations(true);
     };
 
 

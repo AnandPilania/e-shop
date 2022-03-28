@@ -167,36 +167,39 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
             {/* conditions */}
             <div className={`flex-row min-h50 ${conditions?.length > 1 && "cursor"}`} onClick={showHideConditions}>
                 {conditions !== null ?
-                    <div className='relative w-auto flex-col justify-s align-s bg-white radius5 m-r-10'>
+                    conditions[0].value !== '' ?
+                        <div className='relative w-auto flex-col justify-s align-s bg-white radius5 m-r-10'>
 
-                        {!showConditions ?
-                            <div className='w100pct'>
-                                <span>
-                                    {getParameter(conditions[0].parameter) + ' ' + getOperator(conditions[0].operator) + ' ' + conditions[0].value}
-                                </span>
-                            </div>
-                            :
-                            conditions.length > 1 ?
-                                <div className={`flex-col-s-s w300 max-h310 absolute l0 bg-white shadow-l radius5 z3 ${distanceFromBottom < 300 ? "b0" : "t0"}`}>
-                                    <div style={cover} onClick={showHideConditions} />
-                                    <div className='w100pct h60 p-l-20  flex-row-s-c bg-gray-light'>
-                                        <span className="w30 h30 radius-round bg-blue white flex-row-c-c fs12">{conditions.length} </span>  &nbsp; Conditions
-                                    </div>
-                                    <ul className="scroll flex-col-s-s w300 max-h265 p20 bg-white ul  scrolly">
-                                        {conditions.map((item, index) =>
-                                            <li key={index} className="w100pct word-break">
-                                                {getParameter(item.parameter) + ' ' + getOperator(item.operator) + ' ' + item.value}
-                                            </li>)}
-                                    </ul>
-                                </div>
-                                :
+                            {!showConditions ?
                                 <div className='w100pct'>
                                     <span>
                                         {getParameter(conditions[0].parameter) + ' ' + getOperator(conditions[0].operator) + ' ' + conditions[0].value}
                                     </span>
                                 </div>
-                        }
-                    </div> : '_'}
+                                :
+                                conditions.length > 1 ?
+                                    <div className={`flex-col-s-s w300 max-h310 absolute l0 bg-white shadow-l radius5 z3 ${distanceFromBottom < 300 ? "b0" : "t0"}`}>
+                                        <div style={cover} onClick={showHideConditions} />
+                                        <div className='w100pct h60 p-l-20  flex-row-s-c bg-gray-light'>
+                                            <span className="w30 h30 radius-round bg-blue white flex-row-c-c fs12">{conditions.length} </span>  &nbsp; Conditions
+                                        </div>
+                                        <ul className="scroll flex-col-s-s w300 max-h265 p20 bg-white ul  scrolly">
+                                            {conditions.map((item, index) =>
+                                                <li key={index} className="w100pct word-break">
+                                                    {getParameter(item.parameter) + ' ' + getOperator(item.operator) + ' ' + item.value}
+                                                </li>)}
+                                        </ul>
+                                    </div>
+                                    :
+                                    <div className='w100pct'>
+                                        <span>
+                                            {getParameter(conditions[0].parameter) + ' ' + getOperator(conditions[0].operator) + ' ' + conditions[0].value}
+                                        </span>
+                                    </div>
+                            }
+                        </div>
+                        : '_'
+                    : '_'}
 
                 {conditions?.length > 1 && <div className="w20 h20 m-r-10 m-l-auto min-w20">
                     {!showConditions ? <img src={window.location.origin + '/images/icons/chevronDown.png'} className="w17" /> : <img src={window.location.origin + '/images/icons/chevronUp.png'} />}
@@ -208,12 +211,12 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
             </div>
             {/* date activation */}
             <div className='flex-row min-h50'>
-                <span className={`noshrink flex-row-c-c radius-round15-square w120 h30 p-l-10 ${collectionFiltered?.status == 1 ?collectionFiltered?.dateActivation < getNowUs() ? 'active-collection' : 'soon-collection' : 'unactive-collection'}`}>{collectionFiltered?.status == 1 ? collectionFiltered?.dateActivation < getNowUs() ? "On" : `${getOnlyDateShort(collectionFiltered?.dateActivation)}` : "Off"}
+                <span className={`noshrink flex-row-c-c radius-round15-square w120 h30 p-l-10 ${collectionFiltered?.status == 1 ? collectionFiltered?.dateActivation < getNowUs() ? 'active-collection' : 'soon-collection' : 'unactive-collection'}`}>{collectionFiltered?.status == 1 ? collectionFiltered?.dateActivation < getNowUs() ? "On" : `${getOnlyDateShort(collectionFiltered?.dateActivation)}` : "Off"}
                     <button
                         className="flex-row-c-c w30 h30 m-l-auto radius-square-round5 bg-blue-light"
                         checked={collectionFiltered.status == 1}
                         onClick={() => handleActivation(collectionFiltered.id, collectionFiltered.status)}>
-                        <img src='../images/icons/power.PNG' className="h20"/>
+                        <img src='../images/icons/power.PNG' className="h20" />
                     </button>
                 </span>
             </div>

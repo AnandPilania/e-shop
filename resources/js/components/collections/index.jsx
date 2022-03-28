@@ -13,6 +13,8 @@ import Image from './image';
 import Tinyeditor from './tinyEditor';
 import { handleTinyMceTemporary } from '../functions/temporaryStorage/handleTinyMceTemporary';
 import { getNow, getDateTime } from '../functions/dateTools';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const CreateCollection = () => {
 
@@ -399,8 +401,8 @@ const CreateCollection = () => {
                     <div className="w100pct h40 flex justify-s align-c">
                         <button className="w100 h40 flex-row-c-c brd-gray-light-1 radius5">
                             <Link to="/collections-list">
-                            <i class="fa-solid fa-left-long"></i>
-                                Retour
+                            <FontAwesomeIcon icon={faArrowLeft} />
+                                <span className="m-l-10">Retour</span>
                             </Link>
                         </button>
                         {/* réinitialisation */}
