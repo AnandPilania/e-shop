@@ -150,7 +150,7 @@ const ListCollections = () => {
         categories.length > 0 ? setListCollectionsFiltered(listCollections.filter(item => categories.includes(item.categoryName))) : setListCollectionsFiltered(listCollections);
     }
 
-    // gère les checkBox de la list collections
+    // gère listCollectionsChecked -> les checkBox de la list collections
     const handleCheckboxListCollection = (id) => { 
         var tmp_arr = [];
         if (id === 'all') {

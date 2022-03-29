@@ -1,7 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
-import Conditions from './conditions';
-
+import ConditionsForm from './conditionsForm';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const useStyles = makeStyles({
     modal: {
@@ -19,6 +20,7 @@ const useStyles = makeStyles({
         background: 'white',
         width: '60%',
         minWidth: '300px',
+        minHeight: '500px',
         padding: '50px',
         top: ' 50%',
         left: '50%',
@@ -95,43 +97,50 @@ const useStyles = makeStyles({
     },
 
     displayBlock: {
-        display: 'block',
+        visibility: 'visible',
+        width: '100%',
+        height: '100%',
     },
 
     displayNone: {
-        display: 'none',
+        visibility: 'hidden',
+        width: '0',
+        height: '0',
     }
 });
 
 
-const ModalListOperations = ({ inputTextModify, setInputTextModify, setShowModalListOperations,  show, image, children }) => {
+const ModalListOperations = ({ inputTextModify, setInputTextModify, setShowModalListOperations, show, image, children }) => {
     const classes = useStyles();
     const showHideClassName = show ? classes.displayBlock : classes.displayNone;
 
-    const handleinputTextModify = (e) => {
-        setInputTextModify(e.target.value);
-    }
+    // const handleinputTextModify = (e) => {
+    //     setInputTextModify(e.target.value);
+    // }
+
 
     return (
         <div className={classes.modal + ' ' + showHideClassName}>
-        
+
             <section className={classes.modalMain}>
 
-                <div className={classes.close}><i className={classes.faTimes + ' ' + "fas fa-times"} onClick={() => setShowModalListOperations(false)}></i></div>
+                <div className={classes.close} onClick={() => setShowModalListOperations(false)}>
+                <FontAwesomeIcon icon={faTimes} className="h20" />
+                {/* <i className={classes.faTimes + ' ' + "fas fa-times"} onClick={() => setShowModalListOperations(false)}></i> */}
+                </div>
 
-                <img src={image} />
 
-                <Conditions />
+                <ConditionsForm />
 
-                {children}
+                {/* {children} */}
 
-                <input type='text' className={classes.inputTextModify} value={inputTextModify} onChange={handleinputTextModify} />
+                {/* <input type='text' className={classes.inputTextModify} value={inputTextModify} onChange={handleinputTextModify} /> */}
 
-                <div className={classes.BlockButtons}>
+                {/* <div className={classes.BlockButtons}>
                     <button className={classes.btnModal}>
                         Confirmer
                     </button>
-                </div>
+                </div> */}
 
             </section>
         </div>

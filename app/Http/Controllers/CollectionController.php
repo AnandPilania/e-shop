@@ -106,36 +106,39 @@ class CollectionController extends Controller
         $collection->alt = $request->alt !== null ? $request->alt :  $request->name;
 
 
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $tools = new StringTools;
-            if ($request->imageName !== null) {
-                $input['image'] = $tools->nameGeneratorFromString($request->imageName, $image);
-            } else {
-                $input['image'] = $tools->nameGeneratorFromFile($image);
-            }
+        if ($request->hasFile('image')) { 
+            $image = $request->file('image'); 
+            // dd($image->getClientOriginalName());
+            // if ($collection->image !== $image->getClientOriginalName()) {
+                $tools = new StringTools;
+                if ($request->imageName !== null) {
+                    $input['image'] = $tools->nameGeneratorFromString($request->imageName, $image);
+                } else {
+                    $input['image'] = $tools->nameGeneratorFromFile($image);
+                }
 
-            $destinationPath = public_path('/images');
-            $imgFile = Image::make($image);
-            $thumbnail = Image::make($image);
-            $thumbnail->resize(150, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-
-            // $height = Image::make($image)->height();
-            $width = Image::make($image)->width();
-
-            if ($width > 1920) {
-                $imgFile->resize(1920, null, function ($constraint) {
+                $destinationPath = public_path('/images');
+                $imgFile = Image::make($image);
+                $thumbnail = Image::make($image);
+                $thumbnail->resize(150, null, function ($constraint) {
                     $constraint->aspectRatio();
                 });
-                // $imgFile->crop(1920, 500);
-            }
 
-            $imgFile->save($destinationPath . '/' . $input['image']);
-            $thumbnail->save($destinationPath . '/' . 'thumbnail_' . $input['image']);
-            $collection->image = 'images/' . $input['image'];
-            $collection->thumbnail = 'images/' . 'thumbnail_' . $input['image'];
+                // $height = Image::make($image)->height();
+                $width = Image::make($image)->width();
+
+                if ($width > 1920) {
+                    $imgFile->resize(1920, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+                    // $imgFile->crop(1920, 500);
+                }
+
+                $imgFile->save($destinationPath . '/' . $input['image']);
+                $thumbnail->save($destinationPath . '/' . 'thumbnail_' . $input['image']);
+                $collection->image = 'images/' . $input['image'];
+                $collection->thumbnail = 'images/' . 'thumbnail_' . $input['image'];
+            // }
         } else {
             $collection->image = '';
             $collection->thumbnail = '';
@@ -224,9 +227,9 @@ class CollectionController extends Controller
 
 
     // change le status d'activation de la collection
-    public function handleStatus(Request $request) 
+    public function handleStatus(Request $request)
     {
-        $collection = Collection::find($request->id);  
+        $collection = Collection::find($request->id);
         $collection->status = intval($request->status) == 1 ? 0 : 1;
         $collection->save();
 
@@ -234,7 +237,4 @@ class CollectionController extends Controller
 
         return json_encode($collections);
     }
-
-
-    
 }

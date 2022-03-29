@@ -365,6 +365,8 @@ const Appcontainer = () => {
                     <Route path="/addProduct" element={<FormProduct />} />
                     <Route path="/editProduct/:productId" element={<EditProduct />} />
                     <Route path="/editImagesProduct/:product_id" element={<EditImages />} />
+
+                    
                     <Route path="/collections-list" element={<ListCollections />} />
                     <Route path="/add-collection" element={<WrapIndexcroppe />} />
                     {/* <Route path="/cropImage" element={<CroppeImage />} /> */}

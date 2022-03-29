@@ -28,8 +28,8 @@
         "tailwindcss": "npm:@tailwindcss/postcss7-compat"
     },
     "dependencies": {
-        "@emotion/react": "^11.7.1",
-        "@emotion/styled": "^11.6.0",
+        "@emotion/react": "^11.8.2",
+        "@emotion/styled": "^11.8.1",
         "@fortawesome/fontawesome-free": "^5.15.4",
         "@fortawesome/fontawesome-svg-core": "^6.1.1",
         "@fortawesome/free-regular-svg-icons": "^6.1.1",
@@ -39,7 +39,7 @@
         "@material-ui/icons": "^4.11.2",
         "@material-ui/styled-engine-sc": "^5.0.0-beta.1",
         "@material-ui/styles": "^5.0.0-beta.4",
-        "@mui/material": "^5.2.8",
+        "@mui/material": "^5.5.3",
         "@mui/styles": "^5.2.3",
         "@tinymce/tinymce-react": "^3.13.0",
         "axios-progress-bar": "^1.2.0",

@@ -71,9 +71,9 @@ const HeaderListCollections = ({ confirmDeleteCollection }) => {
                             </button>
                             {!!isShowOperationDrop &&
                                 <ul className='w250 h-auto flex-col-s-s brd-gray-light-1 absolute l0 b20 bg-white shadow-s'>
-                                    <li className='w100pct h40 flex-row-s-c p-l-10 brd-b-gray-light-1' onClick={handleAddTag}>
+                                    <li className='w100pct h40 flex-row-s-c p-l-10 brd-b-gray-light-1 cursor' onClick={handleAddTag}>
                                         {/* <FontAwesomeIcon icon={faHashtag} className="m-r-5" /> */}
-                                        <span>Ajouter un tag</span>
+                                        <span>Gérer les conditions</span>
                                     </li>
                                     <li className='w100pct h40 flex-row-s-c p-l-10 brd-b-gray-light-1'>
                                         Supprimer un tag

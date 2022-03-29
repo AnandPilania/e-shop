@@ -31,15 +31,15 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
     const [conditions, setConditions] = useState(null);
     const [showConditions, setShowConditions] = useState(false);
     const [distanceFromBottom, setDistanceFromBottom] = useState(null);
-
+ 
     const { listCollectionsFiltered, setListCollectionsFiltered } = useContext(AppContext);
 
     var navigate = useNavigate();
 
     useEffect(() => {
         setConditions(JSON.parse(collectionFiltered.objConditions));
-    }, []);
-
+    }, []);    
+    
 
 
     function getParameter(parameter) {
@@ -135,10 +135,11 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
         navigate('/add-collection', { state: { collectionId: id, isEdit: true } });
     }
 
+
     const figureSize = {
         width: "50px",
         height: "50px",
-        background: "url(" + window.location.origin + '/' + collectionFiltered.thumbnail + ")",
+        backgroundImage: "url(" + window.location.origin + '/' + collectionFiltered.thumbnail + ")",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
