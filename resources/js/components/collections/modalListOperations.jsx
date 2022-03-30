@@ -110,37 +110,20 @@ const useStyles = makeStyles({
 });
 
 
-const ModalListOperations = ({ inputTextModify, setInputTextModify, setShowModalListOperations, show, image, children }) => {
+const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
     const classes = useStyles();
     const showHideClassName = show ? classes.displayBlock : classes.displayNone;
-
-    // const handleinputTextModify = (e) => {
-    //     setInputTextModify(e.target.value);
-    // }
-
 
     return (
         <div className={classes.modal + ' ' + showHideClassName}>
 
             <section className={classes.modalMain}>
 
-                <div className={classes.close} onClick={() => setShowModalListOperations(false)}>
-                <FontAwesomeIcon icon={faTimes} className="h20" />
-                {/* <i className={classes.faTimes + ' ' + "fas fa-times"} onClick={() => setShowModalListOperations(false)}></i> */}
+                <div className={classes.close}>
+                    <FontAwesomeIcon icon={faTimes} className="h20 cursor" onClick={() => setShowModalListOperations(false)} />
                 </div>
 
-
-                <ConditionsForm />
-
-                {/* {children} */}
-
-                {/* <input type='text' className={classes.inputTextModify} value={inputTextModify} onChange={handleinputTextModify} /> */}
-
-                {/* <div className={classes.BlockButtons}>
-                    <button className={classes.btnModal}>
-                        Confirmer
-                    </button>
-                </div> */}
+               {sender === 'conditions' && <ConditionsForm />}
 
             </section>
         </div>

@@ -89,6 +89,7 @@ const Appcontainer = () => {
     const [showModalSimpleMessage, setShowModalSimpleMessage] = useState(false);
     const [showModalCroppeImage, setShowModalCroppeImage] = useState(false);
     const [showModalInput, setShowModalInput] = useState(false);
+    const [showModalListOperations, setShowModalListOperations] = useState(false);
     const [messageModal, setMessageModal] = useState('');
     const [sender, setSender] = useState(''); // for modal
     const [inputTextModify, setInputTextModify] = useState('');
@@ -294,7 +295,7 @@ const Appcontainer = () => {
         setShowModalConfirm(false);
         setShowModalSimpleMessage(false);
         setShowModalInput(false);
-        setShowModalListOperations(true);
+        setShowModalListOperations(false);
     };
 
 
@@ -351,6 +352,7 @@ const Appcontainer = () => {
         isNot_isEdit, setIsNot_isEdit, 
         listCollectionsChecked, setListCollectionsChecked,
         listCollectionsFiltered, setListCollectionsFiltered,
+        showModalListOperations, setShowModalListOperations,
 
     }
 

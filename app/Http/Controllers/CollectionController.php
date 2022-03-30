@@ -49,6 +49,19 @@ class CollectionController extends Controller
         return json_encode($collection);
     }
 
+    // renvoi les collections correspondants aux ids reçus
+    public function getCollectionByIds(Request $request)
+    {
+        // dd($request);
+        $ids = json_decode($request->ids);
+        $collections = [];
+        foreach ($ids as $id) {
+            $collections[] = Collection::where('id', $id)->first();
+        }
+        
+        return json_encode($collections);
+    }
+
     // stockage
     public function storeAndAssign(StoreCollectionRequest $request)
     {
@@ -106,38 +119,38 @@ class CollectionController extends Controller
         $collection->alt = $request->alt !== null ? $request->alt :  $request->name;
 
 
-        if ($request->hasFile('image')) { 
-            $image = $request->file('image'); 
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
             // dd($image->getClientOriginalName());
             // if ($collection->image !== $image->getClientOriginalName()) {
-                $tools = new StringTools;
-                if ($request->imageName !== null) {
-                    $input['image'] = $tools->nameGeneratorFromString($request->imageName, $image);
-                } else {
-                    $input['image'] = $tools->nameGeneratorFromFile($image);
-                }
+            $tools = new StringTools;
+            if ($request->imageName !== null) {
+                $input['image'] = $tools->nameGeneratorFromString($request->imageName, $image);
+            } else {
+                $input['image'] = $tools->nameGeneratorFromFile($image);
+            }
 
-                $destinationPath = public_path('/images');
-                $imgFile = Image::make($image);
-                $thumbnail = Image::make($image);
-                $thumbnail->resize(150, null, function ($constraint) {
+            $destinationPath = public_path('/images');
+            $imgFile = Image::make($image);
+            $thumbnail = Image::make($image);
+            $thumbnail->resize(150, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+
+            // $height = Image::make($image)->height();
+            $width = Image::make($image)->width();
+
+            if ($width > 1920) {
+                $imgFile->resize(1920, null, function ($constraint) {
                     $constraint->aspectRatio();
                 });
+                // $imgFile->crop(1920, 500);
+            }
 
-                // $height = Image::make($image)->height();
-                $width = Image::make($image)->width();
-
-                if ($width > 1920) {
-                    $imgFile->resize(1920, null, function ($constraint) {
-                        $constraint->aspectRatio();
-                    });
-                    // $imgFile->crop(1920, 500);
-                }
-
-                $imgFile->save($destinationPath . '/' . $input['image']);
-                $thumbnail->save($destinationPath . '/' . 'thumbnail_' . $input['image']);
-                $collection->image = 'images/' . $input['image'];
-                $collection->thumbnail = 'images/' . 'thumbnail_' . $input['image'];
+            $imgFile->save($destinationPath . '/' . $input['image']);
+            $thumbnail->save($destinationPath . '/' . 'thumbnail_' . $input['image']);
+            $collection->image = 'images/' . $input['image'];
+            $collection->thumbnail = 'images/' . 'thumbnail_' . $input['image'];
             // }
         } else {
             $collection->image = '';

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import AppContext from '../contexts/AppContext';
+import Axios from 'axios';
 import ConditionCollection from './conditionCollection';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
@@ -51,7 +52,7 @@ const ConditionsForm = () => {
   };
 
 
-  const { conditions, setConditions, warningIdCondition, inputTextModify, listCollectionsChecked } = useContext(AppContext);
+  const { conditions, setConditions, listCollectionsFiltered, warningIdCondition, listCollectionsChecked, setIsAutoConditions } = useContext(AppContext);
 
 
   // gère le paramètre à changer dans les conditions automatiques
@@ -93,9 +94,14 @@ const ConditionsForm = () => {
   //add condition
   const addCondition = () => {
     // get bigger id to define the next id to insert in conditions
-    const objWithBiggerId = conditions.reduce(function (prev, current) {
-      return (prev.id > current.id) ? prev : current
-    });
+    var objWithBiggerId = {};
+    if (conditions.length > 0) {
+      objWithBiggerId = conditions.reduce(function (prev, current) {
+        return (prev.id > current.id) ? prev : current
+      });
+    } else {
+      objWithBiggerId.id = -1;
+    }
     setConditions([
       ...conditions, {
         id: objWithBiggerId.id + 1,
@@ -125,11 +131,62 @@ const ConditionsForm = () => {
     localStorage.setItem('isAutoConditions', 0);
   }
 
-  const handleinputTextModify = (e) => {
-    setInputTextModify(e.target.value);
+
+  const handleSave = () => {
+
+    var newConditions = conditions.filter(condition => {
+      return (condition.operator == 1 || condition.operator == 5 || condition.operator == 6) && condition.value != '';
+    })
+    // console.log('newConditions  ', newConditions);
+    // console.log('listCollectionsFiltered  ', listCollectionsFiltered[0].objConditions)
+    // console.log('conditions  ', conditions)
+
+    // check si un paramètre et son opérateur sont déjà utilisé dans les conditions quand l'opérateur des nouvelles conditions à ajouter correspond à éest égale à" ou "commence par" ou "se termine par"
+
+    
+    let prev_conds = JSON.parse(listCollectionsFiltered[0].objConditions);
+
+    let arr = prev_conds.filter((item, i) => { // <- ne parcour pas l'entièreté des deux tableaux pcq ils n'ont pas spécialement la même longueur
+        return item.parameter == newConditions[i].parameter && item.operator == newConditions[i].operator;
+    })
+
+
+
+    console.log('arr  ', arr)
+    // console.log('duplicatedConditions  ', duplicatedConditions)
+    let typeOperation = value === 0 ? 'save' : 'delete';
+    let formData = new FormData;
+    formData.append('ids', JSON.stringify(listCollectionsChecked))
+
+
+    // Axios.post(`http://127.0.0.1:8000/getCollectionByIds`, formData)
+    //   .then(res => {
+    //     console.log(res.data);
+
+    //   }).catch(function (error) {
+    //     console.log('error:   ' + error);
+    //   });
+
+    formData.append('conditions', JSON.stringify(conditions))
+    formData.append('typeOperation', typeOperation)
+
+    //   Axios.post(`http://127.0.0.1:8000/save-collection`, formData)
+    //     .then(res => {
+    //       console.log('res.data  --->  ok');
+    //       if (res.data === 'ok') {
+
+    //       }
+    //     }).catch(function (error) {
+    //       console.log('error:   ' + error);
+    //     });
+
   }
 
-  console.log('listCollectionsChecked  ', listCollectionsChecked)
+  // console.log('listCollectionsChecked  ', listCollectionsChecked)
+  // console.log('value  ', value)
+  // console.log('conditions  ', conditions)
+  // console.log('listCollectionsFiltered  ', listCollectionsFiltered[0].objConditions)
+
 
   return (
     <>
@@ -161,13 +218,12 @@ const ConditionsForm = () => {
         </TabPanel>
 
         <TabPanel value={value} index={1}>
-          <input type='text' value={inputTextModify} onChange={handleinputTextModify} />
-          {/* className={classes.inputTextModify}  */}
+          Gérer la suppression des conditions
         </TabPanel>
 
       </Box>
       <div>
-        <button className="btn-bcknd mb15">
+        <button className="btn-bcknd mb15" onClick={handleSave}>
           Enregistrer
         </button>
       </div>
