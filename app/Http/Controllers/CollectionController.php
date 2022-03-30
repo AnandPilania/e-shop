@@ -49,19 +49,6 @@ class CollectionController extends Controller
         return json_encode($collection);
     }
 
-    // renvoi les collections correspondants aux ids reçus
-    public function getCollectionByIds(Request $request)
-    {
-        // dd($request);
-        $ids = json_decode($request->ids);
-        $collections = [];
-        foreach ($ids as $id) {
-            $collections[] = Collection::where('id', $id)->first();
-        }
-        
-        return json_encode($collections);
-    }
-
     // stockage
     public function storeAndAssign(StoreCollectionRequest $request)
     {

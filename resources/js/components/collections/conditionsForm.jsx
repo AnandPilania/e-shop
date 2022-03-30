@@ -134,38 +134,36 @@ const ConditionsForm = () => {
 
   const handleSave = () => {
 
+    // récupère s'ils y en a les nouvelles conditions qui ne peuvent pas être dupliquées
     var newConditions = conditions.filter(condition => {
       return (condition.operator == 1 || condition.operator == 5 || condition.operator == 6) && condition.value != '';
     })
-    // console.log('newConditions  ', newConditions);
-    // console.log('listCollectionsFiltered  ', listCollectionsFiltered[0].objConditions)
-    // console.log('conditions  ', conditions)
 
-    // check si un paramètre et son opérateur sont déjà utilisé dans les conditions quand l'opérateur des nouvelles conditions à ajouter correspond à éest égale à" ou "commence par" ou "se termine par"
-
-    
-    let prev_conds = JSON.parse(listCollectionsFiltered[0].objConditions);
-
-    let arr = prev_conds.filter((item, i) => { // <- ne parcour pas l'entièreté des deux tableaux pcq ils n'ont pas spécialement la même longueur
-        return item.parameter == newConditions[i].parameter && item.operator == newConditions[i].operator;
+    // fusionne le nombre représentant le paramètre et avec celui de l'operator pour faciliter la comparaison 
+    var tmp_tab_newConditions = [];
+    newConditions.forEach(item => {
+      tmp_tab_newConditions.push(item.parameter + item.operator);
     })
 
-
+    // récupère les conditions déjà éxistantes qui sont dans le tableaux des nouvelles conditons qui ne peuvent pas être dupliquées
+    let arr = [];
+    listCollectionsFiltered.map(item => {
+      JSON.parse(item.objConditions).every(cond => {
+        let para_oper = cond.parameter + cond.operator;
+        if (tmp_tab_newConditions.includes(para_oper)) {
+          arr.push(item);
+          return false;
+        }
+        return true;
+      })
+    })
 
     console.log('arr  ', arr)
-    // console.log('duplicatedConditions  ', duplicatedConditions)
+    // check si un paramètre et son opérateur sont déjà utilisé dans les conditions quand l'opérateur des nouvelles conditions à ajouter correspond à éest égale à" ou "commence par" ou "se termine par"
     let typeOperation = value === 0 ? 'save' : 'delete';
     let formData = new FormData;
     formData.append('ids', JSON.stringify(listCollectionsChecked))
 
-
-    // Axios.post(`http://127.0.0.1:8000/getCollectionByIds`, formData)
-    //   .then(res => {
-    //     console.log(res.data);
-
-    //   }).catch(function (error) {
-    //     console.log('error:   ' + error);
-    //   });
 
     formData.append('conditions', JSON.stringify(conditions))
     formData.append('typeOperation', typeOperation)
@@ -182,10 +180,6 @@ const ConditionsForm = () => {
 
   }
 
-  // console.log('listCollectionsChecked  ', listCollectionsChecked)
-  // console.log('value  ', value)
-  // console.log('conditions  ', conditions)
-  // console.log('listCollectionsFiltered  ', listCollectionsFiltered[0].objConditions)
 
 
   return (
