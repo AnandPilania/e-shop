@@ -237,4 +237,10 @@ class CollectionController extends Controller
 
         return json_encode($collections);
     }
+
+    // Opérations sur plusieurs collections à partir de la liste des collections
+
+    public function addCondtionsToGroup(Request $request) {
+        dd($request);
+    }
 }

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import AppContext from '../contexts/AppContext';
-import Axios from 'axios';
 import ConditionCollection from './conditionCollection';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
@@ -47,12 +46,13 @@ function a11yProps(index) {
 const ConditionsForm = () => {
 
   const [value, setValue] = React.useState(0);
+
+  const { conditions, setConditions, setTypeOperationListCollections, warningIdCondition, setIsAutoConditions } = useContext(AppContext);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    setTypeOperationListCollections(newValue);
   };
-
-
-  const { conditions, setConditions, listCollectionsFiltered, warningIdCondition, listCollectionsChecked, setIsAutoConditions } = useContext(AppContext);
 
 
   // gère le paramètre à changer dans les conditions automatiques
@@ -132,55 +132,6 @@ const ConditionsForm = () => {
   }
 
 
-  const handleSave = () => {
-
-    // récupère s'ils y en a les nouvelles conditions qui ne peuvent pas être dupliquées
-    var newConditions = conditions.filter(condition => {
-      return (condition.operator == 1 || condition.operator == 5 || condition.operator == 6) && condition.value != '';
-    })
-
-    // fusionne le nombre représentant le paramètre et avec celui de l'operator pour faciliter la comparaison 
-    var tmp_tab_newConditions = [];
-    newConditions.forEach(item => {
-      tmp_tab_newConditions.push(item.parameter + item.operator);
-    })
-
-    // récupère les conditions déjà éxistantes qui sont dans le tableaux des nouvelles conditons qui ne peuvent pas être dupliquées
-    let arr = [];
-    listCollectionsFiltered.map(item => {
-      JSON.parse(item.objConditions).every(cond => {
-        let para_oper = cond.parameter + cond.operator;
-        if (tmp_tab_newConditions.includes(para_oper)) {
-          arr.push(item);
-          return false;
-        }
-        return true;
-      })
-    })
-
-    console.log('arr  ', arr)
-    // check si un paramètre et son opérateur sont déjà utilisé dans les conditions quand l'opérateur des nouvelles conditions à ajouter correspond à éest égale à" ou "commence par" ou "se termine par"
-    let typeOperation = value === 0 ? 'save' : 'delete';
-    let formData = new FormData;
-    formData.append('ids', JSON.stringify(listCollectionsChecked))
-
-
-    formData.append('conditions', JSON.stringify(conditions))
-    formData.append('typeOperation', typeOperation)
-
-    //   Axios.post(`http://127.0.0.1:8000/save-collection`, formData)
-    //     .then(res => {
-    //       console.log('res.data  --->  ok');
-    //       if (res.data === 'ok') {
-
-    //       }
-    //     }).catch(function (error) {
-    //       console.log('error:   ' + error);
-    //     });
-
-  }
-
-
 
   return (
     <>
@@ -216,11 +167,6 @@ const ConditionsForm = () => {
         </TabPanel>
 
       </Box>
-      <div>
-        <button className="btn-bcknd mb15" onClick={handleSave}>
-          Enregistrer
-        </button>
-      </div>
     </>
   );
 }

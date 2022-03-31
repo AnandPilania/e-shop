@@ -102,6 +102,9 @@ Route::post('/deleteCollection', [CollectionController::class, 'deleteCollection
 // change le status d'activation de la collection
 Route::post('/handleStatus', [CollectionController::class, 'handleStatus']);
 
+// ajoute des conditions à un group de colection depuis la liste des colletions
+Route::post('/addCondtionsToGroup', [CollectionController::class, 'addCondtionsToGroup']);
+
 
 
 

@@ -77,14 +77,7 @@ const Appcontainer = () => {
     const [idCollection, setIdCollection] = useState(null);
     // ------------------------------------------------------------- collection 
 
-    const [showModalApp, setShowModalApp] = useState(false);
-    const [textButtonModalApp, setTextButtonModalApp] = useState('Confirmer');
-    const [textButtonModalApp2, setTextButtonModalApp2] = useState('Confirmer');
-    const [imageModalApp, setImageModalApp] = useState('');
-    const [messageModalApp, setMessageModalApp] = useState('');
     const [followThisLink, setFollowThisLink] = useLocalStorage("followThisLink", "");
-
-
     const [showModalConfirm, setShowModalConfirm] = useState(false);
     const [showModalSimpleMessage, setShowModalSimpleMessage] = useState(false);
     const [showModalCroppeImage, setShowModalCroppeImage] = useState(false);
@@ -112,6 +105,7 @@ const Appcontainer = () => {
         collectionDeleted: false,
     });
     const [listCollectionsChecked, setListCollectionsChecked] = useState([]);
+    const [typeOperationListCollections, setTypeOperationListCollections] = useState(0);
 
 
 
@@ -229,14 +223,6 @@ const Appcontainer = () => {
     }
     //----------------------------------------------------------------Reset Form
 
-    const handleModalApp = () => {
-        setShowModalApp(false);
-    };
-
-    const handleModalAppCancel = () => {
-        setShowModalApp(false);
-    };
-
     // remove caracteres unauthorized for url
     const normalizUrl = (str) => {
         let urlName = str.replaceAll(' ', '-').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -264,7 +250,7 @@ const Appcontainer = () => {
                 } else {
                     idToDelete.append('id', tmp_parameter);
                 }
-                
+
                 Axios.post(`http://127.0.0.1:8000/deleteCollection`, idToDelete)
                     .then(res => {
                         setListCollections(res.data);
@@ -353,6 +339,7 @@ const Appcontainer = () => {
         listCollectionsChecked, setListCollectionsChecked,
         listCollectionsFiltered, setListCollectionsFiltered,
         showModalListOperations, setShowModalListOperations,
+        typeOperationListCollections, setTypeOperationListCollections,
 
     }
 

@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import AppContext from '../contexts/AppContext';
+import Axios from 'axios';
 import { makeStyles } from '@material-ui/styles';
 import ConditionsForm from './conditionsForm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,7 +14,7 @@ const useStyles = makeStyles({
         width: '100%',
         height: ' 100%',
         background: 'rgba(255, 255, 255, 0.75)',
-        zIndex: '10000000',
+        zIndex: '1',
     },
 
     modalMain: {
@@ -31,7 +33,7 @@ const useStyles = makeStyles({
         alignItems: 'flex-start',
         borderRadius: '5px',
         boxShadow: 'rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px',
-        zIndex: '10000000',
+        zIndex: '1',
     },
 
     BlockButtons: {
@@ -111,8 +113,86 @@ const useStyles = makeStyles({
 
 
 const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
+
     const classes = useStyles();
     const showHideClassName = show ? classes.displayBlock : classes.displayNone;
+
+    const { conditions, listCollectionsFiltered, listCollectionsChecked, typeOperationListCollections, setConditions } = useContext(AppContext);
+
+    const textButton = typeOperationListCollections == 0 ? "Enregistrer" : "Supprimer"
+
+    const handleSave = () => {
+
+        // récupère s'ils y en a les nouvelles conditions qui ne peuvent pas être dupliquées donc avec l'operator 1, 5 et 6
+        var newConditions = conditions.filter(condition => {
+            return (condition.operator == 1 || condition.operator == 5 || condition.operator == 6) && condition.value != '';
+        })
+
+        // fusionne le nombre représentant le paramètre avec celui de l'operator pour faciliter la comparaison 
+        var tmp_tab_newConditions = [];
+        newConditions.forEach(item => {
+            tmp_tab_newConditions.push(item.parameter + item.operator);
+        })
+
+        // récupère les conditions déjà éxistantes qui sont dans le tableaux des nouvelles conditons qui ne peuvent pas être dupliquées. every et return false se charge de ne pas mettre deux fois la même collection dans la liste si elle a deux condtions qui ne peuvent pas être dupliquée   
+        let arrObj = [];
+        listCollectionsFiltered.map(item => {
+            // on check que les collections sélectionnées
+            if (listCollectionsChecked.includes(item.id)) {
+
+                // on parcoure toutes les conditions de la collection
+                JSON.parse(item.objConditions).every(cond => {
+
+                    // forme le chiffre a comparer en concaténant para et oper
+                    let para_oper = cond.parameter + cond.operator;
+
+                    // si duplicate condition
+                    if (tmp_tab_newConditions.includes(para_oper)) {
+
+                        // collections with duplicate condition 
+                        let obj = { "id": item.id, "name": item.name, "condition": cond }
+                        arrObj.push(obj);
+
+
+                        var arr = [...JSON.parse(item.objConditions)];
+                        var index_arr = arr.findIndex(condition => condition.id == item.id);
+                        arr[index_arr] = cond; console.log('arr  ', arr)
+                        // obj = { "id": item.id, "name": item.name, "condition": arr }
+                        // arrObj.push(obj);
+
+                        //   return false;
+                    }
+                    return true;
+
+                })
+            }
+        })
+        console.log('listCollectionsChecked  ', listCollectionsChecked);
+        if (arrObj.length > 0) {
+            // afficher message --> "voulez vous remplacer les condtions suivantes par les nouvelles conditions ?"
+            console.log('arrObj  ', arrObj);
+        }
+
+        // détermine si on ajoute des conditions ou si on nen supprime
+        let typeOperation = typeOperationListCollections === 0 ? 'save' : 'delete';
+
+        let formData = new FormData;
+        formData.append('arrObj', JSON.stringify(arrObj));
+        formData.append('conditions', JSON.stringify(conditions));
+        formData.append('typeOperation', typeOperation);
+
+        Axios.post(`http://127.0.0.1:8000/addCondtionsToGroup`, formData)
+            .then(res => {
+                console.log('res.data  --->  ok');
+                if (res.data === 'ok') {
+
+                }
+            }).catch(function (error) {
+                console.log('error:   ' + error);
+            });
+
+    }
+
 
     return (
         <div className={classes.modal + ' ' + showHideClassName}>
@@ -123,7 +203,13 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
                     <FontAwesomeIcon icon={faTimes} className="h20 cursor" onClick={() => setShowModalListOperations(false)} />
                 </div>
 
-               {sender === 'conditions' && <ConditionsForm />}
+                {sender === 'conditions' && <ConditionsForm />}
+
+                <div>
+                    <button className="btn-bcknd mb15" onClick={handleSave}>
+                        {textButton}
+                    </button>
+                </div>
 
             </section>
         </div>

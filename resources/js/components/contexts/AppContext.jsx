@@ -102,5 +102,7 @@ export default React.createContext({
     setListCollectionsFiltered: () => { },
     showModalListOperations: '',  
     setShowModalListOperations: () => { },
+    typeOperationListCollections: '', 
+    setTypeOperationListCollections: () => { },
 
 });
