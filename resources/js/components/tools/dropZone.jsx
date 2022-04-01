@@ -4,6 +4,10 @@ import Axios from 'axios';
 import AppContext from '../contexts/AppContext';
 import { saveInTemporaryStorage } from '../functions/temporaryStorage/saveInTemporaryStorage';
 import CroppeImage from '../croppeJs/croppeJs';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCrop, faTrash } from '@fortawesome/free-solid-svg-icons';
+
+
 
 const useStyles = makeStyles({
     wrapperForm: {
@@ -113,6 +117,34 @@ const DropZone = (props) => {
         dropRegion.addEventListener('dragover', highlight, false);
         dropRegion.addEventListener('dragleave', unhighlight, false);
         dropRegion.addEventListener('drop', unhighlight, false);
+
+
+        // init preview image !!! à GARDER !!! permet de recharcher l'image collection quand on crop ou qu'on annulle le crop 
+        if (!is_Edit) {
+            // if (id !== null) { 
+                try {
+                    Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage/${"pas_besoin_de_id"}`)
+                        .then(res => {
+                            if (res.data !== undefined && res.data != '') {
+                                // get --> image path <-- for croppe
+                                setImagePath('/' + res.data);
+                                // get --> image <-- for preview
+                                fetch('/' + res.data)
+                                    .then(function (response) {
+                                        return response.blob();
+                                    })
+                                    .then(function (BlobImage) {
+                                        previewImage(BlobImage);
+                                        setImage(BlobImage);
+                                    })
+                            }
+                        });
+                } catch (error) {
+                    console.error('error  ' + error);
+                }
+            // }
+        }
+
     }, []);
 
     // when collection is edited
@@ -122,7 +154,7 @@ const DropZone = (props) => {
                 Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage/${idCollection}`)
                     .then(res => {
                         if (res.data !== undefined && res.data != '') {
-                              // get --> image path <-- for croppe
+                            // get --> image path <-- for croppe
                             setImagePath('/' + res.data);
                             // get --> image <-- for preview
                             fetch('/' + res.data)
@@ -378,11 +410,21 @@ const DropZone = (props) => {
                 </div>
             </div>
             <span className={classes.removeImage}>
-                {!!imagePath && <i className="fas fa-crop tooltip_" onClick={goToCrop}> <span className="tooltiptext">Redimensionner l'image</span>
-                </i>}
-                {!!imagePath && <i className="far fa-trash-alt trash-alt-dropZone tooltip_" style={{ display: "block", marginLeft: "15px" }} onClick={removeImagePreview} >
-                    <span className="tooltiptext">Supprimer l'image</span>
-                </i>}
+                {!!imagePath &&
+                    <span className="faCropDropZone tooltip_"
+                        onClick={() => goToCrop()}>
+                        <FontAwesomeIcon icon={faCrop} className="faCrop" />
+                        <span className="tooltiptext">Redimensionner l'image</span>
+                    </span>
+                }
+                {!!imagePath &&
+                    <span className="faTrashDropZone tooltip_"
+                        onClick={() => removeImagePreview()} 
+                        >
+                        <FontAwesomeIcon icon={faTrash} className="faTrash" style={{ display: "block", marginLeft: "15px" }} />
+                        <span className="tooltiptext">Supprimer l'image</span>
+                    </span>
+                }
             </span>
         </>
     )

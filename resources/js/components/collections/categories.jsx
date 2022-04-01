@@ -3,7 +3,8 @@ import AppContext from '../contexts/AppContext';
 import Axios from 'axios';
 import ModalInput from '../modal/modalInput';
 import ModalSimpleMessage from '../modal/modalSimpleMessage';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRecycle, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const Categories = () => {
 
@@ -14,7 +15,8 @@ const Categories = () => {
     const [newCategorySucces, setNewCategorySucces] = useState(false);
     const [showCategorySelect, setShowCategorySelect] = useState(false);
     const [displayColorPicker, setDisplayColorPicker] = useState(false);
-    const [newCategoryNameUseInMessage, setNewCategoryNameUseInMessage] = useState(''); // pour stocker le nom de la catégorie qui doit être afficher dans le message de confirmation de la creation de la catégorie
+    const [newCategoryNameUseInMessage, setNewCategoryNameUseInMessage] = useState(''); // --> pour stocker le nom de la catégorie qui doit être afficher dans le message de confirmation de la creation de la catégorie
+
 
     const {
         setShowModalConfirm, showModalInput, setShowModalInput, messageModal, setMessageModal, showModalSimpleMessage, setShowModalSimpleMessage, setSender, inputTextModify, setInputTextModify, selectedColor, setSelectedColor, setTextButtonConfirm, setImageModal, deleteThisCategory, setDeleteThisCategory, categoryName, setCategoryName,
@@ -302,14 +304,18 @@ const Categories = () => {
                                     }} >
                                     <span className='inline w70pct txt-limit'>{cat.name}</span>
                                     <div>
-                                        <i className="fas fa-recycle"
+                                        <span className="faRecycle"
                                             onClick={() => {
                                                 handleCategory(cat.id);
                                                 handleShowModalInput();
-                                            }}>
-                                        </i>
-                                        <i className="far fa-trash-alt"
-                                            onClick={() => confirmDeleteCategory(cat.id, cat.name)}></i>
+                                            }}
+                                        >
+                                            <FontAwesomeIcon icon={faRecycle} className="faRecycleIcon" />
+                                        </span>
+                                        <span className="faTrash"
+                                            onClick={() => confirmDeleteCategory(cat.id, cat.name)}>
+                                            <FontAwesomeIcon icon={faTrash} className="faTrashIcon" />
+                                        </span>
                                     </div>
                                 </li>))}
                         </ul>

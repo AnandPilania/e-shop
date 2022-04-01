@@ -5,6 +5,10 @@ import Axios from 'axios';
 import { makeStyles } from '@material-ui/styles';
 import { getNowUs, getOnlyDate, getOnlyDateShort } from '../functions/dateTools';
 import CheckboxListCollection from '../elements/Checkbox_listCollection';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRecycle, faTrash } from '@fortawesome/free-solid-svg-icons';
+
+
 
 const useStyles = makeStyles({
     inputText: {
@@ -31,15 +35,15 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
     const [conditions, setConditions] = useState(null);
     const [showConditions, setShowConditions] = useState(false);
     const [distanceFromBottom, setDistanceFromBottom] = useState(null);
- 
+
     const { listCollectionsFiltered, setListCollectionsFiltered } = useContext(AppContext);
 
     var navigate = useNavigate();
 
     useEffect(() => {
         setConditions(JSON.parse(collectionFiltered.objConditions));
-    }, []);    
-    
+    }, []);
+
 
 
     function getParameter(parameter) {
@@ -227,13 +231,17 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
             </div>
             {/* edit & delete */}
             <div>
-                <i className="fas fa-recycle m-r-20 cursor fs20 hover-green"
+                <span className="faRecycle  m-r-20 cursor fs20 hover-green"
                     onClick={() => {
                         editCollection(collectionFiltered.id);
                     }}>
-                </i>
-                <i className="far fa-trash-alt cursor fs20 hover-red"
-                    onClick={() => confirmDeleteCollection(collecollectionFilteredction.id, collectionFiltered.name)}></i>
+                    <FontAwesomeIcon icon={faRecycle} className="faRecycleIcon" />
+                </span>
+
+                <span className="faTrash cursor fs20 hover-red"
+                    onClick={() => confirmDeleteCollection(collectionFiltered.id, collectionFiltered.name)}>
+                    <FontAwesomeIcon icon={faTrash} className="faTrashIcon" />
+                </span>
             </div>
         </li>
     );

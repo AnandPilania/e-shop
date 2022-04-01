@@ -87,7 +87,7 @@ const HeaderListCollections = ({ confirmDeleteCollection }) => {
                                 <ul className='w250 h-auto flex-col-s-s brd-gray-light-1 absolute l0 b20 bg-white shadow-s'>
                                     <li className='w100pct h40 flex-row-s-c p-l-10 brd-b-gray-light-1 cursor' onClick={showModalConditions}>
                                         {/* <FontAwesomeIcon icon={faHashtag} className="m-r-5" /> */}
-                                        <span>Gérer les conditions</span>
+                                        <span>Modifier les conditions</span>
                                     </li>
                                     <li className='w100pct h40 flex-row-s-c p-l-10 brd-b-gray-light-1'>
                                         Supprimer un tag

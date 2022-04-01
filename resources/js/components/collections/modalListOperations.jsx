@@ -124,14 +124,14 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
     const handleSave = () => {
 
         // récupère s'ils y en a les nouvelles conditions qui ne peuvent pas être dupliquées donc avec l'operator 1, 5 et 6
-        var newConditions = conditions.filter(condition => {
+        var mustNotBeDuplicate = conditions.filter(condition => {
             return (condition.operator == 1 || condition.operator == 5 || condition.operator == 6) && condition.value != '';
         })
 
-        // fusionne le nombre représentant le paramètre avec celui de l'operator pour faciliter la comparaison 
-        var tmp_tab_newConditions = [];
-        newConditions.forEach(item => {
-            tmp_tab_newConditions.push(item.parameter + item.operator);
+        // concatène le nombre représentant le paramètre avec celui de l'operator pour faciliter la comparaison 
+        var tmp_tab_mustNotBeDuplicate = [];
+        mustNotBeDuplicate.forEach(item => {
+            tmp_tab_mustNotBeDuplicate.push(item.parameter + item.operator);
         })
 
         // récupère les conditions déjà éxistantes qui sont dans le tableaux des nouvelles conditons qui ne peuvent pas être dupliquées. every et return false se charge de ne pas mettre deux fois la même collection dans la liste si elle a deux condtions qui ne peuvent pas être dupliquée   
@@ -139,23 +139,35 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
         listCollectionsFiltered.map(item => {
             // on check que les collections sélectionnées
             if (listCollectionsChecked.includes(item.id)) {
+                let id = item.id;
+                let blockConditionsToSave = {};
 
                 // on parcoure toutes les conditions de la collection
                 JSON.parse(item.objConditions).every(cond => {
-
-                    // forme le chiffre a comparer en concaténant para et oper
+                    console.log('item.id  ', item.id);
+                    console.log('cond  ', cond);
+                    // forme le chiffre a comparer en concaténant parameter et operator
                     let para_oper = cond.parameter + cond.operator;
 
                     // si duplicate condition
-                    if (tmp_tab_newConditions.includes(para_oper)) {
+                    for (let i = 0; i < conditions.length; i++) {
+                        if((conditions[i].operator == 1 || conditions[i].operator == 5 || conditions[i].operator == 6) && conditions[i].value != '') {
 
-                        // collections with duplicate condition 
+                        }
+                    }
+                    if (tmp_tab_mustNotBeDuplicate.includes(para_oper)) {
+
+                        // array of duplicates conditions -> sert pour l'affichage du warning "voulez-vous remplacer cette conditions ?"
                         let obj = { "id": item.id, "name": item.name, "condition": cond }
                         arrObj.push(obj);
 
 
+                        // !!! IL FAUT ENVOYER UN ARRAY AVEC L ID DE LA COLLECTION ET SONT BLOCK DE CONDITIONS SOUS FORME DE ARRAY OF OBJ POUR FAIRE LE REMPLACEMENT EN UNE TRAITE COTE PHP !!!
+
+                        console.log('item.objConditions  ', item.objConditions);
                         var arr = [...JSON.parse(item.objConditions)];
                         var index_arr = arr.findIndex(condition => condition.id == item.id);
+                        console.log('index_arr  ', index_arr);
                         arr[index_arr] = cond; console.log('arr  ', arr)
                         // obj = { "id": item.id, "name": item.name, "condition": arr }
                         // arrObj.push(obj);
@@ -167,7 +179,7 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
                 })
             }
         })
-        console.log('listCollectionsChecked  ', listCollectionsChecked);
+        // console.log('listCollectionsChecked  ', listCollectionsChecked);
         if (arrObj.length > 0) {
             // afficher message --> "voulez vous remplacer les condtions suivantes par les nouvelles conditions ?"
             console.log('arrObj  ', arrObj);

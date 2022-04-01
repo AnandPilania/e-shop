@@ -1,7 +1,8 @@
 import { React, useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import FlatpickrDate from '../tools/flatpickr';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, warningIdCondition, handleChangeOperator, deleteCondition }) => {
 
@@ -228,10 +229,10 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
 
             {/* Annuler */}
             <div className="remove-condition">
-                <i className="fas fa-trash-alt trashRemoveCondition"
+                <span className="trashRemoveCondition"
                     onClick={() => deleteCondition(condition.id)}>
-
-                </i>
+                    <FontAwesomeIcon icon={faTrash} className="faTrashIcon" />
+                </span>
             </div>
         </div>
     );

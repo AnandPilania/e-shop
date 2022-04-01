@@ -289,9 +289,13 @@
 
     .trashRemoveCondition {
         display: inline !important;
-        font-size: 28px;
+        font-size: 22px;
         color: black;
         margin: 0;
+    }
+
+    .remove-condition .trashRemoveCondition:hover .faTrashIcon {
+        transform: scale(1.15);
     }
 }
 
@@ -335,6 +339,7 @@
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     border: solid 2px #d2e7ff;
     transition-delay: 0.2s;
+    background-color: white;
 }
 
 /* Show the tooltip_ text when you mouse over the tooltip_ container */
@@ -600,48 +605,37 @@ span.trash-alt-dropZone {
     font-weight: bold;
 }
 
-.collection-main-container .fa-trash-alt {
+.collection-main-container .faTrash {
     display: none;
     font-size: 18px;
     transition: ease-in-out 0.15s;
 }
 
-.collection-main-container .fa-trash-alt:hover {
+.collection-main-container .faTrash:hover {
     cursor: pointer;
     color: rgb(224, 0, 0);
     font-weight: bold;
 }
 
-.collection-main-container .fa-recycle {
+.collection-main-container .faRecycle {
     display: none;
     font-size: 18px;
     margin-right: 10px;
     transition: ease-in-out 0.15s;
 }
 
-.collection-main-container .fa-recycle:hover {
-    cursor: pointer;
-    color: rgb(91, 181, 255);
-    font-weight: bold;
+.faRecycle:hover .faRecycleIcon,
+.faTrash:hover .faTrashIcon,
+.faCropDropZone:hover .faCrop,
+.faTrashDropZone:hover .faTrash {
+    transform: scale(1.15);
 }
 
-.btn-select-category .fa-trash-alt:hover {
-    cursor: pointer;
-    color: rgb(224, 0, 0);
-    font-weight: bold;
-}
-
-.btn-select-category .fa-recycle:hover {
-    cursor: pointer;
-    color: rgb(91, 181, 255);
-    font-weight: bold;
-}
-
-.li-category:hover .fa-recycle {
+.li-category:hover .faRecycle {
     display: inline;
 }
 
-.li-category:hover .fa-trash-alt {
+.li-category:hover .faTrash {
     display: inline;
 }
 

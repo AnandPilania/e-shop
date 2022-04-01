@@ -26786,19 +26786,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/sass/fontawesome.scss":
-/*!*****************************************!*\
-  !*** ./resources/sass/fontawesome.scss ***!
-  \*****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
 /***/ "./resources/css/app.css":
 /*!*******************************!*\
   !*** ./resources/css/app.css ***!
@@ -61962,7 +61949,6 @@ function combine (array, callback) {
 /******/ 			"frontend/css/index-front": 0,
 /******/ 			"frontend/css/nav-frontend": 0,
 /******/ 			"css/app": 0,
-/******/ 			"css/fontawesome": 0,
 /******/ 			"frontend/css/payment": 0,
 /******/ 			"frontend/css/authentification": 0
 /******/ 		};
@@ -62014,16 +62000,15 @@ function combine (array, callback) {
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/js/createProduct.js")))
-/******/ 	__webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/backend/myapp.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/nav-frontend.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/index-front.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/productSheet.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/cart.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/authentification.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/payment.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/fontawesome.scss")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","css/fontawesome","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/css/app.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/js/createProduct.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/backend/myapp.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/nav-frontend.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/index-front.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/productSheet.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/cart.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/authentification.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/payment.scss")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/css/app.css")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

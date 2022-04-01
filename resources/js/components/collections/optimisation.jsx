@@ -1,5 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
+
 
 
 const Optimisation = () => {
@@ -151,12 +154,14 @@ const Optimisation = () => {
                             <label>
                                 Url de la page de cette collection
                             </label>
-                            <i className="fas fa-question-circle tooltip_">
+                            <span className="faCircleQuestion tooltip_"
+                                onClick={() => confirmDeleteCategory(cat.id, cat.name)}>
+                                <FontAwesomeIcon icon={faCircleQuestion} className="faCircleQuestionIcon" />
                                 <span className="tooltiptext">Utilisez des mots clés en rapport avec le contenu de cette collection <br></br><a href="http://127.0.0.1:8000"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="linkInTooltip">Mon lien</a></span>
-                            </i>
+                            </span>
                         </div>
                         <input type='text'
                             className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"
@@ -173,9 +178,11 @@ const Optimisation = () => {
                             <label>
                                 Méta-titre de la page de cette collection
                             </label>
-                            <i className="fas fa-question-circle tooltip_">
+                            <span className="faCircleQuestion tooltip_"
+                                onClick={() => confirmDeleteCategory(cat.id, cat.name)}>
+                                <FontAwesomeIcon icon={faCircleQuestion} className="faCircleQuestionIcon" />
                                 <span className="tooltiptext">Le méta-titre est important pour le référencement d'une page web. Sa longueur idéal se situe entre 30 et 60 caractères mais il peut être plus long pour donner plus d'informations sur le contenu de la page. Toutefois, seuls les 50 premiers caractères à peu près seront affichés dans les résultats des moteurs de recherche. C'est pourquoi il est important de commence par des mots clés pertinants pour l'internaute afin d'améliorer le taux de clics vers votre page.</span>
-                            </i>
+                            </span>
                         </div>
                         <input type='text'
                             className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"
@@ -189,14 +196,16 @@ const Optimisation = () => {
                             Nombre de caractères: {metaTitle?.length > 0 ? metaTitle.length : 0}
                         </div>
                     </div>
-
+  
                     {/* meta-description */}
                     <div className="div-label-inputTxt">
                         <div className="sub-div-horiz-align">
                             <label>Méta-déscription de cette collection:</label>
-                            <i className="fas fa-question-circle tooltip_">
+                            <span className="faCircleQuestion tooltip_"
+                                onClick={() => confirmDeleteCategory(cat.id, cat.name)}>
+                                <FontAwesomeIcon icon={faCircleQuestion} className="faCircleQuestionIcon" />
                                 <span className="tooltiptext">Cette déscription sera utilisée pour décrire le contenu de cette page et donner des indications sur son contenu à l'internaute. Les moteurs de recherche affichent à peu près les 130 premiers caractères.</span>
-                            </i>
+                            </span>
                         </div>
                         <textarea
                             // style={{ opacity: "0.6" }}

@@ -25,7 +25,7 @@ mix.js('resources/js/createProduct.js', 'public/js').react()
     .sass('resources/sass/cart.scss', 'public/frontend/css')
     .sass('resources/sass/authentification.scss', 'public/frontend/css')
     .sass('resources/sass/payment.scss', 'public/frontend/css')
-    .sass('resources/sass/fontawesome.scss', 'public/css')
+    // .sass('resources/sass/fontawesome.scss', 'public/css')
     .postCss('resources/css/app.css', 'public/css', [
         require('postcss-import'),
         require("tailwindcss"),
