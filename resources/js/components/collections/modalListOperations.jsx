@@ -173,6 +173,8 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
                         // arrObj.push(obj);
 
                         //   return false;
+                    } else {
+                        let obj = { "id": item.id, "name": item.name, "condition": cond }
                     }
                     return true;
 

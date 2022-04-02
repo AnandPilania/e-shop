@@ -217,7 +217,6 @@
     max-width: 300px;
 }
 
-
 //height
 .h-auto {
     height: auto;
@@ -331,8 +330,6 @@
     max-height: 310px;
 }
 
-
-
 // min-height %
 .min-h10pct {
     min-height: 10%;
@@ -364,7 +361,6 @@
 .min-h100pct {
     min-height: 100%;
 }
-
 
 // margin
 .m-auto {
@@ -637,7 +633,6 @@
     padding: 0 30%;
 }
 
-
 // padding left
 .p-l-5 {
     padding-left: 5px;
@@ -819,7 +814,6 @@
     padding: 50px 0;
 }
 
-
 // background-color
 
 .bg-white {
@@ -983,8 +977,7 @@
     grid-template-columns: 5% 18% 7% 7% 19% 12% 12% 10% 10%;
     align-items: center;
 }
-    // grid-template-rows: 80px minmax(100px, 1fr);
-    
+// grid-template-rows: 80px minmax(100px, 1fr);
 
 .wrap {
     flex-wrap: wrap;
@@ -999,7 +992,6 @@
     object-fit: fill;
 }
 
-
 .inline {
     display: inline;
 }
@@ -1013,7 +1005,7 @@
     display: none;
 }
 .hide {
-    visibility: hidden;;
+    visibility: hidden;
 }
 .show {
     visibility: visible;
@@ -1045,7 +1037,6 @@
     font-size: 40px;
 }
 
-
 // text align
 
 .txt-l {
@@ -1070,17 +1061,17 @@
     text-overflow: ellipsis;
 }
 
-.word-break{
+.word-break {
     -ms-word-break: break-all;
     word-break: break-all;
 
- /* Non standard for webkit */
-     word-break: break-word;
+    /* Non standard for webkit */
+    word-break: break-word;
 
     -webkit-hyphens: auto;
-       -moz-hyphens: auto;
-        -ms-hyphens: auto;
-            hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
 }
 
 .scrolly {
@@ -1155,7 +1146,6 @@
     color: rgb(6, 189, 0);
 }
 
-
 // focus
 .input-foc:focus {
     outline: none;
@@ -1168,7 +1158,6 @@
 .red {
     color: red;
 }
-
 
 // border-radius
 .radius5 {
@@ -1230,10 +1219,10 @@
     position: sticky;
 }
 .t0 {
-    top:0;
+    top: 0;
 }
 .t3 {
-    top:3px;
+    top: 3px;
 }
 .t10 {
     top: 10px;
@@ -1299,26 +1288,26 @@
     bottom: 10;
 }
 .b15 {
-    bottom: 15
+    bottom: 15;
 }
 .b20 {
-    bottom: 20
+    bottom: 20;
 }
 
 .tr0 {
-    top:0;
+    top: 0;
     right: 0;
 }
 .tl0 {
-    top:0;
+    top: 0;
     left: 0;
 }
 .br0 {
-    bottom:0;
+    bottom: 0;
     right: 0;
 }
 .bl0 {
-    bottom:0;
+    bottom: 0;
     left: 0;
 }
 
@@ -1353,7 +1342,6 @@
     border-bottom: solid 1px rgb(0, 0, 0);
 }
 
-
 .brd-red-1 {
     border: solid 1px rgb(196, 0, 0);
 }
@@ -1367,8 +1355,6 @@
     border: solid 1px rgb(0, 0, 0);
 }
 
-
-
 // box-shadow
 .shadow-s {
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
@@ -1380,16 +1366,17 @@
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 .shadow-lg {
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+        0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 .shadow-l {
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+        rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }
 .shadow-xs {
     box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
         rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
-
 
 .z-10 {
     z-index: -10;
@@ -1413,6 +1400,18 @@
 .z20 {
     z-index: 20;
 }
+
+//----------CURSOR----------------------------------------------------
+.noTextSelection {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+//--------------------------------------------------------------CURSOR
+
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
@@ -1423,62 +1422,62 @@
 
 // checkBox -----------------------------------------------------------
 .check {
-  cursor: pointer;
-  position: relative;
-  margin: auto;
-  width: 18px;
-  height: 18px;
-  -webkit-tap-highlight-color: transparent;
-  transform: translate3d(0, 0, 0);
+    cursor: pointer;
+    position: relative;
+    margin: auto;
+    width: 18px;
+    height: 18px;
+    -webkit-tap-highlight-color: transparent;
+    transform: translate3d(0, 0, 0);
 }
 .check:before {
-  content: "";
-  position: absolute;
-  top: -15px;
-  left: -15px;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: rgba(34,50,84,0.03);
-  opacity: 0;
-  transition: opacity 0.2s ease;
+    content: "";
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(34, 50, 84, 0.03);
+    opacity: 0;
+    transition: opacity 0.2s ease;
 }
 .check svg {
-  position: relative;
-  z-index: 1;
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke: #c8ccd4;
-  stroke-width: 1.5;
-  transform: translate3d(0, 0, 0);
-  transition: all 0.2s ease;
+    position: relative;
+    z-index: 1;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke: #c8ccd4;
+    stroke-width: 1.5;
+    transform: translate3d(0, 0, 0);
+    transition: all 0.2s ease;
 }
 .check svg path {
-  stroke-dasharray: 60;
-  stroke-dashoffset: 0;
+    stroke-dasharray: 60;
+    stroke-dashoffset: 0;
 }
 .check svg polyline {
-  stroke-dasharray: 22;
-  stroke-dashoffset: 66;
+    stroke-dasharray: 22;
+    stroke-dashoffset: 66;
 }
 .check:hover:before {
-  opacity: 1;
+    opacity: 1;
 }
 .check:hover svg {
-  stroke: #0666ff;
+    stroke: #0666ff;
 }
 .cbx:checked + .check svg {
-  stroke: #0666ff;
+    stroke: #0666ff;
 }
 .cbx:checked + .check svg path {
-  stroke-dashoffset: 60;
-  transition: all 0.2s linear;
+    stroke-dashoffset: 60;
+    transition: all 0.2s linear;
 }
 .cbx:checked + .check svg polyline {
-  stroke-dashoffset: 42;
-  transition: all 0.15s linear;
-  transition-delay: 0.15s;
+    stroke-dashoffset: 42;
+    transition: all 0.15s linear;
+    transition-delay: 0.15s;
 }
 // ----------------------------------------------------------- checkBox
 
@@ -1489,18 +1488,18 @@
     max-width: 600px;
     margin: 30px auto;
     &__body {
-      background-color: #f2f2f2;
-      padding: 10px 20px;
+        background-color: #f2f2f2;
+        padding: 10px 20px;
     }
-  }
-  
-  .Tabs {
+}
+
+.Tabs {
     position: relative;
     background-color: #fff;
     &:after {
-      content: ' ';
-      display: table;
-      clear: both;
+        content: " ";
+        display: table;
+        clear: both;
     }
     margin: 0;
     padding: 0;
@@ -1510,36 +1509,36 @@
      * property. You can see old code lower down for reference.
      */
     &__tab {
-      float: left;
-      width: 33.333%;
-      text-align: center;
-      &:first-child.active ~ .Tabs__presentation-slider {
-        transform: translateX(0) scaleX(0.333);
-      }
-      &:nth-child(2).active ~ .Tabs__presentation-slider {
-        transform: translateX(33.333%) scaleX(0.333);
-      }
-      &:nth-child(3).active ~ .Tabs__presentation-slider {
-        transform: translateX(calc(33.333% * 2)) scaleX(0.333);
-      }
+        float: left;
+        width: 33.333%;
+        text-align: center;
+        &:first-child.active ~ .Tabs__presentation-slider {
+            transform: translateX(0) scaleX(0.333);
+        }
+        &:nth-child(2).active ~ .Tabs__presentation-slider {
+            transform: translateX(33.333%) scaleX(0.333);
+        }
+        &:nth-child(3).active ~ .Tabs__presentation-slider {
+            transform: translateX(calc(33.333% * 2)) scaleX(0.333);
+        }
     }
     &__presentation-slider {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background-color: #4A66F4;
-      transform-origin: 0 0;
-      transition: transform .25s;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: #4a66f4;
+        transform-origin: 0 0;
+        transition: transform 0.25s;
     }
-    
+
     /**
      * OLD CODE (for reference)
      * It's a bit easier to understand with "left",
      * but the animation is not as smooth
      */
-  
+
     /* &__tab {
       float: left;
       width: 33.333%;
@@ -1564,28 +1563,28 @@
       transform-origin: 0 0;
       transition: left .25s;
     } */
-  }
-  
-  .Tab {
-    font-family: 'Roboto Slab';
+}
+
+.Tab {
+    font-family: "Roboto Slab";
     > a {
-      display: block;
-      padding: 10px 12px;
-      text-decoration: none;
-      color: #666;
-      transition: color .15s;
+        display: block;
+        padding: 10px 12px;
+        text-decoration: none;
+        color: #666;
+        transition: color 0.15s;
     }
     &.active {
-      > a {
-        color: #222;
-      }
+        > a {
+            color: #222;
+        }
     }
     &:hover {
-      > a {
-        color: #222;
-      }
+        > a {
+            color: #222;
+        }
     }
-  }
+}
 
 // -------------------------------------------------------- tabs slide
 
@@ -1647,5 +1646,3 @@
     -o-transition: ease 0.3s;
 }
 //-------------------------------------------------------------toogle button
-
-

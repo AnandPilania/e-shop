@@ -56,6 +56,7 @@ class CollectionController extends Controller
         if ($request->id !== 'null') {
             // if collection is edited
             $collection = Collection::find($request->id);
+            $statusHasBeenChanged = $collection->statusHasBeenChanged;
             // to delete previous image collection and thumbnail - see above
             $imageToDelete = public_path('/') . $collection->image;
             $thumbNailToDelete = public_path('/') . $collection->thumbnail;
@@ -101,7 +102,15 @@ class CollectionController extends Controller
         // Retourne un nouvel objet DateTime représentant la date et l'heure spécifiées par la string time, qui a été formaté dans le format donné.
         $date = DateTime::createFromFormat('d-m-Y H:i:s', $request->dateActivation);
         $collection->dateActivation = $date->format('Y-m-d H:i:s');
-        $collection->status = $date->format('Y-m-d H:i:s') <= date('Y-m-d H:i:s') ? 1 : 2;
+        // si $statusHasBeenChanged existe c'est qu'on est en édition et si il est == 0 c'est qu'on a pas encore changé son statut manuellement donc le status dépend de la date d'activation. Le statut 2 c'est quand la date d'activation n'est pas encore arrivée
+        if (isset($statusHasBeenChanged)) {
+            if ($statusHasBeenChanged == 0) {
+                $collection->status = $date->format('Y-m-d H:i:s') <= date('Y-m-d H:i:s') ? 1 : 2;
+            }
+        } else {
+            $collection->statusHasBeenChanged = 0;
+            $collection->status = $date->format('Y-m-d H:i:s') <= date('Y-m-d H:i:s') ? 1 : 2;
+        }
         $collection->category_id = $request->categoryId;
         $collection->alt = $request->alt !== null ? $request->alt :  $request->name;
 
@@ -231,6 +240,7 @@ class CollectionController extends Controller
     {
         $collection = Collection::find($request->id);
         $collection->status = intval($request->status) == 1 ? 0 : 1;
+        $collection->statusHasBeenChanged = 1;
         $collection->save();
 
         $collections = Collection::where('id', $request->id)->with('category', 'products')->orderBy('created_at', 'desc')->first();

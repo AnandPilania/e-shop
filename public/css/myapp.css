@@ -3191,6 +3191,14 @@ a.link:hover {
   z-index: 20;
 }
 
+.noTextSelection {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 .check {
   cursor: pointer;
   position: relative;
@@ -3334,7 +3342,7 @@ a.link:hover {
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #4A66F4;
+  background-color: #4a66f4;
   transform-origin: 0 0;
   transition: transform 0.25s;
 }
