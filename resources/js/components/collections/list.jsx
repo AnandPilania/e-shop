@@ -33,7 +33,7 @@ const ListCollections = () => {
             // chargement des collections
             Axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
                 .then(res => {
-                    // listCollections permet de garder la liste complète des collections pour certaines fonctions qui ont besoin que toutes les collections soit parcourues ce qui n'est pas toujours le cas avec listCollectionsFiltered qui est principalement utilisé pour afficher les collections
+                    // listCollections permet de garder la liste complète des collections pour certaines fonctions qui ont besoin que toutes les collections soit parcourues ce qui n'est pas toujours le cas avec listCollectionsFiltered qui est principalement utilisé pour afficher les collections avec ou sans filtre
                     setListCollections(res.data[0]);
                     setListCollectionsFiltered(res.data[0]);
                     setListCategories(res.data[1]);

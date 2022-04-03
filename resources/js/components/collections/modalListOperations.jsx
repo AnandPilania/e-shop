@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 import ConditionsForm from './conditionsForm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { DialpadOutlined } from '@material-ui/icons';
 
 const useStyles = makeStyles({
     modal: {
@@ -124,76 +125,46 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
     const handleSave = () => {
 
         // récupère s'ils y en a les nouvelles conditions qui ne peuvent pas être dupliquées donc avec l'operator 1, 5 et 6
-        var mustNotBeDuplicate = conditions.filter(condition => {
-            return (condition.operator == 1 || condition.operator == 5 || condition.operator == 6) && condition.value != '';
+        var duplicate = conditions.filter(item => {
+            return (item.operator == 1 || item.operator == 5 || item.operator == 6) && item.value != '';
         })
 
-        // concatène le nombre représentant le paramètre avec celui de l'operator pour faciliter la comparaison 
-        var tmp_tab_mustNotBeDuplicate = [];
-        mustNotBeDuplicate.forEach(item => {
-            tmp_tab_mustNotBeDuplicate.push(item.parameter + item.operator);
-        })
-
-        // récupère les conditions déjà éxistantes qui sont dans le tableaux des nouvelles conditons qui ne peuvent pas être dupliquées. every et return false se charge de ne pas mettre deux fois la même collection dans la liste si elle a deux condtions qui ne peuvent pas être dupliquée   
-        let arrObj = [];
+        let arrWarning = [];
+        let blockConditionsToSave = [];
         listCollectionsFiltered.map(item => {
             // on check que les collections sélectionnées
             if (listCollectionsChecked.includes(item.id)) {
-                let id = item.id;
-                let blockConditionsToSave = {};
-
-                // on parcoure toutes les conditions de la collection
-                JSON.parse(item.objConditions).every(cond => {
-                    console.log('item.id  ', item.id);
-                    console.log('cond  ', cond);
-                    // forme le chiffre a comparer en concaténant parameter et operator
-                    let para_oper = cond.parameter + cond.operator;
-
-                    // si duplicate condition
-                    for (let i = 0; i < conditions.length; i++) {
-                        if((conditions[i].operator == 1 || conditions[i].operator == 5 || conditions[i].operator == 6) && conditions[i].value != '') {
-
-                        }
-                    }
-                    if (tmp_tab_mustNotBeDuplicate.includes(para_oper)) {
-
-                        // array of duplicates conditions -> sert pour l'affichage du warning "voulez-vous remplacer cette conditions ?"
-                        let obj = { "id": item.id, "name": item.name, "condition": cond }
-                        arrObj.push(obj);
-
-
-                        // !!! IL FAUT ENVOYER UN ARRAY AVEC L ID DE LA COLLECTION ET SONT BLOCK DE CONDITIONS SOUS FORME DE ARRAY OF OBJ POUR FAIRE LE REMPLACEMENT EN UNE TRAITE COTE PHP !!!
-
-                        console.log('item.objConditions  ', item.objConditions);
-                        var arr = [...JSON.parse(item.objConditions)];
-                        var index_arr = arr.findIndex(condition => condition.id == item.id);
-                        console.log('index_arr  ', index_arr);
-                        arr[index_arr] = cond; console.log('arr  ', arr)
-                        // obj = { "id": item.id, "name": item.name, "condition": arr }
-                        // arrObj.push(obj);
-
-                        //   return false;
+                let arrObj = [];
+                // on remplace les conditions qui ne peuvent pas être dupliquées
+                JSON.parse(item.objConditions).forEach(cond => {
+                    if (cond.operator != 1 && cond.operator != 5 && cond.operator != 6) {
+                        arrObj.push(cond);
                     } else {
-                        let obj = { "id": item.id, "name": item.name, "condition": cond }
+                        let tmpObj = { "name": item.name, "condition": cond }
+                        arrWarning.push(tmpObj);
                     }
-                    return true;
-
-                })
+                }
+                )
+                let tmp_cond_to_save = { "id": item.id, "conditons": arrObj.concat(duplicate) }
+                blockConditionsToSave.push(tmp_cond_to_save);
             }
-        })
-        // console.log('listCollectionsChecked  ', listCollectionsChecked);
-        if (arrObj.length > 0) {
+        }
+        )
+        console.log('blockConditionsToSave  ', blockConditionsToSave);
+
+
+        if (arrWarning.length > 0) {
             // afficher message --> "voulez vous remplacer les condtions suivantes par les nouvelles conditions ?"
-            console.log('arrObj  ', arrObj);
+            // console.log('arrWarning  ', arrWarning);
         }
 
         // détermine si on ajoute des conditions ou si on nen supprime
         let typeOperation = typeOperationListCollections === 0 ? 'save' : 'delete';
 
         let formData = new FormData;
-        formData.append('arrObj', JSON.stringify(arrObj));
-        formData.append('conditions', JSON.stringify(conditions));
-        formData.append('typeOperation', typeOperation);
+        // formData.append('arrObj', JSON.stringify(arrObj));
+        // formData.append('conditions', JSON.stringify(conditions));
+        // formData.append('typeOperation', typeOperation);
 
         Axios.post(`http://127.0.0.1:8000/addCondtionsToGroup`, formData)
             .then(res => {
