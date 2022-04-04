@@ -84,9 +84,12 @@ class GetArrayOfConditions
                     } else if ($field === 'tag') {
                         $tag = Tag::where('name', $value)
                             ->first();
-                        foreach ($tag->products as $product) {
-                            $list_match[] = $product->id;
-                        }
+                            if (isset($tag) && !empty($tag)) 
+                            {
+                                foreach ($tag->products as $product) {
+                                    $list_match[] = $product->id;
+                                }
+                            }
                         break;
                     } else {
                         $variantes = Variante::where($field, $value)

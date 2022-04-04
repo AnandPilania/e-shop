@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from 'react';
 import AppContext from '../contexts/AppContext';
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import Axios from 'axios';
 import { getNow } from '../functions/dateTools';
@@ -232,7 +232,7 @@ const Appcontainer = () => {
         return urlName;
     };
 
-    const location = useLocation();
+    // const location = useLocation();
 
     //ModalConfirm--------------------------------------------------------------
     const handleModalConfirm = () => {
@@ -281,7 +281,7 @@ const Appcontainer = () => {
         setShowModalConfirm(false);
         setShowModalSimpleMessage(false);
         setShowModalInput(false);
-        setShowModalListOperations(false);
+        sender != 'newConditions' && setShowModalListOperations(false);
     };
 
 

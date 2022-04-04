@@ -5,7 +5,6 @@ import ConditionCollection from './conditionCollection';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 
@@ -150,7 +149,8 @@ const ConditionsForm = () => {
               <ConditionCollection
                 key={i}
                 handleChangeParam={handleChangeParam}
-                handleChangeOperator={handleChangeOperator} handleChangeValue={handleChangeValue}
+                handleChangeOperator={handleChangeOperator} 
+                handleChangeValue={handleChangeValue}
                 condition={condition}
                 deleteCondition={deleteCondition}
                 warningIdCondition={warningIdCondition}

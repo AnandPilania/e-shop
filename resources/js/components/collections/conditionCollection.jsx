@@ -153,7 +153,7 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
 
         setHideOp1('show'); // est égale à
         // met l'opérator à est égale à lorsqu'on change le paramètre. 'c'est un init du champ operator'
-        handleChangeOperator(1, condition.id)
+        handleChangeOperator('1', condition.id)
         // show / hide value field
         handleHideFieldValue();
 

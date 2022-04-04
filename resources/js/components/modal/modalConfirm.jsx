@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles({
@@ -93,10 +93,22 @@ const useStyles = makeStyles({
 });
 
 
-const ModalConfirm = ({ handleModalConfirm, handleModalCancel, textButtonConfirm, show, image, children }) => {
+const ModalConfirm = ({ handleModalConfirm, handleModalCancel, textButtonConfirm, show, image, children, messageAsHtml }) => {
     const classes = useStyles();
     const showHideClassName = show ? classes.displayBlock : classes.displayNone;
 
+    const messageRef = useRef();
+
+
+    if (!!messageAsHtml) {
+        console.log('html  -->  ', messageAsHtml.querySelectorAll('div')[0]);
+        messageRef.current.innerHTML = messageAsHtml.querySelectorAll('div')[0];
+        // messageRef.current.appendChild(messageAsHtml.querySelectorAll('div')[0]);
+    }
+
+    useEffect(() => {
+        console.log('messageAsHtml  -->  ', messageAsHtml);
+    }, []);
 
     return (
         <div className={classes.modal + ' ' + showHideClassName}>
@@ -105,8 +117,11 @@ const ModalConfirm = ({ handleModalConfirm, handleModalCancel, textButtonConfirm
                 <div className={classes.close}><i className={classes.faTimes + ' ' + "fas fa-times"} onClick={handleModalCancel}></i></div>
 
                 <img src={image} />
+                
+                <div ref={messageRef}></div>
 
-                {children}
+                {/* {messageAsHtml} */}
+                {/* {children} */}
 
                 <div className={classes.BlockButtons}>
                     <button className={classes.btnModal} onClick={handleModalConfirm}>

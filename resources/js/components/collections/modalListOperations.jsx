@@ -3,9 +3,12 @@ import AppContext from '../contexts/AppContext';
 import Axios from 'axios';
 import { makeStyles } from '@material-ui/styles';
 import ConditionsForm from './conditionsForm';
+import { getParameter, getOperator } from './conditionsFunctions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { DialpadOutlined } from '@material-ui/icons';
+import ModalConfirm from '../modal/modalConfirm';
+
+
 
 const useStyles = makeStyles({
     modal: {
@@ -118,15 +121,15 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
     const classes = useStyles();
     const showHideClassName = show ? classes.displayBlock : classes.displayNone;
 
-    const { conditions, listCollectionsFiltered, listCollectionsChecked, typeOperationListCollections, setConditions } = useContext(AppContext);
+    const { conditions, listCollectionsFiltered, listCollectionsChecked, typeOperationListCollections, setConditions, messageModal, textButtonConfirm, imageModal, showModalConfirm, handleModalConfirm, handleModalCancel, setMessageModal, setTmp_parameter, setTextButtonConfirm, setImageModal, setSender, setShowModalConfirm } = useContext(AppContext);
 
     const textButton = typeOperationListCollections == 0 ? "Enregistrer" : "Supprimer"
 
     const handleSave = () => {
 
-        // récupère s'ils y en a les nouvelles conditions qui ne peuvent pas être dupliquées donc avec l'operator 1, 5 et 6
-        var duplicate = conditions.filter(item => {
-            return (item.operator == 1 || item.operator == 5 || item.operator == 6) && item.value != '';
+        // combine parameter et operator pour pouvoir vérifier s'il n y a pas de conditions dupliquées
+        var newCondParaOper = conditions.map(item => {
+            return item.parameter + item.operator;
         })
 
         let arrWarning = [];
@@ -135,27 +138,51 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
             // on check que les collections sélectionnées
             if (listCollectionsChecked.includes(item.id)) {
                 let arrObj = [];
-                // on remplace les conditions qui ne peuvent pas être dupliquées
+                // on récupère que les conditions avec la combinaison de (parameter et operator) pas présente dans les nouvelles condtions pour ne pas avoir de duplications de conditions
                 JSON.parse(item.objConditions).forEach(cond => {
-                    if (cond.operator != 1 && cond.operator != 5 && cond.operator != 6) {
+                    if (!newCondParaOper.includes((cond.parameter + cond.operator))) {
                         arrObj.push(cond);
                     } else {
                         let tmpObj = { "name": item.name, "condition": cond }
                         arrWarning.push(tmpObj);
                     }
-                }
-                )
-                let tmp_cond_to_save = { "id": item.id, "conditons": arrObj.concat(duplicate) }
+                })
+                // ensuite on ajoute les nouvelles condtions. s'il y a des conditions qui ne pouvaient pas être dupliquées, elles sont remplacées par le nouvelles en concaténant les arrays
+                let tmp_cond_to_save = { "id": item.id, "conditons": arrObj.concat(conditions) }
                 blockConditionsToSave.push(tmp_cond_to_save);
             }
-        }
-        )
-        console.log('blockConditionsToSave  ', blockConditionsToSave);
+        })
 
+        console.log('blockConditionsToSave  ', blockConditionsToSave);
+        console.log('arrWarning  ', arrWarning);
+        console.log('newCondParaOper  ', newCondParaOper);
+        console.log('conditions  ', conditions);
 
         if (arrWarning.length > 0) {
-            // afficher message --> "voulez vous remplacer les condtions suivantes par les nouvelles conditions ?"
-            // console.log('arrWarning  ', arrWarning);
+
+            let txt = [];
+            arrWarning.forEach(item => {
+                txt.push(getParameter(item.condition.parameter) + ' ' + getOperator(item.condition.operator) + ' ' + item.condition.value);
+            })
+
+            let textMessage = "<div> Voulez vous remplacer les condtions suivantes par vos nouvelles conditions ?" + "<br>" + txt.toString().replaceAll(',', '<br>') + "</div>";
+
+
+            var stringToHTML = function (str) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(str, 'text/html');
+                return doc.body;
+            };
+            
+            console.log('text  ', txt.toString());
+            console.log('stringToHTML  ', stringToHTML(textMessage));
+
+            setMessageModal(stringToHTML(textMessage));
+            setTmp_parameter(blockConditionsToSave);
+            setTextButtonConfirm('Confirmer');
+            setImageModal('../images/icons/trash_dirty.png');
+            setSender('newConditions');
+            setShowModalConfirm(true);
         }
 
         // détermine si on ajoute des conditions ou si on nen supprime
@@ -166,15 +193,15 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
         // formData.append('conditions', JSON.stringify(conditions));
         // formData.append('typeOperation', typeOperation);
 
-        Axios.post(`http://127.0.0.1:8000/addCondtionsToGroup`, formData)
-            .then(res => {
-                console.log('res.data  --->  ok');
-                if (res.data === 'ok') {
+        // Axios.post(`http://127.0.0.1:8000/addCondtionsToGroup`, formData)
+        //     .then(res => {
+        //         console.log('res.data  --->  ok');
+        //         if (res.data === 'ok') {
 
-                }
-            }).catch(function (error) {
-                console.log('error:   ' + error);
-            });
+        //         }
+        //     }).catch(function (error) {
+        //         console.log('error:   ' + error);
+        //     });
 
     }
 
@@ -197,6 +224,16 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
                 </div>
 
             </section>
+
+            <ModalConfirm
+                show={showModalConfirm} // true/false show modal
+                handleModalConfirm={handleModalConfirm}
+                handleModalCancel={handleModalCancel}
+                textButtonConfirm={textButtonConfirm}
+                messageAsHtml={messageModal}
+                image={imageModal}>
+                {/* <h2 className="childrenModal">{messageModal}</h2> */}
+            </ModalConfirm>
         </div>
     );
 };
