@@ -65,7 +65,7 @@ const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
         };
     }, []);
     // ferme le select de category quand on click en dehors du select
-    function closeDropDownCategory(evt) {
+    function closeDropDownCategory(evt) { 
         const categorySelectElement = document.getElementById("selectId");
         let targetElement = evt.target; // clicked element
 

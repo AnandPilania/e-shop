@@ -252,6 +252,14 @@ class CollectionController extends Controller
     // Opérations sur plusieurs collections à partir de la liste des collections
     public function addCondtionsToGroup(Request $request)
     {
-        dd($request);
+        $newConditions = json_decode($request->conditions);
+        // dd(json_decode($request->conditions));
+        foreach ($newConditions as $item) {
+            $collection = Collection::find($item->id);
+            $collection->objConditions = $item->conditions;
+            $collection->save();
+        }
+
+        return 'ok';
     }
 }

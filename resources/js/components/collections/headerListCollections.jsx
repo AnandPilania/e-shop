@@ -15,18 +15,18 @@ const HeaderListCollections = ({ confirmDeleteCollection }) => {
 
     useEffect(() => {
         // empèche l'erreur-> Warning: Can't perform a React state update on an unmounted
-        document.addEventListener('click', closeDropDownCategory);
+        document.addEventListener('click', closeDropDownOperations);
         return () => {
-            document.removeEventListener('click', closeDropDownCategory);
+            document.removeEventListener('click', closeDropDownOperations);
         };
     }, []);
     // ferme le select de category quand on click en dehors du select
-    function closeDropDownCategory(evt) {
-        const categorySelectElement = document.getElementById("selectId");
+    function closeDropDownOperations(evt) { 
+        const operationsElement = document.getElementById("operationsDropDown_Id");
         let targetElement = evt.target; // clicked element
 
         do {
-            if (targetElement == categorySelectElement) {
+            if (targetElement == operationsElement) {
                 // click inside
                 return;
             }
@@ -76,7 +76,7 @@ const HeaderListCollections = ({ confirmDeleteCollection }) => {
                 {listCollectionsChecked.length > 0 &&
 
                     <div className="w500 h40 flex-row-s-c m-l-auto">
-                        <div id="selectId" className='w250 h40 relative bg-white'>
+                        <div id="operationsDropDown_Id" className='w250 h40 relative bg-white'>
                             <button className='w250 h40 flex-row-s-c brd-gray-light-1 dius-t-round5-b-square'
                                 onClick={showHideOperationDrop}>
                                 <FontAwesomeIcon icon={faGear} className="m-l-10 m-r-10" />

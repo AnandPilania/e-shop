@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import Axios from 'axios';
 import { makeStyles } from '@material-ui/styles';
@@ -121,7 +121,11 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
     const classes = useStyles();
     const showHideClassName = show ? classes.displayBlock : classes.displayNone;
 
-    const { conditions, listCollectionsFiltered, listCollectionsChecked, typeOperationListCollections, setConditions, messageModal, textButtonConfirm, imageModal, showModalConfirm, handleModalConfirm, handleModalCancel, setMessageModal, setTmp_parameter, setTextButtonConfirm, setImageModal, setSender, setShowModalConfirm } = useContext(AppContext);
+    const [messageModalListOperations, setMessageModalListOperations] = useState('');
+    const [textButtonConfirmOperations, setTextButtonConfirmOperations] = useState('');
+    // const [tmp_parameterOperations, setTmp_parameterOperations] = useState('');
+
+    const { conditions, listCollectionsFiltered, listCollectionsChecked, typeOperationListCollections, imageModal, setImageModal, setSender, tmp_parameter, setTmp_parameter, setSenderCancel, showModalConfirmOperations, setShowModalConfirmOperations } = useContext(AppContext);
 
     const textButton = typeOperationListCollections == 0 ? "Enregistrer" : "Supprimer"
 
@@ -148,15 +152,10 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
                     }
                 })
                 // ensuite on ajoute les nouvelles condtions. s'il y a des conditions qui ne pouvaient pas être dupliquées, elles sont remplacées par le nouvelles en concaténant les arrays
-                let tmp_cond_to_save = { "id": item.id, "conditons": arrObj.concat(conditions) }
+                let tmp_cond_to_save = { "id": item.id, "conditions": arrObj.concat(conditions) }
                 blockConditionsToSave.push(tmp_cond_to_save);
             }
         })
-
-        console.log('blockConditionsToSave  ', blockConditionsToSave);
-        console.log('arrWarning  ', arrWarning);
-        console.log('newCondParaOper  ', newCondParaOper);
-        console.log('conditions  ', conditions);
 
         if (arrWarning.length > 0) {
 
@@ -167,42 +166,25 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
 
             let textMessage = "<div> Voulez vous remplacer les condtions suivantes par vos nouvelles conditions ?" + "<br>" + txt.toString().replaceAll(',', '<br>') + "</div>";
 
-
-            var stringToHTML = function (str) {
-                var parser = new DOMParser();
-                var doc = parser.parseFromString(str, 'text/html');
-                return doc.body;
-            };
-            
-            console.log('text  ', txt.toString());
-            console.log('stringToHTML  ', stringToHTML(textMessage));
-
-            setMessageModal(stringToHTML(textMessage));
+            setMessageModalListOperations(textMessage);
             setTmp_parameter(blockConditionsToSave);
-            setTextButtonConfirm('Confirmer');
+            setTextButtonConfirmOperations('Confirmer');
             setImageModal('../images/icons/trash_dirty.png');
-            setSender('newConditions');
-            setShowModalConfirm(true);
+            setSender('addNewConditions');
+            setSenderCancel('addNewConditions');
+            setShowModalConfirmOperations(true);
+        } else {
+            let newConditionsData = new FormData;
+            newConditionsData.append('conditions', JSON.stringify(blockConditionsToSave));
+            Axios.post(`http://127.0.0.1:8000/addCondtionsToGroup`, newConditionsData)
+                .then(res => {
+                    if (res.data === 'ok') {
+                        console.log('res.data  --->  ok');
+                    }
+                }).catch(function (error) {
+                    console.log('error:   ' + error);
+                });
         }
-
-        // détermine si on ajoute des conditions ou si on nen supprime
-        let typeOperation = typeOperationListCollections === 0 ? 'save' : 'delete';
-
-        let formData = new FormData;
-        // formData.append('arrObj', JSON.stringify(arrObj));
-        // formData.append('conditions', JSON.stringify(conditions));
-        // formData.append('typeOperation', typeOperation);
-
-        // Axios.post(`http://127.0.0.1:8000/addCondtionsToGroup`, formData)
-        //     .then(res => {
-        //         console.log('res.data  --->  ok');
-        //         if (res.data === 'ok') {
-
-        //         }
-        //     }).catch(function (error) {
-        //         console.log('error:   ' + error);
-        //     });
-
     }
 
 
@@ -225,15 +207,13 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
 
             </section>
 
-            <ModalConfirm
-                show={showModalConfirm} // true/false show modal
-                handleModalConfirm={handleModalConfirm}
-                handleModalCancel={handleModalCancel}
-                textButtonConfirm={textButtonConfirm}
-                messageAsHtml={messageModal}
-                image={imageModal}>
-                {/* <h2 className="childrenModal">{messageModal}</h2> */}
-            </ModalConfirm>
+            {messageModalListOperations?.length > 0 &&
+                <ModalConfirm
+                    show={showModalConfirmOperations} // true/false show modal
+                    textButtonConfirm={textButtonConfirmOperations}
+                    messageModal={messageModalListOperations}
+                    image={imageModal}>
+                </ModalConfirm>}
         </div>
     );
 };

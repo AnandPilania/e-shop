@@ -83,8 +83,10 @@ const Appcontainer = () => {
     const [showModalCroppeImage, setShowModalCroppeImage] = useState(false);
     const [showModalInput, setShowModalInput] = useState(false);
     const [showModalListOperations, setShowModalListOperations] = useState(false);
+    const [showModalConfirmOperations, setShowModalConfirmOperations] = useState('');
     const [messageModal, setMessageModal] = useState('');
     const [sender, setSender] = useState(''); // for modal
+    const [senderCancel, setSenderCancel] = useState('');
     const [inputTextModify, setInputTextModify] = useState('');
     const [textButtonConfirm, setTextButtonConfirm] = useState('Confirmer');
     const [imageModal, setImageModal] = useState('');
@@ -271,6 +273,18 @@ const Appcontainer = () => {
                 setIsDirty(false);
                 initCollectionForm();
                 break;
+            case 'addNewConditions':
+                let newConditionsData = new FormData;
+                newConditionsData.append('conditions', JSON.stringify(tmp_parameter));
+                Axios.post(`http://127.0.0.1:8000/addCondtionsToGroup`, newConditionsData)
+                    .then(res => {
+                        if (res.data === 'ok') {
+                            console.log('res.data  --->  ok');
+                        }
+                    }).catch(function (error) {
+                        console.log('error:   ' + error);
+                    });
+                break;
             default:
                 '';
         }
@@ -279,9 +293,11 @@ const Appcontainer = () => {
 
     const handleModalCancel = () => {
         setShowModalConfirm(false);
+        setShowModalConfirmOperations(false);
         setShowModalSimpleMessage(false);
         setShowModalInput(false);
-        sender != 'newConditions' && setShowModalListOperations(false);
+        senderCancel != 'addNewConditions' && setShowModalListOperations(false);
+        setSenderCancel(false);
     };
 
 
@@ -335,11 +351,13 @@ const Appcontainer = () => {
         deleteThisCollection, setDeleteThisCollection,
         hasBeenChanged, setHasBeenChanged,
         wrapIndexcroppe, setWrapIndexcroppe,
-        isNot_isEdit, setIsNot_isEdit, 
+        isNot_isEdit, setIsNot_isEdit,
         listCollectionsChecked, setListCollectionsChecked,
         listCollectionsFiltered, setListCollectionsFiltered,
         showModalListOperations, setShowModalListOperations,
         typeOperationListCollections, setTypeOperationListCollections,
+        senderCancel, setSenderCancel,
+        showModalConfirmOperations, setShowModalConfirmOperations,
 
     }
 
@@ -355,7 +373,7 @@ const Appcontainer = () => {
                     <Route path="/editProduct/:productId" element={<EditProduct />} />
                     <Route path="/editImagesProduct/:product_id" element={<EditImages />} />
 
-                    
+
                     <Route path="/collections-list" element={<ListCollections />} />
                     <Route path="/add-collection" element={<WrapIndexcroppe />} />
                     {/* <Route path="/cropImage" element={<CroppeImage />} /> */}

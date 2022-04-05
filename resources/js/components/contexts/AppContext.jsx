@@ -43,7 +43,7 @@ export default React.createContext({
     setTmp_parameter: () => { },
     deleteThisCategory: '',
     setDeleteThisCategory: () => { },
-    handleModalConfirm: '',
+    handleModalConfirm: () => { },
     handleModalCancel: () => { },
     nameCollection: '',
     setNameCollection: () => { },
@@ -104,5 +104,9 @@ export default React.createContext({
     setShowModalListOperations: () => { },
     typeOperationListCollections: '', 
     setTypeOperationListCollections: () => { },
+    senderCancel: '', 
+    setSenderCancel: () => { },
+    showModalConfirmOperations: '',
+    setShowModalConfirmOperations: () => { },
 
 });

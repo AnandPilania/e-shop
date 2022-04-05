@@ -1,5 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useContext } from 'react';
+import AppContext from '../contexts/AppContext';
 import { makeStyles } from '@material-ui/styles';
+import parse from 'html-react-parser';
 
 const useStyles = makeStyles({
     modal: {
@@ -89,26 +91,21 @@ const useStyles = makeStyles({
 
     displayNone: {
         display: 'none',
+    },
+    
+    textMessage: {
+        color: 'black',
+        fontSize: '16px',
+        zIndex: "100000"
     }
 });
 
 
-const ModalConfirm = ({ handleModalConfirm, handleModalCancel, textButtonConfirm, show, image, children, messageAsHtml }) => {
+const ModalConfirm = ({ textButtonConfirm, show, image, messageModal, children }) => {
     const classes = useStyles();
     const showHideClassName = show ? classes.displayBlock : classes.displayNone;
 
-    const messageRef = useRef();
-
-
-    if (!!messageAsHtml) {
-        console.log('html  -->  ', messageAsHtml.querySelectorAll('div')[0]);
-        messageRef.current.innerHTML = messageAsHtml.querySelectorAll('div')[0];
-        // messageRef.current.appendChild(messageAsHtml.querySelectorAll('div')[0]);
-    }
-
-    useEffect(() => {
-        console.log('messageAsHtml  -->  ', messageAsHtml);
-    }, []);
+    const { handleModalConfirm, handleModalCancel } = useContext(AppContext);
 
     return (
         <div className={classes.modal + ' ' + showHideClassName}>
@@ -118,10 +115,11 @@ const ModalConfirm = ({ handleModalConfirm, handleModalCancel, textButtonConfirm
 
                 <img src={image} />
                 
-                <div ref={messageRef}></div>
+                {/* conversion d'un message en html pour affichage structuré */}
+                <div className="textMessage">{messageModal?.length > 0 && parse(messageModal)}</div>
 
-                {/* {messageAsHtml} */}
-                {/* {children} */}
+                {/* children affiche les méssages passés en children quand il y en a */}
+                {children}
 
                 <div className={classes.BlockButtons}>
                     <button className={classes.btnModal} onClick={handleModalConfirm}>

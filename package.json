@@ -43,6 +43,7 @@
         "@mui/styles": "^5.2.3",
         "@tinymce/tinymce-react": "^3.13.0",
         "axios-progress-bar": "^1.2.0",
+        "html-react-parser": "^1.4.10",
         "material-ui": "^0.20.0",
         "npm-check-updates": "^12.1.0",
         "react-color": "^2.19.3",
