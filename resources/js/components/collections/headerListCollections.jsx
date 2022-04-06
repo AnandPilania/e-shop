@@ -10,7 +10,7 @@ const HeaderListCollections = ({ confirmDeleteCollection }) => {
     const [isShowOperationDrop, setIsShowOperationDrop] = useState(false);
     const [sender, setSender] = useState('');
 
-    const { setIs_Edit, is, setIs, initCollectionForm, messageModal, inputTextModify, setInputTextModify, listCollectionsChecked, showModalListOperations, setShowModalListOperations } = useContext(AppContext);
+    const { setIs_Edit, is, setIs, initCollectionForm, listCollectionsChecked, showModalListOperations, setShowModalListOperations } = useContext(AppContext);
 
 
     useEffect(() => {
@@ -45,6 +45,7 @@ const HeaderListCollections = ({ confirmDeleteCollection }) => {
     }
 
     function showModalConditions() {
+        // sender doit être = à conditions pour afficher <ConditionsForm /> dans ModalListOperations
         setSender('conditions');
         setShowModalListOperations(true);
         setIsShowOperationDrop(false);

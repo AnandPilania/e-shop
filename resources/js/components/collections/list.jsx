@@ -61,8 +61,7 @@ const ListCollections = () => {
         // add category name in the new property categoryName
         listCollections && listCollections.map((item, index) => {
             listCollections[index].categoryName = item.category ? item.category.name : '';
-        })
-
+        });
     }, [listCollections]);
 
     // sort router 
@@ -146,12 +145,12 @@ const ListCollections = () => {
         setListCollectionsFiltered(listCollections.filter(item => item.name.toLowerCase().includes(e.target.value.toLowerCase())));
     }
 
-    function categoriesFilter(categories) { 
+    function categoriesFilter(categories) {
         categories.length > 0 ? setListCollectionsFiltered(listCollections.filter(item => categories.includes(item.categoryName))) : setListCollectionsFiltered(listCollections);
     }
 
     // gère listCollectionsChecked -> quand on check les checkBox de la list collections
-    const handleCheckboxListCollection = (id) => {       
+    const handleCheckboxListCollection = (id) => {
         var tmp_arr = [];
         if (id === 'all') {
             if (!allChecked) {
@@ -212,6 +211,7 @@ const ListCollections = () => {
     }
 
     return (
+
         <div className='flex-col-s-c'>
             <HeaderListCollections confirmDeleteCollection={confirmDeleteCollection} />
             <section className='flex-col justify-s align-s m-b-10 bg-gray-cool min-h100pct w90pct'>

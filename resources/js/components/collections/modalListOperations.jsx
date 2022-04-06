@@ -123,9 +123,8 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
 
     const [messageModalListOperations, setMessageModalListOperations] = useState('');
     const [textButtonConfirmOperations, setTextButtonConfirmOperations] = useState('');
-    // const [tmp_parameterOperations, setTmp_parameterOperations] = useState('');
 
-    const { conditions, listCollectionsFiltered, listCollectionsChecked, typeOperationListCollections, imageModal, setImageModal, setSender, tmp_parameter, setTmp_parameter, setSenderCancel, showModalConfirmOperations, setShowModalConfirmOperations } = useContext(AppContext);
+    const { conditions, listCollectionsFiltered, listCollectionsChecked, typeOperationListCollections, imageModal, setImageModal, setSender, setTmp_parameter, setSenderCancel, showModalConfirmOperations, setShowModalConfirmOperations, is, setIs, setConditions, setListCollectionsChecked } = useContext(AppContext);
 
     const textButton = typeOperationListCollections == 0 ? "Enregistrer" : "Supprimer"
 
@@ -144,15 +143,74 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
                 let arrObj = [];
                 // on récupère que les conditions avec la combinaison de (parameter et operator) pas présente dans les nouvelles condtions pour ne pas avoir de duplications de conditions
                 JSON.parse(item.objConditions).forEach(cond => {
-                    if (!newCondParaOper.includes((cond.parameter + cond.operator))) {
+                    if (!newCondParaOper.includes(cond.parameter + cond.operator)) {
                         arrObj.push(cond);
                     } else {
                         let tmpObj = { "name": item.name, "condition": cond }
                         arrWarning.push(tmpObj);
                     }
                 })
+
+
+                let tmp_arrObj = [];
+                let para = '';
+                // certains type de conditions avec certains operator annule obligatoirement d'autres conditons avec certains parameter. Ex. "poids est égale à 10" annulera "poids est suppèrrieur à" ou "poids est inférieur à". Donc on les retire de arrObj. // si une combinaison de para + oper fait partie des conditions qui en exclu d'autres alors on ne la met pas dans tmp_arrObj
+                conditions.forEach(x => {
+                    if (x.parameter + x.operator == '71') {
+                        para = 7;
+                    }
+                    if (x.parameter + x.operator == '81') {
+                        para = 8;
+                    }
+                    arrObj.forEach(cond => {
+                        if (cond.parameter != para) {
+                            tmp_arrObj.push(cond);
+                        } else {
+                            let tmpObj = { "name": item.name, "condition": cond };
+                            arrWarning.push(tmpObj);
+                        }
+                    })
+                })
+
+                // doit retirer les conditions non duplcables de tmp_arrObj et les mèttre dans arrWarning quand on ajoute une nouvelle condtion avec le même paramètre que la condition non duplcable
+                let tmpObj = [];
+                tmp_arrObj.forEach(cond => {
+                    console.log('tmp_arrObj 1  ', tmp_arrObj)
+                    if (cond.parameter == '7') {
+                        tmp_arrObj = tmp_arrObj.filter(el => {
+                            return (el.parameter + el.operator) != '71';
+                        });
+                        console.log('tmp_arrObj 2  ', tmp_arrObj)
+                        tmpObj = tmp_arrObj.filter(el => {
+                            return (el.parameter + el.operator) == '71';
+                        });
+                        console.log('tmpObj  ', tmpObj)
+                        tmpObj.forEach(tmp => {
+                            arrWarning.push({ "name": item.name, "condition": cond });
+                        });  
+                    }
+
+                    if (cond.parameter == '8') {
+                        tmp_arrObj = arrObj.filter(el => {
+                            return el.parameter + el.operator != '81';
+                        });
+                        tmpObj = tmp_arrObj.filter(el => {
+                            return el.parameter + el.operator == '81';
+                        });
+                        tmpObj.forEach(tmp => {
+                            arrWarning.push({ "name": item.name, "condition": cond });
+                        });
+                    }
+                })
+
                 // ensuite on ajoute les nouvelles condtions. s'il y a des conditions qui ne pouvaient pas être dupliquées, elles sont remplacées par le nouvelles en concaténant les arrays
-                let tmp_cond_to_save = { "id": item.id, "conditions": arrObj.concat(conditions) }
+                tmp_arrObj = tmp_arrObj.concat(conditions);
+                for (let i = 0; i < tmp_arrObj.length; i++) {
+                    tmp_arrObj[i].id = i;
+                }
+
+                let tmp_cond_to_save = { "id": item.id, "conditions": tmp_arrObj }
+
                 blockConditionsToSave.push(tmp_cond_to_save);
             }
         })
@@ -180,6 +238,20 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
                 .then(res => {
                     if (res.data === 'ok') {
                         console.log('res.data  --->  ok');
+                        setShowModalListOperations(false);
+                        setSenderCancel(false);
+                        setSender(false);
+                        setShowModalConfirmOperations(false);
+                        setListCollectionsChecked([]);
+                        setConditions([{
+                            id: 0,
+                            parameter: '1',
+                            operator: '1',
+                            value: ''
+                        }]);
+                        // refresh data after save new conditions
+                        // il n'y a pas de delete mais ça permet de refresh list collection
+                        setIs({ ...is, collectionDeleted: true });
                     }
                 }).catch(function (error) {
                     console.log('error:   ' + error);

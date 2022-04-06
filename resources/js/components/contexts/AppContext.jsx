@@ -82,7 +82,7 @@ export default React.createContext({
     setTinyLanguage: () => { },
     idCollection: '',
     setIdCollection: () => { },
-    initCollectionForm: '',
+    initCollectionForm: () => { },
     cleanTemporayStorage: '',
     is: '',
     setIs: () => { },

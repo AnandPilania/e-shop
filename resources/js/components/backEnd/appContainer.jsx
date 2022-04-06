@@ -280,6 +280,20 @@ const Appcontainer = () => {
                     .then(res => {
                         if (res.data === 'ok') {
                             console.log('res.data  --->  ok');
+                            setShowModalListOperations(false);
+                            setSenderCancel(false);
+                            setSender(false);
+                            setShowModalConfirmOperations(false);
+                            setListCollectionsChecked([]);
+                                    setConditions([{
+                                        id: 0,
+                                        parameter: '1',
+                                        operator: '1',
+                                        value: ''
+                                    }]);
+                            // refresh data after save new conditions
+                            // il n'y a pas de delete mais ça permet de refresh list collection
+                            setIs({ ...is, collectionDeleted: true });
                         }
                     }).catch(function (error) {
                         console.log('error:   ' + error);
