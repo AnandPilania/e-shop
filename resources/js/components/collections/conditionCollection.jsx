@@ -125,6 +125,7 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
             setInputType('number');
             setInputStep('1');
         }
+        // date
         if (param == 9) {
             setHideOp1('show'); // est égale à
             setHideOp2('show'); // n'est pas égale à
