@@ -60,6 +60,14 @@ const useStyles = makeStyles({
         },
     },
 
+    messageBody: {
+        width: '100%',
+        maxHeight: '500px',
+        overflowY: 'scroll',
+        border: 'solid 1px rgb(220, 220, 220)',
+        padding: '20px'
+    },
+
     close: {
         position: 'absolute',
         top: '0px',
@@ -92,7 +100,7 @@ const useStyles = makeStyles({
     displayNone: {
         display: 'none',
     },
-    
+
     textMessage: {
         color: 'black',
         fontSize: '16px',
@@ -101,7 +109,7 @@ const useStyles = makeStyles({
 });
 
 
-const ModalConfirm = ({ textButtonConfirm, show, image, messageModal, children }) => {
+const ModalConfirm = ({ textButtonConfirm, show, messageModal, messageHeader, messageArray, children }) => {
     const classes = useStyles();
     const showHideClassName = show ? classes.displayBlock : classes.displayNone;
 
@@ -113,13 +121,22 @@ const ModalConfirm = ({ textButtonConfirm, show, image, messageModal, children }
 
                 <div className={classes.close}><i className={classes.faTimes + ' ' + "fas fa-times"} onClick={handleModalCancel}></i></div>
 
-                <img src={image} />
-                
                 {/* conversion d'un message en html pour affichage structuré */}
-                <div className="textMessage">{messageModal?.length > 0 && parse(messageModal)}</div>
+                <div className="textMessage">{messageHeader?.length > 0 && parse(messageHeader)}</div>
 
-                {/* children affiche les méssages passés en children quand il y en a */}
-                {children}
+                <div className={classes.messageBody}>
+                {messageArray?.length > 0 && <div className="textMessage">
+                {messageArray.map(item => {
+                    console.log('item   ', item);
+                }) }
+                </div>}
+
+                    {/* <div className="textMessage">{messageModal?.length > 0 && parse(messageModal)}</div> */}
+
+                    {/* children affiche les méssages passés en children quand il y en a */}
+                    {children}
+                </div>
+
 
                 <div className={classes.BlockButtons}>
                     <button className={classes.btnModal} onClick={handleModalConfirm}>

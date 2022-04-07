@@ -170,8 +170,8 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
             </div>
             {/* date activation */}
             <div className='flex-row min-h50'>
-                <span className={`noshrink flex-row-c-c radius-round15-square w120 h30 p-l-10 ${collectionFiltered?.status == 1 || collectionFiltered?.status == 2 ? collectionFiltered?.dateActivation < getNowUs() ? 'active-collection' : 'soon-collection' : 'unactive-collection'}`}>
-                {collectionFiltered?.status == 1 || collectionFiltered?.status == 2 ? collectionFiltered?.dateActivation < getNowUs() ? "On" : `${getOnlyDateShort(collectionFiltered?.dateActivation)}` : "Off"}
+                <span className={`noshrink flex-row-c-c radius-round15-square w120 h30 p-l-10 ${collectionFiltered?.status == 1 || collectionFiltered?.status == 2 ? collectionFiltered?.dateActivation <= getNowUs() ? 'active-collection' : 'soon-collection' : 'unactive-collection'}`}>
+                {collectionFiltered?.status == 1 || collectionFiltered?.status == 2 ? collectionFiltered?.dateActivation <= getNowUs() ? "On" : `${getOnlyDateShort(collectionFiltered?.dateActivation)}` : "Off"}
                     <button
                         className="flex-row-c-c w30 h30 m-l-auto radius-square-round5 bg-blue-light"
                         checked={collectionFiltered.status == 1}

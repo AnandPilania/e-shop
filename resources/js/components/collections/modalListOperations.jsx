@@ -123,10 +123,18 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
 
     const [messageModalListOperations, setMessageModalListOperations] = useState('');
     const [textButtonConfirmOperations, setTextButtonConfirmOperations] = useState('');
+    const [messageHeader, setMessageHeader] = useState('');
+    const [messageArray, setMessageArray] = useState([]);
+    const [notThisId, setNotThisId] = useState([]);
 
     const { conditions, listCollectionsFiltered, listCollectionsChecked, typeOperationListCollections, imageModal, setImageModal, setSender, setTmp_parameter, setSenderCancel, showModalConfirmOperations, setShowModalConfirmOperations, is, setIs, setConditions, setListCollectionsChecked, handleModalCancel } = useContext(AppContext);
 
     const textButton = typeOperationListCollections == 0 ? "Enregistrer" : "Supprimer"
+
+    const notForThisId = (id) => {
+        alert('okok')
+        setNotThisId([...notThisId, id])
+    }
 
     const handleSave = () => {
 
@@ -226,14 +234,18 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
 
         // s'il y a des conditions qui doivent être remplacés par les nouvelles conditons alors on les met dans arrWarning et on affiche une modalCofirm pour demander confirmation et montrer de quelles conditions il s'agis
         if (arrWarning.length > 0) {
+            setMessageArray(arrWarning);
 
             let txt = [];
             arrWarning.forEach(item => {
-                txt.push('<b>' + item.name + '</b> <br>' + getParameter(item.condition.parameter) + ' ' + getOperator(item.condition.operator) + ' ' + item.condition.value + '<br> remplacé par: <br> ' + getParameter(item.newCondition.parameter) + ' ' + getOperator(item.newCondition.operator) + ' ' + item.newCondition.value);
+                txt.push(`Dans la collection  <b> ${item.name} </b> <br> ${getParameter(item.condition.parameter)}  ${getOperator(item.condition.operator)} ${item.condition.value} <br> sera remplacé par: <br> ${getParameter(item.newCondition.parameter)}  ${getOperator(item.newCondition.operator)} ${item.newCondition.value} <br> <input type="checkbox" onChange=${() => notForThisId(item.id)} /><br><br><hr>`);
             })
 
-            let textMessage = "<div> Attention! Certaines de vos conditions vont être remplacées par vos nouvelles conditions. Souhaitez vous continuer?" + "<br><br>" + txt.toString().replaceAll(',', '<br>') + "</div>";
+            let textMessage = txt.toString().replaceAll(',', '<br>');
 
+            let textMessageHeader = "<div> <b>Attention !</b><br> Certaines de vos anciennes conditions vont être remplacées par vos nouvelles conditions. Souhaitez vous continuer ? <br><br> </div>";
+
+            setMessageHeader(textMessageHeader)
             setMessageModalListOperations(textMessage);
             setTmp_parameter(blockConditionsToSave);
             setTextButtonConfirmOperations('Confirmer');
@@ -300,6 +312,8 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
                     show={showModalConfirmOperations} // true/false show modal
                     textButtonConfirm={textButtonConfirmOperations}
                     messageModal={messageModalListOperations}
+                    messageHeader={messageHeader}
+                    messageArray={messageArray}
                     image={imageModal}>
                 </ModalConfirm>}
         </div>
