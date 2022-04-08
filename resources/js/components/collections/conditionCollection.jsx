@@ -22,7 +22,7 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
     const [inputTypeDate, setinputTypeDate] = useState('');
     const [hideFieldValue, setHideFieldValue] = useState(false);
 
-    const { conditions, dateField } = useContext(AppContext);
+    const { conditions } = useContext(AppContext);
 
     // initialise à show les operators qui correspondent à "Nom du produit"
     useEffect(() => {

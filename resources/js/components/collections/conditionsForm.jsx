@@ -90,6 +90,7 @@ const ConditionsForm = () => {
     setConditions(tmp_conditions);
   };
 
+
   //add condition
   const addCondition = () => {
     // get bigger id to define the next id to insert in conditions

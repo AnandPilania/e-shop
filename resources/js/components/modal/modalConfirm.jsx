@@ -2,6 +2,8 @@ import React, { useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import { makeStyles } from '@material-ui/styles';
 import parse from 'html-react-parser';
+import { getParameter, getOperator } from '../collections/conditionsFunctions';
+
 
 const useStyles = makeStyles({
     modal: {
@@ -109,7 +111,7 @@ const useStyles = makeStyles({
 });
 
 
-const ModalConfirm = ({ textButtonConfirm, show, messageModal, messageHeader, messageArray, children }) => {
+const ModalConfirm = ({ textButtonConfirm, show, messageModal, messageHeader, messageArray, notForThisId, children }) => {
     const classes = useStyles();
     const showHideClassName = show ? classes.displayBlock : classes.displayNone;
 
@@ -125,13 +127,24 @@ const ModalConfirm = ({ textButtonConfirm, show, messageModal, messageHeader, me
                 <div className="textMessage">{messageHeader?.length > 0 && parse(messageHeader)}</div>
 
                 <div className={classes.messageBody}>
-                {messageArray?.length > 0 && <div className="textMessage">
-                {messageArray.map(item => {
-                    console.log('item   ', item);
-                }) }
-                </div>}
+                    <div className="textMessage">
+                        {messageArray?.length > 0 &&
+                            messageArray.map((item, i) => 
+                                 <div key={i}>
+                                        <span>Dans la collection  <b>{item.name}</b></span><br/>
+                                        <span>{getParameter(item.condition.parameter)} {getOperator(item.condition.operator)} {item.condition.value}</span> <br/>
+                                        <span>sera remplacé par</span><br/>
+                                        <span>{getParameter(item.newCondition.parameter)}  {getOperator(item.newCondition.operator)} {item.newCondition.value}</span>
+                                        <br/>
 
-                    {/* <div className="textMessage">{messageModal?.length > 0 && parse(messageModal)}</div> */}
+                                        <input type="checkbox" value={item.id} onChange={() => notForThisId(item.id, item.newCondition.id)} />
+                                        <br/><hr/><br/>
+                                </div> 
+                              
+                            )}
+                    </div>
+
+                    <div className="textMessage">{messageModal?.length > 0 && parse(messageModal)}</div>
 
                     {/* children affiche les méssages passés en children quand il y en a */}
                     {children}

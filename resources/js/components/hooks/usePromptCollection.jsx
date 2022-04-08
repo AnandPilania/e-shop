@@ -5,7 +5,7 @@ import { useBlocker } from './useBlocker';
 
 export function usePromptCollection(messageObj, shouldPrompt) {
 
-    const { is, setIs, setMessageModal, setTextButtonConfirm, setImageModal, setSender, setTmp_parameter, setShowModalConfirm, collectionForm, hasBeenChanged } = useContext(AppContext);
+    const { is, setIs, setMessageModal, setTextButtonConfirm, setImageModal, setSender, setTmp_parameter, setShowModalConfirm, setConditions } = useContext(AppContext);
 
     const retryFn = useRef(() => { });
 
@@ -29,10 +29,18 @@ export function usePromptCollection(messageObj, shouldPrompt) {
     const handleBlockNavigation = ({ retry }) => {
         const shouldDisplayPrompt =
             typeof shouldPrompt === "boolean" ? shouldPrompt : shouldPrompt();
+        // if form edit collection is dirty
         if (shouldDisplayPrompt) {
             openModal();
             retryFn.current = retry;
         } else {
+            // pour que les conditions soit vides quand on ajoute des conditions à un group de collections
+            setConditions([{
+                id: 0,
+                parameter: '1',
+                operator: '1',
+                value: ''
+            }])
             retry();
         }
     }

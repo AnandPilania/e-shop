@@ -400,9 +400,17 @@ const CreateCollection = () => {
             <div className="collection-block-container">
                 <div className="div-vert-align">
                     <div className="w100pct h40 flex justify-s align-c">
-                        <button className="w100 h40 flex-row-c-c brd-gray-light-1 radius5">
+                        <button className="w100 h40 flex-row-c-c brd-gray-light-1 radius5"
+                            onClick={() => {
+                                setConditions([{
+                                    id: 0,
+                                    parameter: '1',
+                                    operator: '1',
+                                    value: ''
+                                }])
+                            }}>
                             <Link to="/collections-list">
-                            <FontAwesomeIcon icon={faArrowLeft} />
+                                <FontAwesomeIcon icon={faArrowLeft} />
                                 <span className="m-l-10">Retour</span>
                             </Link>
                         </button>

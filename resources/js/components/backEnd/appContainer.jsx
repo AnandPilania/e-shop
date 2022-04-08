@@ -85,6 +85,7 @@ const Appcontainer = () => {
     const [showModalListOperations, setShowModalListOperations] = useState(false);
     const [showModalConfirmOperations, setShowModalConfirmOperations] = useState('');
     const [messageModal, setMessageModal] = useState('');
+    const [messageArray, setMessageArray] = useState([]);
     const [sender, setSender] = useState(''); // for modal
     const [senderCancel, setSenderCancel] = useState('');
     const [inputTextModify, setInputTextModify] = useState('');
@@ -272,6 +273,13 @@ const Appcontainer = () => {
                 setIdCollection(null);
                 setIsDirty(false);
                 initCollectionForm();
+                // pour que les conditions soit vides quand on ajoute des conditions à un group de collections
+                setConditions([{
+                    id: 0,
+                    parameter: '1',
+                    operator: '1',
+                    value: ''
+                }])
                 break;
             case 'addNewConditions':
                 let newConditionsData = new FormData;
@@ -285,12 +293,12 @@ const Appcontainer = () => {
                             setSender(false);
                             setShowModalConfirmOperations(false);
                             setListCollectionsChecked([]);
-                                    setConditions([{
-                                        id: 0,
-                                        parameter: '1',
-                                        operator: '1',
-                                        value: ''
-                                    }]);
+                            setConditions([{
+                                id: 0,
+                                parameter: '1',
+                                operator: '1',
+                                value: ''
+                            }]);
                             // refresh data after save new conditions
                             // il n'y a pas de delete mais ça permet de refresh list collection
                             setIs({ ...is, collectionDeleted: true });
@@ -312,6 +320,7 @@ const Appcontainer = () => {
         setShowModalInput(false);
         senderCancel != 'addNewConditions' && setShowModalListOperations(false);
         setSenderCancel(false);
+        setMessageArray([]);
     };
 
 
@@ -372,6 +381,7 @@ const Appcontainer = () => {
         typeOperationListCollections, setTypeOperationListCollections,
         senderCancel, setSenderCancel,
         showModalConfirmOperations, setShowModalConfirmOperations,
+        messageArray, setMessageArray,
 
     }
 

@@ -108,5 +108,7 @@ export default React.createContext({
     setSenderCancel: () => { },
     showModalConfirmOperations: '',
     setShowModalConfirmOperations: () => { },
+    messageArray: '',
+    setMessageArray: () => { },
 
 });
