@@ -22,7 +22,9 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
     const [inputTypeDate, setinputTypeDate] = useState('');
     const [hideFieldValue, setHideFieldValue] = useState(false);
 
-    const { conditions } = useContext(AppContext);
+
+
+    const { conditions, conditionParameter, setConditionParameter } = useContext(AppContext);
 
     // initialise à show les operators qui correspondent à "Nom du produit"
     useEffect(() => {
@@ -41,14 +43,32 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
 
         document.getElementById('parameterValue').value == 9 ? setinputTypeDate('inputTypeDate') : setinputTypeDate('');
 
+  
+        // // conditions.forEach(x => {
+        // switch (condition.parameter + condition.operator) {
+        //     case 11: setPara([...para, condition.parameter + condition.operator]); alert('ok'); break;
+        //     case 21: setPara([...para, condition.parameter + condition.operator]); break;
+        //     case 31: setPara([...para, condition.parameter + condition.operator]); break;
+        //     case 41: setPara([...para, condition.parameter + condition.operator]); break;
+        //     case 51: setPara([...para, condition.parameter + condition.operator]); break;
+        //     case 61: setPara([...para, condition.parameter + condition.operator]); break;
+        //     case 71: setPara([...para, condition.parameter + condition.operator]); break;
+        //     case 81: setPara([...para, condition.parameter + condition.operator]); break;
+        //     case 91: setPara([...para, condition.parameter + condition.operator]); break;
+        // }
+        // // })
+
+
     }, []);
 
+    console.log('conditionParameter condColl  ', conditionParameter)
     // initialise quand on edit
     useEffect(() => {
         // met dabord à hide partout
         hideUselessOperatorReset();
         showOnlyUsableOperator(condition.parameter);
     }, [conditions]);
+
 
 
     // met hide pour tous les paramètres
@@ -65,6 +85,12 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
         setHideOp10('hide');
     }
 
+    var count = {};
+
+    conditionParameter.forEach(element => {
+      count[element] = (count[element] || 0) + 1;
+    });
+    console.log('count   ', count)
     // détermine quels opérators doivent être visibles dans le select
     const showOnlyUsableOperator = (param) => {
 
@@ -72,7 +98,7 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
         setTypeValue('')
         // Nom du produit / Type du produit / Fournisseur
         if (param == 1 || param == 2 || param == 3) {
-            setHideOp1('show'); // est égale à
+            count['1'] < 2 && setHideOp1('show'); // est égale à
             setHideOp2('show'); // n'est pas égale à
             setHideOp5('show'); // commence par
             setHideOp6('show'); // se termine par
@@ -168,6 +194,7 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
     }
 
     const borderRed = warningIdCondition.includes(condition.id) ? 'borderRed' : '';
+
 
 
     return (

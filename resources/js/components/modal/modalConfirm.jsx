@@ -2,8 +2,6 @@ import React, { useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import { makeStyles } from '@material-ui/styles';
 import parse from 'html-react-parser';
-import { getParameter, getOperator } from '../collections/conditionsFunctions';
-
 
 const useStyles = makeStyles({
     modal: {
@@ -62,14 +60,6 @@ const useStyles = makeStyles({
         },
     },
 
-    messageBody: {
-        width: '100%',
-        maxHeight: '500px',
-        overflowY: 'scroll',
-        border: 'solid 1px rgb(220, 220, 220)',
-        padding: '20px'
-    },
-
     close: {
         position: 'absolute',
         top: '0px',
@@ -102,7 +92,7 @@ const useStyles = makeStyles({
     displayNone: {
         display: 'none',
     },
-
+    
     textMessage: {
         color: 'black',
         fontSize: '16px',
@@ -111,7 +101,7 @@ const useStyles = makeStyles({
 });
 
 
-const ModalConfirm = ({ textButtonConfirm, show, messageModal, messageHeader, messageArray, notForThisId, children }) => {
+const ModalConfirm = ({ textButtonConfirm, show, image, messageModal, children }) => {
     const classes = useStyles();
     const showHideClassName = show ? classes.displayBlock : classes.displayNone;
 
@@ -123,33 +113,13 @@ const ModalConfirm = ({ textButtonConfirm, show, messageModal, messageHeader, me
 
                 <div className={classes.close}><i className={classes.faTimes + ' ' + "fas fa-times"} onClick={handleModalCancel}></i></div>
 
+                <img src={image} />
+                
                 {/* conversion d'un message en html pour affichage structuré */}
-                <div className="textMessage">{messageHeader?.length > 0 && parse(messageHeader)}</div>
+                <div className="textMessage">{messageModal?.length > 0 && parse(messageModal)}</div>
 
-                <div className={classes.messageBody}>
-                    <div className="textMessage">
-                        {messageArray?.length > 0 &&
-                            messageArray.map((item, i) => 
-                                 <div key={i}>
-                                        <span>Dans la collection  <b>{item.name}</b></span><br/>
-                                        <span>{getParameter(item.condition.parameter)} {getOperator(item.condition.operator)} {item.condition.value}</span> <br/>
-                                        <span>sera remplacé par</span><br/>
-                                        <span>{getParameter(item.newCondition.parameter)}  {getOperator(item.newCondition.operator)} {item.newCondition.value}</span>
-                                        <br/>
-
-                                        <input type="checkbox" value={item.id} onChange={() => notForThisId(item.id, item.newCondition.id)} />
-                                        <br/><hr/><br/>
-                                </div> 
-                              
-                            )}
-                    </div>
-
-                    <div className="textMessage">{messageModal?.length > 0 && parse(messageModal)}</div>
-
-                    {/* children affiche les méssages passés en children quand il y en a */}
-                    {children}
-                </div>
-
+                {/* children affiche les méssages passés en children quand il y en a */}
+                {children}
 
                 <div className={classes.BlockButtons}>
                     <button className={classes.btnModal} onClick={handleModalConfirm}>

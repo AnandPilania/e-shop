@@ -110,5 +110,9 @@ export default React.createContext({
     setShowModalConfirmOperations: () => { },
     messageArray: '',
     setMessageArray: () => { },
+    notThisId: '',
+    setNotThisId: () => { },
+    conditionParameter: '', 
+    setConditionParameter: () => { },
 
 });

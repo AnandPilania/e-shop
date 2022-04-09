@@ -109,6 +109,8 @@ const Appcontainer = () => {
     });
     const [listCollectionsChecked, setListCollectionsChecked] = useState([]);
     const [typeOperationListCollections, setTypeOperationListCollections] = useState(0);
+    const [notThisId, setNotThisId] = useState([]);
+    const [conditionParameter, setConditionParameter] = useState([]);
 
 
 
@@ -382,6 +384,8 @@ const Appcontainer = () => {
         senderCancel, setSenderCancel,
         showModalConfirmOperations, setShowModalConfirmOperations,
         messageArray, setMessageArray,
+        notThisId, setNotThisId,
+        conditionParameter, setConditionParameter,
 
     }
 

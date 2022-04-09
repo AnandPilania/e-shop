@@ -6,7 +6,7 @@ import ConditionsForm from './conditionsForm';
 import { getParameter, getOperator } from './conditionsFunctions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import ModalConfirm from '../modal/modalConfirm';
+import ModalConfirmOperations from '../modal/modalConfirmOperations';
 
 
 
@@ -124,9 +124,8 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
     const [messageModalListOperations, setMessageModalListOperations] = useState('');
     const [textButtonConfirmOperations, setTextButtonConfirmOperations] = useState('');
     const [messageHeader, setMessageHeader] = useState('');
-    const [notThisId, setNotThisId] = useState([]);
 
-    const { conditions, listCollectionsFiltered, listCollectionsChecked, typeOperationListCollections, imageModal, setImageModal, setSender, setTmp_parameter, setSenderCancel, showModalConfirmOperations, setShowModalConfirmOperations, is, setIs, setConditions, setListCollectionsChecked, handleModalCancel, messageArray, setMessageArray } = useContext(AppContext);
+    const { conditions, listCollectionsFiltered, listCollectionsChecked, typeOperationListCollections, imageModal, setImageModal, setSender, setTmp_parameter, setSenderCancel, showModalConfirmOperations, setShowModalConfirmOperations, is, setIs, setConditions, setListCollectionsChecked, handleModalCancel, messageArray, setMessageArray, notThisId, setNotThisId } = useContext(AppContext);
 
     const textButton = typeOperationListCollections == 0 ? "Enregistrer" : "Supprimer"
 
@@ -141,7 +140,7 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
             setNotThisId([...notThisId, { "id": collectionId, "newConditionId": newConditionId }]);
         }
     }
-    console.log('notThisId  no ', notThisId);
+
 
     // combine parameter et operator pour pouvoir vérifier s'il n y a pas de conditions dupliquées
     var newCondParaOper = conditions.map(item => {
@@ -312,7 +311,7 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
             </section>
 
             {messageArray?.length > 0 &&
-                <ModalConfirm
+                <ModalConfirmOperations
                     show={showModalConfirmOperations} // true/false show modal
                     textButtonConfirm={textButtonConfirmOperations}
                     // messageModal={messageModalListOperations}
@@ -320,7 +319,7 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
                     messageArray={messageArray}
                     notForThisId={notForThisId}
                     image={imageModal}>
-                </ModalConfirm>}
+                </ModalConfirmOperations>}
         </div>
     );
 };

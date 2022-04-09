@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext } from 'react';
+import { useState, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import ConditionCollection from './conditionCollection';
 import PropTypes from 'prop-types';
@@ -44,9 +44,10 @@ function a11yProps(index) {
 
 const ConditionsForm = () => {
 
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
-  const { conditions, setConditions, setTypeOperationListCollections, warningIdCondition, setIsAutoConditions } = useContext(AppContext);
+
+  const { conditions, setConditions, setTypeOperationListCollections, warningIdCondition, setIsAutoConditions, conditionParameter, setConditionParameter } = useContext(AppContext);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -57,7 +58,7 @@ const ConditionsForm = () => {
   // gère le paramètre à changer dans les conditions automatiques
   const handleChangeParam = (param, id) => {
     let tmp_conditions = [...conditions];
-    var index_arr = tmp_conditions.findIndex(obj => obj.id == id);
+    let index_arr = tmp_conditions.findIndex(obj => obj.id == id);
     tmp_conditions[index_arr].parameter = param;
     setConditions(tmp_conditions);
   };
@@ -65,7 +66,7 @@ const ConditionsForm = () => {
   // gère le type d'opérations à éffectuer dans les conditons automatiques
   const handleChangeOperator = (e, id) => {
     let tmp_conditions = [...conditions];
-    var index_arr = tmp_conditions.findIndex(obj => obj.id == id);
+    let index_arr = tmp_conditions.findIndex(obj => obj.id == id);
     // if e is not a event target but just a variable 
     if (e.target == undefined || e.target == null || e.target == '') {
       tmp_conditions[index_arr].operator = e
@@ -79,7 +80,7 @@ const ConditionsForm = () => {
   // gère la valeur entrée dans les conditions automatiques
   const handleChangeValue = (e, id) => {
     let tmp_conditions = [...conditions];
-    var index_arr = tmp_conditions.findIndex(obj => obj.id == id);
+    let index_arr = tmp_conditions.findIndex(obj => obj.id == id);
     // if e comes from FltaPickr then this is not a event target but just a variable 
     if (e.target == undefined || e.target == null || e.target == '') {
       tmp_conditions[index_arr].value = e.replace(/ (\d|:)+/, '');
@@ -102,6 +103,51 @@ const ConditionsForm = () => {
     } else {
       objWithBiggerId.id = -1;
     }
+
+
+    let para = [];
+    conditions.forEach(x => {
+      switch (x.parameter + x.operator) {
+        case '11': para.push(1); break;
+        case '21': para.push(2); break;
+        case '31': para.push(3); break;
+        case '41': para.push(4); break;
+        case '51': para.push(5); break;
+        case '61': para.push(6); break;
+        case '71': para.push(7); break;
+        case '81': para.push(8); break;
+        case '91': para.push(9); break;
+      }
+    })
+
+
+     
+    setConditionParameter(para);
+    console.log('conditionParameter   ', conditionParameter)
+    
+
+    // let p;
+    // let o;
+    // conditions.forEach(cond => {
+    //   if (!para.includes(cond.parameter)) {
+    //     p = cond.parameter;
+    //     o = 1;
+    //     console.log('not include  ', cond.parameter)
+    //   } else {
+    //     console.log('include  ', cond.parameter)
+    //     o = 2;
+    //   }
+    // });
+
+    // if (conditions.findIndex(obj => obj.parameter == 1 && obj.operator == 1) == -1) {
+    //   var p = 1;
+    //   var o = 1;
+    // } else {
+    //   var p = 2;
+    // }
+   
+
+
     setConditions([
       ...conditions, {
         id: objWithBiggerId.id + 1,
@@ -150,7 +196,7 @@ const ConditionsForm = () => {
               <ConditionCollection
                 key={i}
                 handleChangeParam={handleChangeParam}
-                handleChangeOperator={handleChangeOperator} 
+                handleChangeOperator={handleChangeOperator}
                 handleChangeValue={handleChangeValue}
                 condition={condition}
                 deleteCondition={deleteCondition}
