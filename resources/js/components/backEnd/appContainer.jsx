@@ -110,8 +110,20 @@ const Appcontainer = () => {
     const [listCollectionsChecked, setListCollectionsChecked] = useState([]);
     const [typeOperationListCollections, setTypeOperationListCollections] = useState(0);
     const [notThisId, setNotThisId] = useState([]);
-    const [conditionParameter, setConditionParameter] = useState([]);
 
+    //Handle options in coonditionsCollections---------------------------
+    const [dsablNamProd, setDsablNamProd] = useState(false);
+    const [dsablType, setDsablType] = useState(false);
+    const [dsablSuppl, setDsablSuppl] = useState(false);
+    const [dsablPrice, setDsablPrice] = useState(false);
+    const [dsablTag, setDsablTag] = useState(false);
+    const [dsablBeforePromo, setDsablBeforePromo] = useState(false);
+    const [dsablWeight, setDsablWeight] = useState(false);
+    const [dsablStock, setDsablStock] = useState(false);
+    const [dsablDate, setDsablDate] = useState(false);
+    //----------------------------Handle options in coonditionsCollections
+
+ 
 
 
     useEffect(() => {
@@ -385,7 +397,15 @@ const Appcontainer = () => {
         showModalConfirmOperations, setShowModalConfirmOperations,
         messageArray, setMessageArray,
         notThisId, setNotThisId,
-        conditionParameter, setConditionParameter,
+        dsablNamProd, setDsablNamProd,
+        dsablType, setDsablType,
+        dsablSuppl, setDsablSuppl,
+        dsablPrice, setDsablPrice,
+        dsablTag, setDsablTag,
+        dsablBeforePromo, setDsablBeforePromo,
+        dsablWeight, setDsablWeight,
+        dsablStock, setDsablStock,
+        dsablDate, setDsablDate,
 
     }
 

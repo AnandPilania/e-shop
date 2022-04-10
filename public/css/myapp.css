@@ -2898,6 +2898,10 @@ a.link:hover {
   color: red;
 }
 
+.disableColor {
+  color: #acacac;
+}
+
 .radius5 {
   border-radius: 5px;
 }

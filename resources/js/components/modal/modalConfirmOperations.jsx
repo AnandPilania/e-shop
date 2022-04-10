@@ -111,11 +111,11 @@ const useStyles = makeStyles({
 });
 
 
-const ModalConfirmOperations = ({ textButtonConfirm, show, messageModal, messageHeader, messageArray, notForThisId, children }) => {
+const ModalConfirmOperations = ({ textButtonConfirm, show, messageModal, messageHeader, notForThisId, children }) => {
     const classes = useStyles();
     const showHideClassName = show ? classes.displayBlock : classes.displayNone;
 
-    const { handleModalConfirm, handleModalCancel, notThisId } = useContext(AppContext);
+    const { handleModalConfirm, handleModalCancel, notThisId, messageArray } = useContext(AppContext);
 
     return (
         <div className={classes.modal + ' ' + showHideClassName}>
@@ -129,15 +129,15 @@ const ModalConfirmOperations = ({ textButtonConfirm, show, messageModal, message
                 <div className={classes.messageBody}>
                     <div className="textMessage">
                         {messageArray?.length > 0 &&
-                            messageArray.map((item, i) => 
+                            messageArray?.map((item, i) => 
                                  <div key={i}>
                                         <span>Dans la collection  <b>{item.name}</b></span><br/>
                                         <span>{getParameter(item.condition.parameter)} {getOperator(item.condition.operator)} {item.condition.value}</span> <br/>
                                         <span>sera remplacé par</span><br/>
-                                        <span>{getParameter(item.newCondition.parameter)}  {getOperator(item.newCondition.operator)} {item.newCondition.value}</span>
+                                        <span>{getParameter(item.newCondition?.parameter)}  {getOperator(item.newCondition?.operator)} {item.newCondition?.value}</span>
                                         <br/>
 
-                                        <input type="checkbox" value={item.id} onChange={() => notForThisId(item.id, item.newCondition.id)} checked={notThisId.findIndex(obj => obj.id == item.id && obj.newConditionId == item.newCondition.id) != -1}/>
+                                        <input type="checkbox" value={item.id} onChange={() => notForThisId(item.id, item.newCondition?.id)} checked={notThisId.findIndex(obj => obj.id == item.id && obj.newConditionId == item.newCondition?.id) != -1}/>
                                         <br/><hr/><br/>
                                 </div> 
                               

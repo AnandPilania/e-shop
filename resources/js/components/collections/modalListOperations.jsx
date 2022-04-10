@@ -3,7 +3,6 @@ import AppContext from '../contexts/AppContext';
 import Axios from 'axios';
 import { makeStyles } from '@material-ui/styles';
 import ConditionsForm from './conditionsForm';
-import { getParameter, getOperator } from './conditionsFunctions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import ModalConfirmOperations from '../modal/modalConfirmOperations';
@@ -227,8 +226,8 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
                         arrWarning.push({ "id": item.id, "name": item.name, "condition": cond, "newCondition": newCond[0] });
                     }
                 });
-
                 tmp_arrObj = tmpTab;
+
                 // ensuite on ajoute les nouvelles condtions. s'il y a des conditions qui ne pouvaient pas être dupliquées, elles sont remplacées par le nouvelles en concaténant les arrays
                 tmp_arrObj = tmp_arrObj.concat(conditions);
                 for (let i = 0; i < tmp_arrObj.length; i++) {
@@ -316,7 +315,6 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
                     textButtonConfirm={textButtonConfirmOperations}
                     // messageModal={messageModalListOperations}
                     messageHeader={messageHeader}
-                    messageArray={messageArray}
                     notForThisId={notForThisId}
                     image={imageModal}>
                 </ModalConfirmOperations>}

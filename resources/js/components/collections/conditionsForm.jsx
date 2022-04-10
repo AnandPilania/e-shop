@@ -2,6 +2,8 @@ import * as React from 'react';
 import { useState, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import ConditionCollection from './conditionCollection';
+import ModalSimpleMessage from '../modal/modalSimpleMessage';
+import { getParameter, getOperator } from './conditionsFunctions';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -46,13 +48,40 @@ const ConditionsForm = () => {
 
   const [value, setValue] = useState(0);
 
-
-  const { conditions, setConditions, setTypeOperationListCollections, warningIdCondition, setIsAutoConditions, conditionParameter, setConditionParameter } = useContext(AppContext);
+  const { conditions, setConditions, setTypeOperationListCollections, warningIdCondition, setIsAutoConditions, showModalSimpleMessage, setShowModalSimpleMessage, messageModal, imageModal, setDsablNamProd, setDsablType, setDsablSuppl, setDsablPrice, setDsablTag, setDsablBeforePromo, setDsablWeight, setDsablStock, setDsablDate } = useContext(AppContext);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
     setTypeOperationListCollections(newValue);
   };
+
+
+  // disable un parameter quand il a déjà été utilisé avec l'operator "est égale à"
+  const handleDisableParam = () => {
+    setDsablNamProd(false);
+    setDsablType(false);
+    setDsablSuppl(false);
+    setDsablPrice(false);
+    setDsablTag(false);
+    setDsablBeforePromo(false);
+    setDsablWeight(false);
+    setDsablStock(false);
+    setDsablDate(false);
+
+    conditions.forEach(x => {
+      switch (x.parameter + x.operator) {
+        case '11': setDsablNamProd(true); break;
+        case '21': setDsablType(true); break;
+        case '31': setDsablSuppl(true); break;
+        case '41': setDsablPrice(true); break;
+        case '51': setDsablTag(true); break;
+        case '61': setDsablBeforePromo(true); break;
+        case '71': setDsablWeight(true); break;
+        case '81': setDsablStock(true); break;
+        case '91': setDsablDate(true); break;
+      }
+    });
+  }
 
 
   // gère le paramètre à changer dans les conditions automatiques
@@ -61,6 +90,7 @@ const ConditionsForm = () => {
     let index_arr = tmp_conditions.findIndex(obj => obj.id == id);
     tmp_conditions[index_arr].parameter = param;
     setConditions(tmp_conditions);
+    handleDisableParam();
   };
 
   // gère le type d'opérations à éffectuer dans les conditons automatiques
@@ -75,6 +105,7 @@ const ConditionsForm = () => {
     }
 
     setConditions(tmp_conditions);
+    handleDisableParam();
   };
 
   // gère la valeur entrée dans les conditions automatiques
@@ -91,6 +122,9 @@ const ConditionsForm = () => {
     setConditions(tmp_conditions);
   };
 
+  const closeSimpleModal = () => {
+    setShowModalSimpleMessage(false);
+  }
 
   //add condition
   const addCondition = () => {
@@ -103,59 +137,37 @@ const ConditionsForm = () => {
     } else {
       objWithBiggerId.id = -1;
     }
+    console.log('conditions  ', conditions)
 
 
-    let para = [];
-    conditions.forEach(x => {
-      switch (x.parameter + x.operator) {
-        case '11': para.push(1); break;
-        case '21': para.push(2); break;
-        case '31': para.push(3); break;
-        case '41': para.push(4); break;
-        case '51': para.push(5); break;
-        case '61': para.push(6); break;
-        case '71': para.push(7); break;
-        case '81': para.push(8); break;
-        case '91': para.push(9); break;
+    let p = '1';
+    let paraOperArray = ['11', '21', '31', '41', '51', '61', '71', '81', '91'];
+    conditions.forEach(x => { 
+      console.log('x.parameter + x.operator  ', !paraOperArray.includes(x.parameter + x.operator))
+      switch (true) {
+        case !paraOperArray.includes(x.parameter + x.operator): p = '1'; break;
+        case !paraOperArray.includes(x.parameter + x.operator): p = '2'; break;
+        case !paraOperArray.includes(x.parameter + x.operator): p = '3'; break;
+        case !paraOperArray.includes(x.parameter + x.operator): p = '4'; break;
+        case !paraOperArray.includes(x.parameter + x.operator): p = '5'; break;
+        case !paraOperArray.includes(x.parameter + x.operator): p = '6'; break;
+        case !paraOperArray.includes(x.parameter + x.operator): p = '7'; break;
+        case !paraOperArray.includes(x.parameter + x.operator): p = '8'; break;
+        case !paraOperArray.includes(x.parameter + x.operator): p = '9'; break;
+        default: p = '1'; break;
       }
     })
-
-
-     
-    setConditionParameter(para);
-    console.log('conditionParameter   ', conditionParameter)
-    
-
-    // let p;
-    // let o;
-    // conditions.forEach(cond => {
-    //   if (!para.includes(cond.parameter)) {
-    //     p = cond.parameter;
-    //     o = 1;
-    //     console.log('not include  ', cond.parameter)
-    //   } else {
-    //     console.log('include  ', cond.parameter)
-    //     o = 2;
-    //   }
-    // });
-
-    // if (conditions.findIndex(obj => obj.parameter == 1 && obj.operator == 1) == -1) {
-    //   var p = 1;
-    //   var o = 1;
-    // } else {
-    //   var p = 2;
-    // }
-   
 
 
     setConditions([
       ...conditions, {
         id: objWithBiggerId.id + 1,
-        parameter: '1',
+        parameter: p,
         operator: '1',
         value: ''
       }
     ]);
+
 
     // dropDown
     var dropable = document.getElementById('conditions_collection');
@@ -214,6 +226,12 @@ const ConditionsForm = () => {
         </TabPanel>
 
       </Box>
+      <ModalSimpleMessage
+        show={showModalSimpleMessage} // true/false show modal
+        handleModalCancel={closeSimpleModal}
+        image={imageModal}>
+        <h2 className="childrenModal">{messageModal}</h2>
+      </ModalSimpleMessage>
     </>
   );
 }

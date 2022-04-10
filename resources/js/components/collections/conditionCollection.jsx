@@ -22,9 +22,9 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
     const [inputTypeDate, setinputTypeDate] = useState('');
     const [hideFieldValue, setHideFieldValue] = useState(false);
 
-
-
-    const { conditions, conditionParameter, setConditionParameter } = useContext(AppContext);
+    const { conditions, dsablNamProd, setDsablNamProd, dsablType, setDsablType,
+        dsablSuppl, setDsablSuppl, dsablPrice, setDsablPrice, dsablTag, setDsablTag, dsablBeforePromo, setDsablBeforePromo, dsablWeight, setDsablWeight, dsablStock, setDsablStock, dsablDate, setDsablDate } = useContext(AppContext);
+    var para = [];
 
     // initialise à show les operators qui correspondent à "Nom du produit"
     useEffect(() => {
@@ -42,26 +42,9 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
         showOnlyUsableOperator(condition.parameter);
 
         document.getElementById('parameterValue').value == 9 ? setinputTypeDate('inputTypeDate') : setinputTypeDate('');
-
-  
-        // // conditions.forEach(x => {
-        // switch (condition.parameter + condition.operator) {
-        //     case 11: setPara([...para, condition.parameter + condition.operator]); alert('ok'); break;
-        //     case 21: setPara([...para, condition.parameter + condition.operator]); break;
-        //     case 31: setPara([...para, condition.parameter + condition.operator]); break;
-        //     case 41: setPara([...para, condition.parameter + condition.operator]); break;
-        //     case 51: setPara([...para, condition.parameter + condition.operator]); break;
-        //     case 61: setPara([...para, condition.parameter + condition.operator]); break;
-        //     case 71: setPara([...para, condition.parameter + condition.operator]); break;
-        //     case 81: setPara([...para, condition.parameter + condition.operator]); break;
-        //     case 91: setPara([...para, condition.parameter + condition.operator]); break;
-        // }
-        // // })
-
-
     }, []);
 
-    console.log('conditionParameter condColl  ', conditionParameter)
+
     // initialise quand on edit
     useEffect(() => {
         // met dabord à hide partout
@@ -85,12 +68,7 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
         setHideOp10('hide');
     }
 
-    var count = {};
 
-    conditionParameter.forEach(element => {
-      count[element] = (count[element] || 0) + 1;
-    });
-    console.log('count   ', count)
     // détermine quels opérators doivent être visibles dans le select
     const showOnlyUsableOperator = (param) => {
 
@@ -98,7 +76,7 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
         setTypeValue('')
         // Nom du produit / Type du produit / Fournisseur
         if (param == 1 || param == 2 || param == 3) {
-            count['1'] < 2 && setHideOp1('show'); // est égale à
+            setHideOp1('show'); // est égale à
             setHideOp2('show'); // n'est pas égale à
             setHideOp5('show'); // commence par
             setHideOp6('show'); // se termine par
@@ -195,7 +173,7 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
 
     const borderRed = warningIdCondition.includes(condition.id) ? 'borderRed' : '';
 
-
+    console.log('handleChangeParam ')
 
     return (
         <div className={"block-select-conditions " + borderRed}>
@@ -207,15 +185,15 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
                     value={condition.parameter}
                     onChange={changeParamValue}
                     id="parameterValue">
-                    <option value="1">Nom du produit</option>
-                    <option value="2">Type du produit</option>
-                    <option value="3">Fournisseur</option>
-                    <option value="4">Prix du produit</option>
-                    <option value="5">Balise du produit</option>
-                    <option value="6">Prix avant réduction</option>
-                    <option value="7">Poids</option>
-                    <option value="8">Stock</option>
-                    <option value="9">Date création produit</option>
+                    <option disabled={dsablNamProd && conditions.length > 1} value="1" className={`${dsablNamProd && conditions.length > 1 && "disableColor"}`}>Nom du produit</option>
+                    <option disabled={dsablType && conditions.length > 1} value="2" className={`${dsablType && conditions.length > 1 && "disableColor"}`}>Type du produit</option>
+                    <option disabled={dsablSuppl && conditions.length > 1} value="3" className={`${dsablSuppl && conditions.length > 1 && "disableColor"}`}>Fournisseur</option>
+                    <option disabled={dsablPrice && conditions.length > 1} value="4" className={`${dsablPrice && conditions.length > 1 && "disableColor"}`}>Prix du produit</option>
+                    <option disabled={dsablTag && conditions.length > 1} value="5" className={`${dsablTag && conditions.length > 1 && "disableColor"}`}>Balise du produit</option>
+                    <option disabled={dsablBeforePromo && conditions.length > 1} value="6" className={`${dsablBeforePromo && conditions.length > 1 && "disableColor"}`}>Prix avant réduction</option>
+                    <option disabled={dsablWeight && conditions.length > 1} value="7" className={`${dsablWeight && conditions.length > 1 && "disableColor"}`}>Poids</option>
+                    <option disabled={dsablStock && conditions.length > 1} value="8" className={`${dsablStock && conditions.length > 1 && "disableColor"}`}>Stock</option>
+                    <option disabled={dsablDate && conditions.length > 1} value="9" className={`${dsablDate && conditions.length > 1 && "disableColor"}`}>Date création produit</option>
                 </select>
             </div>
 
