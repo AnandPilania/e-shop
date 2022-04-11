@@ -285,7 +285,7 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
         }
     }
 
-
+    
     return (
         <div className={classes.modal + ' ' + showHideClassName}>
 
@@ -298,7 +298,7 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
                 {sender === 'conditions' && <ConditionsForm />}
 
                 <div className="flex-row-s-c w100pct p-l-20">
-                    {conditions[0]?.value.length > 0 &&
+                    {conditions?.findIndex(c => c.value.length === 0) == -1 &&
                         <button className="btn-bcknd mb15 m-r-20" onClick={handleSave}>
                             {textButton}
                         </button>}
