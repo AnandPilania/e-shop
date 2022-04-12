@@ -34,13 +34,13 @@ export function usePromptCollection(messageObj, shouldPrompt) {
             openModal();
             retryFn.current = retry;
         } else {
-            // pour que les conditions soit vides quand on ajoute des conditions à un group de collections
-            setConditions([{
-                id: 0,
-                parameter: '1',
-                operator: '1',
-                value: ''
-            }])
+            // pour que les conditions soient vides quand on ajoute des conditions à un group de collections <--- normalement pas utilse !!!
+            // setConditions([{
+            //     id: 0,
+            //     parameter: '1',
+            //     operator: '1',
+            //     value: ''
+            // }])
             retry();
         }
     }

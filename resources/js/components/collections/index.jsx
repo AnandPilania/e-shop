@@ -372,15 +372,15 @@ const CreateCollection = () => {
                         'Content-Type': 'multipart/form-data'
                     }
                 })
-                .then(res => {
+                .then(res => { 
                     console.log('res.data  --->  ok');
                     if (res.data === 'ok') {
                         initCollectionForm();
-                        setIdCollection(null);
+                        setIdCollection(null); 
                         // chargement des collections
                         // refresh data after save new collection
                         Axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
-                            .then(res => {
+                            .then(res => { 
                                 // listCollections -> liste complète des collections pour handleSearch
                                 setListCollections(res.data[0]);
                                 setListCollectionsFiltered(res.data[0]);

@@ -1,11 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import AppContext from '../contexts/AppContext';
-import ConditionCollection from './conditionCollection';
+
 
 
 const withHandleConditions = (Component) => (props) => {
 
-    const { conditions, setConditions, setTypeOperationListCollections, warningIdCondition, setIsAutoConditions, showModalSimpleMessage, setShowModalSimpleMessage, messageModal, setMessageModal, imageModal, setDsablNamProd, setDsablType, setDsablSuppl, setDsablPrice, setDsablTag, setDsablBeforePromo, setDsablWeight, setDsablStock, setDsablDate } = useContext(AppContext);
+    const { conditions, setConditions, setTypeOperationListCollections, warningIdCondition, setIsAutoConditions, showModalSimpleMessage, setShowModalSimpleMessage, messageModal, setMessageModal, imageModal, setDsablNamProd, setDsablType, setDsablSuppl, setDsablPrice, setDsablTag, setDsablBeforePromo, setDsablWeight, setDsablStock, setDsablDate, operatorDisable, setOperatorDisable } = useContext(AppContext);
 
     var p = '3';
     // gère l'affichage et le disable des paramètres des conditions
@@ -48,10 +48,28 @@ const withHandleConditions = (Component) => (props) => {
 
 
         // OPERATOR ----------------------------------------------------------------
-        // let tab = ['12','15','16','17','18']
+        let equal_tab = ['12', '15', '16', '17', '18'];
         // if (parameter already used with operator != "est égale à") {
         //   disable("est égale à")
         // }
+        // si une combinaison para + oper a déjà été utilisée alors warning !!!
+        conditions.forEach(c => {
+            if (equal_tab.findIndex(item => (c.parameter + c.operator) == item) != -1) {
+                setOperatorDisable({...operatorDisable, equal: true});
+            } else {
+                setOperatorDisable({...operatorDisable, equal: false});
+            }
+        })
+
+        // let paraOperAlreadyUsed = conditions.filter(c => tab.includes(c.parameter + c.operator));
+
+        // // combine parameter et operator
+        // let condParaOper = paraOperAlreadyUsed.map(item => {
+        //     return item.parameter + item.operator;
+        // })
+
+        console.log('conditions   ', conditions)
+        // console.log('operatorDisable   ', operatorDisable)
 
 
     }
@@ -98,7 +116,6 @@ const withHandleConditions = (Component) => (props) => {
     const addCondition = () => {
 
         let paraOperArray = ['11', '21', '31', '41', '51', '61', '71', '81', '91'];
-        let tmp_paraOperArray = [];
         let countIfAllUnduplicable = 0;
         for (let i = 0; i < conditions.length; i++) {
             if (paraOperArray.includes(conditions[i].parameter + conditions[i].operator)) {
@@ -119,7 +136,7 @@ const withHandleConditions = (Component) => (props) => {
             }
 
             handleDisableParam();
-
+            // p est défini dans handleDisableParam pour déterminer quels parameters peuvent resté activés et lesquels doivent être disabled
             setConditions([
                 ...conditions, {
                     id: objWithBiggerId.id + 1,

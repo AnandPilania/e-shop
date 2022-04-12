@@ -121,6 +121,18 @@ const Appcontainer = () => {
     const [dsablWeight, setDsablWeight] = useState(false);
     const [dsablStock, setDsablStock] = useState(false);
     const [dsablDate, setDsablDate] = useState(false);
+    const [operatorDisable, setOperatorDisable] = useState({
+        "equal": false,
+        "notEqual": false,
+        "upper": false,
+        "lower": false,
+        "beginWith": false,
+        "finishWith": false,
+        "contain": false,
+        "notContain": false,
+        "notEmpty": false,
+        "empty": false,
+    });
     //----------------------------Handle options in coonditionsCollections
 
  
@@ -406,6 +418,7 @@ const Appcontainer = () => {
         dsablWeight, setDsablWeight,
         dsablStock, setDsablStock,
         dsablDate, setDsablDate,
+        operatorDisable, setOperatorDisable,
 
     }
 

@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import withHandleConditions from './withHandleConditions';
 import ConditionCollection from './conditionCollection';
-import ConditionsForm from './conditionsForm';
+
 
 
 const Conditions = ({
@@ -41,7 +41,7 @@ const Conditions = ({
         }
     };
 
-    useEffect(() => {
+    useEffect(() => { 
         // dropDown conditions
         var dropable = document.getElementById('conditions_collection');
         if (isAutoConditions == 0) {
@@ -116,7 +116,7 @@ const Conditions = ({
                         </div>
 
                         {/* inputs conditions */}
-                        {/* <ConditionsForm /> */}
+                        {/* <Condition-----sForm /> */}
                         <div className="sub-div-vert-align">
                             {conditions && conditions.map((condition, i) => (
                                 <ConditionCollection

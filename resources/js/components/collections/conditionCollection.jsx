@@ -23,8 +23,9 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
     const [hideFieldValue, setHideFieldValue] = useState(false);
 
     const { conditions, dsablNamProd, setDsablNamProd, dsablType, setDsablType,
-        dsablSuppl, setDsablSuppl, dsablPrice, setDsablPrice, dsablTag, setDsablTag, dsablBeforePromo, setDsablBeforePromo, dsablWeight, setDsablWeight, dsablStock, setDsablStock, dsablDate, setDsablDate } = useContext(AppContext);
-    var para = [];
+        dsablSuppl, setDsablSuppl, dsablPrice, setDsablPrice, dsablTag, setDsablTag, dsablBeforePromo, setDsablBeforePromo, dsablWeight, setDsablWeight, dsablStock, setDsablStock, dsablDate, setDsablDate, operatorDisable, setOperatorDisable } = useContext(AppContext);
+
+    // var para = [];
 
     // initialise à show les operators qui correspondent à "Nom du produit"
     useEffect(() => {
@@ -47,8 +48,6 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
 
     // initialise quand on edit
     useEffect(() => {
-        // met dabord à hide partout
-        hideUselessOperatorReset();
         showOnlyUsableOperator(condition.parameter);
     }, [conditions]);
 
@@ -72,7 +71,9 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
     // détermine quels opérators doivent être visibles dans le select
     const showOnlyUsableOperator = (param) => {
 
+        // met dabord à hide partout
         hideUselessOperatorReset();
+
         setTypeValue('')
         // Nom du produit / Type du produit / Fournisseur
         if (param == 1 || param == 2 || param == 3) {
@@ -137,6 +138,10 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
             setHideOp4('show'); // est infèrieur à
             setInputType('date');
         }
+        console.log('operatorDisable  ', operatorDisable.equal)
+        // if (operatorDisable.equal) {
+        //     setHideOp1('hide');
+        // }
 
     }
 
@@ -173,7 +178,7 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
 
     const borderRed = warningIdCondition.includes(condition.id) ? 'borderRed' : '';
 
-    console.log('handleChangeParam ')
+
 
     return (
         <div className={"block-select-conditions " + borderRed}>
@@ -203,16 +208,56 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
                     className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"
                     value={condition.operator}
                     onChange={(e) => handleChangeOperator(e, condition.id)} >
-                    {HideOp1 == 'show' && <option value="1">est égale à</option>} {/* = */}
-                    {HideOp2 == 'show' && <option value="2">n'est pas égale à</option>} {/* != */}
-                    {HideOp3 == 'show' && <option value="3">est suppérieur à</option>} {/* > */}
-                    {HideOp4 == 'show' && <option value="4">est infèrieur à</option>} {/* < */}
-                    {HideOp5 == 'show' && <option value="5">commence par</option>} {/* %_ */}
-                    {HideOp6 == 'show' && <option value="6">se termine par</option>} {/* _% */}
-                    {HideOp7 == 'show' && <option value="7">contient</option>} {/* %_% */}
-                    {HideOp8 == 'show' && <option value="8">ne contient pas</option>} {/* !%_% */}
-                    {HideOp9 == 'show' && <option value="9">n'est pas vide</option>} {/* !null_empty */}
-                    {HideOp10 == 'show' && <option value="10">est vide</option>} {/* null_empty */}
+                    {HideOp1 == 'show' && <option
+                        value="1"
+                        className={`${operatorDisable.equal && "disableColor"}`}
+                        disabled={operatorDisable.equal}>
+                        est égale à</option>} {/* = */}
+                    {HideOp2 == 'show' && <option
+                        value="2"
+                        className={`${operatorDisable.notEqual && "disableColor"}`}
+                        disabled={operatorDisable.notEqual}>
+                        n'est pas égale à</option>} {/* != */}
+                    {HideOp3 == 'show' && <option
+                        value="3"
+                        className={`${operatorDisable.upper && "disableColor"}`}
+                        disabled={operatorDisable.upper}>
+                        est suppérieur à</option>} {/* > */}
+                    {HideOp4 == 'show' && <option
+                        value="4"
+                        className={`${operatorDisable.lower && "disableColor"}`}
+                        disabled={operatorDisable.lower}>
+                        est infèrieur à</option>} {/* < */}
+                    {HideOp5 == 'show' && <option
+                        value="5"
+                        className={`${operatorDisable.beginWith && "disableColor"}`}
+                        disabled={operatorDisable.beginWith}>
+                        commence par</option>} {/* %_ */}
+                    {HideOp6 == 'show' && <option
+                        value="6"
+                        className={`${operatorDisable.finishWith && "disableColor"}`}
+                        disabled={operatorDisable.finishWith}>
+                        se termine par</option>} {/* _% */}
+                    {HideOp7 == 'show' && <option
+                        value="7"
+                        className={`${operatorDisable.contain && "disableColor"}`}
+                        disabled={operatorDisable.contain}>
+                        contient</option>} {/* %_% */}
+                    {HideOp8 == 'show' && <option
+                        value="8"
+                        className={`${operatorDisable.notContain && "disableColor"}`}
+                        disabled={operatorDisable.notContain}>
+                        ne contient pas</option>} {/* !%_% */}
+                    {HideOp9 == 'show' && <option
+                        value="9"
+                        className={`${operatorDisable.notEmpty && "disableColor"}`}
+                        disabled={operatorDisable.notEmpty}>
+                        n'est pas vide</option>} {/* !null_empty */}
+                    {HideOp10 == 'show' && <option
+                        value="10"
+                        className={`${operatorDisable.empty && "disableColor"}`}
+                        disabled={operatorDisable.empty}>
+                        est vide</option>} {/* null_empty */}
                 </select>
             </div>
 
