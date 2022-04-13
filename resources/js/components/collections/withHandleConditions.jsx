@@ -46,9 +46,21 @@ const withHandleConditions = (Component) => (props) => {
         paraOperArray = paraOperArray.filter(val => !tmp_paraOperArray.includes(val));
         p = Math.min(...paraOperArray).toString().substring(0, 1);
 
+    }
 
-        // OPERATOR ----------------------------------------------------------------
+
+    const handleDisableOperator = () => {
+        
         let equal_tab = ['12', '15', '16', '17', '18'];
+        let notEqual_tab = ['22', '25', '26', '27', '28'];
+        let upper_tab = ['32', '35', '36', '37', '38'];
+        let lower_tab = ['12', '15', '16', '17', '18'];
+        let beginWith_tab = ['42', '43', '44'];
+        let finishWith_tab = ['12', '15', '16', '17', '18'];
+        let contain_tab = ['12', '15', '16', '17', '18'];
+        let notContain_tab = ['12', '15', '16', '17', '18'];
+        let notEmpty_tab = ['12', '15', '16', '17', '18'];
+        let empty_tab = ['12', '15', '16', '17', '18'];
         // if (parameter already used with operator != "est égale à") {
         //   disable("est égale à")
         // }
@@ -70,8 +82,6 @@ const withHandleConditions = (Component) => (props) => {
 
         console.log('conditions   ', conditions)
         // console.log('operatorDisable   ', operatorDisable)
-
-
     }
 
 
@@ -146,6 +156,8 @@ const withHandleConditions = (Component) => (props) => {
                 }
             ]);
 
+            handleDisableOperator();
+
             // dropDown
             var dropable = document.getElementById('conditions_collection');
             if (dropable != null) {
@@ -165,7 +177,7 @@ const withHandleConditions = (Component) => (props) => {
         arr.splice(index_arr, 1);
 
         setConditions([...arr]);
-
+        handleDisableOperator();
         // repasse à isAutoConditions = 0 quand on delete toutes les conditions
         arr.length === 0 && setIsAutoConditions(0);
         localStorage.setItem('isAutoConditions', 0);
