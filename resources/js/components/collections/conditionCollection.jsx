@@ -37,7 +37,7 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
     });
 
     const { conditions, dsablNamProd, setDsablNamProd, dsablType, setDsablType,
-        dsablSuppl, setDsablSuppl, dsablPrice, setDsablPrice, dsablTag, setDsablTag, dsablBeforePromo, setDsablBeforePromo, dsablWeight, setDsablWeight, dsablStock, setDsablStock, dsablDate, setDsablDate, operatorDisable, setOperatorDisable } = useContext(AppContext);
+        dsablSuppl, setDsablSuppl, dsablPrice, setDsablPrice, dsablTag, setDsablTag, dsablBeforePromo, setDsablBeforePromo, dsablWeight, setDsablWeight, dsablStock, setDsablStock, dsablDate, setDsablDate } = useContext(AppContext);
 
     // var para = [];
 

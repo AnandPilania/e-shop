@@ -49,39 +49,18 @@ const withHandleConditions = (Component) => (props) => {
     }
 
 
-    const handleDisableOperator = () => {
-        
-        let equal_tab = ['12', '15', '16', '17', '18'];
-        let notEqual_tab = ['22', '25', '26', '27', '28'];
-        let upper_tab = ['32', '35', '36', '37', '38'];
-        let lower_tab = ['12', '15', '16', '17', '18'];
-        let beginWith_tab = ['42', '43', '44'];
-        let finishWith_tab = ['12', '15', '16', '17', '18'];
-        let contain_tab = ['12', '15', '16', '17', '18'];
-        let notContain_tab = ['12', '15', '16', '17', '18'];
-        let notEmpty_tab = ['12', '15', '16', '17', '18'];
-        let empty_tab = ['12', '15', '16', '17', '18'];
-        // if (parameter already used with operator != "est égale à") {
-        //   disable("est égale à")
-        // }
+    const handleDisableOperator = (id) => {
+
+        let notEqualOperator = ['12', '15', '16', '17', '18','22', '25', '26', '27', '28','32', '35', '36', '37', '38','42', '43', '44','62', '63', '64', '69', '610','72', '73', '74','82', '83', '84','92', '93', '94'];
         // si une combinaison para + oper a déjà été utilisée alors warning !!!
-        conditions.forEach(c => {
-            if (equal_tab.findIndex(item => (c.parameter + c.operator) == item) != -1) {
-                setConditions([...conditions, { disableOperator: 'equal'}]);
-            } else {
-                setConditions([...conditions, { disableOperator: ''}]);
+        let tmp = [...conditions];
+        let index_arr = tmp.findIndex(obj => obj.id == id);
+        if (index_arr != -1) {
+            if (notEqualOperator.includes(tmp.parameter + tmp.operator)) {
+                tmp[index_arr].disableOperator = true;
             }
-        })
-
-        // let paraOperAlreadyUsed = conditions.filter(c => tab.includes(c.parameter + c.operator));
-
-        // // combine parameter et operator
-        // let condParaOper = paraOperAlreadyUsed.map(item => {
-        //     return item.parameter + item.operator;
-        // })
-
-        console.log('conditions   ', conditions)
-        // console.log('operatorDisable   ', operatorDisable)
+            setConditions(tmp);
+        }
     }
 
 
@@ -107,7 +86,7 @@ const withHandleConditions = (Component) => (props) => {
         }
         setConditions(tmp_conditions);
         handleDisableParam();
-        handleDisableOperator();
+        handleDisableOperator(id);
     };
 
     // gère la valeur entrée dans les conditions automatiques
@@ -135,7 +114,7 @@ const withHandleConditions = (Component) => (props) => {
         // }
 
         // && paraOperArray.length != countIfAllUnduplicable
-        
+
         if (conditions.findIndex(c => c.value.length == 0) == -1) {
             // get bigger id to define the next id to insert in conditions
             var objWithBiggerId = {};
@@ -155,11 +134,11 @@ const withHandleConditions = (Component) => (props) => {
                     parameter: p,
                     operator: '1',
                     value: '',
-                    disableOperator: '',
+                    disableOperator: false,
                 }
             ]);
 
-            // handleDisableOperator();
+            handleDisableOperator(objWithBiggerId.id + 1);
 
             // dropDown
             var dropable = document.getElementById('conditions_collection');

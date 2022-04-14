@@ -37,7 +37,7 @@ const Conditions = ({
                 parameter: '1',
                 operator: '1',
                 value: '',
-                disableOperator: '',
+                disableOperator: false,
             }]);
         }
     };

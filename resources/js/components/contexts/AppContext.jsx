@@ -130,7 +130,5 @@ export default React.createContext({
     setDsablStock: () => { },
     dsablDate: '',
     setDsablDate: () => { },
-    operatorDisable: '',
-    setOperatorDisable: () => { },
 
 });

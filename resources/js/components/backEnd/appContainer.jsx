@@ -22,7 +22,7 @@ const Appcontainer = () => {
         parameter: '1',
         operator: '1',
         value: '', 
-        disableOperator: '',
+        disableOperator: false,
     }]);
     const [nameCollection, setNameCollection] = useState('');
     const [descriptionCollection, setDescriptionCollection] = useState('');
@@ -122,19 +122,7 @@ const Appcontainer = () => {
     const [dsablWeight, setDsablWeight] = useState(false);
     const [dsablStock, setDsablStock] = useState(false);
     const [dsablDate, setDsablDate] = useState(false);
-    const [operatorDisable, setOperatorDisable] = useState({
-        "equal": false,
-        "notEqual": false,
-        "upper": false,
-        "lower": false,
-        "beginWith": false,
-        "finishWith": false,
-        "contain": false,
-        "notContain": false,
-        "notEmpty": false,
-        "empty": false,
-    });
-    //----------------------------Handle options in coonditionsCollections
+      //----------------------------Handle options in coonditionsCollections
 
  
 
@@ -196,7 +184,7 @@ const Appcontainer = () => {
             parameter: '1',
             operator: '1',
             value: '',
-            disableOperator: '',
+            disableOperator: false,
         }]);
         setIsAutoConditions(localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 1);
         setAllConditionsNeeded(localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1);
@@ -307,7 +295,7 @@ const Appcontainer = () => {
                     parameter: '1',
                     operator: '1',
                     value: '',
-                    disableOperator: '',
+                    disableOperator: false,
                 }])
                 break;
             case 'addNewConditions':
@@ -327,7 +315,7 @@ const Appcontainer = () => {
                                 parameter: '1',
                                 operator: '1',
                                 value: '',
-                                disableOperator: '',
+                                disableOperator: false,
                             }]);
                             // refresh data after save new conditions
                             // il n'y a pas de delete mais ça permet de refresh list collection
@@ -422,7 +410,6 @@ const Appcontainer = () => {
         dsablWeight, setDsablWeight,
         dsablStock, setDsablStock,
         dsablDate, setDsablDate,
-        operatorDisable, setOperatorDisable,
 
     }
 
