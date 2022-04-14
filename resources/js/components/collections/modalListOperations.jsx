@@ -272,7 +272,8 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
                             id: 0,
                             parameter: '1',
                             operator: '1',
-                            value: ''
+                            value: '',
+                            disableOperator: '',
                         }]);
                         arrWarning = [];
                         // refresh data after save new conditions
@@ -298,7 +299,7 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
                 {sender === 'conditions' && <ConditionsForm />}
 
                 <div className="flex-row-s-c w100pct p-l-20">
-                    {conditions?.findIndex(c => c.value.length === 0) == -1 &&
+                    {conditions?.findIndex(c => c?.value.length === 0) == -1 &&
                         <button className="btn-bcknd mb15 m-r-20" onClick={handleSave}>
                             {textButton}
                         </button>}

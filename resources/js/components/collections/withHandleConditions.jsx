@@ -67,9 +67,9 @@ const withHandleConditions = (Component) => (props) => {
         // si une combinaison para + oper a déjà été utilisée alors warning !!!
         conditions.forEach(c => {
             if (equal_tab.findIndex(item => (c.parameter + c.operator) == item) != -1) {
-                setOperatorDisable({...operatorDisable, equal: true});
+                setConditions([...conditions, { disableOperator: 'equal'}]);
             } else {
-                setOperatorDisable({...operatorDisable, equal: false});
+                setConditions([...conditions, { disableOperator: ''}]);
             }
         })
 
@@ -107,6 +107,7 @@ const withHandleConditions = (Component) => (props) => {
         }
         setConditions(tmp_conditions);
         handleDisableParam();
+        handleDisableOperator();
     };
 
     // gère la valeur entrée dans les conditions automatiques
@@ -125,15 +126,16 @@ const withHandleConditions = (Component) => (props) => {
     //add condition
     const addCondition = () => {
 
-        let paraOperArray = ['11', '21', '31', '41', '51', '61', '71', '81', '91'];
-        let countIfAllUnduplicable = 0;
-        for (let i = 0; i < conditions.length; i++) {
-            if (paraOperArray.includes(conditions[i].parameter + conditions[i].operator)) {
-                countIfAllUnduplicable++;
-            }
-        }
+        // let paraOperArray = ['11', '21', '31', '41', '51', '61', '71', '81', '91'];
+        // let countIfAllUnduplicable = 0;
+        // for (let i = 0; i < conditions.length; i++) {
+        //     if (paraOperArray.includes(conditions[i].parameter + conditions[i].operator)) {
+        //         countIfAllUnduplicable++;
+        //     }
+        // }
 
         // && paraOperArray.length != countIfAllUnduplicable
+        
         if (conditions.findIndex(c => c.value.length == 0) == -1) {
             // get bigger id to define the next id to insert in conditions
             var objWithBiggerId = {};
@@ -152,11 +154,12 @@ const withHandleConditions = (Component) => (props) => {
                     id: objWithBiggerId.id + 1,
                     parameter: p,
                     operator: '1',
-                    value: ''
+                    value: '',
+                    disableOperator: '',
                 }
             ]);
 
-            handleDisableOperator();
+            // handleDisableOperator();
 
             // dropDown
             var dropable = document.getElementById('conditions_collection');

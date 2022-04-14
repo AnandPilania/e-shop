@@ -21,7 +21,8 @@ const Appcontainer = () => {
         id: 0,
         parameter: '1',
         operator: '1',
-        value: ''
+        value: '', 
+        disableOperator: '',
     }]);
     const [nameCollection, setNameCollection] = useState('');
     const [descriptionCollection, setDescriptionCollection] = useState('');
@@ -194,7 +195,8 @@ const Appcontainer = () => {
             id: 0,
             parameter: '1',
             operator: '1',
-            value: ''
+            value: '',
+            disableOperator: '',
         }]);
         setIsAutoConditions(localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 1);
         setAllConditionsNeeded(localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1);
@@ -304,7 +306,8 @@ const Appcontainer = () => {
                     id: 0,
                     parameter: '1',
                     operator: '1',
-                    value: ''
+                    value: '',
+                    disableOperator: '',
                 }])
                 break;
             case 'addNewConditions':
@@ -323,7 +326,8 @@ const Appcontainer = () => {
                                 id: 0,
                                 parameter: '1',
                                 operator: '1',
-                                value: ''
+                                value: '',
+                                disableOperator: '',
                             }]);
                             // refresh data after save new conditions
                             // il n'y a pas de delete mais ça permet de refresh list collection
