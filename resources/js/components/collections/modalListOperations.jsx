@@ -273,7 +273,7 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
                             parameter: '1',
                             operator: '1',
                             value: '',
-                            disableOperator: false,
+                            disableOperator: '',
                         }]);
                         arrWarning = [];
                         // refresh data after save new conditions

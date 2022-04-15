@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import AppContext from '../contexts/AppContext';
-
+import { getParameter, getOperator } from './conditionsFunctions';
 
 
 const withHandleConditions = (Component) => (props) => {
@@ -50,17 +50,37 @@ const withHandleConditions = (Component) => (props) => {
 
 
     const handleDisableOperator = (id) => {
+        let notEqualOperator = ['12', '15', '16', '17', '18', '22', '25', '26', '27', '28', '32', '35', '36', '37', '38', '42', '43', '44', '62', '63', '64', '69', '610', '72', '73', '74', '82', '83', '84', '92', '93', '94'];
 
-        let notEqualOperator = ['12', '15', '16', '17', '18','22', '25', '26', '27', '28','32', '35', '36', '37', '38','42', '43', '44','62', '63', '64', '69', '610','72', '73', '74','82', '83', '84','92', '93', '94'];
-        // si une combinaison para + oper a déjà été utilisée alors warning !!!
         let tmp = [...conditions];
-        let index_arr = tmp.findIndex(obj => obj.id == id);
-        if (index_arr != -1) {
-            if (notEqualOperator.includes(tmp.parameter + tmp.operator)) {
-                tmp[index_arr].disableOperator = true;
+        console.log('tmp 1  ', tmp)
+        console.log('id  ', id)
+        // let alreadySelected = conditions.map(item =>  item.parameter);
+        // console.log('alreadySelected  ', alreadySelected)
+        tmp.forEach(c => {
+            if (notEqualOperator.includes(c.parameter + c.operator)) {
+                let ndx = tmp.findIndex(obj => obj.id == id);
+                if (ndx != -1) {
+                    tmp[ndx].disableOperator = "equal";
+                    console.log('tmp 2  ', tmp)
+                }
+            } else {
+                let po = c.parameter + c.operator;
+                if (po == '11' || po == '21' || po == '31' || po == '41' || po == '61' || po == '71' || po == '81' || po == '91') {
+                    let ndx = tmp.findIndex(obj => obj.id == id);
+                    if (ndx != -1) {
+                        tmp[ndx].disableOperator = "otherThanEqual";
+                        console.log('tmp 3  ', tmp)
+                    }
+                }
             }
-            setConditions(tmp);
-        }
+        });
+        setConditions(tmp);
+        console.log('tmp 4  ', tmp)
+        console.log('conditions  ', conditions)
+
+        // si "est égale à" est sélectionné alors desable tout le reste
+        // si n'importe quel oper qui n'est pas "est égale à" est sélectionné alors desable "est égale à"
     }
 
 
@@ -68,8 +88,8 @@ const withHandleConditions = (Component) => (props) => {
     // gère le paramètre à changer dans les conditions automatiques
     const handleChangeParam = (param, id) => {
         let tmp_conditions = [...conditions];
-        let index_arr = tmp_conditions.findIndex(obj => obj.id == id);
-        tmp_conditions[index_arr].parameter = param;
+        let ndx = tmp_conditions.findIndex(obj => obj.id == id);
+        tmp_conditions[ndx].parameter = param;
         setConditions(tmp_conditions);
         handleDisableParam();
     };
@@ -77,12 +97,12 @@ const withHandleConditions = (Component) => (props) => {
     // gère le type d'opérations à éffectuer dans les conditons automatiques
     const handleChangeOperator = (e, id) => {
         let tmp_conditions = [...conditions];
-        let index_arr = tmp_conditions.findIndex(obj => obj.id == id);
+        let ndx = tmp_conditions.findIndex(obj => obj.id == id);
         // if e is not a event target but just a variable 
         if (e.target == undefined || e.target == null || e.target == '') {
-            tmp_conditions[index_arr].operator = e
+            tmp_conditions[ndx].operator = e
         } else {
-            tmp_conditions[index_arr].operator = e.target.value;
+            tmp_conditions[ndx].operator = e.target.value;
         }
         setConditions(tmp_conditions);
         handleDisableParam();
@@ -92,12 +112,12 @@ const withHandleConditions = (Component) => (props) => {
     // gère la valeur entrée dans les conditions automatiques
     const handleChangeValue = (e, id) => {
         let tmp_conditions = [...conditions];
-        let index_arr = tmp_conditions.findIndex(obj => obj.id == id);
+        let ndx = tmp_conditions.findIndex(obj => obj.id == id);
         // if e comes from FltaPickr then this is not a event target but just a variable 
         if (e.target == undefined || e.target == null || e.target == '') {
-            tmp_conditions[index_arr].value = e.replace(/ (\d|:)+/, '');
+            tmp_conditions[ndx].value = e.replace(/ (\d|:)+/, '');
         } else {
-            tmp_conditions[index_arr].value = e.target.value;
+            tmp_conditions[ndx].value = e.target.value;
         }
         setConditions(tmp_conditions);
     };
@@ -105,19 +125,9 @@ const withHandleConditions = (Component) => (props) => {
     //add condition
     const addCondition = () => {
 
-        // let paraOperArray = ['11', '21', '31', '41', '51', '61', '71', '81', '91'];
-        // let countIfAllUnduplicable = 0;
-        // for (let i = 0; i < conditions.length; i++) {
-        //     if (paraOperArray.includes(conditions[i].parameter + conditions[i].operator)) {
-        //         countIfAllUnduplicable++;
-        //     }
-        // }
-
-        // && paraOperArray.length != countIfAllUnduplicable
-
         if (conditions.findIndex(c => c.value.length == 0) == -1) {
             // get bigger id to define the next id to insert in conditions
-            var objWithBiggerId = {};
+            let objWithBiggerId = {};
             if (conditions.length > 0) {
                 objWithBiggerId = conditions.reduce(function (prev, current) {
                     return (prev.id > current.id) ? prev : current
@@ -134,14 +144,14 @@ const withHandleConditions = (Component) => (props) => {
                     parameter: p,
                     operator: '1',
                     value: '',
-                    disableOperator: false,
+                    disableOperator: '',
                 }
             ]);
-
+console.log('objWithBiggerId.id + 1   ', objWithBiggerId.id + 1)
             handleDisableOperator(objWithBiggerId.id + 1);
 
             // dropDown
-            var dropable = document.getElementById('conditions_collection');
+            let dropable = document.getElementById('conditions_collection');
             if (dropable != null) {
                 dropable.style.maxHeight = parseInt(dropable.scrollHeight + 60) + "px";
             }
@@ -154,9 +164,9 @@ const withHandleConditions = (Component) => (props) => {
 
     // delete la condition dont l'id correspond à l'id transmit
     const deleteCondition = (id) => {
-        var arr = [...conditions];
-        var index_arr = arr.findIndex(obj => obj.id == id);
-        arr.splice(index_arr, 1);
+        let arr = [...conditions];
+        let index = arr.findIndex(obj => obj.id == id);
+        arr.splice(index, 1);
 
         setConditions([...arr]);
         handleDisableOperator();
