@@ -1,68 +1,42 @@
 import { React, useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
-import Conditionselectoperator from './conditionSelectOperator';
 import FlatpickrDate from '../tools/flatpickr';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, warningIdCondition, handleChangeOperator, deleteCondition }) => {
 
-    const [HideOp1, setHideOp1] = useState('hide');
-    const [HideOp2, setHideOp2] = useState('hide');
-    const [HideOp3, setHideOp3] = useState('hide');
-    const [HideOp4, setHideOp4] = useState('hide');
-    const [HideOp5, setHideOp5] = useState('hide');
-    const [HideOp6, setHideOp6] = useState('hide');
-    const [HideOp7, setHideOp7] = useState('show');
-    const [HideOp8, setHideOp8] = useState('show');
-    const [HideOp9, setHideOp9] = useState('hide');
-    const [HideOp10, setHideOp10] = useState('hide');
+    const [hideOp1, setHideOp1] = useState('hide');
+    const [hideOp2, setHideOp2] = useState('hide');
+    const [hideOp3, setHideOp3] = useState('hide');
+    const [hideOp4, setHideOp4] = useState('hide');
+    const [hideOp5, setHideOp5] = useState('hide');
+    const [hideOp6, setHideOp6] = useState('hide');
+    const [hideOp7, setHideOp7] = useState('show');
+    const [hideOp8, setHideOp8] = useState('show');
+    const [hideOp9, setHideOp9] = useState('hide');
+    const [hideOp10, setHideOp10] = useState('hide');
     const [typeValue, setTypeValue] = useState('');
     const [inputType, setInputType] = useState('text');
     const [inputStep, setInputStep] = useState('0.01');
     const [inputTypeDate, setinputTypeDate] = useState('');
     const [hideFieldValue, setHideFieldValue] = useState(false);
 
-    const [hideOp, setHideOp] = useState({
-        "op1": "hide",
-        "op2": "hide",
-        "op3": "hide",
-        "op4": "hide",
-        "op5": "hide",
-        "op6": "hide",
-        "op7": "hide",
-        "op8": "hide",
-        "op9": "hide",
-        "op10": "hide",
-    });
-
     const { conditions, dsablNamProd, setDsablNamProd, dsablType, setDsablType,
         dsablSuppl, setDsablSuppl, dsablPrice, setDsablPrice, dsablTag, setDsablTag, dsablBeforePromo, setDsablBeforePromo, dsablWeight, setDsablWeight, dsablStock, setDsablStock, dsablDate, setDsablDate } = useContext(AppContext);
 
-    // var para = [];
 
     // initialise à show les operators qui correspondent à "Nom du produit"
     useEffect(() => {
         // met dabord à hide partout
         hideUselessOperatorReset();
 
-        // met à show la première condition par défaut
-        setHideOp({
-            ...hideOp,
-            op1: 'show', // est égale à 
-            op2: 'show', // n'est pas égale à 
-            op5: 'show', // commence par 
-            op6: 'show', // se termine par 
-            op7: 'show', // contient 
-            op8: 'show', // ne contient pas
-        });
-
-        // setHideOp1('show'); // est égale à
-        // setHideOp2('show'); // n'est pas égale à
-        // setHideOp5('show'); // commence par
-        // setHideOp6('show'); // se termine par
-        // setHideOp7('show'); // contient
-        // setHideOp8('show'); // ne contient pas
+        setHideOp1('show'); // est égale à
+        setHideOp2('show'); // n'est pas égale à
+        setHideOp5('show'); // commence par
+        setHideOp6('show'); // se termine par
+        setHideOp7('show'); // contient
+        setHideOp8('show'); // ne contient pas
 
         showOnlyUsableOperator(condition.parameter);
 
@@ -71,37 +45,23 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
 
 
     // initialise quand on edit
-    useEffect(() => {
+    useEffect(() => { 
         showOnlyUsableOperator(condition.parameter);
     }, [conditions]);
 
 
-
     // met hide pour tous les paramètres
     const hideUselessOperatorReset = () => {
-        setHideOp({
-            ...hideOp,
-            op1: 'hide', 
-            op2: 'hide', 
-            op3: 'hide', 
-            op4: 'hide', 
-            op5: 'hide',
-            op6: 'hide', 
-            op7: 'hide',
-            op8: 'hide',
-            op9: 'hide',
-            op10: 'hide',
-        });
-        // setHideOp1('hide');
-        // setHideOp2('hide');
-        // setHideOp3('hide');
-        // setHideOp4('hide');
-        // setHideOp5('hide');
-        // setHideOp6('hide');
-        // setHideOp7('hide');
-        // setHideOp8('hide');
-        // setHideOp9('hide');
-        // setHideOp10('hide');
+        setHideOp1('hide');
+        setHideOp2('hide');
+        setHideOp3('hide');
+        setHideOp4('hide');
+        setHideOp5('hide');
+        setHideOp6('hide');
+        setHideOp7('hide');
+        setHideOp8('hide');
+        setHideOp9('hide');
+        setHideOp10('hide');
     }
 
 
@@ -114,116 +74,66 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
         setTypeValue('')
         // Nom du produit / Type du produit / Fournisseur
         if (param == 1 || param == 2 || param == 3) {
-            setHideOp({
-                ...hideOp,
-                op1: 'show', // est égale à 
-                op2: 'show', // n'est pas égale à 
-                op5: 'show', // commence par 
-                op6: 'show', // se termine par 
-                op7: 'show', // contient 
-                op8: 'show', // ne contient pas
-            });
-
-            // setHideOp1('show'); // est égale à
-            // setHideOp2('show'); // n'est pas égale à
-            // setHideOp5('show'); // commence par
-            // setHideOp6('show'); // se termine par
-            // setHideOp7('show'); // contient
-            // setHideOp8('show'); // ne contient pas
+            setHideOp1('show'); // est égale à
+            setHideOp2('show'); // n'est pas égale à
+            setHideOp5('show'); // commence par
+            setHideOp6('show'); // se termine par
+            setHideOp7('show'); // contient
+            setHideOp8('show'); // ne contient pas
             setInputType('text');
         }
         // Prix du produit 
         if (param == 4) {
-            setHideOp({
-                ...hideOp,
-                op1: 'show', // est égale à 
-                op2: 'show', // n'est pas égale à 
-                op3: 'show', // est suppérieur à
-                op4: 'show', // est infèrieur à
-            });
-            // setHideOp1('show'); // est égale à
-            // setHideOp2('show'); // n'est pas égale à
-            // setHideOp3('show'); // est suppérieur à
-            // setHideOp4('show'); // est infèrieur à
+            setHideOp1('show'); // est égale à
+            setHideOp2('show'); // n'est pas égale à
+            setHideOp3('show'); // est suppérieur à
+            setHideOp4('show'); // est infèrieur à
             setTypeValue('€');
             setInputType('number');
             setInputStep('0.01');
         }
+
         // Balise du produit
         if (param == 5) {
-            setHideOp({
-                ...hideOp,
-                op1: 'show', // est égale à 
-            });
-            // setHideOp1('show'); // est égale à
+            setHideOp1('show'); // est égale à
             setInputType('text');
         }
         // Prix avant réduction
         if (param == 6) {
-            setHideOp({
-                ...hideOp,
-                op1: 'show', // est égale à 
-                op2: 'show', // n'est pas égale à 
-                op3: 'show', // est suppérieur à
-                op4: 'show', // est infèrieur à
-                op9: 'show', // n'est pas vide
-                op10: 'show', // est vide
-            });
-            // setHideOp1('show'); // est égale à
-            // setHideOp2('show'); // n'est pas égale à
-            // setHideOp3('show'); // est suppérieur à
-            // setHideOp4('show'); // est infèrieur à
-            // setHideOp9('show'); // n'est pas vide
-            // setHideOp10('show'); // est vide
+            setHideOp1('show'); // est égale à
+            setHideOp2('show'); // n'est pas égale à
+            setHideOp3('show'); // est suppérieur à
+            setHideOp4('show'); // est infèrieur à
+            setHideOp9('show'); // n'est pas vide
+            setHideOp10('show'); // est vide
             setTypeValue('€');
             setInputType('number');
             setInputStep('0.01');
         }
         // Poids
         if (param == 7) {
-            setHideOp({
-                ...hideOp,
-                op1: 'show', // est égale à 
-                op2: 'show', // n'est pas égale à 
-                op3: 'show', // est suppérieur à
-                op4: 'show', // est infèrieur à
-            });
-            // setHideOp1('show'); // est égale à
-            // setHideOp2('show'); // n'est pas égale à
-            // setHideOp3('show'); // est suppérieur à
-            // setHideOp4('show'); // est infèrieur à
+            setHideOp1('show'); // est égale à
+            setHideOp2('show'); // n'est pas égale à
+            setHideOp3('show'); // est suppérieur à
+            setHideOp4('show'); // est infèrieur à
             setTypeValue('Kg');
             setInputType('number');
             setInputStep('0.01');
         }
         // Stock
         if (param == 8) {
-            setHideOp({
-                ...hideOp,
-                op1: 'show', // est égale à 
-                op2: 'show', // n'est pas égale à 
-                op3: 'show', // est suppérieur à
-                op4: 'show', // est infèrieur à
-            });
-            // setHideOp1('show'); // est égale à
-            // setHideOp3('show'); // est suppérieur à
-            // setHideOp4('show'); // est infèrieur à
+            setHideOp1('show'); // est égale à
+            setHideOp3('show'); // est suppérieur à
+            setHideOp4('show'); // est infèrieur à
             setInputType('number');
             setInputStep('1');
         }
         // date
         if (param == 9) {
-            setHideOp({
-                ...hideOp,
-                op1: 'show', // est égale à 
-                op2: 'show', // n'est pas égale à 
-                op3: 'show', // est suppérieur à
-                op4: 'show', // est infèrieur à
-            });
-            // setHideOp1('show'); // est égale à
-            // setHideOp2('show'); // n'est pas égale à
-            // setHideOp3('show'); // est suppérieur à
-            // setHideOp4('show'); // est infèrieur à
+            setHideOp1('show'); // est égale à
+            setHideOp2('show'); // n'est pas égale à
+            setHideOp3('show'); // est suppérieur à
+            setHideOp4('show'); // est infèrieur à
             setInputType('date');
         }
 
@@ -245,11 +155,7 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
     // récup le param et l'envoi à handleChangeParam pour mettre à jours l'obj conditions + l'envoi à showOnlyUsableOperator pour détermine quelle liste d'opérators afficher
     const changeParamValue = (e) => {
 
-        setHideOp({
-            ...hideOp,
-            op1: 'show', // est égale à 
-        });
-        // setHideOp1('show'); // est égale à
+        setHideOp1('show'); // est égale à
 
         // met l'opérator à est égale à lorsqu'on change le paramètre. 'c'est un init du champ operator'
         handleChangeOperator('1', condition.id)
@@ -292,9 +198,46 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
             </div>
 
             {/* operator */}
-            <div>
+            {/* <div>
                 <Conditionselectoperator condition={condition} hideOp={hideOp} handleChangeOperator={handleChangeOperator} />
-            </div>
+            </div> */}
+            <div>
+            <select
+                className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"
+                value={condition.operator}
+                onChange={(e) => handleChangeOperator(e, condition.id)} >
+                {hideOp1 == 'show' && <option value="1" disabled={conditions.disableOperator == 'equal'}>
+                    est égale à
+                </option>} {/* = */}
+                {hideOp2 == 'show' && <option value="2">
+                    n'est pas égale à
+                </option>} {/* != */}
+                {hideOp3 == 'show' && <option value="3">
+                    est suppérieur à
+                </option>} {/* > */}
+                {hideOp4 == 'show' && <option value="4">
+                    est infèrieur à
+                </option>} {/* < */}
+                {hideOp5 == 'show' && <option value="5">
+                    commence par
+                </option>} {/* %_ */}
+                {hideOp6 == 'show' && <option value="6">
+                    se termine par
+                </option>} {/* _% */}
+                {hideOp7 == 'show' && <option value="7">
+                    contient
+                </option>} {/* %_% */}
+                {hideOp8 == 'show' && <option value="8">
+                    ne contient pas
+                </option>} {/* !%_% */}
+                {hideOp9 == 'show' && <option value="9">
+                    n'est pas vide
+                </option>} {/* !null_empty */}
+                {hideOp10 == 'show' && <option value="10">
+                    est vide
+                </option>} {/* null_empty */}
+            </select>
+        </div>
 
             {/* value */}
             {!hideFieldValue && inputType == 'date' ? <FlatpickrDate placeholder={condition.value} setFunction={handleChangeValue} id={condition.id} /> :

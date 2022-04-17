@@ -208,7 +208,7 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
                         case '2': unDuplicableCond.push('21'); break;
                         case '3': unDuplicableCond.push('31'); break;
                         case '4': unDuplicableCond.push('41'); break;
-                        case '5': unDuplicableCond.push('51'); break;
+                        // case '5': unDuplicableCond.push('51'); break;
                         case '6': unDuplicableCond.push('61'); break;
                         case '7': unDuplicableCond.push('71'); break;
                         case '8': unDuplicableCond.push('81'); break;
