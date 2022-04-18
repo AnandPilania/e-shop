@@ -206,7 +206,7 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
                 className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"
                 value={condition.operator}
                 onChange={(e) => handleChangeOperator(e, condition.id)} >
-                {hideOp1 == 'show' && <option value="1" disabled={conditions.disableOperator == 'equal'}>
+                {hideOp1 == 'show' && <option value="1" disabled={condition.disableOperator == 'equal'} className={`${condition.disableOperator == 'equal' && "disableColor"}`}>
                     est égale à
                 </option>} {/* = */}
                 {hideOp2 == 'show' && <option value="2">

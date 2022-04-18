@@ -1,3 +1,4 @@
+import { forEach } from 'lodash';
 import React, { useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import ModalSimpleMessage from '../modal/modalSimpleMessage';
@@ -59,53 +60,33 @@ const withHandleConditions = (Component) => (props) => {
 
     const closeSimpleModal = () => {
         setShowModalSimpleMessage(false);
-      }
+    }
 
     useEffect(() => {
-        // idNewCondition contien l'id de la nouvelle condition créée dans addCondition. Ceci permet de mettre à jour conditions pour tenir compte de la dernière condition ajouté pour définir quels opérateur afficher ou pas
+        // idNewCondition contien l'id de la nouvelle condition créée dans addCondition ou l'id transmit par le changement du parameter ou de l'operator. Ceci permet de mettre à jour conditions pour tenir compte des derniers changements et déterminer si on disable "est égale à" ou pas
         canIUseThisConbinaison();
     }, [refreshCondition]);
 
     // vérifie si les conditions ne sont pas en conflis. ex. "est égale à" avec 
     const canIUseThisConbinaison = () => {
-
-        let notEqualOperator = [[0], ['12', '15', '16', '17', '18'], ['22', '25', '26', '27', '28'], ['32', '35', '36', '37', '38'], ['42', '43', '44'], ['62', '63', '64', '69', '610'], ['72', '73', '74'], ['82', '83', '84'], ['92', '93', '94']];
-        combiOk:
-        for (let i = 0; i < conditions.length; i++) {
-            // si para + oper se trouvent dans notEqualOperator et qu'on a aussi le même para + '1' dans nos conditions alors error UNDUPLICALE FIELD !!! sinon ok
-            // && conditions.findIndex(x => x.parameter + x.operator == conditions[i].parameter + '1') != -1
-
-            let equal = conditions.filter(x => x.operator == '1');
-            console.log('equal  ', equal)
-
-            let para_oper = conditions[i].parameter + conditions[i].operator;
-            if (notEqualOperator[conditions[i].parameter].includes(para_oper) 
-            && equal.filter(x => x.parameter + x.operator == para_oper).length > 0) {
-                console.log('wrong !!!');
-
-                // setConditions([
-                //     ...conditions, {
-                //         id: objWithBiggerId.id + 1,
-                //         parameter: p,
-                //         operator: '1',
-                //         value: '',
-                //         disableOperator: 'equal',
-                //     }
-                // ]);
-
-                // setShowModalSimpleMessage(true);
-                // setMessageModal('Vous avez déjà entré une condition avec les mêmes paramètres. Veuillez modifier ou supprimer les conditions en double');
-
-                setOkAddNewCondition(false);
-                break combiOk;
-            }
-            else {
-                console.log('ok good');
-                setOkAddNewCondition(true);
-            }
+        if (conditions.length > 0) {
+            var tmp = conditions;
+            tmp.forEach(x => {
+                let sameParam = tmp.filter(y => y.parameter == x.parameter);
+                if (sameParam.length > 1) {
+                    let index = tmp.findIndex(x => x.id == sameParam[0].id);
+                    tmp[index].disableOperator = '';
+                    for (let i = 1; i < sameParam.length; i++) {
+                        let index = tmp.findIndex(x => x.id == sameParam[i].id);
+                        tmp[index].disableOperator = 'equal';
+                    }
+                }
+            });
+            setConditions(tmp);
         }
     }
 
+    // console.log('conditions  out ', conditions);
 
 
     // gère le paramètre à changer dans les conditions automatiques
@@ -115,9 +96,7 @@ const withHandleConditions = (Component) => (props) => {
         tmp_conditions[ndx].parameter = param;
         setConditions(tmp_conditions);
         handleDisableParam();
-        // setRefreshCondition(Date());
-        canIUseThisConbinaison();
-        console.log('conditions pa  ', conditions)
+        setRefreshCondition(Date());
     };
 
     // gère le type d'opérations à éffectuer dans les conditons automatiques
@@ -132,9 +111,7 @@ const withHandleConditions = (Component) => (props) => {
         }
         setConditions(tmp_conditions);
         handleDisableParam();
-        // setRefreshCondition(Date());
-        canIUseThisConbinaison();
-        console.log('conditions op  ', conditions)
+        setRefreshCondition(Date());
     };
 
     // gère la valeur entrée dans les conditions automatiques 
@@ -166,30 +143,27 @@ const withHandleConditions = (Component) => (props) => {
         if (conditions.findIndex(c => c.value.length == 0) == -1) {
             handleDisableParam();
             // on check s'il n'y a pas de conditions en conflis
-            // setRefreshCondition(Date());
-            canIUseThisConbinaison();
-            console.log('okAddNewCondition  ', okAddNewCondition);
-            if (okAddNewCondition) {
-                setOkAddNewCondition(false);
-                // p est défini dans handleDisableParam pour déterminer quels parameters peuvent resté activés et lesquels doivent être disabled
-                setConditions([
-                    ...conditions, {
-                        id: objWithBiggerId.id + 1,
-                        parameter: p,
-                        operator: '1',
-                        value: '',
-                        disableOperator: '',
-                    }
-                ]);
-                console.log('conditions  add', conditions)
-                // dropDown
-                let dropable = document.getElementById('conditions_collection');
-                if (dropable != null) {
-                    dropable.style.maxHeight = parseInt(dropable.scrollHeight + 60) + "px";
+            setRefreshCondition(Date());
+            // canIUseThisConbinaison(objWithBiggerId.id + 1);
+
+            // p est défini dans handleDisableParam pour déterminer quels parameters peuvent resté activés et lesquels doivent être disabled
+            setConditions([
+                ...conditions, {
+                    id: objWithBiggerId.id + 1,
+                    parameter: p,
+                    operator: '1',
+                    value: '',
+                    disableOperator: '',
                 }
-            } else {
-                alert('pas ok');
+            ]);
+            // dropDown
+            let dropable = document.getElementById('conditions_collection');
+            if (dropable != null) {
+                dropable.style.maxHeight = parseInt(dropable.scrollHeight + 60) + "px";
             }
+            // } else {
+            //     alert('pas ok');
+            // }
         } else {
             setShowModalSimpleMessage(true);
             setMessageModal('Le champ valeur ne peut pas être vide.');
@@ -205,7 +179,7 @@ const withHandleConditions = (Component) => (props) => {
         setConditions([...arr]);
         // permet de mettre à jour conditions grace à useEffect avant traitement dans canIUseThisConbinaison
         setRefreshCondition(Date());
-        console.log('conditions del  ', conditions)
+
         // repasse à isAutoConditions = 0 quand on delete toutes les conditions
         arr.length === 0 && setIsAutoConditions(0);
         localStorage.setItem('isAutoConditions', 0);
