@@ -70,7 +70,7 @@ const ConditionsForm = ({
   const closeSimpleModal = () => {
     setShowModalSimpleMessage(false);
   }
-
+console.log('conditionsForm  ', conditions)
   return (
     <>
       <Box sx={{ width: '100%' }}>

@@ -234,7 +234,7 @@ const CreateCollection = () => {
         }
     }
 
-
+ 
     // demande confirmation avant de quitter le form sans sauvegarder
     usePromptCollection('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?', checkIfIsDirty);
 

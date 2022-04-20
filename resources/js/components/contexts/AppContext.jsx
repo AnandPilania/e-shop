@@ -130,5 +130,7 @@ export default React.createContext({
     setDsablStock: () => { },
     dsablDate: '',
     setDsablDate: () => { },
+    refresh: '',
+    setRefresh: () => { },
 
 });

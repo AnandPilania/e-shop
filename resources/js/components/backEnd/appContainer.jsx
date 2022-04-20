@@ -45,7 +45,8 @@ const Appcontainer = () => {
             id: 0,
             parameter: '1',
             operator: '1',
-            value: ''
+            value: '',
+            disableOperator: '',
         }],
         nameCollection: '',
         descriptionCollection: '',
@@ -111,6 +112,7 @@ const Appcontainer = () => {
     const [listCollectionsChecked, setListCollectionsChecked] = useState([]);
     const [typeOperationListCollections, setTypeOperationListCollections] = useState(0);
     const [notThisId, setNotThisId] = useState([]);
+    const [refresh, setRefresh] = useState('');
 
     //Handle options in coonditionsCollections---------------------------
     const [dsablNamProd, setDsablNamProd] = useState(false);
@@ -196,7 +198,8 @@ const Appcontainer = () => {
                 id: 0,
                 parameter: '1',
                 operator: '1',
-                value: ''
+                value: '',
+                disableOperator: '',
             }],
             nameCollection: '',
             descriptionCollection: '',
@@ -410,6 +413,7 @@ const Appcontainer = () => {
         dsablWeight, setDsablWeight,
         dsablStock, setDsablStock,
         dsablDate, setDsablDate,
+        refresh, setRefresh,
 
     }
 

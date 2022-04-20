@@ -10,7 +10,7 @@ const withHandleConditions = (Component) => (props) => {
     const [refreshCondition, setRefreshCondition] = useState(Date());
     const [okAddNewCondition, setOkAddNewCondition] = useState(false);
 
-    const { conditions, setConditions, setTypeOperationListCollections, warningIdCondition, setIsAutoConditions, showModalSimpleMessage, setShowModalSimpleMessage, messageModal, setMessageModal, imageModal, setDsablNamProd, setDsablType, setDsablSuppl, setDsablPrice, setDsablTag, setDsablBeforePromo, setDsablWeight, setDsablStock, setDsablDate, operatorDisable, setOperatorDisable } = useContext(AppContext);
+    const { conditions, setConditions, setIsAutoConditions, showModalSimpleMessage, setShowModalSimpleMessage, messageModal, setMessageModal, imageModal, setDsablNamProd, setDsablType, setDsablSuppl, setDsablPrice, setDsablTag, setDsablBeforePromo, setDsablWeight, setDsablStock, setDsablDate, setRefresh } = useContext(AppContext);
 
     var p = '3';
 
@@ -69,26 +69,23 @@ const withHandleConditions = (Component) => (props) => {
 
     // vérifie si les conditions ne sont pas en conflis. ex. "est égale à" avec 
     const canIUseThisConbinaison = () => {
-        if (conditions.length > 0) {
-            var tmp = conditions;
-            tmp.forEach(x => {
-                let sameParam = tmp.filter(y => y.parameter == x.parameter);
-                if (sameParam.length > 1) {
-                    let index = tmp.findIndex(x => x.id == sameParam[0].id);
-                    tmp[index].disableOperator = '';
-                    for (let i = 1; i < sameParam.length; i++) {
-                        let index = tmp.findIndex(x => x.id == sameParam[i].id);
-                        tmp[index].disableOperator = 'equal';
-                    }
-                }
-            });
-            setConditions(tmp);
-        }
+        // if (conditions.length > 0) {
+        //     var tmp = conditions;
+        //     tmp.forEach(x => {
+        //         let sameParam = tmp.filter(y => y.parameter == x.parameter);
+        //         if (sameParam.length > 1) {
+        //             let index = tmp.findIndex(x => x.id == sameParam[0].id);
+        //             tmp[index].disableOperator = '';
+        //             for (let i = 1; i < sameParam.length; i++) {
+        //                 let index = tmp.findIndex(x => x.id == sameParam[i].id);
+        //                 tmp[index].disableOperator = 'equal';
+        //             }
+        //             setConditions(tmp);
+        //         }
+        //     });
+        // }
     }
-
-    // console.log('conditions  out ', conditions);
-
-
+console.log('conditions  ', conditions)
     // gère le paramètre à changer dans les conditions automatiques
     const handleChangeParam = (param, id) => {
         let tmp_conditions = [...conditions];
@@ -97,6 +94,7 @@ const withHandleConditions = (Component) => (props) => {
         setConditions(tmp_conditions);
         handleDisableParam();
         setRefreshCondition(Date());
+        setRefresh(param);
     };
 
     // gère le type d'opérations à éffectuer dans les conditons automatiques
