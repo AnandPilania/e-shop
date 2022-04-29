@@ -212,3 +212,4 @@ require __DIR__ . '/auth.php';
 
 // pour les test HackerRank
 Route::get('/hackerRanck', [HackerRank_Test::class, 'hackerRanck']);
+

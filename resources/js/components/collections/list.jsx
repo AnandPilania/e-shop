@@ -223,7 +223,7 @@ const ListCollections = () => {
 
                         <div className='flex-row h50 p5'>
 
-                            <span className='cursor noshrink b' onClick={() => sortList('name')}>Noms</span>
+                            <span className='cursor noshrink b' onClick={() => sortList('name')}>Nom</span>
 
                             <figure className='h20 w20 m-lr-5 cursor noshrink' onClick={() => sortList('name')}>
                                 <img src={window.location.origin + '/images/icons/' + imgSort.imgName} />
@@ -241,15 +241,15 @@ const ListCollections = () => {
                         </div>
 
                         <div className="h50 p5 flex-row-c-c wrap b">
-                            Produits
+                            Produit
                         </div>
 
                         <div className="h50 p5 flex-row noshrink b">
-                            Conditions
+                            Condition
                         </div>
 
                         <div className='h50 p5 flex-row'>
-                            <span className='cursor noshrink b' onClick={() => sortList('categoryName')}>Catégories</span>
+                            <span className='cursor noshrink b' onClick={() => sortList('categoryName')}>Catégorie</span>
                             <figure className='h20 w20 m-l-5 cursor noshrink' onClick={() => sortList('categoryName')}>
                                 <img src={window.location.origin + '/images/icons/' + imgSort.imgCat} />
                             </figure>
@@ -257,11 +257,11 @@ const ListCollections = () => {
                         </div>
 
                         <div className='h50 p5 flex-row'>
-                            <span className='noshrink b'>Statuts</span>
+                            <span className='noshrink b'>Statut</span>
                         </div>
 
                         <div className='h50 p5 flex-row'>
-                            <span className='cursor noshrink b' onClick={() => sortList('created_at')}>Dates Création</span>
+                            <span className='cursor noshrink b' onClick={() => sortList('created_at')}>Crée le</span>
                             <figure className='h20 w20 m-l-5 cursor noshrink' onClick={() => sortList('created_at')}>
                                 <img src={window.location.origin + '/images/icons/' + imgSort.imgDate} />
                             </figure>

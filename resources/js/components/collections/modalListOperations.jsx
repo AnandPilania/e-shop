@@ -128,7 +128,7 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
 
     const textButton = typeOperationListCollections == 0 ? "Enregistrer" : "Supprimer"
 
-    // ajoute dans notThisId les id des nouvelles conditions avec l'id de la collection concernée qui ne doivent pas être remplacer quand on ajoute des nouvelles conditions à un groupe de collection
+    // ajoute dans notThisId les ids des nouvelles conditions avec l'id de la collection concernée qui ne doivent pas être remplacer quand on ajoute des nouvelles conditions à un groupe de collection
     const notForThisId = (collectionId, newConditionId) => {
         let arr = [...notThisId];
         let index_arr = arr.findIndex(obj => obj.id == collectionId && obj.newConditionId == newConditionId);
@@ -138,13 +138,13 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
         } else {
             setNotThisId([...notThisId, { "id": collectionId, "newConditionId": newConditionId }]);
         }
-    }
+    };
 
 
-    // combine parameter et operator pour pouvoir vérifier s'il n y a pas de conditions dupliquées
+    // combine parameter et operator pour pouvoir vérifier s'il n y a pas de conditions dupliquées. Conditions contient les nouvelles conditions
     var newCondParaOper = conditions.map(item => {
         return item.parameter + item.operator;
-    })
+    });
 
     const handleSave = () => {
 
@@ -155,21 +155,22 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
             if (listCollectionsChecked.includes(item.id)) {
                 // on met dans arrObj les conditions avec la combinaison (parameter + operator) pas présente dans les nouvelles condtions pour ne pas avoir de duplications de conditions. Les autres vont dans arrWarning
                 let arrObj = [];
-                JSON.parse(item.objConditions).forEach(cond => {
+                if (item.objConditions != null) {
+                    JSON.parse(item.objConditions).forEach(cond => {
 
-                    if (!newCondParaOper.includes(cond.parameter + cond.operator)) {
-                        arrObj.push(cond);
-                    } else {
-                        let newCond = conditions.filter(c => {
-                            return (c.parameter + c.operator) == (cond.parameter + cond.operator)
-                        })
-                        let tmpObj = { "id": item.id, "name": item.name, "condition": cond, "newCondition": newCond[0] }
-                        arrWarning.push(tmpObj);
-                    }
-                })
+                        if (!newCondParaOper.includes(cond.parameter + cond.operator)) {
+                            arrObj.push(cond);
+                        } else { 
+                            let newCond = conditions.filter(c => {
+                                return (c.parameter + c.operator) == (cond.parameter + cond.operator)
+                            })
+                            let tmpObj = { "id": item.id, "name": item.name, "condition": cond, "newCondition": newCond[0] }
+                            arrWarning.push(tmpObj);
+                        }
+                    });
+                }
 
-
-                // certains type de conditions avec certains operator annulent obligatoirement d'autres conditons avec certains parameter. Ex. "poids est égale à 10" annulera "poids est suppèrrieur à" ou "poids est inférieur à". Donc on les retire de arrObj. // si une combinaison de para + oper fait partie des conditions qui en exclu d'autres alors on ne la met pas dans tmp_arrObj
+                // certains type de conditions avec certains operator annulent obligatoirement d'autres conditons avec certains parameter. Ex. "poids est égale à 10" annulera "poids est suppèrrieur à" ou "poids est inférieur à". Donc on les retire de arrObj. // si une combinaison de para + oper fait partie des conditions qui en exclu d'autres. Donc, on ne la met pas dans tmp_arrObj
                 let tmp_arrObj = [];
                 let para = [];
                 conditions.forEach(x => {
@@ -184,19 +185,20 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
                         case '81': para.push('8'); break;
                         case '91': para.push('9'); break;
                     }
-                })
+                });
                 // retive les conditions avec le parameter = para, pcq condition non duplcable
                 arrObj.forEach(cond => {
-                    if (!para.includes(cond.parameter)) {
+                    if (!para.includes(cond.parameter)) { 
                         tmp_arrObj.push(cond);
-                    } else {
+                    } else { 
                         let newCond = conditions.filter(c => {
-                            return (c.parameter + c.operator) == (cond.parameter + cond.operator);
+                            return (c.parameter + c.operator) == (cond.parameter + '1');
                         });
+                        
                         let tmpObj = { "id": item.id, "name": item.name, "condition": cond, "newCondition": newCond[0] };
                         arrWarning.push(tmpObj);
                     }
-                })
+                });
 
 
                 // remplie unDuplicableCond avec les combinaisons para_oper des nouvelles conditions non duplicables 

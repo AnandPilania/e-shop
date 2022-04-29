@@ -19,6 +19,8 @@ use App\Http\Controllers\Functions\GetArrayOfConditions;
 
 class CollectionController extends Controller
 {
+    private $all_conditions_matched = [];
+
     // renvoi la page de présentation de toutes les collections dans le front
     public function index()
     {
@@ -49,10 +51,33 @@ class CollectionController extends Controller
         return json_encode($collection);
     }
 
+    // get all conditions matched products
+    private function getProducts_all_conditions_matched($conditions)
+    {
+        // renvoi un ou plusieurs tableaux avec les produits qui correspondes aux conditions demandées
+        $getMatchedProduct = new GetArrayOfConditions;
+
+        // list_match contient tous les ids des produits de tous les tableaux pour avoir un seul tableau sur lequel tester si les produits correspondent à toutes les conditions
+        $list_match = $getMatchedProduct->getArrayOfConditions($conditions);
+
+        // renvoi un tableau avec comme key les ids des produits que l'on doit compter et comme value leur nombre d'occurence dans le tableau $list_match
+        $tmp_tab = array_count_values($list_match);
+
+
+        // si un produit correspond à toutes les conditions donc qu'il apparait dans tous les tableaux à l'interieur du tableau $list_match alors on le met dans all_conditions_matched pour insertion dans la table pivot collection_product
+        while ($item = current($tmp_tab)) {
+            if ($item == count($conditions)) {
+                array_push($this->all_conditions_matched, key($tmp_tab));
+            }
+            next($tmp_tab);
+        }
+    }
+
     // stockage
     public function storeAndAssign(StoreCollectionRequest $request)
     {
 
+        // check si on edit ou crée une collection
         if ($request->id !== 'null') {
             // if collection is edited
             $collection = Collection::find($request->id);
@@ -67,20 +92,7 @@ class CollectionController extends Controller
         // check if has conditions
         if ($request->automatise == 1) {
             $conditions = json_decode($request->objConditions);
-            // renvoi un ou plusieurs tableaux avec les produits qui correspondes aux conditions demandées
-            $getMatchedProduct = new GetArrayOfConditions;
-            // list_match contient tous les ids des produits de tous les tableaux pour avoir un seul tableau sur lequel tester si les produits correspondent à toutes les conditions
-            $list_match = $getMatchedProduct->getArrayOfConditions($conditions);
-            // renvoi un tableau avec comme key les ids des produits que l'on doit compter et comme value leur nombre d'occurence dans le tableau $list_match
-            $tmp_tab = array_count_values($list_match);
-            $all_conditions_matched = [];
-            // si un produit correspond à toutes les conditions donc qu'il apparait dans tous les tableaux à l'interieur du tableau $list_match alors on le met dans all_conditions_matched pour insertion dans la table pivot collection_product
-            while ($item = current($tmp_tab)) {
-                if ($item == count(json_decode($request->objConditions))) {
-                    array_push($all_conditions_matched, key($tmp_tab));
-                }
-                next($tmp_tab);
-            }
+            $this->getProducts_all_conditions_matched($conditions);
         }
 
         $collection->name = $request->name;
@@ -90,7 +102,13 @@ class CollectionController extends Controller
         $collection->automatise = $request->automatise;
         $collection->notIncludePrevProduct = $request->notIncludePrevProduct;
         $collection->allConditionsNeeded = $request->allConditionsNeeded;
-        $collection->objConditions = $request->objConditions;
+
+        // si la première condition a une value == "ça veut dire qu'on est en mode conditions manuelle et qu'il n'y a pas de conditions a insérer dans la db
+        $conditions = json_decode($request->objConditions);
+        if ($conditions[0]->value != "") {
+            $collection->objConditions = $request->objConditions;
+        }
+
         $cleanLink = new CleanLink;
         $collection->link = $cleanLink->cleanLink($request->name);
         $collection->meta_title = $request->metaTitle != null ? $request->metaTitle : $collection->name;
@@ -156,9 +174,9 @@ class CollectionController extends Controller
         $collection->save();
 
         // fill pivot table with relations between collection and product
-        if (isset($all_conditions_matched)) {
+        if (isset($this->all_conditions_matched)) {
             DB::table('collection_product')->where('collection_id', $collection->id)->delete();
-            foreach ($all_conditions_matched as $id) {
+            foreach ($this->all_conditions_matched as $id) {
                 $collection->products()->attach($id);
             }
         }
@@ -250,14 +268,30 @@ class CollectionController extends Controller
 
 
     // Opérations sur plusieurs collections à partir de la liste des collections
+    // met à jour les conditions et la table pivot collection_product
     public function addCondtionsToGroup(Request $request)
     {
+
         $newConditions = json_decode($request->conditions);
-        // dd(json_decode($request->conditions));
+
         foreach ($newConditions as $item) {
             $collection = Collection::find($item->id);
-            $collection->objConditions = $item->conditions;
-            $collection->save();
+
+            if ($collection->automatise == 1) {
+                $collection->objConditions = $item->conditions;
+                $collection->save();
+
+                // get all conditions matched products
+                $this->getProducts_all_conditions_matched($item->conditions);
+
+                // fill pivot table with relations between collection and product
+                if (isset($this->all_conditions_matched)) {
+                    DB::table('collection_product')->where('collection_id', $collection->id)->delete();
+                    foreach ($this->all_conditions_matched as $id) {
+                        $collection->products()->attach($id);
+                    }
+                }
+            }
         }
 
         return 'ok';

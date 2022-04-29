@@ -6,9 +6,6 @@ import { makeStyles } from '@material-ui/styles';
 import { getNowUs, getOnlyDate, getOnlyDateShort } from '../functions/dateTools';
 import { getParameter, getOperator } from './conditionsFunctions';
 import CheckboxListCollection from '../elements/Checkbox_listCollection';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRecycle, faTrash } from '@fortawesome/free-solid-svg-icons';
-
 
 
 const useStyles = makeStyles({
@@ -186,16 +183,16 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
             </div>
             {/* edit & delete */}
             <div>
-                <span className="faRecycle  m-r-20 cursor fs20 hover-green"
+                <span className="m-r-20 cursor"
                     onClick={() => {
                         editCollection(collectionFiltered.id);
                     }}>
-                    <FontAwesomeIcon icon={faRecycle} className="faRecycleIcon" />
+                    <img src='../images/icons/recycle.svg' className="w20 h20 inline" />
                 </span>
 
-                <span className="faTrash cursor fs20 hover-red"
+                <span className="cursor"
                     onClick={() => confirmDeleteCollection(collectionFiltered.id, collectionFiltered.name)}>
-                    <FontAwesomeIcon icon={faTrash} className="faTrashIcon" />
+                    <img src='../images/icons/trash.svg' className="w20 h20 inline" />
                 </span>
             </div>
         </li>

@@ -10,8 +10,9 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { SyncDisabled } from '@material-ui/icons';
+// import add_icon from '../images/icons/add_icon.svg';
 
-
+ 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -70,7 +71,7 @@ const ConditionsForm = ({
   const closeSimpleModal = () => {
     setShowModalSimpleMessage(false);
   }
-console.log('conditionsForm  ', conditions)
+
   return (
     <>
       <Box sx={{ width: '100%' }}>
@@ -96,7 +97,7 @@ console.log('conditionsForm  ', conditions)
               />
             ))}
             <button className="btn-bcknd mb15" onClick={addCondition}>
-              Ajouter une condition
+              <img src='../images/icons/add_icon.svg' alt=" bouton ajouter une condition" height="30px" width="30px" />
             </button>
           </div>
         </TabPanel>

@@ -23,7 +23,7 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
     const [hideFieldValue, setHideFieldValue] = useState(false);
 
     const { conditions, setConditions, dsablNamProd, setDsablNamProd, dsablType, setDsablType,
-        dsablSuppl, setDsablSuppl, dsablPrice, setDsablPrice, dsablTag, setDsablTag, dsablBeforePromo, setDsablBeforePromo, dsablWeight, setDsablWeight, dsablStock, setDsablStock, dsablDate, setDsablDate, refresh } = useContext(AppContext);
+        dsablSuppl, setDsablSuppl, dsablPrice, setDsablPrice, dsablTag, setDsablTag, dsablBeforePromo, setDsablBeforePromo, dsablWeight, setDsablWeight, dsablStock, setDsablStock, dsablDate, setDsablDate } = useContext(AppContext);
 
 
     // initialise à show les operators qui correspondent à "Nom du produit"
@@ -48,24 +48,6 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
     useEffect(() => { 
         showOnlyUsableOperator(condition.parameter);
     }, [conditions]);    
-    
-    useEffect(() => { 
-        if (conditions.length > 0) {
-            var tmp = conditions;
-            tmp.forEach(x => {
-                let sameParam = tmp.filter(y => y.parameter == x.parameter);
-                if (sameParam.length > 1) {
-                    let index = tmp.findIndex(x => x.id == sameParam[0].id);
-                    tmp[index].disableOperator = '';
-                    for (let i = 1; i < sameParam.length; i++) {
-                        let index = tmp.findIndex(x => x.id == sameParam[i].id);
-                        tmp[index].disableOperator = 'equal';
-                    }
-                    setConditions(tmp);
-                }
-            });
-        }
-    }, [refresh]);    
     
 
     // met hide pour tous les paramètres
@@ -192,7 +174,7 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
     const borderRed = warningIdCondition.includes(condition.id) ? 'borderRed' : '';
 
 
-console.log('conditionsCollection')
+
     return (
         <div className={"block-select-conditions " + borderRed}>
 

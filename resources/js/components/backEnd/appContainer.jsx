@@ -305,12 +305,13 @@ const Appcontainer = () => {
                 let newConditionsData = new FormData;
                 newConditionsData.append('conditions', JSON.stringify(tmp_parameter));
                 Axios.post(`http://127.0.0.1:8000/addCondtionsToGroup`, newConditionsData)
-                    .then(res => {
+                    .then(res => { 
                         if (res.data === 'ok') {
                             console.log('res.data  --->  ok');
                             setShowModalListOperations(false);
                             setSenderCancel(false);
                             setSender(false);
+                            setTmp_parameter(null);
                             setShowModalConfirmOperations(false);
                             setListCollectionsChecked([]);
                             setConditions([{
@@ -324,7 +325,7 @@ const Appcontainer = () => {
                             // il n'y a pas de delete mais ça permet de refresh list collection
                             setIs({ ...is, collectionDeleted: true });
                         }
-                    }).catch(function (error) {
+                    }).catch(function (error) { 
                         console.log('error:   ' + error);
                     });
                 break;
