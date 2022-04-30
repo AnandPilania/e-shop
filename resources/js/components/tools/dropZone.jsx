@@ -4,8 +4,6 @@ import Axios from 'axios';
 import AppContext from '../contexts/AppContext';
 import { saveInTemporaryStorage } from '../functions/temporaryStorage/saveInTemporaryStorage';
 import CroppeImage from '../croppeJs/croppeJs';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCrop, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -122,26 +120,26 @@ const DropZone = (props) => {
         // init preview image !!! à GARDER !!! permet de recharcher l'image collection quand on crop ou qu'on annulle le crop 
         if (!is_Edit) {
             // if (id !== null) { 
-                try {
-                    Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage/${"pas_besoin_de_id"}`)
-                        .then(res => {
-                            if (res.data !== undefined && res.data != '') {
-                                // get --> image path <-- for croppe
-                                setImagePath('/' + res.data);
-                                // get --> image <-- for preview
-                                fetch('/' + res.data)
-                                    .then(function (response) {
-                                        return response.blob();
-                                    })
-                                    .then(function (BlobImage) {
-                                        previewImage(BlobImage);
-                                        setImage(BlobImage);
-                                    })
-                            }
-                        });
-                } catch (error) {
-                    console.error('error  ' + error);
-                }
+            try {
+                Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage/${"pas_besoin_de_id"}`)
+                    .then(res => {
+                        if (res.data !== undefined && res.data != '') {
+                            // get --> image path <-- for croppe
+                            setImagePath('/' + res.data);
+                            // get --> image <-- for preview
+                            fetch('/' + res.data)
+                                .then(function (response) {
+                                    return response.blob();
+                                })
+                                .then(function (BlobImage) {
+                                    previewImage(BlobImage);
+                                    setImage(BlobImage);
+                                })
+                        }
+                    });
+            } catch (error) {
+                console.error('error  ' + error);
+            }
             // }
         }
 
@@ -411,18 +409,21 @@ const DropZone = (props) => {
             </div>
             <span className={classes.removeImage}>
                 {!!imagePath &&
-                    <span className="faCropDropZone tooltip_"
+                    <span className="scale-1_15 tooltip_"
                         onClick={() => goToCrop()}>
-                        <FontAwesomeIcon icon={faCrop} className="faCrop" />
-                        <span className="tooltiptext">Redimensionner l'image</span>
+                        <img src='../images/icons/crop.svg' className="w20 h20" />
+                           <span className="tooltiptext">
+                            Redimensionner l'image
+                        </span>
                     </span>
                 }
                 {!!imagePath &&
-                    <span className="faTrashDropZone tooltip_"
-                        onClick={() => removeImagePreview()} 
-                        >
-                        <FontAwesomeIcon icon={faTrash} className="faTrash" style={{ display: "block", marginLeft: "15px" }} />
-                        <span className="tooltiptext">Supprimer l'image</span>
+                    <span className="scale-1_15 tooltip_"
+                        onClick={() => removeImagePreview()}>
+                        <img src='../images/icons/trash.svg' className="w20 h20 m-l-15 block" />
+                        <span className="tooltiptext">
+                            Supprimer l'image
+                        </span>
                     </span>
                 }
             </span>

@@ -111,7 +111,9 @@ const ModalConfirm = ({ textButtonConfirm, show, image, messageModal, children }
         <div className={classes.modal + ' ' + showHideClassName}>
             <section className={classes.modalMain}>
 
-                <div className={classes.close}><i className={classes.faTimes + ' ' + "fas fa-times"} onClick={handleModalCancel}></i></div>
+                <div className={classes.close}>
+                <img src='../images/icons/x.svg' className="w30 h30 scale-1_15 cursor" onClick={handleModalCancel}/>
+                </div>
 
                 <img src={image} />
                 

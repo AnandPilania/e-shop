@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faCaretDown, faGear, faHashtag, faLayerGroup } from '@fortawesome/free-solid-svg-icons';
 import ModalListOperations from './modalListOperations';
 
 const HeaderListCollections = ({ confirmDeleteCollection }) => {
@@ -80,9 +78,9 @@ const HeaderListCollections = ({ confirmDeleteCollection }) => {
                         <div id="operationsDropDown_Id" className='w250 h40 relative bg-white'>
                             <button className='w250 h40 flex-row-s-c brd-gray-light-1 dius-t-round5-b-square'
                                 onClick={showHideOperationDrop}>
-                                <FontAwesomeIcon icon={faGear} className="m-l-10 m-r-10" />
+                                <img src='../images/icons/gear.svg' className="w20 h20 cursor m-l-10 m-r-10" />
                                 Opérations
-                                <FontAwesomeIcon icon={faCaretDown} className="m-l-auto m-r-10" />
+                                <img src='../images/icons/caret-down.svg' className="w20 h20 cursor m-l-auto m-r-10" />
                             </button>
                             {!!isShowOperationDrop &&
                                 <ul className='w250 h-auto flex-col-s-s brd-gray-light-1 absolute l0 b20 bg-white shadow-s'>
@@ -105,7 +103,7 @@ const HeaderListCollections = ({ confirmDeleteCollection }) => {
                             onClick={() => {
                                 confirmDeleteCollection('from CheckboxListCollection', null);
                             }}>
-                            <FontAwesomeIcon icon={faTrash} className="m-l-10" />
+                            <img src='../images/icons/trash.svg' className="w20 h20 cursor m-l-10" />
                             <span className="m-l-10">
                                 Supprimer les collections
                             </span>

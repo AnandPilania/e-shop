@@ -114,7 +114,9 @@ const ModalInput = ({ inputTextModify, setInputTextModify, updateCategory, handl
         <div className={classes.modal + ' ' + showHideClassName}>
             <section className={classes.modalMain}>
 
-                <div className={classes.close}><i className={classes.faTimes + ' ' + "fas fa-times"} onClick={handleModalCancel}></i></div>
+                <div className={classes.close}>
+                <img src='../images/icons/x.svg' className="w30 h30 scale-1_15 cursor" onClick={handleModalCancel}/>
+                </div>
 
                 <img src={image} />
 
@@ -125,6 +127,10 @@ const ModalInput = ({ inputTextModify, setInputTextModify, updateCategory, handl
                 <div className={classes.BlockButtons}>
                     <button className={classes.btnModal} onClick={updateCategory}>
                         Confirmer
+                    </button>
+
+                    <button className={classes.btnModal} style={{marginLeft: "15px"}} onClick={handleModalCancel}>
+                        Annuler
                     </button>
                 </div>
 

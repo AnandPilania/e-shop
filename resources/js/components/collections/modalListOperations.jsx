@@ -3,8 +3,6 @@ import AppContext from '../contexts/AppContext';
 import Axios from 'axios';
 import { makeStyles } from '@material-ui/styles';
 import ConditionsForm from './conditionsForm';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import ModalConfirmOperations from '../modal/modalConfirmOperations';
 
 
@@ -26,7 +24,7 @@ const useStyles = makeStyles({
         width: '60%',
         minWidth: '300px',
         minHeight: '500px',
-        padding: '50px',
+        padding: '100px 0 0 0',
         top: ' 50%',
         left: '50%',
         transform: 'translate(-50%,-50%)',
@@ -73,9 +71,10 @@ const useStyles = makeStyles({
         right: '0px',
         width: '100%',
         display: 'flex',
-        justifyContent: 'flex-end',
-        paddingRight: '25px',
-        paddingTop: '25px',
+        justifyContent: 'space-between',
+        padding: '25px 35px 25px 50px',
+        marginBottom: '50px',
+        borderBottom: 'solid 1px rgb(220, 220, 220)',
     },
 
     image: {
@@ -83,7 +82,8 @@ const useStyles = makeStyles({
     },
 
     faTimes: {
-        fontSize: '26px',
+        width: '26px',
+        height: '20px',
         transition: 'ease-in-out .15s',
         color: '#333333',
         '&:hover': {
@@ -160,7 +160,7 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
 
                         if (!newCondParaOper.includes(cond.parameter + cond.operator)) {
                             arrObj.push(cond);
-                        } else { 
+                        } else {
                             let newCond = conditions.filter(c => {
                                 return (c.parameter + c.operator) == (cond.parameter + cond.operator)
                             })
@@ -188,13 +188,13 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
                 });
                 // retive les conditions avec le parameter = para, pcq condition non duplcable
                 arrObj.forEach(cond => {
-                    if (!para.includes(cond.parameter)) { 
+                    if (!para.includes(cond.parameter)) {
                         tmp_arrObj.push(cond);
-                    } else { 
+                    } else {
                         let newCond = conditions.filter(c => {
                             return (c.parameter + c.operator) == (cond.parameter + '1');
                         });
-                        
+
                         let tmpObj = { "id": item.id, "name": item.name, "condition": cond, "newCondition": newCond[0] };
                         arrWarning.push(tmpObj);
                     }
@@ -288,19 +288,25 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
         }
     }
 
-    
+
     return (
         <div className={classes.modal + ' ' + showHideClassName}>
 
             <section className={classes.modalMain}>
 
                 <div className={classes.close}>
-                    <FontAwesomeIcon icon={faTimes} className="h20 cursor" onClick={() => setShowModalListOperations(false)} />
+                    <h1 className="fs25 b">Conditions</h1>
+                    <img src='../images/icons/x.svg' className="w20 h20 cursor"
+                        onClick={() => setShowModalListOperations(false)}
+                    />
                 </div>
 
-                {sender === 'conditions' && <ConditionsForm />}
+                {sender === 'conditions' &&
+                    <div className="w100pct p-lr-50">
+                        <ConditionsForm />
+                    </div>}
 
-                <div className="flex-row-s-c w100pct p-l-20">
+                <div className="flex-row-s-c w100pct p-l-70 m-t-20">
                     {conditions?.findIndex(c => c?.value.length === 0) == -1 &&
                         <button className="btn-bcknd mb15 m-r-20" onClick={handleSave}>
                             {textButton}

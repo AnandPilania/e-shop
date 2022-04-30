@@ -3,8 +3,6 @@ import AppContext from '../contexts/AppContext';
 import Axios from 'axios';
 import ModalInput from '../modal/modalInput';
 import ModalSimpleMessage from '../modal/modalSimpleMessage';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRecycle, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const Categories = () => {
 
@@ -297,24 +295,24 @@ const Categories = () => {
                             {categoriesList && categoriesList.map((cat, index) => (
                                 cat.name != categoryName &&
                                 <li className="li-category"
-                                    key={index}
+                                    key={index} >
+                                    <span className='inline w70pct txt-limit' 
                                     onClick={() => {
                                         handleCategory(cat.id);
                                         handleCategoryName(cat.name);
-                                    }} >
-                                    <span className='inline w70pct txt-limit'>{cat.name}</span>
-                                    <div>
+                                    }}>{cat.name}</span>
+                                    <div className="flex-row-s-c">
                                         <span className="faRecycle"
                                             onClick={() => {
                                                 handleCategory(cat.id);
                                                 handleShowModalInput();
                                             }}
                                         >
-                                            <FontAwesomeIcon icon={faRecycle} className="faRecycleIcon" />
+                                            <img src='../images/icons/recycle.svg' className="scale-1_15 w18 h18 cursor" />
                                         </span>
                                         <span className="faTrash"
                                             onClick={() => confirmDeleteCategory(cat.id, cat.name)}>
-                                            <FontAwesomeIcon icon={faTrash} className="faTrashIcon" />
+                                            <img src='../images/icons/trash.svg' className="scale-1_15 w18 h18 cursor" />
                                         </span>
                                     </div>
                                 </li>))}

@@ -1,8 +1,6 @@
 import React, { useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import DropZone from '../tools/dropZone';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
 
 
 const Image = () => {
@@ -39,7 +37,7 @@ const Image = () => {
                             <label>Texte alternatif (*optionnel) </label>
                             <span className="faCircleQuestion tooltip_"
                                 onClick={() => confirmDeleteCategory(cat.id, cat.name)}>
-                                <FontAwesomeIcon icon={faCircleQuestion} className="faCircleQuestionIcon" />
+                                <img src='../images/icons/question-circle.svg' className="w20 h20" />
                                 <span className="tooltiptext">Ajouter une brève description de l'image ex. "Jeans noir avec fermeture éclair". Ceci améliore l'accessibilité et le référencement de votre boutique.</span>
                             </span>
                         </div>
@@ -50,7 +48,7 @@ const Image = () => {
                             <label>Modifier le nom de l'image</label>
                             <span className="faCircleQuestion tooltip_"
                                 onClick={() => confirmDeleteCategory(cat.id, cat.name)}>
-                                <FontAwesomeIcon icon={faCircleQuestion} className="faCircleQuestionIcon" />
+                                 <img src='../images/icons/question-circle.svg' className="w20 h20 cursor" />
                                 <span className="tooltiptext">Donnez un nom en rapport avec le contenu de l'image. Ceci améliore le référencement de votre boutique dans les recherches par image.</span>
                             </span>
                         </div>

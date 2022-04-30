@@ -14,9 +14,9 @@ const ListCollections = () => {
 
 
     const [imgSort, setImgSort] = useState({
-        imgName: 'az.png',
-        imgDate: '1-2.png',
-        imgCat: 'az.png',
+        imgName: 'az.svg',
+        imgDate: '1-2.svg',
+        imgCat: 'az.svg',
     });
     const [allChecked, setAllChecked] = useState(false);
 
@@ -70,10 +70,10 @@ const ListCollections = () => {
             case 'name':
                 if (toggleSort.nameSens === true) {
                     sortList_AZ('name')
-                    setImgSort((prevState) => ({ ...prevState, imgName: 'za.png', imgCat: 'az.png', imgDate: '1-2.png' }));
+                    setImgSort((prevState) => ({ ...prevState, imgName: 'za.svg', imgCat: 'az.svg', imgDate: '1-2.svg' }));
                 } else {
                     sortList_ZA('name');
-                    setImgSort((prevState) => ({ ...prevState, imgName: 'az.png', imgCat: 'az.png', imgDate: '1-2.png' }));
+                    setImgSort((prevState) => ({ ...prevState, imgName: 'az.svg', imgCat: 'az.svg', imgDate: '1-2.svg' }));
                 }
                 setToggleSort((prevState) => ({
                     ...prevState,
@@ -85,10 +85,10 @@ const ListCollections = () => {
             case 'categoryName':
                 if (toggleSort.categorySens === true) {
                     sortList_AZ('categoryName');
-                    setImgSort((prevState) => ({ ...prevState, imgCat: 'za.png', imgName: 'az.png', imgDate: '1-2.png' }));
+                    setImgSort((prevState) => ({ ...prevState, imgCat: 'za.svg', imgName: 'az.svg', imgDate: '1-2.svg' }));
                 } else {
                     sortList_ZA('categoryName');
-                    setImgSort((prevState) => ({ ...prevState, imgCat: 'az.png', imgName: 'az.png', imgDate: '1-2.png' }));
+                    setImgSort((prevState) => ({ ...prevState, imgCat: 'az.svg', imgName: 'az.svg', imgDate: '1-2.svg' }));
                 }
                 setToggleSort((prevState) => ({
                     ...prevState,
@@ -100,10 +100,10 @@ const ListCollections = () => {
             case 'created_at':
                 if (toggleSort.created_atSens === true) {
                     sortList_AZ('created_at');
-                    setImgSort((prevState) => ({ ...prevState, imgDate: '2-1.png', imgName: 'az.png', imgCat: 'az.png' }));
+                    setImgSort((prevState) => ({ ...prevState, imgDate: '2-1.svg', imgName: 'az.svg', imgCat: 'az.svg' }));
                 } else {
                     sortList_ZA('created_at');
-                    setImgSort((prevState) => ({ ...prevState, imgDate: '1-2.png', imgName: 'az.png', imgCat: 'az.png' }));
+                    setImgSort((prevState) => ({ ...prevState, imgDate: '1-2.svg', imgName: 'az.svg', imgCat: 'az.svg' }));
                 }
                 setToggleSort((prevState) => ({
                     ...prevState,
@@ -115,10 +115,10 @@ const ListCollections = () => {
             default:
                 if (toggleSort.nameSens === true) {
                     sortList_AZ('name')
-                    setImgSort((prevState) => ({ ...prevState, imgName: 'za.png', imgCat: 'az.png', imgDate: '1-2.png' }));
+                    setImgSort((prevState) => ({ ...prevState, imgName: 'za.svg', imgCat: 'az.svg', imgDate: '1-2.svg' }));
                 } else {
                     sortList_ZA('name');
-                    setImgSort((prevState) => ({ ...prevState, imgName: 'az.png', imgCat: 'az.png', imgDate: '1-2.png' }));
+                    setImgSort((prevState) => ({ ...prevState, imgName: 'az.svg', imgCat: 'az.svg', imgDate: '1-2.svg' }));
                 }
                 setToggleSort((prevState) => ({
                     ...prevState,
@@ -225,8 +225,8 @@ const ListCollections = () => {
 
                             <span className='cursor noshrink b' onClick={() => sortList('name')}>Nom</span>
 
-                            <figure className='h20 w20 m-lr-5 cursor noshrink' onClick={() => sortList('name')}>
-                                <img src={window.location.origin + '/images/icons/' + imgSort.imgName} />
+                            <figure className='h22 w22 m-lr-5 cursor noshrink' onClick={() => sortList('name')}>
+                                <img src={window.location.origin + '/images/icons/' + imgSort.imgName} className="h22 w22" />
                             </figure>
 
                             <div className="flex-row w80pct noWrap m-l-10">
@@ -250,8 +250,8 @@ const ListCollections = () => {
 
                         <div className='h50 p5 flex-row'>
                             <span className='cursor noshrink b' onClick={() => sortList('categoryName')}>Catégorie</span>
-                            <figure className='h20 w20 m-l-5 cursor noshrink' onClick={() => sortList('categoryName')}>
-                                <img src={window.location.origin + '/images/icons/' + imgSort.imgCat} />
+                            <figure className='h22 w22 m-l-5 cursor noshrink' onClick={() => sortList('categoryName')}>
+                                <img src={window.location.origin + '/images/icons/' + imgSort.imgCat} className="h22 w22" />
                             </figure>
                             {listCategories && <CategoriesFilter arrayList={listCategories} categoriesFilter={categoriesFilter} />}
                         </div>
@@ -262,8 +262,8 @@ const ListCollections = () => {
 
                         <div className='h50 p5 flex-row'>
                             <span className='cursor noshrink b' onClick={() => sortList('created_at')}>Crée le</span>
-                            <figure className='h20 w20 m-l-5 cursor noshrink' onClick={() => sortList('created_at')}>
-                                <img src={window.location.origin + '/images/icons/' + imgSort.imgDate} />
+                            <figure className='h22 w22 m-l-5 cursor noshrink' onClick={() => sortList('created_at')}>
+                                <img src={window.location.origin + '/images/icons/' + imgSort.imgDate} className="h22 w22" />
                             </figure>
                         </div>
                         <div className='flex-row min-h50 p5 b'>

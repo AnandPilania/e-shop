@@ -111,10 +111,9 @@ const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
             <button
                 className='flex-row brd-none bg-gray-light'
                 onClick={showHideCategorySelect}>
-                <figure className='h20 w20 m-r-20 cursor'>
-                    <img src={window.location.origin + '/images/icons/filter.png'} />
+                <figure className='h22 w22 m-r-20 cursor'>
+                    <img src={window.location.origin + '/images/icons/filter.svg'} className="h22 w22" />
                 </figure>
-                {/* <i className="fas fa-angle-down"></i> */}
             </button>
 
             <div id="cat-filter-card" className="w300 flex-col justify-s align-s dropable absolute t30 r0 bg-white shadow-l radius5 z5">

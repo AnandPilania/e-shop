@@ -24972,6 +24972,28 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/aliProductImport.js":
+/*!******************************************!*\
+  !*** ./resources/js/aliProductImport.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _components_aliProductImport_aliProductImport__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/aliProductImport/aliProductImport */ "./resources/js/components/aliProductImport/aliProductImport.jsx");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react__WEBPACK_IMPORTED_MODULE_0__.StrictMode, {
+  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_components_aliProductImport_aliProductImport__WEBPACK_IMPORTED_MODULE_1__["default"], {})
+}), document.getElementById('aliProductImport'));
+
+/***/ }),
+
 /***/ "./resources/js/components/InputText/Input_text.jsx":
 /*!**********************************************************!*\
   !*** ./resources/js/components/InputText/Input_text.jsx ***!
@@ -29577,6 +29599,110 @@ var index = createJss();
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (index);
 
+
+
+/***/ }),
+
+/***/ "./resources/sass/authentification.scss":
+/*!**********************************************!*\
+  !*** ./resources/sass/authentification.scss ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/sass/payment.scss":
+/*!*************************************!*\
+  !*** ./resources/sass/payment.scss ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/css/app.css":
+/*!*******************************!*\
+  !*** ./resources/css/app.css ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/sass/backend/myapp.scss":
+/*!*******************************************!*\
+  !*** ./resources/sass/backend/myapp.scss ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/sass/nav-frontend.scss":
+/*!******************************************!*\
+  !*** ./resources/sass/nav-frontend.scss ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/sass/index-front.scss":
+/*!*****************************************!*\
+  !*** ./resources/sass/index-front.scss ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/sass/productSheet.scss":
+/*!******************************************!*\
+  !*** ./resources/sass/productSheet.scss ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/sass/cart.scss":
+/*!**********************************!*\
+  !*** ./resources/sass/cart.scss ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
 
 
 /***/ }),
@@ -64592,7 +64718,42 @@ function combine (array, callback) {
 /******/ 		return module.exports;
 /******/ 	}
 /******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var [chunkIds, fn, priority] = deferred[i];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	(() => {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
@@ -64675,27 +64836,82 @@ function combine (array, callback) {
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		// no baseURI
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"/js/aliProductImport": 0,
+/******/ 			"css/myapp": 0,
+/******/ 			"frontend/css/cart": 0,
+/******/ 			"frontend/css/productSheet": 0,
+/******/ 			"frontend/css/index-front": 0,
+/******/ 			"frontend/css/nav-frontend": 0,
+/******/ 			"css/app": 0,
+/******/ 			"frontend/css/payment": 0,
+/******/ 			"frontend/css/authentification": 0
+/******/ 		};
+/******/ 		
+/******/ 		// no chunk on demand loading
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var [chunkIds, moreModules, runtime] = data;
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkIds[i]] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunk"] = self["webpackChunk"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
-(() => {
-"use strict";
-/*!******************************************!*\
-  !*** ./resources/js/aliProductImport.js ***!
-  \******************************************/
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _components_aliProductImport_aliProductImport__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/aliProductImport/aliProductImport */ "./resources/js/components/aliProductImport/aliProductImport.jsx");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-
-
-
-
-react_dom__WEBPACK_IMPORTED_MODULE_2__.render( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react__WEBPACK_IMPORTED_MODULE_0__.StrictMode, {
-  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_components_aliProductImport_aliProductImport__WEBPACK_IMPORTED_MODULE_1__["default"], {})
-}), document.getElementById('aliProductImport'));
-})();
-
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	__webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/js/aliProductImport.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/backend/myapp.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/nav-frontend.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/index-front.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/productSheet.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/cart.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/authentification.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/sass/payment.scss")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/myapp","frontend/css/cart","frontend/css/productSheet","frontend/css/index-front","frontend/css/nav-frontend","css/app","frontend/css/payment","frontend/css/authentification"], () => (__webpack_require__("./resources/css/app.css")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
 /******/ })()
 ;

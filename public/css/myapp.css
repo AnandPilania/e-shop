@@ -1811,6 +1811,14 @@ a.link:hover {
   height: 20px;
 }
 
+.h22 {
+  height: 22px;
+}
+
+.h23 {
+  height: 23px;
+}
+
 .h24 {
   height: 24px;
 }
@@ -2307,6 +2315,14 @@ a.link:hover {
   padding: 0 30%;
 }
 
+.p-lr-40pct {
+  padding: 0 40%;
+}
+
+.p-lr-50pct {
+  padding: 0 50%;
+}
+
 .p-l-5 {
   padding-left: 5px;
 }
@@ -2337,6 +2353,18 @@ a.link:hover {
 
 .p-l-50 {
   padding-left: 50px;
+}
+
+.p-l-60 {
+  padding-left: 60px;
+}
+
+.p-l-70 {
+  padding-left: 70px;
+}
+
+.p-l-80 {
+  padding-left: 80px;
 }
 
 .p-r-5 {
@@ -2774,6 +2802,10 @@ a.link:hover {
   font-size: 20px;
 }
 
+.fs25 {
+  font-size: 25px;
+}
+
 .fs30 {
   font-size: 30px;
 }
@@ -3093,6 +3125,10 @@ a.link:hover {
 
 .b {
   font-weight: bold;
+}
+
+.scale-1_15:hover {
+  transform: scale(1.15);
 }
 
 .brd-none {

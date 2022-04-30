@@ -13,8 +13,6 @@ import Image from './image';
 import Tinyeditor from './tinyEditor';
 import { handleTinyMceTemporary } from '../functions/temporaryStorage/handleTinyMceTemporary';
 import { getNow, getDateTime } from '../functions/dateTools';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const CreateCollection = () => {
 
@@ -234,7 +232,7 @@ const CreateCollection = () => {
         }
     }
 
- 
+
     // demande confirmation avant de quitter le form sans sauvegarder
     usePromptCollection('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?', checkIfIsDirty);
 
@@ -372,15 +370,15 @@ const CreateCollection = () => {
                         'Content-Type': 'multipart/form-data'
                     }
                 })
-                .then(res => { 
+                .then(res => {
                     console.log('res.data  --->  ok');
                     if (res.data === 'ok') {
                         initCollectionForm();
-                        setIdCollection(null); 
+                        setIdCollection(null);
                         // chargement des collections
                         // refresh data after save new collection
                         Axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
-                            .then(res => { 
+                            .then(res => {
                                 // listCollections -> liste complète des collections pour handleSearch
                                 setListCollections(res.data[0]);
                                 setListCollectionsFiltered(res.data[0]);
@@ -410,8 +408,8 @@ const CreateCollection = () => {
                                 }])
                             }}>
                             <Link to="/collections-list">
-                                <FontAwesomeIcon icon={faArrowLeft} />
-                                <span className="m-l-10">Retour</span>
+                                <img src='../images/icons/arrow-left.svg' className="w15 h15 inline" />
+                                <span className="m-l-5">Retour</span>
                             </Link>
                         </button>
                         {/* réinitialisation */}

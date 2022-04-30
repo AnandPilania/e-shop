@@ -4,15 +4,14 @@ import AppContext from '../contexts/AppContext';
 import withHandleConditions from './withHandleConditions';
 import ConditionCollection from './conditionCollection';
 import ModalSimpleMessage from '../modal/modalSimpleMessage';
-import { getParameter, getOperator } from './conditionsFunctions';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { SyncDisabled } from '@material-ui/icons';
-// import add_icon from '../images/icons/add_icon.svg';
 
- 
+
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -47,18 +46,17 @@ function a11yProps(index) {
 }
 
 
-const ConditionsForm = ({ 
+const ConditionsForm = ({
   handleChangeParam,
   handleChangeOperator,
   handleChangeValue,
   addCondition,
-  deleteCondition}) => {
+  deleteCondition }) => {
 
   const [value, setValue] = useState(0);
 
-  const { conditions, setConditions, setTypeOperationListCollections, warningIdCondition, setIsAutoConditions, showModalSimpleMessage, setShowModalSimpleMessage, messageModal, setMessageModal, imageModal, setDsablNamProd, setDsablType, setDsablSuppl, setDsablPrice, setDsablTag, setDsablBeforePromo, setDsablWeight, setDsablStock, setDsablDate } = useContext(AppContext);
+  const { conditions, setTypeOperationListCollections, warningIdCondition, showModalSimpleMessage, setShowModalSimpleMessage, messageModal, imageModal } = useContext(AppContext);
 
-  var p = '3';
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -66,47 +64,42 @@ const ConditionsForm = ({
   };
 
 
-  
-
   const closeSimpleModal = () => {
     setShowModalSimpleMessage(false);
   }
 
   return (
     <>
-      <Box sx={{ width: '100%' }}>
-
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs value={value} onChange={handleChange} aria-label="modifications des conditions">
-            <Tab label="Ajouter" {...a11yProps(0)} />
-            <Tab label="Supprimer" {...a11yProps(1)} />
-          </Tabs>
-        </Box>
-
-        <TabPanel value={value} index={0}>
-          <div className="sub-div-vert-align">
-            {conditions && conditions.map((condition, i) => (
-              <ConditionCollection
-                key={i}
-                handleChangeParam={handleChangeParam}
-                handleChangeOperator={handleChangeOperator}
-                handleChangeValue={handleChangeValue}
-                condition={condition}
-                deleteCondition={deleteCondition}
-                warningIdCondition={warningIdCondition}
-              />
-            ))}
-            <button className="btn-bcknd mb15" onClick={addCondition}>
-              <img src='../images/icons/add_icon.svg' alt=" bouton ajouter une condition" height="30px" width="30px" />
-            </button>
-          </div>
-        </TabPanel>
-
-        <TabPanel value={value} index={1}>
-          Gérer la suppression des conditions
-        </TabPanel>
-
+      <Box sx={{ borderBottom: 1, borderColor: 'divider', width: '100%' }}>
+        <Tabs value={value} onChange={handleChange} aria-label="modifications des conditions">
+          <Tab label="Ajouter" {...a11yProps(0)} />
+          <Tab label="Supprimer" {...a11yProps(1)} />
+        </Tabs>
       </Box>
+
+      <TabPanel value={value} index={0} sx={{ width: '100%' }}>
+        <div className="sub-div-vert-align w100pct">
+          {conditions && conditions.map((condition, i) => (
+            <ConditionCollection
+              key={i}
+              handleChangeParam={handleChangeParam}
+              handleChangeOperator={handleChangeOperator}
+              handleChangeValue={handleChangeValue}
+              condition={condition}
+              deleteCondition={deleteCondition}
+              warningIdCondition={warningIdCondition}
+            />
+          ))}
+          <button className="btn-bcknd mb15" onClick={addCondition}>
+            <img src='../images/icons/add_icon.svg' alt=" bouton ajouter une condition" height="30px" width="30px" />
+          </button>
+        </div>
+      </TabPanel>
+
+      <TabPanel value={value} index={1}>
+        Gérer la suppression des conditions
+      </TabPanel>
+
       <ModalSimpleMessage
         show={showModalSimpleMessage} // true/false show modal
         handleModalCancel={closeSimpleModal}
@@ -114,6 +107,7 @@ const ConditionsForm = ({
         <h2 className="childrenModal">{messageModal}</h2>
       </ModalSimpleMessage>
     </>
+
   );
 }
 
