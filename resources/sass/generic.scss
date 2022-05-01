@@ -838,7 +838,7 @@
 // background-color
 
 .bg-white {
-    background-color: #ffffffff;
+    background-color: #ffffff;
 }
 .bg-cyan {
     background-color: $cyan;
@@ -985,6 +985,9 @@
 }
 .align-c {
     align-items: center;
+}
+.justify-space-bet {
+    justify-content: space-between;
 }
 
 .grid {
@@ -1431,6 +1434,10 @@
 }
 .z20 {
     z-index: 20;
+}
+
+.transition_0_3 {
+    transition: 0.3s; 
 }
 
 //----------CURSOR----------------------------------------------------

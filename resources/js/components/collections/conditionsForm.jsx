@@ -45,7 +45,7 @@ function a11yProps(index) {
   };
 }
 
-
+// les props viennent de withHandleCollections
 const ConditionsForm = ({
   handleChangeParam,
   handleChangeOperator,
@@ -79,17 +79,24 @@ const ConditionsForm = ({
 
       <TabPanel value={value} index={0} sx={{ width: '100%' }}>
         <div className="sub-div-vert-align w100pct">
-          {conditions && conditions.map((condition, i) => (
-            <ConditionCollection
-              key={i}
-              handleChangeParam={handleChangeParam}
-              handleChangeOperator={handleChangeOperator}
-              handleChangeValue={handleChangeValue}
-              condition={condition}
-              deleteCondition={deleteCondition}
-              warningIdCondition={warningIdCondition}
-            />
-          ))}
+          <div className="block-select-conditions">
+            <span className="m-l-10">Paramètre</span>
+            <span className="m-l-10">Opérateur</span>
+            <span className="m-l-10">Valeur</span>
+          </div>
+          {conditions &&
+            conditions.map((condition, i) => (
+              <ConditionCollection
+                key={i}
+                handleChangeParam={handleChangeParam}
+                handleChangeOperator={handleChangeOperator}
+                handleChangeValue={handleChangeValue}
+                condition={condition}
+                deleteCondition={deleteCondition}
+                warningIdCondition={warningIdCondition}
+              />
+            ))}
+            {/* ajouter une condition */}
           <button className="btn-bcknd mb15" onClick={addCondition}>
             <img src='../images/icons/add_icon.svg' alt=" bouton ajouter une condition" height="30px" width="30px" />
           </button>

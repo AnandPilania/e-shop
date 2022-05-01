@@ -8,7 +8,7 @@
     box-sizing: border-box;
 }
 
-.collection-main-container {
+.form-main-container {
     min-width: 750px;
     width: 60%;
     min-height: 130vh;
@@ -20,7 +20,7 @@
     // border: solid 2px rgb(52, 184, 0);
 }
 
-.collection-block-container {
+.form-block-container {
     width: 100%;
     // border: solid 2px red;
 }
@@ -300,7 +300,7 @@
 }
 
 // side -------------------------------
-// .side-create-collection {
+// .form-side-container {
 
 //     // border: solid 1px rgb(52, 184, 0);
 // }
@@ -309,18 +309,12 @@
     width: 25px;
 }
 
-// popup '?' infos --------------------------
-.collection-main-container .fa-question-circle {
-    color: rgb(117, 117, 117);
-    margin-left: 6px;
-}
-
 .tooltip_ {
     position: relative;
 }
 
 /* Tooltip text */
-.collection-main-container .tooltip_ .tooltiptext,
+.form-main-container .tooltip_ .tooltiptext,
 .listCollections .tooltip_ .tooltiptext {
     visibility: hidden;
     width: 300px;
@@ -343,7 +337,7 @@
 }
 
 /* Show the tooltip_ text when you mouse over the tooltip_ container */
-.collection-main-container .tooltip_:hover .tooltiptext,
+.form-main-container .tooltip_:hover .tooltiptext,
 .listCollections .tooltip_:hover .tooltiptext {
     visibility: visible;
     -webkit-animation: scale-in-center 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)
@@ -353,7 +347,7 @@
     cursor: default;
 }
 
-.collection-main-container .tooltip_:hover,
+.form-main-container .tooltip_:hover,
 .listCollections .tooltip_:hover {
     cursor: pointer;
 }
@@ -594,42 +588,6 @@
     font-weight: bold;
 }
 
-.collection-main-container .fa-crop,
-span.trash-alt-dropZone {
-    font-size: 18px;
-}
-
-.collection-main-container .fa-crop:hover {
-    cursor: pointer;
-    color: rgb(53, 117, 255);
-    font-weight: bold;
-}
-
-.collection-main-container .faTrash {
-    display: none;
-    font-size: 18px;
-    transition: ease-in-out 0.15s;
-}
-
-.collection-main-container .faTrash:hover {
-    cursor: pointer;
-    color: rgb(224, 0, 0);
-    font-weight: bold;
-}
-
-.collection-main-container .faRecycle {
-    display: none;
-    font-size: 18px;
-    margin-right: 10px;
-    transition: ease-in-out 0.15s;
-}
-
-.faRecycle:hover .faRecycleIcon,
-.faTrash:hover .faTrashIcon,
-.faCropDropZone:hover .faCrop,
-.faTrashDropZone:hover .faTrash {
-    transform: scale(1.15);
-}
 
 .li-category:hover .faRecycle {
     display: inline;

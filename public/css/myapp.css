@@ -654,7 +654,7 @@ table td img {
   box-sizing: border-box;
 }
 
-.collection-main-container {
+.form-main-container {
   min-width: 750px;
   width: 60%;
   min-height: 130vh;
@@ -665,7 +665,7 @@ table td img {
   grid-gap: 10px;
 }
 
-.collection-block-container {
+.form-block-container {
   width: 100%;
 }
 
@@ -904,17 +904,12 @@ table td img {
   width: 25px;
 }
 
-.collection-main-container .fa-question-circle {
-  color: #757575;
-  margin-left: 6px;
-}
-
 .tooltip_ {
   position: relative;
 }
 
 /* Tooltip text */
-.collection-main-container .tooltip_ .tooltiptext,
+.form-main-container .tooltip_ .tooltiptext,
 .listCollections .tooltip_ .tooltiptext {
   visibility: hidden;
   width: 300px;
@@ -936,7 +931,7 @@ table td img {
 }
 
 /* Show the tooltip_ text when you mouse over the tooltip_ container */
-.collection-main-container .tooltip_:hover .tooltiptext,
+.form-main-container .tooltip_:hover .tooltiptext,
 .listCollections .tooltip_:hover .tooltiptext {
   visibility: visible;
   -webkit-animation: scale-in-center 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
@@ -945,7 +940,7 @@ table td img {
   cursor: default;
 }
 
-.collection-main-container .tooltip_:hover,
+.form-main-container .tooltip_:hover,
 .listCollections .tooltip_:hover {
   cursor: pointer;
 }
@@ -1148,43 +1143,6 @@ table td img {
   cursor: pointer;
   color: #3473fc;
   font-weight: bold;
-}
-
-.collection-main-container .fa-crop,
-span.trash-alt-dropZone {
-  font-size: 18px;
-}
-
-.collection-main-container .fa-crop:hover {
-  cursor: pointer;
-  color: #3575ff;
-  font-weight: bold;
-}
-
-.collection-main-container .faTrash {
-  display: none;
-  font-size: 18px;
-  transition: ease-in-out 0.15s;
-}
-
-.collection-main-container .faTrash:hover {
-  cursor: pointer;
-  color: #e00000;
-  font-weight: bold;
-}
-
-.collection-main-container .faRecycle {
-  display: none;
-  font-size: 18px;
-  margin-right: 10px;
-  transition: ease-in-out 0.15s;
-}
-
-.faRecycle:hover .faRecycleIcon,
-.faTrash:hover .faTrashIcon,
-.faCropDropZone:hover .faCrop,
-.faTrashDropZone:hover .faTrash {
-  transform: scale(1.15);
 }
 
 .li-category:hover .faRecycle {
@@ -2560,7 +2518,7 @@ a.link:hover {
 }
 
 .bg-white {
-  background-color: #ffffffff;
+  background-color: #ffffff;
 }
 
 .bg-cyan {
@@ -2721,6 +2679,10 @@ a.link:hover {
 
 .align-c {
   align-items: center;
+}
+
+.justify-space-bet {
+  justify-content: space-between;
 }
 
 .grid {
@@ -3229,6 +3191,10 @@ a.link:hover {
 
 .z20 {
   z-index: 20;
+}
+
+.transition_0_3 {
+  transition: 0.3s;
 }
 
 .noTextSelection {

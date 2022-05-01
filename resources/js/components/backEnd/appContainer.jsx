@@ -6,7 +6,7 @@ import Axios from 'axios';
 import { getNow } from '../functions/dateTools';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from '../navBar/navBar';
-import AliProductImport from '../aliProductImport/aliProductImport';
+// import AliProductImport from '../aliProductImport/aliProductImport';
 import FormProduct from '../createProduct/formProduct';
 import EditProduct from '../createProduct/editProduct';
 import EditImages from '../createProduct/edit_images';

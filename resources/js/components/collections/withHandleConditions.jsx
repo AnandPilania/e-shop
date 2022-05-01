@@ -68,12 +68,17 @@ const withHandleConditions = (Component) => (props) => {
     }, [refreshCondition]);
 
     // vérifie si les conditions ne sont pas en conflis. ex. "est égale à" avec 
+    //  A CLARIFIER !!!
     const canIUseThisConbinaison = () => {
         if (conditions.length > 0) {
             var tmp = conditions;
             tmp.forEach(x => {
                 let sameParam = tmp.filter(y => y.parameter == x.parameter);
                 if (sameParam.length > 1) {
+                    console.log('tmp  ', tmp);
+                    console.log('sameParam  ', sameParam);
+                   
+                    // permet de laisser le premier "est égale à" activé
                     let index = tmp.findIndex(x => x.id == sameParam[0].id);
                     tmp[index].disableOperator = '';
                     for (let i = 1; i < sameParam.length; i++) {

@@ -186,7 +186,7 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
                         case '91': para.push('9'); break;
                     }
                 });
-                // retive les conditions avec le parameter = para, pcq condition non duplcable
+                // retire les conditions avec le parameter = para, pcq condition non duplcable
                 arrObj.forEach(cond => {
                     if (!para.includes(cond.parameter)) {
                         tmp_arrObj.push(cond);
@@ -306,7 +306,7 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
                         <ConditionsForm />
                     </div>}
 
-                <div className="flex-row-s-c w100pct p-l-70 m-t-20">
+                <div className="flex-row-s-c w100pct p-l-50 m-t-40">
                     {conditions?.findIndex(c => c?.value.length === 0) == -1 &&
                         <button className="btn-bcknd mb15 m-r-20" onClick={handleSave}>
                             {textButton}

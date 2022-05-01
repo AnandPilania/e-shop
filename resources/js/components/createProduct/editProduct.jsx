@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 // import './createProduct_Js.scss';
 import ContainerDetailEdit from './containerDetailEdit';
-import SelectCollectionsEdit from '../selectInProduct/selectCollectionsEdit';
+import SelectCollectionsEdit from './selectCollectionsEdit';
 import Axios from "axios";
 // import { CKEditor } from '@ckeditor/ckeditor5-react';
 // import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useParams } from "react-router-dom";
 import EditImages from './edit_images';
 
-
+ 
 
 const useStyles = makeStyles({
     wrapperForm: {
@@ -168,7 +168,7 @@ const EditProduct = () => {
     };
 
     return (
-        <div className={classes.wrapperForm}>
+        <div className="form-main-container">
 
             <h4 className={classes.title}>Modifier un produit</h4>
 

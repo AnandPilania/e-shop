@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import ContainerDetail from './containerDetail';
-import SelectCollections from '../selectInProduct/selectCollections';
+import SelectCollections from './selectCollections';
 import Axios from "axios";
 
 
@@ -58,17 +58,7 @@ const useStyles = makeStyles({
         fontSize: '16px',
         letterSpacing: '1px',
     },
-    drop_region: {
-        backgroundColor: '#fff',
-        borderRadius: '5px',
-        boxShadow: '0 0 35px rgba(0, 0, 0, 0.05)',
-        width: '100%',
-        padding: '60px 40px',
-        marginTop: '30px',
-        textAlign: 'center',
-        cursor: 'pointer',
-        transition: '0.3s',
-    },
+
 });
 
 
@@ -309,36 +299,55 @@ const FormProduct = (props) => {
 
 
     return (
-        <div className={classes.wrapperForm}>
+        <div className="form-main-container">
+            <div className="form-block-container">
+                <div className="div-vert-align">
 
-            <h4 className={classes.title}>Ajouter un produit</h4>
+                    <h4 className={classes.title}>Ajouter un produit</h4>
 
-            <form method="post" action="/products" encType="multipart/form-data">
+                    <p className={classes.label_text}><label htmlFor="name" >Nom</label></p>
+                    <input id="name" name="name" type="text" className={classes.input_text} />
 
-                <p className={classes.label_text}><label htmlFor="name" >Nom</label></p>
-                <input id="name" name="name" type="text" className={classes.input_text} />
+                    <p className={classes.label_text}><label htmlFor="description" >Déscription</label></p>
+                    <input id="description" name="description" type="text" className={classes.input_text} />
+                </div>
 
-                <p className={classes.label_text}><label htmlFor="price" >Prix</label></p>
-                <input id="price" type="number" step=".01" name="price" className={classes.input_text} />
-
-                <SelectCollections collectionsRelations={collectionsRelations} handleCollections={handleCollections} />
-
-                <div id="drop-region" className={classes.drop_region}>
-                    <div className="drop-message">
+                <div id="drop-region" className="flex-col-s-c bg-white radius5 w100pct p-tb-50 p-lr-40 m-t30 cursor transition_0_3 shadow-sm">
+                    <div className="drop-message w100pct txt-c">
                         Drag & Drop images or click to upload
                     </div>
                     <div id="image-preview"></div>
+
                 </div>
 
-                <p className={classes.label_text}><label htmlFor="description" >Déscription</label></p>
-                <input id="description" name="description" type="text" className={classes.input_text} />
+                <div className="div-vert-align">
+                    <ContainerDetail setDataDetail={setDataDetail} />
 
-                <ContainerDetail setDataDetail={setDataDetail} />
+                </div>
+            </div>
+
+            {/* ----------  side  ---------- */}
+            <div className='form-side-container'>
+
+                <div className="div-vert-align">
+
+                    <SelectCollections collectionsRelations={collectionsRelations} handleCollections={handleCollections} />
+
+                    <p className={classes.label_text}><label htmlFor="price" >Prix</label></p>
+                    <input id="price" type="number" step=".01" name="price" className={classes.input_text} />
+
+                </div>
+
+
+            </div>
+
+
+            {/* <form method="post" action="/products" encType="multipart/form-data">
 
                 <br></br><br></br>
                 <h6>Fiche technique</h6>
                 <br></br>
-                {/* <CKEditor
+                <CKEditor
                     editor={ClassicEditor}
                     data=""
                     onReady={editor => {
@@ -356,13 +365,13 @@ const FormProduct = (props) => {
                     onFocus={(event, editor) => {
                         console.log('Focus.', editor);
                     }}
-                /> */}
+                />
 
-                <br></br>
+      
                 <button className="btn-backEnd" onClick={handleSubmit}>
                     Envoyer
                 </button>
-            </form>
+            </form> */}
         </div>
     )
 }

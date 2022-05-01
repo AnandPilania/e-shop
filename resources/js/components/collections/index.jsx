@@ -394,8 +394,8 @@ const CreateCollection = () => {
 
 
     return (
-        <div className="collection-main-container">
-            <div className="collection-block-container">
+        <div className="form-main-container">
+            <div className="form-block-container">
                 <div className="div-vert-align">
                     <div className="w100pct h40 flex justify-s align-c">
                         <button className="w100 h40 flex-row-c-c brd-gray-light-1 radius5"
@@ -446,7 +446,7 @@ const CreateCollection = () => {
                 </div>
             </div>
             {/* ----------  side  ---------- */}
-            <div className='side-create-collection'>
+            <div className='form-side-container'>
                 <Image />
                 <Categories />
                 <Activation />
