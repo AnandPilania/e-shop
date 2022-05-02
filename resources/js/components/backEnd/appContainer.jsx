@@ -7,7 +7,7 @@ import { getNow } from '../functions/dateTools';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from '../navBar/navBar';
 // import AliProductImport from '../aliProductImport/aliProductImport';
-import FormProduct from '../createProduct/formProduct';
+import CreateProduct from '../createProduct/createProduct';
 import EditProduct from '../createProduct/editProduct';
 import EditImages from '../createProduct/edit_images';
 import List from '../createProduct/list';
@@ -17,12 +17,16 @@ import WrapIndexcroppe from '../collections/wrap_IndexCroppe';
 
 const Appcontainer = () => {
 
+    //----------------------------------------------------------------------
+    //COLLECTION------------------------------------------------------------
+    //----------------------------------------------------------------------
+
     // collection form----------------------------------------------------------
     const [conditions, setConditions] = useState([{
         id: 0,
         parameter: '1',
         operator: '1',
-        value: '', 
+        value: '',
         disableOperator: '',
     }]);
     const [nameCollection, setNameCollection] = useState('');
@@ -71,9 +75,6 @@ const Appcontainer = () => {
     const [isNot_isEdit, setIsNot_isEdit] = useState(false);
     const [wrapIndexcroppe, setWrapIndexcroppe] = useState(<CreateCollection />);
     //---------------------------------------------------------- collection Form
-
-    // collection --------------------------------------------------------------
-
 
     const [warningIdCondition, setWarningIdCondition] = useState([]);
     const [tinyLanguage, setTinyLanguage] = useState('fr_FR');
@@ -125,10 +126,22 @@ const Appcontainer = () => {
     const [dsablWeight, setDsablWeight] = useState(false);
     const [dsablStock, setDsablStock] = useState(false);
     const [dsablDate, setDsablDate] = useState(false);
-      //----------------------------Handle options in coonditionsCollections
+    //----------------------------Handle options in coonditionsCollections
 
- 
+    //----------------------------------------------------------------------
+    //------------------------------------------------------------COLLECTION
+    //----------------------------------------------------------------------
 
+    //----------------------------------------------------------------------
+    //PRODUCT---------------------------------------------------------------
+    //----------------------------------------------------------------------
+
+    const [nameProduct, setNameProduct] = useState('');
+    const [descriptionProduct, setDescriptionProduct] = useState('');
+
+    //----------------------------------------------------------------------
+    //---------------------------------------------------------------PRODUCT
+    //----------------------------------------------------------------------
 
     useEffect(() => {
         // chargement des collections
@@ -306,7 +319,7 @@ const Appcontainer = () => {
                 let newConditionsData = new FormData;
                 newConditionsData.append('conditions', JSON.stringify(tmp_parameter));
                 Axios.post(`http://127.0.0.1:8000/addCondtionsToGroup`, newConditionsData)
-                    .then(res => { 
+                    .then(res => {
                         if (res.data === 'ok') {
                             console.log('res.data  --->  ok');
                             setShowModalListOperations(false);
@@ -326,7 +339,7 @@ const Appcontainer = () => {
                             // il n'y a pas de delete mais ça permet de refresh list collection
                             setIs({ ...is, collectionDeleted: true });
                         }
-                    }).catch(function (error) { 
+                    }).catch(function (error) {
                         console.log('error:   ' + error);
                     });
                 break;
@@ -416,6 +429,8 @@ const Appcontainer = () => {
         dsablStock, setDsablStock,
         dsablDate, setDsablDate,
         refresh, setRefresh,
+        nameProduct, setNameProduct,
+        descriptionProduct, setDescriptionProduct,
 
     }
 
@@ -427,7 +442,7 @@ const Appcontainer = () => {
             <div className='bg-gray-cool'>
                 <Routes>
                     <Route path="/listProduct" element={<List />} />
-                    <Route path="/addProduct" element={<FormProduct />} />
+                    <Route path="/addProduct" element={<CreateProduct />} />
                     <Route path="/editProduct/:productId" element={<EditProduct />} />
                     <Route path="/editImagesProduct/:product_id" element={<EditImages />} />
 

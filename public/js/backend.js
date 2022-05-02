@@ -31902,7 +31902,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _functions_dateTools__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../functions/dateTools */ "./resources/js/components/functions/dateTools.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
 /* harmony import */ var _navBar_navBar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../navBar/navBar */ "./resources/js/components/navBar/navBar.jsx");
-/* harmony import */ var _createProduct_formProduct__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../createProduct/formProduct */ "./resources/js/components/createProduct/formProduct.jsx");
+/* harmony import */ var _createProduct_createProduct__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../createProduct/createProduct */ "./resources/js/components/createProduct/createProduct.jsx");
 /* harmony import */ var _createProduct_editProduct__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../createProduct/editProduct */ "./resources/js/components/createProduct/editProduct.jsx");
 /* harmony import */ var _createProduct_edit_images__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../createProduct/edit_images */ "./resources/js/components/createProduct/edit_images.jsx");
 /* harmony import */ var _createProduct_list__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../createProduct/list */ "./resources/js/components/createProduct/list.jsx");
@@ -31948,6 +31948,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var Appcontainer = function Appcontainer() {
+  //----------------------------------------------------------------------
+  //COLLECTION------------------------------------------------------------
+  //----------------------------------------------------------------------
   // collection form----------------------------------------------------------
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
     id: 0,
@@ -32084,7 +32087,6 @@ var Appcontainer = function Appcontainer() {
       _useState42 = _slicedToArray(_useState41, 2),
       wrapIndexcroppe = _useState42[0],
       setWrapIndexcroppe = _useState42[1]; //---------------------------------------------------------- collection Form
-  // collection --------------------------------------------------------------
 
 
   var _useState43 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
@@ -32305,6 +32307,25 @@ var Appcontainer = function Appcontainer() {
       _useState124 = _slicedToArray(_useState123, 2),
       dsablDate = _useState124[0],
       setDsablDate = _useState124[1]; //----------------------------Handle options in coonditionsCollections
+  //----------------------------------------------------------------------
+  //------------------------------------------------------------COLLECTION
+  //----------------------------------------------------------------------
+  //----------------------------------------------------------------------
+  //PRODUCT---------------------------------------------------------------
+  //----------------------------------------------------------------------
+
+
+  var _useState125 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState126 = _slicedToArray(_useState125, 2),
+      nameProduct = _useState126[0],
+      setNameProduct = _useState126[1];
+
+  var _useState127 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState128 = _slicedToArray(_useState127, 2),
+      descriptionProduct = _useState128[0],
+      setDescriptionProduct = _useState128[1]; //----------------------------------------------------------------------
+  //---------------------------------------------------------------PRODUCT
+  //----------------------------------------------------------------------
 
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
@@ -32658,7 +32679,11 @@ var Appcontainer = function Appcontainer() {
     dsablDate: dsablDate,
     setDsablDate: setDsablDate,
     refresh: refresh,
-    setRefresh: setRefresh
+    setRefresh: setRefresh,
+    nameProduct: nameProduct,
+    setNameProduct: setNameProduct,
+    descriptionProduct: descriptionProduct,
+    setDescriptionProduct: setDescriptionProduct
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsxs)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"].Provider, {
     value: contextValue,
@@ -32670,7 +32695,7 @@ var Appcontainer = function Appcontainer() {
           element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_createProduct_list__WEBPACK_IMPORTED_MODULE_9__["default"], {})
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
           path: "/addProduct",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_createProduct_formProduct__WEBPACK_IMPORTED_MODULE_6__["default"], {})
+          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_createProduct_createProduct__WEBPACK_IMPORTED_MODULE_6__["default"], {})
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_14__.Route, {
           path: "/editProduct/:productId",
           element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_13__.jsx)(_createProduct_editProduct__WEBPACK_IMPORTED_MODULE_7__["default"], {})
@@ -36883,7 +36908,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
-var Tinyeditor = function Tinyeditor() {
+var TinyEditor = function TinyEditor() {
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_2__["default"]),
       descriptionCollection = _useContext.descriptionCollection,
       setDescriptionCollection = _useContext.setDescriptionCollection,
@@ -37095,7 +37120,7 @@ var Tinyeditor = function Tinyeditor() {
   });
 };
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Tinyeditor);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TinyEditor);
 
 /***/ }),
 
@@ -37606,7 +37631,11 @@ __webpack_require__.r(__webpack_exports__);
   dsablDate: '',
   setDsablDate: function setDsablDate() {},
   refresh: '',
-  setRefresh: function setRefresh() {}
+  setRefresh: function setRefresh() {},
+  nameProduct: '',
+  setNameProduct: function setNameProduct() {},
+  descriptionProduct: '',
+  setDescriptionProduct: function setDescriptionProduct() {}
 }));
 
 /***/ }),
@@ -38041,7 +38070,7 @@ var ContainerDetail = function ContainerDetail(props) {
         currentType: tempcurrentType
       }, index);
     }), blockDetail.length <= 4 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-      className: "button_addDetail",
+      className: "btn-submit",
       onClick: function onClick(e) {
         return addDetailsProduct(e);
       },
@@ -38512,6 +38541,495 @@ var ContainerDetailEdit = function ContainerDetailEdit(props) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ContainerDetailEdit);
+
+/***/ }),
+
+/***/ "./resources/js/components/createProduct/createProduct.jsx":
+/*!*****************************************************************!*\
+  !*** ./resources/js/components/createProduct/createProduct.jsx ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
+/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
+/* harmony import */ var _containerDetail__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./containerDetail */ "./resources/js/components/createProduct/containerDetail.jsx");
+/* harmony import */ var _selectCollections__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./selectCollections */ "./resources/js/components/createProduct/selectCollections.jsx");
+/* harmony import */ var _dropZoneProduct__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./dropZoneProduct */ "./resources/js/components/createProduct/dropZoneProduct.jsx");
+/* harmony import */ var _tinyEditorProduct__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./tinyEditorProduct */ "./resources/js/components/createProduct/tinyEditorProduct.jsx");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+
+
+
+
+var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_8__["default"])({
+  wrapperForm: {
+    marginTop: '50px',
+    width: '80%',
+    overflow: 'auto',
+    padding: '50px',
+    // border: '#e0e0e0 dashed 1px',
+    border: 'red dashed 2px',
+    borderRadius: '5px',
+    height: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    flexWrap: 'nowrap',
+    backgroundColor: '#f6f6f7'
+  },
+  title: {
+    fontSize: '20px'
+  },
+  label_text: {
+    fontSize: '16px',
+    fontWeight: 'bold',
+    margin: '0',
+    marginLeft: '5px',
+    marginBottom: 10,
+    marginTop: '20px',
+    color: '#111fff',
+    width: 'auto'
+  },
+  input_text: {
+    margin: '0',
+    paddingLeft: '10px',
+    width: '100%',
+    height: '55px',
+    border: '#e1e1e1 solid 1px',
+    borderRadius: '5px',
+    color: '#111fff'
+  },
+  textarea: {
+    color: '#111fff',
+    minHeight: '100px'
+  },
+  submit_btn: {
+    height: '45px',
+    width: '150px',
+    marginTop: '50px',
+    borderRadius: '5px',
+    backgroundColor: '#eeefff',
+    color: '#111fff',
+    fontSize: '16px',
+    letterSpacing: '1px'
+  }
+}); // props.id = detailx
+
+var CreateProduct = function CreateProduct(props) {
+  var classes = useStyles();
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      collectionsRelations = _useState2[0],
+      setCollectionsRelations = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState4 = _slicedToArray(_useState3, 2),
+      dataDetail = _useState4[0],
+      setDataDetail = _useState4[1];
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState6 = _slicedToArray(_useState5, 2),
+      collection = _useState6[0],
+      setCollection = _useState6[1];
+
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
+      image = _useContext.image,
+      descriptionProduct = _useContext.descriptionProduct;
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // récupére les types de détails dans la table type_detail_products pour remplire le select id=selectdetails
+    axios__WEBPACK_IMPORTED_MODULE_6___default().get("http://127.0.0.1:8000/getCollections").then(function (res) {
+      setCollectionsRelations(res.data.collections);
+    })["catch"](function (error) {
+      console.log('error:   ' + error);
+    });
+  }, []);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    var formData = new FormData(); // on boucle sur imageFiles pour récupérer toutes les images
+
+    if (image) {
+      for (var i = 0; i < image.length; i++) {
+        formData.append('image[]', image[i]);
+      }
+    }
+
+    formData.append("name", document.getElementById("name").value);
+    formData.append("price", document.getElementById("price").value);
+    formData.append("collection", collection);
+    formData.append("description", descriptionProduct); // supprime listTypes de dataDetail car inutile côté controlleur
+
+    dataDetail.forEach(function (obj) {
+      return delete obj.listTypes;
+    }); // transformation de l'objet en string JSON
+
+    var obj = JSON.stringify(dataDetail);
+    formData.append("obj", obj);
+    axios__WEBPACK_IMPORTED_MODULE_6___default().post("http://127.0.0.1:8000/products", formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }).then(function (res) {
+      console.log('res.data  --->  ok');
+    });
+  }
+
+  var handleCollections = function handleCollections(value) {
+    setCollection(value);
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+    className: "form-main-container",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+      className: "form-block-container",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        className: "div-vert-align",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h4", {
+          className: classes.title,
+          children: "Ajouter un produit"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
+          className: classes.label_text,
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
+            htmlFor: "name",
+            children: "Nom"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
+          id: "name",
+          name: "name",
+          type: "text",
+          className: classes.input_text
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_tinyEditorProduct__WEBPACK_IMPORTED_MODULE_5__["default"], {})]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_dropZoneProduct__WEBPACK_IMPORTED_MODULE_4__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+        className: "div-vert-align",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_containerDetail__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          setDataDetail: setDataDetail
+        })
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+      className: "form-side-container",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        className: "div-vert-align",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_selectCollections__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          collectionsRelations: collectionsRelations,
+          handleCollections: handleCollections
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("p", {
+          className: classes.label_text,
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
+            htmlFor: "price",
+            children: "Prix"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
+          id: "price",
+          type: "number",
+          step: ".01",
+          name: "price",
+          className: classes.input_text
+        })]
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+      className: "btn-backEnd",
+      onClick: handleSubmit,
+      children: "Envoyer"
+    })]
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CreateProduct);
+
+/***/ }),
+
+/***/ "./resources/js/components/createProduct/dropZoneProduct.jsx":
+/*!*******************************************************************!*\
+  !*** ./resources/js/components/createProduct/dropZoneProduct.jsx ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
+/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+
+
+
+
+
+var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_3__["default"])({
+  wrapperForm: {
+    marginTop: '50px',
+    width: '80%',
+    overflow: 'auto',
+    padding: '50px',
+    // border: '#e0e0e0 dashed 1px',
+    border: 'red dashed 2px',
+    borderRadius: '5px',
+    height: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    flexWrap: 'nowrap',
+    backgroundColor: '#f6f6f7'
+  },
+  title: {
+    fontSize: '20px'
+  },
+  label_text: {
+    fontSize: '16px',
+    fontWeight: 'bold',
+    margin: '0',
+    marginLeft: '5px',
+    marginBottom: 10,
+    marginTop: '20px',
+    color: '#111fff',
+    width: 'auto'
+  },
+  input_text: {
+    margin: '0',
+    paddingLeft: '10px',
+    width: '100%',
+    height: '55px',
+    border: '#e1e1e1 solid 1px',
+    borderRadius: '5px',
+    color: '#111fff'
+  },
+  textarea: {
+    color: '#111fff',
+    minHeight: '100px'
+  },
+  submit_btn: {
+    height: '45px',
+    width: '150px',
+    marginTop: '50px',
+    borderRadius: '5px',
+    backgroundColor: '#eeefff',
+    color: '#111fff',
+    fontSize: '16px',
+    letterSpacing: '1px'
+  }
+}); // props.id = detailx
+
+var DropZoneProduct = function DropZoneProduct(props) {
+  var classes = useStyles();
+
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
+      setImage = _useContext.setImage;
+
+  var dropRegion = null;
+  var imagePreviewRegion = null;
+  var tab = [];
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    dropRegion = document.getElementById("drop-region");
+    imagePreviewRegion = document.getElementById("image-preview"); // open file selector when clicked on the drop region
+
+    var fakeInput = document.createElement("input");
+    fakeInput.type = "file";
+    fakeInput.accept = "image/*";
+    fakeInput.multiple = true; // open files exploratore when click on dropRegion
+
+    dropRegion.addEventListener('click', function () {
+      fakeInput.click();
+    });
+    fakeInput.addEventListener("change", function () {
+      var files = fakeInput.files;
+      handleFiles(files);
+    }); // empèche le comportement par défault et la propagation
+
+    dropRegion.addEventListener('dragenter', preventDefault, false);
+    dropRegion.addEventListener('dragleave', preventDefault, false);
+    dropRegion.addEventListener('dragover', preventDefault, false);
+    dropRegion.addEventListener('drop', preventDefault, false);
+    dropRegion.addEventListener('drop', handleDrop, false); // change the message if doesn't support drag & drop
+
+    var dragSupported = detectDragDrop();
+
+    if (!dragSupported) {
+      document.getElementsByClassName("drop-message")[0].innerHTML = 'Click to upload';
+    }
+
+    dropRegion.addEventListener('dragenter', highlight, false);
+    dropRegion.addEventListener('dragover', highlight, false);
+    dropRegion.addEventListener('dragleave', unhighlight, false);
+    dropRegion.addEventListener('drop', unhighlight, false);
+  }, []);
+
+  function highlight() {
+    dropRegion.classList.add('highlighted');
+  }
+
+  function unhighlight() {
+    dropRegion.classList.remove("highlighted");
+  }
+
+  function preventDefault(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  } // récupère les files quand on drop et les envoi à handleFiles
+
+
+  function handleDrop(e) {
+    var dt = e.dataTransfer,
+        files = dt.files;
+
+    if (files.length) {
+      handleFiles(files);
+    } else {
+      // check for img
+      var html = dt.getData('text/html'),
+          match = html && /\bsrc="?([^"\s]+)"?\s*/.exec(html),
+          url = match && match[1];
+
+      if (url) {
+        uploadImageFromURL(url);
+        return;
+      }
+    }
+
+    function uploadImageFromURL(url) {
+      var img = new Image();
+      var c = document.createElement("canvas");
+      var ctx = c.getContext("2d");
+
+      img.onload = function () {
+        c.width = this.naturalWidth; // update canvas size to match image
+
+        c.height = this.naturalHeight;
+        ctx.drawImage(this, 0, 0); // draw in image
+
+        c.toBlob(function (blob) {
+          // get content as blob
+          handleFiles([blob]);
+        }, 'image/png', 0.95);
+      };
+
+      img.onerror = function () {
+        alert("Error in uploading");
+      };
+
+      img.crossOrigin = ""; // if from different origin
+
+      img.src = url;
+    }
+  } // affiche et sauvegarde les images
+
+
+  function handleFiles(files) {
+    tab.push.apply(tab, _toConsumableArray(files));
+
+    for (var i = 0; i < files.length; i++) {
+      if (validateImage(files[i])) {
+        setImage(tab);
+        previewImage(files[i]);
+      }
+    }
+  }
+
+  function validateImage(image) {
+    // check the type
+    var validTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'];
+
+    if (validTypes.indexOf(image.type) === -1) {
+      alert("Type d'image invalide");
+      return false;
+    } // check the size
+
+
+    var maxSizeInBytes = 2e6; // 2MB
+
+    if (image.size > maxSizeInBytes) {
+      alert("Votre image ne peut pas dépasser 2MB");
+      return false;
+    }
+
+    return true;
+  }
+
+  function previewImage(image) {
+    // container
+    var imgView = document.createElement("div");
+    imgView.className = "image-view";
+    imagePreviewRegion.appendChild(imgView); // previewing image
+
+    var img = document.createElement("img");
+    imgView.appendChild(img); // progress overlay
+
+    var overlay = document.createElement("div");
+    overlay.className = "overlay";
+    imgView.appendChild(overlay); // read the image...
+
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      img.src = e.target.result;
+    };
+
+    reader.readAsDataURL(image);
+  }
+
+  function detectDragDrop() {
+    var div = document.createElement('div');
+    return 'draggable' in div || 'ondragstart' in div && 'ondrop' in div;
+  }
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+    id: "drop-region",
+    className: "div-vert-align bg-white radius5 w100pct p10 cursor shadow-sm",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      className: "flex-col-s-c bg-white radius5 w100pct p40  brd-drop-zone",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        className: "drop-message w100pct txt-c",
+        children: "D\xE9posez vos images ou cliquez pour t\xE9l\xE9charger"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        id: "image-preview"
+      })]
+    })
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DropZoneProduct);
 
 /***/ }),
 
@@ -39172,416 +39690,6 @@ var EditImages = function EditImages(props) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (EditImages);
-
-/***/ }),
-
-/***/ "./resources/js/components/createProduct/formProduct.jsx":
-/*!***************************************************************!*\
-  !*** ./resources/js/components/createProduct/formProduct.jsx ***!
-  \***************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
-/* harmony import */ var _containerDetail__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./containerDetail */ "./resources/js/components/createProduct/containerDetail.jsx");
-/* harmony import */ var _selectCollections__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./selectCollections */ "./resources/js/components/createProduct/selectCollections.jsx");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-
-
-
-
-
-var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_5__["default"])({
-  wrapperForm: {
-    marginTop: '50px',
-    width: '80%',
-    overflow: 'auto',
-    padding: '50px',
-    // border: '#e0e0e0 dashed 1px',
-    border: 'red dashed 2px',
-    borderRadius: '5px',
-    height: 'auto',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    flexWrap: 'nowrap',
-    backgroundColor: '#f6f6f7'
-  },
-  title: {
-    fontSize: '20px'
-  },
-  label_text: {
-    fontSize: '16px',
-    fontWeight: 'bold',
-    margin: '0',
-    marginLeft: '5px',
-    marginBottom: 10,
-    marginTop: '20px',
-    color: '#111fff',
-    width: 'auto'
-  },
-  input_text: {
-    margin: '0',
-    paddingLeft: '10px',
-    width: '100%',
-    height: '55px',
-    border: '#e1e1e1 solid 1px',
-    borderRadius: '5px',
-    color: '#111fff'
-  },
-  textarea: {
-    color: '#111fff',
-    minHeight: '100px'
-  },
-  submit_btn: {
-    height: '45px',
-    width: '150px',
-    marginTop: '50px',
-    borderRadius: '5px',
-    backgroundColor: '#eeefff',
-    color: '#111fff',
-    fontSize: '16px',
-    letterSpacing: '1px'
-  }
-}); // props.id = detailx
-
-var FormProduct = function FormProduct(props) {
-  var classes = useStyles();
-
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState2 = _slicedToArray(_useState, 2),
-      collectionsRelations = _useState2[0],
-      setCollectionsRelations = _useState2[1];
-
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState4 = _slicedToArray(_useState3, 2),
-      dataDetail = _useState4[0],
-      setDataDetail = _useState4[1];
-
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState6 = _slicedToArray(_useState5, 2),
-      collection = _useState6[0],
-      setCollection = _useState6[1];
-
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState8 = _slicedToArray(_useState7, 2),
-      imageFiles = _useState8[0],
-      setImageFiles = _useState8[1];
-
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState10 = _slicedToArray(_useState9, 2),
-      technicalSheet = _useState10[0],
-      setTechnicalSheet = _useState10[1];
-
-  var dropRegion = null;
-  var imagePreviewRegion = null;
-  var formData = new FormData();
-  var tab = [];
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    // récupére les types de détails dans la table type_detail_products pour remplire le select id=selectdetails
-    axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/getCollections").then(function (res) {
-      setCollectionsRelations(res.data.collections);
-    })["catch"](function (error) {
-      console.log('error:   ' + error);
-    });
-  }, []);
-
-  function handleSubmit(e) {
-    e.preventDefault(); // on boucle sur imageFiles pour récupérer toutes les images
-
-    if (imageFiles) {
-      for (var i = 0, len = imageFiles.length; i < len; i++) {
-        if (validateImage(imageFiles[i])) {
-          formData.append('image[]', imageFiles[i]);
-        }
-      }
-    }
-
-    formData.append("name", document.getElementById("name").value);
-    formData.append("price", document.getElementById("price").value);
-    formData.append("collection", collection);
-    formData.append("description", document.getElementById("description").value);
-    formData.append("technicalSheet", technicalSheet); // supprime listTypes de dataDetail car inutile côté controlleur
-
-    dataDetail.forEach(function (obj) {
-      return delete obj.listTypes;
-    }); // transformation de l'objet en string JSON
-
-    var obj = JSON.stringify(dataDetail);
-    formData.append("obj", obj);
-    axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/products", formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    }).then(function (res) {
-      console.log('res.data  --->  ok');
-    });
-  }
-
-  var handleCollections = function handleCollections(value) {
-    setCollection(value);
-  };
-
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    dropRegion = document.getElementById("drop-region");
-    imagePreviewRegion = document.getElementById("image-preview"); // open file selector when clicked on the drop region
-
-    var fakeInput = document.createElement("input");
-    fakeInput.type = "file";
-    fakeInput.accept = "image/*";
-    fakeInput.multiple = true; // open files exploratore when click on dropRegion
-
-    dropRegion.addEventListener('click', function () {
-      fakeInput.click();
-    });
-    fakeInput.addEventListener("change", function () {
-      var files = fakeInput.files;
-      handleFiles(files);
-    }); // empèche le comportement par défault et la propagation
-
-    dropRegion.addEventListener('dragenter', preventDefault, false);
-    dropRegion.addEventListener('dragleave', preventDefault, false);
-    dropRegion.addEventListener('dragover', preventDefault, false);
-    dropRegion.addEventListener('drop', preventDefault, false);
-    dropRegion.addEventListener('drop', handleDrop, false); // change the message if doesn't support drag & drop
-
-    var dragSupported = detectDragDrop();
-
-    if (!dragSupported) {
-      document.getElementsByClassName("drop-message")[0].innerHTML = 'Click to upload';
-    }
-
-    dropRegion.addEventListener('dragenter', highlight, false);
-    dropRegion.addEventListener('dragover', highlight, false);
-    dropRegion.addEventListener('dragleave', unhighlight, false);
-    dropRegion.addEventListener('drop', unhighlight, false);
-  }, []);
-
-  function highlight() {
-    dropRegion.classList.add('highlighted');
-  }
-
-  function unhighlight() {
-    dropRegion.classList.remove("highlighted");
-  }
-
-  function preventDefault(e) {
-    e.preventDefault();
-    e.stopPropagation();
-  } // récupère les files quand on drop et les envoi à handleFiles
-
-
-  function handleDrop(e) {
-    var dt = e.dataTransfer,
-        files = dt.files;
-
-    if (files.length) {
-      handleFiles(files);
-    } else {
-      // check for img
-      var html = dt.getData('text/html'),
-          match = html && /\bsrc="?([^"\s]+)"?\s*/.exec(html),
-          url = match && match[1];
-
-      if (url) {
-        uploadImageFromURL(url);
-        return;
-      }
-    }
-
-    function uploadImageFromURL(url) {
-      var img = new Image();
-      var c = document.createElement("canvas");
-      var ctx = c.getContext("2d");
-
-      img.onload = function () {
-        c.width = this.naturalWidth; // update canvas size to match image
-
-        c.height = this.naturalHeight;
-        ctx.drawImage(this, 0, 0); // draw in image
-
-        c.toBlob(function (blob) {
-          // get content as blob
-          handleFiles([blob]);
-        }, 'image/png', 0.95);
-      };
-
-      img.onerror = function () {
-        alert("Error in uploading");
-      };
-
-      img.crossOrigin = ""; // if from different origin
-
-      img.src = url;
-    }
-  } // affiche et sauvegarde les images
-
-
-  function handleFiles(files) {
-    tab.push.apply(tab, _toConsumableArray(files));
-
-    for (var i = 0; i < files.length; i++) {
-      if (validateImage(files[i])) {
-        setImageFiles(tab);
-        previewImage(files[i]);
-      }
-    }
-  }
-
-  function validateImage(image) {
-    // check the type
-    var validTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'];
-
-    if (validTypes.indexOf(image.type) === -1) {
-      alert("Invalid File Type");
-      return false;
-    } // check the size
-
-
-    var maxSizeInBytes = 10e6; // 10MB
-
-    if (image.size > maxSizeInBytes) {
-      alert("File too large");
-      return false;
-    }
-
-    return true;
-  }
-
-  function previewImage(image) {
-    // container
-    var imgView = document.createElement("div");
-    imgView.className = "image-view";
-    imagePreviewRegion.appendChild(imgView); // previewing image
-
-    var img = document.createElement("img");
-    imgView.appendChild(img); // progress overlay
-
-    var overlay = document.createElement("div");
-    overlay.className = "overlay";
-    imgView.appendChild(overlay); // read the image...
-
-    var reader = new FileReader();
-
-    reader.onload = function (e) {
-      img.src = e.target.result;
-    };
-
-    reader.readAsDataURL(image);
-  }
-
-  function detectDragDrop() {
-    var div = document.createElement('div');
-    return 'draggable' in div || 'ondragstart' in div && 'ondrop' in div;
-  }
-
-  var ckEditorOnChange = function ckEditorOnChange(sheet) {
-    setTechnicalSheet(sheet);
-    sheet && console.log('sheet  ' + sheet);
-  };
-
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-    className: "form-main-container",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-      className: "form-block-container",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-        className: "div-vert-align",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h4", {
-          className: classes.title,
-          children: "Ajouter un produit"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
-          className: classes.label_text,
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
-            htmlFor: "name",
-            children: "Nom"
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
-          id: "name",
-          name: "name",
-          type: "text",
-          className: classes.input_text
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
-          className: classes.label_text,
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
-            htmlFor: "description",
-            children: "D\xE9scription"
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
-          id: "description",
-          name: "description",
-          type: "text",
-          className: classes.input_text
-        })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-        id: "drop-region",
-        className: "flex-col-s-c bg-white radius5 w100pct p-tb-50 p-lr-40 m-t30 cursor transition_0_3 shadow-sm",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-          className: "drop-message w100pct txt-c",
-          children: "Drag & Drop images or click to upload"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-          id: "image-preview"
-        })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-        className: "div-vert-align",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_containerDetail__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          setDataDetail: setDataDetail
-        })
-      })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-      className: "form-side-container",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-        className: "div-vert-align",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_selectCollections__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          collectionsRelations: collectionsRelations,
-          handleCollections: handleCollections
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("p", {
-          className: classes.label_text,
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
-            htmlFor: "price",
-            children: "Prix"
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
-          id: "price",
-          type: "number",
-          step: ".01",
-          name: "price",
-          className: classes.input_text
-        })]
-      })
-    })]
-  });
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (FormProduct);
 
 /***/ }),
 
@@ -40272,6 +40380,252 @@ function SelectCollectionsEdit(props) {
 
 /***/ }),
 
+/***/ "./resources/js/components/createProduct/tinyEditorProduct.jsx":
+/*!*********************************************************************!*\
+  !*** ./resources/js/components/createProduct/tinyEditorProduct.jsx ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var axios_progress_bar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios-progress-bar */ "./node_modules/axios-progress-bar/dist/index.js");
+/* harmony import */ var axios_progress_bar__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios_progress_bar__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _tinymce_tinymce_react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @tinymce/tinymce-react */ "./node_modules/@tinymce/tinymce-react/lib/es2015/main/ts/index.js");
+/* harmony import */ var _functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../functions/temporaryStorage/saveInTemporaryStorage */ "./resources/js/components/functions/temporaryStorage/saveInTemporaryStorage.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+
+
+
+
+
+
+var TinyeditorProduct = function TinyeditorProduct() {
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_2__["default"]),
+      nameProduct = _useContext.nameProduct,
+      setNameProduct = _useContext.setNameProduct,
+      descriptionProduct = _useContext.descriptionProduct,
+      setDescriptionProduct = _useContext.setDescriptionProduct,
+      tinyLanguage = _useContext.tinyLanguage;
+
+  var editorRef = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
+
+  var handleDescriptionProduct = function handleDescriptionProduct(description, editor) {
+    setDescriptionProduct(description);
+  }; // save tinymce images in temporary Storage folder and db 
+
+
+  function tinyMCE_image_upload_handler(blobInfo, success, failure, progress) {
+    // loadProgressBar();
+    var response = /*#__PURE__*/function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                return _context.abrupt("return", (0,_functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_6__.saveInTemporaryStorage)('tmp_tinyMceImages', blobInfo.blob()));
+
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      return function response() {
+        return _ref.apply(this, arguments);
+      };
+    }(); //success gère le stockage en recevant le path dans le json {location : "le path/name est dans  response"}
+
+
+    response().then(function (response) {
+      success(response);
+      failure('Une erreur c\'est produite ==> ', {
+        remove: true
+      });
+    });
+  }
+
+  ; // handle add images and videos
+
+  function handleCallBack(cb, value, meta) {
+    var input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    var filesAccepted = meta.filetype === 'media' ? 'video/*' : 'image/*';
+    input.setAttribute('accept', filesAccepted);
+
+    input.onchange = function () {
+      var file = this.files[0];
+
+      if (meta.filetype == 'image') {
+        var reader = new FileReader();
+
+        reader.onload = function () {
+          var id = 'blobid' + new Date().getTime();
+          var blobCache = tinymce.activeEditor.editorUpload.blobCache;
+          var base64 = reader.result.split(',')[1];
+          var blobInfo = blobCache.create(id, file, base64);
+          blobCache.add(blobInfo);
+          /* call the callback and populate the Title field with the file name */
+
+          cb(blobInfo.blobUri(), {
+            title: file.name
+          });
+        };
+
+        reader.readAsDataURL(file);
+      }
+
+      ;
+
+      if (meta.filetype == 'media') {
+        (0,axios_progress_bar__WEBPACK_IMPORTED_MODULE_4__.loadProgressBar)();
+        var reader = new FileReader();
+        var videoElement = document.createElement('video');
+
+        reader.onload = function (e) {
+          videoElement.src = e.target.result;
+          var timer = setInterval(function () {
+            if (videoElement.readyState === 4) {
+              if (videoElement.duration) {
+                var videoFile = new FormData();
+                videoFile.append('key', 'tmp_tinyMceVideos');
+                videoFile.append('value', file);
+                axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/temporaryStoreImages", videoFile, {
+                  headers: {
+                    'Content-Type': 'multipart/form-data'
+                  }
+                }).then(function (res) {
+                  console.log('res.data  --->  ok');
+
+                  if (res.data) {
+                    cb(res.data, {
+                      source2: 'alt.ogg',
+                      poster: ''
+                    });
+                  }
+                });
+              }
+
+              clearInterval(timer);
+            }
+          }, 500);
+        };
+
+        reader.readAsDataURL(file);
+      }
+    };
+
+    input.click();
+  }
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+    className: "sub-div-vert-align",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_tinymce_tinymce_react__WEBPACK_IMPORTED_MODULE_5__.Editor, {
+      id: "tinyEditor",
+      apiKey: "859uqxkoeg5bds7w4yx9ihw5exy86bhtgq56fvxwsjopxbf2",
+      onInit: function onInit(evt, editor) {
+        editorRef.current = editor;
+      } // initialValue={descriptionProduct}
+      ,
+      value: descriptionProduct,
+      onEditorChange: function onEditorChange(newValue, editor) {
+        handleDescriptionProduct(newValue, editor);
+      },
+      init: {
+        // setup: function (editor) {
+        //     editor.on('undo', function (e) {
+        //         console.log('undo event', e);
+        //     });
+        // },
+        setProgressState: true,
+        selector: '#tinyEditor',
+        entity_encoding: "raw",
+        branding: false,
+        width: '100%',
+        height: 250,
+        autoresize_bottom_margin: 50,
+        max_height: 500,
+        menubar: false,
+        statusbar: false,
+        toolbar_mode: 'floating',
+        language: tinyLanguage,
+        plugins: ['advlist autolink lists image media charmap print preview anchor searchreplace visualblocks code fullscreen autoresize insertdatetime link media table paste code help wordcount fullscreen code'],
+        // menubar: 'tools insert',
+        toolbar: 'formatselect | undo redo | ' + 'bold italic underline forecolor backcolor | ' + 'alignment | ' + 'bullist numlist | ' + 'image | media | table | link | ' + 'removeformat | fullscreen | wordcount | code',
+        setup: function setup(editor) {
+          /* adding a group toolbar button */
+          editor.ui.registry.addGroupToolbarButton('alignment', {
+            icon: 'align-left',
+            tooltip: 'Alignment',
+            items: 'alignleft aligncenter alignright | alignjustify'
+          });
+        },
+        // init_instance_callback: my_function_fired_on_init(),
+        // configure la base du path du stockage des images  
+        relative_urls: false,
+        remove_script_host: false,
+        document_base_url: 'http://127.0.0.1:8000',
+        //------------------------------------------
+        images_upload_handler: tinyMCE_image_upload_handler,
+        // allow drop images
+        paste_data_images: true,
+
+        /* enable title field in the Image dialog*/
+        image_title: true,
+        file_picker_types: 'image media',
+
+        /* and here's our custom image picker*/
+        file_picker_callback: handleCallBack,
+        media_url_resolver: function media_url_resolver(data, resolve
+        /*, reject*/
+        ) {
+          if (data.url.indexOf(data) !== -1) {
+            var embedHtml = '<iframe src="' + data.url + '" width="' + data.width + '" height="' + data.height + '" ></iframe>';
+            resolve({
+              html: embedHtml
+            });
+          } else {
+            resolve({
+              html: ''
+            });
+          }
+        },
+        video_template_callback: function video_template_callback(data) {
+          return '<video width="' + data.width + '" height="' + data.height + '"' + (data.poster ? ' poster="' + data.poster + '"' : '') + ' controls="controls">\n' + '<source src="' + data.source + '"' + (data.sourcemime ? ' type="' + data.sourcemime + '"' : '') + ' />\n' + (data.altsource ? '<source src="' + data.altsource + '"' + (data.altsourcemime ? ' type="' + data.altsourcemime + '"' : '') + ' />\n' : '') + '</video>';
+        },
+        // setup: function (editor) {
+        //     editor.UndoManager.hasUndo(false)
+        //     editor.UndoManager.hasRedo(false)
+        // },
+        // a11y_advanced_options: true,
+        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px; } body::-webkit-scrollbar-track { box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); border-radius: 10px; background-color: #f5f5f5; color: red;}' + 'tox-sidebar--sliding-closed { background-color: #f5f5f5; }'
+      }
+    })
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TinyeditorProduct);
+
+/***/ }),
+
 /***/ "./resources/js/components/croppeJs/croppeJs.jsx":
 /*!*******************************************************!*\
   !*** ./resources/js/components/croppeJs/croppeJs.jsx ***!
@@ -40835,7 +41189,7 @@ function handleTinyMceTemporary(htmlContent, id) {
   img_video_dom_tab.forEach(function (item) {
     img_video_dom_tab_src.push(item.src.replace(window.location.origin + '/', ''));
   });
-  var tinySrcList = new FormData(); // containt a array with name and folder of images
+  var tinySrcList = new FormData(); // contain an array with name and folder of images
   // !! array become string with ',' as separator
 
   tinySrcList.append('value', img_video_dom_tab_src);

@@ -32,8 +32,6 @@ class CreateVariantesTable extends Migration
             $table->foreign('supplier_id')->references('id')->on('suppliers');
             $table->unsignedBigInteger('delivery_company_id')->nullable()->default(null);
             $table->foreign('delivery_company_id')->references('id')->on('delivery_companies');
-            $table->unsignedBigInteger('taxe_id')->nullable()->default(1);
-            $table->foreign('taxe_id')->references('id')->on('taxes');
             $table->timestamps();
         });
     }

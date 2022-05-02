@@ -17,7 +17,9 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('name');
             $table->mediumText('description')->nullable()->default(null);
-            $table->string('type')->nullable()->default(null);            $table->timestamps();
+            $table->string('type')->nullable()->default(null); 
+            $table->unsignedBigInteger('taxe_id')->nullable()->default(1);
+            $table->foreign('taxe_id')->references('id')->on('taxes');           $table->timestamps();
         });
     }
 

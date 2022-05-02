@@ -669,77 +669,6 @@ table td img {
   width: 100%;
 }
 
-.div-vert-align {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  background-color: white;
-  margin-bottom: 10px;
-  padding: 20px;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-  position: relative;
-}
-.div-vert-align label {
-  width: 100%;
-  margin-right: 30px;
-}
-.div-vert-align select.flatpickr-monthDropdown-month:hover {
-  background-color: #005ac5 !important;
-}
-.div-vert-align select:hover {
-  cursor: pointer;
-}
-.div-vert-align select option:hover {
-  background-color: #a4bdff;
-  cursor: pointer;
-}
-.div-vert-align input[type=radio] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  border-radius: 50%;
-  min-width: 18px;
-  width: 18px;
-  height: 18px;
-  border: 1px solid #005cc8;
-  transition: 0.2s all linear;
-  margin-right: 10px;
-  position: relative;
-  top: 0;
-  padding: 0;
-}
-.div-vert-align input[type=radio]:checked {
-  border: 4px solid #005cc8;
-}
-.div-vert-align input[type=radio]:hover {
-  cursor: pointer;
-}
-.div-vert-align textarea {
-  width: 100%;
-  min-height: 150px;
-  padding: 20px;
-  border-radius: 5px;
-  border: solid 1px gainsboro;
-}
-.div-vert-align h2 {
-  font-size: 20px;
-  font-weight: 600;
-  margin: 15px 0;
-}
-.div-vert-align h3 {
-  font-size: 18px;
-  font-weight: 600;
-}
-.div-vert-align p {
-  margin-top: 5px;
-  margin-bottom: 5px;
-  overflow-wrap: break-word;
-}
-.div-vert-align strong {
-  font-weight: bold;
-}
-
 .btn-bcknd {
   height: 50px;
   padding: 0 25px;
@@ -1176,10 +1105,6 @@ i.fa-solid .fa-person-biking {
 @media only screen and (hover: none) and (pointer: coarse) {
   /* Regular CSS rules here*/
 }
-#detailsProduct {
-  border: dashed 3px yellow;
-}
-
 .button_addDetail {
   width: 200px;
   height: 40px;
@@ -2856,6 +2781,77 @@ a.link:hover {
   align-items: flex-start;
 }
 
+.div-vert-align {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background-color: white;
+  margin-bottom: 10px;
+  padding: 20px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  position: relative;
+}
+.div-vert-align label {
+  width: 100%;
+  margin-right: 30px;
+}
+.div-vert-align select.flatpickr-monthDropdown-month:hover {
+  background-color: #005ac5 !important;
+}
+.div-vert-align select:hover {
+  cursor: pointer;
+}
+.div-vert-align select option:hover {
+  background-color: #a4bdff;
+  cursor: pointer;
+}
+.div-vert-align input[type=radio] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 50%;
+  min-width: 18px;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #005cc8;
+  transition: 0.2s all linear;
+  margin-right: 10px;
+  position: relative;
+  top: 0;
+  padding: 0;
+}
+.div-vert-align input[type=radio]:checked {
+  border: 4px solid #005cc8;
+}
+.div-vert-align input[type=radio]:hover {
+  cursor: pointer;
+}
+.div-vert-align textarea {
+  width: 100%;
+  min-height: 150px;
+  padding: 20px;
+  border-radius: 5px;
+  border: solid 1px gainsboro;
+}
+.div-vert-align h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 15px 0;
+}
+.div-vert-align h3 {
+  font-size: 18px;
+  font-weight: 600;
+}
+.div-vert-align p {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  overflow-wrap: break-word;
+}
+.div-vert-align strong {
+  font-weight: bold;
+}
+
 .cursor:hover {
   cursor: pointer;
 }
@@ -3139,6 +3135,15 @@ a.link:hover {
 
 .brd-black-1 {
   border: solid 1px black;
+}
+
+.brd-drop-zone {
+  border: #d6d6d6 dashed 5px;
+  transition: ease-out 0.2s;
+}
+
+.brd-drop-zone:hover {
+  border: #2282ff dashed 5px;
 }
 
 .shadow-s {

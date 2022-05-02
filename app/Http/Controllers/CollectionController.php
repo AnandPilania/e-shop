@@ -82,7 +82,7 @@ class CollectionController extends Controller
             // if collection is edited
             $collection = Collection::find($request->id);
             $statusHasBeenChanged = $collection->statusHasBeenChanged;
-            // to delete previous image collection and thumbnail - see above
+            // delete previous image collection and thumbnail - see above
             $imageToDelete = public_path('/') . $collection->image;
             $thumbNailToDelete = public_path('/') . $collection->thumbnail;
         } else {

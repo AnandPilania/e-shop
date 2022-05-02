@@ -10,7 +10,7 @@ import Optimisation from './optimisation';
 import Categories from './categories';
 import Activation from './activation';
 import Image from './image';
-import Tinyeditor from './tinyEditor';
+import TinyEditor from './tinyEditor';
 import { handleTinyMceTemporary } from '../functions/temporaryStorage/handleTinyMceTemporary';
 import { getNow, getDateTime } from '../functions/dateTools';
 
@@ -434,7 +434,7 @@ const CreateCollection = () => {
                     <div className="div-label-inputTxt">
                         <h2>Description (optionnel)</h2>
                     </div>
-                    <Tinyeditor />
+                    <TinyEditor />
                 </div>
                 <Conditions />
                 <Optimisation />

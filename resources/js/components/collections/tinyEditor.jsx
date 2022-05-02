@@ -6,7 +6,7 @@ import { Editor } from '@tinymce/tinymce-react';
 import { saveInTemporaryStorage } from '../functions/temporaryStorage/saveInTemporaryStorage';
 
 
-const Tinyeditor = () => {
+const TinyEditor = () => {
 
     const {
         descriptionCollection, setDescriptionCollection, setDescriptionCollectionForMeta, tinyLanguage
@@ -193,4 +193,4 @@ const Tinyeditor = () => {
     );
 }
 
-export default Tinyeditor;
+export default TinyEditor;

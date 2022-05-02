@@ -28,6 +28,7 @@ class ProductFactory extends Factory
             'name' => $name,
             'description' => $this->faker->sentence(15, true),
             'type' => $type[$random],
+            'taxe_id' => 1, 
         ];
     }
 }

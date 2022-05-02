@@ -314,7 +314,7 @@ const ContainerDetail = (props) => {
                 currentType={tempcurrentType}
             />)}
 
-            {blockDetail.length <= 4 && (<button className="button_addDetail" onClick={(e) => addDetailsProduct(e)}>Ajouter une option</button>)}
+            {blockDetail.length <= 4 && (<button className="btn-submit" onClick={(e) => addDetailsProduct(e)}>Ajouter une option</button>)}
 
         </div>
     )

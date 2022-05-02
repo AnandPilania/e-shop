@@ -68,18 +68,18 @@ class ProductController extends Controller
         dd($request);
         $this->validate($request, ['name' => 'required', 'price' => 'required', 'collection' => 'required', 'image' => 'required', 'description' => 'required']);
 
-        $collections = new Collection;
-
+        
         $product =  new Product;
         $product->name = $request->name;
         $product->description = $request->description;
-        $product->price = $request->price;
         $product->type = 'none';
         $product->taxe_id = 1; // '!!! à définir !!!'
+
+        // variantes table !!!
+        $product->price = $request->price;
         $product->active = 1;
         $product->ali_url_product = $request->ali_url_product;
         $product->ali_product_id = $request->ali_product_id;
-
 
 
         $link = str_replace(' ', '-', $request->name);
@@ -245,15 +245,6 @@ class ProductController extends Controller
         return ['collections' => $collections, 'product' => $product, 'productCollections' => $prodCol];
     }
 
-    // pour blade -> edit_images.blade  !!! N EST PLUS UTILISE
-    // public function editImagesProduct($id)
-    // {
-    //     $images_product = Images_product::where('product_id', $id)
-    //         ->orderBy('ordre')
-    //         ->get();
-
-    //     return view('product.edit_images', ['images_product' => $images_product, 'product_id' => $id]);
-    // }
 
     // pour react edit_images.jsx
     public function editImagesProduct($id)
@@ -363,7 +354,7 @@ class ProductController extends Controller
 
         // réctifie si besoin les valeurs de ordre
         // pour garder la continuité et supprimer les trous
-        // du champ ordre
+        // dans le champ ordre
         $images_products = Images_product::where('product_id', $images_product->product_id)
             ->orderBy('ordre', 'asc')
             ->get();

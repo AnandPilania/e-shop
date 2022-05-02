@@ -16,7 +16,7 @@ export function handleTinyMceTemporary(htmlContent, id) {
     });
    
     let tinySrcList = new FormData;
-    // containt a array with name and folder of images
+    // contain an array with name and folder of images
     // !! array become string with ',' as separator
     tinySrcList.append('value', img_video_dom_tab_src);
     tinySrcList.append('id', id);

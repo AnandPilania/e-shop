@@ -46,7 +46,6 @@ class VarianteFactory extends Factory
             'currency_cost_shipping' => rand(1,3),
             'active' => 1, 
             'link' => $link, 
-            'taxe_id' => 1, 
             'ordre' => self::$ordre++, 
             'characteristic' => "['color' => 'red', 'size' => 'm']", 
             // 'product_id' => self::$prod_id++, <--- est géré dans le seeder !!

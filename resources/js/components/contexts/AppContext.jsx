@@ -132,5 +132,8 @@ export default React.createContext({
     setDsablDate: () => { },
     refresh: '',
     setRefresh: () => { },
-
+    nameProduct: '',
+    setNameProduct: () => { },
+    descriptionProduct: '',
+    setDescriptionProduct: () => { },
 });

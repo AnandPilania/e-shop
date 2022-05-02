@@ -14,6 +14,8 @@ class VarianteSeeder extends Seeder
      *
      * @return void
      */
+    
+    //fn ($sequence) => ajoute un id de Product aléatoirement pour peupler product_id
     public function run()
     {
         Variante::factory()
