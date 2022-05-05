@@ -86,6 +86,10 @@ const CreateProduct = (props) => {
 
     function handleSubmit(e) {
         e.preventDefault();
+
+        // delete removed tinyMCE images in folder and db
+        handleTinyMceTemporary(descriptionCollection, idCollection, 'product');
+
         var formData = new FormData();
 
         // on boucle sur imageFiles pour récupérer toutes les images
@@ -99,7 +103,7 @@ const CreateProduct = (props) => {
         formData.append("price", document.getElementById("price").value);
         formData.append("collection", collection);
         formData.append("description", descriptionProduct);
-
+        console.log('descriptionProduct  ', descriptionProduct)
         // supprime listTypes de dataDetail car inutile côté controlleur
         dataDetail.forEach(obj => delete obj.listTypes);
 

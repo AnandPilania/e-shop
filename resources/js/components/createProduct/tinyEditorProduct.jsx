@@ -31,7 +31,7 @@ const TinyeditorProduct = () => {
             failure('Une erreur c\'est produite ==> ', { remove: true });
         });
     };
-    
+
 
     // handle add images and videos
     function handleCallBack(cb, value, meta) {
@@ -41,7 +41,6 @@ const TinyeditorProduct = () => {
         input.setAttribute('accept', filesAccepted);
         input.onchange = function () {
             var file = this.files[0];
-
             if (meta.filetype == 'image') {
                 var reader = new FileReader();
                 reader.onload = function () {
@@ -50,7 +49,6 @@ const TinyeditorProduct = () => {
                     var base64 = reader.result.split(',')[1];
                     var blobInfo = blobCache.create(id, file, base64);
                     blobCache.add(blobInfo);
-
                     /* call the callback and populate the Title field with the file name */
                     cb(blobInfo.blobUri(), { title: file.name });
                 };
@@ -78,6 +76,7 @@ const TinyeditorProduct = () => {
                                     .then(res => {
                                         console.log('res.data  --->  ok');
                                         if (res.data) {
+                                            console.log('res.data  --->  ', res.data);
                                             cb(res.data, { source2: 'alt.ogg', poster: '' });
 
                                         }
@@ -150,9 +149,9 @@ const TinyeditorProduct = () => {
                     // configure la base du path du stockage des images  
                     relative_urls: false,
                     remove_script_host: false,
-                    document_base_url: 'http://127.0.0.1:8000',
+                    document_base_url: window.location.origin, //'http://127.0.0.1:8000',
                     //------------------------------------------
-                    images_upload_handler: tinyMCE_image_upload_handler,
+                    images_upload_handler: tinyMCE_image_upload_handler, 
                     // allow drop images
                     paste_data_images: true,
                     /* enable title field in the Image dialog*/
@@ -173,6 +172,7 @@ const TinyeditorProduct = () => {
                         }
                     },
                     video_template_callback: function (data) {
+                        console.log('data  ', data.source)
                         return '<video width="' + data.width + '" height="' + data.height + '"' + (data.poster ? ' poster="' + data.poster + '"' : '') + ' controls="controls">\n' + '<source src="' + data.source + '"' + (data.sourcemime ? ' type="' + data.sourcemime + '"' : '') + ' />\n' + (data.altsource ? '<source src="' + data.altsource + '"' + (data.altsourcemime ? ' type="' + data.altsourcemime + '"' : '') + ' />\n' : '') + '</video>';
                     },
                     // setup: function (editor) {

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use App\Http\Requests\TemporaryStorageRequest;
 use App\Http\Controllers\Functions\StringTools;
+use App\Models\Product;
 
 class TemporaryStorageController extends Controller
 {
@@ -122,7 +123,13 @@ class TemporaryStorageController extends Controller
         // dans tiny editor on a 3 sources possibles pour le stockages des images et vidéos. 1 public/temporaryStocage, 2 public/images, 3 public/videos. Ici on supprime les images ou vidéos qui ne sont plus dans l'editor dans chacun de ces dossiers.
 
         // delete previous images or videos from images and videos folders
-        $description = Collection::where('id', $request->id)->first('description');
+        if ($request->sender == 'collection') {
+            $description = Collection::where('id', $request->id)->first('description');
+        }
+        if ($request->sender == 'product') {
+            $description = Product::where('id', $request->id)->first('description');
+        }
+
         $doc = new DOMDocument();
         @$doc->loadHTML($description);
         $xpath = new \DOMXpath($doc);

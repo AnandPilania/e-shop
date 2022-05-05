@@ -76,7 +76,7 @@ class CollectionController extends Controller
     // stockage
     public function storeAndAssign(StoreCollectionRequest $request)
     {
-
+        dd($request);
         // check si on edit ou crée une collection
         if ($request->id !== 'null') {
             // if collection is edited

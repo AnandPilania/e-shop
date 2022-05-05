@@ -66,20 +66,24 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         dd($request);
-        $this->validate($request, ['name' => 'required', 'price' => 'required', 'collection' => 'required', 'image' => 'required', 'description' => 'required']);
+        // $this->validate($request, ['name' => 'required', 'price' => 'required', 'collection' => 'required', 'image' => 'required', 'description' => 'required']);
 
         
         $product =  new Product;
         $product->name = $request->name;
-        $product->description = $request->description;
+
+         // remplace dans les src de la description le chemin du dossier temporaryStorage par celui de la destionation finale des images et vidéos. !!! c'est handleTinyMceTemporaryElements qui se charge de déplacer les fichiers dans ces dossiers !!!
+         $tmp_description = str_replace('temporaryStorage', 'images', $request->description);
+         $product->description = preg_replace('/(<source src=").+(images)/', '<source src="' . url('') . '/videos', $tmp_description);
+
         $product->type = 'none';
         $product->taxe_id = 1; // '!!! à définir !!!'
 
         // variantes table !!!
-        $product->price = $request->price;
-        $product->active = 1;
-        $product->ali_url_product = $request->ali_url_product;
-        $product->ali_product_id = $request->ali_product_id;
+        // $product->price = $request->price;
+        // $product->active = 1;
+        // $product->ali_url_product = $request->ali_url_product;
+        // $product->ali_product_id = $request->ali_product_id;
 
 
         $link = str_replace(' ', '-', $request->name);

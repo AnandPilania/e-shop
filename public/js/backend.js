@@ -35476,7 +35476,7 @@ var CreateCollection = function CreateCollection() {
   function handleSubmit() {
     var valid = validation(); // delete removed tinyMCE images in folder and db
 
-    (0,_functions_temporaryStorage_handleTinyMceTemporary__WEBPACK_IMPORTED_MODULE_12__.handleTinyMceTemporary)(descriptionCollection, idCollection);
+    (0,_functions_temporaryStorage_handleTinyMceTemporary__WEBPACK_IMPORTED_MODULE_12__.handleTinyMceTemporary)(descriptionCollection, idCollection, 'collection');
 
     if (valid) {
       var imageFile = null;
@@ -38673,7 +38673,9 @@ var CreateProduct = function CreateProduct(props) {
   }, []);
 
   function handleSubmit(e) {
-    e.preventDefault();
+    e.preventDefault(); // delete removed tinyMCE images in folder and db
+
+    handleTinyMceTemporary(descriptionCollection, idCollection, 'product');
     var formData = new FormData(); // on boucle sur imageFiles pour récupérer toutes les images
 
     if (image) {
@@ -38685,7 +38687,8 @@ var CreateProduct = function CreateProduct(props) {
     formData.append("name", document.getElementById("name").value);
     formData.append("price", document.getElementById("price").value);
     formData.append("collection", collection);
-    formData.append("description", descriptionProduct); // supprime listTypes de dataDetail car inutile côté controlleur
+    formData.append("description", descriptionProduct);
+    console.log('descriptionProduct  ', descriptionProduct); // supprime listTypes de dataDetail car inutile côté controlleur
 
     dataDetail.forEach(function (obj) {
       return delete obj.listTypes;
@@ -40516,6 +40519,7 @@ var TinyeditorProduct = function TinyeditorProduct() {
                   console.log('res.data  --->  ok');
 
                   if (res.data) {
+                    console.log('res.data  --->  ', res.data);
                     cb(res.data, {
                       source2: 'alt.ogg',
                       poster: ''
@@ -40582,7 +40586,8 @@ var TinyeditorProduct = function TinyeditorProduct() {
         // configure la base du path du stockage des images  
         relative_urls: false,
         remove_script_host: false,
-        document_base_url: 'http://127.0.0.1:8000',
+        document_base_url: window.location.origin,
+        //'http://127.0.0.1:8000',
         //------------------------------------------
         images_upload_handler: tinyMCE_image_upload_handler,
         // allow drop images
@@ -40609,6 +40614,7 @@ var TinyeditorProduct = function TinyeditorProduct() {
           }
         },
         video_template_callback: function video_template_callback(data) {
+          console.log('data  ', data.source);
           return '<video width="' + data.width + '" height="' + data.height + '"' + (data.poster ? ' poster="' + data.poster + '"' : '') + ' controls="controls">\n' + '<source src="' + data.source + '"' + (data.sourcemime ? ' type="' + data.sourcemime + '"' : '') + ' />\n' + (data.altsource ? '<source src="' + data.altsource + '"' + (data.altsourcemime ? ' type="' + data.altsourcemime + '"' : '') + ' />\n' : '') + '</video>';
         },
         // setup: function (editor) {
@@ -41178,7 +41184,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
-function handleTinyMceTemporary(htmlContent, id) {
+function handleTinyMceTemporary(htmlContent, id, sender) {
   var div_html_content = document.createElement("div"); // get data htmlContent from tiny Editor
 
   if (htmlContent.length > 0) div_html_content.innerHTML = htmlContent;
@@ -41194,6 +41200,8 @@ function handleTinyMceTemporary(htmlContent, id) {
 
   tinySrcList.append('value', img_video_dom_tab_src);
   tinySrcList.append('id', id);
+  tinySrcList.append('sender', sender); // <- pour savoir qui envoie collection ou product
+
   axios__WEBPACK_IMPORTED_MODULE_0___default().post("http://127.0.0.1:8000/handleTinyMceTemporaryElements", tinySrcList, {
     headers: {
       'Content-Type': 'multipart/form-data'
