@@ -22,6 +22,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FrontEndController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\AliExpressController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ProductSheetController;
@@ -82,7 +83,7 @@ Route::get('/getSingleTemporaryImage/{id}', [TemporaryStorageController::class, 
 // delete temporary collection image
 Route::post('/deleteTemporayStoredElements', [TemporaryStorageController::class, 'deleteTemporayStoredElements']);
 
-// handle tinyMCE temporary images and videos when collection is registred
+// handle tinyMCE temporary images and videos when collection or product are registred
 Route::post('/handleTinyMceTemporaryElements', [TemporaryStorageController::class, 'handleTinyMceTemporaryElements']);
 
 // remove records from db and files from folders when unused more
@@ -105,7 +106,11 @@ Route::post('/handleStatus', [CollectionController::class, 'handleStatus']);
 // ajoute des conditions à un group de colection depuis la liste des colletions
 Route::post('/addCondtionsToGroup', [CollectionController::class, 'addCondtionsToGroup']);
 
+// suppliers list
+Route::get('/suppliers-list', [SupplierController::class, 'index']);
 
+// save supplier
+Route::post('/save-supplier', [SupplierController::class, 'store']);
 
 
 Route::get('/editProduct/{productId}', [ProductController::class, 'editProduct']);

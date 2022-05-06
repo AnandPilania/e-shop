@@ -14,6 +14,7 @@ import List from '../createProduct/list';
 import ListCollections from '../collections/list';
 import CreateCollection from '../collections/index';
 import WrapIndexcroppe from '../collections/wrap_IndexCroppe';
+import CreateSupplier from '../suppliers/createSupplier';
 
 const Appcontainer = () => {
 
@@ -139,6 +140,17 @@ const Appcontainer = () => {
     const [nameProduct, setNameProduct] = useState('');
     const [descriptionProduct, setDescriptionProduct] = useState('');
 
+    // supplier-------------------------------------------------------------
+    const [nameSupplier, setNameSupplier] = useState('');
+    const [emailSupplier, setEmailSupplier] = useState('');
+    const [phoneSupplier, setPhoneSupplier] = useState('');
+    const [webSiteSupplier, setWebSiteSupplier] = useState('');
+    const [adressSupplier, setAdressSupplier] = useState('');
+    const [citySupplier, setCitySupplier] = useState('');
+    const [countrySupplier, setCountrySupplier] = useState('');
+    const [listSuppliers, setListSuppliers] = useState([]);
+
+
     //----------------------------------------------------------------------
     //---------------------------------------------------------------PRODUCT
     //----------------------------------------------------------------------
@@ -180,7 +192,7 @@ const Appcontainer = () => {
     }
 
 
-    // réinitialisation des states du form -------------------------------------
+    // réinitialisation des states du form collection --------------------------
     const initCollectionForm = () => {
         setNameCollection('');
         setDescriptionCollection('');
@@ -257,7 +269,20 @@ const Appcontainer = () => {
 
 
     }
-    //----------------------------------------------------------------Reset Form
+    //----------------------------------------------------Reset collection Form
+
+    // reset supplier form ----------------------------------------------------
+    const initSupplierForm = () => {
+        setNameSupplier('');
+        setEmailSupplier('');
+        setPhoneSupplier('');
+        setWebSiteSupplier('');
+        setAdressSupplier('');
+        setCitySupplier('');
+        setCountrySupplier('');
+        setIsDirty(false);
+    }
+    //------------------------------------------------------reset supplier form
 
     // remove caracteres unauthorized for url
     const normalizUrl = (str) => {
@@ -297,6 +322,9 @@ const Appcontainer = () => {
                 break;
             case 'initCollectionForm':
                 initCollectionForm();
+                break;
+            case 'initSupplierForm':
+                initSupplierForm();
                 break;
             case 'leaveEditCollectionWithoutSaveChange':
                 setIs({ ...is, leaveEditCollectionWithoutSaveChange: true });
@@ -431,6 +459,15 @@ const Appcontainer = () => {
         refresh, setRefresh,
         nameProduct, setNameProduct,
         descriptionProduct, setDescriptionProduct,
+        nameSupplier, setNameSupplier,
+        emailSupplier, setEmailSupplier,
+        phoneSupplier, setPhoneSupplier,
+        webSiteSupplier, setWebSiteSupplier,
+        adressSupplier, setAdressSupplier,
+        citySupplier, setCitySupplier,
+        countrySupplier, setCountrySupplier,
+        listSuppliers, setListSuppliers,
+        initSupplierForm,
 
     }
 
@@ -449,6 +486,7 @@ const Appcontainer = () => {
 
                     <Route path="/collections-list" element={<ListCollections />} />
                     <Route path="/add-collection" element={<WrapIndexcroppe />} />
+                    <Route path="/add-supplier" element={<CreateSupplier />} />
                     {/* <Route path="/cropImage" element={<CroppeImage />} /> */}
                     <Route
                         path="*"

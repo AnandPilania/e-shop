@@ -136,4 +136,23 @@ export default React.createContext({
     setNameProduct: () => { },
     descriptionProduct: '',
     setDescriptionProduct: () => { },
+    nameSupplier: '', 
+    setNameSupplier: () => { },
+    emailSupplier: '', 
+    setEmailSupplier: () => { },
+    phoneSupplier: '', 
+    setPhoneSupplier: () => { },
+    webSiteSupplier: '', 
+    setWebSiteSupplier: () => { },
+    adressSupplier: '', 
+    setAdressSupplier: () => { },
+    citySupplier: '', 
+    setCitySupplier: () => { },
+    countrySupplier: '', 
+    setCountrySupplier: () => { },
+    listSuppliers: '',
+    setListSuppliers: () => { },
+    initSupplierForm: () => { },
+
+    
 });

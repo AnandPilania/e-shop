@@ -388,6 +388,8 @@ const CreateCollection = () => {
                                 console.log('error:   ' + error);
                             });
                     }
+                }).catch(function (error) {
+                    console.log('error:   ' + error);
                 });
         }
     }
@@ -424,7 +426,7 @@ const CreateCollection = () => {
                     {/* nom */}
                     <div className="div-label-inputTxt">
                         <h2>Nom de la collection</h2>
-                        <input className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1" type='text' id='titreCollection'
+                        <input className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1 red-corner" type='text' id='titreCollection'
                             value={nameCollection}
                             onChange={handleNameCollection}
                         />

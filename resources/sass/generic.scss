@@ -1327,6 +1327,16 @@
     border-radius: 5px 5px 0 0;
 }
 
+// coin rouge input obligatoir
+.red-corner {
+    background-color: white;
+    background-image: url("http://127.0.0.1:8000/images/icons/red10px.png");
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    background-position: top right;
+}
+
+
 // position
 .relative {
     position: relative;

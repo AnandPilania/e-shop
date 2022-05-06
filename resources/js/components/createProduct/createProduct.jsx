@@ -6,6 +6,7 @@ import SelectCollections from './selectCollections';
 import DropZoneProduct from './dropZoneProduct';
 import TinyeditorProduct from './tinyEditorProduct';
 import Axios from "axios";
+import { handleTinyMceTemporary } from '../functions/temporaryStorage/handleTinyMceTemporary';
 
 
 
@@ -88,7 +89,7 @@ const CreateProduct = (props) => {
         e.preventDefault();
 
         // delete removed tinyMCE images in folder and db
-        handleTinyMceTemporary(descriptionCollection, idCollection, 'product');
+        handleTinyMceTemporary(descriptionProduct, null, 'product');
 
         var formData = new FormData();
 

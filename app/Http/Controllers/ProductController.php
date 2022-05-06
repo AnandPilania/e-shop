@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Type_detail_product;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
-
+use App\Http\Controllers\Functions\CleanLink;
 
 
 
@@ -66,41 +66,49 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         dd($request);
+
         // $this->validate($request, ['name' => 'required', 'price' => 'required', 'collection' => 'required', 'image' => 'required', 'description' => 'required']);
 
-        
+
         $product =  new Product;
         $product->name = $request->name;
-
-         // remplace dans les src de la description le chemin du dossier temporaryStorage par celui de la destionation finale des images et vidéos. !!! c'est handleTinyMceTemporaryElements qui se charge de déplacer les fichiers dans ces dossiers !!!
-         $tmp_description = str_replace('temporaryStorage', 'images', $request->description);
-         $product->description = preg_replace('/(<source src=").+(images)/', '<source src="' . url('') . '/videos', $tmp_description);
-
+        // remplace dans les src de la description le chemin du dossier temporaryStorage par celui de la destionation finale des images et vidéos. !!! c'est handleTinyMceTemporaryElements qui se charge de déplacer les fichiers dans ces dossiers !!!
+        $tmp_description = str_replace('temporaryStorage', 'images', $request->description);
+        $product->description = preg_replace('/(<source src=").+(images)/', '<source src="' . url('') . '/videos', $tmp_description);
         $product->type = 'none';
         $product->taxe_id = 1; // '!!! à définir !!!'
 
-        // variantes table !!!
-        // $product->price = $request->price;
-        // $product->active = 1;
-        // $product->ali_url_product = $request->ali_url_product;
-        // $product->ali_product_id = $request->ali_product_id;
-
-
-        $link = str_replace(' ', '-', $request->name);
-        $search = array('À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'à', 'á', 'â', 'ã', 'ä', 'å', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ð', 'ò', 'ó', 'ô', 'õ', 'ö', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ');
-        $replace = array('A', 'A', 'A', 'A', 'A', 'A', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y', 'a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y');
-        $cleanLink = str_replace($search, $replace, $link);
-        $product->link = strtolower($cleanLink);
-        $product->ordre = Product::all()->max('ordre') + 1;
-
         $product->save();
-
+        dd($product);
         $collections = explode(",", $request->collection);
 
         foreach ($collections as $collection) {
             $collection_id = Collection::where('name', $collection)->first('id');
             $product->collections()->attach($collection_id);
         }
+
+
+        // variantes table !!!
+        $product->cost = $request->cost;
+        $product->price = $request->price;
+        $product->price_before_discount = $request->price_before_discount;
+        $product->weight = $request->weight;
+        $product->stock = $request->stock;
+        $product->shipping_cost = $request->shipping_cost;
+        $product->currency_cost_shipping = $request->currency_cost_shipping;
+        $product->active = 1;
+        $cleanLink = new CleanLink;
+        $product->link = $cleanLink->cleanLink($request->name);
+        $product->ordre = Product::all()->max('ordre') + 1;
+        $product->characteristic = $request->characteristic;
+        $product->product_id = $request->product_id;
+        $product->supplier_id = $request->supplier_id;
+        $product->delivery_company_id = $request->delivery_company_id;
+
+        // $product->ali_url_product = $request->ali_url_product;
+        // $product->ali_product_id = $request->ali_product_id;
+
+
 
         $images = $request->file('image');
         $i = 1;
