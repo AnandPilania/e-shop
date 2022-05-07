@@ -7,6 +7,9 @@ import DropZoneProduct from './dropZoneProduct';
 import TinyeditorProduct from './tinyEditorProduct';
 import Axios from "axios";
 import { handleTinyMceTemporary } from '../functions/temporaryStorage/handleTinyMceTemporary';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 
 
@@ -73,7 +76,7 @@ const CreateProduct = (props) => {
     const [dataDetail, setDataDetail] = useState([]);
     const [collection, setCollection] = useState([]);
 
-    const { image, descriptionProduct } = useContext(AppContext);
+    const { image, descriptionProduct, listSuppliers, setListSuppliers, supplier, setSupplier } = useContext(AppContext);
 
     useEffect(() => {
         // récupére les types de détails dans la table type_detail_products pour remplire le select id=selectdetails
@@ -83,7 +86,24 @@ const CreateProduct = (props) => {
             }).catch(function (error) {
                 console.log('error:   ' + error);
             });
+
+
+        // charge la liste des fournisseurs
+        Axios.get(`http://127.0.0.1:8000/suppliers-list`)
+            .then(res => {
+                setListSuppliers(res.data);
+            }).catch(function (error) {
+                console.log('error:   ' + error);
+            });
+
     }, []);
+
+    const handleChangeSupplier = (e) => {
+        setSupplier(e.target.value);
+    };
+
+    console.log('supplier  ', supplier)
+
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -136,7 +156,6 @@ const CreateProduct = (props) => {
         <div className="form-main-container">
             <div className="form-block-container">
                 <div className="div-vert-align">
-
                     <h4 className={classes.title}>Ajouter un produit</h4>
 
                     {/* name */}
@@ -144,9 +163,8 @@ const CreateProduct = (props) => {
                     <input id="name" name="name" type="text" className={classes.input_text} />
 
                     {/* description */}
+                    <p className={classes.label_text}><label htmlFor="description" >Déscription</label></p>
                     <TinyeditorProduct />
-                    {/* <p className={classes.label_text}><label htmlFor="description" >Déscription</label></p>
-                    <input id="description" name="description" type="text" className={classes.input_text} /> */}
                 </div>
 
                 {/* dropZone */}
@@ -165,17 +183,31 @@ const CreateProduct = (props) => {
                 <div className="div-vert-align">
 
                     {/* collection */}
+                    <p className={classes.label_text}><label htmlFor="description" >Collections</label></p>
                     <SelectCollections collectionsRelations={collectionsRelations} handleCollections={handleCollections} />
 
                     {/* price */}
                     <p className={classes.label_text}><label htmlFor="price" >Prix</label></p>
                     <input id="price" type="number" step=".01" name="price" className={classes.input_text} />
-
                 </div>
-
-
+                <div className="div-vert-align">
+                    {/* supplier */}
+                    <p className={classes.label_text}><label htmlFor="supplier">Fournisseur</label></p>
+                    <Select
+                        value={supplier}
+                        onChange={handleChangeSupplier}
+                        variant="standard"
+                        className="w100pct h50 radius5 brd-gray-light-1 bg-white p10  m-b-20"
+                    >
+                        {listSuppliers.length > 0 &&
+                            listSuppliers.map(item => (
+                                <MenuItem key={item.id} value={item.id}>
+                                    {item.name}
+                                </MenuItem>
+                            ))}
+                    </Select>
+                </div>
             </div>
-
             <button className="btn-backEnd" onClick={handleSubmit}>
                 Envoyer
             </button>

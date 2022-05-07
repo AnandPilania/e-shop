@@ -149,6 +149,7 @@ const Appcontainer = () => {
     const [citySupplier, setCitySupplier] = useState('');
     const [countrySupplier, setCountrySupplier] = useState('');
     const [listSuppliers, setListSuppliers] = useState([]);
+    const [supplier, setSupplier] = useState('');
 
 
     //----------------------------------------------------------------------
@@ -281,6 +282,7 @@ const Appcontainer = () => {
         setCitySupplier('');
         setCountrySupplier('');
         setIsDirty(false);
+        document.getElementById('nameSupplier').style.border = "solid 1px rgb(220, 220, 220)";
     }
     //------------------------------------------------------reset supplier form
 
@@ -467,6 +469,7 @@ const Appcontainer = () => {
         citySupplier, setCitySupplier,
         countrySupplier, setCountrySupplier,
         listSuppliers, setListSuppliers,
+        supplier, setSupplier,
         initSupplierForm,
 
     }

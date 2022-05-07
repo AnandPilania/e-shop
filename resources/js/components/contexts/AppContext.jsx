@@ -152,6 +152,8 @@ export default React.createContext({
     setCountrySupplier: () => { },
     listSuppliers: '',
     setListSuppliers: () => { },
+    supplier: '',
+    setSupplier: () => { },
     initSupplierForm: () => { },
 
     

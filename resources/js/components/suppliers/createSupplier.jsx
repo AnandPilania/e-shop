@@ -40,6 +40,21 @@ const CreateSupplier = () => {
             });
     }, []);
 
+
+    // show or hide reset button
+    useEffect(() => {
+        switch(true) {
+            case nameSupplier.length > 0 : setIsDirty(true); break;
+            case emailSupplier.length > 0 : setIsDirty(true); break;
+            case phoneSupplier.length > 0 : setIsDirty(true); break;
+            case webSiteSupplier.length > 0 : setIsDirty(true); break;
+            case adressSupplier.length > 0 : setIsDirty(true); break;
+            case citySupplier.length > 0 : setIsDirty(true); break;
+            case countrySupplier.length > 0 : setIsDirty(true); break;
+            default : setIsDirty(false); 
+        }
+    }, [nameSupplier, emailSupplier, phoneSupplier, webSiteSupplier,            adressSupplier, citySupplier, countrySupplier]);
+
     const checkIfIsDirty = () => {
         if (
             nameSupplier != '' ||
@@ -63,31 +78,24 @@ const CreateSupplier = () => {
 
     const handleNameSupplier = (e) => {
         setNameSupplier(e.target.value);
-        setIsDirty(checkIfIsDirty());
     };
     const handleEmailSupplier = (e) => {
         setEmailSupplier(e.target.value);
-        setIsDirty(checkIfIsDirty());
     };
     const handlePhoneSupplier = (e) => {
         setPhoneSupplier(e.target.value);
-        setIsDirty(checkIfIsDirty());
     };
     const handleAdressSupplier = (e) => {
         setAdressSupplier(e.target.value);
-        setIsDirty(checkIfIsDirty());
     };
     const handleCitySupplier = (e) => {
         setCitySupplier(e.target.value);
-        setIsDirty(checkIfIsDirty());
     };
     const handleCountrySupplier = (e) => {
         setCountrySupplier(e.target.value);
-        setIsDirty(checkIfIsDirty());
     };
     const handleWebSiteSupplier = (e) => {
         setWebSiteSupplier(e.target.value);
-        setIsDirty(checkIfIsDirty());
     };
 
 
@@ -118,7 +126,7 @@ const CreateSupplier = () => {
 
         if (nameSupplier.length === 0) {
             document.getElementById('nameSupplier').style.border = "solid 1px rgb(212, 0, 0)";
-            setMessageModal('Le champ Nom est obligatoire');
+            setMessageModal('Le champ Nom du fournisseur est obligatoire');
             setImageModal('../images/icons/trash_dirty.png');
             setShowModalSimpleMessage(true);
             return false;

@@ -138,6 +138,34 @@ const CreateCollection = () => {
         }
     }, []);
 
+
+    // show or hide reset button
+    useEffect(() => {
+        var conditonDirty = false;
+        conditions.forEach(condition => {
+            if (condition.value != '') {
+                conditonDirty = true;
+            }
+        })
+        switch (true) {
+            case nameCollection.length > 0: setIsDirty(true); break;
+            case descriptionCollection.length > 0: setIsDirty(true); break;
+            case alt.length > 0: setIsDirty(true); break;
+            case imageName.length > 0: setIsDirty(true); break;
+            case metaTitle.length > 0: setIsDirty(true); break;
+            case metaDescription.length > 0: setIsDirty(true); break;
+            case metaUrl != window.location.origin + '/': setIsDirty(true); break;
+            case image.length > 0: setIsDirty(true); break;
+            case categoryName != 'Sans catégorie': setIsDirty(true); break;
+            case categoryId != 1: setIsDirty(true); break;
+            case dateField != getNow(): setIsDirty(true); break;
+            case conditonDirty == true: setIsDirty(true); break;
+            default: setIsDirty(false);
+        }
+    }, [nameCollection, descriptionCollection, alt, imageName, metaTitle, metaDescription, metaUrl, image, categoryName, categoryId, dateField, conditions]);
+
+
+
     const checkIfIsDirty = () => {
 
         if (!is.newCollection) {
@@ -146,7 +174,7 @@ const CreateCollection = () => {
                 return true;
             }
 
-            // tinyMCE ajoute des caractères undefined qui e permettent pas de faire une comparaison alors on compte chaque caractères dans les deux texte et on compare leur nombre pour avoir plus de chances de repérer les textes différents 
+            // tinyMCE ajoute des caractères undefined qui ne permettent pas de faire une comparaison alors on compte chaque caractères dans les deux texte et on compare leur nombre pour avoir plus de chances de repérer les textes différents 
             let maxLength = Math.max(collectionForm.descriptionCollection.length, descriptionCollection.length);
             var a = descriptionCollection;
             var b = collectionForm.descriptionCollection;
@@ -425,7 +453,7 @@ const CreateCollection = () => {
                     </div>
                     {/* nom */}
                     <div className="div-label-inputTxt">
-                        <h2>Nom de la collection</h2>
+                        <h2>Nom de la collection*</h2>
                         <input className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1 red-corner" type='text' id='titreCollection'
                             value={nameCollection}
                             onChange={handleNameCollection}

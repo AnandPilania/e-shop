@@ -1,48 +1,13 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/styles';
-import Input from '@material-ui/core/Input';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import ListItemText from '@material-ui/core/ListItemText';
-import Select from '@material-ui/core/Select';
-import Checkbox from '@material-ui/core/Checkbox';
-
-
-const useStyles = makeStyles({
-    formControl: {
-        width: '100%',
-        height: '50px',
-        backgroundColor: '#2b2e4c',
-        lineHeight: 1,
-        padding: '0.600rem 1rem',
-        marginBottom: 22,
-        border: 'solid yellow 3px',
-    },
-    label_text: {
-        fontSize: '16px',
-        fontWeight: 'bold',
-        margin: '0', 
-        marginLeft: '5px',
-        marginBottom: 10,
-        marginTop: '20px',
-        color: '#111fff',
-        width: 'auto',
-    },
-    input_text: {
-        margin: '0', 
-        paddingLeft: '10px',
-        width: '100%',
-        height: '55px',
-        border: '#e1e1e1 solid 1px',
-        borderRadius: '5px',
-        color:'#111fff',
-        backgroundColor: '#fff',
-    }
-  });
+import Input from '@mui/material/Input';
+import ListItemText from '@mui/material/ListItemText';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import Checkbox from '@mui/material/Checkbox';
 
 
 export default function SelectCollections(props) {
-    const classes = useStyles();
     const [collection, setCollection] = useState([]);
 
 
@@ -52,20 +17,17 @@ export default function SelectCollections(props) {
     };
 
     return (
-        <div>
-            <p className={classes.input_label}><label htmlFor="collection">Collections</label></p>
-            <FormControl className={classes.formControl}>
+        <div className="w100pct">
+            <FormControl className="w100pct h50 bg-white p-tb-10 p-lr-15 m-b-20">
                 <Select
                     id="collection"
                     multiple
                     value={collection}
                     onChange={handleChange}
-                    input={<Input className={classes.input_text} />}
+                    input={<Input className="w100pct h50 radius5 brd-gray-light-1 bg-white p10" />}
                     renderValue={(selected) => selected.join(', ')}
+                    variant="standard"
                 >
-                    <MenuItem value="selectionnez une collection">
-                        selectionnez une collection
-                    </MenuItem>
                     {props.collectionsRelations.map((item) => (
                         <MenuItem key={item.id} value={item.name} >
                             <Checkbox checked={collection.indexOf(item.name) > -1} />
