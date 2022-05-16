@@ -129,16 +129,14 @@ const Appcontainer = () => {
     const [dsablDate, setDsablDate] = useState(false);
     //----------------------------Handle options in coonditionsCollections
 
-    //----------------------------------------------------------------------
     //------------------------------------------------------------COLLECTION
-    //----------------------------------------------------------------------
 
-    //----------------------------------------------------------------------
     //PRODUCT---------------------------------------------------------------
-    //----------------------------------------------------------------------
 
     const [nameProduct, setNameProduct] = useState('');
     const [descriptionProduct, setDescriptionProduct] = useState('');
+    const [collection, setCollection] = useState([]);
+
 
     // supplier-------------------------------------------------------------
     const [nameSupplier, setNameSupplier] = useState('');
@@ -152,9 +150,8 @@ const Appcontainer = () => {
     const [supplier, setSupplier] = useState('');
 
 
-    //----------------------------------------------------------------------
     //---------------------------------------------------------------PRODUCT
-    //----------------------------------------------------------------------
+
 
     useEffect(() => {
         // chargement des collections
@@ -471,6 +468,7 @@ const Appcontainer = () => {
         listSuppliers, setListSuppliers,
         supplier, setSupplier,
         initSupplierForm,
+        collection, setCollection,
 
     }
 

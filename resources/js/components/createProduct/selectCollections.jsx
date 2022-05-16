@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
+import AppContext from '../contexts/AppContext';
 import Input from '@mui/material/Input';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
@@ -8,12 +9,11 @@ import Checkbox from '@mui/material/Checkbox';
 
 
 export default function SelectCollections(props) {
-    const [collection, setCollection] = useState([]);
+    
+    const { collection, setCollection } = useContext(AppContext);
 
-
-    const handleChange = (event) => {
-        setCollection(event.target.value);
-        props.handleCollections(event.target.value);
+    const handleChange = (e) => {
+        setCollection(e.target.value);
     };
 
     return (

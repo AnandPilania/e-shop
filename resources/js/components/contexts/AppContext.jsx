@@ -155,6 +155,8 @@ export default React.createContext({
     supplier: '',
     setSupplier: () => { },
     initSupplierForm: () => { },
+    collection: '',
+    setCollection: () => { },
 
     
 });

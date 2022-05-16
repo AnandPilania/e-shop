@@ -74,9 +74,8 @@ const CreateProduct = (props) => {
     const classes = useStyles();
     const [collectionsRelations, setCollectionsRelations] = useState([]);
     const [dataDetail, setDataDetail] = useState([]);
-    const [collection, setCollection] = useState([]);
 
-    const { image, descriptionProduct, listSuppliers, setListSuppliers, supplier, setSupplier } = useContext(AppContext);
+    const { image, descriptionProduct, listSuppliers, setListSuppliers, supplier, setSupplier, collection, setCollection } = useContext(AppContext);
 
     useEffect(() => {
         // récupére les types de détails dans la table type_detail_products pour remplire le select id=selectdetails
@@ -102,7 +101,15 @@ const CreateProduct = (props) => {
         setSupplier(e.target.value);
     };
 
-    console.log('supplier  ', supplier)
+
+    const removeCollection = (item) => {
+        let index = collection.indexOf(item);
+        if (index > -1) {
+            let tmp_arr = [...collection];
+            tmp_arr.splice(index, 1);
+            setCollection([...tmp_arr]);
+        }
+    }
 
 
     function handleSubmit(e) {
@@ -146,12 +153,6 @@ const CreateProduct = (props) => {
     }
 
 
-
-    const handleCollections = (value) => {
-        setCollection(value);
-    }
-
-
     return (
         <div className="form-main-container">
             <div className="form-block-container">
@@ -175,20 +176,32 @@ const CreateProduct = (props) => {
                     <ContainerDetail setDataDetail={setDataDetail} />
 
                 </div>
+
+                {/* price */}
+                <p className={classes.label_text}><label htmlFor="price" >Prix</label></p>
+                <input id="price" type="number" step=".01" name="price" className={classes.input_text} />
             </div>
 
             {/* ----------  side  ---------- */}
             <div className='form-side-container'>
 
                 <div className="div-vert-align">
-
                     {/* collection */}
                     <p className={classes.label_text}><label htmlFor="description" >Collections</label></p>
-                    <SelectCollections collectionsRelations={collectionsRelations} handleCollections={handleCollections} />
+                    <SelectCollections collectionsRelations={collectionsRelations} />
+                    <div className="flex flex-wrap pt-3 w-full">
+                        {collection.map(item =>
+                            <div key={item} className="flex justify-between align-center h-[24px] rounded-full bg-sky-500 pl-3 mb-1 mr-2 ">
+                                <span className="h-full text-white mr-2 rounded-full">
+                                    {item}
+                                </span>
+                                <span className="h-full w-[24px] flex justify-center align-center hover:cursor-pointer hover:bg-white rounded-r-[50%] bg-amber-400" onClick={() => removeCollection(item)}>
+                                <img src='../images/icons/x.svg' className="w-[20px] h-[24px]" />
+                                </span>
+                            </div>
+                        )}
+                    </div>
 
-                    {/* price */}
-                    <p className={classes.label_text}><label htmlFor="price" >Prix</label></p>
-                    <input id="price" type="number" step=".01" name="price" className={classes.input_text} />
                 </div>
                 <div className="div-vert-align">
                     {/* supplier */}
@@ -208,7 +221,7 @@ const CreateProduct = (props) => {
                     </Select>
                 </div>
             </div>
-            <button className="btn-backEnd" onClick={handleSubmit}>
+            <button className="btn bg-amber-300" onClick={handleSubmit}>
                 Envoyer
             </button>
         </div>

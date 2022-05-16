@@ -8,6 +8,8 @@ module.exports = {
 
         "./resources/**/*.blade.php",
         "./resources/**/*.js",
+        "./resources/**/**/*.js",
+        "./resources/**/**/*.jsx",
         "./resources/**/*.vue",
     ],
 

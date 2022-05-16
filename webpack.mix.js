@@ -11,22 +11,18 @@ const mix = require('laravel-mix');
  |
  */
 
- 
+
 mix.js('resources/js/backEnd.js', 'public/js').react()
-    // .js('resources/js/require.js', 'public/js')
-    // .js('resources/js/app.js', 'public/js')
-    // .js('RetrivIt/js/getProduct.js', 'public/js')
+    .postCss("resources/css/app.css", "public/css", [
+        require("tailwindcss"),
+    ])
     .sass('resources/sass/backend/myapp.scss', 'public/css')
     .sass('resources/sass/nav-frontend.scss', 'public/frontend/css')
     .sass('resources/sass/index-front.scss', 'public/frontend/css')
     .sass('resources/sass/productSheet.scss', 'public/frontend/css')
     .sass('resources/sass/cart.scss', 'public/frontend/css')
     .sass('resources/sass/authentification.scss', 'public/frontend/css')
-    .sass('resources/sass/payment.scss', 'public/frontend/css')
-    .postCss('resources/css/app.css', 'public/css', [
-        require('postcss-import'),
-        require("tailwindcss"),
-        require('autoprefixer'),
-    ]);
+    .sass('resources/sass/payment.scss', 'public/frontend/css');
+
 
 
