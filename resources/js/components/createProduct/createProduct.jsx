@@ -185,26 +185,26 @@ const CreateProduct = (props) => {
             {/* ----------  side  ---------- */}
             <div className='form-side-container'>
 
+                {/* collection */}
                 <div className="div-vert-align">
-                    {/* collection */}
-                    <p className={classes.label_text}><label htmlFor="description" >Collections</label></p>
+                    <h3 className={classes.label_text}>Collections</h3>
                     <SelectCollections collectionsRelations={collectionsRelations} />
-                    <div className="flex flex-wrap pt-3 w-full">
+                    <div className="flex flex-wrap pt-[20px] w-full">
                         {collection.map(item =>
                             <div key={item} className="flex justify-between align-center h-[24px] rounded-full bg-sky-500 pl-3 mb-1 mr-2 ">
                                 <span className="h-full text-white mr-2 rounded-full">
                                     {item}
                                 </span>
                                 <span className="h-full w-[24px] flex justify-center align-center hover:cursor-pointer hover:bg-white rounded-r-[50%] bg-amber-400" onClick={() => removeCollection(item)}>
-                                <img src='../images/icons/x.svg' className="w-[20px] h-[24px]" />
+                                    <img src='../images/icons/x.svg' className="w-[20px] h-[24px]" />
                                 </span>
                             </div>
                         )}
                     </div>
-
                 </div>
+
+                {/* supplier */}
                 <div className="div-vert-align">
-                    {/* supplier */}
                     <p className={classes.label_text}><label htmlFor="supplier">Fournisseur</label></p>
                     <Select
                         value={supplier}
@@ -220,6 +220,7 @@ const CreateProduct = (props) => {
                             ))}
                     </Select>
                 </div>
+
             </div>
             <button className="btn bg-amber-300" onClick={handleSubmit}>
                 Envoyer
