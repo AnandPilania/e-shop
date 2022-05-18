@@ -15,6 +15,7 @@ const mix = require('laravel-mix');
 mix.js('resources/js/backEnd.js', 'public/js').react()
     .postCss("resources/css/app.css", "public/css", [
         require("tailwindcss"),
+        require("autoprefixer"),
     ])
     .sass('resources/sass/backend/myapp.scss', 'public/css')
     .sass('resources/sass/nav-frontend.scss', 'public/frontend/css')

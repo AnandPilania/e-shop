@@ -18,16 +18,21 @@ module.exports = {
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
-        },
-    },
-
-    variants: {
-        extend: {
-            opacity: ['disabled'],
+            transitionProperty: {
+                'height': 'height'
+            },
         },
     },
 
     plugins: [
         // require('@tailwindcss/forms')
+        require('tailwind-scrollbar'),
     ],
+
+    variants: {
+        extend: {
+            opacity: ['disabled'],
+        },
+        scrollbar: ['rounded'],
+    },
 };

@@ -2,14 +2,12 @@ import { React, useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import { makeStyles } from '@material-ui/styles';
 import ContainerDetail from './containerDetail';
-import SelectCollections from './selectCollections';
+import SelectWithCheckbox from '../elements/selectWithCheckbox';
+import Select from '../elements/select';
 import DropZoneProduct from './dropZoneProduct';
 import TinyeditorProduct from './tinyEditorProduct';
 import Axios from "axios";
 import { handleTinyMceTemporary } from '../functions/temporaryStorage/handleTinyMceTemporary';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 
 
 
@@ -184,11 +182,14 @@ const CreateProduct = (props) => {
 
             {/* ----------  side  ---------- */}
             <div className='form-side-container'>
-
                 {/* collection */}
                 <div className="div-vert-align">
                     <h3 className={classes.label_text}>Collections</h3>
-                    <SelectCollections collectionsRelations={collectionsRelations} />
+                    <SelectWithCheckbox
+                        list={collectionsRelations}
+                        selected={collection}
+                        setSelected={setCollection}
+                    />
                     <div className="flex flex-wrap pt-[20px] w-full">
                         {collection.map(item =>
                             <div key={item} className="flex justify-between align-center h-[24px] rounded-full bg-sky-500 pl-3 mb-1 mr-2 ">
@@ -205,23 +206,15 @@ const CreateProduct = (props) => {
 
                 {/* supplier */}
                 <div className="div-vert-align">
-                    <p className={classes.label_text}><label htmlFor="supplier">Fournisseur</label></p>
+                <h3 className={classes.label_text}>Fournisseur</h3>
                     <Select
-                        value={supplier}
-                        onChange={handleChangeSupplier}
-                        variant="standard"
-                        className="w100pct h50 radius5 brd-gray-light-1 bg-white p10  m-b-20"
-                    >
-                        {listSuppliers.length > 0 &&
-                            listSuppliers.map(item => (
-                                <MenuItem key={item.id} value={item.id}>
-                                    {item.name}
-                                </MenuItem>
-                            ))}
-                    </Select>
+                        list={listSuppliers}
+                        itemSelected={supplier}
+                        setItemSelected={setSupplier}
+                    />
                 </div>
-
             </div>
+            
             <button className="btn bg-amber-300" onClick={handleSubmit}>
                 Envoyer
             </button>

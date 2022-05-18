@@ -77,7 +77,7 @@ const DropZoneProduct = (props) => {
         // open file selector when clicked on the drop region
         var fakeInput = document.createElement("input");
         fakeInput.type = "file";
-        fakeInput.accept = "image/*";
+        fakeInput.accept = "image/*, video/*";
         fakeInput.multiple = true;
         // open files exploratore when click on dropRegion
         dropRegion.addEventListener('click', function () {
@@ -183,17 +183,26 @@ const DropZoneProduct = (props) => {
 
     function validateImage(image) {
         // check the type
-        var validTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'];
+        var validTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'video/mp4', 'video/webm', 'video/ogg', 'video/avi', 'video/mpeg', 'video/quicktime', 'video/x-msvideo', 'video/x-ms-wmv'];
         if (validTypes.indexOf(image.type) === -1) {
             alert("Type d'image invalide");
             return false;
         }
 
         // check the size
-        var maxSizeInBytes = 2e6; // 2MB
-        if (image.size > maxSizeInBytes) {
-            alert("Votre image ne peut pas dépasser 2MB");
-            return false;
+        var maxSizeInBytesImage = 2e6; // 2MB
+        if (image.type.includes('image')) {
+            if (image.size > maxSizeInBytesImage) {
+                alert("Votre image ne peut pas dépasser 2MB");
+                return false;
+            }
+        }
+        var maxSizeInBytesVideo = 10e6; // 2MB
+        if (image.type.includes('video')) {
+            if (image.size > maxSizeInBytesVideo) {
+                alert("Votre vidéo ne peut pas dépasser 10MB");
+                return false;
+            }
         }
 
         return true;
@@ -204,6 +213,12 @@ const DropZoneProduct = (props) => {
         // container
         var imgView = document.createElement("div");
         imgView.className = "image-view";
+        imgView.style.display = 'flex';
+        imgView.style.justifyContent = 'center';
+        imgView.style.alignItems = 'center';
+        imgView.style.width = '120px';
+        imgView.style.height = '120px';
+        imgView.style.border = 'solid gray 1px';
         imagePreviewRegion.appendChild(imgView);
 
         // previewing image
@@ -222,6 +237,20 @@ const DropZoneProduct = (props) => {
             img.src = e.target.result;
         }
         reader.readAsDataURL(image);
+
+
+        // cadrage de l'image
+        img.onload = () => {
+            var width = img.clientWidth;
+            var height = img.clientHeight;
+            if (width > height) {
+                img.style.width = '120px';
+                // img.style.height = 'auto';
+            } else {
+                img.style.height = '120px';
+                // img.style.width = 'auto';
+            }
+        }
     }
 
 
@@ -237,7 +266,7 @@ const DropZoneProduct = (props) => {
                 <div className="drop-message w100pct txt-c">
                     Déposez vos images ou cliquez pour télécharger
                 </div>
-                <div id="image-preview"></div>
+                <div id="image-preview" className='flex flex-wrap'></div>
             </div>
         </div>
     )

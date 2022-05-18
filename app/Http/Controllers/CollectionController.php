@@ -32,7 +32,7 @@ class CollectionController extends Controller
     // utilisé dans formProduct.jsx 
     public function getCollections()
     {
-        $collections = Collection::all();
+        $collections = Collection::orderBy('name')->get();
         return ['collections' => $collections];
     }
 
