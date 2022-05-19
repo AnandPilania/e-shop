@@ -158,7 +158,7 @@ const CreateProduct = (props) => {
                     <h4 className={classes.title}>Ajouter un produit</h4>
 
                     {/* name */}
-                    <p className={classes.label_text}><label htmlFor="name" >Nom</label></p>
+                    <p className={classes.label_text}><label htmlFor="name" >Nom*</label></p>
                     <input id="name" name="name" type="text" className={classes.input_text} />
 
                     {/* description */}

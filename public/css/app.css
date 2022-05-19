@@ -598,6 +598,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mb-\[15px\] {
   margin-bottom: 15px;
 }
+.mb-\[10px\] {
+  margin-bottom: 10px;
+}
 .block {
   display: block;
 }
@@ -661,6 +664,18 @@ Ensure the default browser behavior of the `hidden` attribute.
 .h-\[17px\] {
   height: 17px;
 }
+.h-\[150\] {
+  height: 150;
+}
+.h-\[100px\] {
+  height: 100px;
+}
+.h-\[120px\] {
+  height: 120px;
+}
+.max-h-\[400px\] {
+  max-height: 400px;
+}
 .min-h-screen {
   min-height: 100vh;
 }
@@ -696,6 +711,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .w-\[17px\] {
   width: 17px;
+}
+.w-\[120\] {
+  width: 120;
+}
+.w-\[120px\] {
+  width: 120px;
 }
 .max-w-7xl {
   max-width: 80rem;
@@ -746,6 +767,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
 }
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.grid-cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
 .flex-row {
   flex-direction: row;
 }
@@ -755,8 +782,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 .flex-wrap {
   flex-wrap: wrap;
 }
+.items-start {
+  align-items: flex-start;
+}
 .items-center {
   align-items: center;
+}
+.justify-start {
+  justify-content: flex-start;
 }
 .justify-end {
   justify-content: flex-end;
@@ -766,6 +799,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .justify-between {
   justify-content: space-between;
+}
+.justify-around {
+  justify-content: space-around;
+}
+.gap-4 {
+  gap: 1rem;
 }
 .space-x-8 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
@@ -896,6 +935,18 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .p-4 {
   padding: 1rem;
+}
+.p-\[10\] {
+  padding: 10;
+}
+.p-\[20\] {
+  padding: 20;
+}
+.p-\[20px\] {
+  padding: 20px;
+}
+.p-\[40px\] {
+  padding: 40px;
 }
 .px-4 {
   padding-left: 1rem;
@@ -1182,9 +1233,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .duration-75 {
   transition-duration: 75ms;
-}
-.duration-500 {
-  transition-duration: 500ms;
 }
 .ease-in-out {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);

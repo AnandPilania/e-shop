@@ -67,22 +67,25 @@ const DropZoneProduct = (props) => {
     var dropRegion = null;
     var imagePreviewRegion = null;
     var tab = [];
+    var fakeInput = null;
 
+    function fakeInputTrigger() {
+        fakeInput.click();
+    }
 
     useEffect(() => {
+        document.getElementById("drop-card").style.display = 'none';
         dropRegion = document.getElementById("drop-region");
         imagePreviewRegion = document.getElementById("image-preview");
 
 
         // open file selector when clicked on the drop region
-        var fakeInput = document.createElement("input");
+        fakeInput = document.createElement("input");
         fakeInput.type = "file";
         fakeInput.accept = "image/*, video/*";
         fakeInput.multiple = true;
         // open files exploratore when click on dropRegion
-        dropRegion.addEventListener('click', function () {
-            fakeInput.click();
-        });
+        dropRegion.addEventListener('click', fakeInputTrigger);
 
         fakeInput.addEventListener("change", function () {
             var files = fakeInput.files;
@@ -216,19 +219,37 @@ const DropZoneProduct = (props) => {
         imgView.style.display = 'flex';
         imgView.style.justifyContent = 'center';
         imgView.style.alignItems = 'center';
+        imgView.style.marginBottom = '20px';
         imgView.style.width = '120px';
         imgView.style.height = '120px';
         imgView.style.border = 'solid gray 1px';
+        imgView.style.position = 'relative';
         imagePreviewRegion.appendChild(imgView);
 
         // previewing image
         var img = document.createElement("img");
+        img.setAttribute('class', 'imgClass');
+
         imgView.appendChild(img);
 
-        // progress overlay
-        var overlay = document.createElement("div");
-        overlay.className = "overlay";
-        imgView.appendChild(overlay);
+        // remove image button
+        var removeImg = document.createElement("button");
+        removeImg.className = "removeImg";
+        removeImg.style.position = 'absolute';
+        removeImg.style.top = 0;
+        removeImg.style.right = 0;
+        removeImg.style.width = '20px';
+        removeImg.style.height = '20px';
+        removeImg.onClick = function () {
+            fakeInput.setAttribute('disabled', 'disabled')
+        };
+        imgView.appendChild(removeImg);
+
+        var svgTrash = document.createElement("img");
+        svgTrash.style.width = '20px';
+        svgTrash.style.height = '20px';
+        svgTrash.src = '../images/icons/trash.svg';
+        removeImg.appendChild(svgTrash);
 
 
         // read the image...
@@ -241,14 +262,22 @@ const DropZoneProduct = (props) => {
 
         // cadrage de l'image
         img.onload = () => {
+            // cancel --> open files explorator when click on dropRegion
+            dropRegion.removeEventListener('click', fakeInputTrigger);
+            let dropCard = document.getElementById("drop-card");
+            dropCard.style.display = 'block';
+            // open files exploratore when click on dropRegion
+            dropCard.addEventListener('click', fakeInputTrigger);
+
+            let countImgClass = document.getElementsByClassName("imgClass");
+            dropCard.style.order = countImgClass.length;
+
             var width = img.clientWidth;
             var height = img.clientHeight;
             if (width > height) {
                 img.style.width = '120px';
-                // img.style.height = 'auto';
             } else {
                 img.style.height = '120px';
-                // img.style.width = 'auto';
             }
         }
     }
@@ -261,12 +290,19 @@ const DropZoneProduct = (props) => {
 
 
     return (
-        <div id="drop-region" className="div-vert-align bg-white radius5 w100pct p10 cursor shadow-sm">
-            <div className="flex-col-s-c bg-white radius5 w100pct p40  brd-drop-zone">
-                <div className="drop-message w100pct txt-c">
-                    Déposez vos images ou cliquez pour télécharger
+        <div className="flex-col justify-start items-start bg-white rounded-md w-full p-[20px] mb-[10px] hover:cursor-pointer shadow-md">
+            <div id="drop-region" className='w-full h-full'>
+                <div className="flex-col justify-start items-center bg-white rounded-md w-full p-[40px] brd-drop-zone">
+                    <div className="drop-message w100pct txt-c">
+                        Déposez vos images ou cliquez pour télécharger
+                    </div>
+                    <div id="image-preview" className='grid gap-4 grid-cols-4'>
+                        <div id="drop-card" className='flex-col justify-start items-center w-[120px] h-[120px] brd-red-1'>
+                            <button>Ajouter des fichiers</button>
+                            <button>Ajouter des fichiers à partir d'une URL</button>
+                        </div>
+                    </div>
                 </div>
-                <div id="image-preview" className='flex flex-wrap'></div>
             </div>
         </div>
     )

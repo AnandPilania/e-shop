@@ -1165,18 +1165,6 @@ i.fa-solid .fa-person-biking {
   margin-top: 20px;
 }
 
-#image-preview .image-view {
-  display: inline-block;
-  position: relative;
-  margin-right: 13px;
-  margin-bottom: 13px;
-}
-
-#image-preview .image-view img {
-  max-width: 100px;
-  max-height: 100px;
-}
-
 #drop-region-edit {
   background-color: #fff;
   border-radius: 20px;
