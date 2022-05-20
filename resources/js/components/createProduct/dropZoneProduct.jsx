@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useRef } from 'react';
 import AppContext from '../contexts/AppContext';
 import { makeStyles } from '@material-ui/styles';
 
@@ -68,6 +68,9 @@ const DropZoneProduct = (props) => {
     var imagePreviewRegion = null;
     var tab = [];
     var fakeInput = null;
+    var mainImageProduct = null;
+    var dropCard = null;
+    var addImageProduct = null;
 
     function fakeInputTrigger() {
         fakeInput.click();
@@ -75,30 +78,22 @@ const DropZoneProduct = (props) => {
 
     useEffect(() => {
         document.getElementById("drop-card").style.display = 'none';
-        dropRegion = document.getElementById("drop-region");
         imagePreviewRegion = document.getElementById("image-preview");
+        dropCard = document.getElementById("drop-card");
 
+        mainImageProduct = document.getElementById("main-image-product");
+        mainImageProduct.style.cursor = 'pointer';
 
         // open file selector when clicked on the drop region
         fakeInput = document.createElement("input");
         fakeInput.type = "file";
         fakeInput.accept = "image/*, video/*";
         fakeInput.multiple = true;
-        // open files exploratore when click on dropRegion
-        dropRegion.addEventListener('click', fakeInputTrigger);
 
         fakeInput.addEventListener("change", function () {
             var files = fakeInput.files;
             handleFiles(files);
         });
-
-        // empèche le comportement par défault et la propagation
-        dropRegion.addEventListener('dragenter', preventDefault, false);
-        dropRegion.addEventListener('dragleave', preventDefault, false);
-        dropRegion.addEventListener('dragover', preventDefault, false);
-        dropRegion.addEventListener('drop', preventDefault, false);
-
-        dropRegion.addEventListener('drop', handleDrop, false);
 
         // change the message if doesn't support drag & drop
         var dragSupported = detectDragDrop();
@@ -106,10 +101,7 @@ const DropZoneProduct = (props) => {
             document.getElementsByClassName("drop-message")[0].innerHTML = 'Click to upload';
         }
 
-        dropRegion.addEventListener('dragenter', highlight, false);
-        dropRegion.addEventListener('dragover', highlight, false);
-        dropRegion.addEventListener('dragleave', unhighlight, false);
-        dropRegion.addEventListener('drop', unhighlight, false);
+        setDropRegion();
 
     }, []);
 
@@ -123,6 +115,27 @@ const DropZoneProduct = (props) => {
     function preventDefault(e) {
         e.preventDefault();
         e.stopPropagation();
+    }
+
+    function setDropRegion() {
+        dropRegion = document.getElementById("drop-region");
+
+        // open files exploratore when click on dropRegion
+        dropRegion.addEventListener('click', fakeInputTrigger);
+
+        // empèche le comportement par défault et la propagation
+        dropRegion.addEventListener('dragenter', preventDefault, false);
+        dropRegion.addEventListener('dragleave', preventDefault, false);
+        dropRegion.addEventListener('dragover', preventDefault, false);
+        dropRegion.addEventListener('drop', preventDefault, false);
+
+        dropRegion.addEventListener('drop', handleDrop, false);
+
+        dropRegion.addEventListener('dragenter', highlight, false);
+        dropRegion.addEventListener('dragover', highlight, false);
+        dropRegion.addEventListener('dragleave', unhighlight, false);
+        dropRegion.addEventListener('drop', unhighlight, false);
+
     }
 
 
@@ -222,34 +235,52 @@ const DropZoneProduct = (props) => {
         imgView.style.marginBottom = '20px';
         imgView.style.width = '120px';
         imgView.style.height = '120px';
-        imgView.style.border = 'solid gray 1px';
         imgView.style.position = 'relative';
+        imgView.setAttribute('class', 'border border-slate-300 rounded group');
         imagePreviewRegion.appendChild(imgView);
 
         // previewing image
         var img = document.createElement("img");
         img.setAttribute('class', 'imgClass');
-
+        img.style.borderRadius = '4px';
         imgView.appendChild(img);
 
         // remove image button
         var removeImg = document.createElement("button");
         removeImg.className = "removeImg";
         removeImg.style.position = 'absolute';
-        removeImg.style.top = 0;
-        removeImg.style.right = 0;
-        removeImg.style.width = '20px';
-        removeImg.style.height = '20px';
-        removeImg.onClick = function () {
-            fakeInput.setAttribute('disabled', 'disabled')
-        };
+        removeImg.style.top = '5px';
+        removeImg.style.right = '5px';
+        removeImg.style.width = '25px';
+        removeImg.style.height = '25px';
+        removeImg.style.backgroundColor = '#d23e44';
+        removeImg.style.borderRadius = '3px';
+        removeImg.setAttribute('id', 'removeImg');
+        removeImg.setAttribute('class', 'invisible group-hover:visible');
+        removeImg.addEventListener('click', function () {
+
+            // ici checker si isProductEdit pour choisir de remove image from DOM ou from DataBase !!!
+
+            imgView.remove();
+            if (imagePreviewRegion.childElementCount == 1) {
+                dropCard.style.display = 'none';
+                // setTimeout permet de ne pas déclencher fakeInputTrigger immédiatement après la suppression du dernier imgView
+                setTimeout(() => {
+                    setDropRegion();
+                    dropRegion.style.cursor = 'pointer';
+                }, 10);
+
+            }
+        });
+
         imgView.appendChild(removeImg);
 
-        var svgTrash = document.createElement("img");
-        svgTrash.style.width = '20px';
-        svgTrash.style.height = '20px';
-        svgTrash.src = '../images/icons/trash.svg';
-        removeImg.appendChild(svgTrash);
+        var svgCancel = document.createElement("img");
+        svgCancel.style.width = '25px';
+        svgCancel.style.height = '25px';
+        svgCancel.style.borderRadius = '3px';
+        svgCancel.src = '../images/icons/x-white.svg';
+        removeImg.appendChild(svgCancel);
 
 
         // read the image...
@@ -264,13 +295,15 @@ const DropZoneProduct = (props) => {
         img.onload = () => {
             // cancel --> open files explorator when click on dropRegion
             dropRegion.removeEventListener('click', fakeInputTrigger);
-            let dropCard = document.getElementById("drop-card");
             dropCard.style.display = 'block';
             // open files exploratore when click on dropRegion
-            dropCard.addEventListener('click', fakeInputTrigger);
+            addImageProduct = document.getElementById('addImageProduct');
+            addImageProduct.addEventListener('click', fakeInputTrigger);
 
             let countImgClass = document.getElementsByClassName("imgClass");
             dropCard.style.order = countImgClass.length;
+
+            mainImageProduct.style.cursor = 'default';
 
             var width = img.clientWidth;
             var height = img.clientHeight;
@@ -289,17 +322,30 @@ const DropZoneProduct = (props) => {
     }
 
 
+
     return (
-        <div className="flex-col justify-start items-start bg-white rounded-md w-full p-[20px] mb-[10px] hover:cursor-pointer shadow-md">
+        <div id="main-image-product" className="flex-col justify-start items-start bg-white rounded-md w-full p-[20px] mb-[10px] shadow-md">
             <div id="drop-region" className='w-full h-full'>
                 <div className="flex-col justify-start items-center bg-white rounded-md w-full p-[40px] brd-drop-zone">
                     <div className="drop-message w100pct txt-c">
                         Déposez vos images ou cliquez pour télécharger
                     </div>
-                    <div id="image-preview" className='grid gap-4 grid-cols-4'>
-                        <div id="drop-card" className='flex-col justify-start items-center w-[120px] h-[120px] brd-red-1'>
-                            <button>Ajouter des fichiers</button>
-                            <button>Ajouter des fichiers à partir d'une URL</button>
+                    <div id="image-preview"
+                        className='grid gap-4 grid-cols-4 brd-red-1'>
+
+                        {/* ici est injecté img ! */}
+
+                        <div id="drop-card"
+                            className='flex-col justify-start items-center w-[120px] h-[120px] p-[20px] border border-slate-300 rounded'>
+                            <div className='w-[40px] h-[40px] mb-[20px] mr-auto ml-auto hover:bg-slate-100 hover:cursor-pointer'>
+                                <img src='../images/icons/add-square-dotted.svg'
+                                    id='addImageProduct'
+                                    className='w-[40px] h-[40px]' />
+                            </div>
+                            <p className='text-sm rounded  hover:underline underline-offset text-blue-600 hover:font-semibold text-center z-10 hover:cursor-pointer'
+                                onClick={() => {
+                                    alert('url please');
+                                }}>URL</p>
                         </div>
                     </div>
                 </div>

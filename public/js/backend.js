@@ -39109,6 +39109,9 @@ var DropZoneProduct = function DropZoneProduct(props) {
   var imagePreviewRegion = null;
   var tab = [];
   var fakeInput = null;
+  var mainImageProduct = null;
+  var dropCard = null;
+  var addImageProduct = null;
 
   function fakeInputTrigger() {
     fakeInput.click();
@@ -39116,25 +39119,19 @@ var DropZoneProduct = function DropZoneProduct(props) {
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     document.getElementById("drop-card").style.display = 'none';
-    dropRegion = document.getElementById("drop-region");
-    imagePreviewRegion = document.getElementById("image-preview"); // open file selector when clicked on the drop region
+    imagePreviewRegion = document.getElementById("image-preview");
+    dropCard = document.getElementById("drop-card");
+    mainImageProduct = document.getElementById("main-image-product");
+    mainImageProduct.style.cursor = 'pointer'; // open file selector when clicked on the drop region
 
     fakeInput = document.createElement("input");
     fakeInput.type = "file";
     fakeInput.accept = "image/*, video/*";
-    fakeInput.multiple = true; // open files exploratore when click on dropRegion
-
-    dropRegion.addEventListener('click', fakeInputTrigger);
+    fakeInput.multiple = true;
     fakeInput.addEventListener("change", function () {
       var files = fakeInput.files;
       handleFiles(files);
-    }); // empèche le comportement par défault et la propagation
-
-    dropRegion.addEventListener('dragenter', preventDefault, false);
-    dropRegion.addEventListener('dragleave', preventDefault, false);
-    dropRegion.addEventListener('dragover', preventDefault, false);
-    dropRegion.addEventListener('drop', preventDefault, false);
-    dropRegion.addEventListener('drop', handleDrop, false); // change the message if doesn't support drag & drop
+    }); // change the message if doesn't support drag & drop
 
     var dragSupported = detectDragDrop();
 
@@ -39142,10 +39139,7 @@ var DropZoneProduct = function DropZoneProduct(props) {
       document.getElementsByClassName("drop-message")[0].innerHTML = 'Click to upload';
     }
 
-    dropRegion.addEventListener('dragenter', highlight, false);
-    dropRegion.addEventListener('dragover', highlight, false);
-    dropRegion.addEventListener('dragleave', unhighlight, false);
-    dropRegion.addEventListener('drop', unhighlight, false);
+    setDropRegion();
   }, []);
 
   function highlight() {
@@ -39159,6 +39153,22 @@ var DropZoneProduct = function DropZoneProduct(props) {
   function preventDefault(e) {
     e.preventDefault();
     e.stopPropagation();
+  }
+
+  function setDropRegion() {
+    dropRegion = document.getElementById("drop-region"); // open files exploratore when click on dropRegion
+
+    dropRegion.addEventListener('click', fakeInputTrigger); // empèche le comportement par défault et la propagation
+
+    dropRegion.addEventListener('dragenter', preventDefault, false);
+    dropRegion.addEventListener('dragleave', preventDefault, false);
+    dropRegion.addEventListener('dragover', preventDefault, false);
+    dropRegion.addEventListener('drop', preventDefault, false);
+    dropRegion.addEventListener('drop', handleDrop, false);
+    dropRegion.addEventListener('dragenter', highlight, false);
+    dropRegion.addEventListener('dragover', highlight, false);
+    dropRegion.addEventListener('dragleave', unhighlight, false);
+    dropRegion.addEventListener('drop', unhighlight, false);
   } // récupère les files quand on drop et les envoi à handleFiles
 
 
@@ -39260,32 +39270,46 @@ var DropZoneProduct = function DropZoneProduct(props) {
     imgView.style.marginBottom = '20px';
     imgView.style.width = '120px';
     imgView.style.height = '120px';
-    imgView.style.border = 'solid gray 1px';
     imgView.style.position = 'relative';
+    imgView.setAttribute('class', 'border border-slate-300 rounded group');
     imagePreviewRegion.appendChild(imgView); // previewing image
 
     var img = document.createElement("img");
     img.setAttribute('class', 'imgClass');
+    img.style.borderRadius = '4px';
     imgView.appendChild(img); // remove image button
 
     var removeImg = document.createElement("button");
     removeImg.className = "removeImg";
     removeImg.style.position = 'absolute';
-    removeImg.style.top = 0;
-    removeImg.style.right = 0;
-    removeImg.style.width = '20px';
-    removeImg.style.height = '20px';
+    removeImg.style.top = '5px';
+    removeImg.style.right = '5px';
+    removeImg.style.width = '25px';
+    removeImg.style.height = '25px';
+    removeImg.style.backgroundColor = '#d23e44';
+    removeImg.style.borderRadius = '3px';
+    removeImg.setAttribute('id', 'removeImg');
+    removeImg.setAttribute('class', 'invisible group-hover:visible');
+    removeImg.addEventListener('click', function () {
+      // ici checker si isProductEdit pour choisir de remove image from DOM ou from DataBase !!!
+      imgView.remove();
 
-    removeImg.onClick = function () {
-      fakeInput.setAttribute('disabled', 'disabled');
-    };
+      if (imagePreviewRegion.childElementCount == 1) {
+        dropCard.style.display = 'none'; // setTimeout permet de ne pas déclencher fakeInputTrigger immédiatement après la suppression du dernier imgView
 
+        setTimeout(function () {
+          setDropRegion();
+          dropRegion.style.cursor = 'pointer';
+        }, 10);
+      }
+    });
     imgView.appendChild(removeImg);
-    var svgTrash = document.createElement("img");
-    svgTrash.style.width = '20px';
-    svgTrash.style.height = '20px';
-    svgTrash.src = '../images/icons/trash.svg';
-    removeImg.appendChild(svgTrash); // read the image...
+    var svgCancel = document.createElement("img");
+    svgCancel.style.width = '25px';
+    svgCancel.style.height = '25px';
+    svgCancel.style.borderRadius = '3px';
+    svgCancel.src = '../images/icons/x-white.svg';
+    removeImg.appendChild(svgCancel); // read the image...
 
     var reader = new FileReader();
 
@@ -39298,12 +39322,13 @@ var DropZoneProduct = function DropZoneProduct(props) {
     img.onload = function () {
       // cancel --> open files explorator when click on dropRegion
       dropRegion.removeEventListener('click', fakeInputTrigger);
-      var dropCard = document.getElementById("drop-card");
       dropCard.style.display = 'block'; // open files exploratore when click on dropRegion
 
-      dropCard.addEventListener('click', fakeInputTrigger);
+      addImageProduct = document.getElementById('addImageProduct');
+      addImageProduct.addEventListener('click', fakeInputTrigger);
       var countImgClass = document.getElementsByClassName("imgClass");
       dropCard.style.order = countImgClass.length;
+      mainImageProduct.style.cursor = 'default';
       var width = img.clientWidth;
       var height = img.clientHeight;
 
@@ -39321,7 +39346,8 @@ var DropZoneProduct = function DropZoneProduct(props) {
   }
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
-    className: "flex-col justify-start items-start bg-white rounded-md w-full p-[20px] mb-[10px] hover:cursor-pointer shadow-md",
+    id: "main-image-product",
+    className: "flex-col justify-start items-start bg-white rounded-md w-full p-[20px] mb-[10px] shadow-md",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       id: "drop-region",
       className: "w-full h-full",
@@ -39332,14 +39358,23 @@ var DropZoneProduct = function DropZoneProduct(props) {
           children: "D\xE9posez vos images ou cliquez pour t\xE9l\xE9charger"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
           id: "image-preview",
-          className: "grid gap-4 grid-cols-4",
+          className: "grid gap-4 grid-cols-4 brd-red-1",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
             id: "drop-card",
-            className: "flex-col justify-start items-center w-[120px] h-[120px] brd-red-1",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-              children: "Ajouter des fichiers"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
-              children: "Ajouter des fichiers \xE0 partir d'une URL"
+            className: "flex-col justify-start items-center w-[120px] h-[120px] p-[20px] border border-slate-300 rounded",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+              className: "w-[40px] h-[40px] mb-[20px] mr-auto ml-auto hover:bg-slate-100 hover:cursor-pointer",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
+                src: "../images/icons/add-square-dotted.svg",
+                id: "addImageProduct",
+                className: "w-[40px] h-[40px]"
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+              className: "text-sm rounded  hover:underline underline-offset text-blue-600 hover:font-semibold text-center z-10 hover:cursor-pointer",
+              onClick: function onClick() {
+                alert('url please');
+              },
+              children: "URL"
             })]
           })
         })]
