@@ -365,7 +365,7 @@ const Categories = () => {
                 handleModalCancel={handleModalCancel}
                 setInputTextModify={setInputTextModify}
                 inputTextModify={inputTextModify}
-                image={'../images/icons/changeCategory.png'}>
+                >
                 <h2 className="childrenModal">{messageModal}</h2>
             </ModalInput>
             {/* message category name exist */}

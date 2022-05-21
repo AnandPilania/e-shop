@@ -33620,7 +33620,6 @@ var Categories = function Categories() {
       handleModalCancel: handleModalCancel,
       setInputTextModify: setInputTextModify,
       inputTextModify: inputTextModify,
-      image: '../images/icons/changeCategory.png',
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h2", {
         className: "childrenModal",
         children: messageModal
@@ -39026,88 +39025,51 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
-/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _elements_modalInput__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../elements/modalInput */ "./resources/js/components/elements/modalInput.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
 
 
-var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_3__["default"])({
-  wrapperForm: {
-    marginTop: '50px',
-    width: '80%',
-    overflow: 'auto',
-    padding: '50px',
-    // border: '#e0e0e0 dashed 1px',
-    border: 'red dashed 2px',
-    borderRadius: '5px',
-    height: 'auto',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    flexWrap: 'nowrap',
-    backgroundColor: '#f6f6f7'
-  },
-  title: {
-    fontSize: '20px'
-  },
-  label_text: {
-    fontSize: '16px',
-    fontWeight: 'bold',
-    margin: '0',
-    marginLeft: '5px',
-    marginBottom: 10,
-    marginTop: '20px',
-    color: '#111fff',
-    width: 'auto'
-  },
-  input_text: {
-    margin: '0',
-    paddingLeft: '10px',
-    width: '100%',
-    height: '55px',
-    border: '#e1e1e1 solid 1px',
-    borderRadius: '5px',
-    color: '#111fff'
-  },
-  textarea: {
-    color: '#111fff',
-    minHeight: '100px'
-  },
-  submit_btn: {
-    height: '45px',
-    width: '150px',
-    marginTop: '50px',
-    borderRadius: '5px',
-    backgroundColor: '#eeefff',
-    color: '#111fff',
-    fontSize: '16px',
-    letterSpacing: '1px'
-  }
-}); // props.id = detailx
 
-var DropZoneProduct = function DropZoneProduct(props) {
-  var classes = useStyles();
+
+var DropZoneProduct = function DropZoneProduct() {
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      showModal = _useState2[0],
+      setShowModal = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState4 = _slicedToArray(_useState3, 2),
+      urlValue = _useState4[0],
+      setUrlValue = _useState4[1];
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
+      image = _useContext.image,
       setImage = _useContext.setImage;
 
   var dropRegion = null;
   var imagePreviewRegion = null;
-  var tab = [];
   var fakeInput = null;
   var mainImageProduct = null;
   var dropCard = null;
@@ -39118,11 +39080,7 @@ var DropZoneProduct = function DropZoneProduct(props) {
   }
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    document.getElementById("drop-card").style.display = 'none';
-    imagePreviewRegion = document.getElementById("image-preview");
-    dropCard = document.getElementById("drop-card");
-    mainImageProduct = document.getElementById("main-image-product");
-    mainImageProduct.style.cursor = 'pointer'; // open file selector when clicked on the drop region
+    document.getElementById("drop-card").style.display = 'none'; // open file selector when clicked on the drop region
 
     fakeInput = document.createElement("input");
     fakeInput.type = "file";
@@ -39189,45 +39147,49 @@ var DropZoneProduct = function DropZoneProduct(props) {
         return;
       }
     }
+  }
 
-    function uploadImageFromURL(url) {
-      var img = new Image();
-      var c = document.createElement("canvas");
-      var ctx = c.getContext("2d");
+  function uploadImageFromURL(url) {
+    console.log(url);
+    var img = new Image();
+    var c = document.createElement("canvas");
+    var ctx = c.getContext("2d");
 
-      img.onload = function () {
-        c.width = this.naturalWidth; // update canvas size to match image
+    img.onload = function () {
+      c.width = this.naturalWidth; // update canvas size to match image
 
-        c.height = this.naturalHeight;
-        ctx.drawImage(this, 0, 0); // draw in image
+      c.height = this.naturalHeight;
+      ctx.drawImage(this, 0, 0); // draw in image
 
-        c.toBlob(function (blob) {
-          // get content as blob
-          handleFiles([blob]);
-        }, 'image/png', 0.95);
-      };
+      c.toBlob(function (blob) {
+        // get content as blob
+        var file = new File([blob], "myImageName", {
+          type: "image/jpg"
+        });
+        handleFiles([file]);
+      }, 'image/png', 0.95);
+    };
 
-      img.onerror = function () {
-        alert("Error in uploading");
-      };
+    img.onerror = function () {
+      alert("Error in uploading");
+    };
 
-      img.crossOrigin = ""; // if from different origin
+    img.crossOrigin = ""; // if from different origin
 
-      img.src = url;
-    }
+    img.src = url;
   } // affiche et sauvegarde les images
 
 
   function handleFiles(files) {
-    tab.push.apply(tab, _toConsumableArray(files));
-
     for (var i = 0; i < files.length; i++) {
       if (validateImage(files[i])) {
-        setImage(tab);
-        previewImage(files[i]);
+        setImage([].concat(_toConsumableArray(image), [files[i]]));
+        previewImage(files[i], image.length - 1);
       }
     }
   }
+
+  console.log('image  ', image);
 
   function validateImage(image) {
     // check the type
@@ -39260,10 +39222,15 @@ var DropZoneProduct = function DropZoneProduct(props) {
     return true;
   }
 
-  function previewImage(image) {
-    // container
+  function previewImage(imageFile, tabLength) {
+    imagePreviewRegion = document.getElementById("image-preview");
+    setDropRegion();
+    dropCard = document.getElementById("drop-card");
+    mainImageProduct = document.getElementById("main-image-product");
+    mainImageProduct.style.cursor = 'pointer'; // image card
+
     var imgView = document.createElement("div");
-    imgView.className = "image-view";
+    imgView.className = "image-view border border-slate-300 rounded group";
     imgView.style.display = 'flex';
     imgView.style.justifyContent = 'center';
     imgView.style.alignItems = 'center';
@@ -39271,16 +39238,16 @@ var DropZoneProduct = function DropZoneProduct(props) {
     imgView.style.width = '120px';
     imgView.style.height = '120px';
     imgView.style.position = 'relative';
-    imgView.setAttribute('class', 'border border-slate-300 rounded group');
-    imagePreviewRegion.appendChild(imgView); // previewing image
+    imgView.setAttribute('id', 'imgView' + tabLength);
+    imagePreviewRegion.appendChild(imgView); // image
 
     var img = document.createElement("img");
     img.setAttribute('class', 'imgClass');
     img.style.borderRadius = '4px';
-    imgView.appendChild(img); // remove image button
+    imgView.appendChild(img); // button remove
 
     var removeImg = document.createElement("button");
-    removeImg.className = "removeImg";
+    removeImg.className = "removeImg invisible group-hover:visible";
     removeImg.style.position = 'absolute';
     removeImg.style.top = '5px';
     removeImg.style.right = '5px';
@@ -39289,15 +39256,28 @@ var DropZoneProduct = function DropZoneProduct(props) {
     removeImg.style.backgroundColor = '#d23e44';
     removeImg.style.borderRadius = '3px';
     removeImg.setAttribute('id', 'removeImg');
-    removeImg.setAttribute('class', 'invisible group-hover:visible');
     removeImg.addEventListener('click', function () {
       // ici checker si isProductEdit pour choisir de remove image from DOM ou from DataBase !!!
+      console.log(imgView.id); // suppression de l'image dans image
+
+      var imgView_index = imgView.id.replace('imgView', '');
+
+      if (imgView_index != undefined && imgView_index != null && imgView_index != '') {
+        var tab = _toConsumableArray(image);
+
+        tab.splice(imgView_index, 1);
+        setImage(_toConsumableArray(tab));
+      }
+
+      ;
+      console.log('image  2  ', image);
       imgView.remove();
 
       if (imagePreviewRegion.childElementCount == 1) {
         dropCard.style.display = 'none'; // setTimeout permet de ne pas déclencher fakeInputTrigger immédiatement après la suppression du dernier imgView
 
         setTimeout(function () {
+          fakeInput.value = '';
           setDropRegion();
           dropRegion.style.cursor = 'pointer';
         }, 10);
@@ -39317,7 +39297,7 @@ var DropZoneProduct = function DropZoneProduct(props) {
       img.src = e.target.result;
     };
 
-    reader.readAsDataURL(image); // cadrage de l'image
+    reader.readAsDataURL(imageFile); // cadrage de l'image
 
     img.onload = function () {
       // cancel --> open files explorator when click on dropRegion
@@ -39345,41 +39325,59 @@ var DropZoneProduct = function DropZoneProduct(props) {
     return 'draggable' in div || 'ondragstart' in div && 'ondrop' in div;
   }
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+  function ModalConfirm() {
+    uploadImageFromURL(urlValue);
+  }
+
+  function hideModal() {
+    setShowModal(false);
+  }
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
     id: "main-image-product",
     className: "flex-col justify-start items-start bg-white rounded-md w-full p-[20px] mb-[10px] shadow-md",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       id: "drop-region",
       className: "w-full h-full",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
         className: "flex-col justify-start items-center bg-white rounded-md w-full p-[40px] brd-drop-zone",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
           className: "drop-message w100pct txt-c",
           children: "D\xE9posez vos images ou cliquez pour t\xE9l\xE9charger"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
           id: "image-preview",
-          className: "grid gap-4 grid-cols-4 brd-red-1",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "grid gap-4 grid-cols-4",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
             id: "drop-card",
             className: "flex-col justify-start items-center w-[120px] h-[120px] p-[20px] border border-slate-300 rounded",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "w-[40px] h-[40px] mb-[20px] mr-auto ml-auto hover:bg-slate-100 hover:cursor-pointer",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
                 src: "../images/icons/add-square-dotted.svg",
                 id: "addImageProduct",
                 className: "w-[40px] h-[40px]"
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
               className: "text-sm rounded  hover:underline underline-offset text-blue-600 hover:font-semibold text-center z-10 hover:cursor-pointer",
               onClick: function onClick() {
-                alert('url please');
+                setShowModal(true);
               },
               children: "URL"
             })]
           })
         })]
       })
-    })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_elements_modalInput__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      show: showModal,
+      handleModalCancel: hideModal,
+      setInputValue: setUrlValue,
+      inputValue: urlValue,
+      ModalConfirm: ModalConfirm,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h2", {
+        className: "childrenModal",
+        children: "Entrez l'URL de l'image"
+      })
+    })]
   });
 };
 
@@ -41284,6 +41282,168 @@ var Checkbox = function Checkbox(_ref) {
 
 /***/ }),
 
+/***/ "./resources/js/components/elements/modalInput.jsx":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/elements/modalInput.jsx ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_2__["default"])({
+  modal: {
+    position: 'fixed',
+    top: '0',
+    left: '0',
+    width: '100%',
+    height: ' 100%',
+    background: 'rgba(255, 255, 255, 0.75)',
+    zIndex: '10000000'
+  },
+  modalMain: {
+    position: 'fixed',
+    background: 'white',
+    width: '30%',
+    minWidth: '300px',
+    padding: '50px',
+    top: ' 50%',
+    left: '50%',
+    transform: 'translate(-50%,-50%)',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    borderRadius: '5px',
+    boxShadow: 'rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px',
+    zIndex: '10000000'
+  },
+  BlockButtons: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '30px'
+  },
+  btnModal: {
+    width: '150px',
+    height: '50px',
+    padding: '0 25px',
+    margin: '10px 0',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgb(52, 115, 252)',
+    color: 'white',
+    fontSize: '20px',
+    borderRadius: '5px',
+    border: 'solid 1px rgb(220, 220, 220)',
+    transition: 'ease-in-out 0.15s',
+    '&:hover': {
+      cursor: 'pointer',
+      color: '#eeeeee'
+    }
+  },
+  close: {
+    position: 'absolute',
+    top: '0px',
+    right: '0px',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    paddingRight: '25px',
+    paddingTop: '25px'
+  },
+  image: {
+    margin: '20px 0'
+  },
+  faTimes: {
+    fontSize: '26px',
+    transition: 'ease-in-out .15s',
+    color: '#333333',
+    '&:hover': {
+      cursor: 'pointer',
+      transform: 'scale(1.15)'
+    }
+  },
+  inputValue: {
+    width: '100%',
+    height: '50px',
+    padding: '0 20px',
+    margin: '20px 0 0 0',
+    borderRadius: '5px',
+    border: 'solid 1px rgb(220, 220, 220)'
+  },
+  displayBlock: {
+    display: 'block'
+  },
+  displayNone: {
+    display: 'none'
+  }
+});
+
+var ModalInput = function ModalInput(_ref) {
+  var inputValue = _ref.inputValue,
+      setInputValue = _ref.setInputValue,
+      handleModalCancel = _ref.handleModalCancel,
+      ModalConfirm = _ref.ModalConfirm,
+      show = _ref.show,
+      children = _ref.children;
+  var classes = useStyles();
+  var showHideClassName = show ? classes.displayBlock : classes.displayNone;
+
+  var handleInputValue = function handleInputValue(e) {
+    setInputValue(e.target.value);
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    className: classes.modal + ' ' + showHideClassName,
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("section", {
+      className: classes.modalMain,
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: classes.close,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
+          src: "../images/icons/x.svg",
+          className: "w-[30] h-[30] scale-[1.15] cursor-pointer",
+          onClick: handleModalCancel
+        })
+      }), children, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
+        type: "text",
+        className: classes.inputValue,
+        value: inputValue,
+        onChange: handleInputValue
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+        className: classes.BlockButtons,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+          className: classes.btnModal,
+          onClick: ModalConfirm,
+          children: "Confirmer"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+          className: classes.btnModal,
+          style: {
+            marginLeft: "15px"
+          },
+          onClick: handleModalCancel,
+          children: "Annuler"
+        })]
+      })]
+    })
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ModalInput);
+
+/***/ }),
+
 /***/ "./resources/js/components/elements/select.jsx":
 /*!*****************************************************!*\
   !*** ./resources/js/components/elements/select.jsx ***!
@@ -42419,7 +42579,6 @@ var ModalInput = function ModalInput(_ref) {
       updateCategory = _ref.updateCategory,
       handleModalCancel = _ref.handleModalCancel,
       show = _ref.show,
-      image = _ref.image,
       children = _ref.children;
   var classes = useStyles();
   var showHideClassName = show ? classes.displayBlock : classes.displayNone;
@@ -42439,8 +42598,6 @@ var ModalInput = function ModalInput(_ref) {
           className: "w30 h30 scale-1_15 cursor",
           onClick: handleModalCancel
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
-        src: image
       }), children, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
         type: "text",
         className: classes.inputTextModify,

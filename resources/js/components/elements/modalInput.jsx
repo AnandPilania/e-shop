@@ -83,7 +83,7 @@ const useStyles = makeStyles({
         },
     },
 
-    inputTextModify: {
+    inputValue: {
         width: '100%',
         height: '50px',
         padding: '0 20px',
@@ -102,12 +102,12 @@ const useStyles = makeStyles({
 });
 
 
-const ModalInput = ({ inputTextModify, setInputTextModify, updateCategory, handleModalCancel, show, children }) => {
+const ModalInput = ({ inputValue, setInputValue, handleModalCancel, ModalConfirm, show, children }) => {
     const classes = useStyles();
     const showHideClassName = show ? classes.displayBlock : classes.displayNone;
 
-    const handleinputTextModify = (e) => {
-        setInputTextModify(e.target.value);
+    const handleInputValue = (e) => {
+        setInputValue(e.target.value);
     }
 
     return (
@@ -115,15 +115,15 @@ const ModalInput = ({ inputTextModify, setInputTextModify, updateCategory, handl
             <section className={classes.modalMain}>
 
                 <div className={classes.close}>
-                <img src='../images/icons/x.svg' className="w30 h30 scale-1_15 cursor" onClick={handleModalCancel}/>
+                <img src='../images/icons/x.svg' className="w-[30] h-[30] scale-[1.15] cursor-pointer" onClick={handleModalCancel}/>
                 </div>
 
                 {children}
 
-                <input type='text' className={classes.inputTextModify} value={inputTextModify} onChange={handleinputTextModify} />
+                <input type='text' className={classes.inputValue} value={inputValue} onChange={handleInputValue} />
 
                 <div className={classes.BlockButtons}>
-                    <button className={classes.btnModal} onClick={updateCategory}>
+                    <button className={classes.btnModal} onClick={ModalConfirm}>
                         Confirmer
                     </button>
 

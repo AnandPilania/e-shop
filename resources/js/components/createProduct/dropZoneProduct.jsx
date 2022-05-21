@@ -1,72 +1,17 @@
-import React, { useEffect, useContext, useRef } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
-import { makeStyles } from '@material-ui/styles';
-
-const useStyles = makeStyles({
-    wrapperForm: {
-        marginTop: '50px',
-        width: '80%',
-        overflow: 'auto',
-        padding: '50px',
-        // border: '#e0e0e0 dashed 1px',
-        border: 'red dashed 2px',
-        borderRadius: '5px',
-        height: 'auto',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        flexWrap: 'nowrap',
-        backgroundColor: '#f6f6f7',
-    },
-    title: {
-        fontSize: '20px',
-    },
-    label_text: {
-        fontSize: '16px',
-        fontWeight: 'bold',
-        margin: '0',
-        marginLeft: '5px',
-        marginBottom: 10,
-        marginTop: '20px',
-        color: '#111fff',
-        width: 'auto',
-    },
-    input_text: {
-        margin: '0',
-        paddingLeft: '10px',
-        width: '100%',
-        height: '55px',
-        border: '#e1e1e1 solid 1px',
-        borderRadius: '5px',
-        color: '#111fff',
-    },
-    textarea: {
-        color: '#111fff',
-        minHeight: '100px',
-    },
-    submit_btn: {
-        height: '45px',
-        width: '150px',
-        marginTop: '50px',
-        borderRadius: '5px',
-        backgroundColor: '#eeefff',
-        color: '#111fff',
-        fontSize: '16px',
-        letterSpacing: '1px',
-    },
-
-});
+import ModalInput from '../elements/modalInput';
 
 
-// props.id = detailx
-const DropZoneProduct = (props) => {
-    const classes = useStyles();
+const DropZoneProduct = () => {
 
-    const { setImage } = useContext(AppContext);
+    const [showModal, setShowModal] = useState(false);
+    const [urlValue, setUrlValue] = useState('');
+
+    const { image, setImage } = useContext(AppContext);
 
     var dropRegion = null;
     var imagePreviewRegion = null;
-    var tab = [];
     var fakeInput = null;
     var mainImageProduct = null;
     var dropCard = null;
@@ -78,11 +23,6 @@ const DropZoneProduct = (props) => {
 
     useEffect(() => {
         document.getElementById("drop-card").style.display = 'none';
-        imagePreviewRegion = document.getElementById("image-preview");
-        dropCard = document.getElementById("drop-card");
-
-        mainImageProduct = document.getElementById("main-image-product");
-        mainImageProduct.style.cursor = 'pointer';
 
         // open file selector when clicked on the drop region
         fakeInput = document.createElement("input");
@@ -145,56 +85,57 @@ const DropZoneProduct = (props) => {
             files = dt.files;
 
         if (files.length) {
-
             handleFiles(files);
-
         } else {
-
             // check for img
             var html = dt.getData('text/html'),
                 match = html && /\bsrc="?([^"\s]+)"?\s*/.exec(html),
                 url = match && match[1];
-
-
             if (url) {
                 uploadImageFromURL(url);
                 return;
             }
         }
+    }
 
-        function uploadImageFromURL(url) {
-            var img = new Image;
-            var c = document.createElement("canvas");
-            var ctx = c.getContext("2d");
 
-            img.onload = function () {
-                c.width = this.naturalWidth;  // update canvas size to match image
-                c.height = this.naturalHeight;
-                ctx.drawImage(this, 0, 0);   // draw in image
+    function uploadImageFromURL(url) {
+        console.log(url)
+        var img = new Image;
+        var c = document.createElement("canvas");
+        var ctx = c.getContext("2d");
 
-                c.toBlob(function (blob) {   // get content as blob
-                    handleFiles([blob]);
-                }, 'image/png', 0.95);
-            };
-            img.onerror = function () {
-                alert("Error in uploading");
-            }
-            img.crossOrigin = "";   // if from different origin
-            img.src = url;
+        img.onload = function () {
+            c.width = this.naturalWidth;  // update canvas size to match image
+            c.height = this.naturalHeight;
+            ctx.drawImage(this, 0, 0);   // draw in image
+
+            c.toBlob(function (blob) {   // get content as blob
+                var file = new File([blob], "myImageName", {
+                    type: "image/jpg",
+                });
+
+                handleFiles([file]);
+            }, 'image/png', 0.95);
+        };
+        img.onerror = function () {
+            alert("Error in uploading");
         }
+        img.crossOrigin = "";   // if from different origin
+        img.src = url;
     }
 
 
     // affiche et sauvegarde les images
     function handleFiles(files) {
-        tab.push(...files);
         for (var i = 0; i < files.length; i++) {
             if (validateImage(files[i])) {
-                setImage(tab);
-                previewImage(files[i]);
+                setImage([...image, files[i]]);
+                previewImage(files[i], image.length - 1);
             }
         }
     }
+    console.log('image  ', image)
 
 
     function validateImage(image) {
@@ -224,11 +165,16 @@ const DropZoneProduct = (props) => {
         return true;
     }
 
-    function previewImage(image) {
+    function previewImage(imageFile, tabLength) {
+        imagePreviewRegion = document.getElementById("image-preview");
+        setDropRegion();
+        dropCard = document.getElementById("drop-card");
+        mainImageProduct = document.getElementById("main-image-product");
+        mainImageProduct.style.cursor = 'pointer';
 
-        // container
+        // image card
         var imgView = document.createElement("div");
-        imgView.className = "image-view";
+        imgView.className = "image-view border border-slate-300 rounded group";
         imgView.style.display = 'flex';
         imgView.style.justifyContent = 'center';
         imgView.style.alignItems = 'center';
@@ -236,18 +182,18 @@ const DropZoneProduct = (props) => {
         imgView.style.width = '120px';
         imgView.style.height = '120px';
         imgView.style.position = 'relative';
-        imgView.setAttribute('class', 'border border-slate-300 rounded group');
+        imgView.setAttribute('id', 'imgView' + tabLength);
         imagePreviewRegion.appendChild(imgView);
 
-        // previewing image
+        // image
         var img = document.createElement("img");
         img.setAttribute('class', 'imgClass');
         img.style.borderRadius = '4px';
         imgView.appendChild(img);
 
-        // remove image button
+        // button remove
         var removeImg = document.createElement("button");
-        removeImg.className = "removeImg";
+        removeImg.className = "removeImg invisible group-hover:visible";
         removeImg.style.position = 'absolute';
         removeImg.style.top = '5px';
         removeImg.style.right = '5px';
@@ -256,20 +202,28 @@ const DropZoneProduct = (props) => {
         removeImg.style.backgroundColor = '#d23e44';
         removeImg.style.borderRadius = '3px';
         removeImg.setAttribute('id', 'removeImg');
-        removeImg.setAttribute('class', 'invisible group-hover:visible');
+
         removeImg.addEventListener('click', function () {
-
             // ici checker si isProductEdit pour choisir de remove image from DOM ou from DataBase !!!
+            console.log(imgView.id);
 
+            // suppression de l'image dans image
+            let imgView_index = imgView.id.replace('imgView', '');
+            if (imgView_index != undefined && imgView_index != null && imgView_index != '') {
+                let tab = [...image];
+                tab.splice(imgView_index, 1)
+                setImage([...tab]);
+            };
+            console.log('image  2  ', image)
             imgView.remove();
             if (imagePreviewRegion.childElementCount == 1) {
                 dropCard.style.display = 'none';
                 // setTimeout permet de ne pas déclencher fakeInputTrigger immédiatement après la suppression du dernier imgView
                 setTimeout(() => {
+                    fakeInput.value = '';
                     setDropRegion();
                     dropRegion.style.cursor = 'pointer';
                 }, 10);
-
             }
         });
 
@@ -288,7 +242,7 @@ const DropZoneProduct = (props) => {
         reader.onload = function (e) {
             img.src = e.target.result;
         }
-        reader.readAsDataURL(image);
+        reader.readAsDataURL(imageFile);
 
 
         // cadrage de l'image
@@ -321,7 +275,13 @@ const DropZoneProduct = (props) => {
         return ('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)
     }
 
+    function ModalConfirm() {
+        uploadImageFromURL(urlValue);
+    }
 
+    function hideModal() {
+        setShowModal(false);
+    }
 
     return (
         <div id="main-image-product" className="flex-col justify-start items-start bg-white rounded-md w-full p-[20px] mb-[10px] shadow-md">
@@ -331,7 +291,7 @@ const DropZoneProduct = (props) => {
                         Déposez vos images ou cliquez pour télécharger
                     </div>
                     <div id="image-preview"
-                        className='grid gap-4 grid-cols-4 brd-red-1'>
+                        className='grid gap-4 grid-cols-4'>
 
                         {/* ici est injecté img ! */}
 
@@ -344,12 +304,21 @@ const DropZoneProduct = (props) => {
                             </div>
                             <p className='text-sm rounded  hover:underline underline-offset text-blue-600 hover:font-semibold text-center z-10 hover:cursor-pointer'
                                 onClick={() => {
-                                    alert('url please');
+                                    setShowModal(true);
                                 }}>URL</p>
                         </div>
                     </div>
                 </div>
             </div>
+            <ModalInput
+                show={showModal}
+                handleModalCancel={hideModal}
+                setInputValue={setUrlValue}
+                inputValue={urlValue}
+                ModalConfirm={ModalConfirm}
+            >
+                <h2 className="childrenModal">Entrez l'URL de l'image</h2>
+            </ModalInput>
         </div>
     )
 }
