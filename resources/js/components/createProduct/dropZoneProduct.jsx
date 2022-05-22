@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import ModalInput from '../elements/modalInput';
+import Axios from 'axios';
 
 
 const DropZoneProduct = () => {
@@ -75,7 +76,6 @@ const DropZoneProduct = () => {
         dropRegion.addEventListener('dragover', highlight, false);
         dropRegion.addEventListener('dragleave', unhighlight, false);
         dropRegion.addEventListener('drop', unhighlight, false);
-
     }
 
 
@@ -87,6 +87,7 @@ const DropZoneProduct = () => {
         if (files.length) {
             handleFiles(files);
         } else {
+            alert('not files.length')
             // check for img
             var html = dt.getData('text/html'),
                 match = html && /\bsrc="?([^"\s]+)"?\s*/.exec(html),
@@ -100,7 +101,6 @@ const DropZoneProduct = () => {
 
 
     function uploadImageFromURL(url) {
-        console.log(url)
         var img = new Image;
         var c = document.createElement("canvas");
         var ctx = c.getContext("2d");
@@ -112,11 +112,11 @@ const DropZoneProduct = () => {
 
             c.toBlob(function (blob) {   // get content as blob
                 var file = new File([blob], "myImageName", {
-                    type: "image/jpg",
+                    type: "image/*",
                 });
 
                 handleFiles([file]);
-            }, 'image/png', 0.95);
+            }, 'image/*', 0.95);
         };
         img.onerror = function () {
             alert("Error in uploading");
@@ -128,14 +128,15 @@ const DropZoneProduct = () => {
 
     // affiche et sauvegarde les images
     function handleFiles(files) {
+        let tmp_tab = image;
         for (var i = 0; i < files.length; i++) {
             if (validateImage(files[i])) {
-                setImage([...image, files[i]]);
-                previewImage(files[i], image.length - 1);
+                tmp_tab.push(files[i]);
+                previewImage(files[i]);
             }
         }
+        setImage(tmp_tab);
     }
-    console.log('image  ', image)
 
 
     function validateImage(image) {
@@ -164,8 +165,8 @@ const DropZoneProduct = () => {
 
         return true;
     }
-
-    function previewImage(imageFile, tabLength) {
+  
+    function previewImage(imageFile) {
         imagePreviewRegion = document.getElementById("image-preview");
         setDropRegion();
         dropCard = document.getElementById("drop-card");
@@ -182,7 +183,6 @@ const DropZoneProduct = () => {
         imgView.style.width = '120px';
         imgView.style.height = '120px';
         imgView.style.position = 'relative';
-        imgView.setAttribute('id', 'imgView' + tabLength);
         imagePreviewRegion.appendChild(imgView);
 
         // image
@@ -205,17 +205,17 @@ const DropZoneProduct = () => {
 
         removeImg.addEventListener('click', function () {
             // ici checker si isProductEdit pour choisir de remove image from DOM ou from DataBase !!!
-            console.log(imgView.id);
-
-            // suppression de l'image dans image
+ 
+            // suppression de l'image dans image "hook"
             let imgView_index = imgView.id.replace('imgView', '');
             if (imgView_index != undefined && imgView_index != null && imgView_index != '') {
-                let tab = [...image];
+                let tab = image;
                 tab.splice(imgView_index, 1)
-                setImage([...tab]);
+                setImage(tab);
             };
-            console.log('image  2  ', image)
+            
             imgView.remove();
+
             if (imagePreviewRegion.childElementCount == 1) {
                 dropCard.style.display = 'none';
                 // setTimeout permet de ne pas déclencher fakeInputTrigger immédiatement après la suppression du dernier imgView
@@ -224,7 +224,11 @@ const DropZoneProduct = () => {
                     setDropRegion();
                     dropRegion.style.cursor = 'pointer';
                 }, 10);
+                let dashedZone = document.getElementById('dashed-zone');
+                dashedZone.className = "flex-col justify-start items-center bg-white rounded-md w-full p-[40px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer";
             }
+
+            handleImgViewIndex();
         });
 
         imgView.appendChild(removeImg);
@@ -251,13 +255,19 @@ const DropZoneProduct = () => {
             dropRegion.removeEventListener('click', fakeInputTrigger);
             dropCard.style.display = 'block';
             // open files exploratore when click on dropRegion
-            addImageProduct = document.getElementById('addImageProduct');
+            addImageProduct = document.getElementById('drop-card');
             addImageProduct.addEventListener('click', fakeInputTrigger);
 
             let countImgClass = document.getElementsByClassName("imgClass");
             dropCard.style.order = countImgClass.length;
 
             mainImageProduct.style.cursor = 'default';
+
+            // met en blanc la dashed border pour simuler sa disparition
+            let dashedZone = document.getElementById('dashed-zone');
+            dashedZone.className = "flex-col justify-start items-center bg-white rounded-md w-full p-[40px] border-2 border-slate-200  cursor-default";
+
+            handleImgViewIndex();
 
             var width = img.clientWidth;
             var height = img.clientHeight;
@@ -266,6 +276,14 @@ const DropZoneProduct = () => {
             } else {
                 img.style.height = '120px';
             }
+        }
+    }
+
+    // crée les id des image-view à chaque ajout ou suppression d'images
+    function handleImgViewIndex() {
+        let allImgView = document.getElementsByClassName('image-view');
+        for(let i = 0; i < allImgView.length; i++) {
+            allImgView[i].id = 'imgView' + i;
         }
     }
 
@@ -286,7 +304,7 @@ const DropZoneProduct = () => {
     return (
         <div id="main-image-product" className="flex-col justify-start items-start bg-white rounded-md w-full p-[20px] mb-[10px] shadow-md">
             <div id="drop-region" className='w-full h-full'>
-                <div className="flex-col justify-start items-center bg-white rounded-md w-full p-[40px] brd-drop-zone">
+                <div id="dashed-zone" className="flex-col justify-start items-center bg-white rounded-md w-full p-[40px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer">
                     <div className="drop-message w100pct txt-c">
                         Déposez vos images ou cliquez pour télécharger
                     </div>
@@ -296,16 +314,15 @@ const DropZoneProduct = () => {
                         {/* ici est injecté img ! */}
 
                         <div id="drop-card"
-                            className='flex-col justify-start items-center w-[120px] h-[120px] p-[20px] border border-slate-300 rounded'>
-                            <div className='w-[40px] h-[40px] mb-[20px] mr-auto ml-auto hover:bg-slate-100 hover:cursor-pointer'>
+                            className='flex-col justify-center items-center w-[120px] h-[120px] p-[20px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer rounded'>
+                            <div className='w-[40px] h-[40px] m-auto  hover:bg-slate-100 hover:cursor-pointer'>
                                 <img src='../images/icons/add-square-dotted.svg'
-                                    id='addImageProduct'
-                                    className='w-[40px] h-[40px]' />
+                                    className='w-[60px] h-[60px]' />
                             </div>
-                            <p className='text-sm rounded  hover:underline underline-offset text-blue-600 hover:font-semibold text-center z-10 hover:cursor-pointer'
+                            {/* <p className='text-sm rounded  hover:underline underline-offset text-blue-600 hover:font-semibold text-center z-10 hover:cursor-pointer'
                                 onClick={() => {
                                     setShowModal(true);
-                                }}>URL</p>
+                                }}>URL</p> */}
                         </div>
                     </div>
                 </div>

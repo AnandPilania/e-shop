@@ -116,6 +116,9 @@ Route::post('/save-supplier', [SupplierController::class, 'store']);
 Route::get('/editProduct/{productId}', [ProductController::class, 'editProduct']);
 Route::get('/selectCollections/{productId}', [ProductController::class, 'selectCollections']);
 
+// get image from url
+Route::post('/fetchImage', [ProductController::class, 'fetchImage']);
+
 
 // pour blade -> edit_images.blade !!! N EST PLUS UTILISE
 // Route::get('/editImagesProduct/{id}', [ProductController::class, 'editImagesProduct']);

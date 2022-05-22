@@ -496,4 +496,11 @@ class ProductController extends Controller
 
         $product->save();
     }
+
+    public function fetchImage(Request $request) {
+        // dd($request->url);
+        $img = file_get_contents($request->url);
+        dd($img);
+        return $img;                          
+    }
 }

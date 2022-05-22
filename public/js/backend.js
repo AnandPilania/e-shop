@@ -39026,15 +39026,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
 /* harmony import */ var _elements_modalInput__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../elements/modalInput */ "./resources/js/components/elements/modalInput.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -39046,6 +39040,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -39137,7 +39132,8 @@ var DropZoneProduct = function DropZoneProduct() {
     if (files.length) {
       handleFiles(files);
     } else {
-      // check for img
+      alert('not files.length'); // check for img
+
       var html = dt.getData('text/html'),
           match = html && /\bsrc="?([^"\s]+)"?\s*/.exec(html),
           url = match && match[1];
@@ -39150,7 +39146,6 @@ var DropZoneProduct = function DropZoneProduct() {
   }
 
   function uploadImageFromURL(url) {
-    console.log(url);
     var img = new Image();
     var c = document.createElement("canvas");
     var ctx = c.getContext("2d");
@@ -39164,10 +39159,10 @@ var DropZoneProduct = function DropZoneProduct() {
       c.toBlob(function (blob) {
         // get content as blob
         var file = new File([blob], "myImageName", {
-          type: "image/jpg"
+          type: "image/*"
         });
         handleFiles([file]);
-      }, 'image/png', 0.95);
+      }, 'image/*', 0.95);
     };
 
     img.onerror = function () {
@@ -39181,15 +39176,17 @@ var DropZoneProduct = function DropZoneProduct() {
 
 
   function handleFiles(files) {
+    var tmp_tab = image;
+
     for (var i = 0; i < files.length; i++) {
       if (validateImage(files[i])) {
-        setImage([].concat(_toConsumableArray(image), [files[i]]));
-        previewImage(files[i], image.length - 1);
+        tmp_tab.push(files[i]);
+        previewImage(files[i]);
       }
     }
-  }
 
-  console.log('image  ', image);
+    setImage(tmp_tab);
+  }
 
   function validateImage(image) {
     // check the type
@@ -39222,7 +39219,7 @@ var DropZoneProduct = function DropZoneProduct() {
     return true;
   }
 
-  function previewImage(imageFile, tabLength) {
+  function previewImage(imageFile) {
     imagePreviewRegion = document.getElementById("image-preview");
     setDropRegion();
     dropCard = document.getElementById("drop-card");
@@ -39238,7 +39235,6 @@ var DropZoneProduct = function DropZoneProduct() {
     imgView.style.width = '120px';
     imgView.style.height = '120px';
     imgView.style.position = 'relative';
-    imgView.setAttribute('id', 'imgView' + tabLength);
     imagePreviewRegion.appendChild(imgView); // image
 
     var img = document.createElement("img");
@@ -39258,19 +39254,16 @@ var DropZoneProduct = function DropZoneProduct() {
     removeImg.setAttribute('id', 'removeImg');
     removeImg.addEventListener('click', function () {
       // ici checker si isProductEdit pour choisir de remove image from DOM ou from DataBase !!!
-      console.log(imgView.id); // suppression de l'image dans image
-
+      // suppression de l'image dans image "hook"
       var imgView_index = imgView.id.replace('imgView', '');
 
       if (imgView_index != undefined && imgView_index != null && imgView_index != '') {
-        var tab = _toConsumableArray(image);
-
+        var tab = image;
         tab.splice(imgView_index, 1);
-        setImage(_toConsumableArray(tab));
+        setImage(tab);
       }
 
       ;
-      console.log('image  2  ', image);
       imgView.remove();
 
       if (imagePreviewRegion.childElementCount == 1) {
@@ -39281,7 +39274,11 @@ var DropZoneProduct = function DropZoneProduct() {
           setDropRegion();
           dropRegion.style.cursor = 'pointer';
         }, 10);
+        var dashedZone = document.getElementById('dashed-zone');
+        dashedZone.className = "flex-col justify-start items-center bg-white rounded-md w-full p-[40px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer";
       }
+
+      handleImgViewIndex();
     });
     imgView.appendChild(removeImg);
     var svgCancel = document.createElement("img");
@@ -39304,11 +39301,15 @@ var DropZoneProduct = function DropZoneProduct() {
       dropRegion.removeEventListener('click', fakeInputTrigger);
       dropCard.style.display = 'block'; // open files exploratore when click on dropRegion
 
-      addImageProduct = document.getElementById('addImageProduct');
+      addImageProduct = document.getElementById('drop-card');
       addImageProduct.addEventListener('click', fakeInputTrigger);
       var countImgClass = document.getElementsByClassName("imgClass");
       dropCard.style.order = countImgClass.length;
-      mainImageProduct.style.cursor = 'default';
+      mainImageProduct.style.cursor = 'default'; // met en blanc la dashed border pour simuler sa disparition
+
+      var dashedZone = document.getElementById('dashed-zone');
+      dashedZone.className = "flex-col justify-start items-center bg-white rounded-md w-full p-[40px] border-2 border-slate-200  cursor-default";
+      handleImgViewIndex();
       var width = img.clientWidth;
       var height = img.clientHeight;
 
@@ -39318,6 +39319,15 @@ var DropZoneProduct = function DropZoneProduct() {
         img.style.height = '120px';
       }
     };
+  } // crée les id des image-view à chaque ajout ou suppression d'images
+
+
+  function handleImgViewIndex() {
+    var allImgView = document.getElementsByClassName('image-view');
+
+    for (var i = 0; i < allImgView.length; i++) {
+      allImgView[i].id = 'imgView' + i;
+    }
   }
 
   function detectDragDrop() {
@@ -39333,47 +39343,41 @@ var DropZoneProduct = function DropZoneProduct() {
     setShowModal(false);
   }
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
     id: "main-image-product",
     className: "flex-col justify-start items-start bg-white rounded-md w-full p-[20px] mb-[10px] shadow-md",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       id: "drop-region",
       className: "w-full h-full",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-        className: "flex-col justify-start items-center bg-white rounded-md w-full p-[40px] brd-drop-zone",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+        id: "dashed-zone",
+        className: "flex-col justify-start items-center bg-white rounded-md w-full p-[40px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
           className: "drop-message w100pct txt-c",
           children: "D\xE9posez vos images ou cliquez pour t\xE9l\xE9charger"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
           id: "image-preview",
           className: "grid gap-4 grid-cols-4",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
             id: "drop-card",
-            className: "flex-col justify-start items-center w-[120px] h-[120px] p-[20px] border border-slate-300 rounded",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-              className: "w-[40px] h-[40px] mb-[20px] mr-auto ml-auto hover:bg-slate-100 hover:cursor-pointer",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+            className: "flex-col justify-center items-center w-[120px] h-[120px] p-[20px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer rounded",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+              className: "w-[40px] h-[40px] m-auto  hover:bg-slate-100 hover:cursor-pointer",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
                 src: "../images/icons/add-square-dotted.svg",
-                id: "addImageProduct",
-                className: "w-[40px] h-[40px]"
+                className: "w-[60px] h-[60px]"
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-              className: "text-sm rounded  hover:underline underline-offset text-blue-600 hover:font-semibold text-center z-10 hover:cursor-pointer",
-              onClick: function onClick() {
-                setShowModal(true);
-              },
-              children: "URL"
-            })]
+            })
           })
         })]
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_elements_modalInput__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_elements_modalInput__WEBPACK_IMPORTED_MODULE_2__["default"], {
       show: showModal,
       handleModalCancel: hideModal,
       setInputValue: setUrlValue,
       inputValue: urlValue,
       ModalConfirm: ModalConfirm,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h2", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h2", {
         className: "childrenModal",
         children: "Entrez l'URL de l'image"
       })
