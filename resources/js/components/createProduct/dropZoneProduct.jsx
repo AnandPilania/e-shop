@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import ModalInput from '../elements/modalInput';
-import Axios from 'axios';
-
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 const DropZoneProduct = () => {
 

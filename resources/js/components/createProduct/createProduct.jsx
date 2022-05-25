@@ -5,9 +5,12 @@ import ContainerDetail from './containerDetail';
 import SelectWithCheckbox from '../elements/selectWithCheckbox';
 import Select from '../elements/select';
 import DropZoneProduct from './dropZoneProduct';
+import Price from './price';
+import Stock from './stock';
 import TinyeditorProduct from './tinyEditorProduct';
 import Axios from "axios";
 import { handleTinyMceTemporary } from '../functions/temporaryStorage/handleTinyMceTemporary';
+import ModalSimpleMessage from '../modal/modalSimpleMessage';
 
 
 
@@ -72,8 +75,9 @@ const CreateProduct = (props) => {
     const classes = useStyles();
     const [collectionsRelations, setCollectionsRelations] = useState([]);
     const [dataDetail, setDataDetail] = useState([]);
+    const [showModalFromPrice, setShowModalFromPrice] = useState(false);
 
-    const { image, descriptionProduct, listSuppliers, setListSuppliers, supplier, setSupplier, collection, setCollection } = useContext(AppContext);
+    const { image, descriptionProduct, listSuppliers, setListSuppliers, supplier, setSupplier, collection, setCollection, productPrice, messageModal, setMessageModal } = useContext(AppContext);
 
     useEffect(() => {
         // récupére les types de détails dans la table type_detail_products pour remplire le select id=selectdetails
@@ -95,9 +99,6 @@ const CreateProduct = (props) => {
 
     }, []);
 
-    const handleChangeSupplier = (e) => {
-        setSupplier(e.target.value);
-    };
 
 
     const removeCollection = (item) => {
@@ -109,9 +110,25 @@ const CreateProduct = (props) => {
         }
     }
 
+    const validation = () => {
+        // VALIDATION !!!
+
+        if (productPrice <= 0) {
+            setMessageModal('Le champ prix est obligatoir');
+            setShowModalFromPrice(true);
+            return false;
+        }
+    }
+
+    const closelModal = () => {
+        setShowModalFromPrice(false);
+    }
+
 
     function handleSubmit(e) {
         e.preventDefault();
+
+        validation();
 
         // delete removed tinyMCE images in folder and db
         handleTinyMceTemporary(descriptionProduct, null, 'product');
@@ -152,32 +169,33 @@ const CreateProduct = (props) => {
 
 
     return (
-        <div className="form-main-container">
+        <div className="form-main-container text-[15px]">
             <div className="form-block-container">
                 <div className="div-vert-align">
-                    <h4 className={classes.title}>Ajouter un produit</h4>
+                    <h4 className="mb-[18px] font-semibold text-[20]">Ajouter un produit</h4>
 
                     {/* name */}
-                    <p className={classes.label_text}><label htmlFor="name" >Nom*</label></p>
-                    <input id="name" name="name" type="text" className={classes.input_text} />
+                    <label>Nom*</label>
+                    <input id="name" name="name" type="text" className="w-full h-[40px] border border-slate-400 rounded-4 pl-[10px] mb-[15px] mt-1" />
 
                     {/* description */}
-                    <p className={classes.label_text}><label htmlFor="description" >Déscription</label></p>
+                    <label>Déscription</label>
                     <TinyeditorProduct />
                 </div>
 
                 {/* dropZone */}
                 <DropZoneProduct />
 
+                {/* Price */}
+                <Price />
+
+                {/* Stock */}
+                <Stock />
+
                 {/* details */}
                 <div className="div-vert-align">
                     <ContainerDetail setDataDetail={setDataDetail} />
-
                 </div>
-
-                {/* price */}
-                <p className={classes.label_text}><label htmlFor="price" >Prix</label></p>
-                <input id="price" type="number" step=".01" name="price" className={classes.input_text} />
             </div>
 
             {/* ----------  side  ---------- */}
@@ -206,7 +224,7 @@ const CreateProduct = (props) => {
 
                 {/* supplier */}
                 <div className="div-vert-align">
-                <h3 className={classes.label_text}>Fournisseur</h3>
+                    <h3 className={classes.label_text}>Fournisseur</h3>
                     <Select
                         list={listSuppliers}
                         itemSelected={supplier}
@@ -214,10 +232,17 @@ const CreateProduct = (props) => {
                     />
                 </div>
             </div>
-            
+
             <button className="btn bg-amber-300" onClick={handleSubmit}>
                 Envoyer
             </button>
+
+            {/* modal for simple message */}
+            <ModalSimpleMessage
+                show={showModalFromPrice} // true/false show modal
+                handleModalCancel={closelModal}>
+                <h2 className="childrenModal">{messageModal}</h2>
+            </ModalSimpleMessage>
         </div>
     )
 }

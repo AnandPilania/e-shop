@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 export default function Select({ list, itemSelected, setItemSelected }) {
 
+    // !!!   !!!   !!!
     // list contient la liste à afficher dans le select
     // itemSelected et setItemSelected sont le hook qui contient l'élément électionné
     // example dans creatProduct

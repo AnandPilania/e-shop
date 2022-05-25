@@ -69,10 +69,6 @@ const useStyles = makeStyles({
         paddingTop: '25px',
     },
 
-    image: {
-        margin: '20px 0',
-    },
-
     faTimes: {
         fontSize: '26px',
         transition: 'ease-in-out .15s',
@@ -93,7 +89,7 @@ const useStyles = makeStyles({
 });
 
 
-const ModalSimpleMessage = ({ handleModalCancel, show, image, children }) => {
+const ModalSimpleMessage = ({ handleModalCancel, show, children }) => {
     const classes = useStyles();
     const showHideClassName = show ? classes.displayBlock : classes.displayNone;
 
@@ -104,7 +100,6 @@ const ModalSimpleMessage = ({ handleModalCancel, show, image, children }) => {
 
                 <div className={classes.close}><i className={classes.faTimes + ' ' + "fas fa-times"} onClick={handleModalCancel}></i></div>
 
-                {image && <img src={image} />}
 
                 {children}
 

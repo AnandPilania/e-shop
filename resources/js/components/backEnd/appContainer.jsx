@@ -136,6 +136,11 @@ const Appcontainer = () => {
     const [nameProduct, setNameProduct] = useState('');
     const [descriptionProduct, setDescriptionProduct] = useState('');
     const [collection, setCollection] = useState([]);
+    const [productPrice, setProductPrice] = useState('');
+    const [previousProductPrice, setPreviousProductPrice] = useState(0);
+    const [productCost, setProductCost] = useState(0);
+    const [productStock, setProductStock] = useState(0);
+
 
 
     // supplier-------------------------------------------------------------
@@ -282,6 +287,15 @@ const Appcontainer = () => {
         document.getElementById('nameSupplier').style.border = "solid 1px rgb(220, 220, 220)";
     }
     //------------------------------------------------------reset supplier form
+
+    // reset product form ----------------------------------------------------
+    const initProductForm = () => {
+        setProductPrice(null);
+        setPreviousProductPrice(null);
+        setProductCost(null);
+        setIsDirty(false);
+    }
+    //------------------------------------------------------reset product form
 
     // remove caracteres unauthorized for url
     const normalizUrl = (str) => {
@@ -469,6 +483,10 @@ const Appcontainer = () => {
         supplier, setSupplier,
         initSupplierForm,
         collection, setCollection,
+        productPrice, setProductPrice,
+        previousProductPrice, setPreviousProductPrice,
+        productCost, setProductCost,
+        productStock, setProductStock,
 
     }
 

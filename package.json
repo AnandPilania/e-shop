@@ -41,6 +41,7 @@
         "html-react-parser": "^1.4.10",
         "material-ui": "^0.20.0",
         "npm-check-updates": "^12.1.0",
+        "react-beautiful-dnd": "^13.1.0",
         "react-color": "^2.19.3",
         "react-cropper": "^2.1.8",
         "react-datetime-picker": "^3.4.3",
