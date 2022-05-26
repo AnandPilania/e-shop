@@ -22,8 +22,11 @@ module.exports = {
                 'height': 'height'
             },
             gridTemplateColumns: {
-                // grid main container
-                'mainContainer': 'calc(66.6666% - 10px) calc(33.3333% - 10px)',
+                // Simple 16 column grid
+                '16': 'repeat(16, minmax(0, 1fr))',
+
+                // Complex site-specific column configuration
+                'footer': '200px minmax(900px, 1fr) 100px',
             }
         },
     },

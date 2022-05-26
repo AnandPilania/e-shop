@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.0.23 | MIT License | https://tailwindcss.com
+! tailwindcss v3.0.24 | MIT License | https://tailwindcss.com
 *//*
 1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
 2. Allow adding a border to an element by just adding a border-width. (https://github.com/tailwindcss/tailwindcss/pull/116)
@@ -512,15 +512,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .col-span-2 {
   grid-column: span 2 / span 2;
 }
-.col-span-full {
-  grid-column: 1 / -1;
-}
-.row-span-2 {
-  grid-row: span 2 / span 2;
-}
-.row-span-full {
-  grid-row: 1 / -1;
-}
 .m-auto {
   margin: auto;
 }
@@ -531,6 +522,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mx-1 {
   margin-left: 0.25rem;
   margin-right: 0.25rem;
+}
+.my-\[50px\] {
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 .ml-3 {
   margin-left: 0.75rem;
@@ -607,41 +602,26 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mt-6 {
   margin-top: 1.5rem;
 }
-.mb-\[10px\] {
-  margin-bottom: 10px;
-}
-.mr-\[17px\] {
-  margin-right: 17px;
+.mb-\[18px\] {
+  margin-bottom: 18px;
 }
 .mb-\[15px\] {
   margin-bottom: 15px;
 }
-.mb-\[5px\] {
-  margin-bottom: 5px;
-}
-.mb-\[1px\] {
-  margin-bottom: 1px;
+.mb-\[10px\] {
+  margin-bottom: 10px;
 }
 .mb-\[30px\] {
   margin-bottom: 30px;
 }
-.mb-\[16px\] {
-  margin-bottom: 16px;
-}
-.mb-\[15\] {
-  margin-bottom: 15;
-}
-.mb-\[18px\] {
-  margin-bottom: 18px;
-}
-.mt-0 {
-  margin-top: 0px;
-}
-.mt-px {
-  margin-top: 1px;
-}
 .mt-\[-3px\] {
   margin-top: -3px;
+}
+.mr-\[7px\] {
+  margin-right: 7px;
+}
+.mr-\[17px\] {
+  margin-right: 17px;
 }
 .block {
   display: block;
@@ -691,6 +671,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .h-auto {
   height: auto;
 }
+.h-\[40px\] {
+  height: 40px;
+}
 .h-\[24px\] {
   height: 24px;
 }
@@ -699,9 +682,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .h-\[120px\] {
   height: 120px;
-}
-.h-\[40px\] {
-  height: 40px;
 }
 .h-\[60px\] {
   height: 60px;
@@ -715,17 +695,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .h-\[17px\] {
   height: 17px;
 }
-.h-\[40px\"\] {
-  height: 40px";
-}
-.h-\[4\"0px\"\] {
-  height: 4"0px";
-}
-.h-\[\"40px\"\] {
-  height: "40px";
-}
 .min-h-screen {
   min-height: 100vh;
+}
+.min-h-\[130vh\] {
+  min-height: 130vh;
 }
 .w-5 {
   width: 1.25rem;
@@ -751,6 +725,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .w-48 {
   width: 12rem;
 }
+.w-\[60\%\] {
+  width: 60%;
+}
 .w-\[24px\] {
   width: 24px;
 }
@@ -771,6 +748,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .w-\[17px\] {
   width: 17px;
+}
+.min-w-\[750px\] {
+  min-width: 750px;
 }
 .max-w-7xl {
   max-width: 80rem;
@@ -829,14 +809,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
 }
+.grid-cols-mainContainer {
+  grid-template-columns: calc(66.6666% - 10px) calc(33.3333% - 10px);
+}
 .grid-cols-4 {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 .grid-cols-2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-.grid-cols-3 {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 .flex-row {
   flex-direction: row;
@@ -864,6 +844,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .justify-between {
   justify-content: space-between;
+}
+.gap-\[10px\] {
+  gap: 10px;
 }
 .gap-4 {
   gap: 1rem;
@@ -930,6 +913,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 .border-2 {
   border-width: 2px;
 }
+.border-y-\[1px\] {
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+}
 .border-b {
   border-bottom-width: 1px;
 }
@@ -944,6 +931,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .border-b-2 {
   border-bottom-width: 2px;
+}
+.border-r-\[1px\] {
+  border-right-width: 1px;
 }
 .border-l {
   border-left-width: 1px;
@@ -974,6 +964,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-border-opacity: 1;
   border-color: rgb(129 140 248 / var(--tw-border-opacity));
 }
+.border-slate-400 {
+  --tw-border-opacity: 1;
+  border-color: rgb(148 163 184 / var(--tw-border-opacity));
+}
 .border-slate-300 {
   --tw-border-opacity: 1;
   border-color: rgb(203 213 225 / var(--tw-border-opacity));
@@ -981,10 +975,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .border-slate-200 {
   --tw-border-opacity: 1;
   border-color: rgb(226 232 240 / var(--tw-border-opacity));
-}
-.border-slate-400 {
-  --tw-border-opacity: 1;
-  border-color: rgb(148 163 184 / var(--tw-border-opacity));
 }
 .bg-white {
   --tw-bg-opacity: 1;
@@ -1013,6 +1003,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 .bg-amber-300 {
   --tw-bg-opacity: 1;
   background-color: rgb(252 211 77 / var(--tw-bg-opacity));
+}
+.bg-slate-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(241 245 249 / var(--tw-bg-opacity));
 }
 .fill-current {
   fill: currentColor;
@@ -1084,6 +1078,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
+.px-\[10px\] {
+  padding-left: 10px;
+  padding-right: 10px;
+}
 .pr-4 {
   padding-right: 1rem;
 }
@@ -1126,14 +1124,17 @@ Ensure the default browser behavior of the `hidden` attribute.
 .pt-6 {
   padding-top: 1.5rem;
 }
+.pb-\[300px\] {
+  padding-bottom: 300px;
+}
+.pl-\[10px\] {
+  padding-left: 10px;
+}
 .pt-\[20px\] {
   padding-top: 20px;
 }
 .pl-\[17px\] {
   padding-left: 17px;
-}
-.pl-\[10px\] {
-  padding-left: 10px;
 }
 .text-left {
   text-align: left;
@@ -1167,20 +1168,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-\[15px\] {
   font-size: 15px;
 }
-.text-\[05px\] {
-  font-size: 05px;
-}
-.text-\[10px\] {
-  font-size: 10px;
-}
-.text-\[14px\] {
-  font-size: 14px;
+.text-\[16px\] {
+  font-size: 16px;
 }
 .text-\[13px\] {
   font-size: 13px;
-}
-.text-\[16px\] {
-  font-size: 16px;
 }
 .font-medium {
   font-weight: 500;
@@ -1276,6 +1268,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .antialiased {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+.caret-transparent {
+  caret-color: transparent;
 }
 .opacity-0 {
   opacity: 0;

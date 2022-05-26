@@ -424,8 +424,8 @@ const CreateCollection = () => {
 
 
     return (
-        <div className="form-main-container">
-            <div className="form-block-container">
+        <div className="min-w-[750px] w-[60%] min-h-[130vh] my-[50px] mx-auto pb-[300px] grid grid-cols-mainContainer gap-[10px]">
+            <div className="w-full">
                 <div className="div-vert-align">
                     <div className="w100pct h40 flex justify-s align-c">
                         <button className="w100 h40 flex-row-c-c brd-gray-light-1 radius5"

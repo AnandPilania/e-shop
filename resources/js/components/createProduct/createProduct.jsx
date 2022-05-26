@@ -77,7 +77,7 @@ const CreateProduct = (props) => {
     const [dataDetail, setDataDetail] = useState([]);
     const [showModalFromPrice, setShowModalFromPrice] = useState(false);
 
-    const { image, descriptionProduct, listSuppliers, setListSuppliers, supplier, setSupplier, collection, setCollection, productPrice, messageModal, setMessageModal } = useContext(AppContext);
+    const { image, descriptionProduct, listSuppliers, setListSuppliers, supplier, setSupplier, collection, setCollection, productPrice, productStock, messageModal, setMessageModal } = useContext(AppContext);
 
     useEffect(() => {
         // récupére les types de détails dans la table type_detail_products pour remplire le select id=selectdetails
@@ -113,11 +113,13 @@ const CreateProduct = (props) => {
     const validation = () => {
         // VALIDATION !!!
 
+        // price validation
         if (productPrice <= 0) {
             setMessageModal('Le champ prix est obligatoir');
             setShowModalFromPrice(true);
             return false;
         }
+
     }
 
     const closelModal = () => {
@@ -166,11 +168,11 @@ const CreateProduct = (props) => {
 
             });
     }
-
+ 
 
     return (
-        <div className="form-main-container text-[15px]">
-            <div className="form-block-container">
+        <div className="min-w-[750px] w-[60%] min-h-[130vh] my-[50px] mx-auto pb-[300px] grid grid-cols-mainContainer gap-[10px] text-[15px]">
+            <div className="w-full">
                 <div className="div-vert-align">
                     <h4 className="mb-[18px] font-semibold text-[20]">Ajouter un produit</h4>
 

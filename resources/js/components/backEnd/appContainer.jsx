@@ -139,7 +139,7 @@ const Appcontainer = () => {
     const [productPrice, setProductPrice] = useState('');
     const [previousProductPrice, setPreviousProductPrice] = useState(0);
     const [productCost, setProductCost] = useState(0);
-    const [productStock, setProductStock] = useState(0);
+    const [productStock, setProductStock] = useState('');
 
 
 

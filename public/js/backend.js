@@ -32343,7 +32343,7 @@ var Appcontainer = function Appcontainer() {
       productCost = _useState136[0],
       setProductCost = _useState136[1];
 
-  var _useState137 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+  var _useState137 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState138 = _slicedToArray(_useState137, 2),
       productStock = _useState138[0],
       setProductStock = _useState138[1]; // supplier-------------------------------------------------------------
@@ -35719,9 +35719,9 @@ var CreateCollection = function CreateCollection() {
   }
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
-    className: "form-main-container",
+    className: "min-w-[750px] w-[60%] min-h-[130vh] my-[50px] mx-auto pb-[300px] grid grid-cols-mainContainer gap-[10px]",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
-      className: "form-block-container",
+      className: "w-full",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
         className: "div-vert-align",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
@@ -38905,6 +38905,7 @@ var CreateProduct = function CreateProduct(props) {
       collection = _useContext.collection,
       setCollection = _useContext.setCollection,
       productPrice = _useContext.productPrice,
+      productStock = _useContext.productStock,
       messageModal = _useContext.messageModal,
       setMessageModal = _useContext.setMessageModal;
 
@@ -38936,6 +38937,7 @@ var CreateProduct = function CreateProduct(props) {
 
   var validation = function validation() {
     // VALIDATION !!!
+    // price validation
     if (productPrice <= 0) {
       setMessageModal('Le champ prix est obligatoir');
       setShowModalFromPrice(true);
@@ -38982,9 +38984,9 @@ var CreateProduct = function CreateProduct(props) {
   }
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
-    className: "form-main-container text-[15px]",
+    className: "min-w-[750px] w-[60%] min-h-[130vh] my-[50px] mx-auto pb-[300px] grid grid-cols-mainContainer gap-[10px] text-[15px]",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
-      className: "form-block-container",
+      className: "w-full",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsxs)("div", {
         className: "div-vert-align",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_12__.jsx)("h4", {
@@ -40511,6 +40513,8 @@ var Price = function Price() {
           onChange: handleProductPrice,
           value: productPrice,
           placeholder: "0.00",
+          min: "0",
+          max: "9999999999",
           className: "w-full h-[40px] border border-slate-400 rounded-4 pl-[10px] mb-[30px] mt-1"
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
@@ -40523,6 +40527,8 @@ var Price = function Price() {
           onChange: handlePreviousProductPrice,
           value: previousProductPrice,
           placeholder: "0.00",
+          min: "0",
+          max: "9999999999",
           className: "w-full h-[40px] border border-slate-400 rounded-4 pl-[10px] mb-[30px] mt-1"
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
@@ -40535,6 +40541,8 @@ var Price = function Price() {
           onChange: handleProductCost,
           value: productCost,
           placeholder: "0.00",
+          min: "0",
+          max: "9999999999",
           className: "w-full h-[40px] border border-slate-400 rounded-4 pl-[10px] mt-1"
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
@@ -40797,7 +40805,7 @@ var Stock = function Stock() {
       unlimited = _useState2[0],
       setUnlimited = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("&infin;"),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(String.fromCharCode(0x221E)),
       _useState4 = _slicedToArray(_useState3, 2),
       placeholder = _useState4[0],
       setPlaceholder = _useState4[1];
@@ -40810,12 +40818,29 @@ var Stock = function Stock() {
     setProductStock(e.target.value);
   };
 
+  var handleProductStockOnFocus = function handleProductStockOnFocus() {
+    var unlimitedStockCheckbox = document.getElementById('unlimitedStockCheckbox');
+    unlimitedStockCheckbox.checked = false;
+
+    if (unlimited) {
+      setUnlimited(!unlimited);
+      setPlaceholder('0');
+      var inputStock = document.getElementById('inputStock');
+      inputStock.style.backgroundColor = 'white';
+    }
+  };
+
   var handleUnlimitedStock = function handleUnlimitedStock() {
     if (!unlimited) {
+      var inputStock = document.getElementById('inputStock');
+      inputStock.style.backgroundColor = '#f1f5f9';
       setUnlimited(!unlimited);
       setProductStock('');
-      setPlaceholder("&infin;");
+      setPlaceholder(String.fromCharCode(0x221E));
     } else {
+      var _inputStock = document.getElementById('inputStock');
+
+      _inputStock.style.backgroundColor = 'white';
       setUnlimited(!unlimited);
       setProductStock('');
       setPlaceholder('0');
@@ -40834,16 +40859,30 @@ var Stock = function Stock() {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
           children: "Stock"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "flex flex-rox justify-start items-center",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
             type: "number",
             onChange: handleProductStock,
             value: productStock,
             placeholder: placeholder,
-            className: "w-full h-[40px] border border-slate-400 rounded-4 pl-[10px] mb-[30px] mt-1"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
-            type: "checkbox",
-            checked: unlimited,
-            onChange: handleUnlimitedStock
+            className: "w-full h-[40px] border border-slate-400 rounded-4 pl-[10px] mb-[30px] mt-1 bg-slate-100",
+            id: "inputStock",
+            min: "0",
+            max: "9999999999",
+            onClick: handleProductStockOnFocus
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("span", {
+            className: "flex flex-rox justify-start items-center h-[40px] border-y-[1px] border-r-[1px]  border-slate-400 rounded-4 px-[10px] mb-[30px] mt-1 cursor-pointer caret-transparent",
+            onClick: handleUnlimitedStock,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+              className: "mr-[7px] caret-transparent",
+              id: "unlimitedStockCheckbox",
+              type: "checkbox",
+              checked: unlimited,
+              onChange: handleUnlimitedStock
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+              className: "cursor-pointer caret-transparent",
+              children: "Illimit\xE9"
+            })]
           })]
         })]
       })

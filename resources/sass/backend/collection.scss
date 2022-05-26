@@ -8,22 +8,22 @@
     box-sizing: border-box;
 }
 
-.form-main-container {
-    min-width: 750px;
-    width: 60%;
-    min-height: 130vh;
-    margin: 50px auto;
-    padding-bottom: 300px;
-    display: grid;
-    grid-template-columns: calc(66.6666% - 10px) calc(33.3333% - 10px);
-    grid-gap: 10px;
-    // border: solid 2px rgb(52, 184, 0);
-}
+// .form-main-container {
+//     min-width: 750px;
+//     width: 60%;
+//     min-height: 130vh;
+//     margin: 50px auto;
+//     padding-bottom: 300px;
+//     display: grid;
+//     grid-template-columns: calc(66.6666% - 10px) calc(33.3333% - 10px);
+//     grid-gap: 10px;
+//     // border: solid 2px rgb(52, 184, 0);
+// }
 
-.form-block-container {
-    width: 100%;
-    // border: solid 2px red;
-}
+// .form-block-container {
+//     width: 100%;
+//     // border: solid 2px red;
+// }
 
 
 
@@ -210,7 +210,7 @@
 }
 
 /* Tooltip text */
-.form-main-container .tooltip_ .tooltiptext,
+.tooltip_ .tooltiptext,
 .listCollections .tooltip_ .tooltiptext {
     visibility: hidden;
     width: 300px;
@@ -233,7 +233,7 @@
 }
 
 /* Show the tooltip_ text when you mouse over the tooltip_ container */
-.form-main-container .tooltip_:hover .tooltiptext,
+.tooltip_:hover .tooltiptext,
 .listCollections .tooltip_:hover .tooltiptext {
     visibility: visible;
     -webkit-animation: scale-in-center 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)
@@ -243,7 +243,7 @@
     cursor: default;
 }
 
-.form-main-container .tooltip_:hover,
+.tooltip_:hover,
 .listCollections .tooltip_:hover {
     cursor: pointer;
 }
