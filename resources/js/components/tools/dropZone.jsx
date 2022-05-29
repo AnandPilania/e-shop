@@ -117,9 +117,8 @@ const DropZone = (props) => {
         dropRegion.addEventListener('drop', unhighlight, false);
 
 
-        // init preview image !!! à GARDER !!! permet de recharcher l'image collection quand on crop ou qu'on annulle le crop 
+        // init preview image !!! à GARDER !!! permet de recharger l'image collection quand on crop ou qu'on annulle le crop 
         if (!is_Edit) {
-            // if (id !== null) { 
             try {
                 Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage/${"pas_besoin_de_id"}`)
                     .then(res => {
@@ -140,9 +139,7 @@ const DropZone = (props) => {
             } catch (error) {
                 console.error('error  ' + error);
             }
-            // }
         }
-
     }, []);
 
     // when collection is edited
@@ -412,7 +409,7 @@ const DropZone = (props) => {
                     <span className="scale-1_15 tooltip_"
                         onClick={() => goToCrop()}>
                         <img src='../images/icons/crop.svg' className="w20 h20" />
-                           <span className="tooltiptext">
+                        <span className="tooltiptext">
                             Redimensionner l'image
                         </span>
                     </span>

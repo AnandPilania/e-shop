@@ -497,6 +497,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 .left-0 {
   left: 0px;
 }
+.top-\[5px\] {
+  top: 5px;
+}
+.right-\[5px\] {
+  right: 5px;
+}
 .top-\[40px\] {
   top: 40px;
 }
@@ -683,6 +689,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .h-\[120px\] {
   height: 120px;
 }
+.h-\[25px\] {
+  height: 25px;
+}
 .h-\[60px\] {
   height: 60px;
 }
@@ -736,6 +745,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .w-\[120px\] {
   width: 120px;
+}
+.w-\[25px\] {
+  width: 25px;
 }
 .w-\[40px\] {
   width: 40px;
@@ -1004,6 +1016,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-bg-opacity: 1;
   background-color: rgb(252 211 77 / var(--tw-bg-opacity));
 }
+.bg-\[\#d23e44\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(210 62 68 / var(--tw-bg-opacity));
+}
 .bg-slate-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(241 245 249 / var(--tw-bg-opacity));
@@ -1253,10 +1269,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-text-opacity: 1;
   color: rgb(220 38 38 / var(--tw-text-opacity));
 }
-.text-blue-600 {
-  --tw-text-opacity: 1;
-  color: rgb(37 99 235 / var(--tw-text-opacity));
-}
 .text-stone-800 {
   --tw-text-opacity: 1;
   color: rgb(41 37 36 / var(--tw-text-opacity));
@@ -1415,9 +1427,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-bg-opacity: 1;
   background-color: rgb(241 245 249 / var(--tw-bg-opacity));
 }
-.hover\:font-semibold:hover {
-  font-weight: 600;
-}
 .hover\:text-gray-500:hover {
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity));
@@ -1437,10 +1446,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .hover\:text-gray-900:hover {
   --tw-text-opacity: 1;
   color: rgb(17 24 39 / var(--tw-text-opacity));
-}
-.hover\:underline:hover {
-  -webkit-text-decoration-line: underline;
-          text-decoration-line: underline;
 }
 .focus\:z-10:focus {
   z-index: 10;

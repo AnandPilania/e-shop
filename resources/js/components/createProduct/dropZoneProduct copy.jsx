@@ -7,7 +7,6 @@ const DropZoneProduct = () => {
 
     const [showModal, setShowModal] = useState(false);
     const [urlValue, setUrlValue] = useState('');
-    const [fileList, setFileList] = useState([]);
 
     const { image, setImage } = useContext(AppContext);
 
@@ -85,7 +84,6 @@ const DropZoneProduct = () => {
         var dt = e.dataTransfer,
             files = dt.files;
         if (files.length) {
-            console.log('handleDrop files  ', files)
             handleFiles(files);
         } else {
             alert('not files.length')
@@ -115,7 +113,7 @@ const DropZoneProduct = () => {
                 var file = new File([blob], "myImageName", {
                     type: "image/*",
                 });
-                console.log('uploadImageFromURL file  ', file)
+
                 handleFiles([file]);
             }, 'image/*', 0.95);
         };
@@ -129,30 +127,17 @@ const DropZoneProduct = () => {
 
     // affiche et sauvegarde les images
     function handleFiles(files) {
-        let unvalidate = [];
+        let tmp_tab = image;
         Object.values(files).map(item => {
-            if (!validateImage(item)) {
-                unvalidate.push(item);
+            if (validateImage(item)) {
+                tmp_tab.push(item);
+                previewImage(item);
             }
         });
-
-        if (unvalidate.length == 0) {
-            let tmp_fileList = [];
-            
-            for (let i = 0; i < files.length; i++) {
-                let obj = {};
-                obj.order = i;
-                obj.file = files[i];
-                tmp_fileList.push(obj);
-            }
-            setFileList(tmp_fileList);
-            // setFileList(Array.from(files));
-        } else {
-            alert('Il y a un problème avec un ou plusieurs fichers')
-        }
+        setImage(tmp_tab);
     }
-    // previewImage(item);
-    console.log('fileList  ', fileList)
+
+
 
 
     function validateImage(image) {
@@ -314,12 +299,6 @@ const DropZoneProduct = () => {
                     className='grid gap-4 grid-cols-4'>
 
                     {/* ici sont injectés les images */}
-
-                    {!!fileList && fileList.map((imageFile, ndx) =>
-                        previewImage(imageFile.file)
-
-                    )
-                    }
 
                     <div id="drop-card"
                         className='flex-col justify-center items-center w-[120px] h-[120px] p-[20px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer rounded'>

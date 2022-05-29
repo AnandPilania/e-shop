@@ -3111,6 +3111,14 @@ a.link:hover {
   border: solid 1px black;
 }
 
+.brd-green-1 {
+  border: solid 2px #05ca26;
+}
+
+.brd-pink-1 {
+  border: solid 2px #e453dc;
+}
+
 .brd-drop-zone {
   border: #d6d6d6 dashed 5px;
   transition: ease-out 0.2s;

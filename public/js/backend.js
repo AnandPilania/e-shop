@@ -39116,12 +39116,17 @@ var DropZoneProduct = function DropZoneProduct() {
       urlValue = _useState4[0],
       setUrlValue = _useState4[1];
 
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState6 = _slicedToArray(_useState5, 2),
+      fileList = _useState6[0],
+      setFileList = _useState6[1];
+
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       image = _useContext.image,
       setImage = _useContext.setImage;
 
   var dropRegion = null;
-  var imagePreviewRegion = null;
+  var imagePreviewZone = null;
   var fakeInput = null;
   var mainImageProduct = null;
   var dropCard = null;
@@ -39187,6 +39192,7 @@ var DropZoneProduct = function DropZoneProduct() {
         files = dt.files;
 
     if (files.length) {
+      console.log('handleDrop files  ', files);
       handleFiles(files);
     } else {
       alert('not files.length'); // check for img
@@ -39218,6 +39224,7 @@ var DropZoneProduct = function DropZoneProduct() {
         var file = new File([blob], "myImageName", {
           type: "image/*"
         });
+        console.log('uploadImageFromURL file  ', file);
         handleFiles([file]);
       }, 'image/*', 0.95);
     };
@@ -39233,17 +39240,31 @@ var DropZoneProduct = function DropZoneProduct() {
 
 
   function handleFiles(files) {
-    var tmp_tab = image;
-
-    for (var i = 0; i < files.length; i++) {
-      if (validateImage(files[i])) {
-        tmp_tab.push(files[i]);
-        previewImage(files[i]);
+    var unvalidate = [];
+    Object.values(files).map(function (item) {
+      if (!validateImage(item)) {
+        unvalidate.push(item);
       }
-    }
+    });
 
-    setImage(tmp_tab);
-  }
+    if (unvalidate.length == 0) {
+      var tmp_fileList = [];
+
+      for (var i = 0; i < files.length; i++) {
+        var obj = {};
+        obj.order = i;
+        obj.file = files[i];
+        tmp_fileList.push(obj);
+      }
+
+      setFileList(tmp_fileList); // setFileList(Array.from(files));
+    } else {
+      alert('Il y a un problème avec un ou plusieurs fichers');
+    }
+  } // previewImage(item);
+
+
+  console.log('fileList  ', fileList);
 
   function validateImage(image) {
     // check the type
@@ -39277,37 +39298,29 @@ var DropZoneProduct = function DropZoneProduct() {
   }
 
   function previewImage(imageFile) {
-    imagePreviewRegion = document.getElementById("image-preview");
+    imagePreviewZone = document.getElementById("image-preview-zone");
     setDropRegion();
     dropCard = document.getElementById("drop-card");
     mainImageProduct = document.getElementById("main-image-product");
-    mainImageProduct.style.cursor = 'pointer'; // image card
+    mainImageProduct.style.cursor = 'pointer'; // div qui contient une image affichée dns la imagePreviewZone
 
     var imgView = document.createElement("div");
-    imgView.className = "image-view border border-slate-300 rounded group";
-    imgView.style.display = 'flex';
-    imgView.style.justifyContent = 'center';
-    imgView.style.alignItems = 'center';
-    imgView.style.marginBottom = '20px';
-    imgView.style.width = '120px';
-    imgView.style.height = '120px';
-    imgView.style.position = 'relative';
-    imagePreviewRegion.appendChild(imgView); // image
+    imgView.className = "image-view flex flex-row justify-center items-center mb[20px] h-[120px] w-[120px] relative border border-slate-300 rounded group"; // empèche le drag and drop des image qui sont dans la image-preview-zone
+
+    imgView.addEventListener('dragstart', function (e) {
+      e.preventDefault();
+    });
+    imgView.addEventListener('drop', function (e) {
+      e.preventDefault();
+    });
+    imagePreviewZone.appendChild(imgView); // image
 
     var img = document.createElement("img");
-    img.setAttribute('class', 'imgClass');
-    img.style.borderRadius = '4px';
+    img.className = 'imgClass';
     imgView.appendChild(img); // button remove
 
     var removeImg = document.createElement("button");
-    removeImg.className = "removeImg invisible group-hover:visible";
-    removeImg.style.position = 'absolute';
-    removeImg.style.top = '5px';
-    removeImg.style.right = '5px';
-    removeImg.style.width = '25px';
-    removeImg.style.height = '25px';
-    removeImg.style.backgroundColor = '#d23e44';
-    removeImg.style.borderRadius = '3px';
+    removeImg.className = "removeImg invisible group-hover:visible absolute top-[5px] right-[5px] w-[25px] h-[25px] bg-[#d23e44] rounded";
     removeImg.setAttribute('id', 'removeImg');
     removeImg.addEventListener('click', function () {
       // ici checker si isProductEdit pour choisir de remove image from DOM ou from DataBase !!!
@@ -39323,7 +39336,7 @@ var DropZoneProduct = function DropZoneProduct() {
       ;
       imgView.remove();
 
-      if (imagePreviewRegion.childElementCount == 1) {
+      if (imagePreviewZone.childElementCount == 1) {
         dropCard.style.display = 'none'; // setTimeout permet de ne pas déclencher fakeInputTrigger immédiatement après la suppression du dernier imgView
 
         setTimeout(function () {
@@ -39331,17 +39344,14 @@ var DropZoneProduct = function DropZoneProduct() {
           setDropRegion();
           dropRegion.style.cursor = 'pointer';
         }, 10);
-        var dashedZone = document.getElementById('dashed-zone');
-        dashedZone.className = "flex-col justify-start items-center bg-white rounded-md w-full p-[40px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer";
+        dropRegion.className = "w-full h-full flex-col justify-start items-center bg-white rounded-md p-[40px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer";
       }
 
       handleImgViewIndex();
     });
     imgView.appendChild(removeImg);
     var svgCancel = document.createElement("img");
-    svgCancel.style.width = '25px';
-    svgCancel.style.height = '25px';
-    svgCancel.style.borderRadius = '3px';
+    svgCancel.className = 'w-[25px] h-[25px] rounded';
     svgCancel.src = '../images/icons/x-white.svg';
     removeImg.appendChild(svgCancel); // read the image...
 
@@ -39362,10 +39372,9 @@ var DropZoneProduct = function DropZoneProduct() {
       addImageProduct.addEventListener('click', fakeInputTrigger);
       var countImgClass = document.getElementsByClassName("imgClass");
       dropCard.style.order = countImgClass.length;
-      mainImageProduct.style.cursor = 'default'; // met en blanc la dashed border pour simuler sa disparition
+      mainImageProduct.style.cursor = 'default'; // met en blanc la dashed border de la dropRegion pour simuler sa disparition
 
-      var dashedZone = document.getElementById('dashed-zone');
-      dashedZone.className = "flex-col justify-start items-center bg-white rounded-md w-full p-[40px] border-2 border-slate-200  cursor-default";
+      dropRegion.className = "flex-col justify-start items-center bg-white rounded-md w-full p-[40px] border-2 border-slate-200  cursor-default";
       handleImgViewIndex();
       var width = img.clientWidth;
       var height = img.clientHeight;
@@ -39376,7 +39385,7 @@ var DropZoneProduct = function DropZoneProduct() {
         img.style.height = '120px';
       }
     };
-  } // crée les id des image-view à chaque ajout ou suppression d'images
+  } // crée les ids des image-view à chaque ajout ou suppression d'images
 
 
   function handleImgViewIndex() {
@@ -39403,31 +39412,29 @@ var DropZoneProduct = function DropZoneProduct() {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
     id: "main-image-product",
     className: "flex-col justify-start items-start bg-white rounded-md w-full p-[20px] mb-[10px] shadow-md",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
       id: "drop-region",
-      className: "w-full h-full",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-        id: "dashed-zone",
-        className: "flex-col justify-start items-center bg-white rounded-md w-full p-[40px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-          className: "drop-message w100pct txt-c",
-          children: "D\xE9posez vos images ou cliquez pour t\xE9l\xE9charger"
+      className: "w-full h-full flex-col justify-start items-center bg-white rounded-md p-[40px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "drop-message w100pct txt-c",
+        children: "D\xE9posez vos images ou cliquez pour t\xE9l\xE9charger"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        id: "image-preview-zone",
+        className: "grid gap-4 grid-cols-4",
+        children: [!!fileList && fileList.map(function (imageFile, ndx) {
+          return previewImage(imageFile.file);
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-          id: "image-preview",
-          className: "grid gap-4 grid-cols-4",
+          id: "drop-card",
+          className: "flex-col justify-center items-center w-[120px] h-[120px] p-[20px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer rounded",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-            id: "drop-card",
-            className: "flex-col justify-center items-center w-[120px] h-[120px] p-[20px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer rounded",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-              className: "w-[40px] h-[40px] m-auto  hover:bg-slate-100 hover:cursor-pointer",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
-                src: "../images/icons/add-square-dotted.svg",
-                className: "w-[60px] h-[60px]"
-              })
+            className: "w-[40px] h-[40px] m-auto  hover:bg-slate-100 hover:cursor-pointer",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+              src: "../images/icons/add-square-dotted.svg",
+              className: "w-[60px] h-[60px]"
             })
           })
         })]
-      })
+      })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_elements_modalInput__WEBPACK_IMPORTED_MODULE_2__["default"], {
       show: showModal,
       handleModalCancel: hideModal,
@@ -43755,10 +43762,9 @@ var DropZone = function DropZone(props) {
     dropRegion.addEventListener('dragenter', highlight, false);
     dropRegion.addEventListener('dragover', highlight, false);
     dropRegion.addEventListener('dragleave', unhighlight, false);
-    dropRegion.addEventListener('drop', unhighlight, false); // init preview image !!! à GARDER !!! permet de recharcher l'image collection quand on crop ou qu'on annulle le crop 
+    dropRegion.addEventListener('drop', unhighlight, false); // init preview image !!! à GARDER !!! permet de recharger l'image collection quand on crop ou qu'on annulle le crop 
 
     if (!is_Edit) {
-      // if (id !== null) { 
       try {
         axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getSingleTemporaryImage/".concat("pas_besoin_de_id")).then(function (res) {
           if (res.data !== undefined && res.data != '') {
@@ -43775,8 +43781,7 @@ var DropZone = function DropZone(props) {
         });
       } catch (error) {
         console.error('error  ' + error);
-      } // }
-
+      }
     }
   }, []); // when collection is edited
 
