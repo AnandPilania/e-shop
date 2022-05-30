@@ -33,6 +33,16 @@ class TemporaryStorageController extends Controller
     }
 
 
+    // récupère toutes les image pour une key donnée
+    public function getTemporaryImages($key)
+    {
+
+        $images = Temporary_storage::where('key', $key)->get();
+
+        return $images;
+    }
+
+
     // stock des images temporaires
     public function temporaryStoreImages(Request $request)
     {
@@ -81,6 +91,8 @@ class TemporaryStorageController extends Controller
         }
     }
 
+
+
     // delete all images which have the provided key from Temporary_storage
     public function deleteTemporayStoredElements(Request $request)
     {
@@ -90,7 +102,7 @@ class TemporaryStorageController extends Controller
             Temporary_storage::destroy($toDelete->id);
         }
 
-        // si la collection a déjà été suvegardée on supprime l'image et la thumbnail dans la db et dans le dossier images
+        // Concerne COLLECTION -> si la collection a déjà été suvegardée on supprime l'image et la thumbnail dans la db et dans le dossier images
         $collection = Collection::find($request->idCollection)->first();
         if ($collection !== null) {
             File::delete(public_path($collection->image));
@@ -99,6 +111,18 @@ class TemporaryStorageController extends Controller
             $collection->thumbnail = null;
             $collection->save();
         }
+        return 'ok';
+    }
+
+    // delete one element by id 
+    public function deleteOneElementById($id)
+    {
+        // dd($id);
+        $tmp_storage = Temporary_storage::where('id', $id)->first();
+
+        File::delete(public_path($tmp_storage->value));
+        Temporary_storage::destroy($tmp_storage->id);
+
         return 'ok';
     }
 

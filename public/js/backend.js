@@ -39085,7 +39085,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
 /* harmony import */ var _elements_modalInput__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../elements/modalInput */ "./resources/js/components/elements/modalInput.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -39105,6 +39107,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var DropZoneProduct = function DropZoneProduct() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
@@ -39116,11 +39119,6 @@ var DropZoneProduct = function DropZoneProduct() {
       urlValue = _useState4[0],
       setUrlValue = _useState4[1];
 
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState6 = _slicedToArray(_useState5, 2),
-      fileList = _useState6[0],
-      setFileList = _useState6[1];
-
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       image = _useContext.image,
       setImage = _useContext.setImage;
@@ -39130,11 +39128,20 @@ var DropZoneProduct = function DropZoneProduct() {
   var fakeInput = null;
   var mainImageProduct = null;
   var dropCard = null;
-  var addImageProduct = null;
-
-  function fakeInputTrigger() {
-    fakeInput.click();
-  }
+  var addImageProduct = null; // function fakeInputTrigger() {
+  //     fakeInput.click();
+  // }
+  // function createFakeInput() {
+  //     // open file selector when clicked on the drop region
+  //     fakeInput = document.createElement("input");
+  //     fakeInput.type = "file";
+  //     fakeInput.accept = "image/*, video/*";
+  //     fakeInput.multiple = true;
+  //     fakeInput.addEventListener("change", function () {
+  //         var files = fakeInput.files;
+  //         handleFiles(files);
+  //     });
+  // }
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     document.getElementById("drop-card").style.display = 'none'; // open file selector when clicked on the drop region
@@ -39173,7 +39180,11 @@ var DropZoneProduct = function DropZoneProduct() {
   function setDropRegion() {
     dropRegion = document.getElementById("drop-region"); // open files exploratore when click on dropRegion
 
-    dropRegion.addEventListener('click', fakeInputTrigger); // empèche le comportement par défault et la propagation
+    dropRegion.addEventListener('click', function () {
+      var _fakeInput;
+
+      return (_fakeInput = fakeInput) === null || _fakeInput === void 0 ? void 0 : _fakeInput.click();
+    }); // empèche le comportement par défault et la propagation
 
     dropRegion.addEventListener('dragenter', preventDefault, false);
     dropRegion.addEventListener('dragleave', preventDefault, false);
@@ -39192,7 +39203,6 @@ var DropZoneProduct = function DropZoneProduct() {
         files = dt.files;
 
     if (files.length) {
-      console.log('handleDrop files  ', files);
       handleFiles(files);
     } else {
       alert('not files.length'); // check for img
@@ -39224,7 +39234,6 @@ var DropZoneProduct = function DropZoneProduct() {
         var file = new File([blob], "myImageName", {
           type: "image/*"
         });
-        console.log('uploadImageFromURL file  ', file);
         handleFiles([file]);
       }, 'image/*', 0.95);
     };
@@ -39240,31 +39249,56 @@ var DropZoneProduct = function DropZoneProduct() {
 
 
   function handleFiles(files) {
-    var unvalidate = [];
+    var tmp_tab = image;
     Object.values(files).map(function (item) {
-      if (!validateImage(item)) {
-        unvalidate.push(item);
+      if (validateImage(item)) {
+        tmp_tab.push(item); // export function saveInTemporaryStorage(key, value, blobImageName) {
+
+        var tmp_Data = new FormData();
+        tmp_Data.append('key', 'tmp_productImage');
+        var name = item.name;
+        tmp_Data.append('value', item, name);
+        axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/temporaryStoreImages", tmp_Data, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then(function (res) {
+          console.log('ok');
+        })["catch"](function (error) {
+          console.log('Error Image upload failed : ' + error.status);
+        });
       }
     });
+    axios__WEBPACK_IMPORTED_MODULE_3___default().get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage').then(function (res) {
+      console.log('res.data  ', res.data);
+      setImage(res.data);
+    })["catch"](function (error) {
+      console.log('Error get Product Images failed : ' + error.status);
+    });
+  }
 
-    if (unvalidate.length == 0) {
-      var tmp_fileList = [];
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    if (image.length > 0) {
+      dropRegion = document.getElementById("drop-region");
+      dropCard = document.getElementById("drop-card");
+      mainImageProduct = document.getElementById("main-image-product"); // cancel --> open files explorator when click on dropRegion
 
-      for (var i = 0; i < files.length; i++) {
-        var obj = {};
-        obj.order = i;
-        obj.file = files[i];
-        tmp_fileList.push(obj);
-      }
+      dropRegion.removeEventListener('click', function () {
+        return fakeInput.click();
+      });
+      dropCard.style.display = 'block'; // open files exploratore when click on drop-card
 
-      setFileList(tmp_fileList); // setFileList(Array.from(files));
-    } else {
-      alert('Il y a un problème avec un ou plusieurs fichers');
+      addImageProduct = document.getElementById('drop-card');
+      addImageProduct.addEventListener('click', function () {
+        return fakeInput.click();
+      });
+      var countImgClass = document.getElementsByClassName("imgClass");
+      dropCard.style.order = countImgClass.length;
+      mainImageProduct.style.cursor = 'default'; // met en blanc la dashed border de la dropRegion pour simuler sa disparition
+
+      dropRegion.className = "flex-col justify-start items-center bg-white rounded-md w-full p-[40px] border-2 border-slate-200  cursor-default"; // handleImgViewIndex();
     }
-  } // previewImage(item);
-
-
-  console.log('fileList  ', fileList);
+  }, [image]);
 
   function validateImage(image) {
     // check the type
@@ -39299,61 +39333,18 @@ var DropZoneProduct = function DropZoneProduct() {
 
   function previewImage(imageFile) {
     imagePreviewZone = document.getElementById("image-preview-zone");
-    setDropRegion();
     dropCard = document.getElementById("drop-card");
     mainImageProduct = document.getElementById("main-image-product");
     mainImageProduct.style.cursor = 'pointer'; // div qui contient une image affichée dns la imagePreviewZone
 
-    var imgView = document.createElement("div");
-    imgView.className = "image-view flex flex-row justify-center items-center mb[20px] h-[120px] w-[120px] relative border border-slate-300 rounded group"; // empèche le drag and drop des image qui sont dans la image-preview-zone
+    var imgView = document.getElementById("imgView"); // empèche le drag and drop des image qui sont dans la image-preview-zone
 
     imgView.addEventListener('dragstart', function (e) {
       e.preventDefault();
     });
     imgView.addEventListener('drop', function (e) {
       e.preventDefault();
-    });
-    imagePreviewZone.appendChild(imgView); // image
-
-    var img = document.createElement("img");
-    img.className = 'imgClass';
-    imgView.appendChild(img); // button remove
-
-    var removeImg = document.createElement("button");
-    removeImg.className = "removeImg invisible group-hover:visible absolute top-[5px] right-[5px] w-[25px] h-[25px] bg-[#d23e44] rounded";
-    removeImg.setAttribute('id', 'removeImg');
-    removeImg.addEventListener('click', function () {
-      // ici checker si isProductEdit pour choisir de remove image from DOM ou from DataBase !!!
-      // suppression de l'image dans image "hook"
-      var imgView_index = imgView.id.replace('imgView', '');
-
-      if (imgView_index != undefined && imgView_index != null && imgView_index != '') {
-        var tab = image;
-        tab.splice(imgView_index, 1);
-        setImage(tab);
-      }
-
-      ;
-      imgView.remove();
-
-      if (imagePreviewZone.childElementCount == 1) {
-        dropCard.style.display = 'none'; // setTimeout permet de ne pas déclencher fakeInputTrigger immédiatement après la suppression du dernier imgView
-
-        setTimeout(function () {
-          fakeInput.value = '';
-          setDropRegion();
-          dropRegion.style.cursor = 'pointer';
-        }, 10);
-        dropRegion.className = "w-full h-full flex-col justify-start items-center bg-white rounded-md p-[40px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer";
-      }
-
-      handleImgViewIndex();
-    });
-    imgView.appendChild(removeImg);
-    var svgCancel = document.createElement("img");
-    svgCancel.className = 'w-[25px] h-[25px] rounded';
-    svgCancel.src = '../images/icons/x-white.svg';
-    removeImg.appendChild(svgCancel); // read the image...
+    }); // read the image...
 
     var reader = new FileReader();
 
@@ -39361,30 +39352,31 @@ var DropZoneProduct = function DropZoneProduct() {
       img.src = e.target.result;
     };
 
-    reader.readAsDataURL(imageFile); // cadrage de l'image
+    reader.readAsDataURL(imageFile);
+  }
 
-    img.onload = function () {
-      // cancel --> open files explorator when click on dropRegion
-      dropRegion.removeEventListener('click', fakeInputTrigger);
-      dropCard.style.display = 'block'; // open files exploratore when click on dropRegion
+  function removeOneImage(id) {
+    axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/deleteOneElementById/".concat(id)).then(function (res) {
+      console.log('res.data  --->  ok');
+    })["catch"](function (error) {
+      console.log('Error delete Product Image failed : ' + error.status);
+    });
+    axios__WEBPACK_IMPORTED_MODULE_3___default().get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage').then(function (res) {
+      console.log('res.data  ', res.data);
 
-      addImageProduct = document.getElementById('drop-card');
-      addImageProduct.addEventListener('click', fakeInputTrigger);
-      var countImgClass = document.getElementsByClassName("imgClass");
-      dropCard.style.order = countImgClass.length;
-      mainImageProduct.style.cursor = 'default'; // met en blanc la dashed border de la dropRegion pour simuler sa disparition
+      if (res.data.length === 0) {
+        dropCard.style.display = 'none'; // open files exploratore when click on dropRegion
 
-      dropRegion.className = "flex-col justify-start items-center bg-white rounded-md w-full p-[40px] border-2 border-slate-200  cursor-default";
-      handleImgViewIndex();
-      var width = img.clientWidth;
-      var height = img.clientHeight;
-
-      if (width > height) {
-        img.style.width = '120px';
-      } else {
-        img.style.height = '120px';
+        dropRegion.addEventListener('click', function () {
+          return fakeInput.click();
+        });
+        dropRegion.className = "w-full h-full flex-col justify-start items-center bg-white rounded-md p-[40px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer";
       }
-    };
+
+      setImage(res.data);
+    })["catch"](function (error) {
+      console.log('Error get Product Images failed : ' + error.status);
+    }); // handleImgViewIndex();
   } // crée les ids des image-view à chaque ajout ou suppression d'images
 
 
@@ -39409,39 +39401,56 @@ var DropZoneProduct = function DropZoneProduct() {
     setShowModal(false);
   }
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
     id: "main-image-product",
     className: "flex-col justify-start items-start bg-white rounded-md w-full p-[20px] mb-[10px] shadow-md",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
       id: "drop-region",
       className: "w-full h-full flex-col justify-start items-center bg-white rounded-md p-[40px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
         className: "drop-message w100pct txt-c",
         children: "D\xE9posez vos images ou cliquez pour t\xE9l\xE9charger"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         id: "image-preview-zone",
         className: "grid gap-4 grid-cols-4",
-        children: [!!fileList && fileList.map(function (imageFile, ndx) {
-          return previewImage(imageFile.file);
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        children: [image.length > 0 && image.map(function (item) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+            id: "imgView",
+            className: "image-view flex flex-row justify-center items-center mb[20px] h-[120px] w-[120px] relative border border-slate-300 rounded group",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
+              className: "imgClass",
+              src: window.location.origin + '/' + item.value
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+              id: "removeImg",
+              className: "removeImg invisible group-hover:visible absolute top-[5px] right-[5px] w-[25px] h-[25px] bg-[#d23e44] rounded",
+              onClick: function onClick() {
+                return removeOneImage(item.id);
+              },
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
+                className: "w-[25px] h-[25px] rounded",
+                src: "../images/icons/x-white.svg"
+              })
+            })]
+          }, item.id);
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
           id: "drop-card",
           className: "flex-col justify-center items-center w-[120px] h-[120px] p-[20px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer rounded",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
             className: "w-[40px] h-[40px] m-auto  hover:bg-slate-100 hover:cursor-pointer",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
               src: "../images/icons/add-square-dotted.svg",
               className: "w-[60px] h-[60px]"
             })
           })
         })]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_elements_modalInput__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_elements_modalInput__WEBPACK_IMPORTED_MODULE_2__["default"], {
       show: showModal,
       handleModalCancel: hideModal,
       setInputValue: setUrlValue,
       inputValue: urlValue,
       ModalConfirm: ModalConfirm,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h2", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h2", {
         className: "childrenModal",
         children: "Entrez l'URL de l'image"
       })

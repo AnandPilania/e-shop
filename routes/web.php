@@ -80,6 +80,12 @@ Route::post('/temporaryStoreImages', [TemporaryStorageController::class, 'tempor
 // get temporary collection image
 Route::get('/getSingleTemporaryImage/{id}', [TemporaryStorageController::class, 'getSingleTemporaryImage']);
 
+// get temporary collection image
+Route::get('/getTemporaryImages/{key}', [TemporaryStorageController::class, 'getTemporaryImages']);
+
+// delete temporary element by id
+Route::get('/deleteOneElementById/{id}', [TemporaryStorageController::class, 'deleteOneElementById']);
+
 // delete temporary collection image
 Route::post('/deleteTemporayStoredElements', [TemporaryStorageController::class, 'deleteTemporayStoredElements']);
 
