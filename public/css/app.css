@@ -704,6 +704,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .h-\[17px\] {
   height: 17px;
 }
+.max-h-\[120px\] {
+  max-height: 120px;
+}
 .min-h-screen {
   min-height: 100vh;
 }
@@ -772,6 +775,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .max-w-6xl {
   max-width: 72rem;
+}
+.max-w-\[120px\] {
+  max-width: 120px;
 }
 .flex-1 {
   flex: 1 1 0%;
@@ -1026,6 +1032,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .fill-current {
   fill: currentColor;
+}
+.object-contain {
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 .p-2 {
   padding: 0.5rem;
