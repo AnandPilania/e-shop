@@ -7,7 +7,7 @@ use App\Models\Product;
 use App\Models\Collection;
 use Illuminate\Http\Request;
 use App\Models\Product_sheet;
-use App\Models\Images_product;
+use App\Models\Image_variante;
 use App\Models\Product_detail;
 use Illuminate\Support\Facades\DB;
 use App\Models\Type_detail_product;
@@ -113,7 +113,7 @@ class ProductController extends Controller
         $images = $request->file('image');
         $i = 1;
         foreach ($images as $image) {
-            $image_product = new Images_product;
+            $image_variante = new Image_variante;
             // on crée une random string pour ajouter au nom de l'image
             $random = substr(str_shuffle("0123456789abcdefghijklmnopqrstvwxyz"), 0, 10);
             // on explode pour récuppérer le nom sans l'extention
@@ -136,10 +136,10 @@ class ProductController extends Controller
             // });
             $imgFile->save($destinationPath . '/' . $input['image']);
 
-            $image_product->path = 'images/' . $input['image'];
-            $image_product->ordre = $i;
-            $image_product->product_id = $product->id;
-            $image_product->save();
+            $image_variante->path = 'images/' . $input['image'];
+            $image_variante->ordre = $i;
+            $image_variante->product_id = $product->id;
+            $image_variante->save();
 
             $i++;
         }
@@ -261,7 +261,7 @@ class ProductController extends Controller
     // pour react edit_images.jsx
     public function editImagesProduct($id)
     {
-        $images_product = Images_product::where('product_id', $id)
+        $images_product = Image_variante::where('product_id', $id)
             ->orderBy('ordre')
             ->get();
 
@@ -272,11 +272,11 @@ class ProductController extends Controller
     public function replaceImagesProduct(Request $request)
     {
         // dd($request);
-        $image_product = Images_product::find($request->id);
+        $image_variante = Image_variante::find($request->id);
 
         if ($request->hasFile('newImage')) {
 
-            File::delete($image_product->path);
+            File::delete($image_variante->path);
 
             $image = $request->file('newImage');
             // on crée une random string pour ajouter au nom de l'image
@@ -301,8 +301,8 @@ class ProductController extends Controller
             // });
             $imgFile->save($destinationPath . '/' . $input['image']);
 
-            $image_product->path = 'images/' . $input['image'];
-            $image_product->save();
+            $image_variante->path = 'images/' . $input['image'];
+            $image_variante->save();
 
             return back();
         } else {
@@ -318,7 +318,7 @@ class ProductController extends Controller
 
         $images = $request->file('image');
         foreach ($images as $image) {
-            $image_product = new Images_product;
+            $image_variante = new Image_variante;
             // on crée une random string pour ajouter au nom de l'image
             $random = substr(str_shuffle("0123456789abcdefghijklmnopqrstvwxyz"), 0, 10);
             // on explode pour récuppérer le nom sans l'extention
@@ -343,38 +343,38 @@ class ProductController extends Controller
 
 
             // récup max ordre pour déterminer l'ordre à inserer
-            $max = Images_product::where('product_id', $product_id)->max('ordre');
-            $image_product->ordre = $max + 1;
-            $image_product->path = 'images/' . $input['image'];
-            $image_product->product_id = $product_id;
+            $max = Image_variante::where('product_id', $product_id)->max('ordre');
+            $image_variante->ordre = $max + 1;
+            $image_variante->path = 'images/' . $input['image'];
+            $image_variante->product_id = $product_id;
 
-            $image_product->save();
+            $image_variante->save();
         }
 
-        $images_products = Images_product::where('product_id', $product_id)->get();
+        $images_products = Image_variante::where('product_id', $product_id)->get();
 
         return back()->with('images_product', $images_products);
     }
 
     public function deleteImagesProduct($id)
     {
-        $images_product = Images_product::find($id);
-        $images_products = Images_product::where('product_id', $images_product->product_id)->get();
+        $images_product = Image_variante::find($id);
+        $images_products = Image_variante::where('product_id', $images_product->product_id)->get();
 
         File::delete($images_product->path);
-        Images_product::destroy($id);
+        Image_variante::destroy($id);
 
         // réctifie si besoin les valeurs de ordre
         // pour garder la continuité et supprimer les trous
         // dans le champ ordre
-        $images_products = Images_product::where('product_id', $images_product->product_id)
+        $images_products = Image_variante::where('product_id', $images_product->product_id)
             ->orderBy('ordre', 'asc')
             ->get();
 
         $i = 1;
-        foreach ($images_products  as $image_product) {
-            $image_product->ordre = $i;
-            $image_product->save();
+        foreach ($images_products  as $image_variante) {
+            $image_variante->ordre = $i;
+            $image_variante->save();
             $i++;
         }
 
@@ -464,17 +464,17 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         dd($product);
-        $images_products = Images_product::where('product_id', $product->id)->get();
+        $images_products = Image_variante::where('product_id', $product->id)->get();
 
         // suppression des fichiers images dans public/images
-        foreach ($images_products as $image_product) {
-            if (File::exists(public_path($image_product->path))) {
-                File::delete(public_path($image_product->path));
+        foreach ($images_products as $image_variante) {
+            if (File::exists(public_path($image_variante->path))) {
+                File::delete(public_path($image_variante->path));
             }
         }
 
         // supprimer toutes les images d'un produit donné
-        Images_product::where('product_id', $product->id)->delete();
+        Image_variante::where('product_id', $product->id)->delete();
         // supprimer tous les détails d'un produit donné
         Product_detail::where('product_id', $product->id)->delete();
         // supprimer fiche produit d'un produit donné

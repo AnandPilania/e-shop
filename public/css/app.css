@@ -533,6 +533,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-top: 50px;
   margin-bottom: 50px;
 }
+.mx-\[10px\] {
+  margin-left: 10px;
+  margin-right: 10px;
+}
 .ml-3 {
   margin-left: 0.75rem;
 }
@@ -845,6 +849,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .flex-wrap {
   flex-wrap: wrap;
 }
+.flex-nowrap {
+  flex-wrap: nowrap;
+}
 .items-start {
   align-items: flex-start;
 }
@@ -925,11 +932,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .border-0 {
   border-width: 0px;
 }
-.border-4 {
-  border-width: 4px;
-}
 .border-2 {
   border-width: 2px;
+}
+.border-4 {
+  border-width: 4px;
 }
 .border-y-\[1px\] {
   border-top-width: 1px;
@@ -986,13 +993,13 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-border-opacity: 1;
   border-color: rgb(148 163 184 / var(--tw-border-opacity));
 }
-.border-slate-300 {
-  --tw-border-opacity: 1;
-  border-color: rgb(203 213 225 / var(--tw-border-opacity));
-}
 .border-slate-200 {
   --tw-border-opacity: 1;
   border-color: rgb(226 232 240 / var(--tw-border-opacity));
+}
+.border-slate-300 {
+  --tw-border-opacity: 1;
+  border-color: rgb(203 213 225 / var(--tw-border-opacity));
 }
 .bg-white {
   --tw-bg-opacity: 1;
@@ -1033,10 +1040,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .fill-current {
   fill: currentColor;
 }
-.object-contain {
-  -o-object-fit: contain;
-     object-fit: contain;
-}
 .p-2 {
   padding: 0.5rem;
 }
@@ -1051,6 +1054,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .p-\[20px\] {
   padding: 20px;
+}
+.p-\[10px\] {
+  padding: 10px;
 }
 .px-4 {
   padding-left: 1rem;
@@ -1107,6 +1113,18 @@ Ensure the default browser behavior of the `hidden` attribute.
 .px-\[10px\] {
   padding-left: 10px;
   padding-right: 10px;
+}
+.py-\[20px\] {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.px-\[5px\] {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.py-\[40px\] {
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
 .pr-4 {
   padding-right: 1rem;
@@ -1406,6 +1424,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 /* @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities"; */
+.last\:mr-auto:last-child {
+  margin-right: auto;
+}
 .hover\:cursor-pointer:hover {
   cursor: pointer;
 }

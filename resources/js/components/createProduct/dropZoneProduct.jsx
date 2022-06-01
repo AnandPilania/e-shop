@@ -116,13 +116,24 @@ const DropZoneProduct = () => {
         img.src = url;
     }
 
-
+    // mesPoissons.splice(2, 0, "tambour");
     // affiche et sauvegarde les images
     function handleFiles(files) {
         let tmp_tab = image;
+        let four_items_tab = [];
         Object.values(files).map(item => {
             if (validateImage(item)) {
-                tmp_tab.push(item);
+                if ([tmp_tab.length - 1].length < 4) {
+                    four_items_tab = [tmp_tab.length - 1];
+                    four_items_tab.push(item);
+                    tmp_tab.splice(-1, 1, four_items_tab);
+                } else {
+                    four_items_tab = [];
+                    four_items_tab.push(item);
+                    tmp_tab.push(four_items_tab);
+                }
+
+                // tmp_tab.push(item);
 
                 // save images in temporayStorage
                 var tmp_Data = new FormData;
@@ -150,7 +161,23 @@ const DropZoneProduct = () => {
 
         Axios.get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage')
             .then(res => {
-                setImage(res.data);
+                let tmp_data = [[]];
+                let tmp = [];
+
+                res.data.forEach(item => {
+                    if (tmp.length < 4) {
+                        tmp.push(item);
+                        tmp_data.splice(-1, 1, tmp);
+                    } else {
+                        tmp_data.splice(-1, 1, tmp);
+                        tmp = [];
+                        tmp.push(item);
+                        tmp_data.push(tmp);
+                    }
+                })
+                setImage(tmp_data);
+                // setImage(res.data);
+                console.log(tmp_data)
             })
             .catch(error => {
                 console.log('Error get Product Images failed : ' + error.status);
@@ -158,7 +185,8 @@ const DropZoneProduct = () => {
     }
 
 
-    useEffect(() => { console.log('image  ', image)
+    useEffect(() => {
+        console.log('image  ', image)
         if (image.length > 0) {
             dropRegion = document.getElementById("drop-region");
             dropCard = document.getElementById("drop-card");
@@ -231,7 +259,22 @@ const DropZoneProduct = () => {
                     dropRegion.className = "w-full h-full flex-col justify-start items-center bg-white rounded-md p-[40px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer";
                 }
 
-                setImage(res.data);
+                let tmp_data = [[]];
+                let tmp = [];
+
+                res.data.forEach(item => {
+                    if (tmp.length < 4) {
+                        tmp.push(item);
+                        tmp_data.splice(-1, 1, tmp);
+                    } else {
+                        tmp_data.splice(-1, 1, tmp);
+                        tmp = [];
+                        tmp.push(item);
+                        tmp_data.push(tmp);
+                    }
+                })
+                setImage(tmp_data);
+                // setImage(res.data);
             })
             .catch(error => {
                 console.log('Error get Product Images failed : ' + error.status);
@@ -273,83 +316,113 @@ const DropZoneProduct = () => {
         ...draggableStyle,
     });
 
+    const move = (source, destination, droppableSource, droppableDestination) => {
+        const sourceClone = Array.from(source);
+        const destClone = Array.from(destination);
+        const [removed] = sourceClone.splice(droppableSource.index, 1);
+
+        destClone.splice(droppableDestination.index, 0, removed);
+
+        const result = {};
+        result[droppableSource.droppableId] = sourceClone;
+        result[droppableDestination.droppableId] = destClone;
+
+        return result;
+    };
+
     const onDragEnd = (result) => {
-        if (!result.destination) {
+        const { source, destination } = result;
+
+        // dropped outside the list
+        if (!destination) {
             return;
         }
+        const sInd = +source.droppableId;
+        const dInd = +destination.droppableId;
 
-        // si on bouge un truc et qu'on le remet à sa place on fait rien  
-        if(destination.droppableId === source.droppableId && 
-            destination.index === source.index) {
-            return;
+        if (sInd === dInd) {
+            const items = reorder(image[sInd], source.index, destination.index);
+            const newState = [...image];
+            newState[sInd] = items;
+            setImage(newState);
+        } else {
+            const result = move(image[sInd], image[dInd], source, destination);
+            const newState = [...image];
+            newState[sInd] = result[sInd];
+            newState[dInd] = result[dInd];
+
+            setImage(newState.filter(group => group.length));
         }
-
-        const reorderedItems = reorder(
-            image,
-            result.source.index,
-            result.destination.index
-        );
-
-        setImage(reorderedItems);
     };
 
     return (
         <div id="main-image-product" className="flex-col justify-start items-start bg-white rounded-md w-full p-[20px] mb-[10px] shadow-md">
-            <div id="drop-region" className="w-full h-full flex-col justify-start items-center bg-white rounded-md p-[40px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer">
-                <div className="drop-message w100pct txt-c">
+            <div id="drop-region" className="w-full h-full flex-col justify-start items-center bg-white rounded-md py-[40px] px-[10px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer">
+                <div className="drop-message w-full text-center">
                     Déposez vos images ou cliquez pour télécharger
                 </div>
-                <DragDropContext onDragEnd={onDragEnd}>
-                    <Droppable droppableId="droppable" direction="horizontal">
-                        {(provided, snapshot) => (
-                            <div id="image-preview-zone"
-                                className='grid gap-4 grid-cols-4'
-                                {...provided.droppableProps} ref={provided.innerRef}>
-                                {image.length > 0 && image.map((item, index) => (
-                                    <Draggable key={item.id} draggableId={`${item.id}`} index={index}>
-                                        {(provided, snapshot) => (
-                                            <div id="imgView"
-                                                className="image-view flex flex-row justify-center items-center mb[20px] h-[120px] w-[120px] relative border border-slate-300 rounded group"
-                                                ref={provided.innerRef}
-                                                {...provided.draggableProps}
-                                                {...provided.dragHandleProps}
-                                                style={getItemStyle(
-                                                    snapshot.isDragging,
-                                                    provided.draggableProps.style
-                                                )}
-                                            >
+                <DragDropContext
+                    onDragEnd={onDragEnd}
+                >
+                    {image.length > 0 && image.map((item_tab, ndx) => (
+                        <Droppable droppableId={`${ndx}`}
+                            direction="horizontal"
+                            key={ndx}>
+                            {(provided, snapshot) => (
+                                <div
+                                    className='flex flrex-row flex-nowrap justify-between last:mr-auto brd-red-1'
+                                    {...provided.droppableProps}
+                                    ref={provided.innerRef}
+                                >
+                                    {item_tab.map((item, index) => (
+                                        <Draggable
+                                            key={item.id}
+                                            draggableId={`${item.id}`}
+                                            index={index}
+                                        >
+                                            {(provided, snapshot) => (
+                                                <div
+                                                    className="image-view flex flex-row justify-center items-center mb[20px] h-[120px] w-[120px] relative  border border-slate-300 rounded group"
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                    style={getItemStyle(
+                                                        snapshot.isDragging,
+                                                        provided.draggableProps.style
+                                                    )}
+                                                >
 
-                                                <img className='imgClass max-w-[120px] max-h-[120px]'
-                                                    src={window.location.origin + '/' + item.value} />
+                                                    <img className='imgClass max-w-[120px] max-h-[120px]'
+                                                        src={window.location.origin + '/' + item.value} />
 
-                                                <button id="removeImg"
-                                                    className="removeImg invisible group-hover:visible absolute top-[5px] right-[5px] w-[25px] h-[25px] bg-[#d23e44] rounded"
-                                                    onClick={() => removeOneImage(item.id)}>
+                                                    <button id="removeImg"
+                                                        className="removeImg invisible group-hover:visible absolute top-[5px] right-[5px] w-[25px] h-[25px] bg-[#d23e44] rounded"
+                                                        onClick={() => removeOneImage(item.id)}>
 
-                                                    <img className='w-[25px] h-[25px] rounded'
-                                                        src='../images/icons/x-white.svg' />
-                                                </button>
-                                            </div>
-                                        )}
-                                    </Draggable>
-                                )
-                                )}
-
-
-                                {/* dropCard add images */}
-                                <div id="drop-card"
-                                    className='flex-col justify-center items-center w-[120px] h-[120px] p-[20px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer rounded'
-                                    onClick={() => fakeInputClick()}>
-                                    {/* add button */}
-                                    <div className='w-[40px] h-[40px] m-auto  hover:bg-slate-100 hover:cursor-pointer'>
-                                        <img src='../images/icons/add-square-dotted.svg'
-                                            className='w-[60px] h-[60px]' />
-                                    </div>
+                                                        <img className='w-[25px] h-[25px] rounded'
+                                                            src='../images/icons/x-white.svg' />
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </Draggable>
+                                    )
+                                    )}
+                                    {provided.placeholder}
                                 </div>
-                                {provided.placeholder}
-                            </div>
-                        )}
-                    </Droppable>
+                            )}
+                        </Droppable>
+                    )
+                    )}
+                    {/* dropCard add images */}
+                    <div id="drop-card"
+                        className='flex-col justify-center items-center w-[120px] h-[120px] p-[20px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer rounded'
+                        onClick={() => fakeInputClick()}>
+                        {/* add button */}
+                        <div className='w-[40px] h-[40px] m-auto  hover:bg-slate-100 hover:cursor-pointer'>
+                            <img src='../images/icons/add-square-dotted.svg'
+                                className='w-[60px] h-[60px]' />
+                        </div>
+                    </div>
                 </DragDropContext>
 
 
