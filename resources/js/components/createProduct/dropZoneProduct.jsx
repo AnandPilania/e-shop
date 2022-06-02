@@ -133,7 +133,6 @@ const DropZoneProduct = () => {
                     tmp_tab.push(four_items_tab);
                 }
 
-                // tmp_tab.push(item);
 
                 // save images in temporayStorage
                 var tmp_Data = new FormData;
@@ -164,19 +163,18 @@ const DropZoneProduct = () => {
                 let tmp_data = [[]];
                 let tmp = [];
 
-                res.data.forEach(item => {
+                for (let i = 0; i < res.data.length; i++) {
                     if (tmp.length < 4) {
-                        tmp.push(item);
+                        tmp.push(res.data[i]);
                         tmp_data.splice(-1, 1, tmp);
                     } else {
                         tmp_data.splice(-1, 1, tmp);
                         tmp = [];
-                        tmp.push(item);
+                        tmp.push(res.data[i]);
                         tmp_data.push(tmp);
                     }
-                })
+                };
                 setImage(tmp_data);
-                // setImage(res.data);
                 console.log(tmp_data)
             })
             .catch(error => {
@@ -202,7 +200,8 @@ const DropZoneProduct = () => {
             mainImageProduct.style.cursor = 'default';
 
             // met en blanc la dashed border de la dropRegion pour simuler sa disparition
-            dropRegion.className = "flex-col justify-start items-center bg-white rounded-md w-full p-[40px] border-2 border-slate-200  cursor-default";
+            dropRegion.className = "flex-col justify-start items-center bg-white rounded-md w-full py-[40px] px-[10px] border-2 border-slate-200  cursor-default";
+
         }
     }, [image])
 
@@ -237,8 +236,31 @@ const DropZoneProduct = () => {
     }
 
 
-    function removeOneImage(id) {
-        console.log('fakeInput  ', fakeInput)
+    function removeOneImage(id, droppableIndex, draggableIndex) {
+
+        const newState = [...image];
+        newState[droppableIndex].splice(draggableIndex, 1);
+
+        let tmp_data = [[]];
+        let tmp = [];
+
+
+        let newImage = [].concat.apply([], newState.filter(group => group.length));
+
+        for (let i = 0; i < newImage.length; i++) {
+            if (tmp.length < 4) {
+                tmp.push(newImage[i]);
+                tmp_data.splice(-1, 1, tmp);
+            } else {
+                tmp_data.splice(-1, 1, tmp);
+                tmp = [];
+                tmp.push(newImage[i]);
+                tmp_data.push(tmp);
+            }
+        };
+        setImage(tmp_data);
+        handleReOrder(tmp_data);
+
         Axios.get(`http://127.0.0.1:8000/deleteOneElementById/${id}`)
             .then(res => {
                 console.log('res.data  --->  ok');
@@ -247,38 +269,38 @@ const DropZoneProduct = () => {
                 console.log('Error delete Product Image failed : ' + error.status);
             });
 
-        Axios.get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage')
-            .then(res => {
-                if (res.data.length === 0) {
-                    dropCard.style.display = 'none';
+        // Axios.get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage')
+        //     .then(res => {
+        //         if (res.data.length === 0) {
+        //             dropCard.style.display = 'none';
 
-                    // open files exploratore when click on dropRegion
-                    fakeInput === null && createFakeInput();
-                    dropRegion.addEventListener('click', fakeInputClick);
+        //             // open files exploratore when click on dropRegion
+        //             fakeInput === null && createFakeInput();
+        //             dropRegion.addEventListener('click', fakeInputClick);
 
-                    dropRegion.className = "w-full h-full flex-col justify-start items-center bg-white rounded-md p-[40px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer";
-                }
+        //             dropRegion.className = "w-full h-full flex-col justify-start items-center bg-white rounded-md p-[40px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer";
+        //         }
 
-                let tmp_data = [[]];
-                let tmp = [];
+        //         let tmp_data = [[]];
+        //         let tmp = [];
 
-                res.data.forEach(item => {
-                    if (tmp.length < 4) {
-                        tmp.push(item);
-                        tmp_data.splice(-1, 1, tmp);
-                    } else {
-                        tmp_data.splice(-1, 1, tmp);
-                        tmp = [];
-                        tmp.push(item);
-                        tmp_data.push(tmp);
-                    }
-                })
-                setImage(tmp_data);
-                // setImage(res.data);
-            })
-            .catch(error => {
-                console.log('Error get Product Images failed : ' + error.status);
-            });
+        //         for (let i = 0; i < res.data.length; i++) {
+        //             if (tmp.length < 4) {
+        //                 tmp.push(res.data[i]);
+        //                 tmp_data.splice(-1, 1, tmp);
+        //             } else {
+        //                 tmp_data.splice(-1, 1, tmp);
+        //                 tmp = [];
+        //                 tmp.push(res.data[i]);
+        //                 tmp_data.push(tmp);
+        //             }
+        //         };
+        //         setImage(tmp_data);
+        //         // setImage(res.data);
+        //     })
+        //     .catch(error => {
+        //         console.log('Error get Product Images failed : ' + error.status);
+        //     });
     }
 
 
@@ -316,6 +338,51 @@ const DropZoneProduct = () => {
         ...draggableStyle,
     });
 
+
+    // change order of images when drag and drop images products on create product form
+    const handleReOrder = (imagesToReOrder) => {
+        var im = new FormData;
+        im.append('image', JSON.stringify(imagesToReOrder));
+
+        Axios.post(`http://127.0.0.1:8000/reOrderImagesProducts`, im,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then(() => {
+                console.log('ok');
+
+            })
+            .catch(error => {
+                console.log('Error Image upload failed : ' + error.status);
+            });
+
+        // Axios.get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage')
+        //     .then(res => {
+        //         let tmp_data = [[]];
+        //         let tmp = [];
+
+        //         res.data.forEach(item => {
+        //             if (tmp.length < 4) {
+        //                 tmp.push(item);
+        //                 tmp_data.splice(-1, 1, tmp);
+        //             } else {
+        //                 tmp_data.splice(-1, 1, tmp);
+        //                 tmp = [];
+        //                 tmp.push(item);
+        //                 tmp_data.push(tmp);
+        //             }
+        //         })
+        //         setImage(tmp_data);
+        //         console.log(tmp_data)
+        //     })
+        //     .catch(error => {
+        //         console.log('Error get Product Images failed : ' + error.status);
+        //     });
+    };
+
+    // handle move image in drop region
     const move = (source, destination, droppableSource, droppableDestination) => {
         const sourceClone = Array.from(source);
         const destClone = Array.from(destination);
@@ -344,23 +411,83 @@ const DropZoneProduct = () => {
             const items = reorder(image[sInd], source.index, destination.index);
             const newState = [...image];
             newState[sInd] = items;
-            setImage(newState);
+
+            let tmp_data = [[]];
+            let tmp = [];
+
+
+            let newImage = [].concat.apply([], newState);
+
+            for (let i = 0; i < newImage.length; i++) {
+                if (tmp.length < 4) {
+                    tmp.push(newImage[i]);
+                    tmp_data.splice(-1, 1, tmp);
+                } else {
+                    tmp_data.splice(-1, 1, tmp);
+                    tmp = [];
+                    tmp.push(newImage[i]);
+                    tmp_data.push(tmp);
+                }
+            };
+            setImage(tmp_data);
+            handleReOrder(tmp_data);
+
         } else {
             const result = move(image[sInd], image[dInd], source, destination);
             const newState = [...image];
             newState[sInd] = result[sInd];
             newState[dInd] = result[dInd];
 
-            setImage(newState.filter(group => group.length));
+            let tmp_data = [[]];
+            let tmp = [];
+
+
+            let newImage = [].concat.apply([], newState.filter(group => group.length));
+
+            for (let i = 0; i < newImage.length; i++) {
+                if (tmp.length < 4) {
+                    tmp.push(newImage[i]);
+                    tmp_data.splice(-1, 1, tmp);
+                } else {
+                    tmp_data.splice(-1, 1, tmp);
+                    tmp = [];
+                    tmp.push(newImage[i]);
+                    tmp_data.push(tmp);
+                }
+            };
+            setImage(tmp_data);
+            handleReOrder(tmp_data);
         }
     };
 
+
     return (
-        <div id="main-image-product" className="flex-col justify-start items-start bg-white rounded-md w-full p-[20px] mb-[10px] shadow-md">
-            <div id="drop-region" className="w-full h-full flex-col justify-start items-center bg-white rounded-md py-[40px] px-[10px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer">
-                <div className="drop-message w-full text-center">
-                    Déposez vos images ou cliquez pour télécharger
+        <div id="main-image-product"
+            className="flex-col justify-start items-start bg-white rounded-md w-full p-[20px] mb-[10px] shadow-md">
+            <div id="drop-region"
+                className="w-full h-full flex-col justify-start items-center bg-white rounded-md py-[40px] px-[10px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer">
+                <div className="drop-message w-full flex flex-row flew-wrap justify-between items-center mb-[10px]">
+                    <div className='w-[200px] h-[200px] flex flex-row justify-center items-center p-0 '>
+                        {image.length > 0 && <img
+                            id="firstImage"
+                            className='m-0 object-contain max-h-[200px] max-w-[200px]'
+                            src={window.location.origin + '/' + image[0][0]?.value}
+                        />}
+                    </div>
+                    <div>
+                        <span>
+                            Déposez vos images ou cliquez pour télécharger
+                        </span>
+                        {/* dropCard button add images */}
+                        <div id="drop-card"
+                            className='flex-row justify-center items-center w-[80px] h-[80px] mt-[20px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer rounded'
+                            onClick={() => fakeInputClick()}>
+                            <img src='../images/icons/add-square-dotted.svg'
+                                className='w-full h-full' />
+                        </div>
+                    </div>
                 </div>
+
                 <DragDropContext
                     onDragEnd={onDragEnd}
                 >
@@ -370,7 +497,7 @@ const DropZoneProduct = () => {
                             key={ndx}>
                             {(provided, snapshot) => (
                                 <div
-                                    className='flex flrex-row flex-nowrap justify-between last:mr-auto brd-red-1'
+                                    className='grid gap-[10px] grid-cols-4 justify-center my-[5px] w-full h-[120px]'
                                     {...provided.droppableProps}
                                     ref={provided.innerRef}
                                 >
@@ -382,7 +509,7 @@ const DropZoneProduct = () => {
                                         >
                                             {(provided, snapshot) => (
                                                 <div
-                                                    className="image-view flex flex-row justify-center items-center mb[20px] h-[120px] w-[120px] relative  border border-slate-300 rounded group"
+                                                    className="image-view flex flex-row justify-center items-center mb[20px]  relative border border-slate-300 rounded group"
                                                     ref={provided.innerRef}
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}
@@ -392,12 +519,18 @@ const DropZoneProduct = () => {
                                                     )}
                                                 >
 
-                                                    <img className='imgClass max-w-[120px] max-h-[120px]'
+                                                    <img className='imgClass max-w-[(calc(100% / 4) - 10px] max-h-[120px]'
                                                         src={window.location.origin + '/' + item.value} />
 
                                                     <button id="removeImg"
                                                         className="removeImg invisible group-hover:visible absolute top-[5px] right-[5px] w-[25px] h-[25px] bg-[#d23e44] rounded"
-                                                        onClick={() => removeOneImage(item.id)}>
+                                                        // onClick={() => removeOneImage(item.id)}
+
+                                                        onClick={() => {
+                                                            removeOneImage(item.id, ndx, index);
+                                                        }}
+
+                                                    >
 
                                                         <img className='w-[25px] h-[25px] rounded'
                                                             src='../images/icons/x-white.svg' />
@@ -413,16 +546,7 @@ const DropZoneProduct = () => {
                         </Droppable>
                     )
                     )}
-                    {/* dropCard add images */}
-                    <div id="drop-card"
-                        className='flex-col justify-center items-center w-[120px] h-[120px] p-[20px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer rounded'
-                        onClick={() => fakeInputClick()}>
-                        {/* add button */}
-                        <div className='w-[40px] h-[40px] m-auto  hover:bg-slate-100 hover:cursor-pointer'>
-                            <img src='../images/icons/add-square-dotted.svg'
-                                className='w-[60px] h-[60px]' />
-                        </div>
-                    </div>
+
                 </DragDropContext>
 
 

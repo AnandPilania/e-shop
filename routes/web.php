@@ -77,6 +77,10 @@ Route::get('/collections-list-back-end', [CollectionController::class, 'collecti
 // stocke temporairement dans temporary_storages une ou plusieurs images
 Route::post('/temporaryStoreImages', [TemporaryStorageController::class, 'temporaryStoreImages']);
 
+
+// change order of images when drag and drop images products on create product form
+Route::post('/reOrderImagesProducts', [TemporaryStorageController::class, 'reOrderImagesProducts']);
+
 // get temporary collection image
 Route::get('/getSingleTemporaryImage/{id}', [TemporaryStorageController::class, 'getSingleTemporaryImage']);
 

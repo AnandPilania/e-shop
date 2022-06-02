@@ -37,7 +37,9 @@ class TemporaryStorageController extends Controller
     public function getTemporaryImages($key)
     {
 
-        $images = Temporary_storage::where('key', $key)->get();
+        $images = Temporary_storage::where('key', $key)
+        ->orderBy('ordre')
+        ->get();
 
         return $images;
     }
@@ -73,6 +75,7 @@ class TemporaryStorageController extends Controller
 
                 $tmp_storage->key = $request->key;
                 $tmp_storage->value = 'temporaryStorage/' . $newName;
+                $tmp_storage->ordre = Temporary_storage::where('key', $request->key)->max('ordre') + 1;
                 $tmp_storage->save();
 
                 return $tmp_storage->value;
@@ -91,6 +94,24 @@ class TemporaryStorageController extends Controller
         }
     }
 
+    public function reOrderImagesProducts(Request $request)
+    {
+        // dd($request);
+        $imagesProducts = json_decode($request->image);
+        $ndx = 1;
+
+        foreach($imagesProducts as $values)
+        {
+            foreach ($values as $item) {
+                $tmp_productImage = Temporary_storage::where('id', $item->id)->first();
+                
+                $tmp_productImage->ordre = $ndx;
+                $tmp_productImage->save();
+
+                $ndx++;
+            }            
+        }
+    }
 
 
     // delete all images which have the provided key from Temporary_storage

@@ -521,6 +521,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .m-auto {
   margin: auto;
 }
+.m-0 {
+  margin: 0px;
+}
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -532,6 +535,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 .my-\[50px\] {
   margin-top: 50px;
   margin-bottom: 50px;
+}
+.my-\[5px\] {
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 .mx-\[10px\] {
   margin-left: 10px;
@@ -633,6 +640,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mr-\[17px\] {
   margin-right: 17px;
 }
+.mt-\[20px\] {
+  margin-top: 20px;
+}
+.mb-\[20px\] {
+  margin-bottom: 20px;
+}
 .block {
   display: block;
 }
@@ -708,8 +721,23 @@ Ensure the default browser behavior of the `hidden` attribute.
 .h-\[17px\] {
   height: 17px;
 }
+.h-\[80px\] {
+  height: 80px;
+}
+.h-\[200px\] {
+  height: 200px;
+}
+.h-\[220px\] {
+  height: 220px;
+}
+.h-\[20px\] {
+  height: 20px;
+}
 .max-h-\[120px\] {
   max-height: 120px;
+}
+.max-h-\[200px\] {
+  max-height: 200px;
 }
 .min-h-screen {
   min-height: 100vh;
@@ -768,6 +796,18 @@ Ensure the default browser behavior of the `hidden` attribute.
 .w-\[17px\] {
   width: 17px;
 }
+.w-\[calc\(\)\] {
+  width: calc();
+}
+.w-\[80px\] {
+  width: 80px;
+}
+.w-\[200px\] {
+  width: 200px;
+}
+.w-\[250px\] {
+  width: 250px;
+}
 .min-w-\[750px\] {
   min-width: 750px;
 }
@@ -782,6 +822,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .max-w-\[120px\] {
   max-width: 120px;
+}
+.max-w-\[200px\] {
+  max-width: 200px;
 }
 .flex-1 {
   flex: 1 1 0%;
@@ -840,6 +883,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .grid-cols-2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
 .flex-row {
   flex-direction: row;
 }
@@ -870,11 +916,17 @@ Ensure the default browser behavior of the `hidden` attribute.
 .justify-between {
   justify-content: space-between;
 }
+.justify-around {
+  justify-content: space-around;
+}
 .gap-\[10px\] {
   gap: 10px;
 }
 .gap-4 {
   gap: 1rem;
+}
+.gap-\[5px\] {
+  gap: 5px;
 }
 .gap-x-4 {
   -moz-column-gap: 1rem;
@@ -1040,6 +1092,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 .fill-current {
   fill: currentColor;
 }
+.object-contain {
+  -o-object-fit: contain;
+     object-fit: contain;
+}
 .p-2 {
   padding: 0.5rem;
 }
@@ -1055,8 +1111,8 @@ Ensure the default browser behavior of the `hidden` attribute.
 .p-\[20px\] {
   padding: 20px;
 }
-.p-\[10px\] {
-  padding: 10px;
+.p-0 {
+  padding: 0px;
 }
 .px-4 {
   padding-left: 1rem;
@@ -1110,21 +1166,13 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
-.px-\[10px\] {
-  padding-left: 10px;
-  padding-right: 10px;
-}
-.py-\[20px\] {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-.px-\[5px\] {
-  padding-left: 5px;
-  padding-right: 5px;
-}
 .py-\[40px\] {
   padding-top: 40px;
   padding-bottom: 40px;
+}
+.px-\[10px\] {
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .pr-4 {
   padding-right: 1rem;
@@ -1426,6 +1474,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 @import "tailwindcss/utilities"; */
 .last\:mr-auto:last-child {
   margin-right: auto;
+}
+.last\:justify-start:last-child {
+  justify-content: flex-start;
 }
 .hover\:cursor-pointer:hover {
   cursor: pointer;
