@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import ModalInput from '../elements/modalInput';
+import MainBlock from '../elements/blocks/mainBlock';
 import Axios from 'axios';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
@@ -15,6 +16,9 @@ const DropZoneProduct = () => {
     var fakeInput = null;
     var mainImageProduct = null;
     var dropCard = null;
+    var firstImage = null;
+    var dropHeader = null;
+    var txtImgPrincipale = null;
 
 
     function fakeInputClick() {
@@ -34,7 +38,9 @@ const DropZoneProduct = () => {
         });
     }
 
+
     useEffect(() => {
+
         document.getElementById("drop-card").style.display = 'none';
 
         fakeInput === null && createFakeInput();
@@ -42,7 +48,7 @@ const DropZoneProduct = () => {
         // change the message if doesn't support drag & drop
         var dragSupported = detectDragDrop();
         if (!dragSupported) {
-            document.getElementsByClassName("drop-message")[0].innerHTML = 'Click to upload';
+            document.getElementsByClassName("drop-header")[0].innerHTML = 'Click to upload';
         }
 
         setDropRegion();
@@ -57,16 +63,14 @@ const DropZoneProduct = () => {
 
     function setDropRegion() {
         dropRegion = document.getElementById("drop-region");
-
+        dropRegion.className = "w-full h-full flex-col justify-start items-center bg-white rounded-md py-[40px] px-[10px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer";
         // open files exploratore when click on dropRegion
         dropRegion.addEventListener('click', fakeInputClick);
-
         // empèche le comportement par défault et la propagation
         dropRegion.addEventListener('dragenter', preventDefault, false);
         dropRegion.addEventListener('dragleave', preventDefault, false);
         dropRegion.addEventListener('dragover', preventDefault, false);
         dropRegion.addEventListener('drop', preventDefault, false);
-
         dropRegion.addEventListener('drop', handleDrop, false);
     }
 
@@ -119,9 +123,10 @@ const DropZoneProduct = () => {
     // mesPoissons.splice(2, 0, "tambour");
     // affiche et sauvegarde les images
     function handleFiles(files) {
+        console.log('files  ', files)
         let tmp_tab = image;
         let four_items_tab = [];
-        Object.values(files).map(item => {
+        Object.values(files).map((item, index, arr) => {
             if (validateImage(item)) {
                 if ([tmp_tab.length - 1].length < 4) {
                     four_items_tab = [tmp_tab.length - 1];
@@ -151,56 +156,84 @@ const DropZoneProduct = () => {
                         console.log('ok');
                         // cancel --> open files explorator when click on dropRegion
                         dropRegion.removeEventListener('click', fakeInputClick);
+
+                        if ((arr.length - 1) == index) {
+                            Axios.get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage')
+                                .then(res => {
+                                    let tmp_data = [[]];
+                                    let tmp = [];
+                                    for (let i = 0; i < res.data.length; i++) {
+                                        if (tmp.length < 4) {
+                                            tmp.push(res.data[i]);
+                                            tmp_data.splice(-1, 1, tmp);
+                                        } else {
+                                            tmp_data.splice(-1, 1, tmp);
+                                            tmp = [];
+                                            tmp.push(res.data[i]);
+                                            tmp_data.push(tmp);
+                                        }
+                                    };
+                                    setImage(tmp_data);
+                                })
+                                .catch(error => {
+                                    console.log('Error get Product Images failed : ' + error.status);
+                                });
+                        }
                     })
                     .catch(error => {
                         console.log('Error Image upload failed : ' + error.status);
                     });
             }
+
+
+
         });
-
-        Axios.get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage')
-            .then(res => {
-                let tmp_data = [[]];
-                let tmp = [];
-
-                for (let i = 0; i < res.data.length; i++) {
-                    if (tmp.length < 4) {
-                        tmp.push(res.data[i]);
-                        tmp_data.splice(-1, 1, tmp);
-                    } else {
-                        tmp_data.splice(-1, 1, tmp);
-                        tmp = [];
-                        tmp.push(res.data[i]);
-                        tmp_data.push(tmp);
-                    }
-                };
-                setImage(tmp_data);
-                console.log(tmp_data)
-            })
-            .catch(error => {
-                console.log('Error get Product Images failed : ' + error.status);
-            });
     }
 
 
     useEffect(() => {
         console.log('image  ', image)
-        if (image.length > 0) {
+        if (image[0]?.length > 0) {
             dropRegion = document.getElementById("drop-region");
-            dropCard = document.getElementById("drop-card");
-            mainImageProduct = document.getElementById("main-image-product");
-            fakeInput === null && createFakeInput();
-
             // cancel --> open files explorator when click on dropRegion
             dropRegion.removeEventListener('click', fakeInputClick);
+            // met en blanc la dashed border de la dropRegion pour simuler sa disparition
+            dropRegion.className = "flex-col justify-start items-center bg-white rounded-md w-full py-[40px] cursor-default";
 
+            dropCard = document.getElementById("drop-card");
             // affiche le bouton add
             dropCard.style.display = 'block';
 
+            mainImageProduct = document.getElementById("main-image-product");
             mainImageProduct.style.cursor = 'default';
 
-            // met en blanc la dashed border de la dropRegion pour simuler sa disparition
-            dropRegion.className = "flex-col justify-start items-center bg-white rounded-md w-full py-[40px] px-[10px] border-2 border-slate-200  cursor-default";
+            firstImage = document.getElementById("firstImage");
+            firstImage.className = 'w-full h-full flex flex-row justify-center items-center p-0 border border-slate-300 rounded';
+
+            txtImgPrincipale = document.getElementById("txtImgPrincipale");
+            txtImgPrincipale.className = 'w-full text-center text-[12px] pb-[5px]';
+
+            fakeInput === null && createFakeInput();
+
+            dropHeader = document.getElementById("drop-header");
+            dropHeader.className = "w-full h-[250px] grid gap-[10px] grid-cols-2 justify-center items-center pb-[10px] mb-[10px]";
+
+        } else {
+
+            firstImage = document.getElementById("firstImage");
+            firstImage.className = 'hidden';
+
+            document.getElementById("drop-card").style.display = 'none';
+
+            fakeInput === null && createFakeInput();
+
+            dropRegion = document.getElementById("drop-region");
+            dropRegion.className = "w-full h-full flex-col justify-start items-center bg-white rounded-md py-[40px] px-[10px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer";
+            // open files exploratore when click on dropRegion
+            dropRegion.addEventListener('click', fakeInputClick);
+
+            dropHeader = document.getElementById("drop-header");
+            dropHeader.className = "w-full h-[120px] flex flex-row  justify-center items-center pb-[10px] mb-[10px]";
 
         }
     }, [image])
@@ -244,7 +277,6 @@ const DropZoneProduct = () => {
         let tmp_data = [[]];
         let tmp = [];
 
-
         let newImage = [].concat.apply([], newState.filter(group => group.length));
 
         for (let i = 0; i < newImage.length; i++) {
@@ -259,7 +291,6 @@ const DropZoneProduct = () => {
             }
         };
         setImage(tmp_data);
-        handleReOrder(tmp_data);
 
         Axios.get(`http://127.0.0.1:8000/deleteOneElementById/${id}`)
             .then(res => {
@@ -269,38 +300,8 @@ const DropZoneProduct = () => {
                 console.log('Error delete Product Image failed : ' + error.status);
             });
 
-        // Axios.get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage')
-        //     .then(res => {
-        //         if (res.data.length === 0) {
-        //             dropCard.style.display = 'none';
+        handleReOrder(tmp_data);
 
-        //             // open files exploratore when click on dropRegion
-        //             fakeInput === null && createFakeInput();
-        //             dropRegion.addEventListener('click', fakeInputClick);
-
-        //             dropRegion.className = "w-full h-full flex-col justify-start items-center bg-white rounded-md p-[40px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer";
-        //         }
-
-        //         let tmp_data = [[]];
-        //         let tmp = [];
-
-        //         for (let i = 0; i < res.data.length; i++) {
-        //             if (tmp.length < 4) {
-        //                 tmp.push(res.data[i]);
-        //                 tmp_data.splice(-1, 1, tmp);
-        //             } else {
-        //                 tmp_data.splice(-1, 1, tmp);
-        //                 tmp = [];
-        //                 tmp.push(res.data[i]);
-        //                 tmp_data.push(tmp);
-        //             }
-        //         };
-        //         setImage(tmp_data);
-        //         // setImage(res.data);
-        //     })
-        //     .catch(error => {
-        //         console.log('Error get Product Images failed : ' + error.status);
-        //     });
     }
 
 
@@ -339,7 +340,7 @@ const DropZoneProduct = () => {
     });
 
 
-    // change order of images when drag and drop images products on create product form
+    // change order of images in db temporary_storage when drag and drop images products on create product form
     const handleReOrder = (imagesToReOrder) => {
         var im = new FormData;
         im.append('image', JSON.stringify(imagesToReOrder));
@@ -352,34 +353,10 @@ const DropZoneProduct = () => {
             })
             .then(() => {
                 console.log('ok');
-
             })
             .catch(error => {
                 console.log('Error Image upload failed : ' + error.status);
             });
-
-        // Axios.get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage')
-        //     .then(res => {
-        //         let tmp_data = [[]];
-        //         let tmp = [];
-
-        //         res.data.forEach(item => {
-        //             if (tmp.length < 4) {
-        //                 tmp.push(item);
-        //                 tmp_data.splice(-1, 1, tmp);
-        //             } else {
-        //                 tmp_data.splice(-1, 1, tmp);
-        //                 tmp = [];
-        //                 tmp.push(item);
-        //                 tmp_data.push(tmp);
-        //             }
-        //         })
-        //         setImage(tmp_data);
-        //         console.log(tmp_data)
-        //     })
-        //     .catch(error => {
-        //         console.log('Error get Product Images failed : ' + error.status);
-        //     });
     };
 
     // handle move image in drop region
@@ -462,28 +439,37 @@ const DropZoneProduct = () => {
 
 
     return (
-        <div id="main-image-product"
-            className="flex-col justify-start items-start bg-white rounded-md w-full p-[20px] mb-[10px] shadow-md">
+        <MainBlock id="main-image-product">
+            <h4 className='mb-[10px]'>Images</h4>
             <div id="drop-region"
                 className="w-full h-full flex-col justify-start items-center bg-white rounded-md py-[40px] px-[10px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer">
-                <div className="drop-message w-full flex flex-row flew-wrap justify-between items-center mb-[10px]">
-                    <div className='w-[200px] h-[200px] flex flex-row justify-center items-center p-0 '>
-                        {image.length > 0 && <img
-                            id="firstImage"
-                            className='m-0 object-contain max-h-[200px] max-w-[200px]'
-                            src={window.location.origin + '/' + image[0][0]?.value}
-                        />}
+                <div id="drop-header"
+                    className="w-full h-[120px] flex flex-row  justify-center items-center pb-[10px] mb-[10px]">
+                    <div id="firstImage"
+                        className='hidden'>
+                        {image[0]?.length > 0 &&
+                            <div className='flex flex-col justify-start items-center flex-nowrap'>
+                                <span id="txtImgPrincipale"
+                                className='w-full text-center text-[12px] mt-0 pb-[10px]'>Image principale</span>
+                                <img
+                                    className='m-0 object-contain max-h-[200px]'
+                                    src={window.location.origin + '/' + image[0][0]?.value}
+                                />
+                            </div>
+                        }
                     </div>
-                    <div>
-                        <span>
+                    <div className='w-full h-full flex flex-col justify-center items-arround'>
+                        <span className='text-center'>
                             Déposez vos images ou cliquez pour télécharger
                         </span>
                         {/* dropCard button add images */}
                         <div id="drop-card"
-                            className='flex-row justify-center items-center w-[80px] h-[80px] mt-[20px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer rounded'
-                            onClick={() => fakeInputClick()}>
+                            className='w-full h-auto mt-[25px]'
+                        >
                             <img src='../images/icons/add-square-dotted.svg'
-                                className='w-full h-full' />
+                                className='w-[50px] h-[50px] mx-auto hover:bg-slate-50 cursor-pointer'
+                                onClick={() => fakeInputClick()}
+                            />
                         </div>
                     </div>
                 </div>
@@ -491,7 +477,7 @@ const DropZoneProduct = () => {
                 <DragDropContext
                     onDragEnd={onDragEnd}
                 >
-                    {image.length > 0 && image.map((item_tab, ndx) => (
+                    {image[0]?.length > 0 && image.map((item_tab, ndx) => (
                         <Droppable droppableId={`${ndx}`}
                             direction="horizontal"
                             key={ndx}>
@@ -518,20 +504,15 @@ const DropZoneProduct = () => {
                                                         provided.draggableProps.style
                                                     )}
                                                 >
-
                                                     <img className='imgClass max-w-[(calc(100% / 4) - 10px] max-h-[120px]'
                                                         src={window.location.origin + '/' + item.value} />
 
                                                     <button id="removeImg"
-                                                        className="removeImg invisible group-hover:visible absolute top-[5px] right-[5px] w-[25px] h-[25px] bg-[#d23e44] rounded"
-                                                        // onClick={() => removeOneImage(item.id)}
-
+                                                        className="invisible group-hover:visible absolute top-[5px] right-[5px] w-[25px] h-[25px] bg-[#d23e44] rounded"
                                                         onClick={() => {
                                                             removeOneImage(item.id, ndx, index);
                                                         }}
-
                                                     >
-
                                                         <img className='w-[25px] h-[25px] rounded'
                                                             src='../images/icons/x-white.svg' />
                                                     </button>
@@ -561,7 +542,7 @@ const DropZoneProduct = () => {
             >
                 <h2 className="childrenModal">Entrez l'URL de l'image</h2>
             </ModalInput>
-        </div>
+        </MainBlock>
     )
 }
 

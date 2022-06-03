@@ -77,7 +77,7 @@ const CreateProduct = (props) => {
     const [dataDetail, setDataDetail] = useState([]);
     const [showModalFromPrice, setShowModalFromPrice] = useState(false);
 
-    const { image, descriptionProduct, listSuppliers, setListSuppliers, supplier, setSupplier, collection, setCollection, productPrice, productStock, messageModal, setMessageModal } = useContext(AppContext);
+    const { image, descriptionProduct, listSuppliers, setListSuppliers, supplier, setSupplier, collection, setCollection, productPrice, productStock, messageModal, setMessageModal, nameProduct, setNameProduct } = useContext(AppContext);
 
     useEffect(() => {
         // récupére les types de détails dans la table type_detail_products pour remplire le select id=selectdetails
@@ -110,8 +110,18 @@ const CreateProduct = (props) => {
         }
     }
 
+    const handleName = (e) => {
+        setNameProduct(e.target.value);
+    }
+
     const validation = () => {
-        // VALIDATION !!!
+         
+        // name validation
+        if (nameProduct.length == 0) {
+            setMessageModal('Le champ nom est obligatoir');
+            setShowModalFromPrice(true);
+            return false;
+        }
 
         // price validation
         if (productPrice <= 0) {
@@ -144,11 +154,10 @@ const CreateProduct = (props) => {
             }
         }
 
-        formData.append("name", document.getElementById("name").value);
-        formData.append("price", document.getElementById("price").value);
+        formData.append("name", nameProduct);
+        formData.append("price", productPrice);
         formData.append("collection", collection);
         formData.append("description", descriptionProduct);
-        console.log('descriptionProduct  ', descriptionProduct)
         // supprime listTypes de dataDetail car inutile côté controlleur
         dataDetail.forEach(obj => delete obj.listTypes);
 
@@ -178,7 +187,11 @@ const CreateProduct = (props) => {
 
                     {/* name */}
                     <label>Nom*</label>
-                    <input id="name" name="name" type="text" className="w-full h-[40px] border border-slate-400 rounded-4 pl-[10px] mb-[15px] mt-1" />
+                    <input className="w-full h-[40px] border border-slate-400 rounded-4 pl-[10px] mb-[15px] mt-1" 
+                    type="text" 
+                    onChange={handleName}
+                    value={nameProduct}
+                    />
 
                     {/* description */}
                     <label>Déscription</label>

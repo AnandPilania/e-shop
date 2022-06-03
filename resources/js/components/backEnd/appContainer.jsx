@@ -141,7 +141,7 @@ const Appcontainer = () => {
     const [productCost, setProductCost] = useState(0);
     const [productStock, setProductStock] = useState('');
 
-
+   //---------------------------------------------------------------PRODUCT
 
     // supplier-------------------------------------------------------------
     const [nameSupplier, setNameSupplier] = useState('');
