@@ -124,6 +124,7 @@ Route::post('/save-supplier', [SupplierController::class, 'store']);
 
 
 Route::get('/editProduct/{productId}', [ProductController::class, 'editProduct']);
+
 Route::get('/selectCollections/{productId}', [ProductController::class, 'selectCollections']);
 
 // get image from url
@@ -138,8 +139,9 @@ Route::get('/editImagesProduct/{id}', [ProductController::class, 'editImagesProd
 Route::post('/replaceImagesProduct', [ProductController::class, 'replaceImagesProduct']);
 Route::post('/addImagesProduct', [ProductController::class, 'addImagesProduct']);
 Route::get('/deleteImagesProduct/{id}', [ProductController::class, 'deleteImagesProduct']);
+
 Route::post('/updateProduct', [ProductController::class, 'update']);
-Route::get('/detailCompletion', [ProductDetailController::class, 'detailCompletion']);
+
 Route::get('/creatFrontIndex', [FrontEndController::class, 'create']);
 // Route::get('/jumbos', [JumbosController::class, 'index']);
 
@@ -148,6 +150,11 @@ Route::post('/storeReveiw', [ReviewController::class, 'storeReveiw']);
 
 //sert à rien ??
 Route::post('/details', [ProductDetailController::class, 'details']);
+
+Route::get('/detailCompletion', [ProductDetailController::class, 'detailCompletion']);
+
+// renvoi les détails d'un produit donné
+Route::get('/getProductDetails/{productId}', [ProductDetailController::class, 'getProductDetails']);
 
 //met en best seller un produit dans la table products
 Route::post('/bestSeller', [ProductController::class, 'bestSeller']);

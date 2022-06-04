@@ -628,8 +628,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mb-\[10px\] {
   margin-bottom: 10px;
 }
-.mt-\[20px\] {
-  margin-top: 20px;
+.mt-0 {
+  margin-top: 0px;
+}
+.mt-\[25px\] {
+  margin-top: 25px;
 }
 .mb-\[30px\] {
   margin-bottom: 30px;
@@ -643,17 +646,8 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mr-\[17px\] {
   margin-right: 17px;
 }
-.mt-\[15px\] {
-  margin-top: 15px;
-}
-.mt-\[25px\] {
-  margin-top: 25px;
-}
-.mt-0 {
-  margin-top: 0px;
-}
-.mb-\[5px\] {
-  margin-bottom: 5px;
+.mb-\[10\] {
+  margin-bottom: 10;
 }
 .block {
   display: block;
@@ -724,8 +718,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .h-\[80px\] {
   height: 80px;
 }
-.h-\[200px\] {
-  height: 200px;
+.h-\[250px\] {
+  height: 250px;
+}
+.h-\[50px\] {
+  height: 50px;
 }
 .h-\[30\] {
   height: 30;
@@ -736,17 +733,8 @@ Ensure the default browser behavior of the `hidden` attribute.
 .h-\[17px\] {
   height: 17px;
 }
-.h-\[100px\] {
-  height: 100px;
-}
-.h-\[50px\] {
-  height: 50px;
-}
-.h-\[250px\] {
-  height: 250px;
-}
-.h-\[150px\] {
-  height: 150px;
+.h-\[50\] {
+  height: 50;
 }
 .max-h-\[120px\] {
   max-height: 120px;
@@ -808,8 +796,8 @@ Ensure the default browser behavior of the `hidden` attribute.
 .w-\[80px\] {
   width: 80px;
 }
-.w-\[200px\] {
-  width: 200px;
+.w-\[50px\] {
+  width: 50px;
 }
 .w-\[30\] {
   width: 30;
@@ -817,14 +805,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 .w-\[17px\] {
   width: 17px;
 }
-.w-\[50\%\] {
-  width: 50%;
+.w-\[200\] {
+  width: 200;
 }
-.w-\[100px\] {
-  width: 100px;
+.w-\[200px\] {
+  width: 200px;
 }
-.w-\[50px\] {
-  width: 50px;
+.w-\[250px\] {
+  width: 250px;
 }
 .min-w-\[750px\] {
   min-width: 750px;
@@ -840,9 +828,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .max-w-\[120px\] {
   max-width: 120px;
-}
-.max-w-\[200px\] {
-  max-width: 200px;
 }
 .flex-1 {
   flex: 1 1 0%;
@@ -882,6 +867,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .cursor-pointer {
   cursor: pointer;
+}
+.cursor-text {
+  cursor: text;
 }
 .list-inside {
   list-style-position: inside;
@@ -1026,6 +1014,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .border-l {
   border-left-width: 1px;
+}
+.border-b-\[1px\] {
+  border-bottom-width: 1px;
 }
 .border-dashed {
   border-style: dashed;
@@ -1186,6 +1177,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-left: 10px;
   padding-right: 10px;
 }
+.px-\[10\] {
+  padding-left: 10;
+  padding-right: 10;
+}
+.py-\[10px\] {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
 .pr-4 {
   padding-right: 1rem;
 }
@@ -1237,17 +1236,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 .pt-\[20px\] {
   padding-top: 20px;
 }
-.pl-\[17px\] {
-  padding-left: 17px;
-}
-.pb-0 {
-  padding-bottom: 0px;
+.pb-\[5px\] {
+  padding-bottom: 5px;
 }
 .pb-\[10px\] {
   padding-bottom: 10px;
 }
-.pb-\[5px\] {
-  padding-bottom: 5px;
+.pl-\[17px\] {
+  padding-left: 17px;
 }
 .text-left {
   text-align: left;
@@ -1281,14 +1277,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-\[15px\] {
   font-size: 15px;
 }
+.text-\[12px\] {
+  font-size: 12px;
+}
 .text-\[16px\] {
   font-size: 16px;
 }
 .text-\[13px\] {
   font-size: 13px;
-}
-.text-\[12px\] {
-  font-size: 12px;
 }
 .font-medium {
   font-weight: 500;

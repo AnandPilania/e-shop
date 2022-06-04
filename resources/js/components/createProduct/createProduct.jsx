@@ -1,6 +1,8 @@
 import { React, useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import { makeStyles } from '@material-ui/styles';
+import MainBlock from '../elements/blocks/mainBlock';
+import Options from './options';
 import ContainerDetail from './containerDetail';
 import SelectWithCheckbox from '../elements/selectWithCheckbox';
 import Select from '../elements/select';
@@ -115,7 +117,7 @@ const CreateProduct = (props) => {
     }
 
     const validation = () => {
-         
+
         // name validation
         if (nameProduct.length == 0) {
             setMessageModal('Le champ nom est obligatoir');
@@ -177,7 +179,7 @@ const CreateProduct = (props) => {
 
             });
     }
- 
+
 
     return (
         <div className="min-w-[750px] w-[60%] min-h-[130vh] my-[50px] mx-auto pb-[300px] grid grid-cols-mainContainer gap-[10px] text-[15px]">
@@ -187,10 +189,10 @@ const CreateProduct = (props) => {
 
                     {/* name */}
                     <label>Nom*</label>
-                    <input className="w-full h-[40px] border border-slate-400 rounded-4 pl-[10px] mb-[15px] mt-1" 
-                    type="text" 
-                    onChange={handleName}
-                    value={nameProduct}
+                    <input className="w-full h-[40px] border border-slate-400 rounded-4 pl-[10px] mb-[15px] mt-1"
+                        type="text"
+                        onChange={handleName}
+                        value={nameProduct}
                     />
 
                     {/* description */}
@@ -208,9 +210,14 @@ const CreateProduct = (props) => {
                 <Stock />
 
                 {/* details */}
-                <div className="div-vert-align">
+                <MainBlock>
                     <ContainerDetail setDataDetail={setDataDetail} />
-                </div>
+                </MainBlock>
+
+                {/* options */}
+                <MainBlock>
+                    <Options />
+                </MainBlock>
             </div>
 
             {/* ----------  side  ---------- */}

@@ -24,6 +24,11 @@ class Variante extends Model
         return $this->belongsTo(Product::class);
     } 
 
+    public function product_details()
+    {
+        return $this->hasMany(Product_detail::class);
+    }
+
     public function supplier() 
     {
         return $this->belongsTo(Supplier::class);

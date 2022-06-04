@@ -18,8 +18,8 @@ class CreateProductDetailsTable extends Migration
             $table->string('libelle');
             $table->string('img_path')->nullable();
             $table->integer('ordre');
-            $table->unsignedBigInteger('product_id');
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->unsignedBigInteger('variante_id');
+            $table->foreign('variante_id')->references('id')->on('variantes');
             $table->unsignedBigInteger('type_detail_product_id');
             $table->foreign('type_detail_product_id')->references('id')->on('type_detail_products');
             $table->timestamps();

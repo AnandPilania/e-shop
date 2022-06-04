@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Product_detail;
 use Illuminate\Support\Facades\DB;
@@ -11,7 +12,6 @@ class ProductDetailController extends Controller
 {
     public function details(Request $request)
     {
-
         dd($request);
 
         // foreach($request->obj as $detail) {
@@ -43,7 +43,7 @@ class ProductDetailController extends Controller
     public function detailCompletion(Request $request)
     {
         // récupère le détail qui correspond au $request->type_detail_name ex: couleur, poids,...
-        $libelle_product_details = Type_detail_product::where('name',  $request->type_detail_name)->first();
+        $libelle_product_details = Type_detail_product::where('name', $request->type_detail_name)->first();
 
         if ($libelle_product_details->product_details) {
             $details = DB::table('product_details')
@@ -54,5 +54,28 @@ class ProductDetailController extends Controller
         } else {
             return '';
         }
+    }
+
+
+    public function getProductDetails($productId)
+    {
+        $product = Product::find($productId);
+
+        $details = $product->product_details;
+        $temp_Array = [];
+        $objDetails = [];
+        $detailName = [];
+
+        foreach ($details as $detail) {
+            $temp_Array['libelle'] = $detail->libelle;
+            $temp_Array['ordre'] = $detail->ordre;
+
+            $detailName = Type_detail_product::find($detail->type_detail_product_id);
+            $temp_Array['type'] = $detailName['name'];
+
+            array_push($objDetails, $temp_Array);
+        }
+
+        return ['objDetails' => $objDetails];
     }
 }

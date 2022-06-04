@@ -54,7 +54,6 @@ const ContainerDetail = (props) => {
     // change le typa dans blockDetail
     const changeType = (detailx, type, prevType) => {
         var arr = [...blockDetail];
-        // renvoi l'index de detailX si il se trouve dans arr
         var index_arr = arr.findIndex(obj => obj.id == detailx);//id = detailx
         // met à jour le type dans BlockDetail ex: couleur, taille, poids, ...
         arr[index_arr].type = type;
@@ -141,7 +140,7 @@ const ContainerDetail = (props) => {
         });
         // enlève les doublons de selectedTypes si il y en a
         selectedTypes = [...new Set(selectedTyp), selectedTyp[blockDetail.length]];
-
+        console.log('selectedTypes  ', selectedTypes)
         // met dans currentListType les types qui n'ont pas encore été sélectionnés
         currentListType = listType.filter(item => !selectedTypes.includes(item.name));
 

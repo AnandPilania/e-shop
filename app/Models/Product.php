@@ -44,11 +44,6 @@ class Product extends Model
         return $this->belongsToMany(Order::class);
     }
 
-    public function product_details()
-    {
-        return $this->hasMany(Product_detail::class);
-    }
-
     public function product_sheet()
     {
         return $this->hasOne(Product_sheet::class);

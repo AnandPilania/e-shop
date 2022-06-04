@@ -9,9 +9,9 @@ class Product_detail extends Model
 {
     use HasFactory;
 
-    public function product()
+    public function variante()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Variante::class);
     }
 
     public function type_detail_product()
