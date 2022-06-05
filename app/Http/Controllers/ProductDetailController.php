@@ -40,6 +40,8 @@ class ProductDetailController extends Controller
 
 
     // renvoi tous les détails pour un type donné
+
+    // A SUPPRIMER ? !!!!!!!!!!!!
     public function detailCompletion(Request $request)
     {
         // récupère le détail qui correspond au $request->type_detail_name ex: couleur, poids,...
@@ -51,6 +53,25 @@ class ProductDetailController extends Controller
                 ->where('type_detail_product_id', $libelle_product_details->id)->distinct()
                 ->get();
             return $details;
+        } else {
+            return '';
+        }
+    }
+
+
+    // renvoi tous les détails pour un type donné
+    public function getOptionValues(Request $request)
+    {
+        // récupère le détail qui correspond au $request->type_detail_name ex: couleur, poids,...
+        $option_name = Type_detail_product::where('name', $request->option_name)->first();
+
+        if (isset($option_name) && $option_name->product_details) {
+            $optionsValue = DB::table('product_details')
+                ->select('*')
+                ->where('type_detail_product_id', $option_name->id)
+                ->distinct()
+                ->get();
+            return $optionsValue;
         } else {
             return '';
         }

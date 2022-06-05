@@ -151,10 +151,13 @@ Route::post('/storeReveiw', [ReviewController::class, 'storeReveiw']);
 //sert à rien ??
 Route::post('/details', [ProductDetailController::class, 'details']);
 
+// A SUPPRIMER ? !!!
 Route::get('/detailCompletion', [ProductDetailController::class, 'detailCompletion']);
 
-// renvoi les détails d'un produit donné
-Route::get('/getProductDetails/{productId}', [ProductDetailController::class, 'getProductDetails']);
+Route::get('/getOptionValues', [ProductDetailController::class, 'getOptionValues']);
+
+// renvoi les valeurs d'option d'un produit donné
+Route::get('/getOptionValues', [ProductDetailController::class, 'getOptionValues']);
 
 //met en best seller un produit dans la table products
 Route::post('/bestSeller', [ProductController::class, 'bestSeller']);

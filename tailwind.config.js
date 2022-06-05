@@ -24,8 +24,14 @@ module.exports = {
             gridTemplateColumns: {
                 // grid main container
                 'mainContainer': 'calc(66.6666% - 10px) calc(33.3333% - 10px)',
-            }
+            },
+            backgroundImage: {
+                'caret-down': "url('/images/icons/caret-down.svg')",
+              }
         },
+        backgroundPosition: {
+            'right-center': 'right 15px center',
+        }
     },
 
     plugins: [

@@ -73,7 +73,7 @@ export default function SelectWithCheckbox({ list, selected, setSelected }) {
             </button>
             <ul
                 id='ulSelectWithCheckbox'
-                className="absolute top-[40px] left-0 w-full h-0 bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-gray-300 border-l border-r shadow-lg scrollbar scrollbar-thumb-blue-700 scrollbar-track-gray-100">
+                className="absolute top-[40px] left-0 w-full h-0 bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-gray-300 border-l border-r shadow-lg scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100">
                 {
                     list.length > 0 && list.map(item =>
                         <li key={item.id} className="flex items-center pl-[17px] w-full h-[40px] border-gray-300 border-b">
