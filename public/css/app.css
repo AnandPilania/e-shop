@@ -649,12 +649,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mr-\[17px\] {
   margin-right: 17px;
 }
-.box-border {
-  box-sizing: border-box;
-}
-.box-content {
-  box-sizing: content-box;
-}
 .block {
   display: block;
 }
@@ -730,6 +724,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 .h-\[50px\] {
   height: 50px;
 }
+.h-\[38px\] {
+  height: 38px;
+}
+.h-\[42px\] {
+  height: 42px;
+}
 .h-\[30\] {
   height: 30;
 }
@@ -739,32 +739,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .h-\[17px\] {
   height: 17px;
 }
-.h-\[\] {
-  height: ;
-}
-.h-\[38px\] {
-  height: 38px;
-}
-.h-\[42px\] {
-  height: 42px;
-}
-.h-\[px\] {
-  height: px;
-}
 .max-h-\[120px\] {
   max-height: 120px;
 }
 .max-h-\[200px\] {
   max-height: 200px;
-}
-.max-h-\[240px\] {
-  max-height: 240px;
-}
-.max-h-\[160px\] {
-  max-height: 160px;
-}
-.max-h-\[0px\] {
-  max-height: 0px;
 }
 .max-h-\[242px\] {
   max-height: 242px;
@@ -1008,9 +987,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .border-4 {
   border-width: 4px;
 }
-.border-\[1px\] {
-  border-width: 1px;
-}
 .border-y-\[1px\] {
   border-top-width: 1px;
   border-bottom-width: 1px;
@@ -1038,9 +1014,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .border-dashed {
   border-style: dashed;
-}
-.border-none {
-  border-style: none;
 }
 .border-gray-300 {
   --tw-border-opacity: 1;

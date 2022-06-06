@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 
-export default function SelectWithCheckbox({ list, selected, setSelected }) {
+export default function SelectWithCheckbox({ unikId, list, selected, setSelected }) {
 
     // list contient la liste à afficher dans le select
     // selected et setSelected sont le hook qui contient les éléments électionnés
@@ -21,7 +21,7 @@ export default function SelectWithCheckbox({ list, selected, setSelected }) {
     };
 
     const showDropDown = () => {
-        let ul = document.querySelector('#ulSelectWithCheckbox');
+        let ul = document.getElementById('ul' + unikId);
         if (!toggleSelectWithCheckbox) {
             ul.style.height = '240px';
             ul.classList.add('border-b');
@@ -42,8 +42,8 @@ export default function SelectWithCheckbox({ list, selected, setSelected }) {
     }, []);
     // ferme le ul quand on click en dehors du select
     function closeULSelectDropDown(e) {
-        const ulSelectWithCheckbox = document.getElementById("ulSelectWithCheckbox");
-        const ButtonSelectDropDown = document.getElementById("ButtonSelectDropDown");
+        const ulSelectWithCheckbox = document.getElementById("ul" + unikId);
+        const ButtonSelectDropDown = document.getElementById("Button" + unikId);
         let targetElement = e.target; // clicked element
 
         do {
@@ -65,14 +65,14 @@ export default function SelectWithCheckbox({ list, selected, setSelected }) {
     return (
         <div className="w-full relative">
             <button
-                id='ButtonSelectDropDown'
+                id={'Button' + unikId}
                 className='flex items-center pl-[17px] w-full h-[40px] text-stone-800 text-base hover:cursor-pointer border border-gray-300'
                 onClick={() => showDropDown()}
             >
                 <img src='../images/icons/caret-down.svg' className='ml-auto mr-[17px]' />
             </button>
             <ul
-                id='ulSelectWithCheckbox'
+                id={'ul' + unikId}
                 className="absolute top-[40px] left-0 w-full h-0 bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-gray-300 border-l border-r shadow-lg scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100">
                 {
                     list.length > 0 && list.map(item =>

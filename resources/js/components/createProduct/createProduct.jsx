@@ -226,7 +226,7 @@ const CreateProduct = (props) => {
                 <div className="div-vert-align">
                     <h3 className={classes.label_text}>Collections</h3>
                     <SelectWithCheckbox
-                        key="SelectWithCheckbox_collection"
+                        unikId="SelectWithCheckbox_collection"
                         list={collectionsRelations}
                         selected={collection}
                         setSelected={setCollection}

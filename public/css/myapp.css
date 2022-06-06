@@ -3099,6 +3099,10 @@ a.link:hover {
   border: solid 1px #c40000;
 }
 
+.brd-red-2 {
+  border: solid 2px #c40000;
+}
+
 .brd-blue-1 {
   border: solid 1px #123eff;
 }
