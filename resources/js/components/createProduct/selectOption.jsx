@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Axios from 'axios';
 
 
@@ -10,6 +10,7 @@ const SelectOption = ({ listType }) => {
     const [listOptionValues, setListOptionValues] = useState([]);
     const [optionValues, setOptionValues] = useState([]);
     const [tmp_optionValues, setTmp_optionValues] = useState('');
+    const [tmp_selectOptionValues, setTmp_selectOptionValues] = useState('');
     const [showListType, setShowListType] = useState(false);
     const [showOptionValues, setShowOptionValues] = useState(false);
 
@@ -75,37 +76,38 @@ const SelectOption = ({ listType }) => {
 
 
 
-var test = '';
-    const handleChangeOptionValues = (e) => {
-        test = e.target.value;
-        setTmp_optionValues(e.target.value);
 
-        // gère la fermeture du dropDown input OptionValues quand on clique en dehors
-        // on remov dabord pour être sur de ne pas accumuler les eventListener
-        window.removeEventListener("click", onClickOutside_inputOptionValues);
-        window.addEventListener("click", onClickOutside_inputOptionValues);
+
+    const handleChangeOptionValues = (e) => {
+        setTmp_optionValues(e.target.value);
     };
 
-    // const addNewOptionValue = () => {
-    //     // console.log('tmp_optionValues  ', tmp_optionValues)
-    //     if (tmp_optionValues.length > 0) {
-    //         setOptionValues([...optionValues, tmp_optionValues]);
-    //     }
-    // }
+    const handleSelectOptionValues = (selected_optionValue) => {
 
-    const handleSelectOptionValues = (e) => {
-        if (e.target != undefined) {
-            let index = optionValues.indexOf(e.target.value);
+        if (selected_optionValue != undefined && selected_optionValue.length > 0) {
+            let index = optionValues.indexOf(selected_optionValue);
             if (index > -1) {
                 let tmp_arr = [...optionValues];
                 tmp_arr.splice(index, 1);
                 setOptionValues([...tmp_arr]);
             } else {
-                setOptionValues([...optionValues, e.target.value]);
+                setOptionValues([...optionValues, selected_optionValue]);
             }
+            setTmp_selectOptionValues('');
             return;
         }
     };
+
+    const handleShowOptionValues = () => {
+        setShowOptionValues(!showOptionValues);
+    }
+
+    useEffect(() => {
+        if (showOptionValues) {
+            let inputOptionValues = document.getElementById('inputOptionValues');
+            inputOptionValues.className = "inputOptionValues w-full h-[38px] pl-[10px] mt-0 rounded-4 cursor-text bg-no-repeat bg-caret-down bg-right-center"
+        }
+    }, [showOptionValues]);
 
     const removeOptionValue = (item) => {
         let index = optionValues.indexOf(item);
@@ -116,38 +118,66 @@ var test = '';
         }
     }
 
-    const handleShowOptionValues = () => {
-        setShowOptionValues(!showOptionValues);
-    }
 
-    // ferme le dropDown input OptionValues quand on clique en dehors
-    const onClickOutside_inputOptionValues = (e) => {
-        if (!e.target.className.includes('inputOptionValues')) {
-            setShowOptionValues(false);
-
-            let inputOptionValues = document.getElementById('inputOptionValues');
-            inputOptionValues.className = "inputOptionValues w-full h-[38px] pl-[10px] mt-0 rounded-4 cursor-text bg-no-repeat hover:bg-caret-down bg-right-center"
-console.log('tmp_optionValues  ', tmp_optionValues)
-            // addNewOptionValue();
-            if (test.length > 0) {
-                setOptionValues([...optionValues, test]);
-            }
-            setTmp_optionValues('');
-        }
-    };
+    const input_optionValuesRef = useRef(null);
+    // gère la fermeture du dropDown input OptionValues quand on clique en dehors
     useEffect(() => {
-        if (showOptionValues) {
-            let inputOptionValues = document.getElementById('inputOptionValues');
-            inputOptionValues.className = "inputOptionValues w-full h-[38px] pl-[10px] mt-0 rounded-4 cursor-text bg-no-repeat bg-caret-down bg-right-center"
+        const handleClickOutside = (event) => {
+            // check qu'on a bien click en dehors de l'input
+            if (input_optionValuesRef.current && !input_optionValuesRef.current.contains(event.target)) {
 
-            // gère la fermeture du dropDown input OptionValues quand on clique en dehors
-            window.addEventListener("click", onClickOutside_inputOptionValues);
-        } else {
-            window.removeEventListener("click", onClickOutside_inputOptionValues);
-        }
-    }, [showOptionValues]);
+                if (tmp_optionValues.length > 0) {
+                    if (optionValues.includes(tmp_optionValues)) {
+                        alert('Vous avez déjà entré cette valeur');
+                        return;
+                    } else {
+                        setOptionValues([...optionValues, tmp_optionValues]);
+                        setTmp_optionValues('');
+
+                        setShowOptionValues(false);
+                        let inputOptionValues = document.getElementById('inputOptionValues');
+                        inputOptionValues.className = "inputOptionValues w-full h-[38px] pl-[10px] mt-0 rounded-4 cursor-text bg-no-repeat hover:bg-caret-down bg-right-center"
+                    }
+                }
+            }
+        };
+
+        document.addEventListener('click', handleClickOutside, true);
+        return () => {
+            document.removeEventListener('click', handleClickOutside, true);
+        };
+    }, [tmp_optionValues]);
 
 
+
+    const li_optionValuesRef = useRef(null);
+    // gère la fermeture du dropDown input OptionValues quand on clique en dehors
+    useEffect(() => {
+        const handleClickOutside2 = (event) => {
+            // check qu'on a bien click en dehors de l'input
+            if (li_optionValuesRef.current && !li_optionValuesRef.current.contains(event.target)) {
+
+                setShowOptionValues(false);
+            }
+        };
+
+        document.addEventListener('click', handleClickOutside2, true);
+        return () => {
+            document.removeEventListener('click', handleClickOutside2, true);
+        };
+    }, [tmp_selectOptionValues]);
+
+    const handleClose = () => {
+        setShowOptionValues(false);
+    };
+
+    const cover = {
+        position: 'fixed',
+        top: '0px',
+        right: '0px',
+        bottom: '0px',
+        left: '-5px',
+    }
 
     return (
         <div className='w-full h-auto grid gap-x-4 gap-y-2 grid-cols-2 justify-start items-start'>
@@ -207,8 +237,10 @@ console.log('tmp_optionValues  ', tmp_optionValues)
                             id="inputOptionValues"
                             type="text"
                             value={tmp_optionValues}
+                            ref={input_optionValuesRef}
                             onChange={handleChangeOptionValues}
-                            onClick={handleShowOptionValues}
+                            // onClick={handleShowOptionValues}
+                            onClick={() => { setShowOptionValues(true) }}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter' || e.key === 'NumpadEnter') {
                                     setShowOptionValues(false);
@@ -217,10 +249,11 @@ console.log('tmp_optionValues  ', tmp_optionValues)
                             }}
                             placeholder="Ex. Bleu, Large, 40cm,..."
                             autoComplete="off"
+                            disabled={option.length == 0}
                             className="inputOptionValues w-full h-[38px] pl-[10px] m-0 rounded-4 cursor-text bg-no-repeat hover:bg-caret-down bg-right-center"
                         />
                     </div>
-
+                    <div style={cover} onClick={handleClose} />
                     {showOptionValues &&
                         <ul id="listOptionValues"
                             className='absolute t-[40px] l-0 w-full max-h-[242px] border border-slate-300 bg-white overflow-x-hidden overflow-y-scroll z-10 shadow-lg scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 brd-red-2'
@@ -229,10 +262,9 @@ console.log('tmp_optionValues  ', tmp_optionValues)
                                 <li
                                     key={index}
                                     value={item.name}
-                                    onClick={() => handleSelectOptionValues(item.name)}
+                                    ref={li_optionValuesRef}
                                     className="w-full h-[40px] flex justify-start items-center pl-[10px] cursor-pointer hover:bg-slate-100"
                                 >
-
                                     <input type='checkbox'
                                         value={item.id}
                                         id={item.id}
@@ -240,7 +272,7 @@ console.log('tmp_optionValues  ', tmp_optionValues)
                                         onChange={() => handleSelectOptionValues(item.name)}
                                         className="w-[17px] h-[17px] mr-[17px] hover:cursor-pointer" />
                                     <label htmlFor={item.id}
-                                        className="text-stone-800 text-base hover:cursor-pointer">
+                                        className="w-full h-full text-stone-800 text-base hover:cursor-pointer">
                                         {item.name}
                                     </label>
                                 </li>

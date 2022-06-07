@@ -643,11 +643,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mt-\[3px\] {
   margin-top: 3px;
 }
-.mr-\[7px\] {
-  margin-right: 7px;
-}
 .mr-\[17px\] {
   margin-right: 17px;
+}
+.mr-\[7px\] {
+  margin-right: 7px;
 }
 .block {
   display: block;
@@ -730,14 +730,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 .h-\[42px\] {
   height: 42px;
 }
+.h-\[17px\] {
+  height: 17px;
+}
 .h-\[30\] {
   height: 30;
 }
 .h-0 {
   height: 0px;
-}
-.h-\[17px\] {
-  height: 17px;
 }
 .max-h-\[120px\] {
   max-height: 120px;
@@ -805,11 +805,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .w-\[50px\] {
   width: 50px;
 }
-.w-\[30\] {
-  width: 30;
-}
 .w-\[17px\] {
   width: 17px;
+}
+.w-\[30\] {
+  width: 30;
 }
 .min-w-\[750px\] {
   min-width: 750px;
