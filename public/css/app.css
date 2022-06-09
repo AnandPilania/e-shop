@@ -544,6 +544,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-left: 10px;
   margin-right: 10px;
 }
+.mx-0 {
+  margin-left: 0px;
+  margin-right: 0px;
+}
 .ml-3 {
   margin-left: 0.75rem;
 }
@@ -649,6 +653,21 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mr-\[7px\] {
   margin-right: 7px;
 }
+.mt-\[5px\] {
+  margin-top: 5px;
+}
+.mb-\[5px\] {
+  margin-bottom: 5px;
+}
+.mt-auto {
+  margin-top: auto;
+}
+.mb-\[px\] {
+  margin-bottom: px;
+}
+.mb-\[3px\] {
+  margin-bottom: 3px;
+}
 .block {
   display: block;
 }
@@ -748,6 +767,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 .max-h-\[242px\] {
   max-height: 242px;
 }
+.max-h-\[px\] {
+  max-height: px;
+}
+.max-h-\[40px\] {
+  max-height: 40px;
+}
 .min-h-screen {
   min-height: 100vh;
 }
@@ -810,6 +835,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .w-\[30\] {
   width: 30;
+}
+.w-\[150px\] {
+  width: 150px;
 }
 .min-w-\[750px\] {
   min-width: 750px;
@@ -1184,6 +1212,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-top: 10px;
   padding-bottom: 10px;
 }
+.px-\[\] {
+  padding-left: ;
+  padding-right: ;
+}
 .pr-4 {
   padding-right: 1rem;
 }
@@ -1367,6 +1399,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-stone-800 {
   --tw-text-opacity: 1;
   color: rgb(41 37 36 / var(--tw-text-opacity));
+}
+.text-red-700 {
+  --tw-text-opacity: 1;
+  color: rgb(185 28 28 / var(--tw-text-opacity));
 }
 .underline {
   -webkit-text-decoration-line: underline;

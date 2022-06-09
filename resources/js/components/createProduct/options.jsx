@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import SelectOption from './selectOption';
+import Option from './option';
 import Axios from "axios";
 
 const Options = () => {
 
     const [listType, setListType] = useState([]);
+    const [optionsObj, setOptionsObj] = useState([
+        {
+            option: '',
+            values: []
+        }
+    ]);
 
     useEffect(() => {
         // get list of option types
@@ -16,12 +22,34 @@ const Options = () => {
             });
     }, []);
 
+    const addOption = (newOption) => {
+        setOptionsObj([...optionsObj, newOption])
+    }
+
     return (
-            <div className="w-full py-[10px]">
+        <div className="w-full">
 
-                <SelectOption listType={listType} />
+            {!!optionsObj && optionsObj.map(item => {
+                <div className='w-full'>
+                    <Option
+                        listType={listType}
+                        optionObj={item}
+                        addOption={addOption}
+                    />
+                    <button className='h-[40px] px-[10px] border border-slate-200 '>
+                        Supprimer
+                    </button>
+                </div>
+            })
+            }
 
-            </div>
+            <button
+                onClick={addOption}
+                className='h-[40px] px-[10px] border border-slate-200 '>
+                Ajouter une option
+            </button>
+
+        </div>
     );
 }
 
