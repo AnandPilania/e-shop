@@ -3,25 +3,28 @@ import Axios from 'axios';
 
 
 
-const Option = ({ listType, optionObj, addOption }) => {
+const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
 
-    const [option, setOption] = useState('');
+    const [optionObj, setOptionObj] = useState({
+        id: option_obj.id,
+        name: option_obj.name,
+        values: [...option_obj.values]
+    });
     const [listOptionValues, setListOptionValues] = useState([]);
-    const [optionValues, setOptionValues] = useState([]);
     const [tmp_optionValues, setTmp_optionValues] = useState('');
     const [tmp_selectOptionValues, setTmp_selectOptionValues] = useState('');
     const [showListType, setShowListType] = useState(false);
     const [showOptionValues, setShowOptionValues] = useState(false);
     const [optionValueMessage, setOptionValueMessage] = useState(false);
 
-
+    console.log('optionObj id  ', optionObj.id)
 
     // récupération de toutes les valeurs pour une option donnée
     const getOptionValues = () => {
         Axios.get(`http://127.0.0.1:8000/getOptionValues`,
             {
                 params: {
-                    option_name: option,
+                    option_name: optionObj.name,
                 }
             }).then((res) => {
                 if (res.data.length > 0) {
@@ -33,20 +36,20 @@ const Option = ({ listType, optionObj, addOption }) => {
 
     const handleChangeOption = (e) => {
         if (e.target != undefined) {
-            setOption(e.target.value);
+            setOptionObj({ ...optionObj, name: e.target.value });
         }
         if (e != undefined && e.length > 0) {
-            setOption(e);
+            setOptionObj({ ...optionObj, name: e });
         }
     };
 
     useEffect(() => {
         setListOptionValues([]);
-        setOptionValues([]);
-        if (option.length > 0) {
+        setOptionObj({ ...optionObj, values: [] });
+        if (optionObj.name?.length > 0) {
             getOptionValues();
         }
-    }, [option]);
+    }, [optionObj.name]);
 
 
     const handleShowListType = () => {
@@ -59,13 +62,17 @@ const Option = ({ listType, optionObj, addOption }) => {
             setShowListType(false);
 
             let inputListType = document.getElementById('inputListType');
-            inputListType.className = "inputListType w-full h-[38px] pl-[10px] m-0 rounded-4 cursor-text bg-no-repeat hover:bg-caret-down bg-right-center"
+            if (inputListType !== null) {
+                inputListType.className = "inputListType w-full h-[38px] pl-[10px] m-0 rounded-4 cursor-text bg-no-repeat hover:bg-caret-down bg-right-center";
+            }
         }
     };
     useEffect(() => {
         if (showListType) {
             let inputListType = document.getElementById('inputListType');
-            inputListType.className = "inputListType w-full h-[38px] pl-[10px] m-0 rounded-4 cursor-text bg-no-repeat bg-caret-down bg-right-center"
+            if (inputListType !== null) {
+                inputListType.className = "inputListType w-full h-[38px] pl-[10px] m-0 rounded-4 cursor-text bg-no-repeat bg-caret-down bg-right-center";
+            }
 
             // gère la fermeture du dropDown input listType quand on clique en dehors
             window.addEventListener("click", onClickOutside_inputListType);
@@ -80,33 +87,31 @@ const Option = ({ listType, optionObj, addOption }) => {
 
     const handleChangeOptionValues = (e) => {
 
-        setTmp_optionValues(e.target.value.trim());
+        setTmp_optionValues(e.target.value);
         setShowOptionValues(false);
 
     };
 
     const handleEnterOptionsValue = () => {
-
         setShowOptionValues(false);
-        if (optionValues.includes(tmp_optionValues)) {
+        if (optionObj.values.includes(tmp_optionValues)) {
             setOptionValueMessage(true);
             return;
         }
 
-        tmp_optionValues.length > 0 && setOptionValues([...optionValues, tmp_optionValues.trim()]);
+        tmp_optionValues.length > 0 && setOptionObj({ ...optionObj, values: [...optionObj.values, tmp_optionValues.trim()] });
         setTmp_optionValues('');
-
     }
 
     const handleSelectOptionValues = (optionValue_name) => {
         if (optionValue_name != undefined && optionValue_name.length > 0) {
-            let index = optionValues.indexOf(optionValue_name);
+            let index = optionObj.values.indexOf(optionValue_name);
             if (index > -1) {
-                let tmp_arr = [...optionValues];
+                let tmp_arr = [...optionObj.values];
                 tmp_arr.splice(index, 1);
-                setOptionValues([...tmp_arr]);
+                setOptionObj({ ...optionObj, values: [...tmp_arr] });
             } else {
-                setOptionValues([...optionValues, optionValue_name]);
+                setOptionObj({ ...optionObj, values: [...optionObj.values, optionValue_name] });
             }
         }
         setTmp_selectOptionValues(optionValue_name);
@@ -123,16 +128,18 @@ const Option = ({ listType, optionObj, addOption }) => {
             if (input_optionValuesRef.current && !input_optionValuesRef.current.contains(event.target)) {
 
                 if (tmp_optionValues.length > 0) {
-                    if (optionValues.includes(tmp_optionValues)) {
+                    if (optionObj.values.includes(tmp_optionValues)) {
                         setOptionValueMessage(true);
                         return;
                     } else {
-                        setOptionValues([...optionValues, tmp_optionValues]);
+                        setOptionObj({ ...optionObj, values: [...optionObj.values, tmp_optionValues] });
                         setTmp_optionValues('');
 
                         setShowOptionValues(false);
                         let inputOptionValues = document.getElementById('inputOptionValues');
-                        inputOptionValues.className = "inputOptionValues w-full h-[38px] pl-[10px] mt-0 rounded-4 cursor-text bg-no-repeat hover:bg-caret-down bg-right-center"
+                        if (inputOptionValues !== null) {
+                            inputOptionValues.className = "inputOptionValues w-full h-[38px] pl-[10px] mt-0 rounded-4 cursor-text bg-no-repeat hover:bg-caret-down bg-right-center";
+                        }
                     }
                 }
             }
@@ -148,16 +155,18 @@ const Option = ({ listType, optionObj, addOption }) => {
     useEffect(() => {
         if (showOptionValues) {
             let inputOptionValues = document.getElementById('inputOptionValues');
-            inputOptionValues.className = "inputOptionValues w-full h-[38px] pl-[10px] m-0 rounded-4 cursor-text bg-no-repeat bg-caret-down bg-right-center"
+            if (inputOptionValues !== null) {
+                inputOptionValues.className = "inputOptionValues w-full h-[38px] pl-[10px] m-0 rounded-4 cursor-text bg-no-repeat bg-caret-down bg-right-center";
+            }
         }
     }, [showOptionValues]);
 
     const removeOptionValue = (item) => {
-        let index = optionValues.indexOf(item);
+        let index = optionObj.values.indexOf(item);
         if (index > -1) {
-            let tmp_arr = [...optionValues];
+            let tmp_arr = [...optionObj.values];
             tmp_arr.splice(index, 1);
-            setOptionValues([...tmp_arr]);
+            setOptionObj({ ...optionObj, values: [...tmp_arr] });
         }
     }
 
@@ -195,7 +204,7 @@ const Option = ({ listType, optionObj, addOption }) => {
                         <input
                             id="inputListType"
                             type="text"
-                            value={option}
+                            value={optionObj.name}
                             onChange={handleChangeOption}
                             onClick={handleShowListType}
                             onKeyDown={(e) => {
@@ -243,7 +252,7 @@ const Option = ({ listType, optionObj, addOption }) => {
                             ref={input_optionValuesRef}
                             onChange={handleChangeOptionValues}
                             onClick={() => {
-                                setShowOptionValues(true);
+                                setShowOptionValues(!showOptionValues);
                                 setOptionValueMessage(false);
                             }}
                             onKeyDown={(e) => {
@@ -253,7 +262,7 @@ const Option = ({ listType, optionObj, addOption }) => {
                             }}
                             placeholder="Ex. Bleu, Large, 40cm,..."
                             autoComplete="off"
-                            disabled={option.length == 0}
+                            disabled={optionObj.name?.length == 0}
                             className="inputOptionValues w-full h-[38px] pl-[10px] m-0 rounded-4 cursor-text bg-white bg-no-repeat hover:bg-caret-down bg-right-center"
                         />
                     </div>
@@ -275,7 +284,7 @@ const Option = ({ listType, optionObj, addOption }) => {
                                     <input type='checkbox'
                                         value={item.id}
                                         id={item.id}
-                                        checked={optionValues.indexOf(item.name) > -1}
+                                        checked={optionObj.values.indexOf(item.name) > -1}
                                         onChange={() => handleSelectOptionValues(item.name)}
                                         onKeyDown={(e) => {
                                             if (e.key === 'Enter' || e.key === 'NumpadEnter') {
@@ -293,9 +302,8 @@ const Option = ({ listType, optionObj, addOption }) => {
                         </ul>}
                 </div>
             </div>
-
             <div className="col-span-2 flex flex-wrap pt-[20px] w-full">
-                {optionValues.map(item =>
+                {!!optionObj.values.length > 0 && optionObj.values.map(item =>
                     <div key={item}
                         className="flex justify-between align-center h-[24px] rounded-full bg-sky-500 pl-3 mb-1 mr-2 ">
                         <span
@@ -310,6 +318,18 @@ const Option = ({ listType, optionObj, addOption }) => {
                         </span>
                     </div>
                 )}
+            </div>
+            <div className='w-full flex flex-row justify-start items-center'>
+                <button
+                    onClick={() => saveOption({ id: optionObj.id, name: optionObj.name, values: optionObj.values })}
+                    className='h-[40px] px-[10px] border border-slate-200 '>
+                    Enregistrer
+                </button>
+                <button
+                    onClick={() => deleteOption(optionObj.id)}
+                    className='h-[40px] px-[10px] border border-slate-200 '>
+                    Supprimer
+                </button>
             </div>
         </div>
     )
