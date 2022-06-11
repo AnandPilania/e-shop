@@ -5,6 +5,8 @@ import Axios from 'axios';
 
 const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
 
+
+
     const [optionObj, setOptionObj] = useState({
         id: option_obj.id,
         name: option_obj.name,
@@ -17,7 +19,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
     const [showOptionValues, setShowOptionValues] = useState(false);
     const [optionValueMessage, setOptionValueMessage] = useState(false);
 
-    console.log('optionObj id  ', optionObj.id)
+
 
     // récupération de toutes les valeurs pour une option donnée
     const getOptionValues = () => {
@@ -29,20 +31,48 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
             }).then((res) => {
                 if (res.data.length > 0) {
                     setListOptionValues(res.data);
+                } else {
+                    setListOptionValues([]);
                 }
             });
     }
 
+    const removeErrorMessage = () => {
+
+        // input option name
+        let spanMessageName = document.getElementById(`name${optionObj.id}`);
+        spanMessageName.innerHTML = '';
+        let inputOptionError = document.getElementsByClassName(`name${optionObj.id}`)[0];
+        if (inputOptionError !== undefined) {
+            inputOptionError.className = `inputListType w-full h-[38px] pl-[10px] m-0 rounded-4 cursor-text bg-white bg-no-repeat hover:bg-caret-down bg-right-center name${optionObj.id}`;
+        }
+
+        // input option Value
+        let spanMessageValue = document.getElementById(`value${optionObj.id}`);
+        spanMessageValue.innerHTML = '';
+        let inputOptionValueError = document.getElementsByClassName(`value${optionObj.id}`)[0];
+        if (inputOptionValueError !== undefined) {
+            inputOptionValueError.className = `inputOptionValues w-full h-[38px] pl-[10px] m-0 rounded-4 cursor-text bg-white bg-no-repeat hover:bg-caret-down bg-right-center value${optionObj.id}`;
+        }
+
+        // value duplicate
+        setOptionValueMessage(false);
+    }
 
     const handleChangeOption = (e) => {
         if (e.target != undefined) {
-            setOptionObj({ ...optionObj, name: e.target.value });
+            setOptionObj({ ...optionObj, name: e.target.value, values: [] });
+            setShowListType(false);
+            removeErrorMessage();
         }
         if (e != undefined && e.length > 0) {
-            setOptionObj({ ...optionObj, name: e });
+            setOptionObj({ ...optionObj, name: e, values: [] });
+            setShowListType(false);
+            removeErrorMessage();
         }
     };
 
+    // initialise quand on change d'option
     useEffect(() => {
         setListOptionValues([]);
         setOptionObj({ ...optionObj, values: [] });
@@ -50,6 +80,12 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
             getOptionValues();
         }
     }, [optionObj.name]);
+
+
+    // save optionObj
+    useEffect(() => {
+        saveOption(optionObj);
+    }, [optionObj]);
 
 
     const handleShowListType = () => {
@@ -89,7 +125,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
 
         setTmp_optionValues(e.target.value);
         setShowOptionValues(false);
-
+        removeErrorMessage();
     };
 
     const handleEnterOptionsValue = () => {
@@ -97,12 +133,15 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
         if (optionObj.values.includes(tmp_optionValues)) {
             setOptionValueMessage(true);
             return;
+        } else {
+            removeErrorMessage();
         }
 
         tmp_optionValues.length > 0 && setOptionObj({ ...optionObj, values: [...optionObj.values, tmp_optionValues.trim()] });
         setTmp_optionValues('');
     }
 
+    // toggle l'ajout ou le retrait des options cheked dans le dropdown
     const handleSelectOptionValues = (optionValue_name) => {
         if (optionValue_name != undefined && optionValue_name.length > 0) {
             let index = optionObj.values.indexOf(optionValue_name);
@@ -118,6 +157,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
 
         setTmp_optionValues('');
         setOptionValueMessage(false);
+        removeErrorMessage();
     };
 
     const input_optionValuesRef = useRef(null);
@@ -193,12 +233,10 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
 
 
     return (
-        <div className='w-full h-auto grid gap-x-4 gap-y-2 grid-cols-2 justify-start items-start'>
+        <div className='w-full h-auto grid gap-x-4 gap-y-2 grid-cols-3 justify-start items-start pb-[20px]'>
 
-            <div className='w-full h-[80px] p-0 flex flex-col justify-start items-start'>
-
-                <label className='mt-0 mx-0 p-0'>Option</label>
-
+            {/* option namme */}
+            <div className='w-full h-[40px] p-0 flex flex-col justify-start items-start brd-blue-1'>
                 <div className="relative w-full m-0 p-0 mt-[3px]">
                     <div className='w-full h-[40px] p-0 m-0 border border-slate-400 rounded-4'>
                         <input
@@ -214,9 +252,15 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
                             }}
                             placeholder="Ex. Couleur, Taille, Dimension,..."
                             autoComplete="off"
-                            className="inputListType w-full h-[38px] pl-[10px] m-0 rounded-4 cursor-text bg-white bg-no-repeat hover:bg-caret-down bg-right-center"
+                            className={`inputListType w-full h-[38px] pl-[10px] m-0 rounded-4 cursor-text bg-white bg-no-repeat hover:bg-caret-down bg-right-center name${optionObj.id}`}
                         />
                     </div>
+
+                    <span
+                        id={`name${optionObj.id}`}
+                        className='text-red-700 text-sm'>
+                    </span>
+
                     {showListType &&
                         <ul id="listType"
                             className='absolute t-[40px] l-0 w-full max-h-[242px] border border-slate-300 bg-white overflow-x-hidden overflow-y-scroll z-10 shadow-lg scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100'
@@ -239,10 +283,8 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
                 </div>
             </div>
 
-            <div className='w-full h-[80px] p-0 flex flex-col justify-start items-start'>
-
-                <label className='mt-0 mx-0 p-0'>Valeurs de l'option</label>
-
+            {/* option value */}
+            <div className='w-full h-[40px] p-0 flex flex-col justify-start items-start brd-blue-1'>
                 <div className="relative w-full m-0 p-0 mt-[3px]">
                     <div className='w-full h-[40px] p-0  border border-slate-400 rounded-4 '>
                         <input
@@ -263,12 +305,17 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
                             placeholder="Ex. Bleu, Large, 40cm,..."
                             autoComplete="off"
                             disabled={optionObj.name?.length == 0}
-                            className="inputOptionValues w-full h-[38px] pl-[10px] m-0 rounded-4 cursor-text bg-white bg-no-repeat hover:bg-caret-down bg-right-center"
+                            className={`inputOptionValues w-full h-[38px] pl-[10px] m-0 rounded-4 cursor-text bg-white bg-no-repeat hover:bg-caret-down bg-right-center value${optionObj.id}`}
                         />
                     </div>
                     {optionValueMessage &&
                         <span className='block text-red-700 text-sm'>Ce nom existe déjà dans la liste des options</span>
                     }
+
+                    <span
+                        id={`value${optionObj.id}`}
+                        className='text-red-700 text-sm'>
+                    </span>
 
                     {showOptionValues &&
                         <ul id="listOptionValues"
@@ -289,6 +336,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
                                         onKeyDown={(e) => {
                                             if (e.key === 'Enter' || e.key === 'NumpadEnter') {
                                                 setShowOptionValues(false);
+                                                removeErrorMessage();
                                             }
                                         }}
                                         className="w-[17px] h-[17px] mr-[17px] hover:cursor-pointer" />
@@ -302,7 +350,18 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
                         </ul>}
                 </div>
             </div>
-            <div className="col-span-2 flex flex-wrap pt-[20px] w-full">
+
+            {/* supprimer */}
+            <div className='w-full h-[40px] p-0 flex flex-row justify-start items-center self-stretch brd-blue-1'>
+                <span
+                    onClick={() => deleteOption(optionObj.id)}
+                    className='text-red-500 underline underline-offset-1  ml-auto cursor-pointer'>
+                    Supprimer
+                </span>
+            </div>
+
+            {/* values */}
+            <div className="col-span-3 flex flex-wrap pt-[20px] w-full">
                 {!!optionObj.values.length > 0 && optionObj.values.map(item =>
                     <div key={item}
                         className="flex justify-between align-center h-[24px] rounded-full bg-sky-500 pl-3 mb-1 mr-2 ">
@@ -318,18 +377,6 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
                         </span>
                     </div>
                 )}
-            </div>
-            <div className='w-full flex flex-row justify-start items-center'>
-                <button
-                    onClick={() => saveOption({ id: optionObj.id, name: optionObj.name, values: optionObj.values })}
-                    className='h-[40px] px-[10px] border border-slate-200 '>
-                    Enregistrer
-                </button>
-                <button
-                    onClick={() => deleteOption(optionObj.id)}
-                    className='h-[40px] px-[10px] border border-slate-200 '>
-                    Supprimer
-                </button>
             </div>
         </div>
     )

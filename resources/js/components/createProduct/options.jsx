@@ -1,12 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import AppContext from '../contexts/AppContext';
 import Option from './option';
 import Axios from "axios";
+import ModalSimpleMessage from '../modal/modalSimpleMessage';
+
 
 const Options = () => {
 
     const [listType, setListType] = useState([]);
-    const [optionsObj, setOptionsObj] = useState([]);
 
+    const { optionsObj, setOptionsObj } = useContext(AppContext);
+
+
+    const closelModal = () => {
+        setShowModalNotCompleted(false);
+    }
 
     useEffect(() => {
         // get list of option types
@@ -20,7 +28,7 @@ const Options = () => {
         setOptionsObj([
             ...optionsObj,
             {
-                id: 0,
+                id: Date.now(),
                 name: '',
                 values: []
             }
@@ -29,25 +37,19 @@ const Options = () => {
 
 
     const addOption = () => {
-        let bigId = 0;
-        if (optionsObj.length > 0) {
-            bigId = optionsObj.reduce((acc, curr) => {
-                return (acc.id > curr.id) ? acc : curr;
-            });
-        }
-
         setOptionsObj([
             ...optionsObj,
             {
-                id: bigId.id + 1,
+                id: Date.now(),
                 name: '',
                 values: []
             }
-        ])
-
+        ]);
     }
-    console.log('optionsObj  ', optionsObj)
+
+
     const saveOption = (newOption) => {
+        console.log('newOption  ', newOption)
         let arr = [...optionsObj];
         let ndx = arr.findIndex(obj => obj.id == newOption.id);
         if (ndx > -1) {
@@ -59,7 +61,6 @@ const Options = () => {
     }
 
     const deleteOption = (id) => {
-        console.log('id  ', id)
         let arr = [...optionsObj];
         let ndx = arr.findIndex(obj => obj.id == id);
         if (ndx > -1) {
@@ -67,14 +68,20 @@ const Options = () => {
             setOptionsObj([...arr]);
         }
     }
-
+    console.log('optionsObj.length  ', optionsObj.length)
 
     return (
         <div className="w-full">
 
-            {optionsObj?.map((item, index) =>
+            <div className='w-full h-auto grid gap-x-4 gap-y-2 grid-cols-3 justify-start items-start pb-[20px]'>
+                <label className='mt-0 mx-0 p-0'>Option</label>
+                <label className='mt-0 mx-0 p-0'>Valeurs de l'option</label>
+                <label className='mt-0 mx-0 p-0'></label>
+            </div>
+
+            {optionsObj?.map(item => 
                 <Option
-                    key={index}
+                    key={item.id}
                     listType={listType}
                     option_obj={item}
                     saveOption={saveOption}
@@ -82,12 +89,27 @@ const Options = () => {
                 />
             )}
 
-            <button
-                onClick={addOption}
-                className='h-[40px] px-[10px] border border-slate-200 '>
-                Ajouter une option
-            </button>
+            {optionsObj.length < 4 &&
+                <div className='h-[120px] flex flrx-row justify-start items-center border-t border-slate-200  '>
+                    <button
+                        onClick={addOption}
+                        className='h-[40px] px-[10px] border border-slate-200 '>
+                        Ajouter une option
+                    </button>
+                </div>
+            }
+            {optionsObj.length === 4 &&
+                <span className='text-slate-500 text-sm'>
+                    Vous pouvez ajouter jusqu'à 4 options
+                </span>
+            }
 
+            {/* modal for simple message */}
+            {/* <ModalSimpleMessage
+                show={showModalNotCompleted}  
+                handleModalCancel={closelModal}>
+                <h2 className="childrenModal">{messageModal}</h2>
+            </ModalSimpleMessage> */}
         </div>
     );
 }

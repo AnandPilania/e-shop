@@ -79,7 +79,7 @@ const CreateProduct = (props) => {
     const [dataDetail, setDataDetail] = useState([]);
     const [showModalFromPrice, setShowModalFromPrice] = useState(false);
 
-    const { image, descriptionProduct, listSuppliers, setListSuppliers, supplier, setSupplier, collection, setCollection, productPrice, productStock, messageModal, setMessageModal, nameProduct, setNameProduct } = useContext(AppContext);
+    const { image, descriptionProduct, listSuppliers, setListSuppliers, supplier, setSupplier, collection, setCollection, productPrice, productStock, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj } = useContext(AppContext);
 
     useEffect(() => {
         // récupére les types de détails dans la table type_detail_products pour remplire le select id=selectdetails
@@ -118,18 +118,42 @@ const CreateProduct = (props) => {
 
     const validation = () => {
 
-        // name validation
-        if (nameProduct.length == 0) {
-            setMessageModal('Le champ nom est obligatoir');
-            setShowModalFromPrice(true);
-            return false;
-        }
+        // // name validation
+        // if (nameProduct.length == 0) {
+        //     setMessageModal('Le champ nom est obligatoir');
+        //     setShowModalFromPrice(true);
+        //     return false;
+        // }
 
-        // price validation
-        if (productPrice <= 0) {
-            setMessageModal('Le champ prix est obligatoir');
-            setShowModalFromPrice(true);
-            return false;
+        // // price validation
+        // if (productPrice <= 0) {
+        //     setMessageModal('Le champ prix est obligatoir');
+        //     setShowModalFromPrice(true);
+        //     return false;
+        // }
+
+        // options
+        for (let i = 0; i < optionsObj.length; i++) {
+
+            if (optionsObj[i].name.length == 0) {
+                let spanMessage = document.getElementById(`name${optionsObj[i].id}`);
+                spanMessage.innerHTML = 'Le champ nom de l\'option ne peut pas être vide';
+
+                let inputOptionError = document.getElementsByClassName(`name${optionsObj[i].id}`)[0];
+                if (inputOptionError !== undefined) { 
+                    inputOptionError.className = `inputListType w-full h-[38px] pl-[10px] m-0 rounded-4 cursor-text bg-white bg-no-repeat hover:bg-caret-down bg-right-center name${optionsObj[i].id} border border-red-500`;
+                }
+            }
+
+            if (optionsObj[i].values.length == 0) {
+                let spanMessage = document.getElementById(`value${optionsObj[i].id}`);
+                spanMessage.innerHTML = 'Le champ valeur de l\'option ne peut pas être vide';
+
+                let inputOptionValueError = document.getElementsByClassName(`value${optionsObj[i].id}`)[0];
+                if (inputOptionValueError !== undefined) { 
+                    inputOptionValueError.className = `inputOptionValues w-full h-[38px] pl-[10px] m-0 rounded-4 cursor-text bg-white bg-no-repeat hover:bg-caret-down bg-right-center value${optionsObj[i].id} border border-red-500`;
+                }
+            }
         }
 
     }
