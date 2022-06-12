@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import Option from './option';
+import OptionVariantesList from './optionVariantesList';
 import Axios from "axios";
 import ModalSimpleMessage from '../modal/modalSimpleMessage';
 
@@ -49,7 +50,6 @@ const Options = () => {
 
 
     const saveOption = (newOption) => {
-        console.log('newOption  ', newOption)
         let arr = [...optionsObj];
         let ndx = arr.findIndex(obj => obj.id == newOption.id);
         if (ndx > -1) {
@@ -68,18 +68,22 @@ const Options = () => {
             setOptionsObj([...arr]);
         }
     }
-    console.log('optionsObj.length  ', optionsObj.length)
-
+ 
     return (
         <div className="w-full">
 
-            <div className='w-full h-auto grid gap-x-4 gap-y-2 grid-cols-3 justify-start items-start pb-[20px]'>
-                <label className='mt-0 mx-0 p-0'>Option</label>
-                <label className='mt-0 mx-0 p-0'>Valeurs de l'option</label>
-                <label className='mt-0 mx-0 p-0'></label>
-            </div>
+            {optionsObj.length > 0 ?
+                <div className='w-full h-auto grid gap-x-4 gap-y-2 grid-cols-[1fr_1fr_40px] justify-start items-start pb-[20px]'>
+                    <label className='mt-0 mx-0 p-0'>Option</label>
+                    <label className='mt-0 mx-0 p-0'>Valeurs de l'option</label>
+                    <label className='mt-0 mx-0 p-0'></label>
+                </div> :
+                <div className='w-full h-auto justify-start items-center pb-[20px]'>
+                    <label className='mt-0 mx-0 p-0'>Définir des variantes lorsque ce produit possède plusieurs options. Ex. Couleur, taille,...</label>
+                </div>
+            }
 
-            {optionsObj?.map(item => 
+            {optionsObj?.map(item =>
                 <Option
                     key={item.id}
                     listType={listType}
@@ -103,6 +107,9 @@ const Options = () => {
                     Vous pouvez ajouter jusqu'à 4 options
                 </span>
             }
+
+            <OptionVariantesList />
+            
 
             {/* modal for simple message */}
             {/* <ModalSimpleMessage

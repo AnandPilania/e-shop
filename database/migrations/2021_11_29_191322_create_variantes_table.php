@@ -17,7 +17,7 @@ class CreateVariantesTable extends Migration
             $table->id();
             $table->float('cost', 8, 2)->nullable()->default(0);
             $table->float('price', 8, 2)->default(0);
-            $table->float('price_before_discount', 8, 2)->default(0);
+            $table->float('prev_price', 8, 2)->default(0);
             $table->double('weight', 8, 2)->nullable()->default(0);
             $table->integer('stock')->nullable()->default(0);
             $table->float('shipping_cost', 8, 2)->nullable()->default(0);
@@ -25,7 +25,8 @@ class CreateVariantesTable extends Migration
             $table->tinyInteger('active')->default('0');
             $table->string('link');
             $table->integer('ordre')->default(0);
-            $table->text('characteristic')->nullable()->default('');
+            $table->text('options')->nullable()->default('');
+            $table->text('image_path')->nullable()->default('');
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products');
             $table->unsignedBigInteger('supplier_id')->nullable()->default(null);

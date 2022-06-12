@@ -196,7 +196,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
         if (showOptionValues) {
             let inputOptionValues = document.getElementById('inputOptionValues');
             if (inputOptionValues !== null) {
-                inputOptionValues.className = "inputOptionValues w-full h-[38px] pl-[10px] m-0 rounded-4 cursor-text bg-no-repeat bg-caret-down bg-right-center";
+                inputOptionValues.className = "inputOptionValues w-full h-[38px] pl-[10px] m-0 rounded-4 cursor-text bg-no-repeat hover:bg-caret-down bg-right-center";
             }
         }
     }, [showOptionValues]);
@@ -233,11 +233,11 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
 
 
     return (
-        <div className='w-full h-auto grid gap-x-4 gap-y-2 grid-cols-3 justify-start items-start pb-[20px]'>
+        <div className='w-full h-auto grid gap-x-4 gap-y-2 grid-cols-[1fr_1fr_40px] justify-start items-start pb-[20px]'>
 
             {/* option namme */}
-            <div className='w-full h-[40px] p-0 flex flex-col justify-start items-start brd-blue-1'>
-                <div className="relative w-full m-0 p-0 mt-[3px]">
+            <div className='w-full h-[40px] p-0 flex flex-col justify-start items-start'>
+                <div className="relative w-full m-0 p-0">
                     <div className='w-full h-[40px] p-0 m-0 border border-slate-400 rounded-4'>
                         <input
                             id="inputListType"
@@ -250,12 +250,13 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
                                     setShowListType(false);
                                 }
                             }}
-                            placeholder="Ex. Couleur, Taille, Dimension,..."
+                            placeholder="Ex. Couleur, Taille,..."
                             autoComplete="off"
-                            className={`inputListType w-full h-[38px] pl-[10px] m-0 rounded-4 cursor-text bg-white bg-no-repeat hover:bg-caret-down bg-right-center name${optionObj.id}`}
+                            className={`inputListType w-full h-[38px] pl-[10px] m-0 rounded-4 cursor-text bg-white bg-no-repeat hover:bg-caret-down bg-right-center name${optionObj.id} `}
                         />
                     </div>
 
+                    {/* affiche les erreurs */}
                     <span
                         id={`name${optionObj.id}`}
                         className='text-red-700 text-sm'>
@@ -275,7 +276,9 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
                                     }}
                                     className="w-full h-[40px] flex justify-start items-center pl-[10px] cursor-pointer hover:bg-slate-100"
                                 >
-                                    {item.name}
+                                    <span className="w-full h-full pr-[30px] text-stone-800 text-base hover:cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis">
+                                        {item.name}
+                                    </span>
                                 </li>
                             )
                             }
@@ -284,8 +287,8 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
             </div>
 
             {/* option value */}
-            <div className='w-full h-[40px] p-0 flex flex-col justify-start items-start brd-blue-1'>
-                <div className="relative w-full m-0 p-0 mt-[3px]">
+            <div className='w-full h-[40px] p-0 flex flex-col justify-start items-start'>
+                <div className="relative w-full m-0 p-0">
                     <div className='w-full h-[40px] p-0  border border-slate-400 rounded-4 '>
                         <input
                             id="inputOptionValues"
@@ -302,7 +305,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
                                     handleEnterOptionsValue();
                                 }
                             }}
-                            placeholder="Ex. Bleu, Large, 40cm,..."
+                            placeholder="Ex. Bleu, Large,..."
                             autoComplete="off"
                             disabled={optionObj.name?.length == 0}
                             className={`inputOptionValues w-full h-[38px] pl-[10px] m-0 rounded-4 cursor-text bg-white bg-no-repeat hover:bg-caret-down bg-right-center value${optionObj.id}`}
@@ -312,6 +315,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
                         <span className='block text-red-700 text-sm'>Ce nom existe déjà dans la liste des options</span>
                     }
 
+                    {/* affiche les erreurs */}
                     <span
                         id={`value${optionObj.id}`}
                         className='text-red-700 text-sm'>
@@ -320,7 +324,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
                     {showOptionValues &&
                         <ul id="listOptionValues"
                             ref={ul_optionValuesRef}
-                            className='absolute t-[40px] l-0 w-full max-h-[242px] border border-slate-300 bg-white overflow-x-hidden overflow-y-scroll z-10 shadow-lg scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 brd-red-1'
+                            className='absolute t-[40px] l-0 w-full max-h-[242px] border border-slate-300 bg-white overflow-x-hidden overflow-y-scroll z-10 shadow-lg scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100'
                         >
                             {listOptionValues && listOptionValues.map((item, index) =>
                                 <li
@@ -341,7 +345,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
                                         }}
                                         className="w-[17px] h-[17px] mr-[17px] hover:cursor-pointer" />
                                     <label htmlFor={item.id}
-                                        className="w-full h-full text-stone-800 text-base hover:cursor-pointer">
+                                        className="w-full h-full pr-[30px] text-stone-800 text-base hover:cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis">
                                         {item.name}
                                     </label>
                                 </li>
@@ -352,11 +356,12 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
             </div>
 
             {/* supprimer */}
-            <div className='w-full h-[40px] p-0 flex flex-row justify-start items-center self-stretch brd-blue-1'>
+            <div className='group flex justify-center items-center w-[40px] h-[40px] p-0 m-0 cursor-pointer'>
                 <span
                     onClick={() => deleteOption(optionObj.id)}
-                    className='text-red-500 underline underline-offset-1  ml-auto cursor-pointer'>
-                    Supprimer
+                    className='flex justify-center items-center w-[30px] h-[30px] p-0 m-0 cursor-pointer hover:bg-red-500 rounded-[5px]'>
+                    <img src={window.location.origin + '/images/icons/trash.svg'} className="h-[20px] w-[20px] group-hover:hidden" />
+                    <img src={window.location.origin + '/images/icons/x-white.svg'} className="h-[25px] w-[25px] hidden group-hover:block" />
                 </span>
             </div>
 

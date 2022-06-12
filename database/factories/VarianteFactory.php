@@ -39,7 +39,7 @@ class VarianteFactory extends Factory
         return [
             'cost' => $amount, 
             'price'=> $amount * 1.5, 
-            'price_before_discount'=> $amount * 2, 
+            'prev_price'=> $amount * 2, 
             'weight' => rand(1,3), 
             'stock' => rand(0,50),
             'shipping_cost' => rand(1,30), 
@@ -47,7 +47,8 @@ class VarianteFactory extends Factory
             'active' => 1, 
             'link' => $link, 
             'ordre' => self::$ordre++, 
-            'characteristic' => "['color' => 'red', 'size' => 'm']", 
+            'options' => "['color' => 'red', 'size' => 'm']", 
+            'image_path' => "image path", 
             // 'product_id' => self::$prod_id++, <--- est géré dans le seeder !!
             'supplier_id' => rand(1,5),
             'delivery_company_id' => 1,
