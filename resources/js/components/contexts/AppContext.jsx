@@ -165,8 +165,12 @@ export default React.createContext({
     setProductCost: () => { },
     productStock: '',
     setProductStock: () => { },
-    optionsObj: [], 
-    setOptionsObj: () => {},
+    optionsObj: [],
+    setOptionsObj: () => { },
+    unlimited: [],
+    setUnlimited: () => { },
+    placeholder: [],
+    setPlaceholder: () => { },
 
 
 });

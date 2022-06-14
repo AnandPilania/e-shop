@@ -234,9 +234,9 @@ const CreateProduct = (props) => {
                 <Stock />
 
                 {/* details */}
-                <MainBlock>
+                {/* <MainBlock>
                     <ContainerDetail setDataDetail={setDataDetail} />
-                </MainBlock>
+                </MainBlock> */}
 
                 {/* options */}
                 <MainBlock>

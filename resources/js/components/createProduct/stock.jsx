@@ -4,10 +4,8 @@ import AppContext from '../contexts/AppContext';
 
 const Stock = () => {
 
-    const [unlimited, setUnlimited] = useState(true);
-    const [placeholder, setPlaceholder] = useState(String.fromCharCode(0x221E));
-
-    const { productStock, setProductStock } = useContext(AppContext);
+    const { productStock, setProductStock, unlimited, setUnlimited,
+        placeholder, setPlaceholder } = useContext(AppContext);
 
     const handleProductStock = (e) => {
         setProductStock(e.target.value);

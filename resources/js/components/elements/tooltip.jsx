@@ -10,7 +10,7 @@ const Tooltip = ({ children, top, left }) => {
     return (
         <div
             style={style}
-            className="absolute w-auto h-auto px-[10px] py-[5px] text-sm text-black bg-slate-50 z-10 invisible group-hover:visible group-hover:default overflow-visible border border-slate-400 cursor-default"
+            className="absolute whitespace-normal w-auto h-auto max-w-[370px] px-[10px] py-[5px] text-sm text-black bg-slate-50 z-10 invisible group-hover:visible group-hover:default overflow-visible border border-slate-400 cursor-default"
         >
             {children}
 

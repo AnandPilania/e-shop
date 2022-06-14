@@ -650,11 +650,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mb-\[30px\] {
   margin-bottom: 30px;
 }
-.mt-\[-3px\] {
-  margin-top: -3px;
-}
 .mr-\[7px\] {
   margin-right: 7px;
+}
+.mt-\[-3px\] {
+  margin-top: -3px;
 }
 .block {
   display: block;
@@ -749,6 +749,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .h-0 {
   height: 0px;
 }
+.h-\[200px\] {
+  height: 200px;
+}
 .max-h-\[200px\] {
   max-height: 200px;
 }
@@ -757,6 +760,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .max-h-\[242px\] {
   max-height: 242px;
+}
+.max-h-\[400px\] {
+  max-height: 400px;
 }
 .min-h-screen {
   min-height: 100vh;
@@ -839,6 +845,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 .max-w-\[120px\] {
   max-width: 120px;
 }
+.max-w-\[400px\] {
+  max-width: 400px;
+}
+.max-w-\[370px\] {
+  max-width: 370px;
+}
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -902,38 +914,8 @@ Ensure the default browser behavior of the `hidden` attribute.
 .grid-cols-\[1fr_1fr_40px\] {
   grid-template-columns: 1fr 1fr 40px;
 }
-.grid-cols-6 {
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-}
-.grid-cols-\[1fr_1fr_40px_\] {
-  grid-template-columns: 1fr 1fr 40px;
-}
-.grid-cols-\[1fr_1fr_40px_30px\] {
-  grid-template-columns: 1fr 1fr 40px 30px;
-}
-.grid-cols-\[1fr_40px_40px_30px\] {
-  grid-template-columns: 1fr 40px 40px 30px;
-}
-.grid-cols-\[1fr_40px_40px_40px_30px\] {
-  grid-template-columns: 1fr 40px 40px 40px 30px;
-}
-.grid-cols-\[1fr_40px_40px_40px_40px_30px\] {
-  grid-template-columns: 1fr 40px 40px 40px 40px 30px;
-}
-.grid-cols-\[1fr_50px_40px_40px_40px_30px\] {
-  grid-template-columns: 1fr 50px 40px 40px 40px 30px;
-}
-.grid-cols-\[1fr_50px_50px_50px_40px_30px\] {
-  grid-template-columns: 1fr 50px 50px 50px 40px 30px;
-}
-.grid-cols-\[1fr_50px_50px_50px_50px_30px\] {
-  grid-template-columns: 1fr 50px 50px 50px 50px 30px;
-}
 .grid-cols-\[1fr_50px_50px_150px_50px_30px\] {
   grid-template-columns: 1fr 50px 50px 150px 50px 30px;
-}
-.grid-cols-\[1fr_50px_50px_200px_50px_30px\] {
-  grid-template-columns: 1fr 50px 50px 200px 50px 30px;
 }
 .flex-row {
   flex-direction: row;
@@ -1009,6 +991,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-ellipsis {
   text-overflow: ellipsis;
 }
+.whitespace-normal {
+  white-space: normal;
+}
 .whitespace-nowrap {
   white-space: nowrap;
 }
@@ -1070,14 +1055,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 .border-b-2 {
   border-bottom-width: 2px;
 }
+.border-b-\[1px\] {
+  border-bottom-width: 1px;
+}
 .border-r-\[1px\] {
   border-right-width: 1px;
 }
 .border-l {
   border-left-width: 1px;
-}
-.border-b-\[1px\] {
-  border-bottom-width: 1px;
 }
 .border-dashed {
   border-style: dashed;
@@ -1156,14 +1141,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .bg-slate-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(241 245 249 / var(--tw-bg-opacity));
-}
-.bg-slate-900 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(15 23 42 / var(--tw-bg-opacity));
-}
-.bg-slate-200 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(226 232 240 / var(--tw-bg-opacity));
 }
 .bg-slate-50 {
   --tw-bg-opacity: 1;
@@ -1595,9 +1572,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 /* @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities"; */
-.hover\:visible:hover {
-  visibility: visible;
-}
 .hover\:cursor-pointer:hover {
   cursor: pointer;
 }

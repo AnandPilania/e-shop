@@ -17,6 +17,7 @@ const Options = () => {
         setShowModalNotCompleted(false);
     }
 
+    
     useEffect(() => {
         // get list of option types
         Axios.get(`http://127.0.0.1:8000/listtype`)

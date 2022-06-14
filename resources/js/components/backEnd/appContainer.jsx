@@ -141,8 +141,10 @@ const Appcontainer = () => {
     const [productCost, setProductCost] = useState(0);
     const [productStock, setProductStock] = useState('');
     const [optionsObj, setOptionsObj] = useState([]);
+    const [unlimited, setUnlimited] = useState(true);
+    const [placeholder, setPlaceholder] = useState(String.fromCharCode(0x221E));
 
-   //---------------------------------------------------------------PRODUCT
+    //---------------------------------------------------------------PRODUCT
 
     // supplier-------------------------------------------------------------
     const [nameSupplier, setNameSupplier] = useState('');
@@ -489,6 +491,8 @@ const Appcontainer = () => {
         productCost, setProductCost,
         productStock, setProductStock,
         optionsObj, setOptionsObj,
+        unlimited, setUnlimited,
+        placeholder, setPlaceholder
 
 
     }
