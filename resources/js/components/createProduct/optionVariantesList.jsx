@@ -7,16 +7,16 @@ const OptionVariantesList = () => {
 
     const [variantes, setVariantes] = useState([]);
 
-    const { optionsObj, productPrice, previousProductPrice, productStock, unlimited, placeholder } = useContext(AppContext);
+    const { optionsObj, productPrice, previousProductPrice, productStock } = useContext(AppContext);
 
     useEffect(() => {
         let allValuesAsString = [];
 
         // renvoi toutes les combinaisons possible des différentes options ex:
-        // 0: "Bleu / S"
-        // 1: "Bleu / M"
-        // 2: "Rouge / S"
-        // 3: "Rouge / M"
+        // 0: "Bleu / S / 1"
+        // 1: "Bleu / S / 2"
+        // 2: "Bleu / M / 1"
+        // 3: "Bleu / M / 2"
         for (let i = 0; i < optionsObj.length - 1; i++) {
             if (i === 0) {
                 allValuesAsString = optionsObj[i].values.flatMap(d => optionsObj[i + 1].values.map(v => d + ' / ' + v));
@@ -24,12 +24,12 @@ const OptionVariantesList = () => {
                 allValuesAsString = allValuesAsString.flatMap(d => optionsObj[i + 1].values.map(v => d + ' / ' + v));
             }
         }
-        console.log('allValuesAsString  ', allValuesAsString)
-        console.log('optionsObj  ', optionsObj)
+
         // récupère tous les noms d'option pour les associer à leur values dans un objet
         let optionsName = optionsObj.map(x => x.name);
 
         let variantesAsString = [...variantes];
+        let tmp_variantesAsString = [];
         for (let i = 0; i < allValuesAsString.length; i++) {
 
             // split les values de optionsObj pour les récupérer séparements et les associer à leur option Name dans un objet "destiné pour le back-end !" ex:
@@ -41,32 +41,46 @@ const OptionVariantesList = () => {
             for (let j = 0; j < optionsName.length; j++) {
                 variantesOptions[optionsName[j]] = valuesSplited[j];
             }
-            console.log('allValuesAsString[i] splice  ', allValuesAsString[i].substring(0, allValuesAsString[i].lastIndexOf(' / ')));
-            let mystring = allValuesAsString[i].substring(0, allValuesAsString[i].lastIndexOf(' / '));
-            console.log(allValuesAsString[i].startsWith(mystring))
 
-            console.log('variantesOptions  ', variantesOptions)
-            // si il y a eu une modif alors persist = true
-            // si persist = true alors ??
-            // ou bien on récupère toutes les rows qui ont été modifiées et on applique leurs changements à toutes les nouvelles rows qui commence par les meêmes allValuesAsString[i] que celles qui les avaient avant l'ajout de la nouvelle option
-            variantesAsString.push({
-                id: i,
-                persist: false,
-                variantesAsString: allValuesAsString[i],
-                options: variantesOptions,
-                price: productPrice,
-                prev_price: previousProductPrice,
-                stock: productStock,
-                unlimited: variantes[i]?.unlimited,
-                placeholder: placeholder
-            })
+            // renvoi le début de la string allValuesAsString[i] qui correspond au précédent allValuesAsString[i] pour conserver les params s'ils ont été modifiés
+            let startPattern = allValuesAsString[i].substring(0, allValuesAsString[i].lastIndexOf(' / '));
+
+            // check si le précédent allValuesAsString[i] contient le pattern recherché pour récupérer ses params s'ils ont été modifiés
+            let indexStartPattern = variantesAsString.findIndex(x => x.optionsString.startsWith(startPattern));
+
+            if (indexStartPattern > -1) {
+                tmp_variantesAsString.push({
+                    id: i,
+                    optionsString: allValuesAsString[i],
+                    options: variantesOptions,
+                    price: variantesAsString[indexStartPattern].price,
+                    prev_price: variantesAsString[indexStartPattern].prev_price,
+                    stock: variantesAsString[indexStartPattern].stock,
+                    unlimited: variantesAsString[indexStartPattern].unlimited,
+                    placeholderStock: variantesAsString[indexStartPattern].placeholderStock,
+                    deleted: variantesAsString[indexStartPattern].deleted,
+                });
+                variantesAsString.splice(indexStartPattern, 1);
+            } else {
+                tmp_variantesAsString.push({
+                    id: i,
+                    optionsString: allValuesAsString[i],
+                    options: variantesOptions,
+                    price: productPrice,
+                    prev_price: previousProductPrice,
+                    stock: productStock,
+                    unlimited: true,
+                    placeholderStock: String.fromCharCode(0x221E),
+                    deleted: false,
+                })
+            }
         }
 
         // si un des optionsObj.values est vide alors allValuesAsString sera vide aussi même si d'autres optionsObj.values ne le sont pas
         // évite la disparition de la liste des combinaisons d'options tant qu'un optionsObj.values est vide  
         let can_I_SetVariantes = optionsObj.findIndex(x => x.values.length == 0);
         if (can_I_SetVariantes == -1) {
-            setVariantes(variantesAsString);
+            setVariantes(tmp_variantesAsString);
         }
 
     }, [optionsObj]);
@@ -89,123 +103,162 @@ const OptionVariantesList = () => {
         handleVariantes(e.target.id, 'price', e.target.value);
     }
 
-    // stock --------------------------
-    const handleProductStock2 = (e) => {
-        handleVariantes(e.target.id, 'stock', e.target.value);
+    const handleVariantetPrevPrice = (e, item) => {
+        handleVariantes(item.id, 'prev_price', e.target.value);
     }
 
-    const handleProductStockOnFocus2 = (e, id) => {
-        let unlimitedStockCheckbox = document.getElementById('unlimitedStockCheckbox' + id);
+    const handleProductStock2 = (e, item) => {
+        handleVariantes(item.id, 'stock', e.target.value);
+    }
+
+    const handleProductStockOnFocus2 = (item) => {
+        let unlimitedStockCheckbox = document.getElementById('unlimitedStockCheckbox' + item.id);
         unlimitedStockCheckbox.checked = false;
 
-        if (unlimited) {
+        if (item.unlimited) {
 
-            handleVariantes(id, 'unlimited', !e.target.unlimited);
+            handleVariantes(item.id, 'unlimited', false);
 
-            handleVariantes(id, 'stock', '');
+            handleVariantes(item.id, 'stock', '');
 
-            handleVariantes(id, 'placeholder', '0');
+            handleVariantes(item.id, 'placeholderStock', '0');
 
-            // setPlaceholder2('0');
-            let inputStock = document.getElementById('inputStock' + id);
-            inputStock.style.backgroundColor = 'white';
+            // let inputStock = document.getElementById('inputStock' + item.id);
+            // // inputStock.style.backgroundColor = 'white';
         }
     }
 
-    const handleUnlimitedStock2 = (e, id) => {
-        console.log('unlimited  ', unlimited)
-        if (unlimited) {
-            let inputStock = document.getElementById('inputStock' + id);
-            inputStock.style.backgroundColor = 'white';
+    const handleUnlimitedStock2 = (item) => {
+        if (item.unlimited) {
+            // let inputStock = document.getElementById('inputStock' + item.id);
+            // // inputStock.style.backgroundColor = 'white';
 
-            handleVariantes(id, 'unlimited', !e.target.unlimited);
+            handleVariantes(item.id, 'unlimited', false);
 
-            handleVariantes(id, 'stock', '');
+            handleVariantes(item.id, 'stock', '');
 
-            handleVariantes(id, 'placeholder', '0');
+            handleVariantes(item.id, 'placeholderStock', '0');
         } else {
-            let inputStock = document.getElementById('inputStock' + id);
-            inputStock.style.backgroundColor = '#f1f5f9';
+            // let inputStock = document.getElementById('inputStock' + item.id);
+            // // inputStock.style.backgroundColor = '#f1f5f9';
 
-            handleVariantes(id, 'unlimited', !e.target.unlimited);
+            handleVariantes(item.id, 'unlimited', true);
 
-            handleVariantes(id, 'stock', '');
+            handleVariantes(item.id, 'stock', '');
 
-            handleVariantes(id, 'placeholder', String.fromCharCode(0x221E));
+            handleVariantes(item.id, 'placeholderStock', String.fromCharCode(0x221E));
         }
     }
 
-    // -------------------------- stock
+    const deleteVariante = (id) => {
+        let tmp_variantes = [...variantes];
+        let ndx = tmp_variantes.findIndex(x => x.id == id);
+        if (ndx > -1) {
+            tmp_variantes[ndx].deleted = true;
+        }
+        setVariantes([...tmp_variantes]);
+    }
 
+    console.log('variantes  ', variantes)
     return (
         <div>
             {variantes?.length > 0 &&
-                <div className="w-full h-auto grid gap-x-4 gap-y-4 grid-cols-[1fr_50px_50px_150px_50px_30px] justify-start items-center border-b-[1px] border-slate-200 mb-[15px]">
-                    <span>Variante</span>
+                <div className="w-full h-auto grid gap-x-2 grid-cols-[1fr_100px_100px_150px_50px_30px] justify-start items-center border-b-[1px] border-slate-200 mb-[20px]">
+                    <span>Variantes</span>
                     <span>Prix</span>
                     <span>Promo</span>
                     <span>Stock</span>
                     <span>img</span>
-                    <span>del</span>
+                    <span></span>
                 </div>}
-            {console.log('variantes --> ', variantes)}
+
             {variantes?.length > 0 && variantes.map((item, index) =>
+                item.deleted == false &&
                 <div
                     key={index}
-                    className="w-full h-auto grid gap-x-4 gap-y-2 grid-cols-[1fr_50px_50px_150px_50px_30px] justify-start items-start mb-[10px] relative"
+                    className="w-full h-auto grid gap-x-2 grid-cols-[1fr_100px_100px_150px_50px_30px] justify-start items-center mb-[15px] relative"
                 >
                     <span className="whitespace-nowrap overflow-hidden text-ellipsis cursor-default group">
-                        {item?.variantesAsString}
-                        <Tooltip top={15} left={5}>
-                            {item?.variantesAsString}
+                        {item?.optionsString}
+                        <Tooltip top={-100} left={2}>
+                            {item?.optionsString}
                         </Tooltip>
                     </span>
 
+                    {/* price */}
                     <input
                         id={item?.id}
                         type="number"
                         step=".01"
                         onChange={handleVariantetPrice}
-                        value={item?.price != '' ? item?.price : 0}
+                        value={item?.price}
                         placeholder="0.00"
                         min="0"
                         max="9999999999"
-                        className="w-full h-[40px] border border-slate-400 rounded-4 pl-[10px] mb-[30px] mt-1"
+                        className="w-full h-[30px] border border-slate-400 rounded-4 pl-[8px] text-[13px] leading-6"
                     />
 
-                    <span>{previousProductPrice != '' ? previousProductPrice : 0}</span>
+                    {/* prev_price -- promo -- */}
+                    <input
+                        id={`inputPrevPrice${item?.id}`}
+                        type="number"
+                        step=".01"
+                        onChange={(e) => handleVariantetPrevPrice(e, item)}
+                        value={item?.prev_price}
+                        placeholder="0.00"
+                        min="0"
+                        max="9999999999"
+                        className="w-full h-[30px] border border-slate-400 rounded-4 pl-[8px] text-[13px] leading-6"
+                    />
 
                     {/* stock */}
                     <div
                         className='flex flex-rox justify-start items-center'>
                         <input
                             type="number"
-                            onChange={handleProductStock2}
-                            value={item?.stock}
-                            placeholder={item?.placeholder}
-                            className="w-full h-[40px] border border-slate-400 rounded-4 pl-[10px] mb-[30px] mt-1 bg-slate-100"
                             id={`inputStock${item?.id}`}
+                            onChange={(e) => handleProductStock2(e, item)}
+                            value={item?.stock}
+                            placeholder={item.placeholderStock}
                             min="0" max="9999999999"
-                            onClick={((e) => handleProductStockOnFocus2(e, item?.id))}
+                            onClick={(() => handleProductStockOnFocus2(item))}
+                            className={`w-[100px] h-[30px] border border-slate-400 ${item?.unlimited ? "bg-slate-100" : "bg-white"}  rounded-4 pl-[8px] text-[13px] leading-6`}
                         />
                         <span
-                            className='flex flex-rox justify-start items-center h-[40px] border-y-[1px] border-r-[1px]  border-slate-400 rounded-4 px-[10px] mb-[30px] mt-1 cursor-pointer caret-transparent brd-red-2'
-                            onClick={(e) => handleUnlimitedStock2(e, item?.id)}>
+                            className='flex flex-rox justify-start items-center h-[30px] border-y-[1px] border-r-[1px]  border-slate-400 rounded-4 px-[10px] cursor-pointer caret-transparent group relative'
+                            onClick={() => handleUnlimitedStock2(item)}>
                             <input
                                 className='mr-[7px] caret-transparent'
                                 id={`unlimitedStockCheckbox${item?.id}`}
-                                type="checkbox" checked={item?.unlimited} onChange={(e) => handleUnlimitedStock2(e, item?.id)} />
+                                type="checkbox"
+                                checked={item?.unlimited}
+                                // pour pas avoir de warning "checked non controlé"
+                                onChange={() => { }}
+                            />
                             <label
-                                className='cursor-pointer caret-transparent'>
-                                Illimité
+                                className='cursor-pointer caret-transparent text-[20px] '>
+                                {String.fromCharCode(0x221E)}
+                                <Tooltip top={-100} left={2} css='whitespace-nowrap'>
+                                {item?.unlimited ? 'Stock illimité' : 'Entrez une quantité'} 
+                                </Tooltip>
                             </label>
                         </span>
                     </div>
 
 
                     <span>image</span>
-                    <span>delete</span>
+
+                    {/* delete */}
+                    <div className='group flex justify-center items-center w-[30px] h-[30px] p-0 m-0 cursor-pointer'>
+                        <span
+                            onClick={() => deleteVariante(item.id)}
+                            className='flex justify-center items-center w-[30px] h-[30px] p-0 m-0 cursor-pointer hover:bg-red-500 rounded-[5px]'>
+                            <img src={window.location.origin + '/images/icons/trash.svg'} className="h-[20px] w-[20px] group-hover:hidden" />
+                            <img src={window.location.origin + '/images/icons/x-white.svg'} className="h-[25px] w-[25px] hidden group-hover:block" />
+                        </span>
+                    </div>
                 </div>
+
             )}
         </div>
     );

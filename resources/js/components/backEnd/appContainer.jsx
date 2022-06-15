@@ -137,12 +137,12 @@ const Appcontainer = () => {
     const [descriptionProduct, setDescriptionProduct] = useState('');
     const [collection, setCollection] = useState([]);
     const [productPrice, setProductPrice] = useState('');
-    const [previousProductPrice, setPreviousProductPrice] = useState(0);
-    const [productCost, setProductCost] = useState(0);
+    const [previousProductPrice, setPreviousProductPrice] = useState('');
+    const [productCost, setProductCost] = useState('');
     const [productStock, setProductStock] = useState('');
     const [optionsObj, setOptionsObj] = useState([]);
     const [unlimited, setUnlimited] = useState(true);
-    const [placeholder, setPlaceholder] = useState(String.fromCharCode(0x221E));
+   
 
     //---------------------------------------------------------------PRODUCT
 
@@ -492,7 +492,6 @@ const Appcontainer = () => {
         productStock, setProductStock,
         optionsObj, setOptionsObj,
         unlimited, setUnlimited,
-        placeholder, setPlaceholder
 
 
     }

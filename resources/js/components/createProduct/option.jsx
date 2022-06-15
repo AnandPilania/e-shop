@@ -330,21 +330,24 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
                                 <li
                                     key={index}
                                     value={item.name}
+                                    onClick={() => handleSelectOptionValues(item.name)}
                                     className="w-full h-[40px] flex justify-start items-center pl-[10px] cursor-pointer hover:bg-slate-100"
                                 >
                                     <input type='checkbox'
                                         value={item.id}
                                         id={item.id}
                                         checked={optionObj.values.indexOf(item.name) > -1}
-                                        onChange={() => handleSelectOptionValues(item.name)}
+                                        // pour pas avoir de warning "checked non controlé"
+                                        onChange={() => { }}
                                         onKeyDown={(e) => {
                                             if (e.key === 'Enter' || e.key === 'NumpadEnter') {
                                                 setShowOptionValues(false);
                                                 removeErrorMessage();
                                             }
                                         }}
-                                        className="w-[17px] h-[17px] mr-[17px] hover:cursor-pointer" />
-                                    <label htmlFor={item.id}
+                                        className="w-[17px] h-[17px] mr-[17px] hover:cursor-pointer"
+                                    />
+                                    <label 
                                         className="w-full h-full pr-[30px] text-stone-800 text-base hover:cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis">
                                         {item.name}
                                     </label>

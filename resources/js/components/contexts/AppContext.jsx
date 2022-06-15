@@ -169,8 +169,6 @@ export default React.createContext({
     setOptionsObj: () => { },
     unlimited: [],
     setUnlimited: () => { },
-    placeholder: [],
-    setPlaceholder: () => { },
 
 
 });

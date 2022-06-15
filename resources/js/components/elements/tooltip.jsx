@@ -1,16 +1,18 @@
 import React from 'react';
 
-const Tooltip = ({ children, top, left }) => {
+const Tooltip = ({ children, top, left, bottom, right, css }) => {
 
     const style = {
         top: top + '%',
-        left: left + '%'
+        left: left + '%',
+        bottom: bottom + '%',
+        right: right + '%'
     }
 
     return (
         <div
             style={style}
-            className="absolute whitespace-normal w-auto h-auto max-w-[370px] px-[10px] py-[5px] text-sm text-black bg-slate-50 z-10 invisible group-hover:visible group-hover:default overflow-visible border border-slate-400 cursor-default"
+            className={`absolute whitespace-normal w-auto h-auto max-w-[370px] px-[10px] py-[5px] text-sm text-black bg-slate-50 z-10 invisible group-hover:visible group-hover:default overflow-visible border border-slate-400 cursor-default ${css}`}
         >
             {children}
 
