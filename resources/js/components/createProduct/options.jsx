@@ -91,6 +91,7 @@ const Options = () => {
                     option_obj={item}
                     saveOption={saveOption}
                     deleteOption={deleteOption}
+                    optionsObj={optionsObj}
                 />
             )}
 

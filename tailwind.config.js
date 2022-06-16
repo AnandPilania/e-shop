@@ -27,7 +27,10 @@ module.exports = {
             },
             backgroundImage: {
                 'caret-down': "url('/images/icons/caret-down.svg')",
-              }
+            },
+            colors: {
+                'bg-modal': 'rgba(0, 0, 0, 0.45)',
+              },
         },
         backgroundPosition: {
             'right-center': 'right 15px center',

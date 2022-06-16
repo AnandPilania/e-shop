@@ -156,6 +156,7 @@ const Appcontainer = () => {
     const [countrySupplier, setCountrySupplier] = useState('');
     const [listSuppliers, setListSuppliers] = useState([]);
     const [supplier, setSupplier] = useState('');
+    const [imageVariantes, setImageVariantes] = useState([]);
 
 
     //---------------------------------------------------------------PRODUCT
@@ -492,6 +493,8 @@ const Appcontainer = () => {
         productStock, setProductStock,
         optionsObj, setOptionsObj,
         unlimited, setUnlimited,
+        imageVariantes, setImageVariantes,
+        
 
 
     }

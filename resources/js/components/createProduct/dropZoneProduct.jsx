@@ -10,7 +10,7 @@ const DropZoneProduct = () => {
     const [showModal, setShowModal] = useState(false);
     const [urlValue, setUrlValue] = useState('');
 
-    const { image, setImage } = useContext(AppContext);
+    const { imageVariantes, setImageVariantes } = useContext(AppContext);
 
     var dropRegion = null;
     var fakeInput = null;
@@ -75,14 +75,13 @@ const DropZoneProduct = () => {
     }
 
 
-    // récupère les files quand on drop et les envoi à handleFiles
+    // récupère les files quand on drop puis les envoi à handleFiles
     function handleDrop(e) {
         var dt = e.dataTransfer,
             files = dt.files;
         if (files.length) {
             handleFiles(files);
         } else {
-            alert('not files.length')
             // check for img
             var html = dt.getData('text/html'),
                 match = html && /\bsrc="?([^"\s]+)"?\s*/.exec(html),
@@ -120,11 +119,10 @@ const DropZoneProduct = () => {
         img.src = url;
     }
 
-    // mesPoissons.splice(2, 0, "tambour");
-    // affiche et sauvegarde les images
+
+    // affiche et sauvegarde les images dans temporaryStorage
     function handleFiles(files) {
-        console.log('files  ', files)
-        let tmp_tab = image;
+        let tmp_tab = imageVariantes;
         let four_items_tab = [];
         Object.values(files).map((item, index, arr) => {
             if (validateImage(item)) {
@@ -173,7 +171,7 @@ const DropZoneProduct = () => {
                                             tmp_data.push(tmp);
                                         }
                                     };
-                                    setImage(tmp_data);
+                                    setImageVariantes(tmp_data);
                                 })
                                 .catch(error => {
                                     console.log('Error get Product Images failed : ' + error.status);
@@ -192,8 +190,8 @@ const DropZoneProduct = () => {
 
 
     useEffect(() => {
-        console.log('image  ', image)
-        if (image[0]?.length > 0) {
+        console.log('imageVariantes  ', imageVariantes)
+        if (imageVariantes[0]?.length > 0) {
             dropRegion = document.getElementById("drop-region");
             // cancel --> open files explorator when click on dropRegion
             dropRegion.removeEventListener('click', fakeInputClick);
@@ -236,7 +234,7 @@ const DropZoneProduct = () => {
             dropHeader.className = "w-full h-[120px] flex flex-row  justify-center items-center pb-[10px] mb-[10px]";
 
         }
-    }, [image])
+    }, [imageVariantes])
 
 
 
@@ -271,7 +269,7 @@ const DropZoneProduct = () => {
 
     function removeOneImage(id, droppableIndex, draggableIndex) {
 
-        const newState = [...image];
+        const newState = [...imageVariantes];
         newState[droppableIndex].splice(draggableIndex, 1);
 
         let tmp_data = [[]];
@@ -290,7 +288,7 @@ const DropZoneProduct = () => {
                 tmp_data.push(tmp);
             }
         };
-        setImage(tmp_data);
+        setImageVariantes(tmp_data);
 
         Axios.get(`http://127.0.0.1:8000/deleteOneElementById/${id}`)
             .then(res => {
@@ -385,8 +383,8 @@ const DropZoneProduct = () => {
         const dInd = +destination.droppableId;
 
         if (sInd === dInd) {
-            const items = reorder(image[sInd], source.index, destination.index);
-            const newState = [...image];
+            const items = reorder(imageVariantes[sInd], source.index, destination.index);
+            const newState = [...imageVariantes];
             newState[sInd] = items;
 
             let tmp_data = [[]];
@@ -406,12 +404,12 @@ const DropZoneProduct = () => {
                     tmp_data.push(tmp);
                 }
             };
-            setImage(tmp_data);
+            setImageVariantes(tmp_data);
             handleReOrder(tmp_data);
 
         } else {
-            const result = move(image[sInd], image[dInd], source, destination);
-            const newState = [...image];
+            const result = move(imageVariantes[sInd], imageVariantes[dInd], source, destination);
+            const newState = [...imageVariantes];
             newState[sInd] = result[sInd];
             newState[dInd] = result[dInd];
 
@@ -432,7 +430,7 @@ const DropZoneProduct = () => {
                     tmp_data.push(tmp);
                 }
             };
-            setImage(tmp_data);
+            setImageVariantes(tmp_data);
             handleReOrder(tmp_data);
         }
     };
@@ -447,13 +445,13 @@ const DropZoneProduct = () => {
                     className="w-full h-[120px] flex flex-row  justify-center items-center pb-[10px] mb-[10px]">
                     <div id="firstImage"
                         className='hidden'>
-                        {image[0]?.length > 0 &&
+                        {imageVariantes[0]?.length > 0 &&
                             <div className='flex flex-col justify-start items-center flex-nowrap'>
                                 <span id="txtImgPrincipale"
                                 className='w-full text-center text-[12px] mt-0 pb-[10px]'>Image principale</span>
                                 <img
                                     className='m-0 object-contain max-h-[200px]'
-                                    src={window.location.origin + '/' + image[0][0]?.value}
+                                    src={window.location.origin + '/' + imageVariantes[0][0]?.value}
                                 />
                             </div>
                         }
@@ -477,7 +475,7 @@ const DropZoneProduct = () => {
                 <DragDropContext
                     onDragEnd={onDragEnd}
                 >
-                    {image[0]?.length > 0 && image.map((item_tab, ndx) => (
+                    {imageVariantes[0]?.length > 0 && imageVariantes.map((item_tab, ndx) => (
                         <Droppable droppableId={`${ndx}`}
                             direction="horizontal"
                             key={ndx}>
@@ -539,7 +537,7 @@ const DropZoneProduct = () => {
                 setInputValue={setUrlValue}
                 inputValue={urlValue}
                 ModalConfirm={ModalConfirm}
-            >
+              >
                 <h2 className="childrenModal">Entrez l'URL de l'image</h2>
             </ModalInput>
         </MainBlock>

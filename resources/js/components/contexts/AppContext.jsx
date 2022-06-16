@@ -169,6 +169,8 @@ export default React.createContext({
     setOptionsObj: () => { },
     unlimited: [],
     setUnlimited: () => { },
+    imageVariantes: [], 
+    setImageVariantes: () => { },
 
 
 });

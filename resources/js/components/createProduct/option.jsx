@@ -3,7 +3,7 @@ import Axios from 'axios';
 
 
 
-const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
+const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) => {
 
 
 
@@ -122,7 +122,6 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
 
 
     const handleChangeOptionValues = (e) => {
-
         setTmp_optionValues(e.target.value);
         setShowOptionValues(false);
         removeErrorMessage();
@@ -137,7 +136,17 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
             removeErrorMessage();
         }
 
-        tmp_optionValues.length > 0 && setOptionObj({ ...optionObj, values: [...optionObj.values, tmp_optionValues.trim()] });
+        // remove comma from tmp_optionValues if comma is pressed
+        let val = '';
+        let ndx = tmp_optionValues.indexOf(',');
+        if (ndx > -1 && ndx == tmp_optionValues.length - 1) {  
+            val = tmp_optionValues.trim().slice(0, -1);
+        } else {
+            val = tmp_optionValues.trim();
+        }
+
+        tmp_optionValues.length > 0 &&
+            setOptionObj({ ...optionObj, values: [...optionObj.values, val] });
         setTmp_optionValues('');
     }
 
@@ -229,7 +238,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
     }, [tmp_selectOptionValues]);
 
 
-
+    console.log('optionsObj  ', optionsObj)
 
 
     return (
@@ -267,6 +276,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
                             className='absolute t-[40px] l-0 w-full max-h-[242px] border border-slate-300 bg-white overflow-x-hidden overflow-y-scroll z-10 shadow-lg scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100'
                         >
                             {listType.map((item, index) =>
+                                optionsObj?.findIndex(x => x.name == item.name) == -1 &&
                                 <li
                                     key={index}
                                     value={item.name}
@@ -280,6 +290,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
                                         {item.name}
                                     </span>
                                 </li>
+
                             )
                             }
                         </ul>}
@@ -302,6 +313,11 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
                             }}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter' || e.key === 'NumpadEnter') {
+                                    handleEnterOptionsValue();
+                                }
+                            }}
+                            onKeyUp={(e) => {
+                                if (e.key == ',') {
                                     handleEnterOptionsValue();
                                 }
                             }}
@@ -347,7 +363,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption }) => {
                                         }}
                                         className="w-[17px] h-[17px] mr-[17px] hover:cursor-pointer"
                                     />
-                                    <label 
+                                    <label
                                         className="w-full h-full pr-[30px] text-stone-800 text-base hover:cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis">
                                         {item.name}
                                     </label>

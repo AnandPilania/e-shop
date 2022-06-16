@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import Tooltip from '../elements/tooltip';
+import ModalImageVariante from './modalImageVariante';
+
 
 
 const OptionVariantesList = () => {
 
     const [variantes, setVariantes] = useState([]);
+    const [showModalImageVariante, setShowModalImageVariante] = useState(false);
 
     const { optionsObj, productPrice, previousProductPrice, productStock } = useContext(AppContext);
 
@@ -116,36 +119,20 @@ const OptionVariantesList = () => {
         unlimitedStockCheckbox.checked = false;
 
         if (item.unlimited) {
-
             handleVariantes(item.id, 'unlimited', false);
-
             handleVariantes(item.id, 'stock', '');
-
             handleVariantes(item.id, 'placeholderStock', '0');
-
-            // let inputStock = document.getElementById('inputStock' + item.id);
-            // // inputStock.style.backgroundColor = 'white';
         }
     }
 
     const handleUnlimitedStock2 = (item) => {
-        if (item.unlimited) {
-            // let inputStock = document.getElementById('inputStock' + item.id);
-            // // inputStock.style.backgroundColor = 'white';
-
+        if (item.unlimited && item.stock == '') {
             handleVariantes(item.id, 'unlimited', false);
-
             handleVariantes(item.id, 'stock', '');
-
             handleVariantes(item.id, 'placeholderStock', '0');
         } else {
-            // let inputStock = document.getElementById('inputStock' + item.id);
-            // // inputStock.style.backgroundColor = '#f1f5f9';
-
             handleVariantes(item.id, 'unlimited', true);
-
             handleVariantes(item.id, 'stock', '');
-
             handleVariantes(item.id, 'placeholderStock', String.fromCharCode(0x221E));
         }
     }
@@ -157,6 +144,14 @@ const OptionVariantesList = () => {
             tmp_variantes[ndx].deleted = true;
         }
         setVariantes([...tmp_variantes]);
+    }
+
+    const handleModalCancel = () => {
+        setShowModalImageVariante(false);
+    }
+
+    const handleConfirm = () => {
+
     }
 
     console.log('variantes  ', variantes)
@@ -213,7 +208,8 @@ const OptionVariantesList = () => {
 
                     {/* stock */}
                     <div
-                        className='flex flex-rox justify-start items-center'>
+                        className='flex flex-rox justify-start items-center'
+                    >
                         <input
                             type="number"
                             id={`inputStock${item?.id}`}
@@ -222,7 +218,9 @@ const OptionVariantesList = () => {
                             placeholder={item.placeholderStock}
                             min="0" max="9999999999"
                             onClick={(() => handleProductStockOnFocus2(item))}
-                            className={`w-[100px] h-[30px] border border-slate-400 ${item?.unlimited ? "bg-slate-100" : "bg-white"}  rounded-4 pl-[8px] text-[13px] leading-6`}
+                            className={`w-[100px] h-[30px] border border-slate-400 
+                            ${(item?.stock != '' || !item?.unlimited) ? "bg-white" : "bg-slate-100"}  
+                            rounded-4 pl-[8px] text-[13px] leading-6`}
                         />
                         <span
                             className='flex flex-rox justify-start items-center h-[30px] border-y-[1px] border-r-[1px]  border-slate-400 rounded-4 px-[10px] cursor-pointer caret-transparent group relative'
@@ -231,22 +229,24 @@ const OptionVariantesList = () => {
                                 className='mr-[7px] caret-transparent'
                                 id={`unlimitedStockCheckbox${item?.id}`}
                                 type="checkbox"
-                                checked={item?.unlimited}
-                                // pour pas avoir de warning "checked non controlé"
+                                checked={item?.stock != '' ? false : item?.unlimited}
+                                // pour pas avoir de warning "input checkbox non controlé"
                                 onChange={() => { }}
                             />
                             <label
                                 className='cursor-pointer caret-transparent text-[20px] '>
                                 {String.fromCharCode(0x221E)}
                                 <Tooltip top={-100} left={2} css='whitespace-nowrap'>
-                                {item?.unlimited ? 'Stock illimité' : 'Entrez une quantité'} 
+                                    {item?.unlimited ? 'Stock illimité' : 'Entrez une quantité'}
                                 </Tooltip>
                             </label>
                         </span>
                     </div>
 
 
-                    <span>image</span>
+                    <span onClick={() => setShowModalImageVariante(true)}>
+                        image
+                    </span>
 
                     {/* delete */}
                     <div className='group flex justify-center items-center w-[30px] h-[30px] p-0 m-0 cursor-pointer'>
@@ -260,6 +260,12 @@ const OptionVariantesList = () => {
                 </div>
 
             )}
+
+            <ModalImageVariante
+                show={showModalImageVariante}
+                handleConfirm={handleConfirm}
+                handleModalCancel={handleModalCancel}
+            />
         </div>
     );
 }
