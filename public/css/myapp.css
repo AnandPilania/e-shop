@@ -3098,8 +3098,20 @@ a.link:hover {
   border: solid 2px #c40000;
 }
 
+.brd-red-3 {
+  border: solid 3px #c40000;
+}
+
 .brd-blue-1 {
   border: solid 1px #123eff;
+}
+
+.brd-blue-2 {
+  border: solid 2px #123eff;
+}
+
+.brd-blue-3 {
+  border: solid 3px #123eff;
 }
 
 .brd-white-1 {

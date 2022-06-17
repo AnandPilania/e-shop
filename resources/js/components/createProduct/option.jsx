@@ -284,9 +284,9 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
                                         handleChangeOption(item.name);
                                         getOptionValues();
                                     }}
-                                    className="w-full h-[40px] flex justify-start items-center pl-[10px] cursor-pointer hover:bg-slate-100"
+                                    className="w-full h-[40px] cursor-pointer hover:bg-slate-100"
                                 >
-                                    <span className="w-full h-full pr-[30px] text-stone-800 text-base hover:cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis">
+                                    <span className="flex flex-row justify-start items-center pl-[10px] w-full h-full pr-[30px] text-stone-800 text-base hover:cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis">
                                         {item.name}
                                     </span>
                                 </li>
@@ -347,7 +347,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
                                     key={index}
                                     value={item.name}
                                     onClick={() => handleSelectOptionValues(item.name)}
-                                    className="w-full h-[40px] flex justify-start items-center pl-[10px] cursor-pointer hover:bg-slate-100"
+                                    className="w-full h-[40px] flex flex-row justify-start items-center pl-[10px] cursor-pointer hover:bg-slate-100"
                                 >
                                     <input type='checkbox'
                                         value={item.id}
@@ -361,10 +361,10 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
                                                 removeErrorMessage();
                                             }
                                         }}
-                                        className="w-[17px] h-[17px] mr-[17px] hover:cursor-pointer"
+                                        className="w-[17px] h-[17px] mr-[10px] hover:cursor-pointer"
                                     />
                                     <label
-                                        className="w-full h-full pr-[30px] text-stone-800 text-base hover:cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis">
+                                        className="flex flex-row justify-start items-center w-full h-full pr-[30px] text-stone-800 text-base hover:cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis">
                                         {item.name}
                                     </label>
                                 </li>

@@ -8,7 +8,6 @@ import { getParameter, getOperator } from './conditionsFunctions';
 const withHandleConditions = (Component) => (props) => {
 
     const [refreshCondition, setRefreshCondition] = useState(Date());
-    const [okAddNewCondition, setOkAddNewCondition] = useState(false);
 
     const { conditions, setConditions, setIsAutoConditions, showModalSimpleMessage, setShowModalSimpleMessage, messageModal, setMessageModal, imageModal, setDsablNamProd, setDsablType, setDsablSuppl, setDsablPrice, setDsablTag, setDsablBeforePromo, setDsablWeight, setDsablStock, setDsablDate } = useContext(AppContext);
 
@@ -77,7 +76,7 @@ const withHandleConditions = (Component) => (props) => {
                 if (sameParam.length > 1) {
                     console.log('tmp  ', tmp);
                     console.log('sameParam  ', sameParam);
-                   
+
                     // permet de laisser le premier "est égale à" activé
                     let index = tmp.findIndex(x => x.id == sameParam[0].id);
                     tmp[index].disableOperator = '';
@@ -189,19 +188,23 @@ const withHandleConditions = (Component) => (props) => {
     }
     return (
         <div>
+
             <Component
                 handleChangeParam={handleChangeParam}
                 handleChangeOperator={handleChangeOperator}
                 handleChangeValue={handleChangeValue}
                 addCondition={addCondition}
                 deleteCondition={deleteCondition}
-                {...props} />
+                {...props}
+            />
+
             <ModalSimpleMessage
                 show={showModalSimpleMessage} // true/false show modal
                 handleModalCancel={closeSimpleModal}
                 image={imageModal}>
                 <h2 className="childrenModal">{messageModal}</h2>
             </ModalSimpleMessage>
+            
         </div>
     );
 };

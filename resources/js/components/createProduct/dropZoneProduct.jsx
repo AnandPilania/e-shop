@@ -125,6 +125,7 @@ const DropZoneProduct = () => {
         let tmp_tab = imageVariantes;
         let four_items_tab = [];
         Object.values(files).map((item, index, arr) => {
+            // crée des tableaux de 4 images
             if (validateImage(item)) {
                 if ([tmp_tab.length - 1].length < 4) {
                     four_items_tab = [tmp_tab.length - 1];
@@ -182,9 +183,6 @@ const DropZoneProduct = () => {
                         console.log('Error Image upload failed : ' + error.status);
                     });
             }
-
-
-
         });
     }
 

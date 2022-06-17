@@ -9,8 +9,20 @@ const OptionVariantesList = () => {
 
     const [variantes, setVariantes] = useState([]);
     const [showModalImageVariante, setShowModalImageVariante] = useState(false);
+    const [showMCancelDeleteButton, setShowMCancelDeleteButton] = useState(false);
+    const [deletedVariantesList, setDeletedVariantesList] = useState([]);
 
     const { optionsObj, productPrice, previousProductPrice, productStock } = useContext(AppContext);
+
+    useEffect(() => {
+        // check if there is deleted variantes and show cancel button if true
+        let tmp_variantes = [...variantes];
+        let ndx = tmp_variantes.findIndex(x => x.deleted == true);
+        if (ndx > -1) {
+            setShowMCancelDeleteButton(true);
+        }
+    }, [variantes]);
+
 
     useEffect(() => {
         let allValuesAsString = [];
@@ -144,6 +156,36 @@ const OptionVariantesList = () => {
             tmp_variantes[ndx].deleted = true;
         }
         setVariantes([...tmp_variantes]);
+
+        setDeletedVariantesList([...deletedVariantesList, id]);
+    }
+
+    // annule les suppressions de variantes une par une en commençant par la dernière
+    const cancelDeleteVariante = () => {
+
+        let tmp_variantes = [...variantes];
+
+        // trouve l'id de la variante à récupérer et met son deleted à false 
+        if (deletedVariantesList.length > 0) {
+            let idLastDeleted = deletedVariantesList[deletedVariantesList.length - 1];
+            let ndx = tmp_variantes.findIndex(x => x.id == idLastDeleted);
+            if (ndx > -1) {
+                tmp_variantes[ndx].deleted = false;
+                setVariantes([...tmp_variantes]);
+            }
+            // supprime le dernier id des variantes supprimées dans la liste deletedVariantesList. cet id corrspond à celui de la variante récupérée 
+            let tmp_deletedVariantesList = [...deletedVariantesList];
+            tmp_deletedVariantesList.pop();
+            setDeletedVariantesList([...tmp_deletedVariantesList]);
+        }
+
+        // check s'il y a encore des variantes deleted = true
+        let ndx = tmp_variantes.findIndex(x => x.deleted == true);
+        if (ndx > -1) {
+            setShowMCancelDeleteButton(true);
+        } else {
+            setShowMCancelDeleteButton(false);
+        }
     }
 
     const handleModalCancel = () => {
@@ -155,8 +197,16 @@ const OptionVariantesList = () => {
     }
 
     console.log('variantes  ', variantes)
+
     return (
         <div>
+            {!!showMCancelDeleteButton &&
+                <button
+                    onClick={cancelDeleteVariante}
+                    className='h-[40px] px-[10px] bg-slate-500 border border-slate-200'>
+                    Annuler les suppressions
+                </button>
+            }
             {variantes?.length > 0 &&
                 <div className="w-full h-auto grid gap-x-2 grid-cols-[1fr_100px_100px_150px_50px_30px] justify-start items-center border-b-[1px] border-slate-200 mb-[20px]">
                     <span>Variantes</span>
@@ -237,7 +287,7 @@ const OptionVariantesList = () => {
                                 className='cursor-pointer caret-transparent text-[20px] '>
                                 {String.fromCharCode(0x221E)}
                                 <Tooltip top={-100} left={2} css='whitespace-nowrap'>
-                                    {item?.unlimited ? 'Stock illimité' : 'Entrez une quantité'}
+                                    {item?.unlimited ? 'Stock illimité' : 'Entrer une quantité'}
                                 </Tooltip>
                             </label>
                         </span>
