@@ -139,7 +139,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
         // remove comma from tmp_optionValues if comma is pressed
         let val = '';
         let ndx = tmp_optionValues.indexOf(',');
-        if (ndx > -1 && ndx == tmp_optionValues.length - 1) {  
+        if (ndx > -1 && ndx == tmp_optionValues.length - 1) {
             val = tmp_optionValues.trim().slice(0, -1);
         } else {
             val = tmp_optionValues.trim();
@@ -290,7 +290,6 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
                                         {item.name}
                                     </span>
                                 </li>
-
                             )
                             }
                         </ul>}
@@ -384,17 +383,17 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
                 </span>
             </div>
 
-            {/* values */}
-            <div className="col-span-3 flex flex-wrap pt-[20px] w-full">
+            {/* values pastilles*/}
+            <div className="col-span-3 flex flex-wrap pt-[5px] w-full">
                 {!!optionObj.values.length > 0 && optionObj.values.map(item =>
                     <div key={item}
-                        className="flex justify-between align-center h-[24px] rounded-full bg-sky-500 pl-3 mb-1 mr-2 ">
+                        className="flex justify-between align-center h-[24px] rounded-[5px] bg-slate-100 border border-slate-300 pl-3 mb-1 mr-2 ">
                         <span
-                            className="h-full text-white mr-2 rounded-full">
+                            className="h-full text-slate-600 mr-2 rounded-[5px]">
                             {item}
                         </span>
                         <span
-                            className="h-full w-[24px] flex justify-center align-center hover:cursor-pointer hover:bg-white rounded-r-[50%] bg-amber-400"
+                            className="h-full w-[24px] flex justify-center align-center hover:cursor-pointer hover:bg-red-100 rounded-r-[5px] bg-white"
                             onClick={() => removeOptionValue(item)}>
                             <img src='../images/icons/x.svg'
                                 className="w-[20px] h-[24px]" />

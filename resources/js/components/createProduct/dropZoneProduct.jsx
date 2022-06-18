@@ -7,8 +7,8 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 const DropZoneProduct = () => {
 
-    const [showModal, setShowModal] = useState(false);
-    const [urlValue, setUrlValue] = useState('');
+    // const [showModal, setShowModal] = useState(false);
+    // const [urlValue, setUrlValue] = useState('');
 
     const { imageVariantes, setImageVariantes } = useContext(AppContext);
 
@@ -306,13 +306,13 @@ const DropZoneProduct = () => {
         return ('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)
     }
 
-    function ModalConfirm() {
-        uploadImageFromURL(urlValue);
-    }
+    // function ModalConfirm() {
+    //     uploadImageFromURL(urlValue);
+    // }
 
-    function hideModal() {
-        setShowModal(false);
-    }
+    // function hideModal() {
+    //     setShowModal(false);
+    // }
 
 
 
@@ -529,7 +529,7 @@ const DropZoneProduct = () => {
 
 
             </div>
-            <ModalInput
+            {/* <ModalInput
                 show={showModal}
                 handleModalCancel={hideModal}
                 setInputValue={setUrlValue}
@@ -537,7 +537,7 @@ const DropZoneProduct = () => {
                 ModalConfirm={ModalConfirm}
               >
                 <h2 className="childrenModal">Entrez l'URL de l'image</h2>
-            </ModalInput>
+            </ModalInput> */}
         </MainBlock>
     )
 }

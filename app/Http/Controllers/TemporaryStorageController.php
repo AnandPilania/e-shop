@@ -36,10 +36,9 @@ class TemporaryStorageController extends Controller
     // récupère toutes les image pour une key donnée
     public function getTemporaryImages($key)
     {
-
         $images = Temporary_storage::where('key', $key)
-        ->orderBy('ordre')
-        ->get();
+            ->orderBy('ordre')
+            ->get();
 
         return $images;
     }
@@ -100,16 +99,15 @@ class TemporaryStorageController extends Controller
         $imagesProducts = json_decode($request->image);
         $ndx = 1;
 
-        foreach($imagesProducts as $values)
-        {
+        foreach ($imagesProducts as $values) {
             foreach ($values as $item) {
                 $tmp_productImage = Temporary_storage::where('id', $item->id)->first();
-                
+
                 $tmp_productImage->ordre = $ndx;
                 $tmp_productImage->save();
 
                 $ndx++;
-            }            
+            }
         }
     }
 
@@ -132,6 +130,24 @@ class TemporaryStorageController extends Controller
             $collection->thumbnail = null;
             $collection->save();
         }
+        return 'ok';
+    }
+
+    // delete "countFile" ModalImageVariante images from Temporary_storage
+    public function deleteModalImageVariantes(Request $request)
+    {
+        $tmp_storage = Temporary_storage::where('key', $request->key)
+        ->orderBy('id', 'desc')
+        ->limit($request->countFile)
+        ->get();
+
+        if (isset($tmp_storage) && count($tmp_storage) > 0) {
+            foreach ($tmp_storage as $toDelete) {
+                File::delete(public_path($toDelete->value));
+                Temporary_storage::destroy($toDelete->id);
+            }
+        }
+
         return 'ok';
     }
 

@@ -93,6 +93,9 @@ Route::get('/deleteOneElementById/{id}', [TemporaryStorageController::class, 'de
 // delete temporary collection image
 Route::post('/deleteTemporayStoredElements', [TemporaryStorageController::class, 'deleteTemporayStoredElements']);
 
+// delete "count" ModalImageVariante images from Temporary_storage
+Route::post('/deleteModalImageVariantes', [TemporaryStorageController::class, 'deleteModalImageVariantes']);
+
 // handle tinyMCE temporary images and videos when collection or product are registred
 Route::post('/handleTinyMceTemporaryElements', [TemporaryStorageController::class, 'handleTinyMceTemporaryElements']);
 

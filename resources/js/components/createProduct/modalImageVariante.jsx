@@ -30,22 +30,11 @@ const useStyles = makeStyles({
 
 
 
-const ModalImageVariante = ({ handleConfirm, handleModalCancel, show }) => {
+const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVariante, setImageVariante }) => {
 
-    const [imageVariante, setImageVariante] = useState({});
-    const [imageFile, setImageFile] = useState([]);
+    const [countFile, setCountFile] = useState(0);
 
-    const { imageVariantes, setImageVariantes } = useContext(AppContext);
-
-    useEffect(() => {
-        Axios.get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage')
-            .then(res => {
-                setImageVariante(res.data);
-            })
-            .catch(error => {
-                console.log('Error get Product Images failed : ' + error.status);
-            });
-    }, []);
+    // const { imageVariantes, setImageVariantes } = useContext(AppContext);
 
     const inputModalImageVariante = useRef(null);
 
@@ -56,7 +45,6 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show }) => {
     const handleSelectImage = (item) => {
         // masque le checkedButton sélectionné, s'il y en a !
         imageVariante.forEach(x => document.getElementById('checkedButton' + x.id).className = x.id != item.id && "invisible group-hover:visible absolute top-[5px] left-[5px] w-[25px] h-[25px] rounded-[50%] bg-white");
-
         imageVariante.forEach(x => document.getElementById('checkedButton' + x.id).parentNode.className = x.id != item.id && "flex flex-row justify-center items-center mb[20px] w-full h-[100px] relative border border-slate-300 rounded cursor-pointer hover:border-slate-400");
 
         // check le checkedButton de l'image cliquée
@@ -86,54 +74,23 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show }) => {
     }
 
 
-    function handleFiles(e) {
-        console.log('files   ', e.target.files[0])
-        let file = e.target.files[0];
-
-        // setImageVariante([...imageVariante, e.target.files[0]])
-
-
-
-        if (validateImage(file)) {
-            let imageZone = document.getElementById('idSectionModalImageVariante');
-
-            let thisImage = {id: '100000'};
-            let imageDiv = document.createElement("div");
-            imageDiv.setAttribute('key', '100000');
-            imageDiv.className = "flex flex-row justify-center items-center mb[20px] w-full h-[100px] relative border border-slate-300 rounded cursor-pointer hover:border-slate-400";
-            imageDiv.addEventListener('click', () => handleSelectImage(thisImage));
-            imageZone.appendChild(imageDiv);
-
-            let img = document.createElement("img");
-            img.className = 'max-w-[(calc(100% / 4) - 12px] max-h-[98px]';
-            let reader = new FileReader();
-            reader.onload = function (e) {
-                img.src = e.target.result;
+    const handleFiles = (e) => {
+        let files = e.target.files;
+        setCountFile(countFile + e.target.files.length);
+        Object.values(files).map(file => {
+            if (validateImage(file)) {
+                saveImage(file);
             }
-            reader.readAsDataURL(file);
-            imageDiv.appendChild(img);
-
-            let imageButtonSelect = document.createElement('button');
-            imageButtonSelect.id = `checkedButton100000`;
-            imageButtonSelect.className = "invisible absolute top-[5px] left-[5px] w-[25px] h-[25px] rounded-[50%] bg-white";
-
-            let imgButton = document.createElement("img");
-            imgButton.className = 'w-[25px] h-[25px] rounded';
-            imgButton.src = '../images/icons/check-green-fill.svg';
-            imageButtonSelect.appendChild(imgButton);
-
-
-            setImageFile([file]);
-        }
+        });
     }
 
-    const saveImage = () => {
+
+    const saveImage = (file) => {
         // save image in temporayStorage
         var tmp_Data = new FormData;
         tmp_Data.append('key', 'tmp_productImage');
-
-        let name = imageFile.name;
-        tmp_Data.append('value', imageFile, name);
+        let name = file.name;
+        tmp_Data.append('value', file, name);
 
         Axios.post(`http://127.0.0.1:8000/temporaryStoreImages`, tmp_Data,
             {
@@ -142,6 +99,34 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show }) => {
                 }
             })
             .then(() => {
+                Axios.get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage')
+                    .then(res => {
+                        setImageVariante(res.data);
+                    })
+                    .catch(error => {
+                        console.log('Error get Product Images failed : ' + error.status);
+                    });
+            })
+            .catch(error => {
+                console.log('Error Image upload failed : ' + error.status);
+            });
+    }
+
+
+    // suprime les images chargées si on annule
+    const removeImageFroTemprayStorage = () => {
+        var tmp_Data = new FormData;
+        tmp_Data.append('key', 'tmp_productImage');
+        tmp_Data.append('countFile', countFile);
+
+        Axios.post(`http://127.0.0.1:8000/deleteModalImageVariantes`, tmp_Data,
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then(() => {
+                setCountFile(0);
                 Axios.get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage')
                     .then(res => {
                         setImageVariante(res.data);
@@ -208,6 +193,7 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show }) => {
                         ref={inputModalImageVariante}
                         type='file'
                         onChange={handleFiles}
+                        multiple={true}
                         className="hidden"
                     // onChange={handleinputTextModify}
                     />
@@ -221,13 +207,17 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show }) => {
                     <button
                         className="flex flrex-row justify-center items-center h-[40px] px-[20px]  bg-green-500 text-white"
                         onClick={() => {
-                            saveImage();
                             handleConfirm();
                         }}>
                         Enregister
                     </button>
 
-                    <button className="flex flrex-row justify-center items-center h-[40px] px-[20px] ml-[15px] border border-slate-400" onClick={handleModalCancel}>
+                    <button
+                        className="flex flrex-row justify-center items-center h-[40px] px-[20px] ml-[15px] border border-slate-400"
+                        onClick={() => {
+                            removeImageFroTemprayStorage();
+                            handleModalCancel();
+                        }}>
                         Annuler
                     </button>
                 </div>

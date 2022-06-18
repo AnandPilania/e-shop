@@ -9,7 +9,9 @@ export default function SelectWithCheckbox({ unikId, list, selected, setSelected
 
     const [toggleSelectWithCheckbox, setToggleSelectWithCheckbox] = useState(false);
 
-    const handleChange = (name) => {
+    // si l'élément a déjà été sélectionné on le retir sinon on l'ajout, ceci coche ou décoche la checkbox
+    const handleChange = (name) => {  
+        console.log('name   ', name)
         let index = selected.indexOf(name);
         if (index > -1) {
             let tmp_arr = [...selected];
@@ -76,13 +78,13 @@ export default function SelectWithCheckbox({ unikId, list, selected, setSelected
                 className="absolute top-[40px] left-0 w-full h-0 bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-gray-300 border-l border-r shadow-lg scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100">
                 {
                     list.length > 0 && list.map(item =>
-                        <li key={item.id} className="flex items-center pl-[17px] w-full h-[40px] border-gray-300 border-b">
+                        <li key={item.id + unikId} className="flex items-center pl-[17px] w-full h-[40px] border-gray-300 border-b">
                             <input type='checkbox'
                                 value={item.id}
-                                id={item.id}
+                                id={item.id + unikId}
                                 checked={selected.indexOf(item.name) > -1} onChange={() => handleChange(item.name)}
                                 className="w-[17px] h-[17px] mr-[17px] hover:cursor-pointer" />
-                            <label htmlFor={item.id}
+                            <label htmlFor={item.id + unikId}
                                 className="text-stone-800 text-base hover:cursor-pointer">
                                 {item.name}
                             </label>

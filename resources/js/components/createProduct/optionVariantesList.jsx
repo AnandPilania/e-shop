@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
+import Axios from 'axios';
 import Tooltip from '../elements/tooltip';
 import ModalImageVariante from './modalImageVariante';
 
@@ -8,6 +9,7 @@ import ModalImageVariante from './modalImageVariante';
 const OptionVariantesList = () => {
 
     const [variantes, setVariantes] = useState([]);
+    const [imageVariante, setImageVariante] = useState({});
     const [showModalImageVariante, setShowModalImageVariante] = useState(false);
     const [showMCancelDeleteButton, setShowMCancelDeleteButton] = useState(false);
     const [deletedVariantesList, setDeletedVariantesList] = useState([]);
@@ -65,7 +67,7 @@ const OptionVariantesList = () => {
 
             if (indexStartPattern > -1) {
                 tmp_variantesAsString.push({
-                    id: i,
+                    id: 'optionVarianteList' + i,
                     optionsString: allValuesAsString[i],
                     options: variantesOptions,
                     price: variantesAsString[indexStartPattern].price,
@@ -78,7 +80,7 @@ const OptionVariantesList = () => {
                 variantesAsString.splice(indexStartPattern, 1);
             } else {
                 tmp_variantesAsString.push({
-                    id: i,
+                    id: 'optionVarianteList' + i,
                     optionsString: allValuesAsString[i],
                     options: variantesOptions,
                     price: productPrice,
@@ -188,12 +190,25 @@ const OptionVariantesList = () => {
         }
     }
 
+
+    const loadImagesVariantes = () => {
+        Axios.get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage')
+            .then(res => {
+                setImageVariante(res.data);
+                setShowModalImageVariante(true);
+            })
+            .catch(error => {
+                console.log('Error get Product Images failed : ' + error.status);
+            });
+    };
+
+
     const handleModalCancel = () => {
         setShowModalImageVariante(false);
     }
 
     const handleConfirm = () => {
-
+        // attribuer l'image à sa variante !!!
     }
 
     console.log('variantes  ', variantes)
@@ -293,9 +308,13 @@ const OptionVariantesList = () => {
                         </span>
                     </div>
 
-
-                    <span onClick={() => setShowModalImageVariante(true)}>
-                        image
+                    <span
+                        className='w-full h-[30px] border border-slate-400 flex justify-center items-center cursor-pointer'
+                        onClick={loadImagesVariantes}
+                    >
+                        <img className='w-[25px] h-auto'
+                            src='../images/icons/image.svg'
+                        />
                     </span>
 
                     {/* delete */}
@@ -315,6 +334,8 @@ const OptionVariantesList = () => {
                 show={showModalImageVariante}
                 handleConfirm={handleConfirm}
                 handleModalCancel={handleModalCancel}
+                imageVariante={imageVariante}
+                setImageVariante={setImageVariante}
             />
         </div>
     );
