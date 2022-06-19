@@ -74,7 +74,7 @@ const Options = () => {
         <div className="w-full">
 
             {optionsObj.length > 0 ?
-                <div className='w-full h-auto grid gap-x-4 gap-y-2 grid-cols-[1fr_1fr_40px] justify-start items-start pb-[20px]'>
+                <div className='w-full h-auto grid gap-x-4 gap-y-2 grid-cols-[1fr_1fr_25px] justify-start items-start pb-[20px]'>
                     <label className='mt-0 mx-0 p-0'>Option</label>
                     <label className='mt-0 mx-0 p-0'>Valeurs de l'option</label>
                     <label className='mt-0 mx-0 p-0'></label>

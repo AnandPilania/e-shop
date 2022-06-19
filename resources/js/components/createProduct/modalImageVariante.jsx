@@ -33,6 +33,7 @@ const useStyles = makeStyles({
 const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVariante, setImageVariante }) => {
 
     const [countFile, setCountFile] = useState(0);
+    const [selectedImage, setSelectedImage] = useState({});
 
     // const { imageVariantes, setImageVariantes } = useContext(AppContext);
 
@@ -43,6 +44,10 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
     }
 
     const handleSelectImage = (item) => {
+
+        // l'image que sera envoyée à handleConfirm
+        setSelectedImage(item);
+
         // masque le checkedButton sélectionné, s'il y en a !
         imageVariante.forEach(x => document.getElementById('checkedButton' + x.id).className = x.id != item.id && "invisible group-hover:visible absolute top-[5px] left-[5px] w-[25px] h-[25px] rounded-[50%] bg-white");
         imageVariante.forEach(x => document.getElementById('checkedButton' + x.id).parentNode.className = x.id != item.id && "flex flex-row justify-center items-center mb[20px] w-full h-[100px] relative border border-slate-300 rounded cursor-pointer hover:border-slate-400");
@@ -140,33 +145,41 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
             });
     }
 
+    const scrollDown = () => {
+        let toScroll = document.getElementById('idSectionModalImageVariante');
+        toScroll.scrollTo(0, toScroll.scrollHeight || toScroll.documentElement.scrollHeight);
+    }
+
 
     console.log('imageVariante modal -->  ', imageVariante)
     return (
         <div className={` ${show ? "block" : "hidden"} fixed top-0 left-0 bg-bg-modal z-40 w-full h-[100%]  flex flex-col justify-start items-center`}>
             <div className="fixed w-[40%] max-h-[90vh] max-x-[650px] min-x-[350] p-[20px] top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] flex flex-col justify-start items-start rounded-md bg-white z-50"
             >
-                <div className='w-full flex flex-row justify-between mb-[20px]'
-                    onClick={handleModalCancel}
-                >
+                <div className='w-full flex flex-row justify-between mb-[20px]'>
                     <h3 className='h-[30px] ml-[10px] font-semibold text-lg'>
                         Sélectionner une immage
                     </h3>
-                    <span className='flex justify-center items-center w-[30px] h-[30px] cursor-pointer bg-red-500 rounded-[5px]'>
+                    <span
+                        onClick={handleModalCancel}
+                        className='flex justify-center items-center w-[30px] h-[30px] cursor-pointer bg-red-500 rounded-[5px]'>
                         <img src={window.location.origin + '/images/icons/x-white.svg'} className="h-[20px] w-[20px]" />
                     </span>
                 </div>
 
                 <section
                     id="idSectionModalImageVariante"
-                    className="w-full max-h-[70%] grid grid-cols-4 gap-[10px] justify-center items-center overflow-y-auto"
+                    className="classSectionModalImageVariante w-full max-h-[70%] grid grid-cols-4 gap-[10px] justify-center items-center overflow-y-auto scroll-smooth"
                 >
                     {imageVariante.length > 0 &&
                         imageVariante.map((item, index) =>
-
                             <div
                                 key={index}
                                 onClick={() => handleSelectImage(item)}
+                                onDoubleClick={() => {
+                                    handleSelectImage(item);
+                                    handleConfirm(selectedImage);
+                                }}
                                 className="flex flex-row justify-center items-center mb[20px] w-full h-[100px] relative border border-slate-300 rounded cursor-pointer hover:border-slate-400 "
                             >
                                 <img className='max-w-[(calc(100% / 4) - 12px] max-h-[98px]'
@@ -183,9 +196,16 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
                             </div>
                         )}
                 </section>
-
+                {/* scroll down button */}
+                <div className='w-full mt-[25px] mb-[5px] flex justify-center'>
+                    <img 
+                    onClick={scrollDown}
+                    className='w-[25px] h-[25px] rounded hover:scale-125 animate-bounce cursor-pointer'
+                        src='../images/icons/arrow-down-circle.svg'
+                    />
+                </div>
                 <button
-                    className='flex flex-row justify-center items-center min-h-[40px] px-[20px] my-[20px] border border-slate-400'
+                    className='flex flex-row justify-center items-center min-h-[40px] px-[20px] my-[20px] border border-gray-300'
                     onClick={handleImportImage}
                 >
                     {/* cet input est hidden et remplacé par un button pour le design */}
@@ -207,13 +227,13 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
                     <button
                         className="flex flrex-row justify-center items-center h-[40px] px-[20px]  bg-green-500 text-white"
                         onClick={() => {
-                            handleConfirm();
+                            handleConfirm(selectedImage);
                         }}>
                         Enregister
                     </button>
 
                     <button
-                        className="flex flrex-row justify-center items-center h-[40px] px-[20px] ml-[15px] border border-slate-400"
+                        className="flex flrex-row justify-center items-center h-[40px] px-[20px] ml-[15px] border border-gray-300"
                         onClick={() => {
                             removeImageFroTemprayStorage();
                             handleModalCancel();

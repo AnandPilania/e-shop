@@ -9,6 +9,7 @@ import ModalImageVariante from './modalImageVariante';
 const OptionVariantesList = () => {
 
     const [variantes, setVariantes] = useState([]);
+    const [idVariante, setIdVariante] = useState(null);
     const [imageVariante, setImageVariante] = useState({});
     const [showModalImageVariante, setShowModalImageVariante] = useState(false);
     const [showMCancelDeleteButton, setShowMCancelDeleteButton] = useState(false);
@@ -191,10 +192,11 @@ const OptionVariantesList = () => {
     }
 
 
-    const loadImagesVariantes = () => {
+    const loadImagesVariantes = (varianteId) => {
         Axios.get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage')
             .then(res => {
                 setImageVariante(res.data);
+                setIdVariante(varianteId);
                 setShowModalImageVariante(true);
             })
             .catch(error => {
@@ -204,11 +206,22 @@ const OptionVariantesList = () => {
 
 
     const handleModalCancel = () => {
+        setIdVariante(null);
         setShowModalImageVariante(false);
     }
 
-    const handleConfirm = () => {
-        // attribuer l'image à sa variante !!!
+    // enregistre l'image principal pour une variante donnée
+    const handleConfirm = (selectedImage) => {
+        setShowModalImageVariante(false);
+        console.log('idVariante  ', idVariante)
+        // ajoute l'image sélectionnée à la variante qui a l'id == idVariante
+        let tmp_variantes = [...variantes];
+        let ndx = tmp_variantes.findIndex(x => x.id == idVariante);
+        if (ndx > -1) {
+            tmp_variantes[ndx].selectedImage = selectedImage;
+        }
+        setVariantes([...tmp_variantes]);
+        setIdVariante(null);
     }
 
     console.log('variantes  ', variantes)
@@ -308,13 +321,21 @@ const OptionVariantesList = () => {
                         </span>
                     </div>
 
+                    {/* image variante */}
                     <span
                         className='w-full h-[30px] border border-slate-400 flex justify-center items-center cursor-pointer'
-                        onClick={loadImagesVariantes}
+                        onClick={() => loadImagesVariantes(item.id)}
                     >
-                        <img className='w-[25px] h-auto'
-                            src='../images/icons/image.svg'
-                        />
+                        {
+                            item.hasOwnProperty('selectedImage') ? 
+                            <img className='w-auto max-h-[28px]'
+                                src={window.location.origin + '/' + item.selectedImage.value}
+                            />
+                                :
+                                <img className='w-[25px] h-auto'
+                                    src='../images/icons/image.svg'
+                                />
+                        }
                     </span>
 
                     {/* delete */}

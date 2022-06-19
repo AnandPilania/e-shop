@@ -3462,3 +3462,16 @@ a.link:hover {
   font-weight: bold;
   color: #1151ff;
 }
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.classSectionModalImageVariante::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.classSectionModalImageVariante {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
