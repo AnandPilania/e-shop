@@ -77,6 +77,7 @@ const OptionVariantesList = () => {
                     unlimited: variantesAsString[indexStartPattern].unlimited,
                     placeholderStock: variantesAsString[indexStartPattern].placeholderStock,
                     deleted: variantesAsString[indexStartPattern].deleted,
+                    selectedImage: variantesAsString[indexStartPattern].selectedImage,
                 });
                 variantesAsString.splice(indexStartPattern, 1);
             } else {
@@ -90,6 +91,7 @@ const OptionVariantesList = () => {
                     unlimited: true,
                     placeholderStock: String.fromCharCode(0x221E),
                     deleted: false,
+                    selectedImage: {},
                 })
             }
         }
@@ -160,7 +162,14 @@ const OptionVariantesList = () => {
         }
         setVariantes([...tmp_variantes]);
 
-        setDeletedVariantesList([...deletedVariantesList, id]);
+        // setDeletedVariantesList([...deletedVariantesList, id]);
+    }
+
+    const cancelAllDeletedVariante = () => {
+        let tmp_variantes = [...variantes];
+
+        tmp_variantes.forEach(x => x.deleted = false);
+        setVariantes([...tmp_variantes]);
     }
 
     // annule les suppressions de variantes une par une en commençant par la dernière
@@ -230,13 +239,13 @@ const OptionVariantesList = () => {
         <div>
             {!!showMCancelDeleteButton &&
                 <button
-                    onClick={cancelDeleteVariante}
-                    className='h-[40px] px-[10px] bg-slate-500 border border-slate-200'>
+                    onClick={cancelAllDeletedVariante}
+                    className='h-[40px] px-[10px] bg-gray-200 border border-gray-500 text-gray-500'>
                     Annuler les suppressions
                 </button>
             }
             {variantes?.length > 0 &&
-                <div className="w-full h-auto grid gap-x-2 grid-cols-[1fr_100px_100px_150px_50px_30px] justify-start items-center border-b-[1px] border-slate-200 mb-[20px]">
+                <div className="w-full h-auto grid gap-x-2 grid-cols-[1fr_100px_100px_150px_50px_30px] justify-start items-center border-b-[1px] border-gray-200 mb-[20px]">
                     <span>Variantes</span>
                     <span>Prix</span>
                     <span>Promo</span>
@@ -246,10 +255,10 @@ const OptionVariantesList = () => {
                 </div>}
 
             {variantes?.length > 0 && variantes.map((item, index) =>
-                item.deleted == false &&
+
                 <div
                     key={index}
-                    className="w-full h-auto grid gap-x-2 grid-cols-[1fr_100px_100px_150px_50px_30px] justify-start items-center mb-[15px] relative"
+                    className={`w-full h-auto grid gap-x-2 grid-cols-[1fr_100px_100px_150px_50px_30px] justify-start items-center mb-[15px] relative ${item.deleted ? "bg-red-50" : "bg-white"}`}
                 >
                     <span className="whitespace-nowrap overflow-hidden text-ellipsis cursor-default group">
                         {item?.optionsString}
@@ -268,7 +277,7 @@ const OptionVariantesList = () => {
                         placeholder="0.00"
                         min="0"
                         max="9999999999"
-                        className="w-full h-[30px] border border-slate-400 rounded-4 pl-[8px] text-[13px] leading-6"
+                        className={`w-full h-[30px] border border-gray-300 rounded-md pl-[8px] text-[13px] leading-6 ${item.deleted ? "bg-red-50" : "bg-white"}`}
                     />
 
                     {/* prev_price -- promo -- */}
@@ -281,7 +290,7 @@ const OptionVariantesList = () => {
                         placeholder="0.00"
                         min="0"
                         max="9999999999"
-                        className="w-full h-[30px] border border-slate-400 rounded-4 pl-[8px] text-[13px] leading-6"
+                        className={`w-full h-[30px] border border-gray-300 rounded-md pl-[8px] text-[13px] leading-6 ${item.deleted ? "bg-red-50" : "bg-white"}`}
                     />
 
                     {/* stock */}
@@ -296,12 +305,12 @@ const OptionVariantesList = () => {
                             placeholder={item.placeholderStock}
                             min="0" max="9999999999"
                             onClick={(() => handleProductStockOnFocus2(item))}
-                            className={`w-[100px] h-[30px] border border-slate-400 
-                            ${(item?.stock != '' || !item?.unlimited) ? "bg-white" : "bg-slate-100"}  
-                            rounded-4 pl-[8px] text-[13px] leading-6`}
+                            className={`w-[100px] h-[30px] border border-gray-300 
+                            ${(item?.stock != '' || !item?.unlimited) ? "bg-white" : "bg-gray-100"}  
+                            rounded-l-md pl-[8px] text-[13px] leading-6 ${item.deleted && "bg-red-50"}`}
                         />
                         <span
-                            className='flex flex-rox justify-start items-center h-[30px] border-y-[1px] border-r-[1px]  border-slate-400 rounded-4 px-[10px] cursor-pointer caret-transparent group relative'
+                            className='flex flex-rox justify-start items-center h-[30px] border-y-[1px] border-r-[1px]   border-gray-300 rounded-r-md px-[10px] cursor-pointer caret-transparent group relative'
                             onClick={() => handleUnlimitedStock2(item)}>
                             <input
                                 className='mr-[7px] caret-transparent'
@@ -323,14 +332,14 @@ const OptionVariantesList = () => {
 
                     {/* image variante */}
                     <span
-                        className='w-full h-[30px] border border-slate-400 flex justify-center items-center cursor-pointer'
+                        className='w-full h-[30px] border border-gray-300 flex justify-center items-center cursor-pointer'
                         onClick={() => loadImagesVariantes(item.id)}
                     >
                         {
-                            item.hasOwnProperty('selectedImage') ? 
-                            <img className='w-auto max-h-[28px]'
-                                src={window.location.origin + '/' + item.selectedImage.value}
-                            />
+                            Object.keys(item.selectedImage).length !== 0 ?
+                                <img className='w-auto max-h-[28px]'
+                                    src={window.location.origin + '/' + item.selectedImage.value}
+                                />
                                 :
                                 <img className='w-[25px] h-auto'
                                     src='../images/icons/image.svg'
@@ -340,15 +349,23 @@ const OptionVariantesList = () => {
 
                     {/* delete */}
                     <div className='group flex justify-center items-center w-[30px] h-[30px] p-0 m-0 cursor-pointer'>
-                        <span
-                            onClick={() => deleteVariante(item.id)}
-                            className='flex justify-center items-center w-[30px] h-[30px] p-0 m-0 cursor-pointer hover:bg-red-500 rounded-[5px]'>
-                            <img src={window.location.origin + '/images/icons/trash.svg'} className="h-[20px] w-[20px] group-hover:hidden" />
-                            <img src={window.location.origin + '/images/icons/x-white.svg'} className="h-[25px] w-[25px] hidden group-hover:block" />
-                        </span>
+                        {
+                            !item.deleted ?
+                                <span
+                                    onClick={() => deleteVariante(item.id)}
+                                    className='flex justify-center items-center w-[30px] h-[30px] p-0 m-0 cursor-pointer hover:bg-red-500 rounded-md'>
+                                    <img src={window.location.origin + '/images/icons/trash.svg'} className="h-[20px] w-[20px] group-hover:hidden" />
+                                    <img src={window.location.origin + '/images/icons/x-white.svg'} className="h-[25px] w-[25px] hidden group-hover:block" />
+                                </span>
+                                :
+                                <span
+                                    onClick={() => unDeleteVariante(item.id)}
+                                    className='flex justify-center items-center w-[30px] h-[30px] p-0 m-0 cursor-pointer hover:bg-green-50 rounded-md'>
+                                    <img src={window.location.origin + '/images/icons/arrow-back.svg'} className="h-[20px] w-[20px]" />
+                                </span>
+                        }
                     </div>
                 </div>
-
             )}
 
             <ModalImageVariante

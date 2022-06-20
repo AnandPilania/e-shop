@@ -1,41 +1,11 @@
-import React, { useState, useEffect, useContext, useRef, createElement } from 'react';
-import AppContext from '../contexts/AppContext';
-import { makeStyles } from '@material-ui/styles';
+import React, { useState, useRef } from 'react';
 import Axios from 'axios';
-
-const useStyles = makeStyles({
-
-    close: {
-        position: 'absolute',
-        top: '0px',
-        right: '0px',
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'flex-end',
-        paddingRight: '25px',
-        paddingTop: '25px',
-    },
-
-
-    faTimes: {
-        fontSize: '26px',
-        transition: 'ease-in-out .15s',
-        color: '#333333',
-        '&:hover': {
-            cursor: 'pointer',
-            transform: 'scale(1.15)',
-        },
-    },
-});
-
 
 
 const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVariante, setImageVariante }) => {
 
     const [countFile, setCountFile] = useState(0);
-    const [selectedImage, setSelectedImage] = useState({});
-
-    // const { imageVariantes, setImageVariantes } = useContext(AppContext);
+    const [selectedImage, setSelectedImage] = useState(null);
 
     const inputModalImageVariante = useRef(null);
 
@@ -43,21 +13,31 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
         inputModalImageVariante.current.click();
     }
 
+    // toggle entre l'affichage et le masquage de l'icon de sélection quand on click sur une image + setSelectedImage qui doit être envoyée à optionVariantesList
     const handleSelectImage = (item) => {
+        // masque l'icon si déjà coché
+        if (selectedImage !== null && item.id === selectedImage.id) {
+            document.getElementById('checkedButton' + selectedImage.id).className = "invisible group-hover:visible absolute top-[5px] left-[5px] w-[25px] h-[25px] rounded-[50%] bg-white";
+            document.getElementById('checkedButton' + selectedImage.id).parentNode.className = "flex flex-row justify-center items-center mb[20px] w-full h-[100px] relative border border-slate-300 rounded cursor-pointer hover:border-slate-400";
 
-        // l'image que sera envoyée à handleConfirm
-        setSelectedImage(item);
+            setSelectedImage(null);
 
-        // masque le checkedButton sélectionné, s'il y en a !
-        imageVariante.forEach(x => document.getElementById('checkedButton' + x.id).className = x.id != item.id && "invisible group-hover:visible absolute top-[5px] left-[5px] w-[25px] h-[25px] rounded-[50%] bg-white");
-        imageVariante.forEach(x => document.getElementById('checkedButton' + x.id).parentNode.className = x.id != item.id && "flex flex-row justify-center items-center mb[20px] w-full h-[100px] relative border border-slate-300 rounded cursor-pointer hover:border-slate-400");
+        } else {
+            // set l'image qui sera envoyée à handleConfirm
+            setSelectedImage(item);
 
-        // check le checkedButton de l'image cliquée
-        let checkedButton = document.getElementById('checkedButton' + item.id);
-        checkedButton.className = "visible absolute top-[5px] left-[5px] w-[25px] h-[25px] rounded-[50%] bg-white";
+            // décoche l'image sélectionnée, s'il y en a !
+            imageVariante.forEach(x => document.getElementById('checkedButton' + x.id).className = x.id != item.id && "invisible group-hover:visible absolute top-[5px] left-[5px] w-[25px] h-[25px] rounded-[50%] bg-white");
+            imageVariante.forEach(x => document.getElementById('checkedButton' + x.id).parentNode.className = x.id != item.id && "flex flex-row justify-center items-center mb[20px] w-full h-[100px] relative border border-slate-300 rounded cursor-pointer hover:border-slate-400");
 
-        checkedButton.parentNode.className = "flex flex-row justify-center items-center mb[20px] w-full h-[100px] relative border rounded cursor-pointer border-green-500 ";
+            // coche l'image cliquée
+            let checkedButton = document.getElementById('checkedButton' + item.id);
+            checkedButton.className = "visible absolute top-[5px] left-[5px] w-[25px] h-[25px] rounded-[50%] bg-white";
+
+            checkedButton.parentNode.className = "flex flex-row justify-center items-center mb[20px] w-full h-[100px] relative border rounded cursor-pointer border-green-500 ";
+        }
     }
+
 
     function validateImage(image) {
         // check the type
@@ -145,13 +125,49 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
             });
     }
 
+    const cancelSelection = () => {
+        setSelectedImage(null);
+
+        // masque le checkedButton sélectionné, s'il y en a !
+        imageVariante.forEach(x => document.getElementById('checkedButton' + x.id).className = "invisible group-hover:visible absolute top-[5px] left-[5px] w-[25px] h-[25px] rounded-[50%] bg-white");
+        imageVariante.forEach(x => document.getElementById('checkedButton' + x.id).parentNode.className = "flex flex-row justify-center items-center mb[20px] w-full h-[100px] relative border border-slate-300 rounded cursor-pointer hover:border-slate-400");
+
+
+    }
+
     const scrollDown = () => {
         let toScroll = document.getElementById('idSectionModalImageVariante');
         toScroll.scrollTo(0, toScroll.scrollHeight || toScroll.documentElement.scrollHeight);
     }
 
+    const handleDoubleClick = (item) => {
+        setSelectedImage(item);
+        handleConfirm(selectedImage);
+        handleSelectImage(item);
+        cancelSelection();
+    }
 
-    console.log('imageVariante modal -->  ', imageVariante)
+
+    const [waitingClick, setWaitingClick] = useState(null);
+    const [lastClick, setLastClick] = useState(0);
+    const handleClick = (e, item) => {
+        if (lastClick && e.timeStamp - lastClick < 250 &&
+            waitingClick) {
+            setLastClick(0);
+            clearTimeout(waitingClick);
+            setWaitingClick(null);
+            handleDoubleClick(item);
+        }
+        else {
+            setLastClick(e.timeStamp);
+            setWaitingClick(setTimeout(() => {
+                setWaitingClick(null);
+            }, 251));
+            handleSelectImage(item);
+        }
+    }
+
+
     return (
         <div className={` ${show ? "block" : "hidden"} fixed top-0 left-0 bg-bg-modal z-40 w-full h-[100%]  flex flex-col justify-start items-center`}>
             <div className="fixed w-[40%] max-h-[90vh] max-x-[650px] min-x-[350] p-[20px] top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] flex flex-col justify-start items-start rounded-md bg-white z-50"
@@ -175,11 +191,7 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
                         imageVariante.map((item, index) =>
                             <div
                                 key={index}
-                                onClick={() => handleSelectImage(item)}
-                                onDoubleClick={() => {
-                                    handleSelectImage(item);
-                                    handleConfirm(selectedImage);
-                                }}
+                                onClick={(e) => handleClick(e, item)}
                                 className="flex flex-row justify-center items-center mb[20px] w-full h-[100px] relative border border-slate-300 rounded cursor-pointer hover:border-slate-400 "
                             >
                                 <img className='max-w-[(calc(100% / 4) - 12px] max-h-[98px]'
@@ -198,9 +210,9 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
                 </section>
                 {/* scroll down button */}
                 <div className='w-full mt-[25px] mb-[5px] flex justify-center'>
-                    <img 
-                    onClick={scrollDown}
-                    className='w-[25px] h-[25px] rounded hover:scale-125 animate-bounce cursor-pointer'
+                    <img
+                        onClick={scrollDown}
+                        className='w-[25px] h-[25px] rounded hover:scale-125 animate-bounce cursor-pointer'
                         src='../images/icons/arrow-down-circle.svg'
                     />
                 </div>
@@ -225,10 +237,13 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
 
                 <div className="w-full flex flex-row justify-center items-center">
                     <button
-                        className="flex flrex-row justify-center items-center h-[40px] px-[20px]  bg-green-500 text-white"
+                        className={`flex flrex-row justify-center items-center h-[40px] px-[20px] ${selectedImage == null ? "bg-gray-100 text-gray-400" : "bg-green-500 text-white"}`}
                         onClick={() => {
-                            handleConfirm(selectedImage);
-                        }}>
+                            selectedImage != null &&
+                                handleConfirm(selectedImage);
+                            cancelSelection();
+                        }}
+                    >
                         Enregister
                     </button>
 
@@ -236,6 +251,7 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
                         className="flex flrex-row justify-center items-center h-[40px] px-[20px] ml-[15px] border border-gray-300"
                         onClick={() => {
                             removeImageFroTemprayStorage();
+                            cancelSelection();
                             handleModalCancel();
                         }}>
                         Annuler
