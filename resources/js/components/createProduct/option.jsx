@@ -105,12 +105,14 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
 
     // ferme le dropDown input listType quand on clique en dehors
     const onClickOutside_inputListType = (e) => {
-        if (!e.target.className.includes('inputListType')) {
-            setShowListType(false);
+        if (e.target.className.length > 0 && e.target.className != null && e.target.className != undefined) {
+            if (!e.target.className.includes('inputListType')) {
+                setShowListType(false);
 
-            let inputListType = document.getElementById('inputListType');
-            if (inputListType !== null) {
-                inputListType.className = "inputListType w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-no-repeat hover:bg-caret-down bg-right-center";
+                let inputListType = document.getElementById('inputListType');
+                if (inputListType !== null) {
+                    inputListType.className = "inputListType w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-no-repeat hover:bg-caret-down bg-right-center";
+                }
             }
         }
     };
@@ -132,7 +134,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
 
 
 
-    const handleChangeOptionValues = (e) => { 
+    const handleChangeOptionValues = (e) => {
         setTmp_optionValues(e.target.value);
         setShowOptionValues(false);
         removeErrorMessage();
@@ -239,7 +241,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
             // check qu'on a bien click en dehors de l'input
             if (ul_optionValuesRef.current && !ul_optionValuesRef.current.contains(event.target)) {
                 console.log('useEffect [tmp_selectOptionValues]')
-                console.log('tmp_selectOptionValues  ',  tmp_selectOptionValues)
+                console.log('tmp_selectOptionValues  ', tmp_selectOptionValues)
                 setShowOptionValues(false);
             }
         };
@@ -254,7 +256,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
 
 
     return (
-        <div className='w-full h-auto grid gap-x-4 gap-y-2 grid-cols-[1fr_1fr_25px] justify-start items-start pb-[20px]'>
+        <div className="w-full h-auto grid gap-x-4 gap-y-2 grid-cols-[1fr_1fr_25px] justify-start items-start pb-[21px]  border-b border-gray-200 mb-[25px]">
 
             {/* option namme */}
             <div className='w-full h-[40px] p-0 flex flex-col justify-start items-start'>
@@ -383,12 +385,12 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
             </div>
 
             {/* supprimer */}
-            <div className='group flex justify-center items-center w-[40px] h-[40px] p-0 m-0 cursor-pointer'>
+            <div className='flex justify-start items-center w-[40px] h-[40px] p-0 m-0 cursor-pointer'>
                 <span
                     onClick={() => deleteOption(optionObj.id)}
-                    className='flex justify-center items-center w-[25px] h-[25px] p-0 m-0 cursor-pointer hover:bg-red-500 rounded-[5px]'>
-                    <img src={window.location.origin + '/images/icons/trash.svg'} className="h-[20px] w-[20px] group-hover:hidden" />
-                    <img src={window.location.origin + '/images/icons/x-white.svg'} className="h-[20px] w-[20px] hidden group-hover:block" />
+                    className='flex justify-center items-center w-[22px] h-[22px] p-0 m-0 cursor-pointer group hover:bg-red-500 rounded-[5px]'>
+                    <img src={window.location.origin + '/images/icons/trash.svg'} className="h-[18px] w-[18px] group-hover:hidden" />
+                    <img src={window.location.origin + '/images/icons/x-white.svg'} className="h-[18px] w-[18px] hidden group-hover:block" />
                 </span>
             </div>
 

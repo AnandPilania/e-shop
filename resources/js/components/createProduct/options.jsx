@@ -3,7 +3,6 @@ import AppContext from '../contexts/AppContext';
 import Option from './option';
 import OptionVariantesList from './optionVariantesList';
 import Axios from "axios";
-import ModalSimpleMessage from '../modal/modalSimpleMessage';
 
 
 const Options = () => {
@@ -75,7 +74,7 @@ const Options = () => {
 
             {optionsObj.length > 0 ?
                 <div className='w-full h-auto grid gap-x-4 gap-y-2 grid-cols-[1fr_1fr_25px] justify-start items-start pb-[20px]'>
-                    <label className='mt-0 mx-0 p-0'>Option</label>
+                    <label className='mt-0 mx-0 p-0'>Nom de l'option</label>
                     <label className='mt-0 mx-0 p-0'>Valeurs de l'option</label>
                     <label className='mt-0 mx-0 p-0'></label>
                 </div> :
@@ -96,7 +95,7 @@ const Options = () => {
             )}
 
             {optionsObj.length < 4 &&
-                <div className='h-[120px] flex flrx-row justify-start items-center border-t border-slate-200  '>
+                <div className="w-full h-auto flex flrx-row justify-start items-center mb-[25px]">
                     <button
                         onClick={addOption}
                         className='h-[40px] px-[10px] border border-slate-200 '>
@@ -105,20 +104,13 @@ const Options = () => {
                 </div>
             }
             {optionsObj.length === 4 &&
-                <span className='text-slate-500 text-sm'>
+                <span className='text-blue-500 text-sm relative top-[-20px] left-0'>
                     Vous pouvez ajouter jusqu'à 4 options
                 </span>
             }
 
             <OptionVariantesList />
-            
 
-            {/* modal for simple message */}
-            {/* <ModalSimpleMessage
-                show={showModalNotCompleted}  
-                handleModalCancel={closelModal}>
-                <h2 className="childrenModal">{messageModal}</h2>
-            </ModalSimpleMessage> */}
         </div>
     );
 }

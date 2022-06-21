@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import Axios from 'axios';
 import Tooltip from '../elements/tooltip';
+import AnimateCheckbox from '../elements/animateCheckbox';
 import ModalImageVariante from './modalImageVariante';
 
 
@@ -14,6 +15,8 @@ const OptionVariantesList = () => {
     const [showModalImageVariante, setShowModalImageVariante] = useState(false);
     const [showMCancelDeleteButton, setShowMCancelDeleteButton] = useState(false);
     const [deletedVariantesList, setDeletedVariantesList] = useState([]);
+    const [checkedVariantesList, setCheckedVariantesList] = useState([]);
+    const [isAllSelectedCheckbox, setIsAllSelectedCheckbox] = useState(false);
 
     const { optionsObj, productPrice, previousProductPrice, productStock } = useContext(AppContext);
 
@@ -106,9 +109,6 @@ const OptionVariantesList = () => {
     }, [optionsObj]);
 
 
-
-
-
     const handleVariantes = (id, field, data) => {
         let tmp_variantes = [...variantes];
         let ndx = tmp_variantes.findIndex(x => x.id == id);
@@ -154,11 +154,15 @@ const OptionVariantesList = () => {
         }
     }
 
-    const deleteVariante = (id) => {
+    const toggleDeleteUndeleteVariante = (id) => {
         let tmp_variantes = [...variantes];
         let ndx = tmp_variantes.findIndex(x => x.id == id);
         if (ndx > -1) {
-            tmp_variantes[ndx].deleted = true;
+            if (tmp_variantes[ndx].deleted === false) {
+                tmp_variantes[ndx].deleted = true;
+            } else if (tmp_variantes[ndx].deleted === true) {
+                tmp_variantes[ndx].deleted = false;
+            }
         }
         setVariantes([...tmp_variantes]);
 
@@ -233,10 +237,45 @@ const OptionVariantesList = () => {
         setIdVariante(null);
     }
 
+
+    const handleChangeCheckbox = (id) => {
+        let tmp_checkedVariantesList = [...checkedVariantesList];
+        let ndx = tmp_checkedVariantesList.indexOf(id);
+        if (ndx > -1) {
+            tmp_checkedVariantesList.splice(ndx, 1);
+            // décoche checkbox check all si on decoche un item
+            setIsAllSelectedCheckbox(false);
+        } else {
+            tmp_checkedVariantesList.push(id);
+            // coche checkbox check all si tout est coché
+            if (variantes.length === tmp_checkedVariantesList.length) {
+                setIsAllSelectedCheckbox(true);
+            }
+        }
+        setCheckedVariantesList(tmp_checkedVariantesList);
+    }
+
+    // gère le checkbox check all
+    const selectAllCheckbox = (unUseParameter) => {
+        if (!isAllSelectedCheckbox) {
+            let tmp_arr = [];
+            variantes.forEach(item => tmp_arr.push(item.id));
+            setCheckedVariantesList([...tmp_arr]);
+            setIsAllSelectedCheckbox(true);
+        } else {
+            setCheckedVariantesList([]);
+            setIsAllSelectedCheckbox(false);
+        }
+    }
+
+    console.log('checkedVariantesList  ', checkedVariantesList)
     console.log('variantes  ', variantes)
 
     return (
         <div>
+            <h3 className='w-full text-left mb-[20px] mt-[35px] font-semibold text-[16px]'>
+                Variantes
+            </h3>
             {!!showMCancelDeleteButton &&
                 <button
                     onClick={cancelAllDeletedVariante}
@@ -245,12 +284,21 @@ const OptionVariantesList = () => {
                 </button>
             }
             {variantes?.length > 0 &&
-                <div className="w-full h-auto grid gap-x-2 grid-cols-[1fr_100px_100px_150px_50px_30px] justify-start items-center border-b-[1px] border-gray-200 mb-[20px]">
+                <div className="w-full h-auto grid gap-x-2 grid-cols-[25px_1fr_100px_100px_150px_50px_30px] justify-start items-center border-b-[1px] border-gray-200 mb-[20px]">
+                    {/* checkbox select all */}
+                    <div className='w-full h-[30px] flex flex-row justify-start items-center pt-[6px] pl-[1px]'>
+                        <AnimateCheckbox
+                            id='_unUsedId'
+                            value=''
+                            checked={isAllSelectedCheckbox}
+                            handlechange={selectAllCheckbox}
+                        />
+                    </div>
                     <span>Variantes</span>
                     <span>Prix</span>
                     <span>Promo</span>
                     <span>Stock</span>
-                    <span>img</span>
+                    <span></span>
                     <span></span>
                 </div>}
 
@@ -258,9 +306,20 @@ const OptionVariantesList = () => {
 
                 <div
                     key={index}
-                    className={`w-full h-auto grid gap-x-2 grid-cols-[1fr_100px_100px_150px_50px_30px] justify-start items-center mb-[15px] relative ${item.deleted ? "bg-red-50" : "bg-white"}`}
+                    className={`w-full h-auto grid gap-x-2 grid-cols-[25px_1fr_100px_100px_150px_50px_30px] justify-start items-center py-[8px] border-b border-slate-100 relative bg-white hover:bg-gray-50 ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
                 >
-                    <span className="whitespace-nowrap overflow-hidden text-ellipsis cursor-default group">
+                    {/* checkbox "!!! a son css !!!" */}
+                    <div className='w-full h-[30px] flex flex-row justify-start items-center pt-[6px] pl-[1px]'>
+                        <AnimateCheckbox
+                            id={item.id}
+                            value=''
+                            checked={checkedVariantesList.includes(item.id)}
+                            handlechange={handleChangeCheckbox}
+                        />
+                    </div>
+
+                    {/* variante */}
+                    <span className={`h-[30px] pl-[8px] flex justify-start items-center rounded-md whitespace-nowrap overflow-hidden text-ellipsis cursor-default group ${item.deleted ? "text-gray-400" : "text-gray-500"} ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}>
                         {item?.optionsString}
                         <Tooltip top={-100} left={2}>
                             {item?.optionsString}
@@ -277,7 +336,7 @@ const OptionVariantesList = () => {
                         placeholder="0.00"
                         min="0"
                         max="9999999999"
-                        className={`w-full h-[30px] border border-gray-300 rounded-md pl-[8px] text-[13px] leading-6 ${item.deleted ? "bg-red-50" : "bg-white"}`}
+                        className={`w-full h-[30px] border border-gray-300 rounded-md pl-[8px] text-[13px] leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
                     />
 
                     {/* prev_price -- promo -- */}
@@ -290,7 +349,7 @@ const OptionVariantesList = () => {
                         placeholder="0.00"
                         min="0"
                         max="9999999999"
-                        className={`w-full h-[30px] border border-gray-300 rounded-md pl-[8px] text-[13px] leading-6 ${item.deleted ? "bg-red-50" : "bg-white"}`}
+                        className={`w-full h-[30px] border border-gray-300 rounded-md pl-[8px] text-[13px] leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
                     />
 
                     {/* stock */}
@@ -305,12 +364,10 @@ const OptionVariantesList = () => {
                             placeholder={item.placeholderStock}
                             min="0" max="9999999999"
                             onClick={(() => handleProductStockOnFocus2(item))}
-                            className={`w-[100px] h-[30px] border border-gray-300 
-                            ${(item?.stock != '' || !item?.unlimited) ? "bg-white" : "bg-gray-100"}  
-                            rounded-l-md pl-[8px] text-[13px] leading-6 ${item.deleted && "bg-red-50"}`}
+                            className={`w-[100px] h-[30px] border border-gray-300 rounded-l-md pl-[8px] text-[13px] leading-6 ${(item?.stock != '' || !item?.unlimited) ? "bg-gray-50" : "bg-white"} ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
                         />
                         <span
-                            className='flex flex-rox justify-start items-center h-[30px] border-y-[1px] border-r-[1px]   border-gray-300 rounded-r-md px-[10px] cursor-pointer caret-transparent group relative'
+                            className={`flex flex-rox justify-start items-center h-[30px] border-y-[1px] border-r-[1px]   border-gray-300 rounded-r-md px-[10px] cursor-pointer caret-transparent group relative  ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
                             onClick={() => handleUnlimitedStock2(item)}>
                             <input
                                 className='mr-[7px] caret-transparent'
@@ -332,7 +389,7 @@ const OptionVariantesList = () => {
 
                     {/* image variante */}
                     <span
-                        className='w-full h-[30px] border border-gray-300 flex justify-center items-center cursor-pointer'
+                        className={`w-full h-[30px] border border-gray-300 flex justify-center items-center cursor-pointer ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
                         onClick={() => loadImagesVariantes(item.id)}
                     >
                         {
@@ -352,15 +409,15 @@ const OptionVariantesList = () => {
                         {
                             !item.deleted ?
                                 <span
-                                    onClick={() => deleteVariante(item.id)}
+                                    onClick={() => toggleDeleteUndeleteVariante(item.id)}
                                     className='flex justify-center items-center w-[30px] h-[30px] p-0 m-0 cursor-pointer hover:bg-red-500 rounded-md'>
                                     <img src={window.location.origin + '/images/icons/trash.svg'} className="h-[20px] w-[20px] group-hover:hidden" />
                                     <img src={window.location.origin + '/images/icons/x-white.svg'} className="h-[25px] w-[25px] hidden group-hover:block" />
                                 </span>
                                 :
                                 <span
-                                    onClick={() => unDeleteVariante(item.id)}
-                                    className='flex justify-center items-center w-[30px] h-[30px] p-0 m-0 cursor-pointer hover:bg-green-50 rounded-md'>
+                                    onClick={() => toggleDeleteUndeleteVariante(item.id)}
+                                    className='flex justify-center items-center w-[30px] h-[30px] p-0 m-0 cursor-pointer hover:bg-blue-200 rounded-md'>
                                     <img src={window.location.origin + '/images/icons/arrow-back.svg'} className="h-[20px] w-[20px]" />
                                 </span>
                         }
