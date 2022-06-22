@@ -233,11 +233,6 @@ const CreateProduct = (props) => {
                 {/* Stock */}
                 <Stock />
 
-                {/* details */}
-                {/* <MainBlock>
-                    <ContainerDetail setDataDetail={setDataDetail} />
-                </MainBlock> */}
-
                 {/* options */}
                 <MainBlock>
                     <Options />

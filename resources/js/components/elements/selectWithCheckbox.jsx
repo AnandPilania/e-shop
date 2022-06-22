@@ -11,7 +11,6 @@ export default function SelectWithCheckbox({ unikId, list, selected, setSelected
 
     // si l'élément a déjà été sélectionné on le retir sinon on l'ajout, ceci coche ou décoche la checkbox
     const handleChange = (name) => {  
-        console.log('name   ', name)
         let index = selected.indexOf(name);
         if (index > -1) {
             let tmp_arr = [...selected];

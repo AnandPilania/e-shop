@@ -4,6 +4,7 @@ import Axios from 'axios';
 import Tooltip from '../elements/tooltip';
 import AnimateCheckbox from '../elements/animateCheckbox';
 import ModalImageVariante from './modalImageVariante';
+import SelectionVariantesInList from './selectionVariantesInList';
 
 
 
@@ -18,7 +19,7 @@ const OptionVariantesList = () => {
     const [checkedVariantesList, setCheckedVariantesList] = useState([]);
     const [isAllSelectedCheckbox, setIsAllSelectedCheckbox] = useState(false);
 
-    const { optionsObj, productPrice, previousProductPrice, productStock } = useContext(AppContext);
+    const { optionsObj, productPrice, previousProductPrice, productStock, listType } = useContext(AppContext);
 
     useEffect(() => {
         // check if there is deleted variantes and show cancel button if true
@@ -40,9 +41,9 @@ const OptionVariantesList = () => {
         // 3: "Bleu / M / 2"
         for (let i = 0; i < optionsObj.length - 1; i++) {
             if (i === 0) {
-                allValuesAsString = optionsObj[i].values.flatMap(d => optionsObj[i + 1].values.map(v => d + ' / ' + v));
+                allValuesAsString = optionsObj[i].values.flatMap(d => optionsObj[i + 1].values.map(v => d + ' - ' + v));
             } else {
-                allValuesAsString = allValuesAsString.flatMap(d => optionsObj[i + 1].values.map(v => d + ' / ' + v));
+                allValuesAsString = allValuesAsString.flatMap(d => optionsObj[i + 1].values.map(v => d + ' - ' + v));
             }
         }
 
@@ -57,14 +58,14 @@ const OptionVariantesList = () => {
             // Couleur: "Rouge"
             // Taille: "M"
             let tmp = allValuesAsString[i].split(',')
-            let valuesSplited = tmp[0].split(' / ');
+            let valuesSplited = tmp[0].split(' - ');
             let variantesOptions = {};
             for (let j = 0; j < optionsName.length; j++) {
                 variantesOptions[optionsName[j]] = valuesSplited[j];
             }
 
             // renvoi le début de la string allValuesAsString[i] qui correspond au précédent allValuesAsString[i] pour conserver les params s'ils ont été modifiés
-            let startPattern = allValuesAsString[i].substring(0, allValuesAsString[i].lastIndexOf(' / '));
+            let startPattern = allValuesAsString[i].substring(0, allValuesAsString[i].lastIndexOf(' - '));
 
             // check si le précédent allValuesAsString[i] contient le pattern recherché pour récupérer ses params s'ils ont été modifiés
             let indexStartPattern = variantesAsString.findIndex(x => x.optionsString.startsWith(startPattern));
@@ -276,13 +277,21 @@ const OptionVariantesList = () => {
             <h3 className='w-full text-left mb-[20px] mt-[35px] font-semibold text-[16px]'>
                 Variantes
             </h3>
-            {!!showMCancelDeleteButton &&
+            {/* {!!showMCancelDeleteButton &&
                 <button
                     onClick={cancelAllDeletedVariante}
                     className='h-[40px] px-[10px] bg-gray-200 border border-gray-500 text-gray-500'>
                     Annuler les suppressions
                 </button>
-            }
+            } */}
+
+            {variantes?.length > 0 &&
+                <SelectionVariantesInList
+                    variantes={variantes}
+                    checkedVariantesList={checkedVariantesList}
+                    setCheckedVariantesList={setCheckedVariantesList}
+                />}
+
             {variantes?.length > 0 &&
                 <div className="w-full h-auto grid gap-x-2 grid-cols-[25px_1fr_100px_100px_150px_50px_30px] justify-start items-center border-b-[1px] border-gray-200 mb-[20px]">
                     {/* checkbox select all */}
@@ -319,7 +328,7 @@ const OptionVariantesList = () => {
                     </div>
 
                     {/* variante */}
-                    <span className={`h-[30px] pl-[8px] flex justify-start items-center rounded-md whitespace-nowrap overflow-hidden text-ellipsis cursor-default group ${item.deleted ? "text-gray-400" : "text-gray-500"} ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}>
+                    <span className={`w-full h-[30px] pl-[8px] pt-[3px] rounded-md whitespace-nowrap text-ellipsis overflow-hidden cursor-default group ${item.deleted ? "text-gray-400" : "text-gray-500"} ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}>
                         {item?.optionsString}
                         <Tooltip top={-100} left={2}>
                             {item?.optionsString}

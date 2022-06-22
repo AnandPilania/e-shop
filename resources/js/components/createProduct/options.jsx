@@ -109,7 +109,9 @@ const Options = () => {
                 </span>
             }
 
-            <OptionVariantesList />
+            <OptionVariantesList 
+                listType={listType}
+            />
 
         </div>
     );
