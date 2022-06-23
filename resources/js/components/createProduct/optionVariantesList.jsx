@@ -330,7 +330,7 @@ const OptionVariantesList = () => {
                     {/* variante */}
                     <span className={`w-full h-[30px] pl-[8px] pt-[3px] rounded-md whitespace-nowrap text-ellipsis overflow-hidden cursor-default group ${item.deleted ? "text-gray-400" : "text-gray-500"} ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}>
                         {item?.optionsString}
-                        <Tooltip top={-100} left={2}>
+                        <Tooltip top={-30} left={2}>
                             {item?.optionsString}
                         </Tooltip>
                     </span>

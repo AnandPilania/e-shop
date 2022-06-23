@@ -515,11 +515,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .top-\[-20px\] {
   top: -20px;
 }
-.top-\[40px\] {
-  top: 40px;
-}
 .top-\[30px\] {
   top: 30px;
+}
+.top-\[40px\] {
+  top: 40px;
 }
 .z-0 {
   z-index: 0;
@@ -699,14 +699,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mt-\[-3px\] {
   margin-top: -3px;
 }
-.ml-\[5px\] {
-  margin-left: 5px;
+.ml-\[7px\] {
+  margin-left: 7px;
 }
 .mr-\[5px\] {
   margin-right: 5px;
-}
-.ml-\[7px\] {
-  margin-left: 7px;
 }
 .block {
   display: block;
@@ -807,23 +804,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 .h-\[18px\] {
   height: 18px;
 }
+.h-0 {
+  height: 0px;
+}
 .h-\[60px\] {
   height: 60px;
 }
 .h-\[30\] {
   height: 30;
-}
-.h-0 {
-  height: 0px;
-}
-.h-\[10px\] {
-  height: 10px;
-}
-.h-2\.5 {
-  height: 0.625rem;
-}
-.h-2 {
-  height: 0.5rem;
 }
 .max-h-\[200px\] {
   max-height: 200px;
@@ -845,9 +833,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .max-h-\[28px\] {
   max-height: 28px;
-}
-.max-h-\[400px\] {
-  max-height: 400px;
 }
 .max-h-\[300px\] {
   max-height: 300px;
@@ -924,6 +909,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .w-\[100px\] {
   width: 100px;
 }
+.w-\[130px\] {
+  width: 130px;
+}
 .w-\[120px\] {
   width: 120px;
 }
@@ -935,18 +923,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .w-\[30\] {
   width: 30;
-}
-.w-\[130px\] {
-  width: 130px;
-}
-.w-\[10px\] {
-  width: 10px;
-}
-.w-2\.5 {
-  width: 0.625rem;
-}
-.w-2 {
-  width: 0.5rem;
 }
 .min-w-\[750px\] {
   min-width: 750px;
@@ -1396,12 +1372,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .p-\[40px\] {
   padding: 40px;
 }
-.p-\[15px\] {
-  padding: 15px;
-}
-.p-\[5px\] {
-  padding: 5px;
-}
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -1474,29 +1444,17 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-top: 8px;
   padding-bottom: 8px;
 }
-.py-\[5px\] {
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-.px-\[15px\] {
-  padding-left: 15px;
-  padding-right: 15px;
-}
-.px-\[5px\] {
-  padding-left: 5px;
-  padding-right: 5px;
+.py-\[10px\] {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 .px-\[3px\] {
   padding-left: 3px;
   padding-right: 3px;
 }
-.py-\[10px\] {
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-.py-\[\] {
-  padding-top: ;
-  padding-bottom: ;
+.py-\[5px\] {
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 .pr-4 {
   padding-right: 1rem;
@@ -1585,12 +1543,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .pl-\[17px\] {
   padding-left: 17px;
 }
-.pt-\[15px\] {
-  padding-top: 15px;
-}
-.pt-\[35px\] {
-  padding-top: 35px;
-}
 .text-left {
   text-align: left;
 }
@@ -1658,9 +1610,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .leading-6 {
   line-height: 1.5rem;
-}
-.leading-4 {
-  line-height: 1rem;
 }
 .tracking-widest {
   letter-spacing: 0.1em;

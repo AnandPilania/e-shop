@@ -6,71 +6,57 @@ const SelectionVariantesInList = ({ variantes, checkedVariantesList, setCheckedV
     const [selectedVariantesList, setSelectedVariantesList] = useState([]);
     const [toggleSelectionVariantesList, setToggleSelectionVariantesList] = useState(false);
     const [allOptionsVariantesNeeded, setAllOptionsVariantesNeeded] = useState(1);
-    const [checkedVariantesList_toObject, setCheckedVariantesList_toObject] = useState([]);
+    const [tmp_optionsList, setTmp_optionsList] = useState([]);
 
     const unikIdSelectionVariantesList = 'SelectWithCheckbox_selectionVariantesList';
 
     const { optionsObj } = useContext(AppContext);
 
-    useEffect(() => {
-        let tmpArr = [];
-        for (let i = 0; i < checkedVariantesList.length; i++) {
-            let tmpObj = {
-                value: checkedVariantesList[i],
-                indexToRemove: null
-            }
-            tmpArr.push(tmpObj);
-        }
-        setCheckedVariantesList_toObject([...tmpArr]);
-    }, [selectedVariantesList]);
-    console.log('checkedVariantesList_toObject   ', checkedVariantesList_toObject)
+    // useEffect(() => {
+    //     let tmpArr = [];
+    //     for (let i = 0; i < checkedVariantesList.length; i++) {
+    //         let tmpObj = {
+    //             value: checkedVariantesList[i],
+    //             indexToRemove: null
+    //         }
+    //         tmpArr.push(tmpObj);
+    //     }
+    //     setCheckedVariantesList_toObject([...tmpArr]);
+    // }, [selectedVariantesList]);
+
 
 
     // si l'élément a déjà été sélectionné on le retir sinon on l'ajout, ceci coche ou décoche la checkbox
     const handleChangeSelectionVariantesList = (value, name) => {
-        let index = selectedVariantesList.indexOf(value);
+        let index = selectedVariantesList.findIndex(x => x.value == value);
         if (index > -1) {
             let tmp_arr = [...selectedVariantesList];
             tmp_arr.splice(index, 1);
             setSelectedVariantesList([...tmp_arr]);
 
-            let toRemoveIndex = checkedVariantesList_toObject.findIndex(x => x.indexToRemove == value);
-            if (toRemoveIndex > -1) {
-
-            }
-            let tmp_tab = [...checkedVariantesList_toObject];
-            for (let i = 0; i < tmp_tab.length; i++) {
-                if (tmp_tab[i].indexToRemove == value) {
-                    tmp_tab[i].remove();
-                }
-            }
-            let tmp = tmp_tab.map(x => x.value);
-            setCheckedVariantesList([...tmp]);
-            setCheckedVariantesList_toObject([...tmp_tab]);
-
         } else {
-            setSelectedVariantesList([...selectedVariantesList, value]);
+            setSelectedVariantesList([...selectedVariantesList, value]);          
+        }
 
-            let tmpArr = [];
-            let tmp_tab = [...checkedVariantesList];
+        //  !!! selectedVariantesList doit contenir name et value 
+        // on efface setCheckedVariantesList et on rempli avec ce qu'il y a dans selectedVariantesList
+
+        let tmp_tab = [];
             for (let i = 0; i < variantes.length; i++) {
-                if (variantes[i].options[name].includes(value)) {
-                    tmp_tab.push(variantes[i].id);
-
-                   
-                    let tmpObj = {
-                        value: variantes[i].id,
-                        indexToRemove: value
+                for(let j = 0; j < selectedVariantesList.length; j++) {
+                    if (variantes[i].options[selectedVariantesList.name] == selectedVariantesList.value) {
+                        if (tmp_tab.indexOf(variantes[i].id) === -1) {
+                            tmp_tab.push({id: variantes[i].id, name: selectedVariantesList.name, value: selectedVariantesList.value});
+                        }
                     }
-                    tmpArr.push(tmpObj);
                 }
+                
             }
             setCheckedVariantesList([...tmp_tab]);
-            setCheckedVariantesList_toObject([...tmpArr]);
-        }
-    };
-    console.log('checkedVariantesList-- * --  ', checkedVariantesList)
 
+    };
+    console.log('selectedVariantesList  ', selectedVariantesList);
+    console.log('selectedVariantesList  ', selectedVariantesList);
 
     const showDropDownSelectionVariantesList = () => {
         let ul = document.getElementById('ul' + unikIdSelectionVariantesList);
@@ -122,7 +108,7 @@ const SelectionVariantesInList = ({ variantes, checkedVariantesList, setCheckedV
         }
     }
 
-    console.log('selectedVariantesList   ', selectedVariantesList)
+
     return (
         <div className="w-full relative mb-[20px]">
             <button
@@ -177,7 +163,7 @@ const SelectionVariantesInList = ({ variantes, checkedVariantesList, setCheckedV
                                 <input type='checkbox'
                                     value={value}
                                     id={value + unikIdSelectionVariantesList}
-                                    checked={selectedVariantesList.indexOf(value) > -1}
+                                    checked={selectedVariantesList?.findIndex(x => x.name = item.name) > -1 && selectedVariantesList?.findIndex(x => x.value = value) > -1}
                                     onChange={() => handleChangeSelectionVariantesList(value, item.name)}
                                     className="w-[17px] h-[17px] mr-[17px] hover:cursor-pointer"
                                 />
