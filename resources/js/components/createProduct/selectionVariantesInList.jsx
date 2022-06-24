@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 
-const SelectionVariantesInList = ({ variantes, checkedVariantesList, setCheckedVariantesList }) => {
+const SelectionVariantesInList = ({ variantes, setCheckedVariantesList }) => {
 
     const [selectedVariantesList, setSelectedVariantesList] = useState([]);
     const [toggleSelectionVariantesList, setToggleSelectionVariantesList] = useState(false);
@@ -10,53 +10,63 @@ const SelectionVariantesInList = ({ variantes, checkedVariantesList, setCheckedV
 
     const unikIdSelectionVariantesList = 'SelectWithCheckbox_selectionVariantesList';
 
-    const { optionsObj } = useContext(AppContext);
-
-    // useEffect(() => {
-    //     let tmpArr = [];
-    //     for (let i = 0; i < checkedVariantesList.length; i++) {
-    //         let tmpObj = {
-    //             value: checkedVariantesList[i],
-    //             indexToRemove: null
-    //         }
-    //         tmpArr.push(tmpObj);
-    //     }
-    //     setCheckedVariantesList_toObject([...tmpArr]);
-    // }, [selectedVariantesList]);
+    const { optionsObj, whatOptionBeenDeleted } = useContext(AppContext);
 
 
+    useEffect(() => {
+        console.log('whatOptionBeenDeleted   ', whatOptionBeenDeleted)
+        // ceci est activé par removeOptionValue dans optionjsx
+        handleChangeSelectionVariantesList(whatOptionBeenDeleted?.item, whatOptionBeenDeleted?.data.name, true)
+    }, [whatOptionBeenDeleted])
 
-    // si l'élément a déjà été sélectionné on le retir sinon on l'ajout, ceci coche ou décoche la checkbox
-    const handleChangeSelectionVariantesList = (value, name) => {
-        let index = selectedVariantesList.findIndex(x => x.value == value);
+    // si l'élément a déjà été sélectionné on le retir sinon on l'ajout, ceci coche ou décoche la checkbox. isDelet évite que les variantes soient sélectionnées dans la liste pendant qu'on ajoute des options
+    const handleChangeSelectionVariantesList = (value, name, isDelet) => {
+        console.log('value, name, isDelet   ', value, name, isDelet)
+        let index = selectedVariantesList.findIndex(x => x.name == name && x.value == value);
         if (index > -1) {
-            let tmp_arr = [...selectedVariantesList];
-            tmp_arr.splice(index, 1);
-            setSelectedVariantesList([...tmp_arr]);
+            let tmp = [...selectedVariantesList];
+            tmp.splice(index, 1);
+            setSelectedVariantesList([...tmp]);
 
-        } else {
-            setSelectedVariantesList([...selectedVariantesList, value]);          
-        }
-
-        //  !!! selectedVariantesList doit contenir name et value 
-        // on efface setCheckedVariantesList et on rempli avec ce qu'il y a dans selectedVariantesList
-
-        let tmp_tab = [];
+            console.log('tmp  ------>  ', tmp);
+            let tmp_tab = [];
             for (let i = 0; i < variantes.length; i++) {
-                for(let j = 0; j < selectedVariantesList.length; j++) {
-                    if (variantes[i].options[selectedVariantesList.name] == selectedVariantesList.value) {
-                        if (tmp_tab.indexOf(variantes[i].id) === -1) {
-                            tmp_tab.push({id: variantes[i].id, name: selectedVariantesList.name, value: selectedVariantesList.value});
+                for (let j = 0; j < tmp.length; j++) {
+
+                    if (variantes[i].options[tmp[j].name] == tmp[j].value) {
+
+                        if (tmp_tab.indexOf(variantes[i].id) == -1) {
+                            tmp_tab.push(variantes[i].id);
                         }
                     }
                 }
-                
             }
+
             setCheckedVariantesList([...tmp_tab]);
 
+        } else {
+            if (isDelet == undefined || !isDelet) {
+                setSelectedVariantesList([...selectedVariantesList, { name: name, value: value }]);
+                let tmp = [...selectedVariantesList, { name: name, value: value }];
+
+                let tmp_tab = [];
+                for (let i = 0; i < variantes.length; i++) {
+                    for (let j = 0; j < tmp.length; j++) {
+
+                        if (variantes[i].options[tmp[j].name] == tmp[j].value) {
+
+                            if (tmp_tab.indexOf(variantes[i].id) == -1) {
+                                tmp_tab.push(variantes[i].id);
+                            }
+                        }
+                    }
+                }
+                setCheckedVariantesList([...tmp_tab]);
+            }
+        }
     };
     console.log('selectedVariantesList  ', selectedVariantesList);
-    console.log('selectedVariantesList  ', selectedVariantesList);
+
 
     const showDropDownSelectionVariantesList = () => {
         let ul = document.getElementById('ul' + unikIdSelectionVariantesList);
@@ -151,7 +161,8 @@ const SelectionVariantesInList = ({ variantes, checkedVariantesList, setCheckedV
                         </div>
                     </div>}
                 {optionsObj?.length > 0 && optionsObj.map(item =>
-                    <li key={item.id + unikIdSelectionVariantesList} className="flex flex-row justify-start items-center flex-wrap pl-[10px] py-[10px] w-full h-auto border-b border-gray-200"
+                    <li
+                        key={item.id + unikIdSelectionVariantesList} className="flex flex-row justify-start items-center flex-wrap pl-[10px] py-[10px] w-full h-auto border-b border-gray-200"
                     >
                         <span className='w-full flex flex-row justify-start items-center font-semibold px-[3px] mb-[5px]'>
                             {item.name}
@@ -163,7 +174,7 @@ const SelectionVariantesInList = ({ variantes, checkedVariantesList, setCheckedV
                                 <input type='checkbox'
                                     value={value}
                                     id={value + unikIdSelectionVariantesList}
-                                    checked={selectedVariantesList?.findIndex(x => x.name = item.name) > -1 && selectedVariantesList?.findIndex(x => x.value = value) > -1}
+                                    checked={selectedVariantesList.findIndex(x => x.name == item.name && x.value == value) > -1}
                                     onChange={() => handleChangeSelectionVariantesList(value, item.name)}
                                     className="w-[17px] h-[17px] mr-[17px] hover:cursor-pointer"
                                 />

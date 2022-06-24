@@ -16,7 +16,7 @@ const Options = () => {
         setShowModalNotCompleted(false);
     }
 
-    
+
     useEffect(() => {
         // get list of option types
         Axios.get(`http://127.0.0.1:8000/listtype`)
@@ -68,7 +68,19 @@ const Options = () => {
             setOptionsObj([...arr]);
         }
     }
- console.log('optionsObj   ', optionsObj)
+
+    const removeOptionValue = (item, optionObj_data) => {
+        // whatOptionBeenDeleted est utilisé pour mettre à jour checkedVariantesList dans selectionVariantesList
+        setWhatOptionBeenDeleted({item: item, data: optionObj_data});
+
+        let index = optionObj.values.indexOf(item);
+        if (index > -1) {
+            let tmp_arr = [...optionObj.values];
+            tmp_arr.splice(index, 1);
+            setOptionObj({ ...optionObj, values: [...tmp_arr] });
+        }
+    }
+    console.log('optionsObj   ', optionsObj)
     return (
         <div className="w-full">
 
@@ -91,6 +103,7 @@ const Options = () => {
                     saveOption={saveOption}
                     deleteOption={deleteOption}
                     optionsObj={optionsObj}
+                    removeOptionValue={removeOptionValue}
                 />
             )}
 
@@ -109,7 +122,7 @@ const Options = () => {
                 </span>
             }
 
-            <OptionVariantesList 
+            <OptionVariantesList
                 listType={listType}
             />
 

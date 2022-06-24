@@ -1,11 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
+import AppContext from '../contexts/AppContext';
 import Axios from 'axios';
 
 
-
 const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) => {
-
-
 
     const [optionObj, setOptionObj] = useState({
         id: option_obj.id,
@@ -19,6 +17,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
     const [showOptionValues, setShowOptionValues] = useState(false);
     const [optionValueMessage, setOptionValueMessage] = useState(false);
 
+    const { setWhatOptionBeenDeleted } = useContext(AppContext);
 
 
     // récupération de toutes les valeurs pour une option donnée
@@ -164,19 +163,28 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
     }
 
     // toggle l'ajout ou le retrait des options cheked dans le dropdown
-    const handleSelectOptionValues = (optionValue_name) => {
-        if (optionValue_name != undefined && optionValue_name.length > 0) {
-            let index = optionObj.values.indexOf(optionValue_name);
+    const handleSelectOptionValues = (optionValue, optionObj_data) => {
+        console.log('optionValue, optionObj_data  ', optionValue, optionObj_data)
+
+        // !!! dans optionsVariantesList la mise à jour de optionsObj qui est provoquée ici par la mise à jour de optionObj, déclenche l'useeffect qui met à jour variantes seulement après que setWhatOptionBeenDeleted ai mis à jour la list des sélections !!!!!!!!!!
+
+
+
+        // whatOptionBeenDeleted est utilisé pour mettre à jour checkedVariantesList dans selectionVariantesList
+        setWhatOptionBeenDeleted({ item: optionValue, data: optionObj_data });
+
+        if (optionValue != undefined && optionValue.length > 0) {
+            let index = optionObj.values.indexOf(optionValue);
             if (index > -1) {
                 let tmp_arr = [...optionObj.values];
                 tmp_arr.splice(index, 1);
                 setOptionObj({ ...optionObj, values: [...tmp_arr] });
             } else {
-                setOptionObj({ ...optionObj, values: [...optionObj.values, optionValue_name] });
+                setOptionObj({ ...optionObj, values: [...optionObj.values, optionValue] });
             }
         }
 
-        setTmp_selectOptionValues(optionValue_name);
+        setTmp_selectOptionValues(optionValue);
 
 
         setTmp_optionValues('');
@@ -224,7 +232,10 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
         }
     }, [showOptionValues]);
 
-    const removeOptionValue = (item) => {
+    const removeOptionValue = (item, optionObj_data) => {
+        // whatOptionBeenDeleted est utilisé pour mettre à jour checkedVariantesList dans selectionVariantesList
+        setWhatOptionBeenDeleted({ item: item, data: optionObj_data });
+
         let index = optionObj.values.indexOf(item);
         if (index > -1) {
             let tmp_arr = [...optionObj.values];
@@ -356,7 +367,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
                                 <li
                                     key={index}
                                     value={item.name}
-                                    onClick={() => handleSelectOptionValues(item.name)}
+                                    onClick={() => handleSelectOptionValues(item.name, optionObj)}
                                     className="w-full h-[40px] flex flex-row justify-start items-center pl-[10px] cursor-pointer hover:bg-slate-100"
                                 >
                                     <input type='checkbox'
@@ -405,7 +416,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
                         </span>
                         <span
                             className="h-[20px] w-[20px] flex justify-center items-center hover:cursor-pointer bg-gray-600  hover:bg-red-500 rounded-md"
-                            onClick={() => removeOptionValue(item)}>
+                            onClick={() => removeOptionValue(item, optionObj)}>
                             <img src='../images/icons/x-white.svg'
                                 className="w-[20px] h-[20px] hover:scale-125" />
                         </span>
