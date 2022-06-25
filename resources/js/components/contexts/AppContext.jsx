@@ -171,8 +171,14 @@ export default React.createContext({
     setUnlimited: () => { },
     imageVariantes: [], 
     setImageVariantes: () => { },
-    whatOptionBeenDeleted: '', 
-    setWhatOptionBeenDeleted: () => { },
+    variantes: [], 
+    setVariantes: () => { },
+    checkedVariantesList: [], 
+    setCheckedVariantesList: () => { },
+    selectedVariantesList: [],
+    setSelectedVariantesList: () => { },
+    allOptionsVariantesNeeded: '', 
+    setAllOptionsVariantesNeeded: () => { },
 
 
 });

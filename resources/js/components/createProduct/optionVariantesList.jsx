@@ -5,21 +5,20 @@ import Tooltip from '../elements/tooltip';
 import AnimateCheckbox from '../elements/animateCheckbox';
 import ModalImageVariante from './modalImageVariante';
 import SelectionVariantesInList from './selectionVariantesInList';
+import WithHandleSelectionList from './withHandleSelectionList';
 
 
+const OptionVariantesList = ({ handleChangeSelectionVariantesList }) => {
 
-const OptionVariantesList = () => {
-
-    const [variantes, setVariantes] = useState([]);
     const [idVariante, setIdVariante] = useState(null);
     const [imageVariante, setImageVariante] = useState({});
     const [showModalImageVariante, setShowModalImageVariante] = useState(false);
     const [showMCancelDeleteButton, setShowMCancelDeleteButton] = useState(false);
     const [deletedVariantesList, setDeletedVariantesList] = useState([]);
-    const [checkedVariantesList, setCheckedVariantesList] = useState([]);
+    // const [checkedVariantesList, setCheckedVariantesList] = useState([]);
     const [isAllSelectedCheckbox, setIsAllSelectedCheckbox] = useState(false);
 
-    const { optionsObj, productPrice, previousProductPrice, productStock, listType } = useContext(AppContext);
+    const { optionsObj, productPrice, previousProductPrice, productStock, listType, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList } = useContext(AppContext);
 
     useEffect(() => {
         // check if there is deleted variantes and show cancel button if true
@@ -28,6 +27,8 @@ const OptionVariantesList = () => {
         if (ndx > -1) {
             setShowMCancelDeleteButton(true);
         }
+
+        selectedVariantesList.length > 0 && handleChangeSelectionVariantesList(null, null);
     }, [variantes]);
 
 
@@ -227,7 +228,6 @@ const OptionVariantesList = () => {
     // enregistre l'image principal pour une variante donnée
     const handleConfirm = (selectedImage) => {
         setShowModalImageVariante(false);
-        console.log('idVariante  ', idVariante)
         // ajoute l'image sélectionnée à la variante qui a l'id == idVariante
         let tmp_variantes = [...variantes];
         let ndx = tmp_variantes.findIndex(x => x.id == idVariante);
@@ -269,8 +269,6 @@ const OptionVariantesList = () => {
         }
     }
 
-    console.log('checkedVariantesList  ', checkedVariantesList)
-    console.log('variantes  ', variantes)
 
     return (
         <div>
@@ -445,4 +443,4 @@ const OptionVariantesList = () => {
     );
 }
 
-export default OptionVariantesList;
+export default WithHandleSelectionList(OptionVariantesList);

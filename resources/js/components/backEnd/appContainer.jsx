@@ -142,7 +142,10 @@ const Appcontainer = () => {
     const [productStock, setProductStock] = useState('');
     const [optionsObj, setOptionsObj] = useState([]);
     const [unlimited, setUnlimited] = useState(true);
-    const [whatOptionBeenDeleted, setWhatOptionBeenDeleted] = useState(null);
+    const [variantes, setVariantes] = useState([]);
+    const [checkedVariantesList, setCheckedVariantesList] = useState([]);
+    const [selectedVariantesList, setSelectedVariantesList] = useState([]);
+    const [allOptionsVariantesNeeded, setAllOptionsVariantesNeeded] = useState(1);
    
 
     //---------------------------------------------------------------PRODUCT
@@ -495,10 +498,11 @@ const Appcontainer = () => {
         optionsObj, setOptionsObj,
         unlimited, setUnlimited,
         imageVariantes, setImageVariantes,
-        whatOptionBeenDeleted, setWhatOptionBeenDeleted
+        variantes, setVariantes,
+        checkedVariantesList, setCheckedVariantesList,
+        selectedVariantesList, setSelectedVariantesList,
+        allOptionsVariantesNeeded, setAllOptionsVariantesNeeded,
         
-
-
     }
 
 

@@ -1,8 +1,7 @@
-import { forEach } from 'lodash';
+// import { forEach } from 'lodash';
 import React, { useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import ModalSimpleMessage from '../modal/modalSimpleMessage';
-import { getParameter, getOperator } from './conditionsFunctions';
 
 
 const withHandleConditions = (Component) => (props) => {

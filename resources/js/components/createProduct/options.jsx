@@ -80,7 +80,7 @@ const Options = () => {
             setOptionObj({ ...optionObj, values: [...tmp_arr] });
         }
     }
-    console.log('optionsObj   ', optionsObj)
+  
     return (
         <div className="w-full">
 

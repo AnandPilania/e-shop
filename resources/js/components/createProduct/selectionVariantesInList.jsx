@@ -1,71 +1,18 @@
 import React, { useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
+import WithHandleSelectionList from './withHandleSelectionList';
 
-const SelectionVariantesInList = ({ variantes, setCheckedVariantesList }) => {
 
-    const [selectedVariantesList, setSelectedVariantesList] = useState([]);
+const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
+
+
+
     const [toggleSelectionVariantesList, setToggleSelectionVariantesList] = useState(false);
-    const [allOptionsVariantesNeeded, setAllOptionsVariantesNeeded] = useState(1);
-    const [tmp_optionsList, setTmp_optionsList] = useState([]);
+
 
     const unikIdSelectionVariantesList = 'SelectWithCheckbox_selectionVariantesList';
 
-    const { optionsObj, whatOptionBeenDeleted } = useContext(AppContext);
-
-
-    useEffect(() => {
-        console.log('whatOptionBeenDeleted   ', whatOptionBeenDeleted)
-        // ceci est activé par removeOptionValue dans optionjsx
-        handleChangeSelectionVariantesList(whatOptionBeenDeleted?.item, whatOptionBeenDeleted?.data.name, true)
-    }, [whatOptionBeenDeleted])
-
-    // si l'élément a déjà été sélectionné on le retir sinon on l'ajout, ceci coche ou décoche la checkbox. isDelet évite que les variantes soient sélectionnées dans la liste pendant qu'on ajoute des options
-    const handleChangeSelectionVariantesList = (value, name, isDelet) => {
-        console.log('value, name, isDelet   ', value, name, isDelet)
-        let index = selectedVariantesList.findIndex(x => x.name == name && x.value == value);
-        if (index > -1) {
-            let tmp = [...selectedVariantesList];
-            tmp.splice(index, 1);
-            setSelectedVariantesList([...tmp]);
-
-            console.log('tmp  ------>  ', tmp);
-            let tmp_tab = [];
-            for (let i = 0; i < variantes.length; i++) {
-                for (let j = 0; j < tmp.length; j++) {
-
-                    if (variantes[i].options[tmp[j].name] == tmp[j].value) {
-
-                        if (tmp_tab.indexOf(variantes[i].id) == -1) {
-                            tmp_tab.push(variantes[i].id);
-                        }
-                    }
-                }
-            }
-
-            setCheckedVariantesList([...tmp_tab]);
-
-        } else {
-            if (isDelet == undefined || !isDelet) {
-                setSelectedVariantesList([...selectedVariantesList, { name: name, value: value }]);
-                let tmp = [...selectedVariantesList, { name: name, value: value }];
-
-                let tmp_tab = [];
-                for (let i = 0; i < variantes.length; i++) {
-                    for (let j = 0; j < tmp.length; j++) {
-
-                        if (variantes[i].options[tmp[j].name] == tmp[j].value) {
-
-                            if (tmp_tab.indexOf(variantes[i].id) == -1) {
-                                tmp_tab.push(variantes[i].id);
-                            }
-                        }
-                    }
-                }
-                setCheckedVariantesList([...tmp_tab]);
-            }
-        }
-    };
-    console.log('selectedVariantesList  ', selectedVariantesList);
+    const { optionsObj, selectedVariantesList, allOptionsVariantesNeeded, setAllOptionsVariantesNeeded } = useContext(AppContext);
 
 
     const showDropDownSelectionVariantesList = () => {
@@ -134,11 +81,15 @@ const SelectionVariantesInList = ({ variantes, setCheckedVariantesList }) => {
                 className="absolute top-[30px] left-0 w-full h-0 max-h-[300px] bg-white transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-gray-300 border-0 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-l rounded-r-sm">
                 {
                     optionsObj?.length > 0 &&
-                    <div className="w-full flex flex-col justify-center items-start py-[10px] px-[10px] bg-blue-50">
+                    <div className="w-full flex flex-col justify-center items-start py-[10px] px-[10px] bg-blue-50"
+                    >
                         <div className="w-full flex flex-row justify-start items-center leading-7">
                             <input type='radio'
                                 id='leastOnOptionVariante'
-                                onChange={() => { handleChangeRadioSelectionOptionsVariantes(1) }}
+                                onChange={() => {
+                                    handleChangeRadioSelectionOptionsVariantes(1);
+                                    selectedVariantesList.length > 0 && handleChangeSelectionVariantesList(null, null);
+                                }}
                                 checked={allOptionsVariantesNeeded == 1}
                                 className="w-5 h-5"
                             />
@@ -150,7 +101,10 @@ const SelectionVariantesInList = ({ variantes, setCheckedVariantesList }) => {
                         <div className="w-full flex flex-row stify-start items-center leading-7">
                             <input type='radio'
                                 id='allOptionsVariante'
-                                onChange={() => { handleChangeRadioSelectionOptionsVariantes(0) }}
+                                onChange={() => {
+                                    handleChangeRadioSelectionOptionsVariantes(0);
+                                    selectedVariantesList.length > 0 && handleChangeSelectionVariantesList(null, null);
+                                }}
                                 checked={allOptionsVariantesNeeded == 0}
                                 className="w-5 h-5"
                             />
@@ -171,6 +125,7 @@ const SelectionVariantesInList = ({ variantes, setCheckedVariantesList }) => {
                             <div key={index}
                                 className="flex flex-row justify-start items-start px-[3px] mb-[5px] mr-[5px]"
                             >
+                                {/* checkbox qui sélectionne les variantes dans la liste des variantes en fonction des options cochées */}
                                 <input type='checkbox'
                                     value={value}
                                     id={value + unikIdSelectionVariantesList}
@@ -193,4 +148,4 @@ const SelectionVariantesInList = ({ variantes, setCheckedVariantesList }) => {
     )
 }
 
-export default SelectionVariantesInList;
+export default WithHandleSelectionList(SelectionVariantesInList);
