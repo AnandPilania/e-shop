@@ -188,7 +188,6 @@ const DropZoneProduct = () => {
 
 
     useEffect(() => {
-        console.log('imageVariantes  ', imageVariantes)
         if (imageVariantes[0]?.length > 0) {
             dropRegion = document.getElementById("drop-region");
             // cancel --> open files explorator when click on dropRegion

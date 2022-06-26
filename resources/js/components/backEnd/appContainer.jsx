@@ -145,7 +145,7 @@ const Appcontainer = () => {
     const [variantes, setVariantes] = useState([]);
     const [checkedVariantesList, setCheckedVariantesList] = useState([]);
     const [selectedVariantesList, setSelectedVariantesList] = useState([]);
-    const [allOptionsVariantesNeeded, setAllOptionsVariantesNeeded] = useState(1);
+    const [allOptionsVariantesNeeded, setAllOptionsVariantesNeeded] = useState(0);
    
 
     //---------------------------------------------------------------PRODUCT

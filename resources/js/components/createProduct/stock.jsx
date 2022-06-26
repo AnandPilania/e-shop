@@ -56,15 +56,15 @@ const Stock = () => {
                         onChange={handleProductStock} 
                         value={productStock} 
                         placeholder={placeholder} 
-                        className="w-full h-[40px] border border-slate-400 rounded-4 pl-[10px] mb-[30px] mt-1 bg-slate-100"
+                        className="w-full h-[40px] border border-gray-300 rounded-4 pl-[10px] mb-[30px] mt-1 bg-gray-100"
                         id='inputStock'
                         min="0" max="9999999999"
                         onClick={handleProductStockOnFocus} />
                         <span
-                            className='flex flex-rox justify-start items-center h-[40px] border-y-[1px] border-r-[1px]  border-slate-400 rounded-4 px-[10px] mb-[30px] mt-1 cursor-pointer caret-transparent'
+                            className='flex flex-rox justify-start items-center h-[40px] border-y-[1px] border-r-[1px]  border-gray-300 rounded-4 px-[10px] mb-[30px] mt-1 cursor-pointer caret-transparent'
                             onClick={handleUnlimitedStock}>
                             <input
-                                className='mr-[7px] caret-transparent'
+                                className='mr-[7px] caret-transparent cursor-pointer'
                                 id='unlimitedStockCheckbox'
                                 type="checkbox" checked={unlimited} onChange={handleUnlimitedStock} />
                             <label

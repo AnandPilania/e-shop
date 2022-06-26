@@ -377,7 +377,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList }) => {
                             className={`flex flex-rox justify-start items-center h-[30px] border-y-[1px] border-r-[1px]   border-gray-300 rounded-r-md px-[10px] cursor-pointer caret-transparent group relative  ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
                             onClick={() => handleUnlimitedStock2(item)}>
                             <input
-                                className='mr-[7px] caret-transparent'
+                                className='mr-[7px] caret-transparent cursor-pointer'
                                 id={`unlimitedStockCheckbox${item?.id}`}
                                 type="checkbox"
                                 checked={item?.stock != '' ? false : item?.unlimited}

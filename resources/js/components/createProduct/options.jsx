@@ -89,6 +89,7 @@ const Options = () => {
                     <label className='mt-0 mx-0 p-0'>Nom de l'option</label>
                     <label className='mt-0 mx-0 p-0'>Valeurs de l'option</label>
                     <label className='mt-0 mx-0 p-0'></label>
+                    <div className='w-full border-b border-gray-200 col-span-3'></div>
                 </div> :
                 <div className='w-full h-auto justify-start items-center pb-[20px]'>
                     <label className='mt-0 mx-0 p-0'>Définir des variantes lorsque ce produit possède plusieurs options. Ex. Couleur, taille,...</label>
@@ -121,6 +122,8 @@ const Options = () => {
                     Vous pouvez ajouter jusqu'à 4 options
                 </span>
             }
+
+            <div className='w-full border-b border-gray-200'></div>
 
             <OptionVariantesList
                 listType={listType}

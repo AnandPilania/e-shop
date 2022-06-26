@@ -32373,7 +32373,7 @@ var Appcontainer = function Appcontainer() {
       selectedVariantesList = _useState148[0],
       setSelectedVariantesList = _useState148[1];
 
-  var _useState149 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1),
+  var _useState149 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
       _useState150 = _slicedToArray(_useState149, 2),
       allOptionsVariantesNeeded = _useState150[0],
       setAllOptionsVariantesNeeded = _useState150[1]; //---------------------------------------------------------------PRODUCT
@@ -39395,8 +39395,6 @@ var DropZoneProduct = function DropZoneProduct() {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var _imageVariantes$;
 
-    console.log('imageVariantes  ', imageVariantes);
-
     if (((_imageVariantes$ = imageVariantes[0]) === null || _imageVariantes$ === void 0 ? void 0 : _imageVariantes$.length) > 0) {
       dropRegion = document.getElementById("drop-region"); // cancel --> open files explorator when click on dropRegion
 
@@ -42005,7 +42003,7 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
               return handleUnlimitedStock2(item);
             },
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
-              className: "mr-[7px] caret-transparent",
+              className: "mr-[7px] caret-transparent cursor-pointer",
               id: "unlimitedStockCheckbox".concat(item === null || item === void 0 ? void 0 : item.id),
               type: "checkbox",
               checked: (item === null || item === void 0 ? void 0 : item.stock) != '' ? false : item === null || item === void 0 ? void 0 : item.unlimited // pour pas avoir de warning "input checkbox non controlé"
@@ -42219,6 +42217,8 @@ var Options = function Options() {
         children: "Valeurs de l'option"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("label", {
         className: "mt-0 mx-0 p-0"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+        className: "w-full border-b border-gray-200 col-span-3"
       })]
     }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
       className: "w-full h-auto justify-start items-center pb-[20px]",
@@ -42245,6 +42245,8 @@ var Options = function Options() {
     }), optionsObj.length === 4 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
       className: "text-blue-500 text-sm relative top-[-20px] left-0",
       children: "Vous pouvez ajouter jusqu'\xE0 4 options"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      className: "w-full border-b border-gray-200"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_optionVariantesList__WEBPACK_IMPORTED_MODULE_3__["default"], {
       listType: listType
     })]
@@ -42582,18 +42584,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
 /* harmony import */ var _withHandleSelectionList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./withHandleSelectionList */ "./resources/js/components/createProduct/withHandleSelectionList.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 
 
 
@@ -42602,31 +42592,24 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var SelectionVariantesInList = function SelectionVariantesInList(_ref) {
   var handleChangeSelectionVariantesList = _ref.handleChangeSelectionVariantesList;
-
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState2 = _slicedToArray(_useState, 2),
-      toggleSelectionVariantesList = _useState2[0],
-      setToggleSelectionVariantesList = _useState2[1];
-
   var unikIdSelectionVariantesList = 'SelectWithCheckbox_selectionVariantesList';
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       optionsObj = _useContext.optionsObj,
       selectedVariantesList = _useContext.selectedVariantesList,
       allOptionsVariantesNeeded = _useContext.allOptionsVariantesNeeded,
-      setAllOptionsVariantesNeeded = _useContext.setAllOptionsVariantesNeeded;
+      setAllOptionsVariantesNeeded = _useContext.setAllOptionsVariantesNeeded,
+      variantes = _useContext.variantes;
 
-  var showDropDownSelectionVariantesList = function showDropDownSelectionVariantesList() {
-    var ul = document.getElementById('ul' + unikIdSelectionVariantesList);
+  var showDropDownSelectionVariantesList = function showDropDownSelectionVariantesList(id) {
+    var ul = document.getElementById(id);
 
-    if (!toggleSelectionVariantesList) {
+    if (ul.offsetHeight == 0) {
       ul.style.height = 'auto';
-      ul.className = 'absolute top-[30px] left-0 w-full h-0 max-h-[300px] bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border border-gray-300 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-l';
-      setToggleSelectionVariantesList(true);
-    } else {
+      ul.className = 'absolute top-[30px] left-0 w-full h-0 max-h-[300px] bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border border-gray-300 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-l rounded-r-sm';
+    } else if (ul.offsetHeight > 0) {
       ul.style.height = 0;
-      ul.className = 'absolute top-[30px] left-0 w-full h-0 max-h-[300px] bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-0 border-gray-300 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-l';
-      setToggleSelectionVariantesList(false);
+      ul.className = 'absolute top-[30px] left-0 w-full h-0 max-h-[300px] bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-0 border-gray-300 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-l rounded-r-sm';
     }
   };
 
@@ -42655,99 +42638,181 @@ var SelectionVariantesInList = function SelectionVariantesInList(_ref) {
 
 
     ulSelectionVariantesList.style.height = 0;
-    ulSelectionVariantesList.className = 'absolute top-[30px] left-0 w-full h-0 max-h-[300px] bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-0 border-gray-300 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-l';
-    setToggleSelectionVariantesList(false);
+    ulSelectionVariantesList.className = 'absolute top-[30px] left-0 w-full h-0 max-h-[300px] bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-0 border-gray-300 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-l rounded-r-sm';
   }
 
-  var handleChangeRadioSelectionOptionsVariantes = function handleChangeRadioSelectionOptionsVariantes(val) {
-    if (val == 0) {
-      setAllOptionsVariantesNeeded(0);
-    } else {
-      setAllOptionsVariantesNeeded(1);
+  var showDropDownSelectionVariantesList2 = function showDropDownSelectionVariantesList2(id) {
+    var ul = document.getElementById(id);
+
+    if (ul.offsetHeight == 0) {
+      ul.style.height = 'auto';
+      ul.className = 'absolute top-[30px] left-0 w-[130px] h-0 max-h-[300px] bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border border-gray-300 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-md';
+    } else if (ul.offsetHeight > 0) {
+      ul.style.height = 0;
+      ul.className = 'absolute top-[30px] left-0 w-full h-0 max-h-[300px] bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-0 border-gray-300 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-md';
     }
   };
 
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // empèche l'erreur-> Warning: Can't perform a React state update on an unmounted
+    document.addEventListener('click', closeULSelectDropDownSelectionVariantesList2);
+    return function () {
+      document.removeEventListener('click', closeULSelectDropDownSelectionVariantesList2);
+    };
+  }, []); // ferme le ul quand on click en dehors du select
+
+  function closeULSelectDropDownSelectionVariantesList2(e) {
+    var ulSelectionVariantesList2 = document.getElementById("ul2" + unikIdSelectionVariantesList);
+    var ButtonSelectDropDown2 = document.getElementById("Button2" + unikIdSelectionVariantesList);
+    var targetElement2 = e.target; // clicked element
+
+    do {
+      if (targetElement2 == ulSelectionVariantesList2 || targetElement2 == ButtonSelectDropDown2) {
+        // click inside
+        return;
+      } // Go up the DOM
+
+
+      targetElement2 = targetElement2.parentNode;
+    } while (targetElement2); // click outside.
+
+
+    ulSelectionVariantesList2.style.height = 0;
+    ulSelectionVariantesList2.className = 'absolute top-[30px] left-0 w-[130px] h-0 max-h-[300px] bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-0 border-gray-300 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-md';
+  }
+
+  var handleChangeRadioSelectionOptionsVariantes = function handleChangeRadioSelectionOptionsVariantes(val) {
+    if (val == 1) {
+      setAllOptionsVariantesNeeded(1);
+    } else {
+      setAllOptionsVariantesNeeded(0);
+    }
+  }; // met à jour la sélection dans la liste lorsqu'on modifie allOptionsVariantesNeeded 
+
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    selectedVariantesList.length > 0 && handleChangeSelectionVariantesList(null, null);
+  }, [allOptionsVariantesNeeded]); // {/* scroll down button */ }
+  // <div className='w-full mt-[25px] mb-[5px] flex justify-center'>
+  //     <img
+  //         onClick={scrollDown}
+  //         className='w-[25px] h-[25px] rounded hover:scale-125 animate-bounce cursor-pointer'
+  //         src='../images/icons/arrow-down-circle.svg'
+  //     />
+  // </div>
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-    className: "w-full relative mb-[20px]",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
-      id: 'Button' + unikIdSelectionVariantesList,
-      className: "flex items-center pl-[10px] w-[130px] h-[30px] text-gray-500 text-base hover:cursor-pointer border border-gray-300 rounded-md",
-      onClick: function onClick() {
-        return showDropDownSelectionVariantesList();
-      },
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-        children: "S\xE9lection"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
-        src: "../images/icons/caret-down.svg",
-        className: "ml-auto mr-[17px]"
-      })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("ul", {
-      id: 'ul' + unikIdSelectionVariantesList,
-      className: "absolute top-[30px] left-0 w-full h-0 max-h-[300px] bg-white transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-gray-300 border-0 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-l rounded-r-sm",
-      children: [(optionsObj === null || optionsObj === void 0 ? void 0 : optionsObj.length) > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-        className: "w-full flex flex-col justify-center items-start py-[10px] px-[10px] bg-blue-50",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-          className: "w-full flex flex-row justify-start items-center leading-7",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-            type: "radio",
-            id: "leastOnOptionVariante",
-            onChange: function onChange() {
-              handleChangeRadioSelectionOptionsVariantes(1);
-              selectedVariantesList.length > 0 && handleChangeSelectionVariantesList(null, null);
-            },
-            checked: allOptionsVariantesNeeded == 1,
-            className: "w-5 h-5"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
-            htmlFor: "leastOnOptionVariante",
-            className: "ml-[7px]",
-            children: "La s\xE9lection doit contenir au moins une option"
-          })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-          className: "w-full flex flex-row stify-start items-center leading-7",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-            type: "radio",
-            id: "allOptionsVariante",
-            onChange: function onChange() {
-              handleChangeRadioSelectionOptionsVariantes(0);
-              selectedVariantesList.length > 0 && handleChangeSelectionVariantesList(null, null);
-            },
-            checked: allOptionsVariantesNeeded == 0,
-            className: "w-5 h-5"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
-            htmlFor: "allOptionsVariante",
-            className: "ml-[7px]",
-            children: "La s\xE9lection doit contenir toutes les options"
-          })]
+    className: "w-full relative mb-[20px] flex flex-row flex-wrap justify-start items-center",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      className: "w-full mb-[20px] ml-[15px]",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
+        id: 'Button' + unikIdSelectionVariantesList,
+        className: "flex items-center pl-[10px] w-[130px] h-[30px] text-gray-500 text-base hover:cursor-pointer border border-gray-300 rounded-md",
+        onClick: function onClick() {
+          return showDropDownSelectionVariantesList('ul' + unikIdSelectionVariantesList);
+        },
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+          children: "S\xE9lection"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+          src: "../images/icons/caret-down.svg",
+          className: "ml-auto mr-[17px]"
         })]
-      }), (optionsObj === null || optionsObj === void 0 ? void 0 : optionsObj.length) > 0 && optionsObj.map(function (item) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("ul", {
+        id: 'ul' + unikIdSelectionVariantesList,
+        className: "absolute top-[30px] left-0 w-full h-0 max-h-[300px] bg-white transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-gray-300 border-0 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-l rounded-r-sm",
+        children: [(optionsObj === null || optionsObj === void 0 ? void 0 : optionsObj.length) > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          className: "w-full flex flex-col justify-center items-start py-[10px] px-[10px] bg-blue-50",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+            className: "w-full flex flex-row justify-start items-center leading-7",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+              type: "radio",
+              id: "leastOnOptionVariante",
+              onChange: function onChange() {
+                handleChangeRadioSelectionOptionsVariantes(0);
+              },
+              checked: allOptionsVariantesNeeded == 0,
+              className: "w-5 h-5"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
+              htmlFor: "leastOnOptionVariante",
+              className: "ml-[7px]",
+              children: "La s\xE9lection doit contenir au moins une option"
+            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+            className: "w-full flex flex-row stify-start items-center leading-7",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+              type: "radio",
+              id: "allOptionsVariante",
+              onChange: function onChange() {
+                handleChangeRadioSelectionOptionsVariantes(1);
+              },
+              checked: allOptionsVariantesNeeded == 1,
+              className: "w-5 h-5"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
+              htmlFor: "allOptionsVariante",
+              className: "ml-[7px]",
+              children: "La s\xE9lection doit contenir toutes les options"
+            })]
+          })]
+        }), (optionsObj === null || optionsObj === void 0 ? void 0 : optionsObj.length) > 0 && optionsObj.map(function (item) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
+            className: "flex flex-row justify-start items-center flex-wrap pl-[10px] py-[10px] w-full h-auto border-b border-gray-200",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+              className: "w-full flex flex-row justify-start items-center font-semibold px-[3px] mb-[5px]",
+              children: item.name
+            }), item.values.map(function (value, index) {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+                className: "flex flex-row justify-start items-start px-[3px] mb-[5px] mr-[5px]",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+                  type: "checkbox",
+                  value: value,
+                  id: value + unikIdSelectionVariantesList,
+                  checked: selectedVariantesList.findIndex(function (x) {
+                    return x.name == item.name && x.value == value;
+                  }) > -1,
+                  onChange: function onChange() {
+                    return handleChangeSelectionVariantesList(value, item.name);
+                  },
+                  className: "w-[17px] h-[17px] mr-[17px] hover:cursor-pointer"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
+                  htmlFor: value + unikIdSelectionVariantesList,
+                  className: "text-stone-800 text-base hover:cursor-pointer",
+                  children: value
+                })]
+              }, index);
+            })]
+          }, item.id + unikIdSelectionVariantesList);
+        })]
+      })]
+    }), variantes.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      className: "w-[130px] mb-[20px] ml-[15px] relative",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
+        id: 'Button2' + unikIdSelectionVariantesList,
+        className: "flex items-center pl-[10px] w-[130px] h-[30px] text-gray-500 text-base hover:cursor-pointer border border-gray-300 rounded-md",
+        onClick: function onClick() {
+          return showDropDownSelectionVariantesList2('ul2' + unikIdSelectionVariantesList);
+        },
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+          children: "Op\xE9rations"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+          src: "../images/icons/caret-down.svg",
+          className: "ml-auto mr-[17px]"
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
+        id: 'ul2' + unikIdSelectionVariantesList,
+        className: "absolute top-[30px] left-0 w-[130px] h-0 max-h-[300px] bg-white transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-gray-300 border-0 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-md",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
           className: "flex flex-row justify-start items-center flex-wrap pl-[10px] py-[10px] w-full h-auto border-b border-gray-200",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
             className: "w-full flex flex-row justify-start items-center font-semibold px-[3px] mb-[5px]",
-            children: item.name
-          }), item.values.map(function (value, index) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-              className: "flex flex-row justify-start items-start px-[3px] mb-[5px] mr-[5px]",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-                type: "checkbox",
-                value: value,
-                id: value + unikIdSelectionVariantesList,
-                checked: selectedVariantesList.findIndex(function (x) {
-                  return x.name == item.name && x.value == value;
-                }) > -1,
-                onChange: function onChange() {
-                  return handleChangeSelectionVariantesList(value, item.name);
-                },
-                className: "w-[17px] h-[17px] mr-[17px] hover:cursor-pointer"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
-                htmlFor: value + unikIdSelectionVariantesList,
-                className: "text-stone-800 text-base hover:cursor-pointer",
-                children: value
-              })]
-            }, index);
+            children: "Modifier"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+            className: "w-full flex flex-row justify-start items-center font-semibold px-[3px] mb-[5px]",
+            children: "Supprimer"
           })]
-        }, item.id + unikIdSelectionVariantesList);
+        })
       })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      className: "bg-blue-200 w-[130px] h-[38px]"
     })]
   });
 };
@@ -42850,16 +42915,16 @@ var Stock = function Stock() {
             onChange: handleProductStock,
             value: productStock,
             placeholder: placeholder,
-            className: "w-full h-[40px] border border-slate-400 rounded-4 pl-[10px] mb-[30px] mt-1 bg-slate-100",
+            className: "w-full h-[40px] border border-gray-300 rounded-4 pl-[10px] mb-[30px] mt-1 bg-gray-100",
             id: "inputStock",
             min: "0",
             max: "9999999999",
             onClick: handleProductStockOnFocus
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("span", {
-            className: "flex flex-rox justify-start items-center h-[40px] border-y-[1px] border-r-[1px]  border-slate-400 rounded-4 px-[10px] mb-[30px] mt-1 cursor-pointer caret-transparent",
+            className: "flex flex-rox justify-start items-center h-[40px] border-y-[1px] border-r-[1px]  border-gray-300 rounded-4 px-[10px] mb-[30px] mt-1 cursor-pointer caret-transparent",
             onClick: handleUnlimitedStock,
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
-              className: "mr-[7px] caret-transparent",
+              className: "mr-[7px] caret-transparent cursor-pointer",
               id: "unlimitedStockCheckbox",
               type: "checkbox",
               checked: unlimited,
@@ -43173,10 +43238,9 @@ var WithHandleSelectionList = function WithHandleSelectionList(Component) {
         setSelectedVariantesList = _useContext.setSelectedVariantesList,
         allOptionsVariantesNeeded = _useContext.allOptionsVariantesNeeded;
 
-    var selectWithAtLeastOneOption = function selectWithAtLeastOneOption(tmpSelectedList) {
-      console.log('allOptionsVariantesNeeded  ', allOptionsVariantesNeeded);
-
-      if (allOptionsVariantesNeeded == 1) {
+    var selectAllOrOneNeededOptions = function selectAllOrOneNeededOptions(tmpSelectedList) {
+      // select at least One needed
+      if (allOptionsVariantesNeeded == 0) {
         var tmp_tab = [];
 
         for (var i = 0; i < variantes.length; i++) {
@@ -43191,7 +43255,7 @@ var WithHandleSelectionList = function WithHandleSelectionList(Component) {
 
         setCheckedVariantesList([].concat(tmp_tab));
       } else {
-        tmpSelectedList = _toConsumableArray(selectedVariantesList);
+        // select ALL needed
         var _tmp_tab = [];
 
         for (var _i = 0; _i < variantes.length; _i++) {
@@ -43212,45 +43276,52 @@ var WithHandleSelectionList = function WithHandleSelectionList(Component) {
 
         setCheckedVariantesList([].concat(_tmp_tab));
       }
-    }; // si l'élément a déjà été sélectionné on le retir sinon on l'ajout, ceci coche ou décoche la checkbox. isDelet évite que les variantes soient sélectionnées dans la liste pendant qu'on ajoute des options
-
+    };
 
     var handleChangeSelectionVariantesList = function handleChangeSelectionVariantesList(value, name) {
-      var index = selectedVariantesList.findIndex(function (x) {
+      var tmpSelectedList = _toConsumableArray(selectedVariantesList); // si alloptionsNeeded on check s'il n'y a pas déjà le type d'option qu'on veut ajouter. si oui on retire dabord l'ancien avant d'ajouter le nouveau 
+
+
+      if (allOptionsVariantesNeeded === 1) {
+        tmpSelectedList.forEach(function (x) {
+          var index = tmpSelectedList.findIndex(function (x) {
+            return x.name == name && x.value != value;
+          });
+
+          if (index > -1) {
+            tmpSelectedList.splice(index, 1);
+          }
+        });
+      } // si l'élément a déjà été sélectionné on le retir sinon on l'ajout, ceci coche ou décoche la checkbox. isDelet évite que les variantes soient sélectionnées dans la liste pendant qu'on ajoute des options
+
+
+      var index = tmpSelectedList.findIndex(function (x) {
         return x.name == name && x.value == value;
       });
 
       if (index > -1) {
-        var tmpSelectedList = _toConsumableArray(selectedVariantesList);
-
         tmpSelectedList.splice(index, 1);
         setSelectedVariantesList(_toConsumableArray(tmpSelectedList));
-        selectWithAtLeastOneOption(tmpSelectedList);
+        selectAllOrOneNeededOptions(tmpSelectedList);
       } else {
-        var _tmpSelectedList = []; // si value n'est pas null c'est qu'on a coché une option pour sélectionner les variantes qui ont cette option
-
+        // si value n'est pas null c'est qu'on a coché une option pour sélectionner les variantes qui ont cette option
         if (value != null) {
-          setSelectedVariantesList([].concat(_toConsumableArray(selectedVariantesList), [{
-            name: name,
-            value: value
-          }]));
-          _tmpSelectedList = [].concat(_toConsumableArray(selectedVariantesList), [{
+          tmpSelectedList = [].concat(_toConsumableArray(tmpSelectedList), [{
             name: name,
             value: value
           }]);
+          setSelectedVariantesList(_toConsumableArray(tmpSelectedList));
         } // si value est null c'est qu'on a ajouté une option sans changer la sélection. Donc on a juste besoin de mettre à jour checkedVariantesList après un setVariantes dans optionVariontesList.jsx
 
 
         if (value == null) {
-          _tmpSelectedList = _toConsumableArray(selectedVariantesList);
+          tmpSelectedList = _toConsumableArray(tmpSelectedList);
         }
 
-        selectWithAtLeastOneOption(_tmpSelectedList);
+        selectAllOrOneNeededOptions(tmpSelectedList);
       }
     };
 
-    console.log('selectedVariantesList   ', selectedVariantesList);
-    console.log('variantes   ', variantes);
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(Component, _objectSpread({
         handleChangeSelectionVariantesList: handleChangeSelectionVariantesList
