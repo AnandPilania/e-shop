@@ -1,40 +1,31 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 
 
 
 const WithHandleSelectionList = (Component) => (props) => {
 
+    const [isAllSelectedCheckbox, setIsAllSelectedCheckbox] = useState(false);
+
     const { variantes, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, allOptionsVariantesNeeded } = useContext(AppContext);
 
 
     const selectAllOrOneNeededOptions = (tmpSelectedList) => {
-        // select at least One needed
-        if (allOptionsVariantesNeeded == 0) {
+        // si on coche toute les checkbox alors il faut setCheckedVariantesList avec toute les variantes pour que lorsqu'on delete une variantes de la lite toute les checkbox restent cochées
+        if (isAllSelectedCheckbox) {
             let tmp_tab = [];
             for (let i = 0; i < variantes.length; i++) {
-                for (let j = 0; j < tmpSelectedList.length; j++) {
-
-                    if (variantes[i].options[tmpSelectedList[j].name] == tmpSelectedList[j].value) {
-
-                        if (tmp_tab.indexOf(variantes[i].id) == -1) {
-                            tmp_tab.push(variantes[i].id);
-                        }
-                    }
-                }
+                tmp_tab.push(variantes[i].id);
             }
             setCheckedVariantesList([...tmp_tab]);
-
         } else {
-            // select ALL needed
-            let tmp_tab = [];
-            for (let i = 0; i < variantes.length; i++) {
-                let count = 0;
-                for (let j = 0; j < tmpSelectedList.length; j++) {
+            // select at least One needed
+            if (allOptionsVariantesNeeded == 0) {
+                let tmp_tab = [];
+                for (let i = 0; i < variantes.length; i++) {
+                    for (let j = 0; j < tmpSelectedList.length; j++) {
 
-                    if (variantes[i].options[tmpSelectedList[j].name] == tmpSelectedList[j].value) {
-                        count++;
-                        if (count == tmpSelectedList.length) {
+                        if (variantes[i].options[tmpSelectedList[j].name] == tmpSelectedList[j].value) {
 
                             if (tmp_tab.indexOf(variantes[i].id) == -1) {
                                 tmp_tab.push(variantes[i].id);
@@ -42,9 +33,30 @@ const WithHandleSelectionList = (Component) => (props) => {
                         }
                     }
                 }
+                setCheckedVariantesList([...tmp_tab]);
+
+            } else {
+                // select ALL needed
+                let tmp_tab = [];
+                for (let i = 0; i < variantes.length; i++) {
+                    let count = 0;
+                    for (let j = 0; j < tmpSelectedList.length; j++) {
+
+                        if (variantes[i].options[tmpSelectedList[j].name] == tmpSelectedList[j].value) {
+                            count++;
+                            if (count == tmpSelectedList.length) {
+
+                                if (tmp_tab.indexOf(variantes[i].id) == -1) {
+                                    tmp_tab.push(variantes[i].id);
+                                }
+                            }
+                        }
+                    }
+                }
+                setCheckedVariantesList([...tmp_tab]);
             }
-            setCheckedVariantesList([...tmp_tab]);
         }
+
     }
 
 
@@ -52,7 +64,7 @@ const WithHandleSelectionList = (Component) => (props) => {
 
         let tmpSelectedList = [...selectedVariantesList];
 
-        // si alloptionsNeeded on check s'il n'y a pas déjà le type d'option qu'on veut ajouter. si oui on retire dabord l'ancien avant d'ajouter le nouveau 
+        // si alloptionsNeeded est true alors on check s'il le type d'option qu'on veut ajouter n'est pas déjà présent dans selectedVariantesList. si oui on retire dabord l'ancien avant d'ajouter le nouveau 
         if (allOptionsVariantesNeeded === 1) {
             tmpSelectedList.forEach(x => {
                 let index = tmpSelectedList.findIndex(x => x.name == name && x.value != value);
@@ -62,7 +74,7 @@ const WithHandleSelectionList = (Component) => (props) => {
             });
         }
 
-        // si l'élément a déjà été sélectionné on le retir sinon on l'ajout, ceci coche ou décoche la checkbox. isDelet évite que les variantes soient sélectionnées dans la liste pendant qu'on ajoute des options
+        // si l'élément a déjà été sélectionné on le retir sinon on l'ajout, ceci coche ou décoche la checkbox. 
         let index = tmpSelectedList.findIndex(x => x.name == name && x.value == value);
         if (index > -1) {
             tmpSelectedList.splice(index, 1);
@@ -88,6 +100,8 @@ const WithHandleSelectionList = (Component) => (props) => {
         <div>
             <Component
                 handleChangeSelectionVariantesList={handleChangeSelectionVariantesList}
+                isAllSelectedCheckbox={isAllSelectedCheckbox} 
+                setIsAllSelectedCheckbox={setIsAllSelectedCheckbox}
                 {...props}
             />
         </div>

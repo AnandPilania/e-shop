@@ -2,15 +2,53 @@ import React, { useState, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 
 
-const ModalEditSelectionVariantes = ({ handleConfirm, handleModalCancel, show }) => {
+const ModalEditSelectionVariantes = ({ handleModalCancel, show }) => {
 
-    const { productPrice, setProductPrice, previousProductPrice, setPreviousProductPrice, productStock, setProductStock } = useContext(AppContext);
+    const [productPriceModal, setProductPriceModal] = useState('');
+    const [previousProductPriceModal, setPreviousProductPriceModal] = useState('');
+    const [productStockModal, setProductStockModal] = useState('');
 
+    // const placeholder_price = 'Ajouter un prix';
+    const placeholder_promo = 'Ajouter un prix avant promo';
+    const placeholder_stock = 'Ajouter une quantité';
+
+    const { variantes, setVariantes, checkedVariantesList } = useContext(AppContext);
+
+    const handleChangeProductPriceModal = (e) => {
+        setProductPriceModal(e.target.value);
+    }
+
+    const handleChangePreviousProductPriceModal = (e) => {
+        setPreviousProductPriceModal(e.target.value);
+    }
+
+    const handleChangeProductStockModal = (e) => {
+        setProductStockModal(e.target.value);
+    }
+
+    // affecte les nouvelles valeurs aux champs concernés des variantes sélectionnées
+    const saveChanges = () => {
+        let temp_variantes = [...variantes];
+        if (checkedVariantesList.length > 0) {
+            for (let i = 0; i < temp_variantes.length; i++) {
+                if (checkedVariantesList.indexOf(temp_variantes[i].id) > -1) {
+                    temp_variantes[i].price = productPriceModal;
+                    temp_variantes[i].prev_price = previousProductPriceModal;
+                    temp_variantes[i].stock = productStockModal;
+                }
+            }
+            setVariantes([...temp_variantes]);
+            setProductPriceModal('');
+            setPreviousProductPriceModal('');
+            setProductStockModal('');
+        }
+        handleModalCancel();
+    }
 
 
     return (
-        <div className={` ${show ? "block" : "hidden"} fixed top-0 left-0 bg-bg-modal z-40 w-full h-[100%]  flex flex-col justify-start items-center`}>
-            <div className="fixed w-[40%] max-h-[90vh] max-x-[650px] min-x-[350] p-[20px] top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] flex flex-col justify-start items-start rounded-md bg-white z-50"
+        <div className={` ${show ? "block" : "hidden"} fixed top-0 left-0 bg-bg-modal z-40 w-full h-[100%]  flex flex-col justify-start items-start`}>
+            <div className="fixed w-[40%] max-x-[650px] min-x-[350] p-[20px] top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] flex flex-col justify-start items-start rounded-md bg-white z-50"
             >
                 <div className='w-full flex flex-row justify-between mb-[20px]'>
                     <h3 className='h-[30px] ml-[10px] font-semibold text-lg'>
@@ -24,78 +62,56 @@ const ModalEditSelectionVariantes = ({ handleConfirm, handleModalCancel, show })
                 </div>
 
                 <section
-                    className="classSectionModalImageVariante w-full max-h-[70%] grid grid-cols-4 gap-[10px] justify-center items-center overflow-y-auto scroll-smooth"
+                    className="w-full h-auto mb-[50px] mt-[30px] grid grid-cols-3 gap-4 justify-start items-start flex-wrap"
                 >
                     {/* price */}
-                    <input
-                        id={item?.id}
-                        type="number"
-                        step=".01"
-                        onChange={handleVariantetPrice}
-                        value={item?.price}
-                        placeholder="0.00"
-                        min="0"
-                        max="9999999999"
-                        className={`w-full h-[30px] border border-gray-300 rounded-md pl-[8px] text-[13px] leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
-                    />
-
-                    {/* prev_price -- promo -- */}
-                    <input
-                        id={`inputPrevPrice${item?.id}`}
-                        type="number"
-                        step=".01"
-                        onChange={(e) => handleVariantetPrevPrice(e, item)}
-                        value={item?.prev_price}
-                        placeholder="0.00"
-                        min="0"
-                        max="9999999999"
-                        className={`w-full h-[30px] border border-gray-300 rounded-md pl-[8px] text-[13px] leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
-                    />
-
-                    {/* stock */}
-                    <div
-                        className='flex flex-rox justify-start items-center'
-                    >
+                    <div className="w-full flex flex-col mr-4">
+                        <label className='font-semibold'>Prix</label>
                         <input
                             type="number"
-                            id={`inputStock${item?.id}`}
-                            onChange={(e) => handleProductStock2(e, item)}
-                            value={item?.stock}
-                            placeholder={item.placeholderStock}
-                            min="0" max="9999999999"
-                            onClick={(() => handleProductStockOnFocus2(item))}
-                            className={`w-[100px] h-[30px] border border-gray-300 rounded-l-md pl-[8px] text-[13px] leading-6 ${(item?.stock != '' || !item?.unlimited) ? "bg-gray-50" : "bg-white"} ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
+                            step=".01"
+                            value={productPriceModal}
+                            onChange={handleChangeProductPriceModal}
+                            placeholder="Ajouter un prix"
+                            min="0"
+                            max="9999999999"
+                            className="w-full h-[38px] border border-gray-300 rounded-md pl-[8px] text-[13px] leading-6 bg-white"
                         />
-                        <span
-                            className={`flex flex-rox justify-start items-center h-[30px] border-y-[1px] border-r-[1px]   border-gray-300 rounded-r-md px-[10px] cursor-pointer caret-transparent group relative  ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
-                            onClick={() => handleUnlimitedStock2(item)}>
-                            <input
-                                className='mr-[7px] caret-transparent'
-                                id={`unlimitedStockCheckbox${item?.id}`}
-                                type="checkbox"
-                                checked={item?.stock != '' ? false : item?.unlimited}
-                                // pour pas avoir de warning "input checkbox non controlé"
-                                onChange={() => { }}
-                            />
-                            <label
-                                className='cursor-pointer caret-transparent text-[20px] '>
-                                {String.fromCharCode(0x221E)}
-                                <Tooltip top={-100} left={2} css='whitespace-nowrap'>
-                                    {item?.unlimited ? 'Stock illimité' : 'Entrer une quantité'}
-                                </Tooltip>
-                            </label>
-                        </span>
+                    </div>
+
+                    {/* prev_price -- promo -- */}
+                    <div className="w-full flex flex-col mr-4">
+                        <label className='font-semibold'>Prix avant promo</label>
+                        <input
+                            type="number"
+                            step=".01"
+                            onChange={handleChangePreviousProductPriceModal}
+                            value={previousProductPriceModal}
+                            placeholder={placeholder_promo}
+                            min="0"
+                            max="9999999999"
+                            className="w-full h-[38px] border border-gray-300 rounded-md pl-[8px] text-[13px] leading-6 bg-white"
+                        />
+                    </div>
+
+                    {/* stock */}
+                    <div className="w-full flex flex-col">
+                        <label className='font-semibold'>Stock</label>
+                        <input
+                            type="number"
+                            onChange={handleChangeProductStockModal}
+                            value={productStockModal}
+                            placeholder={placeholder_stock}
+                            min="0" max="9999999999"
+                            className="w-full h-[38px] border border-gray-300 rounded-md pl-[8px] text-[13px] leading-6 bg-white"
+                        />
                     </div>
                 </section>
 
-                <div className="w-full flex flex-row justify-center items-center">
+                <div className="w-full flex flex-row justify-start items-center">
                     <button
-                        className={`flex flrex-row justify-center items-center h-[40px] px-[20px] ${selectedImage == null ? "bg-gray-100 text-gray-400" : "bg-green-500 text-white"}`}
-                        onClick={() => {
-                            selectedImage != null &&
-                                handleConfirm(selectedImage);
-                            cancelSelection();
-                        }}
+                        className="flex flrex-row justify-center items-center h-[40px] px-[20px] bg-green-500 text-white"
+                        onClick={saveChanges}
                     >
                         Enregister
                     </button>
@@ -103,8 +119,6 @@ const ModalEditSelectionVariantes = ({ handleConfirm, handleModalCancel, show })
                     <button
                         className="flex flrex-row justify-center items-center h-[40px] px-[20px] ml-[15px] border border-gray-300"
                         onClick={() => {
-                            removeImageFroTemprayStorage();
-                            cancelSelection();
                             handleModalCancel();
                         }}>
                         Annuler

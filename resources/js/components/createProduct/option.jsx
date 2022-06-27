@@ -242,7 +242,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
         };
     }, [tmp_selectOptionValues]);
 
-
+// console.log('listOptionValues    ', listOptionValues)
 
     return (
         <div className="w-full h-auto grid gap-x-4 gap-y-2 grid-cols-[1fr_1fr_25px] justify-start items-start pb-[21px]  border-b border-gray-200 mb-[25px]">

@@ -1,13 +1,16 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import WithHandleSelectionList from './withHandleSelectionList';
+import ModalEditSelectionVariantes from './modalEditSelectionVariantes';
 
 
 const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
 
+    const [showModalEditSelectionVariantes, setShowModalEditSelectionVariantes] = useState(false);
+
     const unikIdSelectionVariantesList = 'SelectWithCheckbox_selectionVariantesList';
 
-    const { optionsObj, selectedVariantesList, allOptionsVariantesNeeded, setAllOptionsVariantesNeeded, variantes } = useContext(AppContext);
+    const { optionsObj, selectedVariantesList, allOptionsVariantesNeeded, setAllOptionsVariantesNeeded, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, setSelectedVariantesList } = useContext(AppContext);
 
 
 
@@ -105,6 +108,28 @@ const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
 
 
 
+    const handleModalCancelSelectionVariantes = () => {
+        setShowModalEditSelectionVariantes(false);
+    }
+
+
+    const deleteSelectedVariantes = () => {
+        if (selectedVariantesList.length > 0) {
+            let temp_variantes = [...variantes];
+            if (checkedVariantesList.length > 0) {
+                for (let i = 0; i < temp_variantes.length; i++) {
+                    if (checkedVariantesList.indexOf(temp_variantes[i].id) > -1) {
+                        temp_variantes[i].deleted = true;
+                    }
+                }
+                setCheckedVariantesList([]);
+                setSelectedVariantesList([]);
+                setVariantes([...temp_variantes]);
+            }
+            handleModalCancelSelectionVariantes();
+        }
+    }
+
 
 
 
@@ -120,12 +145,9 @@ const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
 
 
 
-
-
-
     return (
-        <div className="w-full relative mb-[20px] flex flex-row flex-wrap justify-start items-center">
-            <div className="w-full mb-[20px] ml-[15px]">
+        <div className="w-full relative mb-[10px] flex flex-row flex-wrap justify-start items-center">
+            <div className="w-[130px] mr-[15px] mb-[20px]">
                 <button
                     id={'Button' + unikIdSelectionVariantesList}
                     className='flex items-center pl-[10px] w-[130px] h-[30px] text-gray-500 text-base hover:cursor-pointer border border-gray-300 rounded-md'
@@ -151,7 +173,7 @@ const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
                                     className="w-5 h-5"
                                 />
                                 <label htmlFor='leastOnOptionVariante'
-                                    className='ml-[7px]'>
+                                    className='ml-[7px] font-semibold cursor-pointer hover:font-bold'>
                                     La sélection doit contenir au moins une option
                                 </label>
                             </div>
@@ -165,7 +187,7 @@ const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
                                     className="w-5 h-5"
                                 />
                                 <label htmlFor='allOptionsVariante'
-                                    className='ml-[7px]'>
+                                    className='ml-[7px] font-semibold cursor-pointer hover:font-bold'>
                                     La sélection doit contenir toutes les options
                                 </label>
                             </div>
@@ -179,7 +201,7 @@ const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
                             </span>
                             {item.values.map((value, index) =>
                                 <div key={index}
-                                    className="flex flex-row justify-start items-start px-[3px] mb-[5px] mr-[5px]"
+                                    className="flex flex-row justify-start items-center px-[3px] mb-[5px] mr-[7px] group"
                                 >
                                     {/* checkbox qui sélectionne les variantes dans la liste des variantes en fonction des options cochées */}
                                     <input type='checkbox'
@@ -188,10 +210,10 @@ const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
                                         checked={selectedVariantesList.findIndex(x => x.name == item.name && x.value == value) > -1}
                                         onChange={() =>
                                             handleChangeSelectionVariantesList(value, item.name)}
-                                        className="w-[17px] h-[17px] mr-[17px] hover:cursor-pointer"
+                                        className="w-[17px] h-[17px] mr-[5px] cursor-pointer"
                                     />
                                     <label htmlFor={value + unikIdSelectionVariantesList}
-                                        className="text-stone-800 text-base hover:cursor-pointer"
+                                        className="text-gray-500 text-base cursor-pointer group-hover:font-semibold"
                                     >
                                         {value}
                                     </label>
@@ -203,7 +225,7 @@ const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
                 </ul>
             </div>
             {variantes.length > 0 &&
-                <div className="w-[130px] mb-[20px] ml-[15px] relative">
+                <div className="w-[130px] mr-[15px] mb-[20px] relative">
                     <button
                         id={'Button2' + unikIdSelectionVariantesList}
                         className='flex items-center pl-[10px] w-[130px] h-[30px] text-gray-500 text-base hover:cursor-pointer border border-gray-300 rounded-md'
@@ -219,16 +241,35 @@ const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
                         <li
                             className="flex flex-row justify-start items-center flex-wrap pl-[10px] py-[10px] w-full h-auto border-b border-gray-200"
                         >
-                            <span className='w-full flex flex-row justify-start items-center font-semibold px-[3px] mb-[5px]'>
+                            <span
+                                className={`w-full flex flex-row justify-start items-center px-[3px] mb-[5px] cursor-pointer ${checkedVariantesList.length > 0 ? "text-gray-500 hover:font-semibold" : "text-gray-400"}`}
+                                onClick={() => {
+                                    checkedVariantesList.length > 0 && setShowModalEditSelectionVariantes(true);
+                                }}
+                            >
                                 Modifier
                             </span>
-                            <span className='w-full flex flex-row justify-start items-center font-semibold px-[3px] mb-[5px]'>
+                            <span
+                                className={`w-full flex flex-row justify-start items-center px-[3px] mb-[5px] cursor-pointer ${checkedVariantesList.length > 0 ? "text-gray-500 hover:font-semibold" : "text-gray-400"}`}
+                                onClick={() => {
+                                    checkedVariantesList.length > 0 &&
+                                        deleteSelectedVariantes();
+                                }}
+                            >
                                 Supprimer
                             </span>
                         </li>
                     </ul>
                 </div>}
-            <div className='bg-blue-200 w-[130px] h-[38px]'></div>
+            <span className='flex flex-row justify-center items-center w-auto h-[30px] px-[10px] mb-[20px] text-blue-500 text-sm no-underline hover:underline hover:cursor-pointer'
+            >
+                Cacher les variantes supprimées
+            </span>
+
+            <ModalEditSelectionVariantes
+                show={showModalEditSelectionVariantes}
+                handleModalCancel={handleModalCancelSelectionVariantes}
+            />
         </div>
     )
 }

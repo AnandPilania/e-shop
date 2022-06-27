@@ -56,7 +56,7 @@ const Stock = () => {
                         onChange={handleProductStock} 
                         value={productStock} 
                         placeholder={placeholder} 
-                        className="w-full h-[40px] border border-gray-300 rounded-4 pl-[10px] mb-[30px] mt-1 bg-gray-100"
+                        className="w-full h-[40px] border border-gray-300 rounded-4 pl-[10px] mb-[30px] mt-1 bg-gray-50"
                         id='inputStock'
                         min="0" max="9999999999"
                         onClick={handleProductStockOnFocus} />

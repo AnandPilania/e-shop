@@ -8,17 +8,15 @@ import SelectionVariantesInList from './selectionVariantesInList';
 import WithHandleSelectionList from './withHandleSelectionList';
 
 
-const OptionVariantesList = ({ handleChangeSelectionVariantesList }) => {
+const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelectedCheckbox, setIsAllSelectedCheckbox }) => {
 
     const [idVariante, setIdVariante] = useState(null);
     const [imageVariante, setImageVariante] = useState({});
     const [showModalImageVariante, setShowModalImageVariante] = useState(false);
     const [showMCancelDeleteButton, setShowMCancelDeleteButton] = useState(false);
     const [deletedVariantesList, setDeletedVariantesList] = useState([]);
-    // const [checkedVariantesList, setCheckedVariantesList] = useState([]);
-    const [isAllSelectedCheckbox, setIsAllSelectedCheckbox] = useState(false);
-
-    const { optionsObj, productPrice, previousProductPrice, productStock, listType, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList } = useContext(AppContext);
+    
+    const { optionsObj, productPrice, previousProductPrice, productStock, listType, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList } = useContext(AppContext);
 
     useEffect(() => {
         // check if there is deleted variantes and show cancel button if true
@@ -156,20 +154,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList }) => {
         }
     }
 
-    const toggleDeleteUndeleteVariante = (id) => {
-        let tmp_variantes = [...variantes];
-        let ndx = tmp_variantes.findIndex(x => x.id == id);
-        if (ndx > -1) {
-            if (tmp_variantes[ndx].deleted === false) {
-                tmp_variantes[ndx].deleted = true;
-            } else if (tmp_variantes[ndx].deleted === true) {
-                tmp_variantes[ndx].deleted = false;
-            }
-        }
-        setVariantes([...tmp_variantes]);
 
-        // setDeletedVariantesList([...deletedVariantesList, id]);
-    }
 
     const cancelAllDeletedVariante = () => {
         let tmp_variantes = [...variantes];
@@ -257,16 +242,33 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList }) => {
     }
 
     // gère le checkbox check all
+    // unUseParameter voir animateCheckbox.jsx
     const selectAllCheckbox = (unUseParameter) => {
         if (!isAllSelectedCheckbox) {
             let tmp_arr = [];
             variantes.forEach(item => tmp_arr.push(item.id));
+            setSelectedVariantesList([]);
             setCheckedVariantesList([...tmp_arr]);
             setIsAllSelectedCheckbox(true);
         } else {
             setCheckedVariantesList([]);
             setIsAllSelectedCheckbox(false);
         }
+    }
+
+    const toggleDeleteUndeleteVariante = (id) => {
+        let tmp_variantes = [...variantes];
+        let ndx = tmp_variantes.findIndex(x => x.id == id);
+        if (ndx > -1) {
+            if (tmp_variantes[ndx].deleted === false) {
+                tmp_variantes[ndx].deleted = true;
+            } else if (tmp_variantes[ndx].deleted === true) {
+                tmp_variantes[ndx].deleted = false;
+            }
+        }
+        setVariantes([...tmp_variantes]);
+
+        // setDeletedVariantesList([...deletedVariantesList, id]);
     }
 
 
@@ -371,7 +373,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList }) => {
                             placeholder={item.placeholderStock}
                             min="0" max="9999999999"
                             onClick={(() => handleProductStockOnFocus2(item))}
-                            className={`w-[100px] h-[30px] border border-gray-300 rounded-l-md pl-[8px] text-[13px] leading-6 ${(item?.stock != '' || !item?.unlimited) ? "bg-gray-50" : "bg-white"} ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
+                            className={`w-[100px] h-[30px] border border-gray-300 rounded-l-md pl-[8px] text-[13px] leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
                         />
                         <span
                             className={`flex flex-rox justify-start items-center h-[30px] border-y-[1px] border-r-[1px]   border-gray-300 rounded-r-md px-[10px] cursor-pointer caret-transparent group relative  ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}

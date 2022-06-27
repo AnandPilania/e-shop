@@ -4,6 +4,7 @@ import React from 'react';
 const AnimateCheckbox = ({ id, handlechange, value, checked }) => {
 
 // a son css !!! pour les class cbx et check !!!
+// id est transmis dans handlechange si beoin 
     return (
         <div>
             <input

@@ -40728,6 +40728,193 @@ var List = function List() {
 
 /***/ }),
 
+/***/ "./resources/js/components/createProduct/modalEditSelectionVariantes.jsx":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/createProduct/modalEditSelectionVariantes.jsx ***!
+  \*******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+var ModalEditSelectionVariantes = function ModalEditSelectionVariantes(_ref) {
+  var handleModalCancel = _ref.handleModalCancel,
+      show = _ref.show;
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState2 = _slicedToArray(_useState, 2),
+      productPriceModal = _useState2[0],
+      setProductPriceModal = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState4 = _slicedToArray(_useState3, 2),
+      previousProductPriceModal = _useState4[0],
+      setPreviousProductPriceModal = _useState4[1];
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState6 = _slicedToArray(_useState5, 2),
+      productStockModal = _useState6[0],
+      setProductStockModal = _useState6[1]; // const placeholder_price = 'Ajouter un prix';
+
+
+  var placeholder_promo = 'Ajouter un prix avant promo';
+  var placeholder_stock = 'Ajouter une quantité';
+
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
+      variantes = _useContext.variantes,
+      setVariantes = _useContext.setVariantes,
+      checkedVariantesList = _useContext.checkedVariantesList;
+
+  var handleChangeProductPriceModal = function handleChangeProductPriceModal(e) {
+    setProductPriceModal(e.target.value);
+  };
+
+  var handleChangePreviousProductPriceModal = function handleChangePreviousProductPriceModal(e) {
+    setPreviousProductPriceModal(e.target.value);
+  };
+
+  var handleChangeProductStockModal = function handleChangeProductStockModal(e) {
+    setProductStockModal(e.target.value);
+  }; // affecte les nouvelles valeurs aux champs concernés des variantes sélectionnées
+
+
+  var saveChanges = function saveChanges() {
+    var temp_variantes = _toConsumableArray(variantes);
+
+    if (checkedVariantesList.length > 0) {
+      for (var i = 0; i < temp_variantes.length; i++) {
+        if (checkedVariantesList.indexOf(temp_variantes[i].id) > -1) {
+          temp_variantes[i].price = productPriceModal;
+          temp_variantes[i].prev_price = previousProductPriceModal;
+          temp_variantes[i].stock = productStockModal;
+        }
+      }
+
+      setVariantes(_toConsumableArray(temp_variantes));
+      setProductPriceModal('');
+      setPreviousProductPriceModal('');
+      setProductStockModal('');
+    }
+
+    handleModalCancel();
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+    className: " ".concat(show ? "block" : "hidden", " fixed top-0 left-0 bg-bg-modal z-40 w-full h-[100%]  flex flex-col justify-start items-start"),
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      className: "fixed w-[40%] max-x-[650px] min-x-[350] p-[20px] top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] flex flex-col justify-start items-start rounded-md bg-white z-50",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        className: "w-full flex flex-row justify-between mb-[20px]",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h3", {
+          className: "h-[30px] ml-[10px] font-semibold text-lg",
+          children: "Modifier la s\xE9lection"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+          onClick: handleModalCancel,
+          className: "flex justify-center items-center w-[30px] h-[30px] cursor-pointer bg-red-500 rounded-[5px]",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
+            src: window.location.origin + '/images/icons/x-white.svg',
+            className: "h-[20px] w-[20px]"
+          })
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("section", {
+        className: "w-full h-auto mb-[50px] mt-[30px] grid grid-cols-3 gap-4 justify-start items-start flex-wrap",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "w-full flex flex-col mr-4",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+            className: "font-semibold",
+            children: "Prix"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+            type: "number",
+            step: ".01",
+            value: productPriceModal,
+            onChange: handleChangeProductPriceModal,
+            placeholder: "Ajouter un prix",
+            min: "0",
+            max: "9999999999",
+            className: "w-full h-[38px] border border-gray-300 rounded-md pl-[8px] text-[13px] leading-6 bg-white"
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "w-full flex flex-col mr-4",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+            className: "font-semibold",
+            children: "Prix avant promo"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+            type: "number",
+            step: ".01",
+            onChange: handleChangePreviousProductPriceModal,
+            value: previousProductPriceModal,
+            placeholder: placeholder_promo,
+            min: "0",
+            max: "9999999999",
+            className: "w-full h-[38px] border border-gray-300 rounded-md pl-[8px] text-[13px] leading-6 bg-white"
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "w-full flex flex-col",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+            className: "font-semibold",
+            children: "Stock"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+            type: "number",
+            onChange: handleChangeProductStockModal,
+            value: productStockModal,
+            placeholder: placeholder_stock,
+            min: "0",
+            max: "9999999999",
+            className: "w-full h-[38px] border border-gray-300 rounded-md pl-[8px] text-[13px] leading-6 bg-white"
+          })]
+        })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        className: "w-full flex flex-row justify-start items-center",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+          className: "flex flrex-row justify-center items-center h-[40px] px-[20px] bg-green-500 text-white",
+          onClick: saveChanges,
+          children: "Enregister"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+          className: "flex flrex-row justify-center items-center h-[40px] px-[20px] ml-[15px] border border-gray-300",
+          onClick: function onClick() {
+            handleModalCancel();
+          },
+          children: "Annuler"
+        })]
+      })]
+    })
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ModalEditSelectionVariantes);
+
+/***/ }),
+
 /***/ "./resources/js/components/createProduct/modalImageVariante.jsx":
 /*!**********************************************************************!*\
   !*** ./resources/js/components/createProduct/modalImageVariante.jsx ***!
@@ -41362,7 +41549,8 @@ var Option = function Option(_ref) {
     return function () {
       document.removeEventListener('click', handleClickOutside2, true);
     };
-  }, [tmp_selectOptionValues]);
+  }, [tmp_selectOptionValues]); // console.log('listOptionValues    ', listOptionValues)
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
     className: "w-full h-auto grid gap-x-4 gap-y-2 grid-cols-[1fr_1fr_25px] justify-start items-start pb-[21px]  border-b border-gray-200 mb-[25px]",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
@@ -41573,7 +41761,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var OptionVariantesList = function OptionVariantesList(_ref) {
-  var handleChangeSelectionVariantesList = _ref.handleChangeSelectionVariantesList;
+  var handleChangeSelectionVariantesList = _ref.handleChangeSelectionVariantesList,
+      isAllSelectedCheckbox = _ref.isAllSelectedCheckbox,
+      setIsAllSelectedCheckbox = _ref.setIsAllSelectedCheckbox;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
@@ -41598,13 +41788,7 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
   var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState10 = _slicedToArray(_useState9, 2),
       deletedVariantesList = _useState10[0],
-      setDeletedVariantesList = _useState10[1]; // const [checkedVariantesList, setCheckedVariantesList] = useState([]);
-
-
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState12 = _slicedToArray(_useState11, 2),
-      isAllSelectedCheckbox = _useState12[0],
-      setIsAllSelectedCheckbox = _useState12[1];
+      setDeletedVariantesList = _useState10[1];
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       optionsObj = _useContext.optionsObj,
@@ -41616,7 +41800,8 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
       setVariantes = _useContext.setVariantes,
       checkedVariantesList = _useContext.checkedVariantesList,
       setCheckedVariantesList = _useContext.setCheckedVariantesList,
-      selectedVariantesList = _useContext.selectedVariantesList;
+      selectedVariantesList = _useContext.selectedVariantesList,
+      setSelectedVariantesList = _useContext.setSelectedVariantesList;
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // check if there is deleted variantes and show cancel button if true
@@ -41783,24 +41968,6 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
     }
   };
 
-  var toggleDeleteUndeleteVariante = function toggleDeleteUndeleteVariante(id) {
-    var tmp_variantes = _toConsumableArray(variantes);
-
-    var ndx = tmp_variantes.findIndex(function (x) {
-      return x.id == id;
-    });
-
-    if (ndx > -1) {
-      if (tmp_variantes[ndx].deleted === false) {
-        tmp_variantes[ndx].deleted = true;
-      } else if (tmp_variantes[ndx].deleted === true) {
-        tmp_variantes[ndx].deleted = false;
-      }
-    }
-
-    setVariantes(_toConsumableArray(tmp_variantes)); // setDeletedVariantesList([...deletedVariantesList, id]);
-  };
-
   var cancelAllDeletedVariante = function cancelAllDeletedVariante() {
     var tmp_variantes = _toConsumableArray(variantes);
 
@@ -41898,6 +42065,7 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
 
     setCheckedVariantesList(tmp_checkedVariantesList);
   }; // gère le checkbox check all
+  // unUseParameter voir animateCheckbox.jsx
 
 
   var selectAllCheckbox = function selectAllCheckbox(unUseParameter) {
@@ -41906,12 +42074,31 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
       variantes.forEach(function (item) {
         return tmp_arr.push(item.id);
       });
+      setSelectedVariantesList([]);
       setCheckedVariantesList([].concat(tmp_arr));
       setIsAllSelectedCheckbox(true);
     } else {
       setCheckedVariantesList([]);
       setIsAllSelectedCheckbox(false);
     }
+  };
+
+  var toggleDeleteUndeleteVariante = function toggleDeleteUndeleteVariante(id) {
+    var tmp_variantes = _toConsumableArray(variantes);
+
+    var ndx = tmp_variantes.findIndex(function (x) {
+      return x.id == id;
+    });
+
+    if (ndx > -1) {
+      if (tmp_variantes[ndx].deleted === false) {
+        tmp_variantes[ndx].deleted = true;
+      } else if (tmp_variantes[ndx].deleted === true) {
+        tmp_variantes[ndx].deleted = false;
+      }
+    }
+
+    setVariantes(_toConsumableArray(tmp_variantes)); // setDeletedVariantesList([...deletedVariantesList, id]);
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
@@ -41996,7 +42183,7 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
             onClick: function onClick() {
               return handleProductStockOnFocus2(item);
             },
-            className: "w-[100px] h-[30px] border border-gray-300 rounded-l-md pl-[8px] text-[13px] leading-6 ".concat((item === null || item === void 0 ? void 0 : item.stock) != '' || !(item !== null && item !== void 0 && item.unlimited) ? "bg-gray-50" : "bg-white", " ").concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50")
+            className: "w-[100px] h-[30px] border border-gray-300 rounded-l-md pl-[8px] text-[13px] leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50")
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("span", {
             className: "flex flex-rox justify-start items-center h-[30px] border-y-[1px] border-r-[1px]   border-gray-300 rounded-r-md px-[10px] cursor-pointer caret-transparent group relative  ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50"),
             onClick: function onClick() {
@@ -42583,7 +42770,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
 /* harmony import */ var _withHandleSelectionList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./withHandleSelectionList */ "./resources/js/components/createProduct/withHandleSelectionList.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _modalEditSelectionVariantes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modalEditSelectionVariantes */ "./resources/js/components/createProduct/modalEditSelectionVariantes.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
 
 
 
@@ -42592,6 +42801,12 @@ __webpack_require__.r(__webpack_exports__);
 
 var SelectionVariantesInList = function SelectionVariantesInList(_ref) {
   var handleChangeSelectionVariantesList = _ref.handleChangeSelectionVariantesList;
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      showModalEditSelectionVariantes = _useState2[0],
+      setShowModalEditSelectionVariantes = _useState2[1];
+
   var unikIdSelectionVariantesList = 'SelectWithCheckbox_selectionVariantesList';
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
@@ -42599,7 +42814,11 @@ var SelectionVariantesInList = function SelectionVariantesInList(_ref) {
       selectedVariantesList = _useContext.selectedVariantesList,
       allOptionsVariantesNeeded = _useContext.allOptionsVariantesNeeded,
       setAllOptionsVariantesNeeded = _useContext.setAllOptionsVariantesNeeded,
-      variantes = _useContext.variantes;
+      variantes = _useContext.variantes,
+      setVariantes = _useContext.setVariantes,
+      checkedVariantesList = _useContext.checkedVariantesList,
+      setCheckedVariantesList = _useContext.setCheckedVariantesList,
+      setSelectedVariantesList = _useContext.setSelectedVariantesList;
 
   var showDropDownSelectionVariantesList = function showDropDownSelectionVariantesList(id) {
     var ul = document.getElementById(id);
@@ -42692,7 +42911,31 @@ var SelectionVariantesInList = function SelectionVariantesInList(_ref) {
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     selectedVariantesList.length > 0 && handleChangeSelectionVariantesList(null, null);
-  }, [allOptionsVariantesNeeded]); // {/* scroll down button */ }
+  }, [allOptionsVariantesNeeded]);
+
+  var handleModalCancelSelectionVariantes = function handleModalCancelSelectionVariantes() {
+    setShowModalEditSelectionVariantes(false);
+  };
+
+  var deleteSelectedVariantes = function deleteSelectedVariantes() {
+    if (selectedVariantesList.length > 0) {
+      var temp_variantes = _toConsumableArray(variantes);
+
+      if (checkedVariantesList.length > 0) {
+        for (var i = 0; i < temp_variantes.length; i++) {
+          if (checkedVariantesList.indexOf(temp_variantes[i].id) > -1) {
+            temp_variantes[i].deleted = true;
+          }
+        }
+
+        setCheckedVariantesList([]);
+        setSelectedVariantesList([]);
+        setVariantes(_toConsumableArray(temp_variantes));
+      }
+
+      handleModalCancelSelectionVariantes();
+    }
+  }; // {/* scroll down button */ }
   // <div className='w-full mt-[25px] mb-[5px] flex justify-center'>
   //     <img
   //         onClick={scrollDown}
@@ -42701,30 +42944,31 @@ var SelectionVariantesInList = function SelectionVariantesInList(_ref) {
   //     />
   // </div>
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-    className: "w-full relative mb-[20px] flex flex-row flex-wrap justify-start items-center",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-      className: "w-full mb-[20px] ml-[15px]",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+    className: "w-full relative mb-[10px] flex flex-row flex-wrap justify-start items-center",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      className: "w-[130px] mr-[15px] mb-[20px]",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("button", {
         id: 'Button' + unikIdSelectionVariantesList,
         className: "flex items-center pl-[10px] w-[130px] h-[30px] text-gray-500 text-base hover:cursor-pointer border border-gray-300 rounded-md",
         onClick: function onClick() {
           return showDropDownSelectionVariantesList('ul' + unikIdSelectionVariantesList);
         },
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
           children: "S\xE9lection"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
           src: "../images/icons/caret-down.svg",
           className: "ml-auto mr-[17px]"
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("ul", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("ul", {
         id: 'ul' + unikIdSelectionVariantesList,
         className: "absolute top-[30px] left-0 w-full h-0 max-h-[300px] bg-white transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-gray-300 border-0 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-l rounded-r-sm",
-        children: [(optionsObj === null || optionsObj === void 0 ? void 0 : optionsObj.length) > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        children: [(optionsObj === null || optionsObj === void 0 ? void 0 : optionsObj.length) > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
           className: "w-full flex flex-col justify-center items-start py-[10px] px-[10px] bg-blue-50",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
             className: "w-full flex flex-row justify-start items-center leading-7",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
               type: "radio",
               id: "leastOnOptionVariante",
               onChange: function onChange() {
@@ -42732,14 +42976,14 @@ var SelectionVariantesInList = function SelectionVariantesInList(_ref) {
               },
               checked: allOptionsVariantesNeeded == 0,
               className: "w-5 h-5"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
               htmlFor: "leastOnOptionVariante",
-              className: "ml-[7px]",
+              className: "ml-[7px] font-semibold cursor-pointer hover:font-bold",
               children: "La s\xE9lection doit contenir au moins une option"
             })]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
             className: "w-full flex flex-row stify-start items-center leading-7",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
               type: "radio",
               id: "allOptionsVariante",
               onChange: function onChange() {
@@ -42747,22 +42991,22 @@ var SelectionVariantesInList = function SelectionVariantesInList(_ref) {
               },
               checked: allOptionsVariantesNeeded == 1,
               className: "w-5 h-5"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
               htmlFor: "allOptionsVariante",
-              className: "ml-[7px]",
+              className: "ml-[7px] font-semibold cursor-pointer hover:font-bold",
               children: "La s\xE9lection doit contenir toutes les options"
             })]
           })]
         }), (optionsObj === null || optionsObj === void 0 ? void 0 : optionsObj.length) > 0 && optionsObj.map(function (item) {
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("li", {
             className: "flex flex-row justify-start items-center flex-wrap pl-[10px] py-[10px] w-full h-auto border-b border-gray-200",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
               className: "w-full flex flex-row justify-start items-center font-semibold px-[3px] mb-[5px]",
               children: item.name
             }), item.values.map(function (value, index) {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-                className: "flex flex-row justify-start items-start px-[3px] mb-[5px] mr-[5px]",
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                className: "flex flex-row justify-start items-center px-[3px] mb-[5px] mr-[7px] group",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
                   type: "checkbox",
                   value: value,
                   id: value + unikIdSelectionVariantesList,
@@ -42772,10 +43016,10 @@ var SelectionVariantesInList = function SelectionVariantesInList(_ref) {
                   onChange: function onChange() {
                     return handleChangeSelectionVariantesList(value, item.name);
                   },
-                  className: "w-[17px] h-[17px] mr-[17px] hover:cursor-pointer"
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
+                  className: "w-[17px] h-[17px] mr-[5px] cursor-pointer"
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
                   htmlFor: value + unikIdSelectionVariantesList,
-                  className: "text-stone-800 text-base hover:cursor-pointer",
+                  className: "text-gray-500 text-base cursor-pointer group-hover:font-semibold",
                   children: value
                 })]
               }, index);
@@ -42783,36 +43027,46 @@ var SelectionVariantesInList = function SelectionVariantesInList(_ref) {
           }, item.id + unikIdSelectionVariantesList);
         })]
       })]
-    }), variantes.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-      className: "w-[130px] mb-[20px] ml-[15px] relative",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
+    }), variantes.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+      className: "w-[130px] mr-[15px] mb-[20px] relative",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("button", {
         id: 'Button2' + unikIdSelectionVariantesList,
         className: "flex items-center pl-[10px] w-[130px] h-[30px] text-gray-500 text-base hover:cursor-pointer border border-gray-300 rounded-md",
         onClick: function onClick() {
           return showDropDownSelectionVariantesList2('ul2' + unikIdSelectionVariantesList);
         },
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
           children: "Op\xE9rations"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
           src: "../images/icons/caret-down.svg",
           className: "ml-auto mr-[17px]"
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("ul", {
         id: 'ul2' + unikIdSelectionVariantesList,
         className: "absolute top-[30px] left-0 w-[130px] h-0 max-h-[300px] bg-white transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-gray-300 border-0 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-md",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("li", {
           className: "flex flex-row justify-start items-center flex-wrap pl-[10px] py-[10px] w-full h-auto border-b border-gray-200",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-            className: "w-full flex flex-row justify-start items-center font-semibold px-[3px] mb-[5px]",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+            className: "w-full flex flex-row justify-start items-center px-[3px] mb-[5px] cursor-pointer ".concat(checkedVariantesList.length > 0 ? "text-gray-500 hover:font-semibold" : "text-gray-400"),
+            onClick: function onClick() {
+              checkedVariantesList.length > 0 && setShowModalEditSelectionVariantes(true);
+            },
             children: "Modifier"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-            className: "w-full flex flex-row justify-start items-center font-semibold px-[3px] mb-[5px]",
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+            className: "w-full flex flex-row justify-start items-center px-[3px] mb-[5px] cursor-pointer ".concat(checkedVariantesList.length > 0 ? "text-gray-500 hover:font-semibold" : "text-gray-400"),
+            onClick: function onClick() {
+              checkedVariantesList.length > 0 && deleteSelectedVariantes();
+            },
             children: "Supprimer"
           })]
         })
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-      className: "bg-blue-200 w-[130px] h-[38px]"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+      className: "flex flex-row justify-center items-center w-auto h-[30px] px-[10px] mb-[20px] text-blue-500 text-sm no-underline hover:underline hover:cursor-pointer",
+      children: "Cacher les variantes supprim\xE9es"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_modalEditSelectionVariantes__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      show: showModalEditSelectionVariantes,
+      handleModalCancel: handleModalCancelSelectionVariantes
     })]
   });
 };
@@ -42915,7 +43169,7 @@ var Stock = function Stock() {
             onChange: handleProductStock,
             value: productStock,
             placeholder: placeholder,
-            className: "w-full h-[40px] border border-gray-300 rounded-4 pl-[10px] mb-[30px] mt-1 bg-gray-100",
+            className: "w-full h-[40px] border border-gray-300 rounded-4 pl-[10px] mb-[30px] mt-1 bg-gray-50",
             id: "inputStock",
             min: "0",
             max: "9999999999",
@@ -43217,13 +43471,21 @@ function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableTo
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
@@ -43231,6 +43493,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 var WithHandleSelectionList = function WithHandleSelectionList(Component) {
   return function (props) {
+    var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+        _useState2 = _slicedToArray(_useState, 2),
+        isAllSelectedCheckbox = _useState2[0],
+        setIsAllSelectedCheckbox = _useState2[1];
+
     var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
         variantes = _useContext.variantes,
         setCheckedVariantesList = _useContext.setCheckedVariantesList,
@@ -43239,47 +43506,58 @@ var WithHandleSelectionList = function WithHandleSelectionList(Component) {
         allOptionsVariantesNeeded = _useContext.allOptionsVariantesNeeded;
 
     var selectAllOrOneNeededOptions = function selectAllOrOneNeededOptions(tmpSelectedList) {
-      // select at least One needed
-      if (allOptionsVariantesNeeded == 0) {
+      // si on coche toute les checkbox alors il faut setCheckedVariantesList avec toute les variantes pour que lorsqu'on delete une variantes de la lite toute les checkbox restent cochées
+      if (isAllSelectedCheckbox) {
         var tmp_tab = [];
 
         for (var i = 0; i < variantes.length; i++) {
-          for (var j = 0; j < tmpSelectedList.length; j++) {
-            if (variantes[i].options[tmpSelectedList[j].name] == tmpSelectedList[j].value) {
-              if (tmp_tab.indexOf(variantes[i].id) == -1) {
-                tmp_tab.push(variantes[i].id);
-              }
-            }
-          }
+          tmp_tab.push(variantes[i].id);
         }
 
         setCheckedVariantesList([].concat(tmp_tab));
       } else {
-        // select ALL needed
-        var _tmp_tab = [];
+        // select at least One needed
+        if (allOptionsVariantesNeeded == 0) {
+          var _tmp_tab = [];
 
-        for (var _i = 0; _i < variantes.length; _i++) {
-          var count = 0;
-
-          for (var _j = 0; _j < tmpSelectedList.length; _j++) {
-            if (variantes[_i].options[tmpSelectedList[_j].name] == tmpSelectedList[_j].value) {
-              count++;
-
-              if (count == tmpSelectedList.length) {
-                if (_tmp_tab.indexOf(variantes[_i].id) == -1) {
-                  _tmp_tab.push(variantes[_i].id);
+          for (var _i2 = 0; _i2 < variantes.length; _i2++) {
+            for (var j = 0; j < tmpSelectedList.length; j++) {
+              if (variantes[_i2].options[tmpSelectedList[j].name] == tmpSelectedList[j].value) {
+                if (_tmp_tab.indexOf(variantes[_i2].id) == -1) {
+                  _tmp_tab.push(variantes[_i2].id);
                 }
               }
             }
           }
-        }
 
-        setCheckedVariantesList([].concat(_tmp_tab));
+          setCheckedVariantesList([].concat(_tmp_tab));
+        } else {
+          // select ALL needed
+          var _tmp_tab2 = [];
+
+          for (var _i3 = 0; _i3 < variantes.length; _i3++) {
+            var count = 0;
+
+            for (var _j = 0; _j < tmpSelectedList.length; _j++) {
+              if (variantes[_i3].options[tmpSelectedList[_j].name] == tmpSelectedList[_j].value) {
+                count++;
+
+                if (count == tmpSelectedList.length) {
+                  if (_tmp_tab2.indexOf(variantes[_i3].id) == -1) {
+                    _tmp_tab2.push(variantes[_i3].id);
+                  }
+                }
+              }
+            }
+          }
+
+          setCheckedVariantesList([].concat(_tmp_tab2));
+        }
       }
     };
 
     var handleChangeSelectionVariantesList = function handleChangeSelectionVariantesList(value, name) {
-      var tmpSelectedList = _toConsumableArray(selectedVariantesList); // si alloptionsNeeded on check s'il n'y a pas déjà le type d'option qu'on veut ajouter. si oui on retire dabord l'ancien avant d'ajouter le nouveau 
+      var tmpSelectedList = _toConsumableArray(selectedVariantesList); // si alloptionsNeeded est true alors on check s'il le type d'option qu'on veut ajouter n'est pas déjà présent dans selectedVariantesList. si oui on retire dabord l'ancien avant d'ajouter le nouveau 
 
 
       if (allOptionsVariantesNeeded === 1) {
@@ -43292,7 +43570,7 @@ var WithHandleSelectionList = function WithHandleSelectionList(Component) {
             tmpSelectedList.splice(index, 1);
           }
         });
-      } // si l'élément a déjà été sélectionné on le retir sinon on l'ajout, ceci coche ou décoche la checkbox. isDelet évite que les variantes soient sélectionnées dans la liste pendant qu'on ajoute des options
+      } // si l'élément a déjà été sélectionné on le retir sinon on l'ajout, ceci coche ou décoche la checkbox. 
 
 
       var index = tmpSelectedList.findIndex(function (x) {
@@ -43324,7 +43602,9 @@ var WithHandleSelectionList = function WithHandleSelectionList(Component) {
 
     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(Component, _objectSpread({
-        handleChangeSelectionVariantesList: handleChangeSelectionVariantesList
+        handleChangeSelectionVariantesList: handleChangeSelectionVariantesList,
+        isAllSelectedCheckbox: isAllSelectedCheckbox,
+        setIsAllSelectedCheckbox: setIsAllSelectedCheckbox
       }, props))
     });
   };
@@ -43724,6 +44004,7 @@ var AnimateCheckbox = function AnimateCheckbox(_ref) {
       value = _ref.value,
       checked = _ref.checked;
   // a son css !!! pour les class cbx et check !!!
+  // id est transmis dans handlechange si beoin 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
       type: "checkbox",
