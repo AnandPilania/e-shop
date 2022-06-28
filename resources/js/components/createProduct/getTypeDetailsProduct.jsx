@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import AddDetail from './addDetail';
+import AddDetail from './___addDetail';
 import SelectType from './select';
 import Axios from "axios";
 

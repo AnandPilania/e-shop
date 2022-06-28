@@ -1,9 +1,7 @@
 import { React, useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
-import { makeStyles } from '@material-ui/styles';
 import MainBlock from '../elements/blocks/mainBlock';
-import Options from './options';
-import ContainerDetail from './containerDetail';
+import Options from './options/options';
 import SelectWithCheckbox from '../elements/selectWithCheckbox';
 import Select from '../elements/select';
 import DropZoneProduct from './dropZoneProduct';
@@ -16,65 +14,9 @@ import ModalSimpleMessage from '../modal/modalSimpleMessage';
 
 
 
-const useStyles = makeStyles({
-    wrapperForm: {
-        marginTop: '50px',
-        width: '80%',
-        overflow: 'auto',
-        padding: '50px',
-        // border: '#e0e0e0 dashed 1px',
-        border: 'red dashed 2px',
-        borderRadius: '5px',
-        height: 'auto',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        flexWrap: 'nowrap',
-        backgroundColor: '#f6f6f7',
-    },
-    title: {
-        fontSize: '20px',
-    },
-    label_text: {
-        fontSize: '16px',
-        fontWeight: 'bold',
-        margin: '0',
-        marginLeft: '5px',
-        marginBottom: 10,
-        marginTop: '20px',
-        color: '#111fff',
-        width: 'auto',
-    },
-    input_text: {
-        margin: '0',
-        paddingLeft: '10px',
-        width: '100%',
-        height: '55px',
-        border: '#e1e1e1 solid 1px',
-        borderRadius: '5px',
-        color: '#111fff',
-    },
-    textarea: {
-        color: '#111fff',
-        minHeight: '100px',
-    },
-    submit_btn: {
-        height: '45px',
-        width: '150px',
-        marginTop: '50px',
-        borderRadius: '5px',
-        backgroundColor: '#eeefff',
-        color: '#111fff',
-        fontSize: '16px',
-        letterSpacing: '1px',
-    },
-
-});
-
-
 // props.id = detailx
 const CreateProduct = (props) => {
-    const classes = useStyles();
+
     const [collectionsRelations, setCollectionsRelations] = useState([]);
     const [dataDetail, setDataDetail] = useState([]);
     const [showModalFromPrice, setShowModalFromPrice] = useState(false);
@@ -140,7 +82,7 @@ const CreateProduct = (props) => {
                 spanMessage.innerHTML = 'Le champ nom de l\'option ne peut pas être vide';
 
                 let inputOptionError = document.getElementsByClassName(`name${optionsObj[i].id}`)[0];
-                if (inputOptionError !== undefined) { 
+                if (inputOptionError !== undefined) {
                     inputOptionError.className = `inputListType w-full h-[38px] pl-[10px] m-0 rounded-4 cursor-text bg-white bg-no-repeat hover:bg-caret-down bg-right-center name${optionsObj[i].id} border border-red-500`;
                 }
             }
@@ -150,7 +92,7 @@ const CreateProduct = (props) => {
                 spanMessage.innerHTML = 'Le champ valeur de l\'option ne peut pas être vide';
 
                 let inputOptionValueError = document.getElementsByClassName(`value${optionsObj[i].id}`)[0];
-                if (inputOptionValueError !== undefined) { 
+                if (inputOptionValueError !== undefined) {
                     inputOptionValueError.className = `inputOptionValues w-full h-[38px] pl-[10px] m-0 rounded-4 cursor-text bg-white bg-no-repeat hover:bg-caret-down bg-right-center value${optionsObj[i].id} border border-red-500`;
                 }
             }
@@ -239,40 +181,46 @@ const CreateProduct = (props) => {
                 </MainBlock>
             </div>
 
+
+
             {/* ----------  side  ---------- */}
             <div className='form-side-container'>
                 {/* collection */}
-                <div className="div-vert-align">
-                    <h3 className={classes.label_text}>Collections</h3>
+                <MainBlock>
+                    <h3 className="text-base font-semibold mb-2.5 text-gray-500 w-auto">Collections</h3>
                     <SelectWithCheckbox
                         unikId="SelectWithCheckbox_collection"
                         list={collectionsRelations}
                         selected={collection}
                         setSelected={setCollection}
                     />
-                    <div className="flex flex-wrap pt-[20px] w-full">
+                    <div className={`flex flex-wrap ${collection.length > 0 && "pt-[15px]"} w-full`}>
                         {collection.map(item =>
-                            <div key={item} className="flex justify-between align-center h-[24px] rounded-full bg-sky-500 pl-3 mb-1 mr-2 ">
-                                <span className="h-full text-white mr-2 rounded-full">
+                            <div key={item}
+                                className="flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-[8px] pr-[6px] py-[3px] mb-1 mr-2">
+                                <span
+                                    className="h-full text-gray-500 mr-2 rounded-md">
                                     {item}
                                 </span>
-                                <span className="h-full w-[24px] flex justify-center align-center hover:cursor-pointer hover:bg-white rounded-r-[50%] bg-amber-400" onClick={() => removeCollection(item)}>
-                                    <img src='../images/icons/x.svg' className="w-[20px] h-[24px]" />
+                                <span
+                                    className="h-[20px] w-[20px] flex justify-center items-center hover:cursor-pointer bg-gray-600  hover:bg-red-500 rounded-md"
+                                    onClick={() => removeCollection(item)}>
+                                    <img src='../images/icons/x-white.svg' className="w-[20px] h-[20px] hover:scale-125" />
                                 </span>
                             </div>
                         )}
                     </div>
-                </div>
+                </MainBlock>
 
                 {/* supplier */}
-                <div className="div-vert-align">
-                    <h3 className={classes.label_text}>Fournisseur</h3>
+                <MainBlock>
+                    <h3 className="text-base font-semibold mb-2.5 text-gray-500 w-auto">Fournisseur</h3>
                     <Select
                         list={listSuppliers}
                         itemSelected={supplier}
                         setItemSelected={setSupplier}
                     />
-                </div>
+                </MainBlock>
             </div>
 
             <button className="btn bg-amber-300" onClick={handleSubmit}>

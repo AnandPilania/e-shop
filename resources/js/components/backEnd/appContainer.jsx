@@ -146,6 +146,7 @@ const Appcontainer = () => {
     const [checkedVariantesList, setCheckedVariantesList] = useState([]);
     const [selectedVariantesList, setSelectedVariantesList] = useState([]);
     const [allOptionsVariantesNeeded, setAllOptionsVariantesNeeded] = useState(0);
+    const [isHideDeletedVariantes, setIsHideDeletedVariantes] = useState(false);
    
 
     //---------------------------------------------------------------PRODUCT
@@ -502,6 +503,7 @@ const Appcontainer = () => {
         checkedVariantesList, setCheckedVariantesList,
         selectedVariantesList, setSelectedVariantesList,
         allOptionsVariantesNeeded, setAllOptionsVariantesNeeded,
+        isHideDeletedVariantes, setIsHideDeletedVariantes,
         
     }
 

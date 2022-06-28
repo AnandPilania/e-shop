@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import AppContext from '../contexts/AppContext';
+import AppContext from '../../contexts/AppContext';
 import Option from './option';
 import OptionVariantesList from './optionVariantesList';
 import Axios from "axios";

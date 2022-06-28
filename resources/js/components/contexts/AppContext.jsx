@@ -179,6 +179,8 @@ export default React.createContext({
     setSelectedVariantesList: () => { },
     allOptionsVariantesNeeded: '', 
     setAllOptionsVariantesNeeded: () => { },
+    isHideDeletedVariantes: '', 
+    setIsHideDeletedVariantes: () => { },
 
 
 });

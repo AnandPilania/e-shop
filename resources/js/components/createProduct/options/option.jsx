@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import AppContext from '../contexts/AppContext';
+import AppContext from '../../contexts/AppContext';
 import Axios from 'axios';
 
 
@@ -217,7 +217,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
         }
     }, [showOptionValues]);
 
-    const removeOptionValue = (item, optionObj_data) => {
+    const removeOptionValue = (item) => {
         let index = optionObj.values.indexOf(item);
         if (index > -1) {
             let tmp_arr = [...optionObj.values];
@@ -242,7 +242,8 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
         };
     }, [tmp_selectOptionValues]);
 
-// console.log('listOptionValues    ', listOptionValues)
+
+
 
     return (
         <div className="w-full h-auto grid gap-x-4 gap-y-2 grid-cols-[1fr_1fr_25px] justify-start items-start pb-[21px]  border-b border-gray-200 mb-[25px]">
@@ -396,7 +397,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
                         </span>
                         <span
                             className="h-[20px] w-[20px] flex justify-center items-center hover:cursor-pointer bg-gray-600  hover:bg-red-500 rounded-md"
-                            onClick={() => removeOptionValue(item, optionObj)}>
+                            onClick={() => removeOptionValue(item)}>
                             <img src='../images/icons/x-white.svg'
                                 className="w-[20px] h-[20px] hover:scale-125" />
                         </span>

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
-import AppContext from '../contexts/AppContext';
+import AppContext from '../../contexts/AppContext';
 import Axios from 'axios';
-import Tooltip from '../elements/tooltip';
-import AnimateCheckbox from '../elements/animateCheckbox';
+import Tooltip from '../../elements/tooltip';
+import AnimateCheckbox from '../../elements/animateCheckbox';
 import ModalImageVariante from './modalImageVariante';
 import SelectionVariantesInList from './selectionVariantesInList';
 import WithHandleSelectionList from './withHandleSelectionList';
@@ -15,8 +15,8 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
     const [showModalImageVariante, setShowModalImageVariante] = useState(false);
     const [showMCancelDeleteButton, setShowMCancelDeleteButton] = useState(false);
     const [deletedVariantesList, setDeletedVariantesList] = useState([]);
-    
-    const { optionsObj, productPrice, previousProductPrice, productStock, listType, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList } = useContext(AppContext);
+
+    const { optionsObj, productPrice, previousProductPrice, productStock, listType, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, isHideDeletedVariantes } = useContext(AppContext);
 
     useEffect(() => {
         // check if there is deleted variantes and show cancel button if true
@@ -156,43 +156,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
 
 
-    const cancelAllDeletedVariante = () => {
-        let tmp_variantes = [...variantes];
-
-        tmp_variantes.forEach(x => x.deleted = false);
-        setVariantes([...tmp_variantes]);
-    }
-
-    // annule les suppressions de variantes une par une en commençant par la dernière
-    const cancelDeleteVariante = () => {
-
-        let tmp_variantes = [...variantes];
-
-        // trouve l'id de la variante à récupérer et met son deleted à false 
-        if (deletedVariantesList.length > 0) {
-            let idLastDeleted = deletedVariantesList[deletedVariantesList.length - 1];
-            let ndx = tmp_variantes.findIndex(x => x.id == idLastDeleted);
-            if (ndx > -1) {
-                tmp_variantes[ndx].deleted = false;
-                setVariantes([...tmp_variantes]);
-            }
-            // supprime le dernier id des variantes supprimées dans la liste deletedVariantesList. cet id corrspond à celui de la variante récupérée 
-            let tmp_deletedVariantesList = [...deletedVariantesList];
-            tmp_deletedVariantesList.pop();
-            setDeletedVariantesList([...tmp_deletedVariantesList]);
-        }
-
-        // check s'il y a encore des variantes deleted = true
-        let ndx = tmp_variantes.findIndex(x => x.deleted == true);
-        if (ndx > -1) {
-            setShowMCancelDeleteButton(true);
-        } else {
-            setShowMCancelDeleteButton(false);
-        }
-    }
-
-
-    const loadImagesVariantes = (varianteId) => {
+     const loadImagesVariantes = (varianteId) => {
         Axios.get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage')
             .then(res => {
                 setImageVariante(res.data);
@@ -240,6 +204,15 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         }
         setCheckedVariantesList(tmp_checkedVariantesList);
     }
+    // coche le checkbox all quand les options sélectionnées font que toutes les variantes sont cochées. décoche si c'est plus le cas
+    useEffect(() => {
+        if (variantes.length === checkedVariantesList.length && checkedVariantesList.length > 0) {
+            setIsAllSelectedCheckbox(true);
+        }
+        if (variantes.length !== checkedVariantesList.length) {
+            setIsAllSelectedCheckbox(false);
+        }
+    }, [checkedVariantesList])
 
     // gère le checkbox check all
     // unUseParameter voir animateCheckbox.jsx
@@ -255,6 +228,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
             setIsAllSelectedCheckbox(false);
         }
     }
+
 
     const toggleDeleteUndeleteVariante = (id) => {
         let tmp_variantes = [...variantes];
@@ -277,13 +251,6 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
             <h3 className='w-full text-left mb-[20px] mt-[35px] font-semibold text-[16px]'>
                 Variantes
             </h3>
-            {/* {!!showMCancelDeleteButton &&
-                <button
-                    onClick={cancelAllDeletedVariante}
-                    className='h-[40px] px-[10px] bg-gray-200 border border-gray-500 text-gray-500'>
-                    Annuler les suppressions
-                </button>
-            } */}
 
             {variantes?.length > 0 &&
                 <SelectionVariantesInList
@@ -311,127 +278,129 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                     <span></span>
                 </div>}
 
+            {/* isHideDeletedVariantes cache les variantes deleted -> toggle */}
             {variantes?.length > 0 && variantes.map((item, index) =>
 
-                <div
-                    key={index}
-                    className={`w-full h-auto grid gap-x-2 grid-cols-[25px_1fr_100px_100px_150px_50px_30px] justify-start items-center py-[8px] border-b border-slate-100 relative bg-white hover:bg-gray-50 ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
-                >
-                    {/* checkbox "!!! a son css !!!" */}
-                    <div className='w-full h-[30px] flex flex-row justify-start items-center pt-[6px] pl-[1px]'>
-                        <AnimateCheckbox
-                            id={item.id}
-                            value=''
-                            checked={checkedVariantesList.includes(item.id)}
-                            handlechange={handleChangeCheckbox}
-                        />
-                    </div>
-
-                    {/* variante */}
-                    <span className={`w-full h-[30px] pl-[8px] pt-[3px] rounded-md whitespace-nowrap text-ellipsis overflow-hidden cursor-default group ${item.deleted ? "text-gray-400" : "text-gray-500"} ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}>
-                        {item?.optionsString}
-                        <Tooltip top={-30} left={2}>
-                            {item?.optionsString}
-                        </Tooltip>
-                    </span>
-
-                    {/* price */}
-                    <input
-                        id={item?.id}
-                        type="number"
-                        step=".01"
-                        onChange={handleVariantetPrice}
-                        value={item?.price}
-                        placeholder="0.00"
-                        min="0"
-                        max="9999999999"
-                        className={`w-full h-[30px] border border-gray-300 rounded-md pl-[8px] text-[13px] leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
-                    />
-
-                    {/* prev_price -- promo -- */}
-                    <input
-                        id={`inputPrevPrice${item?.id}`}
-                        type="number"
-                        step=".01"
-                        onChange={(e) => handleVariantetPrevPrice(e, item)}
-                        value={item?.prev_price}
-                        placeholder="0.00"
-                        min="0"
-                        max="9999999999"
-                        className={`w-full h-[30px] border border-gray-300 rounded-md pl-[8px] text-[13px] leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
-                    />
-
-                    {/* stock */}
+                (isHideDeletedVariantes && item.deleted === true) ? '' :
                     <div
-                        className='flex flex-rox justify-start items-center'
+                        key={index}
+                        className={`w-full h-auto grid gap-x-2 grid-cols-[25px_1fr_100px_100px_150px_50px_30px] justify-start items-center py-[8px] border-b border-slate-100 relative bg-white hover:bg-gray-50 ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
                     >
-                        <input
-                            type="number"
-                            id={`inputStock${item?.id}`}
-                            onChange={(e) => handleProductStock2(e, item)}
-                            value={item?.stock}
-                            placeholder={item.placeholderStock}
-                            min="0" max="9999999999"
-                            onClick={(() => handleProductStockOnFocus2(item))}
-                            className={`w-[100px] h-[30px] border border-gray-300 rounded-l-md pl-[8px] text-[13px] leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
-                        />
-                        <span
-                            className={`flex flex-rox justify-start items-center h-[30px] border-y-[1px] border-r-[1px]   border-gray-300 rounded-r-md px-[10px] cursor-pointer caret-transparent group relative  ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
-                            onClick={() => handleUnlimitedStock2(item)}>
-                            <input
-                                className='mr-[7px] caret-transparent cursor-pointer'
-                                id={`unlimitedStockCheckbox${item?.id}`}
-                                type="checkbox"
-                                checked={item?.stock != '' ? false : item?.unlimited}
-                                // pour pas avoir de warning "input checkbox non controlé"
-                                onChange={() => { }}
+                        {/* checkbox "!!! a son css !!!" */}
+                        <div className='w-full h-[30px] flex flex-row justify-start items-center pt-[6px] pl-[1px]'>
+                            <AnimateCheckbox
+                                id={item.id}
+                                value=''
+                                checked={checkedVariantesList.includes(item.id)}
+                                handlechange={handleChangeCheckbox}
                             />
-                            <label
-                                className='cursor-pointer caret-transparent text-[20px] '>
-                                {String.fromCharCode(0x221E)}
-                                <Tooltip top={-100} left={2} css='whitespace-nowrap'>
-                                    {item?.unlimited ? 'Stock illimité' : 'Entrer une quantité'}
-                                </Tooltip>
-                            </label>
+                        </div>
+
+                        {/* variante */}
+                        <span className={`w-full h-[30px] pl-[8px] pt-[3px] rounded-md whitespace-nowrap text-ellipsis overflow-hidden cursor-default group ${item.deleted ? "text-gray-400" : "text-gray-500"} ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}>
+                            {item?.optionsString}
+                            <Tooltip top={-30} left={2}>
+                                {item?.optionsString}
+                            </Tooltip>
                         </span>
-                    </div>
 
-                    {/* image variante */}
-                    <span
-                        className={`w-full h-[30px] border border-gray-300 flex justify-center items-center cursor-pointer ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
-                        onClick={() => loadImagesVariantes(item.id)}
-                    >
-                        {
-                            Object.keys(item.selectedImage).length !== 0 ?
-                                <img className='w-auto max-h-[28px]'
-                                    src={window.location.origin + '/' + item.selectedImage.value}
-                                />
-                                :
-                                <img className='w-[25px] h-auto'
-                                    src='../images/icons/image.svg'
-                                />
-                        }
-                    </span>
+                        {/* price */}
+                        <input
+                            id={item?.id}
+                            type="number"
+                            step=".01"
+                            onChange={handleVariantetPrice}
+                            value={item?.price}
+                            placeholder="0.00"
+                            min="0"
+                            max="9999999999"
+                            className={`w-full h-[30px] border border-gray-300 rounded-md pl-[8px] text-[13px] leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
+                        />
 
-                    {/* delete */}
-                    <div className='group flex justify-center items-center w-[30px] h-[30px] p-0 m-0 cursor-pointer'>
-                        {
-                            !item.deleted ?
-                                <span
-                                    onClick={() => toggleDeleteUndeleteVariante(item.id)}
-                                    className='flex justify-center items-center w-[30px] h-[30px] p-0 m-0 cursor-pointer hover:bg-red-500 rounded-md'>
-                                    <img src={window.location.origin + '/images/icons/trash.svg'} className="h-[20px] w-[20px] group-hover:hidden" />
-                                    <img src={window.location.origin + '/images/icons/x-white.svg'} className="h-[25px] w-[25px] hidden group-hover:block" />
-                                </span>
-                                :
-                                <span
-                                    onClick={() => toggleDeleteUndeleteVariante(item.id)}
-                                    className='flex justify-center items-center w-[30px] h-[30px] p-0 m-0 cursor-pointer hover:bg-blue-200 rounded-md'>
-                                    <img src={window.location.origin + '/images/icons/arrow-back.svg'} className="h-[20px] w-[20px]" />
-                                </span>
-                        }
+                        {/* prev_price -- promo -- */}
+                        <input
+                            id={`inputPrevPrice${item?.id}`}
+                            type="number"
+                            step=".01"
+                            onChange={(e) => handleVariantetPrevPrice(e, item)}
+                            value={item?.prev_price}
+                            placeholder="0.00"
+                            min="0"
+                            max="9999999999"
+                            className={`w-full h-[30px] border border-gray-300 rounded-md pl-[8px] text-[13px] leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
+                        />
+
+                        {/* stock */}
+                        <div
+                            className='flex flex-rox justify-start items-center'
+                        >
+                            <input
+                                type="number"
+                                id={`inputStock${item?.id}`}
+                                onChange={(e) => handleProductStock2(e, item)}
+                                value={item?.stock}
+                                placeholder={item.placeholderStock}
+                                min="0" max="9999999999"
+                                onClick={(() => handleProductStockOnFocus2(item))}
+                                className={`w-[100px] h-[30px] border border-gray-300 rounded-l-md pl-[8px] text-[13px] leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
+                            />
+                            <span
+                                className={`flex flex-rox justify-start items-center h-[30px] border-y-[1px] border-r-[1px]   border-gray-300 rounded-r-md px-[10px] cursor-pointer caret-transparent group relative  ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
+                                onClick={() => handleUnlimitedStock2(item)}>
+                                <input
+                                    className='mr-[7px] caret-transparent cursor-pointer'
+                                    id={`unlimitedStockCheckbox${item?.id}`}
+                                    type="checkbox"
+                                    checked={item?.stock != '' ? false : item?.unlimited}
+                                    // pour pas avoir de warning "input checkbox non controlé"
+                                    onChange={() => { }}
+                                />
+                                <label
+                                    className='cursor-pointer caret-transparent text-[20px] '>
+                                    {String.fromCharCode(0x221E)}
+                                    <Tooltip top={-100} left={2} css='whitespace-nowrap'>
+                                        {item?.unlimited ? 'Stock illimité' : 'Entrer une quantité'}
+                                    </Tooltip>
+                                </label>
+                            </span>
+                        </div>
+
+                        {/* image variante */}
+                        <span
+                            className={`w-full h-[30px] border border-gray-300 flex justify-center items-center cursor-pointer ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
+                            onClick={() => loadImagesVariantes(item.id)}
+                        >
+                            {
+                                Object.keys(item.selectedImage).length !== 0 ?
+                                    <img className='w-auto max-h-[28px]'
+                                        src={window.location.origin + '/' + item.selectedImage.value}
+                                    />
+                                    :
+                                    <img className='w-[25px] h-auto'
+                                        src='../images/icons/image.svg'
+                                    />
+                            }
+                        </span>
+
+                        {/* delete */}
+                        <div className='group flex justify-center items-center w-[30px] h-[30px] p-0 m-0 cursor-pointer'>
+                            {
+                                !item.deleted ?
+                                    <span
+                                        onClick={() => toggleDeleteUndeleteVariante(item.id)}
+                                        className='flex justify-center items-center w-[30px] h-[30px] p-0 m-0 cursor-pointer hover:bg-red-500 rounded-md'>
+                                        <img src={window.location.origin + '/images/icons/trash.svg'} className="h-[20px] w-[20px] group-hover:hidden" />
+                                        <img src={window.location.origin + '/images/icons/x-white.svg'} className="h-[25px] w-[25px] hidden group-hover:block" />
+                                    </span>
+                                    :
+                                    <span
+                                        onClick={() => toggleDeleteUndeleteVariante(item.id)}
+                                        className='flex justify-center items-center w-[30px] h-[30px] p-0 m-0 cursor-pointer hover:bg-blue-200 rounded-md'>
+                                        <img src={window.location.origin + '/images/icons/arrow-back.svg'} className="h-[20px] w-[20px]" />
+                                    </span>
+                            }
+                        </div>
                     </div>
-                </div>
             )}
 
             <ModalImageVariante

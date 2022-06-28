@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import AppContext from '../contexts/AppContext';
+import AppContext from '../../contexts/AppContext';
 import WithHandleSelectionList from './withHandleSelectionList';
 import ModalEditSelectionVariantes from './modalEditSelectionVariantes';
 
@@ -10,7 +10,7 @@ const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
 
     const unikIdSelectionVariantesList = 'SelectWithCheckbox_selectionVariantesList';
 
-    const { optionsObj, selectedVariantesList, allOptionsVariantesNeeded, setAllOptionsVariantesNeeded, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, setSelectedVariantesList } = useContext(AppContext);
+    const { optionsObj, selectedVariantesList, allOptionsVariantesNeeded, setAllOptionsVariantesNeeded, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, setSelectedVariantesList, isHideDeletedVariantes, setIsHideDeletedVariantes } = useContext(AppContext);
 
 
 
@@ -114,22 +114,33 @@ const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
 
 
     const deleteSelectedVariantes = () => {
-        if (selectedVariantesList.length > 0) {
-            let temp_variantes = [...variantes];
-            if (checkedVariantesList.length > 0) {
-                for (let i = 0; i < temp_variantes.length; i++) {
-                    if (checkedVariantesList.indexOf(temp_variantes[i].id) > -1) {
-                        temp_variantes[i].deleted = true;
-                    }
+        let temp_variantes = [...variantes];
+        if (checkedVariantesList.length > 0) {
+            for (let i = 0; i < temp_variantes.length; i++) {
+                if (checkedVariantesList.indexOf(temp_variantes[i].id) > -1) {
+                    temp_variantes[i].deleted = true;
                 }
-                setCheckedVariantesList([]);
-                setSelectedVariantesList([]);
-                setVariantes([...temp_variantes]);
             }
-            handleModalCancelSelectionVariantes();
+            setCheckedVariantesList([]);
+            // selectedVariantesList contien les options cochées
+            setSelectedVariantesList([]);
+            setVariantes([...temp_variantes]);
         }
+        handleModalCancelSelectionVariantes();
     }
 
+
+    const cancelAllDeletedVariante = () => {
+        let tmp_variantes = [...variantes];
+
+        tmp_variantes.forEach(x => x.deleted = false);
+        setVariantes([...tmp_variantes]);
+    }
+
+
+    const hideDeletedVariantes = () => {
+        setIsHideDeletedVariantes(!isHideDeletedVariantes);
+    }
 
 
 
@@ -249,6 +260,8 @@ const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
                             >
                                 Modifier
                             </span>
+                            {/* divider */}
+                            <div className='h-1 w-[90%] border-b border-gray-300 mb-1.5'></div>
                             <span
                                 className={`w-full flex flex-row justify-start items-center px-[3px] mb-[5px] cursor-pointer ${checkedVariantesList.length > 0 ? "text-gray-500 hover:font-semibold" : "text-gray-400"}`}
                                 onClick={() => {
@@ -258,13 +271,33 @@ const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
                             >
                                 Supprimer
                             </span>
+                            {/* divider */}
+                            <div className='h-1 w-[90%] border-b border-gray-300 mb-1.5'></div>
+                            <span
+                                className={`w-full flex flex-row justify-start items-center px-[3px] mb-[5px] cursor-pointer ${variantes.findIndex(x => x.deleted === true) > -1 ? "text-gray-500 hover:font-semibold" : "text-gray-400"}`}
+                                onClick={() => {
+                                    variantes.findIndex(x => x.deleted === true) > -1 &&
+                                        cancelAllDeletedVariante();
+                                }}
+                            >
+                                Annuler les suppressions
+                            </span>
                         </li>
                     </ul>
                 </div>}
-            <span className='flex flex-row justify-center items-center w-auto h-[30px] px-[10px] mb-[20px] text-blue-500 text-sm no-underline hover:underline hover:cursor-pointer'
-            >
-                Cacher les variantes supprimées
-            </span>
+
+            {/* Cacher les variantes supprimées */}
+            {variantes.findIndex(x => x.deleted === true) > -1 &&
+                <span className='flex flex-row justify-center items-center w-auto h-[30px] px-[10px] mb-[20px] text-blue-500 text-sm no-underline hover:underline hover:cursor-pointer'
+                    onClick={hideDeletedVariantes}
+                >
+                    {/* visible que s'il y a des variantes deleted */}
+                    {!isHideDeletedVariantes ?
+                        'Cacher les variantes supprimées' :
+                        'Montrer les variantes supprimées'}
+                </span>
+            }
+
 
             <ModalEditSelectionVariantes
                 show={showModalEditSelectionVariantes}

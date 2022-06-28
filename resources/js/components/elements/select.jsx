@@ -17,16 +17,21 @@ export default function Select({ list, itemSelected, setItemSelected }) {
 
     const showSelectMenu = () => {
         let ul = document.querySelector('#ulSelect');
+        let button = document.getElementById("ButtonSelectMenu");
         if (!toggleSelect) {
             ul.style.height = '240px';
             ul.classList.add('border-b');
+            button.classList.remove('rounded-md');
+            button.classList.add('rounded-t-md');
             setToggleSelect(true);
         } else {
             ul.style.height = 0;
             ul.classList.remove('border-b');
+            button.classList.remove('rounded-t-md');
+            button.classList.add('rounded-md');
             setToggleSelect(false);
         }
-    }
+}
 
     useEffect(() => {
         // empèche l'erreur-> Warning: Can't perform a React state update on an unmounted
@@ -53,6 +58,8 @@ export default function Select({ list, itemSelected, setItemSelected }) {
         // click outside.
         ulSelect.style.height = 0;
         ulSelect.classList.remove('border-b');
+        ButtonSelectMenu.classList.remove('rounded-t-md');
+        ButtonSelectMenu.classList.add('rounded-md');
         setToggleSelect(false);
     }
 
@@ -61,7 +68,7 @@ export default function Select({ list, itemSelected, setItemSelected }) {
         <div className="w-full relative">
             <button
                 id='ButtonSelectMenu'
-                className='flex items-center pl-[17px] w-full h-[40px] text-stone-800 text-base hover:cursor-pointer border border-gray-300'
+                className='flex justify-start items-center font-base w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white hover:border-gray-400'
                 onClick={() => showSelectMenu()}
             >
                 {itemSelected}
@@ -69,7 +76,7 @@ export default function Select({ list, itemSelected, setItemSelected }) {
             </button>
             <ul
                 id='ulSelect'
-                className="absolute top-[40px] left-0 w-full h-0 bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-gray-300 border-l border-r shadow-lg scrollbar scrollbar-thumb-blue-700 scrollbar-track-gray-100">
+                className="absolute top-[38px] left-0 w-full h-0 bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-gray-300 border-l border-r shadow-lg scrollbar scrollbar-thumb-blue-700 scrollbar-track-gray-100">
                 {
                     list.length > 0 && list.map(item =>
                         <li

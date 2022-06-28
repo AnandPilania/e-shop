@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import './createProduct_Js.scss';
 import Axios from "axios";
 
 
@@ -25,7 +24,7 @@ const SelectType = (props) => {
     return (
         <label>
             <select
-                className="w100 h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"
+                className="w-[100px] h-[50px] mb-2.5 px-5 rounded-md border border-gray-300"
                 id={props.id + 'type'}
                 // defaultValue={type}
                 onChange={props.handleType}
