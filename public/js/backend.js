@@ -41367,61 +41367,123 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
     // 1: "Bleu / S / 2"
     // 2: "Bleu / M / 1"
     // 3: "Bleu / M / 2"
-
-    var _loop = function _loop(i) {
-      if (i === 0) {
-        allValuesAsString = optionsObj[i].values.flatMap(function (d) {
-          return optionsObj[i + 1].values.map(function (v) {
-            return d + ' - ' + v;
-          });
-        });
-      } else {
-        allValuesAsString = allValuesAsString.flatMap(function (d) {
-          return optionsObj[i + 1].values.map(function (v) {
-            return d + ' - ' + v;
-          });
-        });
-      }
-    };
+    // for (let i = 0; i < optionsObj.length - 1; i++) {
+    //     if (i === 0) {
+    //         allValuesAsString = optionsObj[i].values.flatMap(d => optionsObj[i + 1].values.map(v => d + ' - ' + v));
+    //     } else {
+    //         allValuesAsString = allValuesAsString.flatMap(d => optionsObj[i + 1].values.map(v => d + ' - ' + v));
+    //     }
+    // }
 
     for (var i = 0; i < optionsObj.length - 1; i++) {
-      _loop(i);
-    } // récupère tous les noms d'option pour les associer à leur values dans un objet
+      for (var j = 0; j < ((_optionsObj$i = optionsObj[i]) === null || _optionsObj$i === void 0 ? void 0 : _optionsObj$i.values.length) - 1; j++) {
+        var _optionsObj$i;
 
+        for (var k = 0; k < ((_optionsObj$values$k = optionsObj[i + 1].values[k]) === null || _optionsObj$values$k === void 0 ? void 0 : _optionsObj$values$k.length) - 1; k++) {
+          var _optionsObj$values$k;
+
+          allValuesAsString.push(optionsObj[i].values[j] + ' - ' + optionsObj[i + 1].values[k]);
+        }
+      }
+    }
+
+    var mapping = {
+      0: ['0A', '0B', '0C'],
+      1: ['1A', '1B', '1C'],
+      2: ['2A', '2B', '2C']
+    };
+    var count = 0;
+
+    function traverse(arr, comb) {
+      if (!arr.length) {
+        console.log(++count + " : " + comb + "\n");
+        return;
+      }
+
+      for (var j = 0; j < mapping[arr[0]].length; j++) {
+        traverse(arr.slice(1), comb + " " + mapping[arr[0]][j]);
+      }
+    }
+
+    traverse([0, 1, 2], ""); // function combination(o) {
+    //     o.current = [];
+    //     function step() {
+    //       if (o.current.length === o.indices.length) {
+    //         o.callback(o.current);
+    //         return;
+    //       }
+    //       o.mapping[o.indices[o.current.length]].forEach(function(x) {
+    //         o.current.push(x);
+    //         step();
+    //         o.current.pop();
+    //       });
+    //     }
+    //     step();
+    //   }
+    //   combination({
+    //     mapping: {
+    //       0: ['A', 'B', 'C'],
+    //       1: ['D', 'E', 'F'],
+    //     },
+    //     indices: [0, 1],
+    //     callback: function(x) {
+    //       document.body.innerHTML += x + "<br/>";
+    //     }
+    //   });
+    // récupère tous les noms d'option pour les associer à leur values dans un objet
 
     var optionsName = optionsObj.map(function (x) {
       return x.name;
     });
 
+    if (allValuesAsString.length == 0 && optionsObj.findIndex(function (x) {
+      return optionsObj.values.length == 0;
+    }) > -1) {
+      for (var _i2 = 0; _i2 < optionsObj.length; _i2++) {
+        var _optionsObj$_i;
+
+        (_optionsObj$_i = optionsObj[_i2]) === null || _optionsObj$_i === void 0 ? void 0 : _optionsObj$_i.values.forEach(function (x) {
+          allValuesAsString.push(x);
+        });
+      }
+    }
+
+    console.log('allValuesAsString   ', allValuesAsString);
+
     var variantesAsString = _toConsumableArray(variantes);
 
     var tmp_variantesAsString = [];
 
-    var _loop2 = function _loop2(_i2) {
+    var _loop = function _loop(_i3) {
       // split les values de optionsObj pour les récupérer séparements et les associer à leur option Name dans un objet "destiné pour le back-end !" ex:
       // Couleur: "Rouge"
       // Taille: "M"
-      var tmp = allValuesAsString[_i2].split(',');
+      var tmp = allValuesAsString[_i3].split(',');
 
       var valuesSplited = tmp[0].split(' - ');
+      console.log('valuesSplited  ', valuesSplited);
       var variantesOptions = {};
 
-      for (var j = 0; j < optionsName.length; j++) {
-        variantesOptions[optionsName[j]] = valuesSplited[j];
-      } // renvoi le début de la string allValuesAsString[i] qui correspond au précédent allValuesAsString[i] pour conserver les params s'ils ont été modifiés
+      for (var _j = 0; _j < optionsObj.length; _j++) {
+        if (optionsObj[_j].values.length > 0) {
+          variantesOptions[optionsName[_j]] = valuesSplited[_j];
+        }
+      } // renvoi le début de la string allValuesAsString[i] qui correspond au pattern à rechercher. Ceci pour conserver les paramètres de la variantes s'ils ont été modifiés.  
 
 
-      var startPattern = allValuesAsString[_i2].substring(0, allValuesAsString[_i2].lastIndexOf(' - ')); // check si le précédent allValuesAsString[i] contient le pattern recherché pour récupérer ses params s'ils ont été modifiés
+      var startPattern = allValuesAsString[_i3].substring(0, allValuesAsString[_i3].lastIndexOf(' - '));
 
+      console.log('startPattern  ', startPattern); // <-------------------!
+      // check si allValuesAsString contient le pattern qui représente les premières options mais sans la dernière option. Ceci pour récupérer ses paramètres de la variante s'ils ont été modifiés. ex. prix, stock,...
 
       var indexStartPattern = variantesAsString.findIndex(function (x) {
         return x.optionsString.startsWith(startPattern);
-      });
+      }); // on pouurait mettre variantes = [] si allValuesAsString === [] !!!
 
       if (indexStartPattern > -1) {
         tmp_variantesAsString.push({
-          id: 'optionVarianteList' + _i2,
-          optionsString: allValuesAsString[_i2],
+          id: 'optionVarianteList' + _i3,
+          optionsString: allValuesAsString[_i3],
           options: variantesOptions,
           price: variantesAsString[indexStartPattern].price,
           prev_price: variantesAsString[indexStartPattern].prev_price,
@@ -41434,8 +41496,8 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
         variantesAsString.splice(indexStartPattern, 1);
       } else {
         tmp_variantesAsString.push({
-          id: 'optionVarianteList' + _i2,
-          optionsString: allValuesAsString[_i2],
+          id: 'optionVarianteList' + _i3,
+          optionsString: allValuesAsString[_i3],
           options: variantesOptions,
           price: productPrice,
           prev_price: previousProductPrice,
@@ -41448,8 +41510,8 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
       }
     };
 
-    for (var _i2 = 0; _i2 < allValuesAsString.length; _i2++) {
-      _loop2(_i2);
+    for (var _i3 = 0; _i3 < allValuesAsString.length; _i3++) {
+      _loop(_i3);
     } // si un des optionsObj.values est vide alors allValuesAsString sera vide aussi même si d'autres optionsObj.values ne le sont pas
     // évite la disparition de la liste des combinaisons d'options tant qu'un optionsObj.values est vide  
 
@@ -41461,6 +41523,8 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
     if (can_I_SetVariantes == -1) {
       setVariantes(tmp_variantesAsString);
     }
+
+    console.log('optionsObj  -> ', optionsObj);
   }, [optionsObj]);
 
   var handleVariantes = function handleVariantes(id, field, data) {
@@ -41610,6 +41674,7 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
     setVariantes(_toConsumableArray(tmp_variantes)); // setDeletedVariantesList([...deletedVariantesList, id]);
   };
 
+  console.log('variantes  ', variantes);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h3", {
       className: "w-full text-left mb-[20px] mt-[35px] font-semibold text-[16px]",
@@ -41920,7 +41985,7 @@ var Options = function Options() {
       className: "w-full h-auto justify-start items-center pb-[20px]",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("label", {
         className: "mt-0 mx-0 p-0",
-        children: "D\xE9finir des variantes lorsque ce produit poss\xE8de plusieurs options. Ex. Couleur, taille,..."
+        children: "Cr\xE9er des variantes. Exemples, \"Couleur, taille, poids, ...\""
       })
     }), optionsObj === null || optionsObj === void 0 ? void 0 : optionsObj.map(function (item) {
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_option__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -42868,6 +42933,40 @@ var Stock = function Stock() {
         className: "flex flex-col justify-start items-start mb-[10px]",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
           children: "Stock"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "flex flex-rox justify-start items-center",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+            type: "number",
+            onChange: handleProductStock,
+            value: productStock,
+            placeholder: placeholder,
+            className: "w-full h-[40px] border border-gray-300 rounded-4 pl-[10px] mb-[30px] mt-1 bg-gray-50 text-base",
+            id: "inputStock",
+            min: "0",
+            max: "9999999999",
+            onClick: handleProductStockOnFocus
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("span", {
+            className: "flex flex-rox justify-start items-center h-[40px] border-y-[1px] border-r-[1px]  border-gray-300 rounded-4 px-[10px] mb-[30px] mt-1 cursor-pointer caret-transparent",
+            onClick: handleUnlimitedStock,
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+              className: "mr-[7px] caret-transparent cursor-pointer",
+              id: "unlimitedStockCheckbox",
+              type: "checkbox",
+              checked: unlimited,
+              onChange: handleUnlimitedStock
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+              className: "cursor-pointer caret-transparent",
+              children: "Illimit\xE9"
+            })]
+          })]
+        })]
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: "w-full h-auto grid gap-x-4 gap-y-2 grid-cols-2 justify-start items-start",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        className: "flex flex-col justify-start items-start mb-[10px]",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
+          children: "Code"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
           className: "flex flex-rox justify-start items-center",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {

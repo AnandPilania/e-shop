@@ -76,6 +76,38 @@ const Stock = () => {
                 </div>
 
             </div>
+
+
+            <div className='w-full h-auto grid gap-x-4 gap-y-2 grid-cols-2 justify-start items-start'>
+                <div className='flex flex-col justify-start items-start mb-[10px]'>
+                    <label>Code</label>
+                    <div
+                        className='flex flex-rox justify-start items-center'>
+                        <input 
+                        type="number" 
+                        onChange={handleProductStock} 
+                        value={productStock} 
+                        placeholder={placeholder} 
+                        className="w-full h-[40px] border border-gray-300 rounded-4 pl-[10px] mb-[30px] mt-1 bg-gray-50 text-base"
+                        id='inputStock'
+                        min="0" max="9999999999"
+                        onClick={handleProductStockOnFocus} />
+                        <span
+                            className='flex flex-rox justify-start items-center h-[40px] border-y-[1px] border-r-[1px]  border-gray-300 rounded-4 px-[10px] mb-[30px] mt-1 cursor-pointer caret-transparent'
+                            onClick={handleUnlimitedStock}>
+                            <input
+                                className='mr-[7px] caret-transparent cursor-pointer'
+                                id='unlimitedStockCheckbox'
+                                type="checkbox" checked={unlimited} onChange={handleUnlimitedStock} />
+                            <label
+                                className='cursor-pointer caret-transparent'>
+                                Illimité
+                            </label>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
         </div>
     )
 }

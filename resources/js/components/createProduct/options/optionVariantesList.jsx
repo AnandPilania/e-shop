@@ -38,16 +38,89 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         // 1: "Bleu / S / 2"
         // 2: "Bleu / M / 1"
         // 3: "Bleu / M / 2"
+        // for (let i = 0; i < optionsObj.length - 1; i++) {
+        //     if (i === 0) {
+        //         allValuesAsString = optionsObj[i].values.flatMap(d => optionsObj[i + 1].values.map(v => d + ' - ' + v));
+        //     } else {
+        //         allValuesAsString = allValuesAsString.flatMap(d => optionsObj[i + 1].values.map(v => d + ' - ' + v));
+        //     }
+        // }
+
         for (let i = 0; i < optionsObj.length - 1; i++) {
-            if (i === 0) {
-                allValuesAsString = optionsObj[i].values.flatMap(d => optionsObj[i + 1].values.map(v => d + ' - ' + v));
-            } else {
-                allValuesAsString = allValuesAsString.flatMap(d => optionsObj[i + 1].values.map(v => d + ' - ' + v));
+            for (let j = 0; j < optionsObj[i]?.values.length - 1; j++) {
+                for (let k = 0; k < optionsObj[i + 1].values[k]?.length - 1; k++) {
+                    allValuesAsString.push(optionsObj[i].values[j] + ' - ' + optionsObj[i + 1].values[k]);
+                }
             }
         }
 
+        var mapping = {
+            0: ['0A','0B','0C'],
+            1: ['1A','1B','1C'],
+            2: ['2A','2B','2C'],
+        
+            }
+        
+        var count = 0;
+        
+        function traverse(arr, comb) {
+             if(!arr.length) {
+                console.log(++count + " : " + comb+"\n"); 
+                return; 
+              } 
+              for(var j =0; j < mapping[arr[0]].length; j++) 
+                 traverse(arr.slice(1), comb + " " +  mapping[arr[0]][j]);
+        }
+        
+        traverse([0,1,2],"");
+
+
+
+        // function combination(o) {
+        //     o.current = [];
+          
+        //     function step() {
+        //       if (o.current.length === o.indices.length) {
+        //         o.callback(o.current);
+        //         return;
+        //       }
+          
+        //       o.mapping[o.indices[o.current.length]].forEach(function(x) {
+        //         o.current.push(x);
+        //         step();
+        //         o.current.pop();
+        //       });
+        //     }
+          
+        //     step();
+        //   }
+          
+        //   combination({
+        //     mapping: {
+        //       0: ['A', 'B', 'C'],
+        //       1: ['D', 'E', 'F'],
+          
+        //     },
+        //     indices: [0, 1],
+        //     callback: function(x) {
+        //       document.body.innerHTML += x + "<br/>";
+        //     }
+        //   });
+
         // récupère tous les noms d'option pour les associer à leur values dans un objet
         let optionsName = optionsObj.map(x => x.name);
+
+        if (allValuesAsString.length == 0 && optionsObj.findIndex(x => optionsObj.values.length == 0) > -1) {
+            for (let i = 0; i < optionsObj.length; i++) {
+                optionsObj[i]?.values.forEach(x => {
+                    allValuesAsString.push(x);
+                });
+            }
+        }
+        console.log('allValuesAsString   ', allValuesAsString)
+
+
+
 
         let variantesAsString = [...variantes];
         let tmp_variantesAsString = [];
@@ -58,16 +131,25 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
             // Taille: "M"
             let tmp = allValuesAsString[i].split(',')
             let valuesSplited = tmp[0].split(' - ');
+            console.log('valuesSplited  ', valuesSplited)
             let variantesOptions = {};
-            for (let j = 0; j < optionsName.length; j++) {
-                variantesOptions[optionsName[j]] = valuesSplited[j];
+            for (let j = 0; j < optionsObj.length; j++) {
+                if (optionsObj[j].values.length > 0) {
+                    variantesOptions[optionsName[j]] = valuesSplited[j];
+                }
             }
 
-            // renvoi le début de la string allValuesAsString[i] qui correspond au précédent allValuesAsString[i] pour conserver les params s'ils ont été modifiés
+            // renvoi le début de la string allValuesAsString[i] qui correspond au pattern à rechercher. Ceci pour conserver les paramètres de la variantes s'ils ont été modifiés.  
             let startPattern = allValuesAsString[i].substring(0, allValuesAsString[i].lastIndexOf(' - '));
 
-            // check si le précédent allValuesAsString[i] contient le pattern recherché pour récupérer ses params s'ils ont été modifiés
+            console.log('startPattern  ', startPattern) // <-------------------!
+
+            // check si allValuesAsString contient le pattern qui représente les premières options mais sans la dernière option. Ceci pour récupérer ses paramètres de la variante s'ils ont été modifiés. ex. prix, stock,...
             let indexStartPattern = variantesAsString.findIndex(x => x.optionsString.startsWith(startPattern));
+
+
+            // on pouurait mettre variantes = [] si allValuesAsString === [] !!!
+
 
             if (indexStartPattern > -1) {
                 tmp_variantesAsString.push({
@@ -105,8 +187,11 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         if (can_I_SetVariantes == -1) {
             setVariantes(tmp_variantesAsString);
         }
-
+        console.log('optionsObj  -> ', optionsObj)
     }, [optionsObj]);
+
+
+
 
 
     const handleVariantes = (id, field, data) => {
@@ -156,7 +241,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
 
 
-     const loadImagesVariantes = (varianteId) => {
+    const loadImagesVariantes = (varianteId) => {
         Axios.get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage')
             .then(res => {
                 setImageVariante(res.data);
@@ -245,7 +330,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         // setDeletedVariantesList([...deletedVariantesList, id]);
     }
 
-
+    console.log('variantes  ', variantes)
     return (
         <div>
             <h3 className='w-full text-left mb-[20px] mt-[35px] font-semibold text-[16px]'>
