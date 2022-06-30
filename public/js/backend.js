@@ -41333,6 +41333,11 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
       deletedVariantesList = _useState10[0],
       setDeletedVariantesList = _useState10[1];
 
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState12 = _slicedToArray(_useState11, 2),
+      allValuesAsStringArray = _useState12[0],
+      setAllValuesAsStringArray = _useState12[1];
+
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       optionsObj = _useContext.optionsObj,
       productPrice = _useContext.productPrice,
@@ -41362,128 +41367,95 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
     selectedVariantesList.length > 0 && handleChangeSelectionVariantesList(null, null);
   }, [variantes]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    var allValuesAsString = []; // renvoi toutes les combinaisons possible des différentes options ex:
-    // 0: "Bleu / S / 1"
-    // 1: "Bleu / S / 2"
-    // 2: "Bleu / M / 1"
-    // 3: "Bleu / M / 2"
-    // for (let i = 0; i < optionsObj.length - 1; i++) {
-    //     if (i === 0) {
-    //         allValuesAsString = optionsObj[i].values.flatMap(d => optionsObj[i + 1].values.map(v => d + ' - ' + v));
-    //     } else {
-    //         allValuesAsString = allValuesAsString.flatMap(d => optionsObj[i + 1].values.map(v => d + ' - ' + v));
-    //     }
-    // }
+    var allValuesAsString = []; // renvoi toutes les combinaisons possible des différentes options 
 
-    for (var i = 0; i < optionsObj.length - 1; i++) {
-      for (var j = 0; j < ((_optionsObj$i = optionsObj[i]) === null || _optionsObj$i === void 0 ? void 0 : _optionsObj$i.values.length) - 1; j++) {
-        var _optionsObj$i;
+    var mapping = optionsObj.map(function (x) {
+      return x.values;
+    }); // crée un tableau avec les index des optionsObj.values non vides pour que getCombinaisons parcoure uniquement les values non vides dans mapping
 
-        for (var k = 0; k < ((_optionsObj$values$k = optionsObj[i + 1].values[k]) === null || _optionsObj$values$k === void 0 ? void 0 : _optionsObj$values$k.length) - 1; k++) {
-          var _optionsObj$values$k;
+    var index_tab = [];
 
-          allValuesAsString.push(optionsObj[i].values[j] + ' - ' + optionsObj[i + 1].values[k]);
-        }
+    for (var i = 0; i < optionsObj.length; i++) {
+      if (optionsObj[i].values.length > 0) {
+        index_tab.push(i);
       }
     }
 
-    var mapping = {
-      0: ['0A', '0B', '0C'],
-      1: ['1A', '1B', '1C'],
-      2: ['2A', '2B', '2C']
-    };
-    var count = 0;
-
-    function traverse(arr, comb) {
-      if (!arr.length) {
-        console.log(++count + " : " + comb + "\n");
+    function getCombinaisons(ndxTab, comb) {
+      if (!ndxTab.length) {
+        allValuesAsString.push(comb);
         return;
       }
 
-      for (var j = 0; j < mapping[arr[0]].length; j++) {
-        traverse(arr.slice(1), comb + " " + mapping[arr[0]][j]);
+      for (var i = 0; i < ((_mapping$ndxTab$ = mapping[ndxTab[0]]) === null || _mapping$ndxTab$ === void 0 ? void 0 : _mapping$ndxTab$.length); i++) {
+        var _mapping$ndxTab$;
+
+        var separator = comb.length > 0 ? " - " : "";
+        getCombinaisons(ndxTab.slice(1), comb + separator + mapping[ndxTab[0]][i]);
       }
     }
 
-    traverse([0, 1, 2], ""); // function combination(o) {
-    //     o.current = [];
-    //     function step() {
-    //       if (o.current.length === o.indices.length) {
-    //         o.callback(o.current);
-    //         return;
-    //       }
-    //       o.mapping[o.indices[o.current.length]].forEach(function(x) {
-    //         o.current.push(x);
-    //         step();
-    //         o.current.pop();
-    //       });
-    //     }
-    //     step();
-    //   }
-    //   combination({
-    //     mapping: {
-    //       0: ['A', 'B', 'C'],
-    //       1: ['D', 'E', 'F'],
-    //     },
-    //     indices: [0, 1],
-    //     callback: function(x) {
-    //       document.body.innerHTML += x + "<br/>";
-    //     }
-    //   });
-    // récupère tous les noms d'option pour les associer à leur values dans un objet
+    mapping.length > 0 && getCombinaisons(index_tab, "");
+    var tmp_allValuesAsStringArray = variantes.filter(function (x) {
+      return Object.keys(x.selectedImage).length != 0;
+    });
+    setAllValuesAsStringArray(_toConsumableArray(tmp_allValuesAsStringArray)); // tmp_variantesAsString.push({
+    //     id: 'optionVarianteList' + i,
+    //     optionsString: allValuesAsString[i],
+    //     options: variantesOptions,
+    //     price: variantesAsString[indexStartPattern].price,
+    //     prev_price: variantesAsString[indexStartPattern].prev_price,
+    //     stock: variantesAsString[indexStartPattern].stock,
+    //     unlimited: variantesAsString[indexStartPattern].unlimited,
+    //     placeholderStock: variantesAsString[indexStartPattern].placeholderStock,
+    //     deleted: variantesAsString[indexStartPattern].deleted,
+    //     selectedImage: variantesAsString[indexStartPattern].selectedImage,
+    // });
+    // get les noms d'options pour les associer à leur values dans un objet
 
     var optionsName = optionsObj.map(function (x) {
       return x.name;
     });
-
-    if (allValuesAsString.length == 0 && optionsObj.findIndex(function (x) {
-      return optionsObj.values.length == 0;
-    }) > -1) {
-      for (var _i2 = 0; _i2 < optionsObj.length; _i2++) {
-        var _optionsObj$_i;
-
-        (_optionsObj$_i = optionsObj[_i2]) === null || _optionsObj$_i === void 0 ? void 0 : _optionsObj$_i.values.forEach(function (x) {
-          allValuesAsString.push(x);
-        });
-      }
-    }
-
-    console.log('allValuesAsString   ', allValuesAsString);
-
-    var variantesAsString = _toConsumableArray(variantes);
-
     var tmp_variantesAsString = [];
 
-    var _loop = function _loop(_i3) {
-      // split les values de optionsObj pour les récupérer séparements et les associer à leur option Name dans un objet "destiné pour le back-end !" ex:
-      // Couleur: "Rouge"
-      // Taille: "M"
-      var tmp = allValuesAsString[_i3].split(',');
+    var _loop = function _loop(_i2) {
+      // split les values de optionsObj pour les récupérer séparements et les associer à leur option Name dans un objet "destiné pour le back-end !" 
+      var tmp = allValuesAsString[_i2].split(',');
 
       var valuesSplited = tmp[0].split(' - ');
-      console.log('valuesSplited  ', valuesSplited);
       var variantesOptions = {};
 
-      for (var _j = 0; _j < optionsObj.length; _j++) {
-        if (optionsObj[_j].values.length > 0) {
-          variantesOptions[optionsName[_j]] = valuesSplited[_j];
+      for (var j = 0; j < optionsObj.length; j++) {
+        if (optionsObj[j].values.length > 0) {
+          variantesOptions[optionsName[j]] = valuesSplited[j];
         }
       } // renvoi le début de la string allValuesAsString[i] qui correspond au pattern à rechercher. Ceci pour conserver les paramètres de la variantes s'ils ont été modifiés.  
 
 
-      var startPattern = allValuesAsString[_i3].substring(0, allValuesAsString[_i3].lastIndexOf(' - '));
+      var startPattern = '';
 
-      console.log('startPattern  ', startPattern); // <-------------------!
-      // check si allValuesAsString contient le pattern qui représente les premières options mais sans la dernière option. Ceci pour récupérer ses paramètres de la variante s'ils ont été modifiés. ex. prix, stock,...
+      if (allValuesAsString[_i2].includes(' - ')) {
+        startPattern = allValuesAsString[_i2].substring(0, allValuesAsString[_i2].lastIndexOf(' - '));
+      } else {
+        startPattern = allValuesAsString[_i2];
+      }
+
+      console.log('allValuesAsString[i]  ', allValuesAsString[_i2]);
+      console.log('startPattern  ', startPattern); // check si allValuesAsString contient le pattern qui représente les premières options mais sans la dernière option. Ceci pour récupérer les paramètres de la variante s'ils ont été modifiés. ex. prix, stock,...
+
+      var variantesAsString = _toConsumableArray(variantes);
 
       var indexStartPattern = variantesAsString.findIndex(function (x) {
         return x.optionsString.startsWith(startPattern);
-      }); // on pouurait mettre variantes = [] si allValuesAsString === [] !!!
+      });
+      console.log('allValuesAsStringArray   ', allValuesAsStringArray);
 
-      if (indexStartPattern > -1) {
+      if (tmp_allValuesAsStringArray.findIndex(function (x) {
+        return x.allValuesAsString == allValuesAsString[_i2];
+      }) > -1 && allValuesAsString[_i2] != '') {
         tmp_variantesAsString.push({
-          id: 'optionVarianteList' + _i3,
-          optionsString: allValuesAsString[_i3],
+          id: 'optionVarianteList' + _i2,
+          optionsString: allValuesAsString[_i2],
           options: variantesOptions,
           price: variantesAsString[indexStartPattern].price,
           prev_price: variantesAsString[indexStartPattern].prev_price,
@@ -41494,10 +41466,11 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
           selectedImage: variantesAsString[indexStartPattern].selectedImage
         });
         variantesAsString.splice(indexStartPattern, 1);
-      } else {
+      } else if (allValuesAsString[_i2] != '') {
+        // <--si allValuesAsString est vide alors on ne crée pas de variante vide
         tmp_variantesAsString.push({
-          id: 'optionVarianteList' + _i3,
-          optionsString: allValuesAsString[_i3],
+          id: 'optionVarianteList' + _i2,
+          optionsString: allValuesAsString[_i2],
           options: variantesOptions,
           price: productPrice,
           prev_price: previousProductPrice,
@@ -41510,22 +41483,14 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
       }
     };
 
-    for (var _i3 = 0; _i3 < allValuesAsString.length; _i3++) {
-      _loop(_i3);
-    } // si un des optionsObj.values est vide alors allValuesAsString sera vide aussi même si d'autres optionsObj.values ne le sont pas
-    // évite la disparition de la liste des combinaisons d'options tant qu'un optionsObj.values est vide  
-
-
-    var can_I_SetVariantes = optionsObj.findIndex(function (x) {
-      return x.values.length == 0;
-    });
-
-    if (can_I_SetVariantes == -1) {
-      setVariantes(tmp_variantesAsString);
+    for (var _i2 = 0; _i2 < allValuesAsString.length; _i2++) {
+      _loop(_i2);
     }
 
-    console.log('optionsObj  -> ', optionsObj);
+    setVariantes(tmp_variantesAsString);
   }, [optionsObj]);
+  console.log('optionsObj  -> ', optionsObj);
+  console.log('variantes  ', variantes);
 
   var handleVariantes = function handleVariantes(id, field, data) {
     var tmp_variantes = _toConsumableArray(variantes);
@@ -41606,7 +41571,18 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
     }
 
     setVariantes(_toConsumableArray(tmp_variantes));
-    setIdVariante(null);
+    setIdVariante(null); // allValuesAsStringArray est utilisé pour conserver les paramètres des variantes qui ont été modifiées
+
+    var index = allValuesAsStringArray.findIndex(function (x) {
+      return x.id == idVariante;
+    });
+
+    if (index == -1) {
+      var tmp = _toConsumableArray(allValuesAsStringArray);
+
+      tmp.push(tmp_variantes[ndx]);
+      setAllValuesAsStringArray();
+    }
   };
 
   var handleChangeCheckbox = function handleChangeCheckbox(id) {
@@ -41671,10 +41647,9 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
       }
     }
 
-    setVariantes(_toConsumableArray(tmp_variantes)); // setDeletedVariantesList([...deletedVariantesList, id]);
+    setVariantes(_toConsumableArray(tmp_variantes));
   };
 
-  console.log('variantes  ', variantes);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h3", {
       className: "w-full text-left mb-[20px] mt-[35px] font-semibold text-[16px]",
