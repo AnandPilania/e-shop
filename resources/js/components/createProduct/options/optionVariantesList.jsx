@@ -15,7 +15,8 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
     const [showModalImageVariante, setShowModalImageVariante] = useState(false);
     const [showMCancelDeleteButton, setShowMCancelDeleteButton] = useState(false);
     const [deletedVariantesList, setDeletedVariantesList] = useState([]);
-    const [allValuesAsStringArray, setAllValuesAsStringArray] = useState([]);
+    const [changedVariantes, setChangedVariantes] = useState([]);
+
 
     const { optionsObj, productPrice, previousProductPrice, productStock, listType, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, isHideDeletedVariantes } = useContext(AppContext);
 
@@ -56,32 +57,10 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         mapping.length > 0 && getCombinaisons(index_tab, "");
 
 
-
-
-
-        let tmp_allValuesAsStringArray = variantes.filter(x => Object.keys(x.selectedImage).length != 0);
-             setAllValuesAsStringArray([...tmp_allValuesAsStringArray]);
-        // tmp_variantesAsString.push({
-        //     id: 'optionVarianteList' + i,
-        //     optionsString: allValuesAsString[i],
-        //     options: variantesOptions,
-        //     price: variantesAsString[indexStartPattern].price,
-        //     prev_price: variantesAsString[indexStartPattern].prev_price,
-        //     stock: variantesAsString[indexStartPattern].stock,
-        //     unlimited: variantesAsString[indexStartPattern].unlimited,
-        //     placeholderStock: variantesAsString[indexStartPattern].placeholderStock,
-        //     deleted: variantesAsString[indexStartPattern].deleted,
-        //     selectedImage: variantesAsString[indexStartPattern].selectedImage,
-        // });
-
-
-
-
-
-
         // get les noms d'options pour les associer à leur values dans un objet
         let optionsName = optionsObj.map(x => x.name);
         let tmp_variantesAsString = [];
+        let tmp_changedVariantes = [...changedVariantes];
         for (let i = 0; i < allValuesAsString.length; i++) {
 
             // split les values de optionsObj pour les récupérer séparements et les associer à leur option Name dans un objet "destiné pour le back-end !" 
@@ -94,6 +73,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                 }
             }
 
+
             // renvoi le début de la string allValuesAsString[i] qui correspond au pattern à rechercher. Ceci pour conserver les paramètres de la variantes s'ils ont été modifiés.  
             let startPattern = '';
             if (allValuesAsString[i].includes(' - ')) {
@@ -101,30 +81,33 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
             } else {
                 startPattern = allValuesAsString[i];
             }
+            // check si changedVariantes contient le pattern qui représente les premières options mais sans la dernière option. Ceci pour récupérer les paramètres de la variante s'ils ont été modifiés. ex. prix, stock,...
+            let ndx = changedVariantes.findIndex(x => x.optionsString == startPattern);
+            console.log('startPattern  ', startPattern);
+            if (ndx > -1) { 
+                if (allValuesAsString[i] !== undefined) {
+                    console.log('allValuesAsString[i] !== undefined  ', allValuesAsString[i]);
+                    tmp_changedVariantes[ndx].optionsString = allValuesAsString[i]; // ici blème
+                    setChangedVariantes([...tmp_changedVariantes]);
+                }
+            } 
 
 
-            console.log('allValuesAsString[i]  ', allValuesAsString[i])
-            console.log('startPattern  ', startPattern)
-            // check si allValuesAsString contient le pattern qui représente les premières options mais sans la dernière option. Ceci pour récupérer les paramètres de la variante s'ils ont été modifiés. ex. prix, stock,...
-            let variantesAsString = [...variantes];
-            let indexStartPattern = variantesAsString.findIndex(x => x.optionsString.startsWith(startPattern));
-console.log('allValuesAsStringArray   ', allValuesAsStringArray)
 
-            if (tmp_allValuesAsStringArray.findIndex(x => x.allValuesAsString == allValuesAsString[i]) > -1 && allValuesAsString[i] != '') {
-                tmp_variantesAsString.push({
-                    id: 'optionVarianteList' + i,
-                    optionsString: allValuesAsString[i],
-                    options: variantesOptions,
-                    price: variantesAsString[indexStartPattern].price,
-                    prev_price: variantesAsString[indexStartPattern].prev_price,
-                    stock: variantesAsString[indexStartPattern].stock,
-                    unlimited: variantesAsString[indexStartPattern].unlimited,
-                    placeholderStock: variantesAsString[indexStartPattern].placeholderStock,
-                    deleted: variantesAsString[indexStartPattern].deleted,
-                    selectedImage: variantesAsString[indexStartPattern].selectedImage,
-                });
-                variantesAsString.splice(indexStartPattern, 1);
-            } else if (allValuesAsString[i] != '') { // <--si allValuesAsString est vide alors on ne crée pas de variante vide
+
+
+            tmp_changedVariantes.forEach((item, index) => {
+                let ndx = allValuesAsString.findIndex(x => x == item.optionsString);
+                if (ndx === -1) {
+                    tmp_changedVariantes.splice(index, 1);
+                    setChangedVariantes([...tmp_changedVariantes]);
+                }
+            });
+            console.log('tmp_changedVariantes    ', tmp_changedVariantes)
+
+
+
+            if (allValuesAsString[i] != '') { // <--si allValuesAsString est vide alors on ne crée pas de variante vide
                 tmp_variantesAsString.push({
                     id: 'optionVarianteList' + i,
                     optionsString: allValuesAsString[i],
@@ -140,8 +123,24 @@ console.log('allValuesAsStringArray   ', allValuesAsStringArray)
             }
         }
 
-        setVariantes(tmp_variantesAsString);
+        // remplace les variantes par celles qui leurs correspondent dans tmp_changedVariantes. Ceci pour récupérer leurs paramètres quand ils ont été modifiés. ex price, stock, ...
+        for (let i = 0; i < tmp_variantesAsString.length; i++) {
+            let ndx = tmp_changedVariantes.findIndex(x => x.optionsString == tmp_variantesAsString[i].optionsString);
 
+            if (ndx > -1) {
+                let tmp_id = tmp_variantesAsString[i].id;
+                tmp_variantesAsString[i] = tmp_changedVariantes[ndx];
+                tmp_variantesAsString[i].id = tmp_id;
+            }
+        }
+
+
+
+        console.log('tmp_variantesAsString   ', tmp_variantesAsString)
+        console.log('changedVariantes  ', changedVariantes)
+        console.log('allValuesAsString  ', allValuesAsString)
+
+        setVariantes(tmp_variantesAsString);
 
 
     }, [optionsObj]);
@@ -157,6 +156,18 @@ console.log('allValuesAsStringArray   ', allValuesAsStringArray)
         if (ndx > -1) {
             tmp_variantes[ndx][field] = data;
         }
+
+        // sauvegarde les variantes avec des paramètres modifiés ex. price, stock,... pour ne pas perdre ces modifiactions quand on ajoute ou supprime des options
+        let tmp_changedVariantes = [...changedVariantes];
+        let index = tmp_changedVariantes.findIndex(x => x.id == tmp_variantes[ndx].id);
+
+        if (index > -1) {
+            tmp_changedVariantes[index] = tmp_variantes[ndx];
+        } else {
+            tmp_changedVariantes.push(tmp_variantes[ndx]);
+        }
+        setChangedVariantes([...tmp_changedVariantes]);
+
         setVariantes([...tmp_variantes]);
     }
 
@@ -220,23 +231,8 @@ console.log('allValuesAsStringArray   ', allValuesAsStringArray)
     const handleConfirm = (selectedImage) => {
         setShowModalImageVariante(false);
         // ajoute l'image sélectionnée à la variante qui a l'id == idVariante
-        let tmp_variantes = [...variantes];
-        let ndx = tmp_variantes.findIndex(x => x.id == idVariante);
-        if (ndx > -1) {
-            tmp_variantes[ndx].selectedImage = selectedImage;
-        }
-        setVariantes([...tmp_variantes]);
+        handleVariantes(idVariante, 'selectedImage', selectedImage);
         setIdVariante(null);
-
-
-        // allValuesAsStringArray est utilisé pour conserver les paramètres des variantes qui ont été modifiées
-        let index = allValuesAsStringArray.findIndex(x => x.id == idVariante);
-        if (index == -1) {
-            let tmp = [...allValuesAsStringArray];
-            tmp.push(tmp_variantes[ndx]);
-            setAllValuesAsStringArray();
-        }
-        
     }
 
 

@@ -41335,8 +41335,8 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
 
   var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState12 = _slicedToArray(_useState11, 2),
-      allValuesAsStringArray = _useState12[0],
-      setAllValuesAsStringArray = _useState12[1];
+      changedVariantes = _useState12[0],
+      setChangedVariantes = _useState12[1];
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       optionsObj = _useContext.optionsObj,
@@ -41395,28 +41395,14 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
       }
     }
 
-    mapping.length > 0 && getCombinaisons(index_tab, "");
-    var tmp_allValuesAsStringArray = variantes.filter(function (x) {
-      return Object.keys(x.selectedImage).length != 0;
-    });
-    setAllValuesAsStringArray(_toConsumableArray(tmp_allValuesAsStringArray)); // tmp_variantesAsString.push({
-    //     id: 'optionVarianteList' + i,
-    //     optionsString: allValuesAsString[i],
-    //     options: variantesOptions,
-    //     price: variantesAsString[indexStartPattern].price,
-    //     prev_price: variantesAsString[indexStartPattern].prev_price,
-    //     stock: variantesAsString[indexStartPattern].stock,
-    //     unlimited: variantesAsString[indexStartPattern].unlimited,
-    //     placeholderStock: variantesAsString[indexStartPattern].placeholderStock,
-    //     deleted: variantesAsString[indexStartPattern].deleted,
-    //     selectedImage: variantesAsString[indexStartPattern].selectedImage,
-    // });
-    // get les noms d'options pour les associer à leur values dans un objet
+    mapping.length > 0 && getCombinaisons(index_tab, ""); // get les noms d'options pour les associer à leur values dans un objet
 
     var optionsName = optionsObj.map(function (x) {
       return x.name;
     });
     var tmp_variantesAsString = [];
+
+    var tmp_changedVariantes = _toConsumableArray(changedVariantes);
 
     var _loop = function _loop(_i2) {
       // split les values de optionsObj pour les récupérer séparements et les associer à leur option Name dans un objet "destiné pour le back-end !" 
@@ -41438,35 +41424,36 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
         startPattern = allValuesAsString[_i2].substring(0, allValuesAsString[_i2].lastIndexOf(' - '));
       } else {
         startPattern = allValuesAsString[_i2];
+      } // check si changedVariantes contient le pattern qui représente les premières options mais sans la dernière option. Ceci pour récupérer les paramètres de la variante s'ils ont été modifiés. ex. prix, stock,...
+
+
+      var ndx = changedVariantes.findIndex(function (x) {
+        return x.optionsString == startPattern;
+      });
+      console.log('startPattern  ', startPattern);
+
+      if (ndx > -1) {
+        if (allValuesAsString[_i2] !== undefined) {
+          console.log('allValuesAsString[i] !== undefined  ', allValuesAsString[_i2]);
+          tmp_changedVariantes[ndx].optionsString = allValuesAsString[_i2]; // ici blème
+
+          setChangedVariantes(_toConsumableArray(tmp_changedVariantes));
+        }
       }
 
-      console.log('allValuesAsString[i]  ', allValuesAsString[_i2]);
-      console.log('startPattern  ', startPattern); // check si allValuesAsString contient le pattern qui représente les premières options mais sans la dernière option. Ceci pour récupérer les paramètres de la variante s'ils ont été modifiés. ex. prix, stock,...
-
-      var variantesAsString = _toConsumableArray(variantes);
-
-      var indexStartPattern = variantesAsString.findIndex(function (x) {
-        return x.optionsString.startsWith(startPattern);
-      });
-      console.log('allValuesAsStringArray   ', allValuesAsStringArray);
-
-      if (tmp_allValuesAsStringArray.findIndex(function (x) {
-        return x.allValuesAsString == allValuesAsString[_i2];
-      }) > -1 && allValuesAsString[_i2] != '') {
-        tmp_variantesAsString.push({
-          id: 'optionVarianteList' + _i2,
-          optionsString: allValuesAsString[_i2],
-          options: variantesOptions,
-          price: variantesAsString[indexStartPattern].price,
-          prev_price: variantesAsString[indexStartPattern].prev_price,
-          stock: variantesAsString[indexStartPattern].stock,
-          unlimited: variantesAsString[indexStartPattern].unlimited,
-          placeholderStock: variantesAsString[indexStartPattern].placeholderStock,
-          deleted: variantesAsString[indexStartPattern].deleted,
-          selectedImage: variantesAsString[indexStartPattern].selectedImage
+      tmp_changedVariantes.forEach(function (item, index) {
+        var ndx = allValuesAsString.findIndex(function (x) {
+          return x == item.optionsString;
         });
-        variantesAsString.splice(indexStartPattern, 1);
-      } else if (allValuesAsString[_i2] != '') {
+
+        if (ndx === -1) {
+          tmp_changedVariantes.splice(index, 1);
+          setChangedVariantes(_toConsumableArray(tmp_changedVariantes));
+        }
+      });
+      console.log('tmp_changedVariantes    ', tmp_changedVariantes);
+
+      if (allValuesAsString[_i2] != '') {
         // <--si allValuesAsString est vide alors on ne crée pas de variante vide
         tmp_variantesAsString.push({
           id: 'optionVarianteList' + _i2,
@@ -41485,8 +41472,28 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
 
     for (var _i2 = 0; _i2 < allValuesAsString.length; _i2++) {
       _loop(_i2);
+    } // remplace les variantes par celles qui leurs correspondent dans tmp_changedVariantes. Ceci pour récupérer leurs paramètres quand ils ont été modifiés. ex price, stock, ...
+
+
+    var _loop2 = function _loop2(_i3) {
+      var ndx = tmp_changedVariantes.findIndex(function (x) {
+        return x.optionsString == tmp_variantesAsString[_i3].optionsString;
+      });
+
+      if (ndx > -1) {
+        var tmp_id = tmp_variantesAsString[_i3].id;
+        tmp_variantesAsString[_i3] = tmp_changedVariantes[ndx];
+        tmp_variantesAsString[_i3].id = tmp_id;
+      }
+    };
+
+    for (var _i3 = 0; _i3 < tmp_variantesAsString.length; _i3++) {
+      _loop2(_i3);
     }
 
+    console.log('tmp_variantesAsString   ', tmp_variantesAsString);
+    console.log('changedVariantes  ', changedVariantes);
+    console.log('allValuesAsString  ', allValuesAsString);
     setVariantes(tmp_variantesAsString);
   }, [optionsObj]);
   console.log('optionsObj  -> ', optionsObj);
@@ -41501,8 +41508,22 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
 
     if (ndx > -1) {
       tmp_variantes[ndx][field] = data;
+    } // sauvegarde les variantes avec des paramètres modifiés ex. price, stock,... pour ne pas perdre ces modifiactions quand on ajoute ou supprime des options
+
+
+    var tmp_changedVariantes = _toConsumableArray(changedVariantes);
+
+    var index = tmp_changedVariantes.findIndex(function (x) {
+      return x.id == tmp_variantes[ndx].id;
+    });
+
+    if (index > -1) {
+      tmp_changedVariantes[index] = tmp_variantes[ndx];
+    } else {
+      tmp_changedVariantes.push(tmp_variantes[ndx]);
     }
 
+    setChangedVariantes(_toConsumableArray(tmp_changedVariantes));
     setVariantes(_toConsumableArray(tmp_variantes));
   };
 
@@ -41560,29 +41581,8 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
   var handleConfirm = function handleConfirm(selectedImage) {
     setShowModalImageVariante(false); // ajoute l'image sélectionnée à la variante qui a l'id == idVariante
 
-    var tmp_variantes = _toConsumableArray(variantes);
-
-    var ndx = tmp_variantes.findIndex(function (x) {
-      return x.id == idVariante;
-    });
-
-    if (ndx > -1) {
-      tmp_variantes[ndx].selectedImage = selectedImage;
-    }
-
-    setVariantes(_toConsumableArray(tmp_variantes));
-    setIdVariante(null); // allValuesAsStringArray est utilisé pour conserver les paramètres des variantes qui ont été modifiées
-
-    var index = allValuesAsStringArray.findIndex(function (x) {
-      return x.id == idVariante;
-    });
-
-    if (index == -1) {
-      var tmp = _toConsumableArray(allValuesAsStringArray);
-
-      tmp.push(tmp_variantes[ndx]);
-      setAllValuesAsStringArray();
-    }
+    handleVariantes(idVariante, 'selectedImage', selectedImage);
+    setIdVariante(null);
   };
 
   var handleChangeCheckbox = function handleChangeCheckbox(id) {
