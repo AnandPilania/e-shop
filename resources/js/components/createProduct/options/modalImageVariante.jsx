@@ -216,24 +216,42 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
                         src='../images/icons/arrow-down-circle.svg'
                     />
                 </div>
-                <button
-                    className='flex flex-row justify-center items-center min-h-[40px] px-[20px] my-[20px] border border-gray-300'
-                    onClick={handleImportImage}
-                >
-                    {/* cet input est hidden et remplacé par un button pour le design */}
-                    <input
-                        ref={inputModalImageVariante}
-                        type='file'
-                        onChange={handleFiles}
-                        multiple={true}
-                        className="hidden"
-                    // onChange={handleinputTextModify}
-                    />
-                    <img className='w-[15px] h-[15px] mr-[10px]'
-                        src='../images/icons/download.svg'
-                    />
-                    Importer une image
-                </button>
+                <div className='w-full flex justify-between items-center'>
+                    <button
+                        className='flex flex-row justify-center items-center min-h-[40px] px-[20px] my-[20px] border border-gray-300'
+                        onClick={handleImportImage}
+                    >
+                        {/* cet input est hidden et remplacé par un button pour le design */}
+                        <input
+                            ref={inputModalImageVariante}
+                            type='file'
+                            onChange={handleFiles}
+                            multiple={true}
+                            className="hidden"
+                        // onChange={handleinputTextModify}
+                        />
+                        <img className='w-[15px] h-[15px] mr-[10px]'
+                            src='../images/icons/download.svg'
+                        />
+                        Importer une image
+                    </button>
+
+                    <div
+                        className="flex flex-row justify-center items-center mb[20px] w-full h-[100px] relative border border-slate-300 rounded cursor-pointer hover:border-slate-400 "
+                    >
+                        <img className='max-w-[(calc(100% / 4) - 12px] max-h-[98px]'
+                            src={window.location.origin + '/' + imageVariante}
+                        />
+                        <button
+                            className="invisible absolute top-[5px] left-[5px] w-[25px] h-[25px] rounded-[50%] bg-white"
+                            onClick={() => {}}
+                        >
+                            <img className='w-[25px] h-[25px] rounded'
+                                src='../images/icons/check-green-fill.svg'
+                            />
+                        </button>
+                    </div>
+                </div>
 
                 <div className="w-full flex flex-row justify-center items-center">
                     <button

@@ -20,6 +20,8 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
     const { optionsObj, productPrice, previousProductPrice, productStock, listType, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, isHideDeletedVariantes } = useContext(AppContext);
 
+
+
     useEffect(() => {
         // check if there is deleted variantes and show cancel button if true
         let tmp_variantes = [...variantes];
@@ -34,6 +36,9 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
     useEffect(() => {
         let allValuesAsString = [];
+        
+        // console.log('optionsObj  -> ', optionsObj)
+        // console.log('variantes  ', variantes)
 
         // renvoi toutes les combinaisons possible des différentes options 
         let mapping = optionsObj.map(x => x.values);
@@ -60,9 +65,9 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         // get les noms d'options pour les associer à leur values dans un objet
         let optionsName = optionsObj.map(x => x.name);
         let tmp_variantesAsString = [];
-        let tmp_changedVariantes = [...changedVariantes];
+        let tmp_changedVariantes = [];
         for (let i = 0; i < allValuesAsString.length; i++) {
-
+            tmp_changedVariantes = [...changedVariantes];
             // split les values de optionsObj pour les récupérer séparements et les associer à leur option Name dans un objet "destiné pour le back-end !" 
             let tmp = allValuesAsString[i].split(',')
             let valuesSplited = tmp[0].split(' - ');
@@ -81,21 +86,13 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
             } else {
                 startPattern = allValuesAsString[i];
             }
-            // check si changedVariantes contient le pattern qui représente les premières options mais sans la dernière option. Ceci pour récupérer les paramètres de la variante s'ils ont été modifiés. ex. prix, stock,...
-            let ndx = changedVariantes.findIndex(x => x.optionsString == startPattern);
-            console.log('startPattern  ', startPattern);
-            if (ndx > -1) { 
-                if (allValuesAsString[i] !== undefined) {
-                    console.log('allValuesAsString[i] !== undefined  ', allValuesAsString[i]);
-                    tmp_changedVariantes[ndx].optionsString = allValuesAsString[i]; // ici blème
-                    setChangedVariantes([...tmp_changedVariantes]);
-                }
-            } 
-
-
-
-
-
+            // met à jour optionsString dans tmp_changedVariantes et donc dans changedVariantes "aussi" avec le contenu de allValuesAsString[i] lorsque startPattern correspond à tmp_changedVariantes.optionsString. tmp_changedVariantes sert à récupérer les paramètres d'une variante s'ils ont été modifiés. ex. prix, stock,...
+            let ndxx = tmp_changedVariantes.findIndex(x => x.optionsString == startPattern);
+            if (ndxx > -1) {
+                tmp_changedVariantes[ndxx].optionsString = allValuesAsString[i];
+                setChangedVariantes([...tmp_changedVariantes]);
+            }
+            // supprime de tmp_changedVariantes les variantes qui ont encore des options dans leur optionsString qui ont été supprimées. tmp_changedVariantes sert à récupérer les paramètres d'une variante s'ils ont été modifiés. ex. prix, stock,...
             tmp_changedVariantes.forEach((item, index) => {
                 let ndx = allValuesAsString.findIndex(x => x == item.optionsString);
                 if (ndx === -1) {
@@ -103,10 +100,9 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                     setChangedVariantes([...tmp_changedVariantes]);
                 }
             });
-            console.log('tmp_changedVariantes    ', tmp_changedVariantes)
 
 
-
+            // crée des variantes vides. le nombre de variantes crées est = à allValuesAsString.length
             if (allValuesAsString[i] != '') { // <--si allValuesAsString est vide alors on ne crée pas de variante vide
                 tmp_variantesAsString.push({
                     id: 'optionVarianteList' + i,
@@ -134,19 +130,12 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
             }
         }
 
-
-
-        console.log('tmp_variantesAsString   ', tmp_variantesAsString)
-        console.log('changedVariantes  ', changedVariantes)
-        console.log('allValuesAsString  ', allValuesAsString)
-
         setVariantes(tmp_variantesAsString);
-
 
     }, [optionsObj]);
 
-    console.log('optionsObj  -> ', optionsObj)
-    console.log('variantes  ', variantes)
+
+
 
 
 
@@ -156,7 +145,6 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         if (ndx > -1) {
             tmp_variantes[ndx][field] = data;
         }
-
         // sauvegarde les variantes avec des paramètres modifiés ex. price, stock,... pour ne pas perdre ces modifiactions quand on ajoute ou supprime des options
         let tmp_changedVariantes = [...changedVariantes];
         let index = tmp_changedVariantes.findIndex(x => x.id == tmp_variantes[ndx].id);
@@ -167,7 +155,6 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
             tmp_changedVariantes.push(tmp_variantes[ndx]);
         }
         setChangedVariantes([...tmp_changedVariantes]);
-
         setVariantes([...tmp_variantes]);
     }
 

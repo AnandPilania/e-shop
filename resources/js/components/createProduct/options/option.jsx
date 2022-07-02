@@ -1,21 +1,22 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
+import { useStateIfMounted } from "use-state-if-mounted";
 import AppContext from '../../contexts/AppContext';
 import Axios from 'axios';
 
 
 const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) => {
 
-    const [optionObj, setOptionObj] = useState({
+    const [optionObj, setOptionObj] = useStateIfMounted({
         id: option_obj.id,
         name: option_obj.name,
         values: [...option_obj.values]
     });
-    const [listOptionValues, setListOptionValues] = useState([]);
-    const [tmp_optionValues, setTmp_optionValues] = useState('');
-    const [tmp_selectOptionValues, setTmp_selectOptionValues] = useState('');
-    const [showListType, setShowListType] = useState(false);
-    const [showOptionValues, setShowOptionValues] = useState(false);
-    const [optionValueMessage, setOptionValueMessage] = useState(false);
+    const [listOptionValues, setListOptionValues] = useStateIfMounted([]);
+    const [tmp_optionValues, setTmp_optionValues] = useStateIfMounted('');
+    const [tmp_selectOptionValues, setTmp_selectOptionValues] = useStateIfMounted('');
+    const [showListType, setShowListType] = useStateIfMounted(false);
+    const [showOptionValues, setShowOptionValues] = useStateIfMounted(false);
+    const [optionValueMessage, setOptionValueMessage] = useStateIfMounted(false);
 
     const { } = useContext(AppContext);
 
@@ -180,32 +181,31 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
     const input_optionValuesRef = useRef(null);
     // gère la fermeture du dropDown input OptionValues quand on clique en dehors
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            // check qu'on a bien click en dehors de l'input
-            if (input_optionValuesRef.current && !input_optionValuesRef.current.contains(event.target)) {
-
-                if (tmp_optionValues.length > 0) {
-                    if (optionObj.values.includes(tmp_optionValues)) {
-                        setOptionValueMessage(true);
-                        return;
-                    } else {
-                        setOptionObj({ ...optionObj, values: [...optionObj.values, tmp_optionValues] });
-                        setTmp_optionValues('');
-                        setShowOptionValues(false);
-                        let inputOptionValues = document.getElementById('inputOptionValues');
-                        if (inputOptionValues !== null) {
-                            inputOptionValues.className = "inputOptionValues w-full h-[38px] pl-[10px] mt-0 border border-gray-300 rounded-md cursor-text bg-no-repeat hover:bg-caret-down bg-right-center";
-                        }
-                    }
-                }
-            }
-        };
-
         document.addEventListener('click', handleClickOutside, true);
         return () => {
             document.removeEventListener('click', handleClickOutside, true);
         };
     }, [tmp_optionValues]);
+    const handleClickOutside = (event) => {
+        // check qu'on a bien click en dehors de l'input
+        if (input_optionValuesRef.current && !input_optionValuesRef.current.contains(event.target)) {
+
+            if (tmp_optionValues.length > 0) {
+                if (optionObj.values.includes(tmp_optionValues)) {
+                    setOptionValueMessage(true);
+                    return;
+                } else {
+                    setOptionObj({ ...optionObj, values: [...optionObj.values, tmp_optionValues] });
+                    setTmp_optionValues('');
+                    setShowOptionValues(false);
+                    let inputOptionValues = document.getElementById('inputOptionValues');
+                    if (inputOptionValues !== null) {
+                        inputOptionValues.className = "inputOptionValues w-full h-[38px] pl-[10px] mt-0 border border-gray-300 rounded-md cursor-text bg-no-repeat hover:bg-caret-down bg-right-center";
+                    }
+                }
+            }
+        }
+    };
 
 
     useEffect(() => {
@@ -230,19 +230,17 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
     const ul_optionValuesRef = useRef(null);
     // gère la fermeture du dropDown input OptionValues quand on clique en dehors
     useEffect(() => {
-        const handleClickOutside2 = (event) => {
-            // check qu'on a bien click en dehors de l'input
-            if (ul_optionValuesRef.current && !ul_optionValuesRef.current.contains(event.target)) {
-                setShowOptionValues(false);
-            }
-        };
         document.addEventListener('click', handleClickOutside2, true);
         return () => {
             document.removeEventListener('click', handleClickOutside2, true);
         };
     }, [tmp_selectOptionValues]);
-
-
+    const handleClickOutside2 = (event) => {
+        // check qu'on a bien click en dehors de l'input
+        if (ul_optionValuesRef.current && !ul_optionValuesRef.current.contains(event.target)) {
+            setShowOptionValues(false);
+        }
+    };
 
 
     return (
@@ -342,7 +340,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
                             ref={ul_optionValuesRef}
                             className='absolute t-[40px] l-0 w-full max-h-[242px] border border-gray-300 bg-white overflow-x-hidden overflow-y-scroll z-10 shadow-lg scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100'
                         >
-                            {listOptionValues && listOptionValues.map((item, index) =>
+                            {listOptionValues.length > 0 && listOptionValues.map((item, index) =>
                                 <li
                                     key={index}
                                     value={item.name}

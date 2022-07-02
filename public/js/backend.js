@@ -40706,20 +40706,36 @@ var ModalImageVariante = function ModalImageVariante(_ref) {
           className: "w-[25px] h-[25px] rounded hover:scale-125 animate-bounce cursor-pointer",
           src: "../images/icons/arrow-down-circle.svg"
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
-        className: "flex flex-row justify-center items-center min-h-[40px] px-[20px] my-[20px] border border-gray-300",
-        onClick: handleImportImage,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
-          ref: inputModalImageVariante,
-          type: "file",
-          onChange: handleFiles,
-          multiple: true,
-          className: "hidden" // onChange={handleinputTextModify}
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        className: "w-full flex justify-between items-center",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("button", {
+          className: "flex flex-row justify-center items-center min-h-[40px] px-[20px] my-[20px] border border-gray-300",
+          onClick: handleImportImage,
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+            ref: inputModalImageVariante,
+            type: "file",
+            onChange: handleFiles,
+            multiple: true,
+            className: "hidden" // onChange={handleinputTextModify}
 
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
-          className: "w-[15px] h-[15px] mr-[10px]",
-          src: "../images/icons/download.svg"
-        }), "Importer une image"]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
+            className: "w-[15px] h-[15px] mr-[10px]",
+            src: "../images/icons/download.svg"
+          }), "Importer une image"]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+          className: "flex flex-row justify-center items-center mb[20px] w-full h-[100px] relative border border-slate-300 rounded cursor-pointer hover:border-slate-400 ",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
+            className: "max-w-[(calc(100% / 4) - 12px] max-h-[98px]",
+            src: window.location.origin + '/' + imageVariante
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+            className: "invisible absolute top-[5px] left-[5px] w-[25px] h-[25px] rounded-[50%] bg-white",
+            onClick: function onClick() {},
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
+              className: "w-[25px] h-[25px] rounded",
+              src: "../images/icons/check-green-fill.svg"
+            })
+          })]
+        })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
         className: "w-full flex flex-row justify-center items-center",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
@@ -40759,10 +40775,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var use_state_if_mounted__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! use-state-if-mounted */ "./node_modules/use-state-if-mounted/index.js");
+/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -40797,6 +40814,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var Option = function Option(_ref) {
   var _optionObj$name2;
 
@@ -40806,52 +40824,52 @@ var Option = function Option(_ref) {
       deleteOption = _ref.deleteOption,
       optionsObj = _ref.optionsObj;
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useStateIfMounted = (0,use_state_if_mounted__WEBPACK_IMPORTED_MODULE_1__.useStateIfMounted)({
     id: option_obj.id,
     name: option_obj.name,
     values: _toConsumableArray(option_obj.values)
   }),
-      _useState2 = _slicedToArray(_useState, 2),
-      optionObj = _useState2[0],
-      setOptionObj = _useState2[1];
+      _useStateIfMounted2 = _slicedToArray(_useStateIfMounted, 2),
+      optionObj = _useStateIfMounted2[0],
+      setOptionObj = _useStateIfMounted2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState4 = _slicedToArray(_useState3, 2),
-      listOptionValues = _useState4[0],
-      setListOptionValues = _useState4[1];
+  var _useStateIfMounted3 = (0,use_state_if_mounted__WEBPACK_IMPORTED_MODULE_1__.useStateIfMounted)([]),
+      _useStateIfMounted4 = _slicedToArray(_useStateIfMounted3, 2),
+      listOptionValues = _useStateIfMounted4[0],
+      setListOptionValues = _useStateIfMounted4[1];
 
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState6 = _slicedToArray(_useState5, 2),
-      tmp_optionValues = _useState6[0],
-      setTmp_optionValues = _useState6[1];
+  var _useStateIfMounted5 = (0,use_state_if_mounted__WEBPACK_IMPORTED_MODULE_1__.useStateIfMounted)(''),
+      _useStateIfMounted6 = _slicedToArray(_useStateIfMounted5, 2),
+      tmp_optionValues = _useStateIfMounted6[0],
+      setTmp_optionValues = _useStateIfMounted6[1];
 
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState8 = _slicedToArray(_useState7, 2),
-      tmp_selectOptionValues = _useState8[0],
-      setTmp_selectOptionValues = _useState8[1];
+  var _useStateIfMounted7 = (0,use_state_if_mounted__WEBPACK_IMPORTED_MODULE_1__.useStateIfMounted)(''),
+      _useStateIfMounted8 = _slicedToArray(_useStateIfMounted7, 2),
+      tmp_selectOptionValues = _useStateIfMounted8[0],
+      setTmp_selectOptionValues = _useStateIfMounted8[1];
 
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState10 = _slicedToArray(_useState9, 2),
-      showListType = _useState10[0],
-      setShowListType = _useState10[1];
+  var _useStateIfMounted9 = (0,use_state_if_mounted__WEBPACK_IMPORTED_MODULE_1__.useStateIfMounted)(false),
+      _useStateIfMounted10 = _slicedToArray(_useStateIfMounted9, 2),
+      showListType = _useStateIfMounted10[0],
+      setShowListType = _useStateIfMounted10[1];
 
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState12 = _slicedToArray(_useState11, 2),
-      showOptionValues = _useState12[0],
-      setShowOptionValues = _useState12[1];
+  var _useStateIfMounted11 = (0,use_state_if_mounted__WEBPACK_IMPORTED_MODULE_1__.useStateIfMounted)(false),
+      _useStateIfMounted12 = _slicedToArray(_useStateIfMounted11, 2),
+      showOptionValues = _useStateIfMounted12[0],
+      setShowOptionValues = _useStateIfMounted12[1];
 
-  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState14 = _slicedToArray(_useState13, 2),
-      optionValueMessage = _useState14[0],
-      setOptionValueMessage = _useState14[1];
+  var _useStateIfMounted13 = (0,use_state_if_mounted__WEBPACK_IMPORTED_MODULE_1__.useStateIfMounted)(false),
+      _useStateIfMounted14 = _slicedToArray(_useStateIfMounted13, 2),
+      optionValueMessage = _useStateIfMounted14[0],
+      setOptionValueMessage = _useStateIfMounted14[1];
 
-  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]);
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_2__["default"]);
 
   _objectDestructuringEmpty(_useContext); // récupération de toutes les valeurs pour une option donnée
 
 
   var getOptionValues = function getOptionValues() {
-    axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getOptionValues", {
+    axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/getOptionValues", {
       params: {
         option_name: optionObj.name
       }
@@ -41028,34 +41046,35 @@ var Option = function Option(_ref) {
   var input_optionValuesRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null); // gère la fermeture du dropDown input OptionValues quand on clique en dehors
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    var handleClickOutside = function handleClickOutside(event) {
-      // check qu'on a bien click en dehors de l'input
-      if (input_optionValuesRef.current && !input_optionValuesRef.current.contains(event.target)) {
-        if (tmp_optionValues.length > 0) {
-          if (optionObj.values.includes(tmp_optionValues)) {
-            setOptionValueMessage(true);
-            return;
-          } else {
-            setOptionObj(_objectSpread(_objectSpread({}, optionObj), {}, {
-              values: [].concat(_toConsumableArray(optionObj.values), [tmp_optionValues])
-            }));
-            setTmp_optionValues('');
-            setShowOptionValues(false);
-            var inputOptionValues = document.getElementById('inputOptionValues');
-
-            if (inputOptionValues !== null) {
-              inputOptionValues.className = "inputOptionValues w-full h-[38px] pl-[10px] mt-0 border border-gray-300 rounded-md cursor-text bg-no-repeat hover:bg-caret-down bg-right-center";
-            }
-          }
-        }
-      }
-    };
-
     document.addEventListener('click', handleClickOutside, true);
     return function () {
       document.removeEventListener('click', handleClickOutside, true);
     };
   }, [tmp_optionValues]);
+
+  var handleClickOutside = function handleClickOutside(event) {
+    // check qu'on a bien click en dehors de l'input
+    if (input_optionValuesRef.current && !input_optionValuesRef.current.contains(event.target)) {
+      if (tmp_optionValues.length > 0) {
+        if (optionObj.values.includes(tmp_optionValues)) {
+          setOptionValueMessage(true);
+          return;
+        } else {
+          setOptionObj(_objectSpread(_objectSpread({}, optionObj), {}, {
+            values: [].concat(_toConsumableArray(optionObj.values), [tmp_optionValues])
+          }));
+          setTmp_optionValues('');
+          setShowOptionValues(false);
+          var inputOptionValues = document.getElementById('inputOptionValues');
+
+          if (inputOptionValues !== null) {
+            inputOptionValues.className = "inputOptionValues w-full h-[38px] pl-[10px] mt-0 border border-gray-300 rounded-md cursor-text bg-no-repeat hover:bg-caret-down bg-right-center";
+          }
+        }
+      }
+    }
+  };
+
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (showOptionValues) {
       var inputOptionValues = document.getElementById('inputOptionValues');
@@ -41082,27 +41101,28 @@ var Option = function Option(_ref) {
   var ul_optionValuesRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null); // gère la fermeture du dropDown input OptionValues quand on clique en dehors
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    var handleClickOutside2 = function handleClickOutside2(event) {
-      // check qu'on a bien click en dehors de l'input
-      if (ul_optionValuesRef.current && !ul_optionValuesRef.current.contains(event.target)) {
-        setShowOptionValues(false);
-      }
-    };
-
     document.addEventListener('click', handleClickOutside2, true);
     return function () {
       document.removeEventListener('click', handleClickOutside2, true);
     };
   }, [tmp_selectOptionValues]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+
+  var handleClickOutside2 = function handleClickOutside2(event) {
+    // check qu'on a bien click en dehors de l'input
+    if (ul_optionValuesRef.current && !ul_optionValuesRef.current.contains(event.target)) {
+      setShowOptionValues(false);
+    }
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
     className: "w-full h-auto grid gap-x-4 gap-y-2 grid-cols-[1fr_1fr_25px] justify-start items-start pb-[21px]  border-b border-gray-200 mb-[25px]",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "w-full h-[40px] p-0 flex flex-col justify-start items-start",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "relative w-full m-0 p-0",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
           className: "w-full h-[40px] p-0 m-0",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
             id: "inputListType",
             type: "text",
             value: optionObj.name,
@@ -41117,23 +41137,23 @@ var Option = function Option(_ref) {
             autoComplete: "off",
             className: "inputListType w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat hover:bg-caret-down bg-right-center name".concat(optionObj.id, " ")
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
           id: "name".concat(optionObj.id),
           className: "text-red-700 text-sm"
-        }), showListType && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
+        }), showListType && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("ul", {
           id: "listType",
           className: "absolute t-[40px] l-0 w-full max-h-[242px] border border-gray-300 bg-white overflow-x-hidden overflow-y-scroll z-10 shadow-lg scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100",
           children: listType.map(function (item, index) {
             return (optionsObj === null || optionsObj === void 0 ? void 0 : optionsObj.findIndex(function (x) {
               return x.name == item.name;
-            })) == -1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+            })) == -1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("li", {
               value: item.name,
               onClick: function onClick() {
                 handleChangeOption(item.name);
                 getOptionValues();
               },
               className: "w-full h-[40px] cursor-pointer hover:bg-slate-100",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
                 className: "flex flex-row justify-start items-center pl-[10px] w-full h-full pr-[30px] text-stone-800 text-base hover:cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis",
                 children: item.name
               })
@@ -41141,13 +41161,13 @@ var Option = function Option(_ref) {
           })
         })]
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "w-full h-[40px] p-0 flex flex-col justify-start items-start",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "relative w-full m-0 p-0",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
           className: "w-full h-[40px] p-0",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
             id: "inputOptionValues",
             type: "text",
             value: tmp_optionValues,
@@ -41169,24 +41189,24 @@ var Option = function Option(_ref) {
             disabled: ((_optionObj$name2 = optionObj.name) === null || _optionObj$name2 === void 0 ? void 0 : _optionObj$name2.length) == 0,
             className: "inputOptionValues w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat hover:bg-caret-down bg-right-center value".concat(optionObj.id)
           })
-        }), optionValueMessage && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+        }), optionValueMessage && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
           className: "block text-red-700 text-sm",
           children: "Ce nom existe d\xE9j\xE0 dans la liste des options"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
           id: "value".concat(optionObj.id),
           className: "text-red-700 text-sm"
-        }), showOptionValues && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
+        }), showOptionValues && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("ul", {
           id: "listOptionValues",
           ref: ul_optionValuesRef,
           className: "absolute t-[40px] l-0 w-full max-h-[242px] border border-gray-300 bg-white overflow-x-hidden overflow-y-scroll z-10 shadow-lg scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100",
-          children: listOptionValues && listOptionValues.map(function (item, index) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
+          children: listOptionValues.length > 0 && listOptionValues.map(function (item, index) {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("li", {
               value: item.name,
               onClick: function onClick() {
                 handleSelectOptionValues(item.name);
               },
               className: "w-full h-[40px] flex flex-row justify-start items-center pl-[10px] cursor-pointer hover:bg-slate-100",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
                 type: "checkbox",
                 value: item.id,
                 id: item.id,
@@ -41200,7 +41220,7 @@ var Option = function Option(_ref) {
                   }
                 },
                 className: "w-[17px] h-[17px] mr-[10px] hover:cursor-pointer"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
                 className: "flex flex-row justify-start items-center w-full h-full pr-[30px] text-stone-800 text-base hover:cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis",
                 children: item.name
               })]
@@ -41208,35 +41228,35 @@ var Option = function Option(_ref) {
           })
         })]
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "flex justify-start items-center w-[40px] h-[40px] p-0 m-0 cursor-pointer",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("span", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("span", {
         onClick: function onClick() {
           return deleteOption(optionObj.id);
         },
         className: "flex justify-center items-center w-[22px] h-[22px] p-0 m-0 cursor-pointer group hover:bg-red-500 rounded-[5px]",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
           src: window.location.origin + '/images/icons/trash.svg',
           className: "h-[18px] w-[18px] group-hover:hidden"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
           src: window.location.origin + '/images/icons/x-white.svg',
           className: "h-[18px] w-[18px] hidden group-hover:block"
         })]
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "col-span-3 flex flex-wrap pt-[5px] w-full",
       children: !!optionObj.values.length > 0 && optionObj.values.map(function (item) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
           className: "flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-[8px] pr-[6px] py-[3px] mb-1 mr-2 ",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
             className: "h-full text-gray-500 mr-2 rounded-md",
             children: item
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
             className: "h-[20px] w-[20px] flex justify-center items-center hover:cursor-pointer bg-gray-600  hover:bg-red-500 rounded-md",
             onClick: function onClick() {
               return removeOptionValue(item);
             },
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
               src: "../images/icons/x-white.svg",
               className: "w-[20px] h-[20px] hover:scale-125"
             })
@@ -41367,7 +41387,9 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
     selectedVariantesList.length > 0 && handleChangeSelectionVariantesList(null, null);
   }, [variantes]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    var allValuesAsString = []; // renvoi toutes les combinaisons possible des différentes options 
+    var allValuesAsString = []; // console.log('optionsObj  -> ', optionsObj)
+    // console.log('variantes  ', variantes)
+    // renvoi toutes les combinaisons possible des différentes options 
 
     var mapping = optionsObj.map(function (x) {
       return x.values;
@@ -41401,11 +41423,11 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
       return x.name;
     });
     var tmp_variantesAsString = [];
-
-    var tmp_changedVariantes = _toConsumableArray(changedVariantes);
+    var tmp_changedVariantes = [];
 
     var _loop = function _loop(_i2) {
-      // split les values de optionsObj pour les récupérer séparements et les associer à leur option Name dans un objet "destiné pour le back-end !" 
+      tmp_changedVariantes = _toConsumableArray(changedVariantes); // split les values de optionsObj pour les récupérer séparements et les associer à leur option Name dans un objet "destiné pour le back-end !" 
+
       var tmp = allValuesAsString[_i2].split(',');
 
       var valuesSplited = tmp[0].split(' - ');
@@ -41424,22 +41446,18 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
         startPattern = allValuesAsString[_i2].substring(0, allValuesAsString[_i2].lastIndexOf(' - '));
       } else {
         startPattern = allValuesAsString[_i2];
-      } // check si changedVariantes contient le pattern qui représente les premières options mais sans la dernière option. Ceci pour récupérer les paramètres de la variante s'ils ont été modifiés. ex. prix, stock,...
+      } // met à jour optionsString dans tmp_changedVariantes et donc dans changedVariantes "aussi" avec le contenu de allValuesAsString[i] lorsque startPattern correspond à tmp_changedVariantes.optionsString. tmp_changedVariantes sert à récupérer les paramètres d'une variante s'ils ont été modifiés. ex. prix, stock,...
 
 
-      var ndx = changedVariantes.findIndex(function (x) {
+      var ndxx = tmp_changedVariantes.findIndex(function (x) {
         return x.optionsString == startPattern;
       });
-      console.log('startPattern  ', startPattern);
 
-      if (ndx > -1) {
-        if (allValuesAsString[_i2] !== undefined) {
-          console.log('allValuesAsString[i] !== undefined  ', allValuesAsString[_i2]);
-          tmp_changedVariantes[ndx].optionsString = allValuesAsString[_i2]; // ici blème
+      if (ndxx > -1) {
+        tmp_changedVariantes[ndxx].optionsString = allValuesAsString[_i2];
+        setChangedVariantes(_toConsumableArray(tmp_changedVariantes));
+      } // supprime de tmp_changedVariantes les variantes qui ont encore des options dans leur optionsString qui ont été supprimées. tmp_changedVariantes sert à récupérer les paramètres d'une variante s'ils ont été modifiés. ex. prix, stock,...
 
-          setChangedVariantes(_toConsumableArray(tmp_changedVariantes));
-        }
-      }
 
       tmp_changedVariantes.forEach(function (item, index) {
         var ndx = allValuesAsString.findIndex(function (x) {
@@ -41450,8 +41468,7 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
           tmp_changedVariantes.splice(index, 1);
           setChangedVariantes(_toConsumableArray(tmp_changedVariantes));
         }
-      });
-      console.log('tmp_changedVariantes    ', tmp_changedVariantes);
+      }); // crée des variantes vides. le nombre de variantes crées est = à allValuesAsString.length
 
       if (allValuesAsString[_i2] != '') {
         // <--si allValuesAsString est vide alors on ne crée pas de variante vide
@@ -41491,13 +41508,8 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
       _loop2(_i3);
     }
 
-    console.log('tmp_variantesAsString   ', tmp_variantesAsString);
-    console.log('changedVariantes  ', changedVariantes);
-    console.log('allValuesAsString  ', allValuesAsString);
     setVariantes(tmp_variantesAsString);
   }, [optionsObj]);
-  console.log('optionsObj  -> ', optionsObj);
-  console.log('variantes  ', variantes);
 
   var handleVariantes = function handleVariantes(id, field, data) {
     var tmp_variantes = _toConsumableArray(variantes);
@@ -107435,6 +107447,123 @@ var useCallback = useCallbackOne;
 
 
 
+
+/***/ }),
+
+/***/ "./node_modules/use-state-if-mounted/index.js":
+/*!****************************************************!*\
+  !*** ./node_modules/use-state-if-mounted/index.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+Object.defineProperty(exports, "useStateIfMounted", ({
+  enumerable: true,
+  get: function get() {
+    return _useStateIfMounted["default"];
+  }
+}));
+
+var _useStateIfMounted = _interopRequireDefault(__webpack_require__(/*! ./useStateIfMounted */ "./node_modules/use-state-if-mounted/useStateIfMounted.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+/***/ }),
+
+/***/ "./node_modules/use-state-if-mounted/useIsComponentMounted.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/use-state-if-mounted/useIsComponentMounted.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = useIsComponentMounted;
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+function useIsComponentMounted() {
+  var isMounted = (0, _react.useRef)(false);
+  (0, _react.useEffect)(function () {
+    isMounted.current = true;
+    return function () {
+      return isMounted.current = false;
+    };
+  }, []);
+  return isMounted;
+}
+
+;
+
+/***/ }),
+
+/***/ "./node_modules/use-state-if-mounted/useStateIfMounted.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/use-state-if-mounted/useStateIfMounted.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports["default"] = useStateIfMounted;
+
+var _useIsComponentMounted = _interopRequireDefault(__webpack_require__(/*! ./useIsComponentMounted */ "./node_modules/use-state-if-mounted/useIsComponentMounted.js"));
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+/**
+ * Like React's [useState](https://reactjs.org/docs/hooks-reference.html#usestate)
+ * but it makes sure the component that uses this hook is mounted when updating state
+ * 
+ * @see https://reactjs.org/docs/hooks-reference.html#usestate
+ * @export
+ * @param {any} initialValue
+ * @returns {[any, Diapatch<any>]} an array of 2 items
+ * the first is the current state, the second is a function that enables
+ * updating the state if the component is not mounted
+ */
+function useStateIfMounted(initialValue) {
+  var isComponentMounted = (0, _useIsComponentMounted["default"])();
+
+  var _useState = (0, _react.useState)(initialValue),
+      _useState2 = _slicedToArray(_useState, 2),
+      state = _useState2[0],
+      setState = _useState2[1];
+
+  var newSetState = (0, _react.useCallback)(function (value) {
+    if (isComponentMounted.current) {
+      setState(value);
+    }
+  }, [isComponentMounted]);
+  return [state, newSetState];
+}
 
 /***/ }),
 

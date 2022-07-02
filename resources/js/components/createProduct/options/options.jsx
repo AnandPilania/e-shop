@@ -71,7 +71,7 @@ const Options = () => {
 
     const removeOptionValue = (item, optionObj_data) => {
         // whatOptionBeenDeleted est utilisé pour mettre à jour checkedVariantesList dans selectionVariantesList
-        setWhatOptionBeenDeleted({item: item, data: optionObj_data});
+        setWhatOptionBeenDeleted({ item: item, data: optionObj_data });
 
         let index = optionObj.values.indexOf(item);
         if (index > -1) {
@@ -80,7 +80,7 @@ const Options = () => {
             setOptionObj({ ...optionObj, values: [...tmp_arr] });
         }
     }
-  
+
     return (
         <div className="w-full">
 
