@@ -12,7 +12,7 @@ const ModalEditSelectionVariantes = ({ handleModalCancel, show }) => {
     const placeholder_promo = 'Ajouter un prix avant promo';
     const placeholder_stock = 'Ajouter une quantité';
 
-    const { variantes, setVariantes, checkedVariantesList } = useContext(AppContext);
+    const { variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, setSelectedVariantesList, setAllOptionsVariantesNeeded } = useContext(AppContext);
 
     const handleChangeProductPriceModal = (e) => {
         setProductPriceModal(e.target.value);
@@ -41,6 +41,9 @@ const ModalEditSelectionVariantes = ({ handleModalCancel, show }) => {
             setProductPriceModal('');
             setPreviousProductPriceModal('');
             setProductStockModal('');
+            setCheckedVariantesList([]);
+            setSelectedVariantesList([]);
+            setAllOptionsVariantesNeeded(0);
         }
         handleModalCancel();
     }

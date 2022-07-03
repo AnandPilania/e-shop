@@ -1,17 +1,22 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import Axios from 'axios';
+import AppContext from '../../contexts/AppContext';
 
 
-const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVariante, setImageVariante }) => {
+const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVariante, setImageVariante, variante }) => {
 
     const [countFile, setCountFile] = useState(0);
     const [selectedImage, setSelectedImage] = useState(null);
 
     const inputModalImageVariante = useRef(null);
 
+    const { variantes, setVariantes } = useContext(AppContext);
+
+
     const handleImportImage = () => {
         inputModalImageVariante.current.click();
     }
+
 
     // toggle entre l'affichage et le masquage de l'icon de sélection quand on click sur une image + setSelectedImage qui doit être envoyée à optionVariantesList
     const handleSelectImage = (item) => {
@@ -167,10 +172,20 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
         }
     }
 
+    const removeMainImage = () => {
+        let ndx = variantes.findIndex(x => x.id === variante.id);
+        if (ndx > -1) {
+            let tmp_variantes = [...variantes];
+            tmp_variantes[ndx].selectedImage = {};
+            setVariantes(tmp_variantes);
+            handleModalCancel();
+        }
+    }
+
 
     return (
         <div className={` ${show ? "block" : "hidden"} fixed top-0 left-0 bg-bg-modal z-40 w-full h-[100%]  flex flex-col justify-start items-center`}>
-            <div className="fixed w-[40%] max-h-[90vh] max-x-[650px] min-x-[350] p-[20px] top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] flex flex-col justify-start items-start rounded-md bg-white z-50"
+            <div className="fixed w-[40%] max-h-[90vh] max-x-[650px] min-x-[350] px-[20px] pt-[20px] pb-[30px] top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] flex flex-col justify-start items-start rounded-md bg-white z-50"
             >
                 <div className='w-full flex flex-row justify-between mb-[20px]'>
                     <h3 className='h-[30px] ml-[10px] font-semibold text-lg'>
@@ -185,7 +200,7 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
 
                 <section
                     id="idSectionModalImageVariante"
-                    className="classSectionModalImageVariante w-full max-h-[70%] grid grid-cols-4 gap-[10px] justify-center items-center overflow-y-auto scroll-smooth"
+                    className="classSectionModalImageVariante w-full max-h-[50vh] grid grid-cols-4 gap-[10px] justify-center items-center overflow-y-auto scroll-smooth"
                 >
                     {imageVariante.length > 0 &&
                         imageVariante.map((item, index) =>
@@ -209,16 +224,36 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
                         )}
                 </section>
                 {/* scroll down button */}
-                <div className='w-full mt-[25px] mb-[5px] flex justify-center'>
+                <div className='w-full mt-[25px] mb-[20px] flex justify-center'>
                     <img
                         onClick={scrollDown}
                         className='w-[25px] h-[25px] rounded hover:scale-125 animate-bounce cursor-pointer'
                         src='../images/icons/arrow-down-circle.svg'
                     />
                 </div>
-                <div className='w-full flex justify-between items-center'>
+                        {console.log('variante   ', variante)}
+                {variante != null && variante != undefined ?
+                    Object.keys(variante?.selectedImage).length > 0 &&
+                    <div className='w-full flex flex-row justify-start items-center pb-8 mb-3'>
+                        <div
+                            className="flex flex-row justify-start items-center p-3 border border-gray-300 rounded"
+                        >
+                            <img className='w-auto h-[100px]'
+                                src={window.location.origin + '/' + variante.selectedImage.value}
+                            />
+                            <button
+                                className="w-auto flex justify-center items-center px-3 py-2 ml-3 rounded bg-red-700 hover:bg-red-800 text-white cursor-pointer"
+                                onClick={() => removeMainImage()}
+                            >
+                                Retirer l'image
+                            </button>
+                        </div>
+                    </div> : ''
+                }
+
+                <div className='w-full flex flex-row justify-start items-end'>
                     <button
-                        className='flex flex-row justify-center items-center min-h-[40px] px-[20px] my-[20px] border border-gray-300'
+                        className='flex flex-row justify-center items-center min-h-[40px] px-[20px] border border-gray-300'
                         onClick={handleImportImage}
                     >
                         {/* cet input est hidden et remplacé par un button pour le design */}
@@ -236,46 +271,29 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
                         Importer une image
                     </button>
 
-                    <div
-                        className="flex flex-row justify-center items-center mb[20px] w-full h-[100px] relative border border-slate-300 rounded cursor-pointer hover:border-slate-400 "
-                    >
-                        <img className='max-w-[(calc(100% / 4) - 12px] max-h-[98px]'
-                            src={window.location.origin + '/' + imageVariante}
-                        />
+                    <div className="w-auto flex flex-row">
                         <button
-                            className="invisible absolute top-[5px] left-[5px] w-[25px] h-[25px] rounded-[50%] bg-white"
-                            onClick={() => {}}
+                            className={`flex flrex-row justify-center items-center h-[40px] px-3 py-2 ml-4 min-w-[120px] ${selectedImage == null ? "bg-gray-100 text-gray-400" : "bg-green-500 text-white"} rounded`}
+                            onClick={() => {
+                                selectedImage != null &&
+                                    handleConfirm(selectedImage);
+                                cancelSelection();
+                            }}
                         >
-                            <img className='w-[25px] h-[25px] rounded'
-                                src='../images/icons/check-green-fill.svg'
-                            />
+                            Enregister
+                        </button>
+
+                        <button
+                            className="flex flrex-row justify-center items-center h-[40px] px-3 py-2 ml-4 min-w-[120px] border border-gray-300 rounded hover:border-gray-400"
+                            onClick={() => {
+                                removeImageFroTemprayStorage();
+                                cancelSelection();
+                                handleModalCancel();
+                            }}>
+                            Annuler
                         </button>
                     </div>
                 </div>
-
-                <div className="w-full flex flex-row justify-center items-center">
-                    <button
-                        className={`flex flrex-row justify-center items-center h-[40px] px-[20px] ${selectedImage == null ? "bg-gray-100 text-gray-400" : "bg-green-500 text-white"}`}
-                        onClick={() => {
-                            selectedImage != null &&
-                                handleConfirm(selectedImage);
-                            cancelSelection();
-                        }}
-                    >
-                        Enregister
-                    </button>
-
-                    <button
-                        className="flex flrex-row justify-center items-center h-[40px] px-[20px] ml-[15px] border border-gray-300"
-                        onClick={() => {
-                            removeImageFroTemprayStorage();
-                            cancelSelection();
-                            handleModalCancel();
-                        }}>
-                        Annuler
-                    </button>
-                </div>
-
             </div>
         </div>
     );

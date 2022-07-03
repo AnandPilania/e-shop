@@ -8,13 +8,14 @@ import SelectionVariantesInList from './selectionVariantesInList';
 import WithHandleSelectionList from './withHandleSelectionList';
 
 
-const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelectedCheckbox, setIsAllSelectedCheckbox }) => {
+const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelectedCheckbox, setIsAllSelectedCheckbox, setShowOptions }) => {
 
     const [idVariante, setIdVariante] = useState(null);
+    const [variante, setVariante] = useState(undefined);
     const [imageVariante, setImageVariante] = useState({});
     const [showModalImageVariante, setShowModalImageVariante] = useState(false);
     const [showMCancelDeleteButton, setShowMCancelDeleteButton] = useState(false);
-    const [deletedVariantesList, setDeletedVariantesList] = useState([]);
+    // const [deletedVariantesList, setDeletedVariantesList] = useState([]);
     const [changedVariantes, setChangedVariantes] = useState([]);
 
 
@@ -23,12 +24,12 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
 
     useEffect(() => {
-        // check if there is deleted variantes and show cancel button if true
-        let tmp_variantes = [...variantes];
-        let ndx = tmp_variantes.findIndex(x => x.deleted == true);
-        if (ndx > -1) {
-            setShowMCancelDeleteButton(true);
-        }
+        // // check if there is deleted variantes and show cancel button if true
+        // let tmp_variantes = [...variantes];
+        // let ndx = tmp_variantes.findIndex(x => x.deleted == true);
+        // if (ndx > -1) {
+        //     setShowMCancelDeleteButton(true);
+        // }
 
         selectedVariantesList.length > 0 && handleChangeSelectionVariantesList(null, null);
     }, [variantes]);
@@ -132,6 +133,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
         setVariantes(tmp_variantesAsString);
 
+        optionsObj.length === 0 && setShowOptions(false);;
     }, [optionsObj]);
 
 
@@ -196,11 +198,12 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
 
 
-    const loadImagesVariantes = (varianteId) => {
+    const loadImagesVariantes = (item) => { 
+        setVariante(item);
         Axios.get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage')
             .then(res => {
                 setImageVariante(res.data);
-                setIdVariante(varianteId);
+                setIdVariante(item.id);
                 setShowModalImageVariante(true);
             })
             .catch(error => {
@@ -401,10 +404,10 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                         {/* image variante */}
                         <span
                             className={`w-full h-[30px] border border-gray-300 flex justify-center items-center cursor-pointer ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
-                            onClick={() => loadImagesVariantes(item.id)}
+                            onClick={() => loadImagesVariantes(item)}
                         >
                             {
-                                Object.keys(item.selectedImage).length !== 0 ?
+                                item.selectedImage !== undefined && item.selectedImage !== null && Object.keys(item.selectedImage).length !== 0 ?
                                     <img className='w-auto max-h-[28px]'
                                         src={window.location.origin + '/' + item.selectedImage.value}
                                     />
@@ -442,6 +445,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                 handleModalCancel={handleModalCancel}
                 imageVariante={imageVariante}
                 setImageVariante={setImageVariante}
+                variante={variante}
             />
         </div>
     );

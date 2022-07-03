@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import AppContext from '../contexts/AppContext';
 import { makeStyles } from '@material-ui/styles';
 import parse from 'html-react-parser';
 
@@ -92,7 +91,7 @@ const useStyles = makeStyles({
     displayNone: {
         display: 'none',
     },
-    
+
     textMessage: {
         color: 'black',
         fontSize: '16px',
@@ -101,23 +100,19 @@ const useStyles = makeStyles({
 });
 
 
-const ModalConfirm = ({ textButtonConfirm, show, messageModal, children }) => {
+const ModalconfirmCancelWithoutSapveOptions = ({ show, handleModalConfirm,      handleModalCancel, textButtonConfirm, children }) => {
+
     const classes = useStyles();
     const showHideClassName = show ? classes.displayBlock : classes.displayNone;
 
-    const { handleModalConfirm, handleModalCancel } = useContext(AppContext);
 
     return (
         <div className={classes.modal + ' ' + showHideClassName}>
             <section className={classes.modalMain}>
 
                 <div className={classes.close}>
-                <img src='../images/icons/x.svg' className="w30 h30 scale-1_15 cursor" onClick={handleModalCancel}/>
+                    <img src='../images/icons/x.svg' className="w30 h30 scale-1_15 cursor" onClick={handleModalCancel} />
                 </div>
-
-                
-                {/* conversion d'un message en html pour affichage structuré */}
-                <div className="textMessage">{messageModal?.length > 0 && parse(messageModal)}</div>
 
                 {/* children affiche les méssages passés en children quand il y en a */}
                 {children}
@@ -136,4 +131,4 @@ const ModalConfirm = ({ textButtonConfirm, show, messageModal, children }) => {
     );
 };
 
-export default ModalConfirm;
+export default ModalconfirmCancelWithoutSapveOptions;
