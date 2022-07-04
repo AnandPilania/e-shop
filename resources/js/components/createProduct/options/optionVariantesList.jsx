@@ -11,7 +11,6 @@ import WithHandleSelectionList from './withHandleSelectionList';
 const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelectedCheckbox, setIsAllSelectedCheckbox, setShowOptions }) => {
 
     const [idVariante, setIdVariante] = useState(null);
-    const [variante, setVariante] = useState(undefined);
     const [imageVariante, setImageVariante] = useState({});
     const [showModalImageVariante, setShowModalImageVariante] = useState(false);
     const [showMCancelDeleteButton, setShowMCancelDeleteButton] = useState(false);
@@ -19,7 +18,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
     const [changedVariantes, setChangedVariantes] = useState([]);
 
 
-    const { optionsObj, productPrice, previousProductPrice, productStock, listType, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, isHideDeletedVariantes } = useContext(AppContext);
+    const { optionsObj, productPrice, previousProductPrice, productStock, listType, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, isHideDeletedVariantes, variante, setVariante, setImageVariantes } = useContext(AppContext);
 
 
 
@@ -37,7 +36,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
     useEffect(() => {
         let allValuesAsString = [];
-        
+
         // console.log('optionsObj  -> ', optionsObj)
         // console.log('variantes  ', variantes)
 
@@ -198,7 +197,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
 
 
-    const loadImagesVariantes = (item) => { 
+    const loadImagesVariantes = (item) => {
         setVariante(item);
         Axios.get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage')
             .then(res => {
@@ -223,6 +222,28 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         // ajoute l'image sélectionnée à la variante qui a l'id == idVariante
         handleVariantes(idVariante, 'selectedImage', selectedImage);
         setIdVariante(null);
+
+        // refresh dropZoneProduct
+        Axios.get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage')
+            .then(res => {
+                let tmp_data = [[]];
+                let tmp = [];
+                for (let i = 0; i < res.data.length; i++) {
+                    if (tmp.length < 4) {
+                        tmp.push(res.data[i]);
+                        tmp_data.splice(-1, 1, tmp);
+                    } else {
+                        tmp_data.splice(-1, 1, tmp);
+                        tmp = [];
+                        tmp.push(res.data[i]);
+                        tmp_data.push(tmp);
+                    }
+                };
+                setImageVariantes(tmp_data);
+            })
+            .catch(error => {
+                console.log('Error get Product Images failed : ' + error.status);
+            });
     }
 
 
@@ -284,9 +305,11 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
     return (
         <div>
-            <h3 className='w-full text-left mb-[20px] mt-[35px] font-semibold text-[16px]'>
-                Variantes
-            </h3>
+            {variantes?.length > 0 &&
+                <h3 className='w-full text-left mb-[20px] mt-[35px] font-semibold text-[16px]'>
+                    Variantes
+                </h3>
+            }
 
             {variantes?.length > 0 &&
                 <SelectionVariantesInList
@@ -333,7 +356,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                         </div>
 
                         {/* variante */}
-                        <span className={`w-full h-[30px] pl-[8px] pt-[3px] rounded-md whitespace-nowrap text-ellipsis overflow-hidden cursor-default group ${item.deleted ? "text-gray-400" : "text-gray-500"} ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}>
+                        <span className={`w-full h-[30px] pt-[3px] rounded-md whitespace-nowrap text-ellipsis overflow-hidden cursor-default group ${item.deleted ? "text-gray-400" : "text-gray-500"} ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}>
                             {item?.optionsString}
                             <Tooltip top={-30} left={2}>
                                 {item?.optionsString}
@@ -445,7 +468,6 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                 handleModalCancel={handleModalCancel}
                 imageVariante={imageVariante}
                 setImageVariante={setImageVariante}
-                variante={variante}
             />
         </div>
     );

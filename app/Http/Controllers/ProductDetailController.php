@@ -62,16 +62,19 @@ class ProductDetailController extends Controller
     // renvoi tous les détails pour un type donné
     public function getOptionValues(Request $request)
     {
-        $options_name = Type_detail_product::where('name', $request->option_name)->first();
+        $optionsData = DB::table('product_details')
+            ->select('type_detail_products.name as optionName', 'product_details.name as name', 'img_path', 'ordre', 'product_id', 'type_detail_product_id')
+            ->join('type_detail_products', 'type_detail_products.id', '=', 'type_detail_product_id')
+            ->groupBy('product_details.name')
+            ->orderBy('type_detail_products.name')
+            ->get();
 
-        if ($options_name !== null && $options_name->product_details) {
-            $options = DB::table('product_details')
-                ->select('name', 'id')
-                ->where('type_detail_product_id', $options_name->id)
-                ->groupBy('name')
-                ->orderBy('name')
-                ->get();
 
+        $options = [];
+        if (count($optionsData) > 0) {
+                foreach($optionsData as $data) {
+                    $options[$data->optionName][] = $data;
+                }
             return $options;
         } else {
             return '';

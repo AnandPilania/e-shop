@@ -3,14 +3,14 @@ import Axios from 'axios';
 import AppContext from '../../contexts/AppContext';
 
 
-const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVariante, setImageVariante, variante }) => {
+const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVariante, setImageVariante }) => {
 
     const [countFile, setCountFile] = useState(0);
     const [selectedImage, setSelectedImage] = useState(null);
 
     const inputModalImageVariante = useRef(null);
 
-    const { variantes, setVariantes } = useContext(AppContext);
+    const { variantes, setVariantes, variante, setVariante } = useContext(AppContext);
 
 
     const handleImportImage = () => {
@@ -19,7 +19,7 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
 
 
     // toggle entre l'affichage et le masquage de l'icon de sélection quand on click sur une image + setSelectedImage qui doit être envoyée à optionVariantesList
-    const handleSelectImage = (item) => {
+    const handleSelectImage = (item) => { 
         // masque l'icon si déjà coché
         if (selectedImage !== null && item.id === selectedImage.id) {
             document.getElementById('checkedButton' + selectedImage.id).className = "invisible group-hover:visible absolute top-[5px] left-[5px] w-[25px] h-[25px] rounded-[50%] bg-white";
@@ -92,6 +92,9 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
                 Axios.get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage')
                     .then(res => {
                         setImageVariante(res.data);
+                        // sélectionne l'image qui vient d'être téléchargée
+                        handleSelectImage(res.data[res.data.length - 1]);
+                        scrollDown();
                     })
                     .catch(error => {
                         console.log('Error get Product Images failed : ' + error.status);
@@ -147,7 +150,7 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
 
     const handleDoubleClick = (item) => {
         setSelectedImage(item);
-        handleConfirm(selectedImage);
+        handleConfirm(item);
         handleSelectImage(item);
         cancelSelection();
     }
@@ -231,9 +234,9 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
                         src='../images/icons/arrow-down-circle.svg'
                     />
                 </div>
-                        {console.log('variante   ', variante)}
-                {variante != null && variante != undefined ?
-                    Object.keys(variante?.selectedImage).length > 0 &&
+
+                {/* bouton retirer l'image */}
+                {variante.hasOwnProperty("selectedImage") && variante.selectedImage.hasOwnProperty("value") &&
                     <div className='w-full flex flex-row justify-start items-center pb-8 mb-3'>
                         <div
                             className="flex flex-row justify-start items-center p-3 border border-gray-300 rounded"
@@ -248,9 +251,10 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
                                 Retirer l'image
                             </button>
                         </div>
-                    </div> : ''
+                    </div>
                 }
 
+                {/* importer image, enregistrer, annuler */}
                 <div className='w-full flex flex-row justify-start items-end'>
                     <button
                         className='flex flex-row justify-center items-center min-h-[40px] px-[20px] border border-gray-300'

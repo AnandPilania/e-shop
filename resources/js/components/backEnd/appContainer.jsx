@@ -147,8 +147,9 @@ const Appcontainer = () => {
     const [selectedVariantesList, setSelectedVariantesList] = useState([]);
     const [allOptionsVariantesNeeded, setAllOptionsVariantesNeeded] = useState(0);
     const [isHideDeletedVariantes, setIsHideDeletedVariantes] = useState(false);
-   
-
+    const [variante, setVariante] = useState({});
+    const [imageVariantes, setImageVariantes] = useState([]);
+    
     //---------------------------------------------------------------PRODUCT
 
     // supplier-------------------------------------------------------------
@@ -161,7 +162,7 @@ const Appcontainer = () => {
     const [countrySupplier, setCountrySupplier] = useState('');
     const [listSuppliers, setListSuppliers] = useState([]);
     const [supplier, setSupplier] = useState('');
-    const [imageVariantes, setImageVariantes] = useState([]);
+    
 
 
     //---------------------------------------------------------------PRODUCT
@@ -504,6 +505,8 @@ const Appcontainer = () => {
         selectedVariantesList, setSelectedVariantesList,
         allOptionsVariantesNeeded, setAllOptionsVariantesNeeded,
         isHideDeletedVariantes, setIsHideDeletedVariantes,
+        variante, setVariante,
+        
         
     }
 

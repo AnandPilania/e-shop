@@ -17,28 +17,36 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
     const [showListType, setShowListType] = useStateIfMounted(false);
     const [showOptionValues, setShowOptionValues] = useStateIfMounted(false);
     const [optionValueMessage, setOptionValueMessage] = useStateIfMounted(false);
+    const [optionsData, setOptionsData] = useStateIfMounted([]);
 
     const { } = useContext(AppContext);
+    
 
-
-    // récupération de toutes les valeurs pour une option donnée
-    const getOptionValues = () => {
-        Axios.get(`http://127.0.0.1:8000/getOptionValues`,
-            {
-                params: {
-                    option_name: optionObj.name,
-                }
-            }).then((res) => {
-                if (res.data.length > 0) {
-                    setListOptionValues(res.data);
-                } else {
-                    setListOptionValues([]);
-                }
+    useEffect(() => {
+        Axios.get(`http://127.0.0.1:8000/getOptionValues`)
+            .then((res) => {
+                setOptionsData(Object.values(res.data));
             });
+    }, []);
+
+
+    // fourni les valeurs pour une option donnée
+    const getOptionValues = () => {
+        let ndx = null;
+        for (let i = 0; i < optionsData.length; i++) {
+            if (optionsData[i][0].optionName == optionObj.name) {
+                ndx = i;
+                break;
+            }
+        }
+        if (ndx !== null) {
+            setListOptionValues(optionsData[ndx]);
+        } else {
+            setListOptionValues([]);
+        }
     }
 
     const removeErrorMessage = () => {
-
         // input option name
         let spanMessageName = document.getElementById(`name${optionObj.id}`);
         spanMessageName.innerHTML = '';
@@ -52,12 +60,13 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
         spanMessageValue.innerHTML = '';
         let inputOptionValueError = document.getElementsByClassName(`value${optionObj.id}`)[0];
         if (inputOptionValueError !== undefined) {
-            inputOptionValueError.className = `inputOptionValues w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat hover:bg-caret-down bg-right-center value${optionObj.id}`;
+            inputOptionValueError.className = `inputOptionValues w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat  ${listOptionValues?.length > 0 && "hover:bg-caret-down"} bg-right-center value${optionObj.id}`;
         }
 
         // value duplicate
         setOptionValueMessage(false);
     }
+
 
     const handleChangeOption = (e) => {
         if (e.target != undefined) {
@@ -87,17 +96,12 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
         saveOption(optionObj);
     }, [optionObj]);
 
-
     const handleShowListType = () => {
         setShowListType(!showListType);
     }
 
     const handleShowOptionValuesList = () => {
-        if (showOptionValues) {
-            setShowOptionValues(false);
-        } else {
-            setShowOptionValues(true);
-        }
+        setShowOptionValues(!showOptionValues);
         setOptionValueMessage(false);
     }
 
@@ -200,7 +204,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
                     setShowOptionValues(false);
                     let inputOptionValues = document.getElementById('inputOptionValues');
                     if (inputOptionValues !== null) {
-                        inputOptionValues.className = "inputOptionValues w-full h-[38px] pl-[10px] mt-0 border border-gray-300 rounded-md cursor-text bg-no-repeat hover:bg-caret-down bg-right-center";
+                        inputOptionValues.className = `inputOptionValues w-full h-[38px] pl-[10px] mt-0 border border-gray-300 rounded-md cursor-text bg-no-repeat  ${listOptionValues?.length > 0 && "hover:bg-caret-down"} bg-right-center`;
                     }
                 }
             }
@@ -212,7 +216,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
         if (showOptionValues) {
             let inputOptionValues = document.getElementById('inputOptionValues');
             if (inputOptionValues !== null) {
-                inputOptionValues.className = "inputOptionValues w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md  cursor-text bg-no-repeat hover:bg-caret-down bg-right-center";
+                inputOptionValues.className = `inputOptionValues w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md  cursor-text bg-no-repeat  ${listOptionValues?.length > 0 && "hover:bg-caret-down"} bg-right-center`;
             }
         }
     }, [showOptionValues]);
@@ -237,14 +241,14 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
     }, [tmp_selectOptionValues]);
     const handleClickOutside2 = (event) => {
         // check qu'on a bien click en dehors de l'input
-        if (ul_optionValuesRef.current && !ul_optionValuesRef.current.contains(event.target)) {
+        if (ul_optionValuesRef.current && !ul_optionValuesRef.current.contains(event.target) && input_optionValuesRef.current && !input_optionValuesRef.current.contains(event.target)) {
             setShowOptionValues(false);
         }
     };
 
-
+    // console.log('optionObj   ', optionObj)
     return (
-        <div className="w-full h-auto grid gap-x-4 gap-y-2 grid-cols-[1fr_1fr_25px] justify-start items-start pb-[21px]  border-b border-gray-200 mb-[25px]">
+        <div className="w-full h-auto grid gap-x-4 grid-cols-[1fr_1fr_25px] justify-start items-start px-4 pt-4 pb-2 mb-2 rounded border borderg-gray-20">
 
             {/* option namme */}
             <div className='w-full h-[40px] p-0 flex flex-col justify-start items-start'>
@@ -322,7 +326,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
                             placeholder="Ex. Bleu, Large,..."
                             autoComplete="off"
                             disabled={optionObj.name?.length == 0}
-                            className={`inputOptionValues w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat hover:bg-caret-down bg-right-center value${optionObj.id}`}
+                            className={`inputOptionValues w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ${listOptionValues?.length > 0 && "hover:bg-caret-down"}  bg-right-center value${optionObj.id}`}
                         />
                     </div>
                     {optionValueMessage &&

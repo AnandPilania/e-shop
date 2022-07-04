@@ -114,7 +114,7 @@ const Options = () => {
         }
 
     }
-    console.log('optionsObj  -> ', optionsObj)
+    // console.log('optionsObj  -> ', optionsObj)
     return (
         <div className="w-full">
             <div className='w-full h-auto flex flex-row flex-wrap justify-start items-center mb-5'>
@@ -153,7 +153,7 @@ const Options = () => {
                 <div className="w-full h-auto flex flrx-row justify-start items-center mb-[25px]">
                     <button
                         onClick={addOption}
-                        className='h-[40px] px-[10px] border border-slate-200 '>
+                        className='h-[40px] px-[10px] mt-4 border border-slate-200 '>
                         Ajouter une option
                     </button>
                 </div>
@@ -163,8 +163,6 @@ const Options = () => {
                     Vous pouvez ajouter jusqu'à 4 options
                 </span>
             }
-
-            <div className='w-full border-b border-gray-200'></div>
 
             <OptionVariantesList
                 // listType={listType}

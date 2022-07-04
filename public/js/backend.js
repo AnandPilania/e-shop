@@ -32381,59 +32381,64 @@ var Appcontainer = function Appcontainer() {
   var _useState151 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState152 = _slicedToArray(_useState151, 2),
       isHideDeletedVariantes = _useState152[0],
-      setIsHideDeletedVariantes = _useState152[1]; //---------------------------------------------------------------PRODUCT
+      setIsHideDeletedVariantes = _useState152[1];
+
+  var _useState153 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+      _useState154 = _slicedToArray(_useState153, 2),
+      variante = _useState154[0],
+      setVariante = _useState154[1];
+
+  var _useState155 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState156 = _slicedToArray(_useState155, 2),
+      imageVariantes = _useState156[0],
+      setImageVariantes = _useState156[1]; //---------------------------------------------------------------PRODUCT
   // supplier-------------------------------------------------------------
 
 
-  var _useState153 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState154 = _slicedToArray(_useState153, 2),
-      nameSupplier = _useState154[0],
-      setNameSupplier = _useState154[1];
-
-  var _useState155 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState156 = _slicedToArray(_useState155, 2),
-      emailSupplier = _useState156[0],
-      setEmailSupplier = _useState156[1];
-
   var _useState157 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState158 = _slicedToArray(_useState157, 2),
-      phoneSupplier = _useState158[0],
-      setPhoneSupplier = _useState158[1];
+      nameSupplier = _useState158[0],
+      setNameSupplier = _useState158[1];
 
   var _useState159 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState160 = _slicedToArray(_useState159, 2),
-      webSiteSupplier = _useState160[0],
-      setWebSiteSupplier = _useState160[1];
+      emailSupplier = _useState160[0],
+      setEmailSupplier = _useState160[1];
 
   var _useState161 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState162 = _slicedToArray(_useState161, 2),
-      adressSupplier = _useState162[0],
-      setAdressSupplier = _useState162[1];
+      phoneSupplier = _useState162[0],
+      setPhoneSupplier = _useState162[1];
 
   var _useState163 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState164 = _slicedToArray(_useState163, 2),
-      citySupplier = _useState164[0],
-      setCitySupplier = _useState164[1];
+      webSiteSupplier = _useState164[0],
+      setWebSiteSupplier = _useState164[1];
 
   var _useState165 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState166 = _slicedToArray(_useState165, 2),
-      countrySupplier = _useState166[0],
-      setCountrySupplier = _useState166[1];
+      adressSupplier = _useState166[0],
+      setAdressSupplier = _useState166[1];
 
-  var _useState167 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState167 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState168 = _slicedToArray(_useState167, 2),
-      listSuppliers = _useState168[0],
-      setListSuppliers = _useState168[1];
+      citySupplier = _useState168[0],
+      setCitySupplier = _useState168[1];
 
   var _useState169 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState170 = _slicedToArray(_useState169, 2),
-      supplier = _useState170[0],
-      setSupplier = _useState170[1];
+      countrySupplier = _useState170[0],
+      setCountrySupplier = _useState170[1];
 
   var _useState171 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState172 = _slicedToArray(_useState171, 2),
-      imageVariantes = _useState172[0],
-      setImageVariantes = _useState172[1]; //---------------------------------------------------------------PRODUCT
+      listSuppliers = _useState172[0],
+      setListSuppliers = _useState172[1];
+
+  var _useState173 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState174 = _slicedToArray(_useState173, 2),
+      supplier = _useState174[0],
+      setSupplier = _useState174[1]; //---------------------------------------------------------------PRODUCT
 
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
@@ -32863,7 +32868,9 @@ var Appcontainer = function Appcontainer() {
     allOptionsVariantesNeeded: allOptionsVariantesNeeded,
     setAllOptionsVariantesNeeded: setAllOptionsVariantesNeeded,
     isHideDeletedVariantes: isHideDeletedVariantes,
-    setIsHideDeletedVariantes: setIsHideDeletedVariantes
+    setIsHideDeletedVariantes: setIsHideDeletedVariantes,
+    variante: variante,
+    setVariante: setVariante
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"].Provider, {
     value: contextValue,
@@ -37917,7 +37924,9 @@ __webpack_require__.r(__webpack_exports__);
   allOptionsVariantesNeeded: '',
   setAllOptionsVariantesNeeded: function setAllOptionsVariantesNeeded() {},
   isHideDeletedVariantes: '',
-  setIsHideDeletedVariantes: function setIsHideDeletedVariantes() {}
+  setIsHideDeletedVariantes: function setIsHideDeletedVariantes() {},
+  variante: {},
+  setVariante: function setVariante() {}
 }));
 
 /***/ }),
@@ -40512,8 +40521,7 @@ var ModalImageVariante = function ModalImageVariante(_ref) {
       handleModalCancel = _ref.handleModalCancel,
       show = _ref.show,
       imageVariante = _ref.imageVariante,
-      setImageVariante = _ref.setImageVariante,
-      variante = _ref.variante;
+      setImageVariante = _ref.setImageVariante;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
       _useState2 = _slicedToArray(_useState, 2),
@@ -40529,7 +40537,9 @@ var ModalImageVariante = function ModalImageVariante(_ref) {
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_2__["default"]),
       variantes = _useContext.variantes,
-      setVariantes = _useContext.setVariantes;
+      setVariantes = _useContext.setVariantes,
+      variante = _useContext.variante,
+      setVariante = _useContext.setVariante;
 
   var handleImportImage = function handleImportImage() {
     inputModalImageVariante.current.click();
@@ -40603,7 +40613,10 @@ var ModalImageVariante = function ModalImageVariante(_ref) {
       }
     }).then(function () {
       axios__WEBPACK_IMPORTED_MODULE_1___default().get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage').then(function (res) {
-        setImageVariante(res.data);
+        setImageVariante(res.data); // sélectionne l'image qui vient d'être téléchargée
+
+        handleSelectImage(res.data[res.data.length - 1]);
+        scrollDown();
       })["catch"](function (error) {
         console.log('Error get Product Images failed : ' + error.status);
       });
@@ -40651,7 +40664,7 @@ var ModalImageVariante = function ModalImageVariante(_ref) {
 
   var handleDoubleClick = function handleDoubleClick(item) {
     setSelectedImage(item);
-    handleConfirm(selectedImage);
+    handleConfirm(item);
     handleSelectImage(item);
     cancelSelection();
   };
@@ -40741,7 +40754,7 @@ var ModalImageVariante = function ModalImageVariante(_ref) {
           className: "w-[25px] h-[25px] rounded hover:scale-125 animate-bounce cursor-pointer",
           src: "../images/icons/arrow-down-circle.svg"
         })
-      }), console.log('variante   ', variante), variante != null && variante != undefined ? Object.keys(variante === null || variante === void 0 ? void 0 : variante.selectedImage).length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+      }), variante.hasOwnProperty("selectedImage") && variante.selectedImage.hasOwnProperty("value") && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
         className: "w-full flex flex-row justify-start items-center pb-8 mb-3",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
           className: "flex flex-row justify-start items-center p-3 border border-gray-300 rounded",
@@ -40756,7 +40769,7 @@ var ModalImageVariante = function ModalImageVariante(_ref) {
             children: "Retirer l'image"
           })]
         })
-      }) : '', /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
         className: "w-full flex flex-row justify-start items-end",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
           className: "flex flex-row justify-center items-center min-h-[40px] px-[20px] border border-gray-300",
@@ -41047,23 +41060,36 @@ var Option = function Option(_ref) {
       optionValueMessage = _useStateIfMounted14[0],
       setOptionValueMessage = _useStateIfMounted14[1];
 
+  var _useStateIfMounted15 = (0,use_state_if_mounted__WEBPACK_IMPORTED_MODULE_1__.useStateIfMounted)([]),
+      _useStateIfMounted16 = _slicedToArray(_useStateIfMounted15, 2),
+      optionsData = _useStateIfMounted16[0],
+      setOptionsData = _useStateIfMounted16[1];
+
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_2__["default"]);
 
-  _objectDestructuringEmpty(_useContext); // récupération de toutes les valeurs pour une option donnée
+  _objectDestructuringEmpty(_useContext);
 
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/getOptionValues").then(function (res) {
+      setOptionsData(Object.values(res.data));
+    });
+  }, []); // fourni les valeurs pour une option donnée
 
   var getOptionValues = function getOptionValues() {
-    axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/getOptionValues", {
-      params: {
-        option_name: optionObj.name
+    var ndx = null;
+
+    for (var i = 0; i < optionsData.length; i++) {
+      if (optionsData[i][0].optionName == optionObj.name) {
+        ndx = i;
+        break;
       }
-    }).then(function (res) {
-      if (res.data.length > 0) {
-        setListOptionValues(res.data);
-      } else {
-        setListOptionValues([]);
-      }
-    });
+    }
+
+    if (ndx !== null) {
+      setListOptionValues(optionsData[ndx]);
+    } else {
+      setListOptionValues([]);
+    }
   };
 
   var removeErrorMessage = function removeErrorMessage() {
@@ -41082,7 +41108,7 @@ var Option = function Option(_ref) {
     var inputOptionValueError = document.getElementsByClassName("value".concat(optionObj.id))[0];
 
     if (inputOptionValueError !== undefined) {
-      inputOptionValueError.className = "inputOptionValues w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat hover:bg-caret-down bg-right-center value".concat(optionObj.id);
+      inputOptionValueError.className = "inputOptionValues w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat  ".concat((listOptionValues === null || listOptionValues === void 0 ? void 0 : listOptionValues.length) > 0 && "hover:bg-caret-down", " bg-right-center value").concat(optionObj.id);
     } // value duplicate
 
 
@@ -41132,12 +41158,7 @@ var Option = function Option(_ref) {
   };
 
   var handleShowOptionValuesList = function handleShowOptionValuesList() {
-    if (showOptionValues) {
-      setShowOptionValues(false);
-    } else {
-      setShowOptionValues(true);
-    }
-
+    setShowOptionValues(!showOptionValues);
     setOptionValueMessage(false);
   }; // ferme le dropDown input listType quand on clique en dehors
 
@@ -41252,7 +41273,7 @@ var Option = function Option(_ref) {
           var inputOptionValues = document.getElementById('inputOptionValues');
 
           if (inputOptionValues !== null) {
-            inputOptionValues.className = "inputOptionValues w-full h-[38px] pl-[10px] mt-0 border border-gray-300 rounded-md cursor-text bg-no-repeat hover:bg-caret-down bg-right-center";
+            inputOptionValues.className = "inputOptionValues w-full h-[38px] pl-[10px] mt-0 border border-gray-300 rounded-md cursor-text bg-no-repeat  ".concat((listOptionValues === null || listOptionValues === void 0 ? void 0 : listOptionValues.length) > 0 && "hover:bg-caret-down", " bg-right-center");
           }
         }
       }
@@ -41264,7 +41285,7 @@ var Option = function Option(_ref) {
       var inputOptionValues = document.getElementById('inputOptionValues');
 
       if (inputOptionValues !== null) {
-        inputOptionValues.className = "inputOptionValues w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md  cursor-text bg-no-repeat hover:bg-caret-down bg-right-center";
+        inputOptionValues.className = "inputOptionValues w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md  cursor-text bg-no-repeat  ".concat((listOptionValues === null || listOptionValues === void 0 ? void 0 : listOptionValues.length) > 0 && "hover:bg-caret-down", " bg-right-center");
       }
     }
   }, [showOptionValues]);
@@ -41293,13 +41314,14 @@ var Option = function Option(_ref) {
 
   var handleClickOutside2 = function handleClickOutside2(event) {
     // check qu'on a bien click en dehors de l'input
-    if (ul_optionValuesRef.current && !ul_optionValuesRef.current.contains(event.target)) {
+    if (ul_optionValuesRef.current && !ul_optionValuesRef.current.contains(event.target) && input_optionValuesRef.current && !input_optionValuesRef.current.contains(event.target)) {
       setShowOptionValues(false);
     }
-  };
+  }; // console.log('optionObj   ', optionObj)
+
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-    className: "w-full h-auto grid gap-x-4 gap-y-2 grid-cols-[1fr_1fr_25px] justify-start items-start pb-[21px]  border-b border-gray-200 mb-[25px]",
+    className: "w-full h-auto grid gap-x-4 grid-cols-[1fr_1fr_25px] justify-start items-start px-4 pt-4 pb-2 mb-2 rounded border borderg-gray-20",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
       className: "w-full h-[40px] p-0 flex flex-col justify-start items-start",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
@@ -41371,7 +41393,7 @@ var Option = function Option(_ref) {
             placeholder: "Ex. Bleu, Large,...",
             autoComplete: "off",
             disabled: ((_optionObj$name2 = optionObj.name) === null || _optionObj$name2 === void 0 ? void 0 : _optionObj$name2.length) == 0,
-            className: "inputOptionValues w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat hover:bg-caret-down bg-right-center value".concat(optionObj.id)
+            className: "inputOptionValues w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ".concat((listOptionValues === null || listOptionValues === void 0 ? void 0 : listOptionValues.length) > 0 && "hover:bg-caret-down", "  bg-right-center value").concat(optionObj.id)
           })
         }), optionValueMessage && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
           className: "block text-red-700 text-sm",
@@ -41518,31 +41540,26 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
       idVariante = _useState2[0],
       setIdVariante = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(undefined),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
       _useState4 = _slicedToArray(_useState3, 2),
-      variante = _useState4[0],
-      setVariante = _useState4[1];
+      imageVariante = _useState4[0],
+      setImageVariante = _useState4[1];
 
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState6 = _slicedToArray(_useState5, 2),
-      imageVariante = _useState6[0],
-      setImageVariante = _useState6[1];
+      showModalImageVariante = _useState6[0],
+      setShowModalImageVariante = _useState6[1];
 
   var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState8 = _slicedToArray(_useState7, 2),
-      showModalImageVariante = _useState8[0],
-      setShowModalImageVariante = _useState8[1];
+      showMCancelDeleteButton = _useState8[0],
+      setShowMCancelDeleteButton = _useState8[1]; // const [deletedVariantesList, setDeletedVariantesList] = useState([]);
 
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState10 = _slicedToArray(_useState9, 2),
-      showMCancelDeleteButton = _useState10[0],
-      setShowMCancelDeleteButton = _useState10[1]; // const [deletedVariantesList, setDeletedVariantesList] = useState([]);
-
-
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState12 = _slicedToArray(_useState11, 2),
-      changedVariantes = _useState12[0],
-      setChangedVariantes = _useState12[1];
+      changedVariantes = _useState10[0],
+      setChangedVariantes = _useState10[1];
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       optionsObj = _useContext.optionsObj,
@@ -41556,7 +41573,10 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
       setCheckedVariantesList = _useContext.setCheckedVariantesList,
       selectedVariantesList = _useContext.selectedVariantesList,
       setSelectedVariantesList = _useContext.setSelectedVariantesList,
-      isHideDeletedVariantes = _useContext.isHideDeletedVariantes;
+      isHideDeletedVariantes = _useContext.isHideDeletedVariantes,
+      variante = _useContext.variante,
+      setVariante = _useContext.setVariante,
+      setImageVariantes = _useContext.setImageVariantes;
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // // check if there is deleted variantes and show cancel button if true
@@ -41778,7 +41798,29 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
     setShowModalImageVariante(false); // ajoute l'image sélectionnée à la variante qui a l'id == idVariante
 
     handleVariantes(idVariante, 'selectedImage', selectedImage);
-    setIdVariante(null);
+    setIdVariante(null); // refresh dropZoneProduct
+
+    axios__WEBPACK_IMPORTED_MODULE_2___default().get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage').then(function (res) {
+      var tmp_data = [[]];
+      var tmp = [];
+
+      for (var i = 0; i < res.data.length; i++) {
+        if (tmp.length < 4) {
+          tmp.push(res.data[i]);
+          tmp_data.splice(-1, 1, tmp);
+        } else {
+          tmp_data.splice(-1, 1, tmp);
+          tmp = [];
+          tmp.push(res.data[i]);
+          tmp_data.push(tmp);
+        }
+      }
+
+      ;
+      setImageVariantes(tmp_data);
+    })["catch"](function (error) {
+      console.log('Error get Product Images failed : ' + error.status);
+    });
   };
 
   var handleChangeCheckbox = function handleChangeCheckbox(id) {
@@ -41847,7 +41889,7 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h3", {
+    children: [(variantes === null || variantes === void 0 ? void 0 : variantes.length) > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h3", {
       className: "w-full text-left mb-[20px] mt-[35px] font-semibold text-[16px]",
       children: "Variantes"
     }), (variantes === null || variantes === void 0 ? void 0 : variantes.length) > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_selectionVariantesInList__WEBPACK_IMPORTED_MODULE_6__["default"], {
@@ -41885,7 +41927,7 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
             handlechange: handleChangeCheckbox
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("span", {
-          className: "w-full h-[30px] pl-[8px] pt-[3px] rounded-md whitespace-nowrap text-ellipsis overflow-hidden cursor-default group ".concat(item.deleted ? "text-gray-400" : "text-gray-500", " ").concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50"),
+          className: "w-full h-[30px] pt-[3px] rounded-md whitespace-nowrap text-ellipsis overflow-hidden cursor-default group ".concat(item.deleted ? "text-gray-400" : "text-gray-500", " ").concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50"),
           children: [item === null || item === void 0 ? void 0 : item.optionsString, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_3__["default"], {
             top: -30,
             left: 2,
@@ -41994,8 +42036,7 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
       handleConfirm: handleConfirm,
       handleModalCancel: handleModalCancel,
       imageVariante: imageVariante,
-      setImageVariante: setImageVariante,
-      variante: variante
+      setImageVariante: setImageVariante
     })]
   });
 };
@@ -42166,9 +42207,9 @@ var Options = function Options() {
       }]));
       setShowOptions(true);
     }
-  };
+  }; // console.log('optionsObj  -> ', optionsObj)
 
-  console.log('optionsObj  -> ', optionsObj);
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
     className: "w-full",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
@@ -42206,14 +42247,12 @@ var Options = function Options() {
       className: "w-full h-auto flex flrx-row justify-start items-center mb-[25px]",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
         onClick: addOption,
-        className: "h-[40px] px-[10px] border border-slate-200 ",
+        className: "h-[40px] px-[10px] mt-4 border border-slate-200 ",
         children: "Ajouter une option"
       })
     }), optionsObj.length === 4 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
       className: "text-blue-500 text-sm relative top-[-20px] left-0",
       children: "Vous pouvez ajouter jusqu'\xE0 4 options"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-      className: "w-full border-b border-gray-200"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_optionVariantesList__WEBPACK_IMPORTED_MODULE_3__["default"] // listType={listType}
     , {
       setShowOptions: setShowOptions
