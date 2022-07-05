@@ -15,16 +15,16 @@ import ModalSimpleMessage from '../modal/modalSimpleMessage';
 
 
 // props.id = detailx
-const CreateProduct = (props) => {
+const CreateProduct = () => {
 
     const [collectionsRelations, setCollectionsRelations] = useState([]);
     const [dataDetail, setDataDetail] = useState([]);
     const [showModalFromPrice, setShowModalFromPrice] = useState(false);
 
-    const { image, descriptionProduct, listSuppliers, setListSuppliers, supplier, setSupplier, collection, setCollection, productPrice, productStock, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj } = useContext(AppContext);
+    const { image, descriptionProduct, listSuppliers, setListSuppliers, supplier, setSupplier, collection, setCollection, productPrice, productStock, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData } = useContext(AppContext);
 
     useEffect(() => {
-        // récupére les types de détails dans la table type_detail_products pour remplire le select id=selectdetails
+        // récupére les collections
         Axios.get(`http://127.0.0.1:8000/getCollections`)
             .then(res => {
                 setCollectionsRelations(res.data.collections);
@@ -41,7 +41,15 @@ const CreateProduct = (props) => {
                 console.log('error:   ' + error);
             });
 
+
+        // charge les données des types d'options et leurs valeurs ex. Couleurs, rouge, vert, ...
+        Axios.get(`http://127.0.0.1:8000/getOptionValues`)
+            .then((res) => {
+                setOptionsData(Object.values(res.data));
+            });
+
     }, []);
+
 
 
 
@@ -58,6 +66,9 @@ const CreateProduct = (props) => {
         setNameProduct(e.target.value);
     }
 
+
+
+    console.log('optionsObj  ', optionsObj)
     const validation = () => {
 
         // // name validation
@@ -76,14 +87,21 @@ const CreateProduct = (props) => {
 
         // options
         for (let i = 0; i < optionsObj.length; i++) {
+            console.log('name${optionsObj[i].id}   ', `name${optionsObj[i].id}`)
 
-            if (optionsObj[i].name.length == 0) {
+            if (optionsObj[i].name == '') {
                 let spanMessage = document.getElementById(`name${optionsObj[i].id}`);
                 spanMessage.innerHTML = 'Le champ nom de l\'option ne peut pas être vide';
 
                 let inputOptionError = document.getElementsByClassName(`name${optionsObj[i].id}`)[0];
+                
+                console.log('i   ', i)
+
                 if (inputOptionError !== undefined) {
-                    inputOptionError.className = `inputListType w-full h-[38px] pl-[10px] m-0 rounded-4 cursor-text bg-white bg-no-repeat hover:bg-caret-down bg-right-center name${optionsObj[i].id} border border-red-500`;
+                    inputOptionError.classList.remove('border-gray-300');
+                    inputOptionError.classList.add('border-red-500');
+
+                    console.log('inputOptionError.classList   ', inputOptionError.classList)
                 }
             }
 
@@ -93,7 +111,8 @@ const CreateProduct = (props) => {
 
                 let inputOptionValueError = document.getElementsByClassName(`value${optionsObj[i].id}`)[0];
                 if (inputOptionValueError !== undefined) {
-                    inputOptionValueError.className = `inputOptionValues w-full h-[38px] pl-[10px] m-0 rounded-4 cursor-text bg-white bg-no-repeat hover:bg-caret-down bg-right-center value${optionsObj[i].id} border border-red-500`;
+                    inputOptionValueError.classList.remove('border-gray-300');
+                    inputOptionValueError.classList.add('border-red-500');
                 }
             }
         }

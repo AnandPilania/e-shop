@@ -149,7 +149,10 @@ const Appcontainer = () => {
     const [isHideDeletedVariantes, setIsHideDeletedVariantes] = useState(false);
     const [variante, setVariante] = useState({});
     const [imageVariantes, setImageVariantes] = useState([]);
-    
+    const [listType, setListType] = useState([]);
+    const [optionsData, setOptionsData] = useState([]);
+
+     
     //---------------------------------------------------------------PRODUCT
 
     // supplier-------------------------------------------------------------
@@ -506,7 +509,9 @@ const Appcontainer = () => {
         allOptionsVariantesNeeded, setAllOptionsVariantesNeeded,
         isHideDeletedVariantes, setIsHideDeletedVariantes,
         variante, setVariante,
-        
+        listType, setListType,
+        optionsData, setOptionsData,
+
         
     }
 

@@ -1,33 +1,26 @@
 import React, { useEffect, useRef, useContext } from 'react';
 import { useStateIfMounted } from "use-state-if-mounted";
 import AppContext from '../../contexts/AppContext';
-import Axios from 'axios';
+// import Axios from 'axios';
 
 
-const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) => {
+const Option = ({ option_obj, saveOption, deleteOption, optionsObj }) => {
 
     const [optionObj, setOptionObj] = useStateIfMounted({
         id: option_obj.id,
         name: option_obj.name,
         values: [...option_obj.values]
     });
+
     const [listOptionValues, setListOptionValues] = useStateIfMounted([]);
     const [tmp_optionValues, setTmp_optionValues] = useStateIfMounted('');
     const [tmp_selectOptionValues, setTmp_selectOptionValues] = useStateIfMounted('');
     const [showListType, setShowListType] = useStateIfMounted(false);
     const [showOptionValues, setShowOptionValues] = useStateIfMounted(false);
     const [optionValueMessage, setOptionValueMessage] = useStateIfMounted(false);
-    const [optionsData, setOptionsData] = useStateIfMounted([]);
 
-    const { } = useContext(AppContext);
-    
 
-    useEffect(() => {
-        Axios.get(`http://127.0.0.1:8000/getOptionValues`)
-            .then((res) => {
-                setOptionsData(Object.values(res.data));
-            });
-    }, []);
+    const { listType, optionsData, setOptionsData } = useContext(AppContext);
 
 
     // fourni les valeurs pour une option donnée
@@ -52,7 +45,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
         spanMessageName.innerHTML = '';
         let inputOptionError = document.getElementsByClassName(`name${optionObj.id}`)[0];
         if (inputOptionError !== undefined) {
-            inputOptionError.className = `inputListType w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat hover:bg-caret-down bg-right-center name${optionObj.id}`;
+            inputOptionError.className = `inputListType name${optionObj.id} w-full h-[38px] pl-[10px] m-0 mb-1 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ${listTypesNoEmpty && "hover:bg-caret-down"}  bg-right-center`;
         }
 
         // input option Value
@@ -60,7 +53,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
         spanMessageValue.innerHTML = '';
         let inputOptionValueError = document.getElementsByClassName(`value${optionObj.id}`)[0];
         if (inputOptionValueError !== undefined) {
-            inputOptionValueError.className = `inputOptionValues w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat  ${listOptionValues?.length > 0 && "hover:bg-caret-down"} bg-right-center value${optionObj.id}`;
+            inputOptionValueError.className = `inputOptionValues value${optionObj.id} w-full h-[38px] pl-[10px] m-0 mb-1 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat  ${listOptionValuesNotEmpty && "hover:bg-caret-down"} bg-right-center`;
         }
 
         // value duplicate
@@ -68,7 +61,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
     }
 
 
-    const handleChangeOption = (e) => {
+    const handleChangeOption = (e) => { 
         if (e.target != undefined) {
             setOptionObj({ ...optionObj, name: e.target.value, values: [] });
             setShowListType(false);
@@ -96,7 +89,8 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
         saveOption(optionObj);
     }, [optionObj]);
 
-    const handleShowListType = () => {
+    const handleShowListType = () => { 
+        input_optionValuesRef.current.blur();
         setShowListType(!showListType);
     }
 
@@ -106,24 +100,24 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
     }
 
     // ferme le dropDown input listType quand on clique en dehors
-    const onClickOutside_inputListType = (e) => {
+    const onClickOutside_inputListType = (e) => { 
         if (e.target.className.length > 0 && e.target.className != null && e.target.className != undefined) {
             if (!e.target.className.includes('inputListType')) {
                 setShowListType(false);
 
-                let inputListType = document.getElementById('inputListType');
-                if (inputListType !== null) {
-                    inputListType.className = "inputListType w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-no-repeat hover:bg-caret-down bg-right-center";
-                }
+                // let inputListType = document.getElementById('inputListType');
+                // if (inputListType !== null) {
+                //     inputListType.className = `inputListType name${optionObj.id} w-full h-[38px] pl-[10px] m-0 border ${optionObj.name == '' ? "border-red-500" : "border-gray-300"} rounded-md cursor-text bg-no-repeat ${listTypesNoEmpty && "hover:bg-caret-down"} bg-right-center`;
+                // }
             }
         }
     };
     useEffect(() => {
-        if (showListType) {
-            let inputListType = document.getElementById('inputListType');
-            if (inputListType !== null) {
-                inputListType.className = "inputListType w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-no-repeat bg-caret-down bg-right-center";
-            }
+        if (showListType) { 
+            // let inputListType = document.getElementById('inputListType');
+            // if (inputListType !== null) {
+            //     inputListType.className = `inputListType name${optionObj.id} w-full h-[38px] pl-[10px] m-0 border ${optionObj.name == '' ? "border-red-500" : "border-gray-300"} rounded-md cursor-text bg-no-repeat ${listTypesNoEmpty && "hover:bg-caret-down"} bg-right-center`;
+            // }
 
             // gère la fermeture du dropDown input listType quand on clique en dehors
             window.addEventListener("click", onClickOutside_inputListType);
@@ -204,7 +198,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
                     setShowOptionValues(false);
                     let inputOptionValues = document.getElementById('inputOptionValues');
                     if (inputOptionValues !== null) {
-                        inputOptionValues.className = `inputOptionValues w-full h-[38px] pl-[10px] mt-0 border border-gray-300 rounded-md cursor-text bg-no-repeat  ${listOptionValues?.length > 0 && "hover:bg-caret-down"} bg-right-center`;
+                        inputOptionValues.className = `inputOptionValues value${optionObj.id} w-full h-[38px] pl-[10px] mt-0 border border-gray-300 rounded-md cursor-text bg-no-repeat  ${listOptionValuesNotEmpty && "hover:bg-caret-down"} bg-right-center`;
                     }
                 }
             }
@@ -216,7 +210,7 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
         if (showOptionValues) {
             let inputOptionValues = document.getElementById('inputOptionValues');
             if (inputOptionValues !== null) {
-                inputOptionValues.className = `inputOptionValues w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md  cursor-text bg-no-repeat  ${listOptionValues?.length > 0 && "hover:bg-caret-down"} bg-right-center`;
+                inputOptionValues.className = `inputOptionValues value${optionObj.id} w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md  cursor-text bg-no-repeat  ${listOptionValuesNotEmpty && "hover:bg-caret-down"} bg-right-center`;
             }
         }
     }, [showOptionValues]);
@@ -246,12 +240,17 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
         }
     };
 
+
+    const listTypesNoEmpty = listType != undefined && listType != null && listType?.length > 0;
+    const listOptionValuesNotEmpty = listOptionValues != undefined && listOptionValues != null && listOptionValues?.length > 0;
+   
+    console.log('listOptionValues   ', listOptionValues)
     // console.log('optionObj   ', optionObj)
     return (
-        <div className="w-full h-auto grid gap-x-4 grid-cols-[1fr_1fr_25px] justify-start items-start px-4 pt-4 pb-2 mb-2 rounded border borderg-gray-20">
+        <div className="w-full h-auto grid gap-x-4 grid-cols-[1fr_1fr_25px] justify-start items-start px-4 pt-4 pb-2 mb-2 rounded border border-gray-200">
 
             {/* option namme */}
-            <div className='w-full h-[40px] p-0 flex flex-col justify-start items-start'>
+            <div className='w-full h-auto p-0 flex flex-col justify-start items-start'>
                 <div className="relative w-full m-0 p-0">
                     <div className='w-full h-[40px] p-0 m-0'>
                         <input
@@ -267,43 +266,44 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
                             }}
                             placeholder="Ex. Couleur, Taille,..."
                             autoComplete="off"
-                            className={`inputListType w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat hover:bg-caret-down bg-right-center name${optionObj.id} `}
+                            className={`inputListType name${optionObj.id} w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ${listTypesNoEmpty && "hover:bg-caret-down"} bg-right-center `}
                         />
                     </div>
 
                     {/* affiche les erreurs */}
                     <span
                         id={`name${optionObj.id}`}
-                        className='text-red-700 text-sm'>
+                        className='text-red-700 text-sm mb-1'>
                     </span>
 
                     {showListType &&
                         <ul id="listType"
                             className='absolute t-[40px] l-0 w-full max-h-[242px] border border-gray-300 bg-white overflow-x-hidden overflow-y-scroll z-10 shadow-lg scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100'
                         >
-                            {listType.map((item, index) =>
-                                optionsObj?.findIndex(x => x.name == item.name) == -1 &&
-                                <li
-                                    key={index}
-                                    value={item.name}
-                                    onClick={() => {
-                                        handleChangeOption(item.name);
-                                        getOptionValues();
-                                    }}
-                                    className="w-full h-[40px] cursor-pointer hover:bg-slate-100"
-                                >
-                                    <span className="flex flex-row justify-start items-center pl-[10px] w-full h-full pr-[30px] text-stone-800 text-base hover:cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis">
-                                        {item.name}
-                                    </span>
-                                </li>
-                            )
+                            {listTypesNoEmpty &&
+                                listType.map((item, index) =>
+                                    optionsObj?.findIndex(x => x.name == item.name) == -1 &&
+                                    <li
+                                        key={index}
+                                        value={item.name}
+                                        onClick={() => {
+                                            handleChangeOption(item.name);
+                                            getOptionValues();
+                                        }}
+                                        className="w-full h-[40px] cursor-pointer hover:bg-slate-100"
+                                    >
+                                        <span className="flex flex-row justify-start items-center pl-[10px] w-full h-full pr-[30px] text-stone-800 text-base hover:cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis">
+                                            {item.name}
+                                        </span>
+                                    </li>
+                                )
                             }
                         </ul>}
                 </div>
             </div>
 
             {/* option value */}
-            <div className='w-full h-[40px] p-0 flex flex-col justify-start items-start'>
+            <div className='w-full h-auto p-0 flex flex-col justify-start items-start'>
                 <div className="relative w-full m-0 p-0">
                     <div className='w-full h-[40px] p-0'>
                         <input
@@ -326,25 +326,26 @@ const Option = ({ listType, option_obj, saveOption, deleteOption, optionsObj }) 
                             placeholder="Ex. Bleu, Large,..."
                             autoComplete="off"
                             disabled={optionObj.name?.length == 0}
-                            className={`inputOptionValues w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ${listOptionValues?.length > 0 && "hover:bg-caret-down"}  bg-right-center value${optionObj.id}`}
+                            className={`inputOptionValues value${optionObj.id} w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ${listOptionValuesNotEmpty && "hover:bg-caret-down"}  bg-right-center`}
                         />
                     </div>
                     {optionValueMessage &&
-                        <span className='block text-red-700 text-sm'>Ce nom existe déjà dans la liste des options</span>
+                        <span className='block text-red-700 text-sm pb-1'>Ce nom existe déjà dans la liste des options</span>
                     }
 
                     {/* affiche les erreurs */}
                     <span
                         id={`value${optionObj.id}`}
-                        className='text-red-700 text-sm'>
+                        className='text-red-700 text-sm pb-3'>
                     </span>
 
                     {showOptionValues &&
+                        listOptionValues.length > 0 &&
                         <ul id="listOptionValues"
                             ref={ul_optionValuesRef}
                             className='absolute t-[40px] l-0 w-full max-h-[242px] border border-gray-300 bg-white overflow-x-hidden overflow-y-scroll z-10 shadow-lg scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100'
                         >
-                            {listOptionValues.length > 0 && listOptionValues.map((item, index) =>
+                            {listOptionValues.map((item, index) =>
                                 <li
                                     key={index}
                                     value={item.name}

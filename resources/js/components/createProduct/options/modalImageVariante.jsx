@@ -1,4 +1,5 @@
 import React, { useState, useRef, useContext } from 'react';
+import { useIsOverflow } from '../../hooks/useIsOverflow';
 import Axios from 'axios';
 import AppContext from '../../contexts/AppContext';
 
@@ -7,10 +8,15 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
 
     const [countFile, setCountFile] = useState(0);
     const [selectedImage, setSelectedImage] = useState(null);
+    const [showArrowBounce, setShowArrowBounce] = useState(false);
+
 
     const inputModalImageVariante = useRef(null);
+    const modalImageSectionRef = useRef();
+    const isOverflow = useIsOverflow(modalImageSectionRef, (isOverflowFromCallback) => {});
 
-    const { variantes, setVariantes, variante, setVariante } = useContext(AppContext);
+
+    const { variantes, setVariantes, variante } = useContext(AppContext);
 
 
     const handleImportImage = () => {
@@ -19,7 +25,7 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
 
 
     // toggle entre l'affichage et le masquage de l'icon de sélection quand on click sur une image + setSelectedImage qui doit être envoyée à optionVariantesList
-    const handleSelectImage = (item) => { 
+    const handleSelectImage = (item) => {
         // masque l'icon si déjà coché
         if (selectedImage !== null && item.id === selectedImage.id) {
             document.getElementById('checkedButton' + selectedImage.id).className = "invisible group-hover:visible absolute top-[5px] left-[5px] w-[25px] h-[25px] rounded-[50%] bg-white";
@@ -204,6 +210,7 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
                 <section
                     id="idSectionModalImageVariante"
                     className="classSectionModalImageVariante w-full max-h-[50vh] grid grid-cols-4 gap-[10px] justify-center items-center overflow-y-auto scroll-smooth"
+                    ref={modalImageSectionRef}
                 >
                     {imageVariante.length > 0 &&
                         imageVariante.map((item, index) =>
@@ -227,13 +234,15 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
                         )}
                 </section>
                 {/* scroll down button */}
-                <div className='w-full mt-[25px] mb-[20px] flex justify-center'>
-                    <img
-                        onClick={scrollDown}
-                        className='w-[25px] h-[25px] rounded hover:scale-125 animate-bounce cursor-pointer'
-                        src='../images/icons/arrow-down-circle.svg'
-                    />
-                </div>
+                {isOverflow ?
+                    <div className='w-full mt-[25px] mb-[20px] flex justify-center'>
+                        <img
+                            onClick={scrollDown}
+                            className='w-[25px] h-[25px] rounded hover:scale-125 animate-bounce cursor-pointer'
+                            src='../images/icons/arrow-down-circle.svg'
+                        />
+                    </div> :
+                    <div className='h-8 w-full'></div>}
 
                 {/* bouton retirer l'image */}
                 {variante.hasOwnProperty("selectedImage") && variante.selectedImage.hasOwnProperty("value") &&
@@ -265,7 +274,7 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
                             ref={inputModalImageVariante}
                             type='file'
                             onChange={handleFiles}
-                            multiple={true}
+                            multiple={false}
                             className="hidden"
                         // onChange={handleinputTextModify}
                         />

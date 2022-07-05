@@ -9,22 +9,10 @@ import ModalconfirmCancelWithoutSapveOptions from './modalconfirmCancelWithoutSa
 
 const Options = () => {
 
-    const [listType, setListType] = useState([]);
     const [showOptions, setShowOptions] = useState(false);
-    const [showmodalCancelWithoutSapveOptions, setShowmodalCancelWithoutSapveOptions] = useState(false);
+    const [showModalCancelWithoutSapveOptions, setShowModalCancelWithoutSapveOptions] = useState(false);
 
-    const { optionsObj, setOptionsObj } = useContext(AppContext);
-
-
-    const confirmCancelWithoutSapveOptions = () => {
-        setShowmodalCancelWithoutSapveOptions(false);
-        setShowOptions(false);
-        setOptionsObj([]);
-    }
-
-    const closeModal = () => {
-        setShowmodalCancelWithoutSapveOptions(false);
-    }
+    const { optionsObj, setOptionsObj, listType, setListType } = useContext(AppContext);
 
 
     useEffect(() => {
@@ -35,16 +23,18 @@ const Options = () => {
             }).catch(function (error) {
                 console.log('error:   ' + error);
             });
-
-        // setOptionsObj([
-        //     ...optionsObj,
-        //     {
-        //         id: Date.now(),
-        //         name: '',
-        //         values: []
-        //     }
-        // ]);
     }, []);
+    
+
+    const confirmCancelWithoutSapveOptions = () => {
+        setShowModalCancelWithoutSapveOptions(false);
+        setShowOptions(false);
+        setOptionsObj([]);
+    }
+
+    const closeModal = () => {
+        setShowModalCancelWithoutSapveOptions(false);
+    }
 
 
     const addOption = () => {
@@ -96,7 +86,7 @@ const Options = () => {
         if (showOptions) {
             // on demande confirmation avant d'annuler les options et de perdre tout ce qu'il y a dans les champs 
             if (optionsObj.findIndex(x => x.name.length > 0 || x.values.length > 0) > -1) {
-                setShowmodalCancelWithoutSapveOptions(true);
+                setShowModalCancelWithoutSapveOptions(true);
             } else {
                 setShowOptions(false);
                 setOptionsObj([]);
@@ -129,18 +119,16 @@ const Options = () => {
 
 
             {optionsObj.length > 0 &&
-                <div className='w-full h-auto grid gap-x-4 gap-y-2 grid-cols-[1fr_1fr_25px] justify-start items-start pb-[20px]'>
+                <div className='w-full h-auto grid gap-x-4 gap-y-2 grid-cols-[1fr_1fr_25px] justify-start items-start px-4 pb-1'>
                     <label className='mt-0 mx-0 p-0'>Nom de l'option</label>
                     <label className='mt-0 mx-0 p-0'>Valeur de l'option</label>
                     <label className='mt-0 mx-0 p-0'></label>
-                    <div className='w-full border-b border-gray-200 col-span-3'></div>
                 </div>
             }
 
             {optionsObj?.map(item =>
                 <Option
                     key={item.id}
-                    listType={listType}
                     option_obj={item}
                     saveOption={saveOption}
                     deleteOption={deleteOption}
@@ -171,7 +159,7 @@ const Options = () => {
 
             {/* modal for confirmation */}
             <ModalconfirmCancelWithoutSapveOptions
-                show={showmodalCancelWithoutSapveOptions}
+                show={showModalCancelWithoutSapveOptions}
                 handleModalConfirm={confirmCancelWithoutSapveOptions}
                 handleModalCancel={closeModal}
                 textButtonConfirm="Confirmer">

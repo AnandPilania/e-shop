@@ -183,5 +183,10 @@ export default React.createContext({
     setIsHideDeletedVariantes: () => { },
     variante: {}, 
     setVariante: () => { },
+    listType: '', 
+    setListType: () => { },
+    optionsData: '',  
+    setOptionsData: () => { },
+
 
 });
