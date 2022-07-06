@@ -135,24 +135,13 @@ const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
 
         tmp_variantes.forEach(x => x.deleted = false);
         setVariantes([...tmp_variantes]);
+        setIsHideDeletedVariantes(false);
     }
 
 
     const hideDeletedVariantes = () => {
         setIsHideDeletedVariantes(!isHideDeletedVariantes);
     }
-
-
-
-    // {/* scroll down button */ }
-    // <div className='w-full mt-[25px] mb-[5px] flex justify-center'>
-    //     <img
-    //         onClick={scrollDown}
-    //         className='w-[25px] h-[25px] rounded hover:scale-125 animate-bounce cursor-pointer'
-    //         src='../images/icons/arrow-down-circle.svg'
-    //     />
-    // </div>
-
 
 
 

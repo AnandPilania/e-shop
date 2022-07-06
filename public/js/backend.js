@@ -38767,12 +38767,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -38780,6 +38774,12 @@ function _nonIterableRest() { throw new TypeError("Invalid attempt to destructur
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -39071,7 +39071,7 @@ var DropZoneProduct = function DropZoneProduct() {
     })["catch"](function (error) {
       console.log('Error delete Product Image failed : ' + error.status);
     });
-    handleReOrder(tmp_data);
+    handleReOrderInTemporaryStorage(tmp_data);
   }
 
   function detectDragDrop() {
@@ -39085,17 +39085,6 @@ var DropZoneProduct = function DropZoneProduct() {
   // }
 
 
-  var reorder = function reorder(list, startIndex, endIndex) {
-    var result = Array.from(list);
-
-    var _result$splice = result.splice(startIndex, 1),
-        _result$splice2 = _slicedToArray(_result$splice, 1),
-        removed = _result$splice2[0];
-
-    result.splice(endIndex, 0, removed);
-    return result;
-  };
-
   var getItemStyle = function getItemStyle(isDragging, draggableStyle) {
     return _objectSpread({
       // some basic styles to make the items look a bit nicer
@@ -39106,7 +39095,7 @@ var DropZoneProduct = function DropZoneProduct() {
   }; // change order of images in db temporary_storage when drag and drop images products on create product form
 
 
-  var handleReOrder = function handleReOrder(imagesToReOrder) {
+  var handleReOrderInTemporaryStorage = function handleReOrderInTemporaryStorage(imagesToReOrder) {
     var im = new FormData();
     im.append('image', JSON.stringify(imagesToReOrder));
     axios__WEBPACK_IMPORTED_MODULE_4___default().post("http://127.0.0.1:8000/reOrderImagesProducts", im, {
@@ -39136,13 +39125,25 @@ var DropZoneProduct = function DropZoneProduct() {
     return result;
   };
 
+  var reorder = function reorder(list, startIndex, endIndex) {
+    var result = Array.from(list);
+
+    var _result$splice = result.splice(startIndex, 1),
+        _result$splice2 = _slicedToArray(_result$splice, 1),
+        removed = _result$splice2[0];
+
+    result.splice(endIndex, 0, removed);
+    return result;
+  };
+
   var onDragEnd = function onDragEnd(result) {
     var source = result.source,
         destination = result.destination; // dropped outside the list
 
     if (!destination) {
       return;
-    }
+    } // le + sert à transformer la variable en nombre
+
 
     var sInd = +source.droppableId;
     var dInd = +destination.droppableId;
@@ -39171,7 +39172,7 @@ var DropZoneProduct = function DropZoneProduct() {
 
       ;
       setImageVariantes(tmp_data);
-      handleReOrder(tmp_data);
+      handleReOrderInTemporaryStorage(tmp_data);
     } else {
       var _result = move(imageVariantes[sInd], imageVariantes[dInd], source, destination);
 
@@ -39180,7 +39181,7 @@ var DropZoneProduct = function DropZoneProduct() {
       _newState[sInd] = _result[sInd];
       _newState[dInd] = _result[dInd];
       var _tmp_data = [[]];
-      var _tmp = [];
+      var _tmp = []; // crée un tableau contenant des tableaux de 4 images
 
       var _newImage = [].concat.apply([], _newState.filter(function (group) {
         return group.length;
@@ -39204,7 +39205,7 @@ var DropZoneProduct = function DropZoneProduct() {
 
       ;
       setImageVariantes(_tmp_data);
-      handleReOrder(_tmp_data);
+      handleReOrderInTemporaryStorage(_tmp_data);
     }
   };
 
@@ -41016,6 +41017,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var use_state_if_mounted__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! use-state-if-mounted */ "./node_modules/use-state-if-mounted/index.js");
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
+/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
@@ -41045,18 +41047,17 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
- // import Axios from 'axios';
+
 
 
 
 
 var Option = function Option(_ref) {
-  var _optionObj$name2;
-
   var option_obj = _ref.option_obj,
       saveOption = _ref.saveOption,
       deleteOption = _ref.deleteOption,
-      optionsObj = _ref.optionsObj;
+      optionsObj = _ref.optionsObj,
+      draggableIndex = _ref.draggableIndex;
 
   var _useStateIfMounted = (0,use_state_if_mounted__WEBPACK_IMPORTED_MODULE_1__.useStateIfMounted)({
     id: option_obj.id,
@@ -41099,8 +41100,7 @@ var Option = function Option(_ref) {
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_2__["default"]),
       listType = _useContext.listType,
-      optionsData = _useContext.optionsData,
-      setOptionsData = _useContext.setOptionsData; // fourni les valeurs pour une option donnée
+      optionsData = _useContext.optionsData; // fourni les valeurs pour une option donnée
 
 
   var getOptionValues = function getOptionValues() {
@@ -41120,7 +41120,7 @@ var Option = function Option(_ref) {
     }
   };
 
-  var removeErrorMessage = function removeErrorMessage() {
+  var removeErrorMessageOptionName = function removeErrorMessageOptionName() {
     // input option name
     var spanMessageName = document.getElementById("name".concat(optionObj.id));
     spanMessageName.innerHTML = '';
@@ -41128,9 +41128,14 @@ var Option = function Option(_ref) {
 
     if (inputOptionError !== undefined) {
       inputOptionError.className = "inputListType name".concat(optionObj.id, " w-full h-[38px] pl-[10px] m-0 mb-1 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ").concat(listTypesNoEmpty && "hover:bg-caret-down", "  bg-right-center");
-    } // input option Value
+    } // value duplicate
 
 
+    setOptionValueMessage(false);
+  };
+
+  var removeErrorMessageOptionValue = function removeErrorMessageOptionValue() {
+    // input option Value
     var spanMessageValue = document.getElementById("value".concat(optionObj.id));
     spanMessageValue.innerHTML = '';
     var inputOptionValueError = document.getElementsByClassName("value".concat(optionObj.id))[0];
@@ -41150,7 +41155,7 @@ var Option = function Option(_ref) {
         values: []
       }));
       setShowListType(false);
-      removeErrorMessage();
+      removeErrorMessageOptionName();
     }
 
     if (e != undefined && e.length > 0) {
@@ -41159,7 +41164,7 @@ var Option = function Option(_ref) {
         values: []
       }));
       setShowListType(false);
-      removeErrorMessage();
+      removeErrorMessageOptionName();
     }
   }; // initialise quand on change d'option
 
@@ -41195,20 +41200,13 @@ var Option = function Option(_ref) {
   var onClickOutside_inputListType = function onClickOutside_inputListType(e) {
     if (e.target.className.length > 0 && e.target.className != null && e.target.className != undefined) {
       if (!e.target.className.includes('inputListType')) {
-        setShowListType(false); // let inputListType = document.getElementById('inputListType');
-        // if (inputListType !== null) {
-        //     inputListType.className = `inputListType name${optionObj.id} w-full h-[38px] pl-[10px] m-0 border ${optionObj.name == '' ? "border-red-500" : "border-gray-300"} rounded-md cursor-text bg-no-repeat ${listTypesNoEmpty && "hover:bg-caret-down"} bg-right-center`;
-        // }
+        setShowListType(false);
       }
     }
   };
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (showListType) {
-      // let inputListType = document.getElementById('inputListType');
-      // if (inputListType !== null) {
-      //     inputListType.className = `inputListType name${optionObj.id} w-full h-[38px] pl-[10px] m-0 border ${optionObj.name == '' ? "border-red-500" : "border-gray-300"} rounded-md cursor-text bg-no-repeat ${listTypesNoEmpty && "hover:bg-caret-down"} bg-right-center`;
-      // }
       // gère la fermeture du dropDown input listType quand on clique en dehors
       window.addEventListener("click", onClickOutside_inputListType);
     } else {
@@ -41219,7 +41217,7 @@ var Option = function Option(_ref) {
   var handleChangeOptionValues = function handleChangeOptionValues(e) {
     setTmp_optionValues(e.target.value);
     setShowOptionValues(false);
-    removeErrorMessage();
+    removeErrorMessageOptionValue();
   };
 
   var handleEnterOptionsValue = function handleEnterOptionsValue() {
@@ -41229,7 +41227,7 @@ var Option = function Option(_ref) {
       setOptionValueMessage(true);
       return;
     } else {
-      removeErrorMessage();
+      removeErrorMessageOptionValue();
     } // remove comma from tmp_optionValues if comma is pressed
 
 
@@ -41270,7 +41268,7 @@ var Option = function Option(_ref) {
     setTmp_selectOptionValues(optionValue);
     setTmp_optionValues('');
     setOptionValueMessage(false);
-    removeErrorMessage();
+    removeErrorMessageOptionValue();
   };
 
   var input_optionValuesRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null); // gère la fermeture du dropDown input OptionValues quand on clique en dehors
@@ -41285,35 +41283,30 @@ var Option = function Option(_ref) {
   var handleClickOutside = function handleClickOutside(event) {
     // check qu'on a bien click en dehors de l'input
     if (input_optionValuesRef.current && !input_optionValuesRef.current.contains(event.target)) {
+      // si le nom de l'option tapée existe déjà affiche un message d'errreur
       if (tmp_optionValues.length > 0) {
         if (optionObj.values.includes(tmp_optionValues)) {
           setOptionValueMessage(true);
           return;
         } else {
+          // sinon l'ajoute
           setOptionObj(_objectSpread(_objectSpread({}, optionObj), {}, {
             values: [].concat(_toConsumableArray(optionObj.values), [tmp_optionValues])
           }));
           setTmp_optionValues('');
           setShowOptionValues(false);
-          var inputOptionValues = document.getElementById('inputOptionValues');
-
-          if (inputOptionValues !== null) {
-            inputOptionValues.className = "inputOptionValues value".concat(optionObj.id, " w-full h-[38px] pl-[10px] mt-0 border border-gray-300 rounded-md cursor-text bg-no-repeat  ").concat(listOptionValuesNotEmpty && "hover:bg-caret-down", " bg-right-center");
-          }
         }
       }
     }
-  };
+  }; // useEffect(() => {
+  //     if (showOptionValues) {
+  //         let inputOptionValues = document.getElementById('inputOptionValues');
+  //         if (inputOptionValues !== null) {
+  //             inputOptionValues.className = `inputOptionValues value${optionObj.id} w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md  cursor-text bg-no-repeat  ${listOptionValuesNotEmpty && "hover:bg-caret-down"} bg-right-center`;
+  //         }
+  //     }
+  // }, [showOptionValues]);
 
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    if (showOptionValues) {
-      var inputOptionValues = document.getElementById('inputOptionValues');
-
-      if (inputOptionValues !== null) {
-        inputOptionValues.className = "inputOptionValues value".concat(optionObj.id, " w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md  cursor-text bg-no-repeat  ").concat(listOptionValuesNotEmpty && "hover:bg-caret-down", " bg-right-center");
-      }
-    }
-  }, [showOptionValues]);
 
   var removeOptionValue = function removeOptionValue(item) {
     var index = optionObj.values.indexOf(item);
@@ -41342,163 +41335,186 @@ var Option = function Option(_ref) {
     if (ul_optionValuesRef.current && !ul_optionValuesRef.current.contains(event.target) && input_optionValuesRef.current && !input_optionValuesRef.current.contains(event.target)) {
       setShowOptionValues(false);
     }
-  };
+  }; // permet d'afficher le arrow dans le dropdown s'il y a une liste
+
 
   var listTypesNoEmpty = listType != undefined && listType != null && (listType === null || listType === void 0 ? void 0 : listType.length) > 0;
   var listOptionValuesNotEmpty = listOptionValues != undefined && listOptionValues != null && (listOptionValues === null || listOptionValues === void 0 ? void 0 : listOptionValues.length) > 0;
-  console.log('listOptionValues   ', listOptionValues); // console.log('optionObj   ', optionObj)
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-    className: "w-full h-auto grid gap-x-4 grid-cols-[1fr_1fr_25px] justify-start items-start px-4 pt-4 pb-2 mb-2 rounded border border-gray-200",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-      className: "w-full h-auto p-0 flex flex-col justify-start items-start",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-        className: "relative w-full m-0 p-0",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-          className: "w-full h-[40px] p-0 m-0",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-            id: "inputListType",
-            type: "text",
-            value: optionObj.name,
-            onChange: handleChangeOption,
-            onClick: handleShowListType,
-            onKeyDown: function onKeyDown(e) {
-              if (e.key === 'Enter' || e.key === 'NumpadEnter') {
-                setShowListType(false);
-              }
-            },
-            placeholder: "Ex. Couleur, Taille,...",
-            autoComplete: "off",
-            className: "inputListType name".concat(optionObj.id, " w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ").concat(listTypesNoEmpty && "hover:bg-caret-down", " bg-right-center ")
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-          id: "name".concat(optionObj.id),
-          className: "text-red-700 text-sm mb-1"
-        }), showListType && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
-          id: "listType",
-          className: "absolute t-[40px] l-0 w-full max-h-[242px] border border-gray-300 bg-white overflow-x-hidden overflow-y-scroll z-10 shadow-lg scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100",
-          children: listTypesNoEmpty && listType.map(function (item, index) {
-            return (optionsObj === null || optionsObj === void 0 ? void 0 : optionsObj.findIndex(function (x) {
-              return x.name == item.name;
-            })) == -1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
-              value: item.name,
-              onClick: function onClick() {
-                handleChangeOption(item.name);
-                getOptionValues();
-              },
-              className: "w-full h-[40px] cursor-pointer hover:bg-slate-100",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-                className: "flex flex-row justify-start items-center pl-[10px] w-full h-full pr-[30px] text-stone-800 text-base hover:cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis",
-                children: item.name
-              })
-            }, index);
-          })
-        })]
-      })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-      className: "w-full h-auto p-0 flex flex-col justify-start items-start",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-        className: "relative w-full m-0 p-0",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-          className: "w-full h-[40px] p-0",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-            id: "inputOptionValues",
-            type: "text",
-            value: tmp_optionValues,
-            ref: input_optionValuesRef,
-            onChange: handleChangeOptionValues,
-            onClick: handleShowOptionValuesList,
-            onKeyDown: function onKeyDown(e) {
-              if (e.key === 'Enter' || e.key === 'NumpadEnter') {
-                handleEnterOptionsValue();
-              }
-            },
-            onKeyUp: function onKeyUp(e) {
-              if (e.key == ',') {
-                handleEnterOptionsValue();
-              }
-            },
-            placeholder: "Ex. Bleu, Large,...",
-            autoComplete: "off",
-            disabled: ((_optionObj$name2 = optionObj.name) === null || _optionObj$name2 === void 0 ? void 0 : _optionObj$name2.length) == 0,
-            className: "inputOptionValues value".concat(optionObj.id, " w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ").concat(listOptionValuesNotEmpty && "hover:bg-caret-down", "  bg-right-center")
-          })
-        }), optionValueMessage && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-          className: "block text-red-700 text-sm pb-1",
-          children: "Ce nom existe d\xE9j\xE0 dans la liste des options"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-          id: "value".concat(optionObj.id),
-          className: "text-red-700 text-sm pb-3"
-        }), showOptionValues && listOptionValues.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
-          id: "listOptionValues",
-          ref: ul_optionValuesRef,
-          className: "absolute t-[40px] l-0 w-full max-h-[242px] border border-gray-300 bg-white overflow-x-hidden overflow-y-scroll z-10 shadow-lg scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100",
-          children: listOptionValues.map(function (item, index) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
-              value: item.name,
-              onClick: function onClick() {
-                handleSelectOptionValues(item.name);
-              },
-              className: "w-full h-[40px] flex flex-row justify-start items-center pl-[10px] cursor-pointer hover:bg-slate-100",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
-                type: "checkbox",
-                value: item.id,
-                id: item.id,
-                checked: optionObj.values.indexOf(item.name) > -1 // pour pas avoir de warning "checked non controlé"
-                ,
-                onChange: function onChange() {},
+  var getItemStyle = function getItemStyle(isDragging, draggableStyle) {
+    return _objectSpread({
+      // some basic styles to make the items look a bit nicer
+      userSelect: "none",
+      // change background colour if dragging
+      backgroundColor: isDragging && "#fafafa"
+    }, draggableStyle);
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_4__.Draggable, {
+    draggableId: "".concat(option_obj.id),
+    index: draggableIndex,
+    children: function children(provided, snapshot) {
+      var _optionObj$name2;
+
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", _objectSpread(_objectSpread({
+        className: "w-full h-auto grid gap-x-4 grid-cols-[25px_1fr_1fr_25px] justify-start items-start px-4 pt-4 pb-2 mb-2 rounded border border-gray-300 bg-white",
+        ref: provided.innerRef
+      }, provided.draggableProps), {}, {
+        style: getItemStyle(snapshot.isDragging, provided.draggableProps.style),
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", _objectSpread({
+          src: window.location.origin + '/images/icons/grip-vertical.svg',
+          className: "h-[22px] w-[22px] cursor-move"
+        }, provided.dragHandleProps)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "w-full h-auto p-0 flex flex-col justify-start items-start",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+            className: "relative w-full m-0 p-0",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              className: "w-full h-[40px] p-0 m-0",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+                id: "inputListType",
+                type: "text",
+                value: optionObj.name,
+                onChange: handleChangeOption,
+                onClick: handleShowListType,
                 onKeyDown: function onKeyDown(e) {
                   if (e.key === 'Enter' || e.key === 'NumpadEnter') {
-                    setShowOptionValues(false);
-                    removeErrorMessage();
+                    setShowListType(false);
                   }
                 },
-                className: "w-[17px] h-[17px] mr-[10px] hover:cursor-pointer"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
-                className: "flex flex-row justify-start items-center w-full h-full pr-[30px] text-stone-800 text-base hover:cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis",
-                children: item.name
+                placeholder: "Ex. Couleur, Taille,...",
+                autoComplete: "off",
+                className: "inputListType name".concat(optionObj.id, " w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ").concat(listTypesNoEmpty && "hover:bg-caret-down", " bg-right-center ")
+              })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+              id: "name".concat(optionObj.id),
+              className: "text-red-700 text-sm mb-1"
+            }), showListType && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
+              id: "listType",
+              className: "absolute t-[40px] l-0 w-full max-h-[242px] border border-gray-300 bg-white overflow-x-hidden overflow-y-scroll z-10 shadow-lg scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100",
+              children: listTypesNoEmpty && listType.map(function (item, index) {
+                return (optionsObj === null || optionsObj === void 0 ? void 0 : optionsObj.findIndex(function (x) {
+                  return x.name == item.name;
+                })) == -1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+                  value: item.name,
+                  onClick: function onClick() {
+                    handleChangeOption(item.name);
+                    getOptionValues();
+                  },
+                  className: "w-full h-[40px] cursor-pointer hover:bg-slate-100",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+                    className: "flex flex-row justify-start items-center pl-[10px] w-full h-full pr-[30px] text-stone-800 text-base hover:cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis",
+                    children: item.name
+                  })
+                }, index);
+              })
+            })]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "w-full h-auto p-0 flex flex-col justify-start items-start",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+            className: "relative w-full m-0 p-0",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              className: "w-full h-[40px] p-0",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+                id: "inputOptionValues",
+                type: "text",
+                value: tmp_optionValues,
+                ref: input_optionValuesRef,
+                onChange: handleChangeOptionValues,
+                onClick: handleShowOptionValuesList,
+                onKeyDown: function onKeyDown(e) {
+                  if (e.key === 'Enter' || e.key === 'NumpadEnter') {
+                    handleEnterOptionsValue();
+                  }
+                },
+                onKeyUp: function onKeyUp(e) {
+                  if (e.key == ',') {
+                    handleEnterOptionsValue();
+                  }
+                },
+                placeholder: "Ex. Bleu, Large,...",
+                autoComplete: "off",
+                disabled: ((_optionObj$name2 = optionObj.name) === null || _optionObj$name2 === void 0 ? void 0 : _optionObj$name2.length) == 0,
+                className: "inputOptionValues value".concat(optionObj.id, " w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ").concat(listOptionValuesNotEmpty && "hover:bg-caret-down", "  bg-right-center")
+              })
+            }), optionValueMessage && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+              className: "block text-red-700 text-sm pb-1",
+              children: "Ce nom existe d\xE9j\xE0 dans la liste des options"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+              id: "value".concat(optionObj.id),
+              className: "text-red-700 text-sm pb-3"
+            }), showOptionValues && listOptionValues.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
+              id: "listOptionValues",
+              ref: ul_optionValuesRef,
+              className: "absolute t-[40px] l-0 w-full max-h-[242px] border border-gray-300 bg-white overflow-x-hidden overflow-y-scroll z-10 shadow-lg scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100",
+              children: listOptionValues.map(function (item, index) {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
+                  value: item.name,
+                  onClick: function onClick() {
+                    handleSelectOptionValues(item.name);
+                  },
+                  className: "w-full h-[40px] flex flex-row justify-start items-center pl-[10px] cursor-pointer hover:bg-slate-100",
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+                    type: "checkbox",
+                    value: item.id,
+                    id: item.id,
+                    checked: optionObj.values.indexOf(item.name) > -1 // pour pas avoir de warning "checked non controlé"
+                    ,
+                    onChange: function onChange() {},
+                    onKeyDown: function onKeyDown(e) {
+                      if (e.key === 'Enter' || e.key === 'NumpadEnter') {
+                        setShowOptionValues(false);
+                        removeErrorMessageOptionValue();
+                      }
+                    },
+                    className: "w-[17px] h-[17px] mr-[10px] hover:cursor-pointer"
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("label", {
+                    className: "flex flex-row justify-start items-center w-full h-full pr-[30px] text-stone-800 text-base hover:cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis",
+                    children: item.name
+                  })]
+                }, index);
+              })
+            })]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "flex justify-start items-center w-[40px] h-[40px] p-0 m-0 cursor-pointer",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("span", {
+            onClick: function onClick() {
+              return deleteOption(optionObj.id);
+            },
+            className: "flex justify-center items-center w-[22px] h-[22px] p-0 m-0 cursor-pointer group hover:bg-red-500 rounded-[5px]",
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+              src: window.location.origin + '/images/icons/trash.svg',
+              className: "h-[18px] w-[18px] group-hover:hidden"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+              src: window.location.origin + '/images/icons/x-white.svg',
+              className: "h-[18px] w-[18px] hidden group-hover:block"
+            })]
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+          className: "col-span-3 flex flex-wrap pt-[5px] w-full",
+          children: !!optionObj.values.length > 0 && optionObj.values.map(function (item) {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+              className: "flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-[8px] pr-[6px] py-[3px] mb-1 mr-2 ",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+                className: "h-full text-gray-500 mr-2 rounded-md",
+                children: item
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+                className: "h-[20px] w-[20px] flex justify-center items-center hover:cursor-pointer bg-gray-600  hover:bg-red-500 rounded-md",
+                onClick: function onClick() {
+                  return removeOptionValue(item);
+                },
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+                  src: "../images/icons/x-white.svg",
+                  className: "w-[20px] h-[20px] hover:scale-125"
+                })
               })]
-            }, index);
+            }, item);
           })
         })]
-      })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-      className: "flex justify-start items-center w-[40px] h-[40px] p-0 m-0 cursor-pointer",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("span", {
-        onClick: function onClick() {
-          return deleteOption(optionObj.id);
-        },
-        className: "flex justify-center items-center w-[22px] h-[22px] p-0 m-0 cursor-pointer group hover:bg-red-500 rounded-[5px]",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
-          src: window.location.origin + '/images/icons/trash.svg',
-          className: "h-[18px] w-[18px] group-hover:hidden"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
-          src: window.location.origin + '/images/icons/x-white.svg',
-          className: "h-[18px] w-[18px] hidden group-hover:block"
-        })]
-      })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-      className: "col-span-3 flex flex-wrap pt-[5px] w-full",
-      children: !!optionObj.values.length > 0 && optionObj.values.map(function (item) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-          className: "flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-[8px] pr-[6px] py-[3px] mb-1 mr-2 ",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-            className: "h-full text-gray-500 mr-2 rounded-md",
-            children: item
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-            className: "h-[20px] w-[20px] flex justify-center items-center hover:cursor-pointer bg-gray-600  hover:bg-red-500 rounded-md",
-            onClick: function onClick() {
-              return removeOptionValue(item);
-            },
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
-              src: "../images/icons/x-white.svg",
-              className: "w-[20px] h-[20px] hover:scale-125"
-            })
-          })]
-        }, item);
-      })
-    })]
-  });
+      }));
+    }
+  }, option_obj.id);
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Option);
@@ -41917,8 +41933,9 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+    className: "".concat((variantes === null || variantes === void 0 ? void 0 : variantes.length) > 0 && "border-t border-gray-300"),
     children: [(variantes === null || variantes === void 0 ? void 0 : variantes.length) > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h3", {
-      className: "w-full text-left mb-[20px] mt-[35px] font-semibold text-[16px]",
+      className: "w-full text-left mb-[20px] mt-[25px] font-semibold text-[16px]",
       children: "Variantes"
     }), (variantes === null || variantes === void 0 ? void 0 : variantes.length) > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_selectionVariantesInList__WEBPACK_IMPORTED_MODULE_6__["default"], {
       variantes: variantes,
@@ -42092,7 +42109,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _elements_toggle_toggle__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../elements/toggle/toggle */ "./resources/js/components/elements/toggle/toggle.jsx");
 /* harmony import */ var _modalconfirmCancelWithoutSapveOptions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modalconfirmCancelWithoutSapveOptions */ "./resources/js/components/createProduct/options/modalconfirmCancelWithoutSapveOptions.jsx");
+/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -42112,6 +42136,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -42225,6 +42250,65 @@ var Options = function Options() {
       }]));
       setShowOptions(true);
     }
+  }; // handle move image in drop region
+
+
+  var move = function move(source, destination, droppableSource, droppableDestination) {
+    var sourceClone = Array.from(source);
+    var destClone = Array.from(destination);
+
+    var _sourceClone$splice = sourceClone.splice(droppableSource.index, 1),
+        _sourceClone$splice2 = _slicedToArray(_sourceClone$splice, 1),
+        removed = _sourceClone$splice2[0];
+
+    destClone.splice(droppableDestination.index, 0, removed);
+    console.log('sourceClone   ', sourceClone);
+    console.log('destClone   ', destClone);
+    console.log('removed   ', removed);
+    var result = {};
+    result[droppableSource.droppableId] = sourceClone;
+    result[droppableDestination.droppableId] = destClone;
+    return result;
+  }; // const reorder = (list, startIndex, endIndex) => {
+  //     const result = Array.from(list);
+  //     result.splice(startIndex, 1);
+  //     result.splice(endIndex, 0, removed);
+  //     return result;
+  // };
+
+
+  var onDragEnd = function onDragEnd(result) {
+    var source = result.source,
+        destination = result.destination;
+
+    if (!destination) {
+      return;
+    } // le + sert à transformer la variable en nombre
+
+
+    var sInd = +source.droppableId;
+    var dInd = +destination.droppableId;
+    var tmp_result = Array.from(optionsObj);
+
+    var _tmp_result$splice = tmp_result.splice(source.index, 1),
+        _tmp_result$splice2 = _slicedToArray(_tmp_result$splice, 1),
+        removed = _tmp_result$splice2[0];
+
+    tmp_result.splice(destination.index, 0, removed);
+    setOptionsObj(tmp_result); // tmp_result.splice(startIndex, 1);
+    // tmp_result.splice(endIndex, 0, removed);
+    // if (sInd === dInd) {
+    //     const items = reorder(optionsObj[sInd], source.index, destination.index);
+    //     const newState = [...optionsObj];
+    //     newState[sInd] = items;
+    // } else {
+    //     console.log('optionsObj[sInd]   ', optionsObj[sInd]);
+    //     console.log('optionsObj[dInd]   ', optionsObj[dInd]);
+    //     const result = move(optionsObj[sInd], optionsObj[dInd], source, destination);
+    //     const newState = [...optionsObj];
+    //     newState[sInd] = result[sInd];
+    //     newState[dInd] = result[dInd];
+    // }
   }; // console.log('optionsObj  -> ', optionsObj)
 
 
@@ -42250,24 +42334,38 @@ var Options = function Options() {
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
         className: "mt-0 mx-0 p-0"
       })]
-    }), optionsObj === null || optionsObj === void 0 ? void 0 : optionsObj.map(function (item) {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_option__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        option_obj: item,
-        saveOption: saveOption,
-        deleteOption: deleteOption,
-        optionsObj: optionsObj // removeOptionValue={removeOptionValue}
-
-      }, item.id);
-    }), optionsObj.length < 4 && showOptions && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-      className: "w-full h-auto flex flrx-row justify-start items-center mb-[25px]",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
-        onClick: addOption,
-        className: "h-[40px] px-[10px] mt-4 border border-slate-200 ",
-        children: "Ajouter une option"
-      })
-    }), optionsObj.length === 4 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
-      className: "text-blue-500 text-sm relative top-[-20px] left-0",
-      children: "Vous pouvez ajouter jusqu'\xE0 4 options"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_8__.DragDropContext, {
+      onDragEnd: onDragEnd,
+      children: [optionsObj === null || optionsObj === void 0 ? void 0 : optionsObj.map(function (item, ndx) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_8__.Droppable, {
+          droppableId: "".concat(ndx),
+          direction: "vertical",
+          children: function children(provided, snapshot) {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", _objectSpread(_objectSpread({
+              className: "w-full"
+            }, provided.droppableProps), {}, {
+              ref: provided.innerRef,
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_option__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                option_obj: item,
+                saveOption: saveOption,
+                deleteOption: deleteOption,
+                optionsObj: optionsObj,
+                draggableIndex: ndx
+              }, ndx), provided.placeholder]
+            }));
+          }
+        }, ndx);
+      }), optionsObj.length < 4 && showOptions && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+        className: "w-full h-auto flex flrx-row justify-start items-center mb-[25px]",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
+          onClick: addOption,
+          className: "h-[40px] px-[10px] mt-4 border border-slate-200 ",
+          children: "Ajouter une option"
+        })
+      }), optionsObj.length === 4 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+        className: "text-blue-500 text-sm relative top-[-20px] left-0",
+        children: "Vous pouvez ajouter jusqu'\xE0 4 options"
+      })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_optionVariantesList__WEBPACK_IMPORTED_MODULE_3__["default"] // listType={listType}
     , {
       setShowOptions: setShowOptions
@@ -42477,19 +42575,12 @@ var SelectionVariantesInList = function SelectionVariantesInList(_ref) {
       return x.deleted = false;
     });
     setVariantes(_toConsumableArray(tmp_variantes));
+    setIsHideDeletedVariantes(false);
   };
 
   var hideDeletedVariantes = function hideDeletedVariantes() {
     setIsHideDeletedVariantes(!isHideDeletedVariantes);
-  }; // {/* scroll down button */ }
-  // <div className='w-full mt-[25px] mb-[5px] flex justify-center'>
-  //     <img
-  //         onClick={scrollDown}
-  //         className='w-[25px] h-[25px] rounded hover:scale-125 animate-bounce cursor-pointer'
-  //         src='../images/icons/arrow-down-circle.svg'
-  //     />
-  // </div>
-
+  };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
     className: "w-full relative mb-[10px] flex flex-row flex-wrap justify-start items-center",

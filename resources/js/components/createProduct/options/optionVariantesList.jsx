@@ -303,10 +303,11 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
     }
 
 
+
     return (
-        <div>
+        <div className={`${variantes?.length > 0 && "border-t border-gray-300"}`}>
             {variantes?.length > 0 &&
-                <h3 className='w-full text-left mb-[20px] mt-[35px] font-semibold text-[16px]'>
+                <h3 className='w-full text-left mb-[20px] mt-[25px] font-semibold text-[16px]'>
                     Variantes
                 </h3>
             }
@@ -337,9 +338,9 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                     <span></span>
                 </div>}
 
+
             {/* isHideDeletedVariantes cache les variantes deleted -> toggle */}
             {variantes?.length > 0 && variantes.map((item, index) =>
-
                 (isHideDeletedVariantes && item.deleted === true) ? '' :
                     <div
                         key={index}
@@ -461,6 +462,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                         </div>
                     </div>
             )}
+
 
             <ModalImageVariante
                 show={showModalImageVariante}

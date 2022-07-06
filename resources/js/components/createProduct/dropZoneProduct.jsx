@@ -295,7 +295,7 @@ const DropZoneProduct = () => {
                 console.log('Error delete Product Image failed : ' + error.status);
             });
 
-        handleReOrder(tmp_data);
+        handleReOrderInTemporaryStorage(tmp_data);
 
     }
 
@@ -315,14 +315,6 @@ const DropZoneProduct = () => {
 
 
 
-    const reorder = (list, startIndex, endIndex) => {
-        const result = Array.from(list);
-        const [removed] = result.splice(startIndex, 1);
-        result.splice(endIndex, 0, removed);
-
-        return result;
-    };
-
     const getItemStyle = (isDragging, draggableStyle) => ({
         // some basic styles to make the items look a bit nicer
         userSelect: "none",
@@ -336,7 +328,7 @@ const DropZoneProduct = () => {
 
 
     // change order of images in db temporary_storage when drag and drop images products on create product form
-    const handleReOrder = (imagesToReOrder) => {
+    const handleReOrderInTemporaryStorage = (imagesToReOrder) => {
         var im = new FormData;
         im.append('image', JSON.stringify(imagesToReOrder));
 
@@ -369,6 +361,14 @@ const DropZoneProduct = () => {
         return result;
     };
 
+    const reorder = (list, startIndex, endIndex) => {
+        const result = Array.from(list);
+        const [removed] = result.splice(startIndex, 1);
+        result.splice(endIndex, 0, removed);
+
+        return result;
+    };
+
     const onDragEnd = (result) => {
         const { source, destination } = result;
 
@@ -376,6 +376,7 @@ const DropZoneProduct = () => {
         if (!destination) {
             return;
         }
+        // le + sert à transformer la variable en nombre
         const sInd = +source.droppableId;
         const dInd = +destination.droppableId;
 
@@ -402,7 +403,7 @@ const DropZoneProduct = () => {
                 }
             };
             setImageVariantes(tmp_data);
-            handleReOrder(tmp_data);
+            handleReOrderInTemporaryStorage(tmp_data);
 
         } else {
             const result = move(imageVariantes[sInd], imageVariantes[dInd], source, destination);
@@ -414,8 +415,8 @@ const DropZoneProduct = () => {
             let tmp = [];
 
 
+            // crée un tableau contenant des tableaux de 4 images
             let newImage = [].concat.apply([], newState.filter(group => group.length));
-
             for (let i = 0; i < newImage.length; i++) {
                 if (tmp.length < 4) {
                     tmp.push(newImage[i]);
@@ -428,7 +429,7 @@ const DropZoneProduct = () => {
                 }
             };
             setImageVariantes(tmp_data);
-            handleReOrder(tmp_data);
+            handleReOrderInTemporaryStorage(tmp_data);
         }
     };
 
@@ -445,7 +446,7 @@ const DropZoneProduct = () => {
                         {imageVariantes[0]?.length > 0 &&
                             <div className='flex flex-col justify-start items-center flex-nowrap'>
                                 <span id="txtImgPrincipale"
-                                className='w-full text-center text-[12px] mt-0 pb-[10px]'>Image principale</span>
+                                    className='w-full text-center text-[12px] mt-0 pb-[10px]'>Image principale</span>
                                 <img
                                     className='m-0 object-contain max-h-[200px]'
                                     src={window.location.origin + '/' + imageVariantes[0][0]?.value}
@@ -500,8 +501,8 @@ const DropZoneProduct = () => {
                                                     )}
                                                 >
                                                     <img className='imgClass max-w-[(calc(100% / 4) - 10px] max-h-[120px]'
-                                                        src={window.location.origin + '/' + item.value} />
-
+                                                        src={window.location.origin + '/' + item.value}
+                                                    />
                                                     <button id="removeImg"
                                                         className="invisible group-hover:visible absolute top-[5px] right-[5px] w-[25px] h-[25px] bg-[#d23e44] rounded"
                                                         onClick={() => {
@@ -509,7 +510,8 @@ const DropZoneProduct = () => {
                                                         }}
                                                     >
                                                         <img className='w-[25px] h-[25px] rounded'
-                                                            src='../images/icons/x-white.svg' />
+                                                            src='../images/icons/x-white.svg'
+                                                        />
                                                     </button>
                                                 </div>
                                             )}

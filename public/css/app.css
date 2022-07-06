@@ -761,9 +761,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .h-auto {
   height: auto;
 }
-.h-\[38px\] {
-  height: 38px;
-}
 .h-\[40px\] {
   height: 40px;
 }
@@ -793,6 +790,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .h-\[30\] {
   height: 30;
+}
+.h-\[38px\] {
+  height: 38px;
 }
 .h-0 {
   height: 0px;
@@ -1029,11 +1029,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 .cursor-default {
   cursor: default;
 }
+.cursor-pointer {
+  cursor: pointer;
+}
 .cursor-text {
   cursor: text;
 }
-.cursor-pointer {
-  cursor: pointer;
+.cursor-move {
+  cursor: move;
 }
 .list-inside {
   list-style-position: inside;
@@ -1061,6 +1064,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .grid-cols-\[25px_1fr_100px_100px_150px_50px_30px\] {
   grid-template-columns: 25px 1fr 100px 100px 150px 50px 30px;
+}
+.grid-cols-\[25px_1fr_1fr_25px\] {
+  grid-template-columns: 25px 1fr 1fr 25px;
 }
 .flex-row {
   flex-direction: row;
@@ -1277,14 +1283,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-border-opacity: 1;
   border-color: rgb(241 245 249 / var(--tw-border-opacity));
 }
-.border-gray-50 {
-  --tw-border-opacity: 1;
-  border-color: rgb(249 250 251 / var(--tw-border-opacity));
-}
-.border-red-600 {
-  --tw-border-opacity: 1;
-  border-color: rgb(220 38 38 / var(--tw-border-opacity));
-}
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
@@ -1343,9 +1341,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .bg-red-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(254 226 226 / var(--tw-bg-opacity));
-}
-.bg-caret-down {
-  background-image: url('/images/icons/caret-down.svg');
 }
 .bg-right-center {
   background-position: right 15px center;
@@ -1549,9 +1544,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .pt-\[5px\] {
   padding-top: 5px;
-}
-.pb-\[20px\] {
-  padding-bottom: 20px;
 }
 .pt-\[6px\] {
   padding-top: 6px;

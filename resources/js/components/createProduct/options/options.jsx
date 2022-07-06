@@ -5,7 +5,7 @@ import OptionVariantesList from './optionVariantesList';
 import Axios from "axios";
 import Toggle from "../../elements/toggle/toggle";
 import ModalconfirmCancelWithoutSapveOptions from './modalconfirmCancelWithoutSapveOptions';
-
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 const Options = () => {
 
@@ -24,7 +24,7 @@ const Options = () => {
                 console.log('error:   ' + error);
             });
     }, []);
-    
+
 
     const confirmCancelWithoutSapveOptions = () => {
         setShowModalCancelWithoutSapveOptions(false);
@@ -104,6 +104,76 @@ const Options = () => {
         }
 
     }
+
+
+    // handle move image in drop region
+    const move = (source, destination, droppableSource, droppableDestination) => {
+        const sourceClone = Array.from(source);
+        const destClone = Array.from(destination);
+        const [removed] = sourceClone.splice(droppableSource.index, 1);
+
+        destClone.splice(droppableDestination.index, 0, removed);
+
+        console.log('sourceClone   ', sourceClone);
+        console.log('destClone   ', destClone);
+        console.log('removed   ', removed);
+
+        const result = {};
+        result[droppableSource.droppableId] = sourceClone;
+        result[droppableDestination.droppableId] = destClone;
+
+        return result;
+    };
+
+
+    // const reorder = (list, startIndex, endIndex) => {
+    //     const result = Array.from(list);
+    //     result.splice(startIndex, 1);
+    //     result.splice(endIndex, 0, removed);
+
+    //     return result;
+    // };
+
+    const onDragEnd = (result) => {
+        const { source, destination } = result;
+
+        if (!destination) {
+            return;
+        }
+        // le + sert à transformer la variable en nombre
+        const sInd = +source.droppableId;
+        const dInd = +destination.droppableId;
+
+        const tmp_result = Array.from(optionsObj);
+        const [removed] = tmp_result.splice(source.index, 1);
+        tmp_result.splice(destination.index, 0, removed);
+
+
+      
+        setOptionsObj(tmp_result);
+
+        // tmp_result.splice(startIndex, 1);
+        // tmp_result.splice(endIndex, 0, removed);
+
+        // if (sInd === dInd) {
+        //     const items = reorder(optionsObj[sInd], source.index, destination.index);
+        //     const newState = [...optionsObj];
+        //     newState[sInd] = items;
+
+
+        // } else {
+        //     console.log('optionsObj[sInd]   ', optionsObj[sInd]);
+        //     console.log('optionsObj[dInd]   ', optionsObj[dInd]);
+        //     const result = move(optionsObj[sInd], optionsObj[dInd], source, destination);
+        //     const newState = [...optionsObj];
+        //     newState[sInd] = result[sInd];
+        //     newState[dInd] = result[dInd];
+
+
+        // }
+    };
+
+
     // console.log('optionsObj  -> ', optionsObj)
     return (
         <div className="w-full">
@@ -126,32 +196,51 @@ const Options = () => {
                 </div>
             }
 
-            {optionsObj?.map(item =>
-                <Option
-                    key={item.id}
-                    option_obj={item}
-                    saveOption={saveOption}
-                    deleteOption={deleteOption}
-                    optionsObj={optionsObj}
-                // removeOptionValue={removeOptionValue}
-                />
-            )}
+            <DragDropContext
+                onDragEnd={onDragEnd}
+            >
+                {optionsObj?.map((item, ndx) =>
+                    <Droppable droppableId={`${ndx}`}
+                        direction="vertical"
+                        key={ndx}>
+                        {(provided, snapshot) => (
+                            <div
+                                className='w-full'
+                                {...provided.droppableProps}
+                                ref={provided.innerRef}
+                            >
+                                <Option
+                                    key={ndx}
+                                    option_obj={item}
+                                    saveOption={saveOption}
+                                    deleteOption={deleteOption}
+                                    optionsObj={optionsObj}
+                                    draggableIndex={ndx}
+                                />
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                )}
 
-            {optionsObj.length < 4 && showOptions &&
-                <div className="w-full h-auto flex flrx-row justify-start items-center mb-[25px]">
-                    <button
-                        onClick={addOption}
-                        className='h-[40px] px-[10px] mt-4 border border-slate-200 '>
-                        Ajouter une option
-                    </button>
-                </div>
-            }
-            {optionsObj.length === 4 &&
-                <span className='text-blue-500 text-sm relative top-[-20px] left-0'>
-                    Vous pouvez ajouter jusqu'à 4 options
-                </span>
-            }
 
+
+                {optionsObj.length < 4 && showOptions &&
+                    <div className="w-full h-auto flex flrx-row justify-start items-center mb-[25px]">
+                        <button
+                            onClick={addOption}
+                            className='h-[40px] px-[10px] mt-4 border border-slate-200 '>
+                            Ajouter une option
+                        </button>
+                    </div>
+                }
+                {optionsObj.length === 4 &&
+                    <span className='text-blue-500 text-sm relative top-[-20px] left-0'>
+                        Vous pouvez ajouter jusqu'à 4 options
+                    </span>
+                }
+
+            </DragDropContext>
             <OptionVariantesList
                 // listType={listType}
                 setShowOptions={setShowOptions}

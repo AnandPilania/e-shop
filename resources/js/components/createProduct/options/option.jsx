@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useContext } from 'react';
 import { useStateIfMounted } from "use-state-if-mounted";
 import AppContext from '../../contexts/AppContext';
-// import Axios from 'axios';
+import { Draggable } from 'react-beautiful-dnd';
 
 
-const Option = ({ option_obj, saveOption, deleteOption, optionsObj }) => {
+const Option = ({ option_obj, saveOption, deleteOption, optionsObj, draggableIndex }) => {
 
     const [optionObj, setOptionObj] = useStateIfMounted({
         id: option_obj.id,
@@ -20,7 +20,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj }) => {
     const [optionValueMessage, setOptionValueMessage] = useStateIfMounted(false);
 
 
-    const { listType, optionsData, setOptionsData } = useContext(AppContext);
+    const { listType, optionsData } = useContext(AppContext);
 
 
     // fourni les valeurs pour une option donnée
@@ -39,7 +39,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj }) => {
         }
     }
 
-    const removeErrorMessage = () => {
+    const removeErrorMessageOptionName = () => {
         // input option name
         let spanMessageName = document.getElementById(`name${optionObj.id}`);
         spanMessageName.innerHTML = '';
@@ -47,7 +47,11 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj }) => {
         if (inputOptionError !== undefined) {
             inputOptionError.className = `inputListType name${optionObj.id} w-full h-[38px] pl-[10px] m-0 mb-1 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ${listTypesNoEmpty && "hover:bg-caret-down"}  bg-right-center`;
         }
+        // value duplicate
+        setOptionValueMessage(false);
+    }
 
+    const removeErrorMessageOptionValue = () => {
         // input option Value
         let spanMessageValue = document.getElementById(`value${optionObj.id}`);
         spanMessageValue.innerHTML = '';
@@ -61,16 +65,16 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj }) => {
     }
 
 
-    const handleChangeOption = (e) => { 
+    const handleChangeOption = (e) => {
         if (e.target != undefined) {
             setOptionObj({ ...optionObj, name: e.target.value, values: [] });
             setShowListType(false);
-            removeErrorMessage();
+            removeErrorMessageOptionName();
         }
         if (e != undefined && e.length > 0) {
             setOptionObj({ ...optionObj, name: e, values: [] });
             setShowListType(false);
-            removeErrorMessage();
+            removeErrorMessageOptionName();
         }
     };
 
@@ -89,7 +93,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj }) => {
         saveOption(optionObj);
     }, [optionObj]);
 
-    const handleShowListType = () => { 
+    const handleShowListType = () => {
         input_optionValuesRef.current.blur();
         setShowListType(!showListType);
     }
@@ -100,25 +104,15 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj }) => {
     }
 
     // ferme le dropDown input listType quand on clique en dehors
-    const onClickOutside_inputListType = (e) => { 
+    const onClickOutside_inputListType = (e) => {
         if (e.target.className.length > 0 && e.target.className != null && e.target.className != undefined) {
             if (!e.target.className.includes('inputListType')) {
                 setShowListType(false);
-
-                // let inputListType = document.getElementById('inputListType');
-                // if (inputListType !== null) {
-                //     inputListType.className = `inputListType name${optionObj.id} w-full h-[38px] pl-[10px] m-0 border ${optionObj.name == '' ? "border-red-500" : "border-gray-300"} rounded-md cursor-text bg-no-repeat ${listTypesNoEmpty && "hover:bg-caret-down"} bg-right-center`;
-                // }
             }
         }
     };
     useEffect(() => {
-        if (showListType) { 
-            // let inputListType = document.getElementById('inputListType');
-            // if (inputListType !== null) {
-            //     inputListType.className = `inputListType name${optionObj.id} w-full h-[38px] pl-[10px] m-0 border ${optionObj.name == '' ? "border-red-500" : "border-gray-300"} rounded-md cursor-text bg-no-repeat ${listTypesNoEmpty && "hover:bg-caret-down"} bg-right-center`;
-            // }
-
+        if (showListType) {
             // gère la fermeture du dropDown input listType quand on clique en dehors
             window.addEventListener("click", onClickOutside_inputListType);
         } else {
@@ -130,7 +124,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj }) => {
     const handleChangeOptionValues = (e) => {
         setTmp_optionValues(e.target.value);
         setShowOptionValues(false);
-        removeErrorMessage();
+        removeErrorMessageOptionValue();
     };
 
     const handleEnterOptionsValue = () => {
@@ -139,7 +133,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj }) => {
             setOptionValueMessage(true);
             return;
         } else {
-            removeErrorMessage();
+            removeErrorMessageOptionValue();
         }
 
         // remove comma from tmp_optionValues if comma is pressed
@@ -172,7 +166,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj }) => {
 
         setTmp_optionValues('');
         setOptionValueMessage(false);
-        removeErrorMessage();
+        removeErrorMessageOptionValue();
 
     };
 
@@ -187,33 +181,31 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj }) => {
     const handleClickOutside = (event) => {
         // check qu'on a bien click en dehors de l'input
         if (input_optionValuesRef.current && !input_optionValuesRef.current.contains(event.target)) {
-
+            // si le nom de l'option tapée existe déjà affiche un message d'errreur
             if (tmp_optionValues.length > 0) {
                 if (optionObj.values.includes(tmp_optionValues)) {
                     setOptionValueMessage(true);
                     return;
+
                 } else {
+                    // sinon l'ajoute
                     setOptionObj({ ...optionObj, values: [...optionObj.values, tmp_optionValues] });
                     setTmp_optionValues('');
                     setShowOptionValues(false);
-                    let inputOptionValues = document.getElementById('inputOptionValues');
-                    if (inputOptionValues !== null) {
-                        inputOptionValues.className = `inputOptionValues value${optionObj.id} w-full h-[38px] pl-[10px] mt-0 border border-gray-300 rounded-md cursor-text bg-no-repeat  ${listOptionValuesNotEmpty && "hover:bg-caret-down"} bg-right-center`;
-                    }
                 }
             }
         }
     };
 
 
-    useEffect(() => {
-        if (showOptionValues) {
-            let inputOptionValues = document.getElementById('inputOptionValues');
-            if (inputOptionValues !== null) {
-                inputOptionValues.className = `inputOptionValues value${optionObj.id} w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md  cursor-text bg-no-repeat  ${listOptionValuesNotEmpty && "hover:bg-caret-down"} bg-right-center`;
-            }
-        }
-    }, [showOptionValues]);
+    // useEffect(() => {
+    //     if (showOptionValues) {
+    //         let inputOptionValues = document.getElementById('inputOptionValues');
+    //         if (inputOptionValues !== null) {
+    //             inputOptionValues.className = `inputOptionValues value${optionObj.id} w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md  cursor-text bg-no-repeat  ${listOptionValuesNotEmpty && "hover:bg-caret-down"} bg-right-center`;
+    //         }
+    //     }
+    // }, [showOptionValues]);
 
     const removeOptionValue = (item) => {
         let index = optionObj.values.indexOf(item);
@@ -241,173 +233,203 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj }) => {
     };
 
 
+    // permet d'afficher le arrow dans le dropdown s'il y a une liste
     const listTypesNoEmpty = listType != undefined && listType != null && listType?.length > 0;
     const listOptionValuesNotEmpty = listOptionValues != undefined && listOptionValues != null && listOptionValues?.length > 0;
-   
-    console.log('listOptionValues   ', listOptionValues)
-    // console.log('optionObj   ', optionObj)
+
+    const getItemStyle = (isDragging, draggableStyle) => ({
+        // some basic styles to make the items look a bit nicer
+        userSelect: "none",
+
+        // change background colour if dragging
+        backgroundColor: isDragging && "#fafafa",
+
+        // styles we need to apply on draggables
+        ...draggableStyle,
+    });
+
+
     return (
-        <div className="w-full h-auto grid gap-x-4 grid-cols-[1fr_1fr_25px] justify-start items-start px-4 pt-4 pb-2 mb-2 rounded border border-gray-200">
+        <Draggable
+            key={option_obj.id}
+            draggableId={`${option_obj.id}`}
+            index={draggableIndex}
+        >
+            {(provided, snapshot) => (
+                <div className="w-full h-auto grid gap-x-4 grid-cols-[25px_1fr_1fr_25px] justify-start items-start px-4 pt-4 pb-2 mb-2 rounded border border-gray-300 bg-white"
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    style={getItemStyle(
+                        snapshot.isDragging,
+                        provided.draggableProps.style
+                    )}
+                >
+                    {/* drag */}
+                    <img src={window.location.origin + '/images/icons/grip-vertical.svg'} className="h-[22px] w-[22px] cursor-move"
+                        {...provided.dragHandleProps}
+                    />
 
-            {/* option namme */}
-            <div className='w-full h-auto p-0 flex flex-col justify-start items-start'>
-                <div className="relative w-full m-0 p-0">
-                    <div className='w-full h-[40px] p-0 m-0'>
-                        <input
-                            id="inputListType"
-                            type="text"
-                            value={optionObj.name}
-                            onChange={handleChangeOption}
-                            onClick={handleShowListType}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter' || e.key === 'NumpadEnter') {
-                                    setShowListType(false);
-                                }
-                            }}
-                            placeholder="Ex. Couleur, Taille,..."
-                            autoComplete="off"
-                            className={`inputListType name${optionObj.id} w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ${listTypesNoEmpty && "hover:bg-caret-down"} bg-right-center `}
-                        />
-                    </div>
-
-                    {/* affiche les erreurs */}
-                    <span
-                        id={`name${optionObj.id}`}
-                        className='text-red-700 text-sm mb-1'>
-                    </span>
-
-                    {showListType &&
-                        <ul id="listType"
-                            className='absolute t-[40px] l-0 w-full max-h-[242px] border border-gray-300 bg-white overflow-x-hidden overflow-y-scroll z-10 shadow-lg scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100'
-                        >
-                            {listTypesNoEmpty &&
-                                listType.map((item, index) =>
-                                    optionsObj?.findIndex(x => x.name == item.name) == -1 &&
-                                    <li
-                                        key={index}
-                                        value={item.name}
-                                        onClick={() => {
-                                            handleChangeOption(item.name);
-                                            getOptionValues();
-                                        }}
-                                        className="w-full h-[40px] cursor-pointer hover:bg-slate-100"
-                                    >
-                                        <span className="flex flex-row justify-start items-center pl-[10px] w-full h-full pr-[30px] text-stone-800 text-base hover:cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis">
-                                            {item.name}
-                                        </span>
-                                    </li>
-                                )
-                            }
-                        </ul>}
-                </div>
-            </div>
-
-            {/* option value */}
-            <div className='w-full h-auto p-0 flex flex-col justify-start items-start'>
-                <div className="relative w-full m-0 p-0">
-                    <div className='w-full h-[40px] p-0'>
-                        <input
-                            id="inputOptionValues"
-                            type="text"
-                            value={tmp_optionValues}
-                            ref={input_optionValuesRef}
-                            onChange={handleChangeOptionValues}
-                            onClick={handleShowOptionValuesList}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter' || e.key === 'NumpadEnter') {
-                                    handleEnterOptionsValue();
-                                }
-                            }}
-                            onKeyUp={(e) => {
-                                if (e.key == ',') {
-                                    handleEnterOptionsValue();
-                                }
-                            }}
-                            placeholder="Ex. Bleu, Large,..."
-                            autoComplete="off"
-                            disabled={optionObj.name?.length == 0}
-                            className={`inputOptionValues value${optionObj.id} w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ${listOptionValuesNotEmpty && "hover:bg-caret-down"}  bg-right-center`}
-                        />
-                    </div>
-                    {optionValueMessage &&
-                        <span className='block text-red-700 text-sm pb-1'>Ce nom existe déjà dans la liste des options</span>
-                    }
-
-                    {/* affiche les erreurs */}
-                    <span
-                        id={`value${optionObj.id}`}
-                        className='text-red-700 text-sm pb-3'>
-                    </span>
-
-                    {showOptionValues &&
-                        listOptionValues.length > 0 &&
-                        <ul id="listOptionValues"
-                            ref={ul_optionValuesRef}
-                            className='absolute t-[40px] l-0 w-full max-h-[242px] border border-gray-300 bg-white overflow-x-hidden overflow-y-scroll z-10 shadow-lg scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100'
-                        >
-                            {listOptionValues.map((item, index) =>
-                                <li
-                                    key={index}
-                                    value={item.name}
-                                    onClick={() => {
-                                        handleSelectOptionValues(item.name);
+                    {/* option namme */}
+                    <div className='w-full h-auto p-0 flex flex-col justify-start items-start'>
+                        <div className="relative w-full m-0 p-0">
+                            <div className='w-full h-[40px] p-0 m-0'>
+                                <input
+                                    id="inputListType"
+                                    type="text"
+                                    value={optionObj.name}
+                                    onChange={handleChangeOption}
+                                    onClick={handleShowListType}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === 'NumpadEnter') {
+                                            setShowListType(false);
+                                        }
                                     }}
-                                    className="w-full h-[40px] flex flex-row justify-start items-center pl-[10px] cursor-pointer hover:bg-slate-100"
+                                    placeholder="Ex. Couleur, Taille,..."
+                                    autoComplete="off"
+                                    className={`inputListType name${optionObj.id} w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ${listTypesNoEmpty && "hover:bg-caret-down"} bg-right-center `}
+                                />
+                            </div>
+
+                            {/* affiche les erreurs */}
+                            <span
+                                id={`name${optionObj.id}`}
+                                className='text-red-700 text-sm mb-1'>
+                            </span>
+
+                            {showListType &&
+                                <ul id="listType"
+                                    className='absolute t-[40px] l-0 w-full max-h-[242px] border border-gray-300 bg-white overflow-x-hidden overflow-y-scroll z-10 shadow-lg scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100'
                                 >
-                                    <input type='checkbox'
-                                        value={item.id}
-                                        id={item.id}
-                                        checked={optionObj.values.indexOf(item.name) > -1}
-                                        // pour pas avoir de warning "checked non controlé"
-                                        onChange={() => { }}
-                                        onKeyDown={(e) => {
-                                            if (e.key === 'Enter' || e.key === 'NumpadEnter') {
-                                                setShowOptionValues(false);
-                                                removeErrorMessage();
-                                            }
-                                        }}
-                                        className="w-[17px] h-[17px] mr-[10px] hover:cursor-pointer"
-                                    />
-                                    <label
-                                        className="flex flex-row justify-start items-center w-full h-full pr-[30px] text-stone-800 text-base hover:cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis">
-                                        {item.name}
-                                    </label>
-                                </li>
-                            )
+                                    {listTypesNoEmpty &&
+                                        listType.map((item, index) =>
+                                            optionsObj?.findIndex(x => x.name == item.name) == -1 &&
+                                            <li
+                                                key={index}
+                                                value={item.name}
+                                                onClick={() => {
+                                                    handleChangeOption(item.name);
+                                                    getOptionValues();
+                                                }}
+                                                className="w-full h-[40px] cursor-pointer hover:bg-slate-100"
+                                            >
+                                                <span className="flex flex-row justify-start items-center pl-[10px] w-full h-full pr-[30px] text-stone-800 text-base hover:cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis">
+                                                    {item.name}
+                                                </span>
+                                            </li>
+                                        )
+                                    }
+                                </ul>}
+                        </div>
+                    </div>
+
+                    {/* option value */}
+                    <div className='w-full h-auto p-0 flex flex-col justify-start items-start'>
+                        <div className="relative w-full m-0 p-0">
+                            <div className='w-full h-[40px] p-0'>
+                                <input
+                                    id="inputOptionValues"
+                                    type="text"
+                                    value={tmp_optionValues}
+                                    ref={input_optionValuesRef}
+                                    onChange={handleChangeOptionValues}
+                                    onClick={handleShowOptionValuesList}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === 'NumpadEnter') {
+                                            handleEnterOptionsValue();
+                                        }
+                                    }}
+                                    onKeyUp={(e) => {
+                                        if (e.key == ',') {
+                                            handleEnterOptionsValue();
+                                        }
+                                    }}
+                                    placeholder="Ex. Bleu, Large,..."
+                                    autoComplete="off"
+                                    disabled={optionObj.name?.length == 0}
+                                    className={`inputOptionValues value${optionObj.id} w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ${listOptionValuesNotEmpty && "hover:bg-caret-down"}  bg-right-center`}
+                                />
+                            </div>
+                            {optionValueMessage &&
+                                <span className='block text-red-700 text-sm pb-1'>Ce nom existe déjà dans la liste des options</span>
                             }
-                        </ul>}
-                </div>
-            </div>
 
-            {/* supprimer */}
-            <div className='flex justify-start items-center w-[40px] h-[40px] p-0 m-0 cursor-pointer'>
-                <span
-                    onClick={() => deleteOption(optionObj.id)}
-                    className='flex justify-center items-center w-[22px] h-[22px] p-0 m-0 cursor-pointer group hover:bg-red-500 rounded-[5px]'>
-                    <img src={window.location.origin + '/images/icons/trash.svg'} className="h-[18px] w-[18px] group-hover:hidden" />
-                    <img src={window.location.origin + '/images/icons/x-white.svg'} className="h-[18px] w-[18px] hidden group-hover:block" />
-                </span>
-            </div>
+                            {/* affiche les erreurs */}
+                            <span
+                                id={`value${optionObj.id}`}
+                                className='text-red-700 text-sm pb-3'>
+                            </span>
 
-            {/* values pastilles*/}
-            <div className="col-span-3 flex flex-wrap pt-[5px] w-full">
-                {!!optionObj.values.length > 0 && optionObj.values.map(item =>
-                    <div key={item}
-                        className="flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-[8px] pr-[6px] py-[3px] mb-1 mr-2 ">
+                            {showOptionValues &&
+                                listOptionValues.length > 0 &&
+                                <ul id="listOptionValues"
+                                    ref={ul_optionValuesRef}
+                                    className='absolute t-[40px] l-0 w-full max-h-[242px] border border-gray-300 bg-white overflow-x-hidden overflow-y-scroll z-10 shadow-lg scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100'
+                                >
+                                    {listOptionValues.map((item, index) =>
+                                        <li
+                                            key={index}
+                                            value={item.name}
+                                            onClick={() => {
+                                                handleSelectOptionValues(item.name);
+                                            }}
+                                            className="w-full h-[40px] flex flex-row justify-start items-center pl-[10px] cursor-pointer hover:bg-slate-100"
+                                        >
+                                            <input type='checkbox'
+                                                value={item.id}
+                                                id={item.id}
+                                                checked={optionObj.values.indexOf(item.name) > -1}
+                                                // pour pas avoir de warning "checked non controlé"
+                                                onChange={() => { }}
+                                                onKeyDown={(e) => {
+                                                    if (e.key === 'Enter' || e.key === 'NumpadEnter') {
+                                                        setShowOptionValues(false);
+                                                        removeErrorMessageOptionValue();
+                                                    }
+                                                }}
+                                                className="w-[17px] h-[17px] mr-[10px] hover:cursor-pointer"
+                                            />
+                                            <label
+                                                className="flex flex-row justify-start items-center w-full h-full pr-[30px] text-stone-800 text-base hover:cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis">
+                                                {item.name}
+                                            </label>
+                                        </li>
+                                    )
+                                    }
+                                </ul>}
+                        </div>
+                    </div>
+
+                    {/* supprimer */}
+                    <div className='flex justify-start items-center w-[40px] h-[40px] p-0 m-0 cursor-pointer'>
                         <span
-                            className="h-full text-gray-500 mr-2 rounded-md">
-                            {item}
-                        </span>
-                        <span
-                            className="h-[20px] w-[20px] flex justify-center items-center hover:cursor-pointer bg-gray-600  hover:bg-red-500 rounded-md"
-                            onClick={() => removeOptionValue(item)}>
-                            <img src='../images/icons/x-white.svg'
-                                className="w-[20px] h-[20px] hover:scale-125" />
+                            onClick={() => deleteOption(optionObj.id)}
+                            className='flex justify-center items-center w-[22px] h-[22px] p-0 m-0 cursor-pointer group hover:bg-red-500 rounded-[5px]'>
+                            <img src={window.location.origin + '/images/icons/trash.svg'} className="h-[18px] w-[18px] group-hover:hidden" />
+                            <img src={window.location.origin + '/images/icons/x-white.svg'} className="h-[18px] w-[18px] hidden group-hover:block" />
                         </span>
                     </div>
-                )}
-            </div>
-        </div>
+
+                    {/* values pastilles*/}
+                    <div className="col-span-3 flex flex-wrap pt-[5px] w-full">
+                        {!!optionObj.values.length > 0 && optionObj.values.map(item =>
+                            <div key={item}
+                                className="flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-[8px] pr-[6px] py-[3px] mb-1 mr-2 ">
+                                <span
+                                    className="h-full text-gray-500 mr-2 rounded-md">
+                                    {item}
+                                </span>
+                                <span
+                                    className="h-[20px] w-[20px] flex justify-center items-center hover:cursor-pointer bg-gray-600  hover:bg-red-500 rounded-md"
+                                    onClick={() => removeOptionValue(item)}>
+                                    <img src='../images/icons/x-white.svg'
+                                        className="w-[20px] h-[20px] hover:scale-125" />
+                                </span>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
+        </Draggable>
     )
 }
 
