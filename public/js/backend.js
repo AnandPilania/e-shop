@@ -41057,12 +41057,13 @@ var Option = function Option(_ref) {
       saveOption = _ref.saveOption,
       deleteOption = _ref.deleteOption,
       optionsObj = _ref.optionsObj,
-      draggableIndex = _ref.draggableIndex;
+      index = _ref.index;
 
   var _useStateIfMounted = (0,use_state_if_mounted__WEBPACK_IMPORTED_MODULE_1__.useStateIfMounted)({
     id: option_obj.id,
     name: option_obj.name,
-    values: _toConsumableArray(option_obj.values)
+    values: _toConsumableArray(option_obj.values),
+    ordre: option_obj.ordre
   }),
       _useStateIfMounted2 = _slicedToArray(_useStateIfMounted, 2),
       optionObj = _useStateIfMounted2[0],
@@ -41249,12 +41250,12 @@ var Option = function Option(_ref) {
 
   var handleSelectOptionValues = function handleSelectOptionValues(optionValue) {
     if (optionValue != undefined && optionValue.length > 0) {
-      var index = optionObj.values.indexOf(optionValue);
+      var _index = optionObj.values.indexOf(optionValue);
 
-      if (index > -1) {
+      if (_index > -1) {
         var tmp_arr = _toConsumableArray(optionObj.values);
 
-        tmp_arr.splice(index, 1);
+        tmp_arr.splice(_index, 1);
         setOptionObj(_objectSpread(_objectSpread({}, optionObj), {}, {
           values: _toConsumableArray(tmp_arr)
         }));
@@ -41352,7 +41353,7 @@ var Option = function Option(_ref) {
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_4__.Draggable, {
     draggableId: "".concat(option_obj.id),
-    index: draggableIndex,
+    index: index,
     children: function children(provided, snapshot) {
       var _optionObj$name2;
 
@@ -41932,6 +41933,7 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
     setVariantes(_toConsumableArray(tmp_variantes));
   };
 
+  console.log('variantes   ', variantes);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
     className: "".concat((variantes === null || variantes === void 0 ? void 0 : variantes.length) > 0 && "border-t border-gray-300"),
     children: [(variantes === null || variantes === void 0 ? void 0 : variantes.length) > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h3", {
@@ -42185,12 +42187,18 @@ var Options = function Options() {
   };
 
   var addOption = function addOption() {
+    // get bigger ordre num
+    var ordres = optionsObj.map(function (x) {
+      return x.ordre;
+    });
     setOptionsObj([].concat(_toConsumableArray(optionsObj), [{
       id: Date.now(),
       name: '',
-      values: []
+      values: [],
+      ordre: ordres.length
     }]));
-  };
+  }; // si il y a une nouvelle option on l'ajoute sinon on retire l'option passée en params
+
 
   var saveOption = function saveOption(newOption) {
     var arr = _toConsumableArray(optionsObj);
@@ -42246,69 +42254,39 @@ var Options = function Options() {
       setOptionsObj([].concat(_toConsumableArray(optionsObj), [{
         id: Date.now(),
         name: '',
-        values: []
+        values: [],
+        ordre: 0
       }]));
       setShowOptions(true);
     }
-  }; // handle move image in drop region
-
-
-  var move = function move(source, destination, droppableSource, droppableDestination) {
-    var sourceClone = Array.from(source);
-    var destClone = Array.from(destination);
-
-    var _sourceClone$splice = sourceClone.splice(droppableSource.index, 1),
-        _sourceClone$splice2 = _slicedToArray(_sourceClone$splice, 1),
-        removed = _sourceClone$splice2[0];
-
-    destClone.splice(droppableDestination.index, 0, removed);
-    console.log('sourceClone   ', sourceClone);
-    console.log('destClone   ', destClone);
-    console.log('removed   ', removed);
-    var result = {};
-    result[droppableSource.droppableId] = sourceClone;
-    result[droppableDestination.droppableId] = destClone;
-    return result;
-  }; // const reorder = (list, startIndex, endIndex) => {
-  //     const result = Array.from(list);
-  //     result.splice(startIndex, 1);
-  //     result.splice(endIndex, 0, removed);
-  //     return result;
-  // };
-
+  };
 
   var onDragEnd = function onDragEnd(result) {
     var source = result.source,
-        destination = result.destination;
+        destination = result.destination; // si on drop en dehors de la zone droppable 
 
     if (!destination) {
       return;
-    } // le + sert à transformer la variable en nombre
+    } // si on drop sur l'emplacement initial 
 
 
-    var sInd = +source.droppableId;
-    var dInd = +destination.droppableId;
-    var tmp_result = Array.from(optionsObj);
+    if (destination.droppableId === destination.droppableId && destination.index === source.index) {
+      return;
+    } // si on drop ailleurs que sur l'emplacement initial sur la zone droppable
 
-    var _tmp_result$splice = tmp_result.splice(source.index, 1),
-        _tmp_result$splice2 = _slicedToArray(_tmp_result$splice, 1),
-        removed = _tmp_result$splice2[0];
 
-    tmp_result.splice(destination.index, 0, removed);
-    setOptionsObj(tmp_result); // tmp_result.splice(startIndex, 1);
-    // tmp_result.splice(endIndex, 0, removed);
-    // if (sInd === dInd) {
-    //     const items = reorder(optionsObj[sInd], source.index, destination.index);
-    //     const newState = [...optionsObj];
-    //     newState[sInd] = items;
-    // } else {
-    //     console.log('optionsObj[sInd]   ', optionsObj[sInd]);
-    //     console.log('optionsObj[dInd]   ', optionsObj[dInd]);
-    //     const result = move(optionsObj[sInd], optionsObj[dInd], source, destination);
-    //     const newState = [...optionsObj];
-    //     newState[sInd] = result[sInd];
-    //     newState[dInd] = result[dInd];
-    // }
+    var tmp_optionsObj_DnD = Array.from(optionsObj);
+
+    var _tmp_optionsObj_DnD$s = tmp_optionsObj_DnD.splice(source.index, 1),
+        _tmp_optionsObj_DnD$s2 = _slicedToArray(_tmp_optionsObj_DnD$s, 1),
+        removed = _tmp_optionsObj_DnD$s2[0];
+
+    tmp_optionsObj_DnD.splice(destination.index, 0, removed); // modifie ordre en fonction de l'emplacement de l'objet dns le tableau
+
+    tmp_optionsObj_DnD.forEach(function (x, index) {
+      x.ordre = index;
+    });
+    setOptionsObj(tmp_optionsObj_DnD);
   }; // console.log('optionsObj  -> ', optionsObj)
 
 
@@ -42323,7 +42301,7 @@ var Options = function Options() {
         className: "m-0 ml-2 p-0",
         children: "Ajouter des options. Exemples, \"Couleur, taille, poids, ...\""
       })]
-    }), optionsObj.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+    }), (optionsObj === null || optionsObj === void 0 ? void 0 : optionsObj.length) > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
       className: "w-full h-auto grid gap-x-4 gap-y-2 grid-cols-[1fr_1fr_25px] justify-start items-start px-4 pb-1",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
         className: "mt-0 mx-0 p-0",
@@ -42336,33 +42314,35 @@ var Options = function Options() {
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_8__.DragDropContext, {
       onDragEnd: onDragEnd,
-      children: [optionsObj === null || optionsObj === void 0 ? void 0 : optionsObj.map(function (item, ndx) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_8__.Droppable, {
-          droppableId: "".concat(ndx),
-          direction: "vertical",
-          children: function children(provided, snapshot) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", _objectSpread(_objectSpread({
-              className: "w-full"
-            }, provided.droppableProps), {}, {
-              ref: provided.innerRef,
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_option__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_8__.Droppable, {
+        droppableId: "optionsObjDroppableId",
+        direction: "vertical",
+        children: function children(provided, snapshot) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", _objectSpread(_objectSpread({
+            className: "w-full"
+          }, provided.droppableProps), {}, {
+            ref: provided.innerRef,
+            children: [optionsObj === null || optionsObj === void 0 ? void 0 : optionsObj.map(function (item, ndx) {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_option__WEBPACK_IMPORTED_MODULE_2__["default"], {
                 option_obj: item,
                 saveOption: saveOption,
                 deleteOption: deleteOption,
                 optionsObj: optionsObj,
-                draggableIndex: ndx
-              }, ndx), provided.placeholder]
-            }));
-          }
-        }, ndx);
-      }), optionsObj.length < 4 && showOptions && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+                index: ndx
+              }, item.id);
+            }), provided.placeholder]
+          }));
+        }
+      }), (optionsObj === null || optionsObj === void 0 ? void 0 : optionsObj.length) < 4 && showOptions && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
         className: "w-full h-auto flex flrx-row justify-start items-center mb-[25px]",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
-          onClick: addOption,
+          onClick: function onClick() {
+            return addOption(getLastOrder(optionsObj));
+          },
           className: "h-[40px] px-[10px] mt-4 border border-slate-200 ",
           children: "Ajouter une option"
         })
-      }), optionsObj.length === 4 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+      }), (optionsObj === null || optionsObj === void 0 ? void 0 : optionsObj.length) === 4 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
         className: "text-blue-500 text-sm relative top-[-20px] left-0",
         children: "Vous pouvez ajouter jusqu'\xE0 4 options"
       })]

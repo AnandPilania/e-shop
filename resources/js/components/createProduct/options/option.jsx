@@ -4,12 +4,13 @@ import AppContext from '../../contexts/AppContext';
 import { Draggable } from 'react-beautiful-dnd';
 
 
-const Option = ({ option_obj, saveOption, deleteOption, optionsObj, draggableIndex }) => {
+const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => {
 
     const [optionObj, setOptionObj] = useStateIfMounted({
         id: option_obj.id,
         name: option_obj.name,
-        values: [...option_obj.values]
+        values: [...option_obj.values],
+        ordre: option_obj.ordre
     });
 
     const [listOptionValues, setListOptionValues] = useStateIfMounted([]);
@@ -253,7 +254,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, draggableInd
         <Draggable
             key={option_obj.id}
             draggableId={`${option_obj.id}`}
-            index={draggableIndex}
+            index={index}
         >
             {(provided, snapshot) => (
                 <div className="w-full h-auto grid gap-x-4 grid-cols-[25px_1fr_1fr_25px] justify-start items-start px-4 pt-4 pb-2 mb-2 rounded border border-gray-300 bg-white"

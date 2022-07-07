@@ -695,17 +695,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mb-\[25px\] {
   margin-bottom: 25px;
 }
-.mt-\[35px\] {
-  margin-top: 35px;
-}
-.mb-\[5px\] {
-  margin-bottom: 5px;
-}
 .mr-\[15px\] {
   margin-right: 15px;
 }
 .ml-\[7px\] {
   margin-left: 7px;
+}
+.mb-\[5px\] {
+  margin-bottom: 5px;
 }
 .mr-\[5px\] {
   margin-right: 5px;
@@ -1059,14 +1056,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 .grid-cols-3 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
+.grid-cols-\[25px_1fr_1fr_25px\] {
+  grid-template-columns: 25px 1fr 1fr 25px;
+}
 .grid-cols-\[1fr_1fr_25px\] {
   grid-template-columns: 1fr 1fr 25px;
 }
 .grid-cols-\[25px_1fr_100px_100px_150px_50px_30px\] {
   grid-template-columns: 25px 1fr 100px 100px 150px 50px 30px;
-}
-.grid-cols-\[25px_1fr_1fr_25px\] {
-  grid-template-columns: 25px 1fr 1fr 25px;
 }
 .flex-row {
   flex-direction: row;

@@ -38,17 +38,20 @@ const Options = () => {
 
 
     const addOption = () => {
+        // get bigger ordre num
+        const ordres = optionsObj.map(x => { return x.ordre });
         setOptionsObj([
             ...optionsObj,
             {
                 id: Date.now(),
                 name: '',
-                values: []
-            }
-        ]);
+                values: [],
+                ordre: ordres.length
+            }]);
     }
 
 
+    // si il y a une nouvelle option on l'ajoute sinon on retire l'option passée en params
     const saveOption = (newOption) => {
         let arr = [...optionsObj];
         let ndx = arr.findIndex(obj => obj.id == newOption.id);
@@ -97,80 +100,38 @@ const Options = () => {
                 {
                     id: Date.now(),
                     name: '',
-                    values: []
+                    values: [],
+                    ordre: 0
                 }
             ]);
             setShowOptions(true);
         }
-
     }
 
-
-    // handle move image in drop region
-    const move = (source, destination, droppableSource, droppableDestination) => {
-        const sourceClone = Array.from(source);
-        const destClone = Array.from(destination);
-        const [removed] = sourceClone.splice(droppableSource.index, 1);
-
-        destClone.splice(droppableDestination.index, 0, removed);
-
-        console.log('sourceClone   ', sourceClone);
-        console.log('destClone   ', destClone);
-        console.log('removed   ', removed);
-
-        const result = {};
-        result[droppableSource.droppableId] = sourceClone;
-        result[droppableDestination.droppableId] = destClone;
-
-        return result;
-    };
-
-
-    // const reorder = (list, startIndex, endIndex) => {
-    //     const result = Array.from(list);
-    //     result.splice(startIndex, 1);
-    //     result.splice(endIndex, 0, removed);
-
-    //     return result;
-    // };
 
     const onDragEnd = (result) => {
         const { source, destination } = result;
 
+        // si on drop en dehors de la zone droppable 
         if (!destination) {
             return;
         }
-        // le + sert à transformer la variable en nombre
-        const sInd = +source.droppableId;
-        const dInd = +destination.droppableId;
 
-        const tmp_result = Array.from(optionsObj);
-        const [removed] = tmp_result.splice(source.index, 1);
-        tmp_result.splice(destination.index, 0, removed);
+        // si on drop sur l'emplacement initial 
+        if (destination.droppableId === destination.droppableId && destination.index === source.index) {
+            return;
+        }
 
+        // si on drop ailleurs que sur l'emplacement initial sur la zone droppable
+        const tmp_optionsObj_DnD = Array.from(optionsObj);
+        const [removed] = tmp_optionsObj_DnD.splice(source.index, 1);
+        tmp_optionsObj_DnD.splice(destination.index, 0, removed);
 
-      
-        setOptionsObj(tmp_result);
-
-        // tmp_result.splice(startIndex, 1);
-        // tmp_result.splice(endIndex, 0, removed);
-
-        // if (sInd === dInd) {
-        //     const items = reorder(optionsObj[sInd], source.index, destination.index);
-        //     const newState = [...optionsObj];
-        //     newState[sInd] = items;
-
-
-        // } else {
-        //     console.log('optionsObj[sInd]   ', optionsObj[sInd]);
-        //     console.log('optionsObj[dInd]   ', optionsObj[dInd]);
-        //     const result = move(optionsObj[sInd], optionsObj[dInd], source, destination);
-        //     const newState = [...optionsObj];
-        //     newState[sInd] = result[sInd];
-        //     newState[dInd] = result[dInd];
-
-
-        // }
+        // modifie ordre en fonction de l'emplacement de l'objet dns le tableau
+        tmp_optionsObj_DnD.forEach((x, index) => {
+            x.ordre = index;
+        });
+        setOptionsObj(tmp_optionsObj_DnD);
     };
 
 
@@ -188,7 +149,7 @@ const Options = () => {
             </div>
 
 
-            {optionsObj.length > 0 &&
+            {optionsObj?.length > 0 &&
                 <div className='w-full h-auto grid gap-x-4 gap-y-2 grid-cols-[1fr_1fr_25px] justify-start items-start px-4 pb-1'>
                     <label className='mt-0 mx-0 p-0'>Nom de l'option</label>
                     <label className='mt-0 mx-0 p-0'>Valeur de l'option</label>
@@ -199,42 +160,41 @@ const Options = () => {
             <DragDropContext
                 onDragEnd={onDragEnd}
             >
-                {optionsObj?.map((item, ndx) =>
-                    <Droppable droppableId={`${ndx}`}
-                        direction="vertical"
-                        key={ndx}>
-                        {(provided, snapshot) => (
-                            <div
-                                className='w-full'
-                                {...provided.droppableProps}
-                                ref={provided.innerRef}
-                            >
+                <Droppable
+                    droppableId={"optionsObjDroppableId"}
+                    direction="vertical">
+                    {(provided, snapshot) => (
+                        <div
+                            className='w-full'
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
+                        >
+                            {optionsObj?.map((item, ndx) =>
                                 <Option
-                                    key={ndx}
+                                    key={item.id}
                                     option_obj={item}
                                     saveOption={saveOption}
                                     deleteOption={deleteOption}
                                     optionsObj={optionsObj}
-                                    draggableIndex={ndx}
+                                    index={ndx}
                                 />
-                                {provided.placeholder}
-                            </div>
-                        )}
-                    </Droppable>
-                )}
+                            )}
+                            {provided.placeholder}
+                        </div>
+                    )}
+                </Droppable>
 
 
-
-                {optionsObj.length < 4 && showOptions &&
+                {optionsObj?.length < 4 && showOptions &&
                     <div className="w-full h-auto flex flrx-row justify-start items-center mb-[25px]">
                         <button
-                            onClick={addOption}
+                            onClick={() => addOption(getLastOrder(optionsObj))}
                             className='h-[40px] px-[10px] mt-4 border border-slate-200 '>
                             Ajouter une option
                         </button>
                     </div>
                 }
-                {optionsObj.length === 4 &&
+                {optionsObj?.length === 4 &&
                     <span className='text-blue-500 text-sm relative top-[-20px] left-0'>
                         Vous pouvez ajouter jusqu'à 4 options
                     </span>
