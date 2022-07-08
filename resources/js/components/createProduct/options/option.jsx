@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useContext } from 'react';
 import { useStateIfMounted } from "use-state-if-mounted";
 import AppContext from '../../contexts/AppContext';
-import { Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 
 const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => {
@@ -81,6 +81,8 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
 
     // initialise quand on change d'option
     useEffect(() => {
+        console.log('optionObj.name   ', optionObj.name)
+        console.log('optionObj---->   ', optionObj)
         setListOptionValues([]);
         setOptionObj({ ...optionObj, values: [] });
         if (optionObj.name?.length > 0) {
@@ -249,7 +251,29 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
         ...draggableStyle,
     });
 
+    const onDragEnd = (result) => {
+        const { source, destination } = result;
 
+        // si on drop en dehors de la zone droppable 
+        if (!destination) {
+            return;
+        }
+
+        // si on drop sur l'emplacement initial 
+        if (destination.droppableId === destination.droppableId && destination.index === source.index) {
+            return;
+        }
+
+        // si on drop ailleurs que sur l'emplacement initial sur la zone droppable
+        const tmp_values = Array.from(optionObj.values);
+        const [removed] = tmp_values.splice(source.index, 1);
+        tmp_values.splice(destination.index, 0, removed);
+        console.log('tmp_values  ', tmp_values)
+        setOptionObj({ ...optionObj, values: [...tmp_values] });
+    };
+
+    console.log('optionObj  ', optionObj)
+    console.log('listOptionValues  ', listOptionValues)
     return (
         <Draggable
             key={option_obj.id}
@@ -411,23 +435,55 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
                     </div>
 
                     {/* values pastilles*/}
-                    <div className="col-span-3 flex flex-wrap pt-[5px] w-full">
-                        {!!optionObj.values.length > 0 && optionObj.values.map(item =>
-                            <div key={item}
-                                className="flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-[8px] pr-[6px] py-[3px] mb-1 mr-2 ">
-                                <span
-                                    className="h-full text-gray-500 mr-2 rounded-md">
-                                    {item}
-                                </span>
-                                <span
-                                    className="h-[20px] w-[20px] flex justify-center items-center hover:cursor-pointer bg-gray-600  hover:bg-red-500 rounded-md"
-                                    onClick={() => removeOptionValue(item)}>
-                                    <img src='../images/icons/x-white.svg'
-                                        className="w-[20px] h-[20px] hover:scale-125" />
-                                </span>
-                            </div>
-                        )}
-                    </div>
+                    <DragDropContext
+                        onDragEnd={onDragEnd}
+                    >
+                        <Droppable
+                            droppableId={"option_ObjDroppableId"}
+                            direction="horizontal">
+                            {(provided, snapshot) => (
+                                <div
+                                    className="col-span-3 flex flex-wrap pt-[5px] w-full"
+                                    {...provided.droppableProps}
+                                    ref={provided.innerRef}
+                                >
+                                    {!!optionObj.values.length > 0 && optionObj.values.map((item, indx) =>
+                                        <Draggable
+                                            key={indx}
+                                            draggableId={`${indx}`}
+                                            index={indx}
+                                        >
+                                            {(provided, snapshot) => (
+                                                <div
+                                                    className="flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-[8px] pr-[6px] py-[3px] mb-1 mr-2 cursor-move"
+                                                    onClick={() => setShowOptionValues(false)
+                                                    }
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                    style={getItemStyle(
+                                                        snapshot.isDragging,
+                                                        provided.draggableProps.style
+                                                    )}>
+                                                    <span
+                                                        className="h-full text-gray-500 mr-2 rounded-md">
+                                                        {item}
+                                                    </span>
+                                                    <span
+                                                        className="h-[20px] w-[20px] flex justify-center items-center hover:cursor-pointer bg-gray-600  hover:bg-red-500 rounded-md"
+                                                        onClick={() => removeOptionValue(item)}>
+                                                        <img src='../images/icons/x-white.svg'
+                                                            className="w-[20px] h-[20px] hover:scale-125" />
+                                                    </span>
+                                                </div>
+                                            )}
+                                        </Draggable>
+                                    )}
+                                    {provided.placeholder}
+                                </div>
+                            )}
+                        </Droppable>
+                    </DragDropContext>
                 </div>
             )}
         </Draggable>

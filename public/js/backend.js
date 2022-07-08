@@ -38805,13 +38805,12 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 var DropZoneProduct = function DropZoneProduct() {
   var _imageVariantes$2, _imageVariantes$0$, _imageVariantes$3;
 
-  // const [showModal, setShowModal] = useState(false);
-  // const [urlValue, setUrlValue] = useState('');
+  var dropRegionRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       imageVariantes = _useContext.imageVariantes,
       setImageVariantes = _useContext.setImageVariantes;
 
-  var dropRegion = null;
   var fakeInput = null;
   var mainImageProduct = null;
   var dropCard = null;
@@ -38821,12 +38820,18 @@ var DropZoneProduct = function DropZoneProduct() {
 
   function fakeInputClick() {
     fakeInput.click();
-  }
+  } // permet de toujours faire référence à la même fonction fakeInputClick dans un eventListener. // empèche l'ouverture de la fenêtre explorateur quand on click sur la dropregion après avoir chargé une image via modalImageVariante
+
+
+  var runFakeInputClick = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(function (event) {
+    fakeInputClick();
+  }, []);
 
   function createFakeInput() {
     // open file selector when clicked on the drop region
     fakeInput = document.createElement("input");
     fakeInput.type = "file";
+    fakeInput.id = "fakeInput";
     fakeInput.accept = "image/*, video/*";
     fakeInput.multiple = true;
     fakeInput.addEventListener("change", function () {
@@ -38854,16 +38859,15 @@ var DropZoneProduct = function DropZoneProduct() {
   }
 
   function setDropRegion() {
-    dropRegion = document.getElementById("drop-region");
-    dropRegion.className = "w-full h-full flex-col justify-start items-center bg-white rounded-md py-[40px] px-[10px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer"; // open files exploratore when click on dropRegion
+    dropRegionRef.current.className = "w-full h-auto flex-col justify-start items-center bg-white rounded-md py-[40px] px-[10px] border-dashed border-4 border-gray-300 hover:bg-gray-50 cursor-pointer"; // open files exploratore when click on dropRegion
 
-    dropRegion.addEventListener('click', fakeInputClick); // empèche le comportement par défault et la propagation
+    dropRegionRef.current.addEventListener('click', runFakeInputClick); // empèche le comportement par défault et la propagation
 
-    dropRegion.addEventListener('dragenter', preventDefault, false);
-    dropRegion.addEventListener('dragleave', preventDefault, false);
-    dropRegion.addEventListener('dragover', preventDefault, false);
-    dropRegion.addEventListener('drop', preventDefault, false);
-    dropRegion.addEventListener('drop', handleDrop, false);
+    dropRegionRef.current.addEventListener('dragenter', preventDefault, false);
+    dropRegionRef.current.addEventListener('dragleave', preventDefault, false);
+    dropRegionRef.current.addEventListener('dragover', preventDefault, false);
+    dropRegionRef.current.addEventListener('drop', preventDefault, false);
+    dropRegionRef.current.addEventListener('drop', handleDrop, false);
   } // récupère les files quand on drop puis les envoi à handleFiles
 
 
@@ -38944,7 +38948,7 @@ var DropZoneProduct = function DropZoneProduct() {
         }).then(function () {
           console.log('ok'); // cancel --> open files explorator when click on dropRegion
 
-          dropRegion.removeEventListener('click', fakeInputClick);
+          dropRegionRef.current.removeEventListener('click', runFakeInputClick);
 
           if (arr.length - 1 == index) {
             axios__WEBPACK_IMPORTED_MODULE_4___default().get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage').then(function (res) {
@@ -38980,34 +38984,32 @@ var DropZoneProduct = function DropZoneProduct() {
     var _imageVariantes$;
 
     if (((_imageVariantes$ = imageVariantes[0]) === null || _imageVariantes$ === void 0 ? void 0 : _imageVariantes$.length) > 0) {
-      dropRegion = document.getElementById("drop-region"); // cancel --> open files explorator when click on dropRegion
+      // cancel --> open files explorator when click on dropRegion
+      dropRegionRef.current.removeEventListener('click', runFakeInputClick); // met en blanc la dashed border de la dropRegion pour simuler sa disparition
 
-      dropRegion.removeEventListener('click', fakeInputClick); // met en blanc la dashed border de la dropRegion pour simuler sa disparition
-
-      dropRegion.className = "flex-col justify-start items-center bg-white rounded-md w-full py-[40px] cursor-default";
+      dropRegionRef.current.className = "flex-col justify-start items-center bg-white rounded-md w-full h-auto py-[40px] cursor-default";
       dropCard = document.getElementById("drop-card"); // affiche le bouton add
 
       dropCard.style.display = 'block';
       mainImageProduct = document.getElementById("main-image-product");
       mainImageProduct.style.cursor = 'default';
       firstImage = document.getElementById("firstImage");
-      firstImage.className = 'w-full h-full flex flex-row justify-center items-center p-0 border border-slate-300 rounded';
+      firstImage.className = 'w-full h-full flex flex-row justify-center items-center p-0 border border-gray-300 rounded';
       txtImgPrincipale = document.getElementById("txtImgPrincipale");
       txtImgPrincipale.className = 'w-full text-center text-[12px] pb-[5px]';
       fakeInput === null && createFakeInput();
       dropHeader = document.getElementById("drop-header");
-      dropHeader.className = "w-full h-[250px] grid gap-[10px] grid-cols-2 justify-center items-center pb-[10px] mb-[10px]";
+      dropHeader.className = "w-full h-auto grid gap-[10px] grid-cols-2 justify-center items-center pb-[10px] mb-[10px]";
     } else {
       firstImage = document.getElementById("firstImage");
       firstImage.className = 'hidden';
       document.getElementById("drop-card").style.display = 'none';
       fakeInput === null && createFakeInput();
-      dropRegion = document.getElementById("drop-region");
-      dropRegion.className = "w-full h-full flex-col justify-start items-center bg-white rounded-md py-[40px] px-[10px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer"; // open files exploratore when click on dropRegion
+      dropRegionRef.current.className = "w-full h-auto flex-col justify-start items-center bg-white rounded-md py-[40px] px-[10px] border-dashed border-4 border-gray-300 hover:bg-gray-50 cursor-pointer"; // open files exploratore when click on dropRegion
 
-      dropRegion.addEventListener('click', fakeInputClick);
+      dropRegionRef.current.addEventListener('click', runFakeInputClick);
       dropHeader = document.getElementById("drop-header");
-      dropHeader.className = "w-full h-[120px] flex flex-row  justify-center items-center pb-[10px] mb-[10px]";
+      dropHeader.className = "w-full h-auto flex flex-row  justify-center items-center pb-[10px] mb-[10px]";
     }
   }, [imageVariantes]);
 
@@ -39215,11 +39217,12 @@ var DropZoneProduct = function DropZoneProduct() {
       className: "mb-[10px]",
       children: "Images"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-      id: "drop-region",
-      className: "w-full h-full flex-col justify-start items-center bg-white rounded-md py-[40px] px-[10px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer",
+      id: "drop-region_product",
+      className: "w-full h-auto flex-col justify-start items-center bg-white rounded-md py-[40px] px-[10px] border-dashed border-4 border-gray-300 hover:bg-gray-50 cursor-pointer",
+      ref: dropRegionRef,
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
         id: "drop-header",
-        className: "w-full h-[120px] flex flex-row  justify-center items-center pb-[10px] mb-[10px]",
+        className: "w-full h-auto flex flex-row  justify-center items-center pb-[10px] mb-[10px]",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
           id: "firstImage",
           className: "hidden",
@@ -39243,10 +39246,11 @@ var DropZoneProduct = function DropZoneProduct() {
             id: "drop-card",
             className: "w-full h-auto mt-[25px]",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
+              id: "addImageDropZoneProduct",
               src: "../images/icons/add-square-dotted.svg",
-              className: "w-[50px] h-[50px] mx-auto hover:bg-slate-50 cursor-pointer",
+              className: "w-[50px] h-[50px] mx-auto hover:bg-gray-50 cursor-pointer",
               onClick: function onClick() {
-                return fakeInputClick();
+                return runFakeInputClick();
               }
             })
           })]
@@ -39268,7 +39272,7 @@ var DropZoneProduct = function DropZoneProduct() {
                     index: index,
                     children: function children(provided, snapshot) {
                       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", _objectSpread(_objectSpread(_objectSpread({
-                        className: "image-view flex flex-row justify-center items-center mb[20px]  relative border border-slate-300 rounded group",
+                        className: "image-view flex flex-row justify-center items-center mb[20px]  relative border border-gray-300 rounded group",
                         ref: provided.innerRef
                       }, provided.draggableProps), provided.dragHandleProps), {}, {
                         style: getItemStyle(snapshot.isDragging, provided.draggableProps.style),
@@ -40567,13 +40571,9 @@ var ModalImageVariante = function ModalImageVariante(_ref) {
       selectedImage = _useState4[0],
       setSelectedImage = _useState4[1];
 
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState6 = _slicedToArray(_useState5, 2),
-      showArrowBounce = _useState6[0],
-      setShowArrowBounce = _useState6[1];
-
   var inputModalImageVariante = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
-  var modalImageSectionRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+  var modalImageSectionRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(); // gère le overflow de la zone d'affichage des images
+
   var isOverflow = (0,_hooks_useIsOverflow__WEBPACK_IMPORTED_MODULE_1__.useIsOverflow)(modalImageSectionRef, function (isOverflowFromCallback) {});
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_3__["default"]),
@@ -40666,7 +40666,7 @@ var ModalImageVariante = function ModalImageVariante(_ref) {
   }; // suprime les images chargées si on annule
 
 
-  var removeImageFroTemprayStorage = function removeImageFroTemprayStorage() {
+  var removeImageFromTemprayStorage = function removeImageFromTemprayStorage() {
     var tmp_Data = new FormData();
     tmp_Data.append('key', 'tmp_productImage');
     tmp_Data.append('countFile', countFile);
@@ -40709,15 +40709,15 @@ var ModalImageVariante = function ModalImageVariante(_ref) {
     cancelSelection();
   };
 
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
-      _useState8 = _slicedToArray(_useState7, 2),
-      waitingClick = _useState8[0],
-      setWaitingClick = _useState8[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      _useState6 = _slicedToArray(_useState5, 2),
+      waitingClick = _useState6[0],
+      setWaitingClick = _useState6[1];
 
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
-      _useState10 = _slicedToArray(_useState9, 2),
-      lastClick = _useState10[0],
-      setLastClick = _useState10[1];
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+      _useState8 = _slicedToArray(_useState7, 2),
+      lastClick = _useState8[0],
+      setLastClick = _useState8[1];
 
   var handleClick = function handleClick(e, item) {
     if (lastClick && e.timeStamp - lastClick < 250 && waitingClick) {
@@ -40840,7 +40840,7 @@ var ModalImageVariante = function ModalImageVariante(_ref) {
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
             className: "flex flrex-row justify-center items-center h-[40px] px-3 py-2 ml-4 min-w-[120px] border border-gray-300 rounded hover:border-gray-400",
             onClick: function onClick() {
-              removeImageFroTemprayStorage();
+              removeImageFromTemprayStorage();
               cancelSelection();
               handleModalCancel();
             },
@@ -41173,6 +41173,8 @@ var Option = function Option(_ref) {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var _optionObj$name;
 
+    console.log('optionObj.name   ', optionObj.name);
+    console.log('optionObj---->   ', optionObj);
     setListOptionValues([]);
     setOptionObj(_objectSpread(_objectSpread({}, optionObj), {}, {
       values: []
@@ -41351,6 +41353,35 @@ var Option = function Option(_ref) {
     }, draggableStyle);
   };
 
+  var onDragEnd = function onDragEnd(result) {
+    var source = result.source,
+        destination = result.destination; // si on drop en dehors de la zone droppable 
+
+    if (!destination) {
+      return;
+    } // si on drop sur l'emplacement initial 
+
+
+    if (destination.droppableId === destination.droppableId && destination.index === source.index) {
+      return;
+    } // si on drop ailleurs que sur l'emplacement initial sur la zone droppable
+
+
+    var tmp_values = Array.from(optionObj.values);
+
+    var _tmp_values$splice = tmp_values.splice(source.index, 1),
+        _tmp_values$splice2 = _slicedToArray(_tmp_values$splice, 1),
+        removed = _tmp_values$splice2[0];
+
+    tmp_values.splice(destination.index, 0, removed);
+    console.log('tmp_values  ', tmp_values);
+    setOptionObj(_objectSpread(_objectSpread({}, optionObj), {}, {
+      values: _toConsumableArray(tmp_values)
+    }));
+  };
+
+  console.log('optionObj  ', optionObj);
+  console.log('listOptionValues  ', listOptionValues);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_4__.Draggable, {
     draggableId: "".concat(option_obj.id),
     index: index,
@@ -41492,25 +41523,48 @@ var Option = function Option(_ref) {
               className: "h-[18px] w-[18px] hidden group-hover:block"
             })]
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-          className: "col-span-3 flex flex-wrap pt-[5px] w-full",
-          children: !!optionObj.values.length > 0 && optionObj.values.map(function (item) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-              className: "flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-[8px] pr-[6px] py-[3px] mb-1 mr-2 ",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-                className: "h-full text-gray-500 mr-2 rounded-md",
-                children: item
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-                className: "h-[20px] w-[20px] flex justify-center items-center hover:cursor-pointer bg-gray-600  hover:bg-red-500 rounded-md",
-                onClick: function onClick() {
-                  return removeOptionValue(item);
-                },
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
-                  src: "../images/icons/x-white.svg",
-                  className: "w-[20px] h-[20px] hover:scale-125"
-                })
-              })]
-            }, item);
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_4__.DragDropContext, {
+          onDragEnd: onDragEnd,
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_4__.Droppable, {
+            droppableId: "option_ObjDroppableId",
+            direction: "horizontal",
+            children: function children(provided, snapshot) {
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", _objectSpread(_objectSpread({
+                className: "col-span-3 flex flex-wrap pt-[5px] w-full"
+              }, provided.droppableProps), {}, {
+                ref: provided.innerRef,
+                children: [!!optionObj.values.length > 0 && optionObj.values.map(function (item, indx) {
+                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_4__.Draggable, {
+                    draggableId: "".concat(indx),
+                    index: indx,
+                    children: function children(provided, snapshot) {
+                      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", _objectSpread(_objectSpread(_objectSpread({
+                        className: "flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-[8px] pr-[6px] py-[3px] mb-1 mr-2 cursor-move",
+                        onClick: function onClick() {
+                          return setShowOptionValues(false);
+                        },
+                        ref: provided.innerRef
+                      }, provided.draggableProps), provided.dragHandleProps), {}, {
+                        style: getItemStyle(snapshot.isDragging, provided.draggableProps.style),
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+                          className: "h-full text-gray-500 mr-2 rounded-md",
+                          children: item
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+                          className: "h-[20px] w-[20px] flex justify-center items-center hover:cursor-pointer bg-gray-600  hover:bg-red-500 rounded-md",
+                          onClick: function onClick() {
+                            return removeOptionValue(item);
+                          },
+                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+                            src: "../images/icons/x-white.svg",
+                            className: "w-[20px] h-[20px] hover:scale-125"
+                          })
+                        })]
+                      }));
+                    }
+                  }, indx);
+                }), provided.placeholder]
+              }));
+            }
           })
         })]
       }));
@@ -41624,18 +41678,10 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
       setImageVariantes = _useContext.setImageVariantes;
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    // // check if there is deleted variantes and show cancel button if true
-    // let tmp_variantes = [...variantes];
-    // let ndx = tmp_variantes.findIndex(x => x.deleted == true);
-    // if (ndx > -1) {
-    //     setShowMCancelDeleteButton(true);
-    // }
     selectedVariantesList.length > 0 && handleChangeSelectionVariantesList(null, null);
   }, [variantes]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    var allValuesAsString = []; // console.log('optionsObj  -> ', optionsObj)
-    // console.log('variantes  ', variantes)
-    // renvoi toutes les combinaisons possible des différentes options 
+    var allValuesAsString = []; // renvoi toutes les combinaisons possible des différentes options 
 
     var mapping = optionsObj.map(function (x) {
       return x.values;
@@ -42336,9 +42382,7 @@ var Options = function Options() {
       }), (optionsObj === null || optionsObj === void 0 ? void 0 : optionsObj.length) < 4 && showOptions && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
         className: "w-full h-auto flex flrx-row justify-start items-center mb-[25px]",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
-          onClick: function onClick() {
-            return addOption(getLastOrder(optionsObj));
-          },
+          onClick: addOption,
           className: "h-[40px] px-[10px] mt-4 border border-slate-200 ",
           children: "Ajouter une option"
         })

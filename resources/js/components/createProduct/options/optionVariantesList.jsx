@@ -23,22 +23,12 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
 
     useEffect(() => {
-        // // check if there is deleted variantes and show cancel button if true
-        // let tmp_variantes = [...variantes];
-        // let ndx = tmp_variantes.findIndex(x => x.deleted == true);
-        // if (ndx > -1) {
-        //     setShowMCancelDeleteButton(true);
-        // }
-
         selectedVariantesList.length > 0 && handleChangeSelectionVariantesList(null, null);
     }, [variantes]);
 
 
     useEffect(() => {
         let allValuesAsString = [];
-
-        // console.log('optionsObj  -> ', optionsObj)
-        // console.log('variantes  ', variantes)
 
         // renvoi toutes les combinaisons possible des différentes options 
         let mapping = optionsObj.map(x => x.values);

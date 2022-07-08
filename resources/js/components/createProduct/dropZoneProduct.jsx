@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useRef, useCallback, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import ModalInput from '../elements/modalInput';
 import MainBlock from '../elements/blocks/mainBlock';
@@ -7,12 +7,11 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
 const DropZoneProduct = () => {
 
-    // const [showModal, setShowModal] = useState(false);
-    // const [urlValue, setUrlValue] = useState('');
+    const dropRegionRef = useRef();
 
     const { imageVariantes, setImageVariantes } = useContext(AppContext);
 
-    var dropRegion = null;
+
     var fakeInput = null;
     var mainImageProduct = null;
     var dropCard = null;
@@ -20,15 +19,19 @@ const DropZoneProduct = () => {
     var dropHeader = null;
     var txtImgPrincipale = null;
 
-
     function fakeInputClick() {
         fakeInput.click();
     }
+
+    // permet de toujours faire référence à la même fonction fakeInputClick dans un eventListener. // empèche l'ouverture de la fenêtre explorateur quand on click sur la dropregion après avoir chargé une image via modalImageVariante
+    const runFakeInputClick = useCallback((event) => { fakeInputClick() }, []);
+
 
     function createFakeInput() {
         // open file selector when clicked on the drop region
         fakeInput = document.createElement("input");
         fakeInput.type = "file";
+        fakeInput.id = "fakeInput";
         fakeInput.accept = "image/*, video/*";
         fakeInput.multiple = true;
 
@@ -61,17 +64,17 @@ const DropZoneProduct = () => {
         e.stopPropagation();
     }
 
+
     function setDropRegion() {
-        dropRegion = document.getElementById("drop-region");
-        dropRegion.className = "w-full h-full flex-col justify-start items-center bg-white rounded-md py-[40px] px-[10px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer";
+        dropRegionRef.current.className = "w-full h-auto flex-col justify-start items-center bg-white rounded-md py-[40px] px-[10px] border-dashed border-4 border-gray-300 hover:bg-gray-50 cursor-pointer";
         // open files exploratore when click on dropRegion
-        dropRegion.addEventListener('click', fakeInputClick);
+        dropRegionRef.current.addEventListener('click', runFakeInputClick);
         // empèche le comportement par défault et la propagation
-        dropRegion.addEventListener('dragenter', preventDefault, false);
-        dropRegion.addEventListener('dragleave', preventDefault, false);
-        dropRegion.addEventListener('dragover', preventDefault, false);
-        dropRegion.addEventListener('drop', preventDefault, false);
-        dropRegion.addEventListener('drop', handleDrop, false);
+        dropRegionRef.current.addEventListener('dragenter', preventDefault, false);
+        dropRegionRef.current.addEventListener('dragleave', preventDefault, false);
+        dropRegionRef.current.addEventListener('dragover', preventDefault, false);
+        dropRegionRef.current.addEventListener('drop', preventDefault, false);
+        dropRegionRef.current.addEventListener('drop', handleDrop, false);
     }
 
 
@@ -154,7 +157,7 @@ const DropZoneProduct = () => {
                     .then(() => {
                         console.log('ok');
                         // cancel --> open files explorator when click on dropRegion
-                        dropRegion.removeEventListener('click', fakeInputClick);
+                        dropRegionRef.current.removeEventListener('click', runFakeInputClick);
 
                         if ((arr.length - 1) == index) {
                             Axios.get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage')
@@ -189,11 +192,10 @@ const DropZoneProduct = () => {
 
     useEffect(() => {
         if (imageVariantes[0]?.length > 0) {
-            dropRegion = document.getElementById("drop-region");
             // cancel --> open files explorator when click on dropRegion
-            dropRegion.removeEventListener('click', fakeInputClick);
+            dropRegionRef.current.removeEventListener('click', runFakeInputClick);
             // met en blanc la dashed border de la dropRegion pour simuler sa disparition
-            dropRegion.className = "flex-col justify-start items-center bg-white rounded-md w-full py-[40px] cursor-default";
+            dropRegionRef.current.className = "flex-col justify-start items-center bg-white rounded-md w-full h-auto py-[40px] cursor-default";
 
             dropCard = document.getElementById("drop-card");
             // affiche le bouton add
@@ -203,7 +205,7 @@ const DropZoneProduct = () => {
             mainImageProduct.style.cursor = 'default';
 
             firstImage = document.getElementById("firstImage");
-            firstImage.className = 'w-full h-full flex flex-row justify-center items-center p-0 border border-slate-300 rounded';
+            firstImage.className = 'w-full h-full flex flex-row justify-center items-center p-0 border border-gray-300 rounded';
 
             txtImgPrincipale = document.getElementById("txtImgPrincipale");
             txtImgPrincipale.className = 'w-full text-center text-[12px] pb-[5px]';
@@ -211,10 +213,9 @@ const DropZoneProduct = () => {
             fakeInput === null && createFakeInput();
 
             dropHeader = document.getElementById("drop-header");
-            dropHeader.className = "w-full h-[250px] grid gap-[10px] grid-cols-2 justify-center items-center pb-[10px] mb-[10px]";
+            dropHeader.className = "w-full h-auto grid gap-[10px] grid-cols-2 justify-center items-center pb-[10px] mb-[10px]";
 
         } else {
-
             firstImage = document.getElementById("firstImage");
             firstImage.className = 'hidden';
 
@@ -222,13 +223,12 @@ const DropZoneProduct = () => {
 
             fakeInput === null && createFakeInput();
 
-            dropRegion = document.getElementById("drop-region");
-            dropRegion.className = "w-full h-full flex-col justify-start items-center bg-white rounded-md py-[40px] px-[10px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer";
+            dropRegionRef.current.className = "w-full h-auto flex-col justify-start items-center bg-white rounded-md py-[40px] px-[10px] border-dashed border-4 border-gray-300 hover:bg-gray-50 cursor-pointer";
             // open files exploratore when click on dropRegion
-            dropRegion.addEventListener('click', fakeInputClick);
+            dropRegionRef.current.addEventListener('click', runFakeInputClick);
 
             dropHeader = document.getElementById("drop-header");
-            dropHeader.className = "w-full h-[120px] flex flex-row  justify-center items-center pb-[10px] mb-[10px]";
+            dropHeader.className = "w-full h-auto flex flex-row  justify-center items-center pb-[10px] mb-[10px]";
 
         }
     }, [imageVariantes])
@@ -437,10 +437,11 @@ const DropZoneProduct = () => {
     return (
         <MainBlock id="main-image-product">
             <h4 className='mb-[10px]'>Images</h4>
-            <div id="drop-region"
-                className="w-full h-full flex-col justify-start items-center bg-white rounded-md py-[40px] px-[10px] border-dashed border-4 border-slate-300 hover:bg-slate-50 cursor-pointer">
+            <div id="drop-region_product"
+                className="w-full h-auto flex-col justify-start items-center bg-white rounded-md py-[40px] px-[10px] border-dashed border-4 border-gray-300 hover:bg-gray-50 cursor-pointer"
+                ref={dropRegionRef}>
                 <div id="drop-header"
-                    className="w-full h-[120px] flex flex-row  justify-center items-center pb-[10px] mb-[10px]">
+                    className="w-full h-auto flex flex-row  justify-center items-center pb-[10px] mb-[10px]">
                     <div id="firstImage"
                         className='hidden'>
                         {imageVariantes[0]?.length > 0 &&
@@ -462,9 +463,11 @@ const DropZoneProduct = () => {
                         <div id="drop-card"
                             className='w-full h-auto mt-[25px]'
                         >
-                            <img src='../images/icons/add-square-dotted.svg'
-                                className='w-[50px] h-[50px] mx-auto hover:bg-slate-50 cursor-pointer'
-                                onClick={() => fakeInputClick()}
+                            <img
+                                id="addImageDropZoneProduct"
+                                src='../images/icons/add-square-dotted.svg'
+                                className='w-[50px] h-[50px] mx-auto hover:bg-gray-50 cursor-pointer'
+                                onClick={() => runFakeInputClick()}
                             />
                         </div>
                     </div>
@@ -491,7 +494,7 @@ const DropZoneProduct = () => {
                                         >
                                             {(provided, snapshot) => (
                                                 <div
-                                                    className="image-view flex flex-row justify-center items-center mb[20px]  relative border border-slate-300 rounded group"
+                                                    className="image-view flex flex-row justify-center items-center mb[20px]  relative border border-gray-300 rounded group"
                                                     ref={provided.innerRef}
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}

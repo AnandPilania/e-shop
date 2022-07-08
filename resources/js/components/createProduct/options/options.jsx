@@ -188,7 +188,7 @@ const Options = () => {
                 {optionsObj?.length < 4 && showOptions &&
                     <div className="w-full h-auto flex flrx-row justify-start items-center mb-[25px]">
                         <button
-                            onClick={() => addOption(getLastOrder(optionsObj))}
+                            onClick={addOption}
                             className='h-[40px] px-[10px] mt-4 border border-slate-200 '>
                             Ajouter une option
                         </button>

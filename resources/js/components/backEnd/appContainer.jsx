@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import AppContext from '../contexts/AppContext';
 // import { useLocation } from "react-router-dom";
 import { useLocalStorage } from "../hooks/useLocalStorage";
@@ -151,7 +151,7 @@ const Appcontainer = () => {
     const [imageVariantes, setImageVariantes] = useState([]);
     const [listType, setListType] = useState([]);
     const [optionsData, setOptionsData] = useState([]);
-
+    
      
     //---------------------------------------------------------------PRODUCT
 

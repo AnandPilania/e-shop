@@ -8,12 +8,11 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
 
     const [countFile, setCountFile] = useState(0);
     const [selectedImage, setSelectedImage] = useState(null);
-    const [showArrowBounce, setShowArrowBounce] = useState(false);
-
 
     const inputModalImageVariante = useRef(null);
     const modalImageSectionRef = useRef();
-    const isOverflow = useIsOverflow(modalImageSectionRef, (isOverflowFromCallback) => {});
+    // gère le overflow de la zone d'affichage des images
+    const isOverflow = useIsOverflow(modalImageSectionRef, (isOverflowFromCallback) => { });
 
 
     const { variantes, setVariantes, variante } = useContext(AppContext);
@@ -113,7 +112,7 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
 
 
     // suprime les images chargées si on annule
-    const removeImageFroTemprayStorage = () => {
+    const removeImageFromTemprayStorage = () => {
         var tmp_Data = new FormData;
         tmp_Data.append('key', 'tmp_productImage');
         tmp_Data.append('countFile', countFile);
@@ -299,7 +298,7 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
                         <button
                             className="flex flrex-row justify-center items-center h-[40px] px-3 py-2 ml-4 min-w-[120px] border border-gray-300 rounded hover:border-gray-400"
                             onClick={() => {
-                                removeImageFroTemprayStorage();
+                                removeImageFromTemprayStorage();
                                 cancelSelection();
                                 handleModalCancel();
                             }}>
