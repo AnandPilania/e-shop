@@ -22,6 +22,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FrontEndController;
+use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\AliExpressController;
 use App\Http\Controllers\CollectionController;
@@ -124,6 +125,12 @@ Route::get('/suppliers-list', [SupplierController::class, 'index']);
 
 // save supplier
 Route::post('/save-supplier', [SupplierController::class, 'store']);
+
+// shipping list
+Route::get('/shipping-list', [ShippingController::class, 'index']);
+
+// save shipping
+Route::post('/save-shipping', [ShippingController::class, 'store']);
 
 
 Route::get('/editProduct/{productId}', [ProductController::class, 'editProduct']);

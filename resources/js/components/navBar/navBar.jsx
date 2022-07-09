@@ -33,6 +33,7 @@ const Navbar = () => {
           <Link className="link" to="/editProduct/1">Modifier un produit</Link>
           <Link className="link" to="/collections-list">Collections</Link>
           <Link className="link" to="/add-supplier">Ajouter un fournisseur</Link>
+          <Link className="link" to="/add-shipping">Ajouter un transporteur</Link>
           <Link className="link" to="/cropImage">Crop</Link>
         </div>
       </div>

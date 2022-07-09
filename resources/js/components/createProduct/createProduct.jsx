@@ -132,7 +132,7 @@ const CreateProduct = () => {
         // delete removed tinyMCE images in folder and db
         handleTinyMceTemporary(descriptionProduct, null, 'product');
 
-        var formData = new FormData();
+        var formData = new FormData;
 
         // on boucle sur imageFiles pour récupérer toutes les images
         if (image) {

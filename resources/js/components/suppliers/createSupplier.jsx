@@ -10,18 +10,11 @@ import ModalSimpleMessage from '../modal/modalSimpleMessage';
 const CreateSupplier = () => {
 
     const {
-        nameSupplier, setNameSupplier,
-        emailSupplier, setEmailSupplier,
-        phoneSupplier, setPhoneSupplier,
-        webSiteSupplier, setWebSiteSupplier,
-        adressSupplier, setAdressSupplier,
-        citySupplier, setCitySupplier,
-        countrySupplier, setCountrySupplier,
-        listSuppliers, setListSuppliers, 
-        initSupplierForm,
-        image, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage,
-        messageModal, setMessageModal, setSender, textButtonConfirm, setTextButtonConfirm, imageModal, setImageModal, setIs_Edit, listCollections, setListCollections, setListCollectionsFiltered, setListCategories, isDirty, setIsDirty, nameCollection, setNameCollection, descriptionCollection, setDescriptionCollection, descriptionCollectionForMeta, setDescriptionCollectionForMeta, conditions, setConditions, isAutoConditions, setIsAutoConditions, allConditionsNeeded, setAllConditionsNeeded, notIncludePrevProduct, setNotIncludePrevProduct, setWarningIdCondition, normalizUrl, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, imageName, setImageName, imagePath, alt, setAlt, categoryName, setCategoryName, categoryId, setCategoryId, dateField, setDateField, setTinyLanguage, idCollection, setIdCollection, setTmp_parameter, handleModalConfirm, handleModalCancel, initCollectionForm, is, setIs, collectionForm, setCollectionForm, hasBeenChanged, isNot_isEdit
-    } = useContext(AppContext);
+        nameSupplier, setNameSupplier, emailSupplier, setEmailSupplier,
+        phoneSupplier, setPhoneSupplier, webSiteSupplier, setWebSiteSupplier,
+        adressSupplier, setAdressSupplier, citySupplier, setCitySupplier,
+        countrySupplier, setCountrySupplier, listSuppliers, setListSuppliers, 
+        initSupplierForm, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage, messageModal, setMessageModal, setSender, textButtonConfirm, setTextButtonConfirm, imageModal, setImageModal, isDirty, setIsDirty, setConditions, setTmp_parameter, handleModalConfirm, handleModalCancel } = useContext(AppContext);
 
     var navigate = useNavigate();
     var formData = new FormData;

@@ -35,6 +35,7 @@ const ModalEditSelectionVariantes = ({ handleModalCancel, show }) => {
                     temp_variantes[i].price = productPriceModal;
                     temp_variantes[i].prev_price = previousProductPriceModal;
                     temp_variantes[i].stock = productStockModal;
+                    temp_variantes[i].unlimited = false;
                 }
             }
             setVariantes([...temp_variantes]);

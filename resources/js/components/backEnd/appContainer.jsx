@@ -15,6 +15,7 @@ import ListCollections from '../collections/list';
 import CreateCollection from '../collections/index';
 import WrapIndexcroppe from '../collections/wrap_IndexCroppe';
 import CreateSupplier from '../suppliers/createSupplier';
+import CreateShipping from '../shipping/createShipping';
 
 const Appcontainer = () => {
 
@@ -154,6 +155,18 @@ const Appcontainer = () => {
     
      
     //---------------------------------------------------------------PRODUCT
+
+    // shipping-------------------------------------------------------------
+    const [nameShipping, setNameShipping] = useState('');
+    const [emailShipping, setEmailShipping] = useState('');
+    const [phoneShipping, setPhoneShipping] = useState('');
+    const [webSiteShipping, setWebSiteShipping] = useState('');
+    const [adressShipping, setAdressShippingr] = useState('');
+    const [cityShipping, setCityShipping] = useState('');
+    const [countryShipping, setCountryShipping] = useState('');
+    const [infoShipping, seInfoShipping] = useState('');
+    // const [shipping, setSipping] = useState({});
+    
 
     // supplier-------------------------------------------------------------
     const [nameSupplier, setNameSupplier] = useState('');
@@ -520,7 +533,7 @@ const Appcontainer = () => {
     return (
         <AppContext.Provider value={contextValue}>
             <Navbar />
-            <div className='bg-gray-cool'>
+            <div className='bg-gray-cool flex flex-col justify-start items-center'>
                 <Routes>
                     <Route path="/listProduct" element={<List />} />
                     <Route path="/addProduct" element={<CreateProduct />} />
@@ -531,6 +544,7 @@ const Appcontainer = () => {
                     <Route path="/collections-list" element={<ListCollections />} />
                     <Route path="/add-collection" element={<WrapIndexcroppe />} />
                     <Route path="/add-supplier" element={<CreateSupplier />} />
+                    <Route path="/add-shipping" element={<CreateShipping />} />
                     {/* <Route path="/cropImage" element={<CroppeImage />} /> */}
                     <Route
                         path="*"

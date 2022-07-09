@@ -395,7 +395,7 @@ console.log('variantes   ', variantes)
                                 className={`w-[100px] h-[30px] border border-gray-300 rounded-l-md pl-[8px] text-[13px] leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
                             />
                             <span
-                                className={`flex flex-rox justify-start items-center h-[30px] border-y-[1px] border-r-[1px]   border-gray-300 rounded-r-md px-[10px] cursor-pointer caret-transparent group relative  ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
+                                className={`flex flex-rox justify-start items-center h-[30px] border-y-[1px] border-r-[1px] border-gray-300 rounded-r-md px-[10px] cursor-pointer caret-transparent group relative ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
                                 onClick={() => handleUnlimitedStock2(item)}>
                                 <input
                                     className='mr-[7px] caret-transparent cursor-pointer'
