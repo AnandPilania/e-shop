@@ -187,6 +187,8 @@ export default React.createContext({
     setListType: () => { },
     optionsData: '',  
     setOptionsData: () => { },
+    changedVariantes: '', 
+    setChangedVariantes: () => { },
 
 
 });

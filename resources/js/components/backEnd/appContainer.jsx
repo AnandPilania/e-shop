@@ -152,20 +152,11 @@ const Appcontainer = () => {
     const [imageVariantes, setImageVariantes] = useState([]);
     const [listType, setListType] = useState([]);
     const [optionsData, setOptionsData] = useState([]);
+    const [changedVariantes, setChangedVariantes] = useState([]);
     
      
     //---------------------------------------------------------------PRODUCT
 
-    // shipping-------------------------------------------------------------
-    const [nameShipping, setNameShipping] = useState('');
-    const [emailShipping, setEmailShipping] = useState('');
-    const [phoneShipping, setPhoneShipping] = useState('');
-    const [webSiteShipping, setWebSiteShipping] = useState('');
-    const [adressShipping, setAdressShippingr] = useState('');
-    const [cityShipping, setCityShipping] = useState('');
-    const [countryShipping, setCountryShipping] = useState('');
-    const [infoShipping, seInfoShipping] = useState('');
-    // const [shipping, setSipping] = useState({});
     
 
     // supplier-------------------------------------------------------------
@@ -524,6 +515,7 @@ const Appcontainer = () => {
         variante, setVariante,
         listType, setListType,
         optionsData, setOptionsData,
+        changedVariantes, setChangedVariantes,
 
         
     }
@@ -533,7 +525,7 @@ const Appcontainer = () => {
     return (
         <AppContext.Provider value={contextValue}>
             <Navbar />
-            <div className='bg-gray-cool flex flex-col justify-start items-center'>
+            <div className='w-full bg-gray-cool'>
                 <Routes>
                     <Route path="/listProduct" element={<List />} />
                     <Route path="/addProduct" element={<CreateProduct />} />

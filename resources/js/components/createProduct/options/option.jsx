@@ -81,8 +81,6 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
 
     // initialise quand on change d'option
     useEffect(() => {
-        console.log('optionObj.name   ', optionObj.name)
-        console.log('optionObj---->   ', optionObj)
         setListOptionValues([]);
         setOptionObj({ ...optionObj, values: [] });
         if (optionObj.name?.length > 0) {
@@ -268,12 +266,11 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
         const tmp_values = Array.from(optionObj.values);
         const [removed] = tmp_values.splice(source.index, 1);
         tmp_values.splice(destination.index, 0, removed);
-        console.log('tmp_values  ', tmp_values)
+
         setOptionObj({ ...optionObj, values: [...tmp_values] });
     };
 
-    console.log('optionObj  ', optionObj)
-    console.log('listOptionValues  ', listOptionValues)
+
     return (
         <Draggable
             key={option_obj.id}

@@ -12,7 +12,7 @@ const ModalEditSelectionVariantes = ({ handleModalCancel, show }) => {
     const placeholder_promo = 'Ajouter un prix avant promo';
     const placeholder_stock = 'Ajouter une quantité';
 
-    const { variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, setSelectedVariantesList, setAllOptionsVariantesNeeded } = useContext(AppContext);
+    const { variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, setSelectedVariantesList, setAllOptionsVariantesNeeded, changedVariantes, setChangedVariantes } = useContext(AppContext);
 
     const handleChangeProductPriceModal = (e) => {
         setProductPriceModal(e.target.value);
@@ -38,6 +38,28 @@ const ModalEditSelectionVariantes = ({ handleModalCancel, show }) => {
                     temp_variantes[i].unlimited = false;
                 }
             }
+
+            //----------------------------------------------------------------
+            // sauvegarde les variantes avec des paramètres modifiés ex. price, stock,... pour ne pas perdre ces modifiactions quand on ajoute ou supprime des options
+            let tmp_changedVariantes = [...changedVariantes];
+            for (let i = 0; i < temp_variantes.length; i++) {
+                if (temp_variantes[i].prev_price != '' ||
+                    temp_variantes[i].price != '' ||
+                    temp_variantes[i].selectedImage != {} ||
+                    temp_variantes[i].stock != '') {
+                    let index = tmp_changedVariantes.findIndex(x => x.id == temp_variantes[i].id);
+
+                    if (index > -1) {
+                        tmp_changedVariantes[index] = temp_variantes[i];
+                    } else {
+                        tmp_changedVariantes.push(temp_variantes[i]);
+                    }
+                }
+            }
+            setChangedVariantes([...tmp_changedVariantes]);
+            //----------------------------------------------------------------
+            
+
             setVariantes([...temp_variantes]);
             setProductPriceModal('');
             setPreviousProductPriceModal('');

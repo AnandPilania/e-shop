@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Country;
 use App\Models\Shipping;
 use Illuminate\Http\Request;
+
 
 class ShippingController extends Controller
 {
     public function index()
     {
         $shipping = Shipping::orderBy('name')->get();
+        $countries = Country::orderBy('name')->get();
 
-        return $shipping;
+        return [$shipping, $countries];
     }
 
 
     public function store(Request $request)
     {
-        // dd($request);
-
         $this->validate($request, [
             'name' => 'required|string|max:255',
             'email' => 'nullable|string|max:255',

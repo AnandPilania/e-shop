@@ -132,7 +132,7 @@ const Options = () => {
             x.ordre = index;
         });
         setOptionsObj(tmp_optionsObj_DnD);
-    };
+     };
 
 
     // console.log('optionsObj  -> ', optionsObj)
@@ -201,6 +201,7 @@ const Options = () => {
                 }
 
             </DragDropContext>
+            
             <OptionVariantesList
                 // listType={listType}
                 setShowOptions={setShowOptions}
