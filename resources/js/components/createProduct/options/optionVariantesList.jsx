@@ -28,7 +28,8 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
     useEffect(() => {
         let allValuesAsString = [];
-        console.log('optionsObj  -->   ', optionsObj)
+        // console.log('optionsObj  -->   ', optionsObj)
+
         // renvoi toutes les combinaisons possible des différentes options 
         let mapping = optionsObj.map(x => x.values);
         // crée un tableau avec les index des optionsObj.values non vides pour que getCombinaisons parcoure uniquement les values non vides dans mapping
@@ -68,6 +69,12 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
             }
 
 
+            // console.log('allValuesAsString   ', allValuesAsString)
+            // console.log('valuesSplited   ', valuesSplited)
+            // console.log('variantesOptions   ', variantesOptions)
+            // console.log('tmp_changedVariantes   ', tmp_changedVariantes)
+
+
             // renvoi le début de la string allValuesAsString[i] qui correspond au pattern à rechercher. Ceci pour conserver les paramètres de la variantes s'ils ont été modifiés.  
             let startPattern = '';
             if (allValuesAsString[i].includes(' - ')) {
@@ -75,6 +82,39 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
             } else {
                 startPattern = allValuesAsString[i];
             }
+
+
+            //---------------------------------------------------
+            let ndxxx = -1;
+            for (let i = 0; i < tmp_changedVariantes.length; i++) {
+
+                let tmp2 = tmp_changedVariantes[i].optionsString.split(',')
+                let optionsStringSplited = tmp2[0].split(' - ');
+
+                // optionsStringSplited.length > 1 && optionsStringSplited.pop();
+
+                console.log('valuesSplited   ', valuesSplited)
+                console.log('optionsStringSplited   ', optionsStringSplited)
+                // compare deux tableaux ???
+                if (valuesSplited.length === optionsStringSplited.length) {
+                    for (let k = 0; k < valuesSplited.length; k++) {
+                        if (optionsStringSplited.includes(valuesSplited[k])) {
+                            ndxxx = i;
+                        } else {
+                            ndxxx = -1;
+                            break;
+                        }
+                    }
+                }
+            }
+
+
+            if (ndxxx > -1) {
+                tmp_changedVariantes[ndxxx].optionsString = allValuesAsString[i];
+                setChangedVariantes([...tmp_changedVariantes]);
+            }
+            //----------------------------------------------
+
             // tmp_changedVariantes contien les variantes qui ont été modifiées
             // on met à jour tmp_changedVariantes.optionsString  et donc  changedVariantes "aussi" avec le contenu de allValuesAsString[i] lorsque startPattern correspond à tmp_changedVariantes.optionsString.  startPattern contien le précédent optionsString. tmp_changedVariantes sert à récupérer les paramètres d'une variante s'ils ont été modifiés. ex. prix, stock,...
             let ndxx = tmp_changedVariantes.findIndex(x => x.optionsString == startPattern);
@@ -82,7 +122,12 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                 tmp_changedVariantes[ndxx].optionsString = allValuesAsString[i];
                 setChangedVariantes([...tmp_changedVariantes]);
             }
-            console.log('changedVariantes  ', changedVariantes)
+
+
+
+
+
+
             // supprime de tmp_changedVariantes les variantes qui ont encore des options dans leur optionsString qui ont été supprimées. tmp_changedVariantes sert à récupérer les paramètres d'une variante s'ils ont été modifiés. ex. prix, stock,...
             tmp_changedVariantes.forEach((item, index) => {
                 let ndx = allValuesAsString.findIndex(x => x == item.optionsString);
@@ -295,7 +340,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         setVariantes([...tmp_variantes]);
     }
 
- 
+
 
     return (
         <div className={`${variantes?.length > 0 && "border-t border-gray-300"}`}>
