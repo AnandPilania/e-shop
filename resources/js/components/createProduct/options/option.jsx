@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useContext } from 'react';
 import { useStateIfMounted } from "use-state-if-mounted";
 import AppContext from '../../contexts/AppContext';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { unset } from 'lodash';
 
 
 const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => {
@@ -46,7 +47,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
         spanMessageName.innerHTML = '';
         let inputOptionError = document.getElementsByClassName(`name${optionObj.id}`)[0];
         if (inputOptionError !== undefined) {
-            inputOptionError.className = `inputListType name${optionObj.id} w-full h-[38px] pl-[10px] m-0 mb-1 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ${listTypesNoEmpty && "hover:bg-caret-down"}  bg-right-center`;
+            inputOptionError.className = `inputListType name${optionObj.id} w-full h-10 pl-[10px] m-0 mb-1 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ${listTypesNoEmpty && "hover:bg-caret-down"}  bg-right-center`;
         }
         // value duplicate
         setOptionValueMessage(false);
@@ -58,7 +59,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
         spanMessageValue.innerHTML = '';
         let inputOptionValueError = document.getElementsByClassName(`value${optionObj.id}`)[0];
         if (inputOptionValueError !== undefined) {
-            inputOptionValueError.className = `inputOptionValues value${optionObj.id} w-full h-[38px] pl-[10px] m-0 mb-1 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat  ${listOptionValuesNotEmpty && "hover:bg-caret-down"} bg-right-center`;
+            inputOptionValueError.className = `inputOptionValues value${optionObj.id} w-full h-10 pl-[10px] m-0 mb-1 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat  ${listOptionValuesNotEmpty && "hover:bg-caret-down"} bg-right-center`;
         }
 
         // value duplicate
@@ -203,7 +204,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
     //     if (showOptionValues) {
     //         let inputOptionValues = document.getElementById('inputOptionValues');
     //         if (inputOptionValues !== null) {
-    //             inputOptionValues.className = `inputOptionValues value${optionObj.id} w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md  cursor-text bg-no-repeat  ${listOptionValuesNotEmpty && "hover:bg-caret-down"} bg-right-center`;
+    //             inputOptionValues.className = `inputOptionValues value${optionObj.id} w-full h-10 pl-[10px] m-0 border border-gray-300 rounded-md  cursor-text bg-no-repeat  ${listOptionValuesNotEmpty && "hover:bg-caret-down"} bg-right-center`;
     //         }
     //     }
     // }, [showOptionValues]);
@@ -244,10 +245,21 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
 
         // change background colour if dragging
         backgroundColor: isDragging && "#fafafa",
+        border: isDragging && "dashed 4px #d1d1d1",
 
         // styles we need to apply on draggables
         ...draggableStyle,
     });
+
+    const getStyleOnGrip = (id) => { 
+        let optionCardDnD = document.getElementById(id);
+        optionCardDnD.style.border = "dashed 4px #d1d1d1";
+     }
+
+     const getStyleOffGrip = (id) => { 
+        let optionCardDnD = document.getElementById(id);
+        optionCardDnD.style.border = "solid 1px rgb(209 213 219)";
+     }
 
     const onDragEnd = (result) => {
         const { source, destination } = result;
@@ -278,7 +290,9 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
             index={index}
         >
             {(provided, snapshot) => (
-                <div className="w-full h-auto grid gap-x-4 grid-cols-[25px_1fr_1fr_25px] justify-start items-start px-4 pt-4 pb-2 mb-2 rounded border border-gray-300 bg-white"
+                <div 
+                id={`${"optionCardDnD" + option_obj.id}`}
+                className="w-full h-auto grid gap-x-4 grid-cols-[25px_1fr_1fr_25px] justify-start items-start px-4 pt-4 pb-2 mb-2 rounded border border-gray-300 bg-white"
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     style={getItemStyle(
@@ -287,9 +301,13 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
                     )}
                 >
                     {/* drag */}
-                    <img src={window.location.origin + '/images/icons/grip-vertical.svg'} className="h-[22px] w-[22px] cursor-move"
-                        {...provided.dragHandleProps}
-                    />
+                    <div className='h-10 pt-[9px]'>
+                        <img src={window.location.origin + '/images/icons/grip-vertical.svg'} className="h-[22px] w-[22px] cursor-move"
+                        onMouseDown={() => getStyleOnGrip(`${"optionCardDnD" + option_obj.id}`)}
+                        onMouseUp={() => getStyleOffGrip(`${"optionCardDnD" + option_obj.id}`)}
+                            {...provided.dragHandleProps}
+                        />
+                    </div>
 
                     {/* option namme */}
                     <div className='w-full h-auto p-0 flex flex-col justify-start items-start'>
@@ -308,7 +326,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
                                     }}
                                     placeholder="Ex. Couleur, Taille,..."
                                     autoComplete="off"
-                                    className={`inputListType name${optionObj.id} w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ${listTypesNoEmpty && "hover:bg-caret-down"} bg-right-center `}
+                                    className={`inputListType name${optionObj.id} w-full h-10 pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ${listTypesNoEmpty && "hover:bg-caret-down"} bg-right-center `}
                                 />
                             </div>
 
@@ -368,7 +386,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
                                     placeholder="Ex. Bleu, Large,..."
                                     autoComplete="off"
                                     disabled={optionObj.name?.length == 0}
-                                    className={`inputOptionValues value${optionObj.id} w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ${listOptionValuesNotEmpty && "hover:bg-caret-down"}  bg-right-center`}
+                                    className={`inputOptionValues value${optionObj.id} w-full h-10 pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ${listOptionValuesNotEmpty && "hover:bg-caret-down"}  bg-right-center`}
                                 />
                             </div>
                             {optionValueMessage &&

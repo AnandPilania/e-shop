@@ -15,23 +15,20 @@ export default function Select({ list, itemSelected, setItemSelected }) {
         showSelectMenu();
     };
 
-    const showSelectMenu = () => {
+    const showSelectMenu = () => { 
         let ul = document.querySelector('#ulSelect');
-        let button = document.getElementById("ButtonSelectMenu");
         if (!toggleSelect) {
             ul.style.height = '240px';
             ul.classList.add('border-b');
-            button.classList.remove('rounded-md');
-            button.classList.add('rounded-t-md');
+            ul.classList.add('border-t');
             setToggleSelect(true);
         } else {
             ul.style.height = 0;
             ul.classList.remove('border-b');
-            button.classList.remove('rounded-t-md');
-            button.classList.add('rounded-md');
+            ul.classList.remove('border-t');
             setToggleSelect(false);
         }
-}
+    }
 
     useEffect(() => {
         // empèche l'erreur-> Warning: Can't perform a React state update on an unmounted
@@ -43,7 +40,6 @@ export default function Select({ list, itemSelected, setItemSelected }) {
     // ferme le ul quand on click en dehors du select
     function closeULSelectMenu(e) {
         const ulSelect = document.getElementById("ulSelect");
-        const ButtonSelectMenu = document.getElementById("ButtonSelectMenu");
         let targetElement = e.target; // clicked element
 
         do {
@@ -58,8 +54,7 @@ export default function Select({ list, itemSelected, setItemSelected }) {
         // click outside.
         ulSelect.style.height = 0;
         ulSelect.classList.remove('border-b');
-        ButtonSelectMenu.classList.remove('rounded-t-md');
-        ButtonSelectMenu.classList.add('rounded-md');
+        ulSelect.classList.remove('border-t');
         setToggleSelect(false);
     }
 
@@ -68,7 +63,7 @@ export default function Select({ list, itemSelected, setItemSelected }) {
         <div className="w-full relative">
             <button
                 id='ButtonSelectMenu'
-                className='flex justify-start items-center font-base w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white hover:border-gray-400'
+                className='flex justify-start items-center font-base w-full h-10 pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white hover:border-gray-400'
                 onClick={() => showSelectMenu()}
             >
                 {itemSelected}
@@ -76,12 +71,12 @@ export default function Select({ list, itemSelected, setItemSelected }) {
             </button>
             <ul
                 id='ulSelect'
-                className="absolute top-[38px] left-0 w-full h-0 bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-gray-300 border-l border-r shadow-lg scrollbar scrollbar-thumb-blue-700 scrollbar-track-gray-100">
+                className="absolute top-[46px] left-0 w-full h-0 bg-white mb-4 transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-gray-300 border-l border-r shadow-lg rounded-md text-base scroll">
                 {
                     list.length > 0 && list.map(item =>
                         <li
                             key={item.id}
-                            className="flex items-center pl-[17px] w-full h-[40px] border-gray-300 border-b text-stone-800 text-base hover:cursor-pointer"
+                            className="flex items-center pl-[17px] w-full py-2 text-stone-800 text-base hover:cursor-pointer hover:bg-[#0068F0] hover:text-white"
                             onClick={() => handleChangeSelect(item.name)}>
                             {item.name}
                         </li>

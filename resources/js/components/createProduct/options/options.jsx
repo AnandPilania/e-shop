@@ -109,7 +109,7 @@ const Options = () => {
     }
 
 
-    const onDragEnd = (result) => {
+    const onDragEnd = (result) => { 
         const { source, destination } = result;
 
         // si on drop en dehors de la zone droppable 
@@ -195,7 +195,7 @@ const Options = () => {
                     </div>
                 }
                 {optionsObj?.length === 4 &&
-                    <span className='text-blue-500 text-sm relative top-[-20px] left-0'>
+                    <span className='text-blue-500 text-sm'>
                         Vous pouvez ajouter jusqu'à 4 options
                     </span>
                 }

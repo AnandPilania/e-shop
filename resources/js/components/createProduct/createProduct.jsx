@@ -67,8 +67,6 @@ const CreateProduct = () => {
     }
 
 
-
-    console.log('optionsObj  ', optionsObj)
     const validation = () => {
 
         // // name validation
@@ -87,7 +85,6 @@ const CreateProduct = () => {
 
         // options
         for (let i = 0; i < optionsObj.length; i++) {
-            console.log('name${optionsObj[i].id}   ', `name${optionsObj[i].id}`)
 
             if (optionsObj[i].name == '') {
                 let spanMessage = document.getElementById(`name${optionsObj[i].id}`);
@@ -95,13 +92,9 @@ const CreateProduct = () => {
 
                 let inputOptionError = document.getElementsByClassName(`name${optionsObj[i].id}`)[0];
                 
-                console.log('i   ', i)
-
                 if (inputOptionError !== undefined) {
                     inputOptionError.classList.remove('border-gray-300');
                     inputOptionError.classList.add('border-red-500');
-
-                    console.log('inputOptionError.classList   ', inputOptionError.classList)
                 }
             }
 
