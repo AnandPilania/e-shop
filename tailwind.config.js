@@ -27,6 +27,7 @@ module.exports = {
             },
             backgroundImage: {
                 'caret-down': "url('/images/icons/caret-down.svg')",
+                'chevron-expand': "url('/images/icons/chevron-expand.svg')",
             },
             colors: {
                 'bg-modal': 'rgba(0, 0, 0, 0.45)',
