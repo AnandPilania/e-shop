@@ -10,7 +10,7 @@ export default function SelectWithCheckbox({ unikId, list, selected, setSelected
     const [toggleSelectWithCheckbox, setToggleSelectWithCheckbox] = useState(false);
 
     // si l'élément a déjà été sélectionné on le retir sinon on l'ajout, ceci coche ou décoche la checkbox
-    const handleChange = (name) => {  
+    const handleChange = (name) => {
         let index = selected.indexOf(name);
         if (index > -1) {
             let tmp_arr = [...selected];
@@ -21,7 +21,7 @@ export default function SelectWithCheckbox({ unikId, list, selected, setSelected
         }
     };
 
-    const showDropDown = () => {  
+    const showDropDown = () => {
         let ul = document.getElementById('ul' + unikId);
         let button = document.getElementById('button' + unikId);
         if (!toggleSelectWithCheckbox) {
@@ -72,26 +72,27 @@ export default function SelectWithCheckbox({ unikId, list, selected, setSelected
 
     return (
         <div className="w-full relative">
-            <button
+            <div
                 id={'button' + unikId}
-                className='w-full h-[38px] pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white hover:border-gray-400'
+                className="w-full h-10 px-2 m-0 border border-gray-300 rounded-md cursor-pointer bg-white hover:border-gray-400  bg-no-repeat bg-right-center bg-chevron-expand"
                 onClick={() => showDropDown()}
             >
-                <img src='../images/icons/caret-down.svg' className='ml-auto mr-[17px]' />
-            </button>
+            </div>
             <ul
                 id={'ul' + unikId}
-                className="absolute top-[38px] left-0 w-full h-0 bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-gray-300 border-l border-r shadow-lg scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100">
+                className="absolute top-[46px] left-0 w-full h-0 bg-white mb-4 transition-height duration-150 ease-in-out overflow-auto z-10 border-gray-100 border-l border-r shadow-lg rounded-md">
                 {
                     list.length > 0 && list.map(item =>
-                        <li key={item.id + unikId} className="flex items-center pl-[17px] w-full h-[40px] border-gray-300 border-b">
+                        <li
+                            key={item.id + unikId}
+                            className="flex items-center p-2 w-full text-gray-700 text-base hover:cursor-pointer hover:bg-indigo-600 group">
                             <input type='checkbox'
                                 value={item.id}
                                 id={item.id + unikId}
                                 checked={selected.indexOf(item.name) > -1} onChange={() => handleChange(item.name)}
-                                className="w-[17px] h-[17px] mr-[17px] hover:cursor-pointer" />
+                                className="w-4 h-4 mr-4 cursor-pointer" />
                             <label htmlFor={item.id + unikId}
-                                className="text-stone-800 text-base hover:cursor-pointer">
+                                className="truncate group-hover:text-white cursor-pointer">
                                 {item.name}
                             </label>
                         </li>

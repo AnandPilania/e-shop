@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useCallback, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import ModalInput from '../elements/modalInput';
-import MainBlock from '../elements/blocks/mainBlock';
+import Flex_col_s_s_nowrap from '../elements/blocks/flex_col_s_s_nowrap';
 import Axios from 'axios';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
@@ -435,7 +435,7 @@ const DropZoneProduct = () => {
 
 
     return (
-        <MainBlock id="main-image-product">
+        <Flex_col_s_s_nowrap id="main-image-product">
             <h4 className='mb-[10px]'>Images</h4>
             <div id="drop-region_product"
                 className="w-full h-auto flex-col justify-start items-center bg-white rounded-md py-[40px] px-[10px] border-dashed border-4 border-gray-300 hover:bg-gray-50 cursor-pointer"
@@ -542,7 +542,7 @@ const DropZoneProduct = () => {
               >
                 <h2 className="childrenModal">Entrez l'URL de l'image</h2>
             </ModalInput> */}
-        </MainBlock>
+        </Flex_col_s_s_nowrap>
     )
 }
 

@@ -141,6 +141,7 @@ const Appcontainer = () => {
     const [previousProductPrice, setPreviousProductPrice] = useState('');
     const [productCost, setProductCost] = useState('');
     const [productStock, setProductStock] = useState('');
+    const [productCode, setProductCode] = useState('');
     const [optionsObj, setOptionsObj] = useState([]);
     const [unlimited, setUnlimited] = useState(true);
     const [variantes, setVariantes] = useState([]);
@@ -516,6 +517,7 @@ const Appcontainer = () => {
         listType, setListType,
         optionsData, setOptionsData,
         changedVariantes, setChangedVariantes,
+        productCode, setProductCode,
 
         
     }

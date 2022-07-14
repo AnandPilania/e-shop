@@ -1,6 +1,6 @@
 import { React, useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
-import MainBlock from '../elements/blocks/mainBlock';
+import Flex_col_s_s_nowrap from '../elements/blocks/flex_col_s_s_nowrap';
 import Options from './options/options';
 import SelectWithCheckbox from '../elements/selectWithCheckbox';
 import Select from '../elements/select';
@@ -188,9 +188,9 @@ const CreateProduct = () => {
                 <Stock />
 
                 {/* options */}
-                <MainBlock>
+                <Flex_col_s_s_nowrap>
                     <Options />
-                </MainBlock>
+                </Flex_col_s_s_nowrap>
             </div>
 
 
@@ -198,7 +198,7 @@ const CreateProduct = () => {
             {/* ----------  side  ---------- */}
             <div className='form-side-container'>
                 {/* collection */}
-                <MainBlock>
+                <Flex_col_s_s_nowrap>
                     <h3 className="text-base font-semibold mb-2.5 text-gray-500 w-auto">Collections</h3>
                     <SelectWithCheckbox
                         unikId="SelectWithCheckbox_collection"
@@ -215,24 +215,24 @@ const CreateProduct = () => {
                                     {item}
                                 </span>
                                 <span
-                                    className="h-[20px] w-[20px] flex justify-center items-center hover:cursor-pointer bg-gray-600  hover:bg-red-500 rounded-md"
+                                    className="h-[20px] w-[20px] flex justify-center items-center hover:cursor-pointer bg-indigo-600  hover:bg-red-500 rounded-md"
                                     onClick={() => removeCollection(item)}>
                                     <img src='../images/icons/x-white.svg' className="w-[20px] h-[20px] hover:scale-125" />
                                 </span>
                             </div>
                         )}
                     </div>
-                </MainBlock>
+                </Flex_col_s_s_nowrap>
 
                 {/* supplier */}
-                <MainBlock>
+                <Flex_col_s_s_nowrap>
                     <h3 className="text-base font-semibold mb-2.5 text-gray-500 w-auto">Fournisseur</h3>
                     <Select
                         list={listSuppliers}
                         itemSelected={supplier}
                         setItemSelected={setSupplier}
                     />
-                </MainBlock>
+                </Flex_col_s_s_nowrap>
             </div>
 
             <button className="btn bg-amber-300" onClick={handleSubmit}>

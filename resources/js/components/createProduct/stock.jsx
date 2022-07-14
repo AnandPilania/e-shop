@@ -6,7 +6,7 @@ const Stock = () => {
 
     const [placeholder, setPlaceholder] = useState(String.fromCharCode(0x221E));
 
-    const { productStock, setProductStock, unlimited, setUnlimited } = useContext(AppContext);
+    const { productStock, setProductStock, unlimited, setUnlimited, productCode, setProductCode } = useContext(AppContext);
 
     const handleProductStock = (e) => {
         setProductStock(e.target.value);
@@ -41,32 +41,38 @@ const Stock = () => {
     }
 
 
+    const handleCodeProduct = (e) => {
+        setProductCode(e.target.value)
+    }
+
     return (
         <div className="flex-col justify-start items-start bg-white rounded-md w-full p-[20px] mb-[10px] shadow-md">
 
             <h3 className='w-full text-left mb-[15px] font-semibold text-[16px]'>Stock</h3>
 
-            <div className='w-full h-auto grid gap-x-4 gap-y-2 grid-cols-2 justify-start items-start'>
-                <div className='flex flex-col justify-start items-start mb-[10px]'>
+            <div className='w-full h-auto grid gap-x-4 grid-cols-2 justify-start items-start'>
+                <div className='flex flex-col justify-start items-start mb-2.5'>
                     <label>Stock</label>
                     <div
-                        className='flex flex-rox justify-start items-center'>
-                        <input 
-                        type="number" 
-                        onChange={handleProductStock} 
-                        value={productStock} 
-                        placeholder={placeholder} 
-                        className="w-full h-[40px] border border-gray-300 rounded-4 pl-[10px] mb-[30px] mt-1 bg-gray-50 text-base"
-                        id='inputStock'
-                        min="0" max="9999999999"
-                        onClick={handleProductStockOnFocus} />
+                        className='flex flex-rox justify-start items-center w-full'>
+                        <input
+                            type="number"
+                            onChange={handleProductStock}
+                            value={productStock}
+                            placeholder={placeholder}
+                            className="w-full h-10 border border-gray-300 rounded-l-md pl-2.5 mb-7 mt-1 bg-gray-50 text-base"
+                            id='inputStock'
+                            min="0" max="9999999999"
+                            onClick={handleProductStockOnFocus} />
                         <span
-                            className='flex flex-rox justify-start items-center h-[40px] border-y-[1px] border-r-[1px]  border-gray-300 rounded-4 px-[10px] mb-[30px] mt-1 cursor-pointer caret-transparent'
+                            className='flex flex-rox justify-start items-center h-10 border-y border-r  border-gray-300 rounded-r-md px-2.5 mb-7 mt-1 cursor-pointer caret-transparent'
                             onClick={handleUnlimitedStock}>
                             <input
-                                className='mr-[7px] caret-transparent cursor-pointer'
+                                className='mr-2 caret-transparent cursor-pointer'
                                 id='unlimitedStockCheckbox'
-                                type="checkbox" checked={unlimited} onChange={handleUnlimitedStock} />
+                                type="checkbox"
+                                checked={unlimited}
+                                onChange={handleUnlimitedStock} />
                             <label
                                 className='cursor-pointer caret-transparent'>
                                 Illimité
@@ -75,38 +81,21 @@ const Stock = () => {
                     </div>
                 </div>
 
-            </div>
 
-
-            <div className='w-full h-auto grid gap-x-4 gap-y-2 grid-cols-2 justify-start items-start'>
                 <div className='flex flex-col justify-start items-start mb-[10px]'>
                     <label>Code</label>
                     <div
-                        className='flex flex-rox justify-start items-center'>
-                        <input 
-                        type="number" 
-                        onChange={handleProductStock} 
-                        value={productStock} 
-                        placeholder={placeholder} 
-                        className="w-full h-[40px] border border-gray-300 rounded-4 pl-[10px] mb-[30px] mt-1 bg-gray-50 text-base"
-                        id='inputStock'
-                        min="0" max="9999999999"
-                        onClick={handleProductStockOnFocus} />
-                        <span
-                            className='flex flex-rox justify-start items-center h-[40px] border-y-[1px] border-r-[1px]  border-gray-300 rounded-4 px-[10px] mb-[30px] mt-1 cursor-pointer caret-transparent'
-                            onClick={handleUnlimitedStock}>
-                            <input
-                                className='mr-[7px] caret-transparent cursor-pointer'
-                                id='unlimitedStockCheckbox'
-                                type="checkbox" checked={unlimited} onChange={handleUnlimitedStock} />
-                            <label
-                                className='cursor-pointer caret-transparent'>
-                                Illimité
-                            </label>
-                        </span>
+                        className='flex flex-rox justify-start items-center w-full'>
+                        <input
+                            type="number"
+                            onChange={handleCodeProduct}
+                            value={productCode}
+                            className="w-full h-10 border border-gray-300 rounded-md pl-2.5 mb-7 mt-1 bg-white text-base"
+                            id='inputStock'
+                            min="0" max="9999999999"
+                          />
                     </div>
                 </div>
-
             </div>
         </div>
     )

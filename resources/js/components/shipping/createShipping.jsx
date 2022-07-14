@@ -6,7 +6,7 @@ import ModalConfirmation from '../modal/modalConfirmation';
 import ModalSimpleMessage from '../modal/modalSimpleMessage';
 import InputText from '../form/inputText';
 import SelectSimple from '../form/selectSimple';
-import MainBlock from '../elements/blocks/mainBlock';
+import MainBlock from '../elements/blocks/flex_col_s_s_nowrap';
 
 
 const CreateShipping = () => {

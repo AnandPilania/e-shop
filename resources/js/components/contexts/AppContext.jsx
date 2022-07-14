@@ -189,6 +189,7 @@ export default React.createContext({
     setOptionsData: () => { },
     changedVariantes: '', 
     setChangedVariantes: () => { },
-
+    productCode: '',  
+    setProductCode: () => { },
 
 });
