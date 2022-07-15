@@ -34,6 +34,7 @@ const Navbar = () => {
           <Link className="link" to="/collections-list">Collections</Link>
           <Link className="link" to="/add-supplier">Ajouter un fournisseur</Link>
           <Link className="link" to="/add-shipping">Ajouter un transporteur</Link>
+          <Link className="link" to="/settings">Paramètres</Link>
           <Link className="link" to="/cropImage">Crop</Link>
         </div>
       </div>

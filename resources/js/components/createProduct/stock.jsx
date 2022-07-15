@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
+import Flex_col_s_s from '../elements/container/flex_col_s_s';
 
 
 const Stock = () => {
@@ -18,9 +19,11 @@ const Stock = () => {
 
         if (unlimited) {
             setUnlimited(!unlimited);
-            setPlaceholder('0');
+            setPlaceholder('Entrer le stock');
             let inputStock = document.getElementById('inputStock');
             inputStock.style.backgroundColor = 'white';
+            let stock_star_alert = document.getElementById('stock_star_alert');
+            stock_star_alert.style.display = "inline";
         }
     }
 
@@ -31,6 +34,8 @@ const Stock = () => {
             setUnlimited(!unlimited);
             setProductStock('');
             setPlaceholder(String.fromCharCode(0x221E));
+            let stock_star_alert = document.getElementById('stock_star_alert');
+            stock_star_alert.style.display = "none";
         } else {
             let inputStock = document.getElementById('inputStock');
             inputStock.style.backgroundColor = 'white';
@@ -46,13 +51,12 @@ const Stock = () => {
     }
 
     return (
-        <div className="flex-col justify-start items-start bg-white rounded-md w-full p-[20px] mb-[10px] shadow-md">
-
+        <Flex_col_s_s>
             <h3 className='w-full text-left mb-[15px] font-semibold text-[16px]'>Stock</h3>
 
             <div className='w-full h-auto grid gap-x-4 grid-cols-2 justify-start items-start'>
                 <div className='flex flex-col justify-start items-start mb-2.5'>
-                    <label>Stock</label>
+                    <label>Stock<span id="stock_star_alert" className='text-red-600 hidden'>*</span></label>
                     <div
                         className='flex flex-rox justify-start items-center w-full'>
                         <input
@@ -60,12 +64,12 @@ const Stock = () => {
                             onChange={handleProductStock}
                             value={productStock}
                             placeholder={placeholder}
-                            className="w-full h-10 border border-gray-300 rounded-l-md pl-2.5 mb-7 mt-1 bg-gray-50 text-base"
+                            className="w-full h-10 border border-gray-300 rounded-l-md pl-2.5 mb-2 mt-1 bg-gray-50 text-base"
                             id='inputStock'
                             min="0" max="9999999999"
                             onClick={handleProductStockOnFocus} />
                         <span
-                            className='flex flex-rox justify-start items-center h-10 border-y border-r  border-gray-300 rounded-r-md px-2.5 mb-7 mt-1 cursor-pointer caret-transparent'
+                            className='flex flex-rox justify-start items-center h-10 border-y border-r  border-gray-300 rounded-r-md px-2.5 mb-2 mt-1 cursor-pointer caret-transparent'
                             onClick={handleUnlimitedStock}>
                             <input
                                 className='mr-2 caret-transparent cursor-pointer'
@@ -90,14 +94,14 @@ const Stock = () => {
                             type="number"
                             onChange={handleCodeProduct}
                             value={productCode}
-                            className="w-full h-10 border border-gray-300 rounded-md pl-2.5 mb-7 mt-1 bg-white text-base"
+                            className="w-full h-10 border border-gray-300 rounded-md pl-2.5 mb-2 mt-1 bg-white text-base"
                             id='inputStock'
                             min="0" max="9999999999"
-                          />
+                        />
                     </div>
                 </div>
             </div>
-        </div>
+        </Flex_col_s_s>
     )
 }
 

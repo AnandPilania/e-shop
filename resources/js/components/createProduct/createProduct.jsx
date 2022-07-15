@@ -1,6 +1,6 @@
 import { React, useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
-import Flex_col_s_s_nowrap from '../elements/blocks/flex_col_s_s_nowrap';
+import Flex_col_s_s from '../elements/container/flex_col_s_s';
 import Options from './options/options';
 import SelectWithCheckbox from '../elements/selectWithCheckbox';
 import Select from '../elements/select';
@@ -160,14 +160,14 @@ const CreateProduct = () => {
 
 
     return (
-        <div className="min-w-[750px] w-[60%] min-h-[130vh] my-[50px] mx-auto pb-[300px] grid grid-cols-mainContainer gap-[10px] text-[15px]">
+        <div className="min-w-[750px] w-[60%] min-h-[130vh] my-[50px] mx-auto pb-80 grid grid-cols-mainContainer gap-2.5 text-base">
             <div className="w-full">
                 <div className="div-vert-align">
                     <h4 className="mb-[18px] font-semibold text-[20]">Ajouter un produit</h4>
 
                     {/* name */}
-                    <label>Nom*</label>
-                    <input className="w-full h-[40px] border border-slate-400 rounded-4 pl-[10px] mb-[15px] mt-1"
+                    <label>Nom<span className='text-red-600'>*</span></label>
+                    <input className="w-full h-10 border border-gray-300 rounded-md pl-2.5 mb-4 mt-1"
                         type="text"
                         onChange={handleName}
                         value={nameProduct}
@@ -188,9 +188,9 @@ const CreateProduct = () => {
                 <Stock />
 
                 {/* options */}
-                <Flex_col_s_s_nowrap>
+                <Flex_col_s_s>
                     <Options />
-                </Flex_col_s_s_nowrap>
+                </Flex_col_s_s>
             </div>
 
 
@@ -198,7 +198,7 @@ const CreateProduct = () => {
             {/* ----------  side  ---------- */}
             <div className='form-side-container'>
                 {/* collection */}
-                <Flex_col_s_s_nowrap>
+                <Flex_col_s_s>
                     <h3 className="text-base font-semibold mb-2.5 text-gray-500 w-auto">Collections</h3>
                     <SelectWithCheckbox
                         unikId="SelectWithCheckbox_collection"
@@ -222,17 +222,17 @@ const CreateProduct = () => {
                             </div>
                         )}
                     </div>
-                </Flex_col_s_s_nowrap>
+                </Flex_col_s_s>
 
                 {/* supplier */}
-                <Flex_col_s_s_nowrap>
+                <Flex_col_s_s>
                     <h3 className="text-base font-semibold mb-2.5 text-gray-500 w-auto">Fournisseur</h3>
                     <Select
                         list={listSuppliers}
                         itemSelected={supplier}
                         setItemSelected={setSupplier}
                     />
-                </Flex_col_s_s_nowrap>
+                </Flex_col_s_s>
             </div>
 
             <button className="btn bg-amber-300" onClick={handleSubmit}>

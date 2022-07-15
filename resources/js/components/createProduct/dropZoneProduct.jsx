@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useCallback, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import ModalInput from '../elements/modalInput';
-import Flex_col_s_s_nowrap from '../elements/blocks/flex_col_s_s_nowrap';
+import Flex_col_s_s from '../elements/container/flex_col_s_s';
 import Axios from 'axios';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
@@ -66,7 +66,7 @@ const DropZoneProduct = () => {
 
 
     function setDropRegion() {
-        dropRegionRef.current.className = "w-full h-auto flex-col justify-start items-center bg-white rounded-md py-[40px] px-[10px] border-dashed border-4 border-gray-300 hover:bg-gray-50 cursor-pointer";
+        dropRegionRef.current.className = "w-full h-auto flex-col justify-start items-center bg-white rounded-md py-10 px-2.5 border-dashed border-2 border-gray-300 hover:bg-gray-50 cursor-pointer";
         // open files exploratore when click on dropRegion
         dropRegionRef.current.addEventListener('click', runFakeInputClick);
         // empèche le comportement par défault et la propagation
@@ -195,7 +195,7 @@ const DropZoneProduct = () => {
             // cancel --> open files explorator when click on dropRegion
             dropRegionRef.current.removeEventListener('click', runFakeInputClick);
             // met en blanc la dashed border de la dropRegion pour simuler sa disparition
-            dropRegionRef.current.className = "flex-col justify-start items-center bg-white rounded-md w-full h-auto py-[40px] cursor-default";
+            dropRegionRef.current.className = "flex-col justify-start items-center bg-white rounded-md w-full h-auto py-10 cursor-default";
 
             dropCard = document.getElementById("drop-card");
             // affiche le bouton add
@@ -205,7 +205,7 @@ const DropZoneProduct = () => {
             mainImageProduct.style.cursor = 'default';
 
             firstImage = document.getElementById("firstImage");
-            firstImage.className = 'w-full h-full flex flex-row justify-center items-center p-0 border border-gray-300 rounded';
+            firstImage.className = 'w-full h-full flex flex-row justify-center items-center p-0 border border-gray-300 rounded-md';
 
             txtImgPrincipale = document.getElementById("txtImgPrincipale");
             txtImgPrincipale.className = 'w-full text-center text-[12px] pb-[5px]';
@@ -213,7 +213,7 @@ const DropZoneProduct = () => {
             fakeInput === null && createFakeInput();
 
             dropHeader = document.getElementById("drop-header");
-            dropHeader.className = "w-full h-auto grid gap-[10px] grid-cols-2 justify-center items-center pb-[10px] mb-[10px]";
+            dropHeader.className = "w-full h-auto grid gap-2.5 grid-cols-2 justify-center items-center pb-2.5 mb-2.5";
 
         } else {
             firstImage = document.getElementById("firstImage");
@@ -223,12 +223,12 @@ const DropZoneProduct = () => {
 
             fakeInput === null && createFakeInput();
 
-            dropRegionRef.current.className = "w-full h-auto flex-col justify-start items-center bg-white rounded-md py-[40px] px-[10px] border-dashed border-4 border-gray-300 hover:bg-gray-50 cursor-pointer";
+            dropRegionRef.current.className = "w-full h-auto flex-col justify-start items-center bg-white rounded-md py-10 px-2.5 border-dashed border-2 border-gray-300 hover:bg-gray-50 cursor-pointer";
             // open files exploratore when click on dropRegion
             dropRegionRef.current.addEventListener('click', runFakeInputClick);
 
             dropHeader = document.getElementById("drop-header");
-            dropHeader.className = "w-full h-auto flex flex-row  justify-center items-center pb-[10px] mb-[10px]";
+            dropHeader.className = "w-full h-auto flex flex-row justify-center items-center pb-2.5 mb-2.5";
 
         }
     }, [imageVariantes])
@@ -435,19 +435,19 @@ const DropZoneProduct = () => {
 
 
     return (
-        <Flex_col_s_s_nowrap id="main-image-product">
-            <h4 className='mb-[10px]'>Images</h4>
+        <Flex_col_s_s id="main-image-product">
+            <h4 className='mb-2.5'>Images</h4>
             <div id="drop-region_product"
-                className="w-full h-auto flex-col justify-start items-center bg-white rounded-md py-[40px] px-[10px] border-dashed border-4 border-gray-300 hover:bg-gray-50 cursor-pointer"
+                className="w-full h-auto flex-col justify-start items-center bg-white rounded-md py-10 px-2.5 border-dashed border-2 border-gray-300 hover:bg-gray-50 cursor-pointer"
                 ref={dropRegionRef}>
                 <div id="drop-header"
-                    className="w-full h-auto flex flex-row  justify-center items-center pb-[10px] mb-[10px]">
+                    className="w-full h-auto flex flex-row justify-center items-center pb-2.5 mb-2.5">
                     <div id="firstImage"
                         className='hidden'>
                         {imageVariantes[0]?.length > 0 &&
                             <div className='flex flex-col justify-start items-center flex-nowrap'>
                                 <span id="txtImgPrincipale"
-                                    className='w-full text-center text-[12px] mt-0 pb-[10px]'>Image principale</span>
+                                    className='w-full text-center text-[12px] mt-0 pb-2.5'>Image principale</span>
                                 <img
                                     className='m-0 object-contain max-h-[200px]'
                                     src={window.location.origin + '/' + imageVariantes[0][0]?.value}
@@ -455,13 +455,13 @@ const DropZoneProduct = () => {
                             </div>
                         }
                     </div>
-                    <div className='w-full h-full flex flex-col justify-center items-arround'>
+                    <div className='w-full h-full flex flex-col justify-center items-center'>
                         <span className='text-center'>
                             Déposez vos images ou cliquez pour télécharger
                         </span>
                         {/* dropCard button add images */}
                         <div id="drop-card"
-                            className='w-full h-auto mt-[25px]'
+                            className='w-full h-auto mt-4'
                         >
                             <img
                                 id="addImageDropZoneProduct"
@@ -482,7 +482,7 @@ const DropZoneProduct = () => {
                             key={ndx}>
                             {(provided, snapshot) => (
                                 <div
-                                    className='grid gap-[10px] grid-cols-4 justify-center my-[5px] w-full h-[120px]'
+                                    className='grid gap-2.5 grid-cols-4 justify-center my-[5px] w-full h-[120px]'
                                     {...provided.droppableProps}
                                     ref={provided.innerRef}
                                 >
@@ -494,7 +494,7 @@ const DropZoneProduct = () => {
                                         >
                                             {(provided, snapshot) => (
                                                 <div
-                                                    className="image-view flex flex-row justify-center items-center mb[20px]  relative border border-gray-300 rounded group"
+                                                    className="image-view flex flex-row justify-center items-center mb[20px]  relative border border-gray-300 rounded bg-white group"
                                                     ref={provided.innerRef}
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}
@@ -542,7 +542,7 @@ const DropZoneProduct = () => {
               >
                 <h2 className="childrenModal">Entrez l'URL de l'image</h2>
             </ModalInput> */}
-        </Flex_col_s_s_nowrap>
+        </Flex_col_s_s>
     )
 }
 
