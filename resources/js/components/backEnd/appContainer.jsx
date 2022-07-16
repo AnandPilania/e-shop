@@ -14,10 +14,8 @@ import List from '../createProduct/list';
 import ListCollections from '../collections/list';
 import CreateCollection from '../collections/index';
 import WrapIndexcroppe from '../collections/wrap_IndexCroppe';
-import CreateSupplier from '../suppliers/createSupplier';
-import CreateShipping from '../shipping/createShipping';
 import Settings from '../settings/settings';
-import Taxes from '../taxes/taxes';
+
 
 const Appcontainer = () => {
 
@@ -539,10 +537,7 @@ const Appcontainer = () => {
 
                     <Route path="/collections-list" element={<ListCollections />} />
                     <Route path="/add-collection" element={<WrapIndexcroppe />} />
-                    <Route path="/add-supplier" element={<CreateSupplier />} />
-                    <Route path="/add-shipping" element={<CreateShipping />} />
                     <Route path="/settings" element={<Settings />} />
-                    <Route path="/taxes" element={<Taxes />} />
                     {/* <Route path="/cropImage" element={<CroppeImage />} /> */}
                     <Route
                         path="*"

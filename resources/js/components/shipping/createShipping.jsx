@@ -6,7 +6,7 @@ import ModalConfirmation from '../modal/modalConfirmation';
 import ModalSimpleMessage from '../modal/modalSimpleMessage';
 import InputText from '../form/inputText';
 import SelectSimple from '../form/selectSimple';
-import MainBlock from '../elements/container/flex_col_s_s';
+import Flex_col_s_s from '../elements/container/flex_col_s_s';
 
 
 const CreateShipping = () => {
@@ -219,16 +219,10 @@ const CreateShipping = () => {
 
 
     return (
-        <div className="w-[950px] min-h-[100vh] mx-auto flex flex-col justify-center items-start text-4">
+        <div className="w-full mx-auto mt-10 flex flex-col justify-center items-start text-4">
+            <Flex_col_s_s>
             <h2 className='w-full text-xl font-semibold my-4'>Ajouter un transporteur</h2>
-            <MainBlock>
                 <div className="w-full h-10 mb-10 flex flex-row justify-start items-center">
-                    <button className="w-auto px-3 h-10 flex flex-row justify-center items-center border border-gray-300 rounded-md">
-                        <Link to="/collections-list">
-                            <img src='../images/icons/arrow-left.svg' className="w-4 h-4 inline" />
-                            <span className="ml-1">Retour</span>
-                        </Link>
-                    </button>
                     {/* réinitialisation */}
                     {isDirty && (
                         <button
@@ -357,7 +351,7 @@ const CreateShipping = () => {
                         Enregistrer
                     </button>
                 </div>
-            </MainBlock>
+            </Flex_col_s_s>
 
             {/* modal for confirmation */}
             <ModalConfirmation

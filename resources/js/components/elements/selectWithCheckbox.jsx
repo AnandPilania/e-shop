@@ -48,25 +48,27 @@ export default function SelectWithCheckbox({ unikId, list, selected, setSelected
     }, []);
     // ferme le ul quand on click en dehors du select
     function closeULSelectDropDown(e) {
-        const ulSelectWithCheckbox = document.getElementById("ul" + unikId);
-        const ButtonSelectDropDown = document.getElementById("button" + unikId);
-        let targetElement = e.target; // clicked element
+        if (unikId != undefined && unikId != null && unikId.length > 0) {
+            let ulSelectWithCheckbox = document.getElementById("ul" + unikId);
+            let ButtonSelectDropDown = document.getElementById("button" + unikId);
+            let targetElement = e.target; // clicked element
 
-        do {
-            if (targetElement == ulSelectWithCheckbox || targetElement == ButtonSelectDropDown) {
-                // click inside
-                return;
-            }
-            // Go up the DOM
-            targetElement = targetElement.parentNode;
-        } while (targetElement);
+            do {
+                if (targetElement == ulSelectWithCheckbox || targetElement == ButtonSelectDropDown) {
+                    // click inside
+                    return;
+                }
+                // Go up the DOM
+                targetElement = targetElement.parentNode;
+            } while (targetElement);
 
-        // click outside.
-        ulSelectWithCheckbox.style.height = 0;
-        ulSelectWithCheckbox.classList.remove('border-b');
-        ButtonSelectDropDown.classList.remove('rounded-t-md');
-        ButtonSelectDropDown.classList.add('rounded-md');
-        setToggleSelectWithCheckbox(false);
+            // click outside.
+            ulSelectWithCheckbox.style.height = 0;
+            ulSelectWithCheckbox.classList.remove('border-b');
+            ButtonSelectDropDown.classList.remove('rounded-t-md');
+            ButtonSelectDropDown.classList.add('rounded-md');
+            setToggleSelectWithCheckbox(false);
+        }
     }
 
 
