@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Flex_col_s_s from '../elements/container/flex_col_s_s';
-
+import Toggle from '../elements/toggle/toggle';
 const Taxes = () => {
 
     const [taxeName, setTaxeName] = useState('');
@@ -8,6 +8,7 @@ const Taxes = () => {
     const [taxeValue, setTaxeValue] = useState();
     const [application, setApplication] = useState('localisation');
     const [activeTab, setActiveTab] = useState(1);
+    const [activeTva, setActiveTva] = useState(false);
 
     const handleName = (e) => {
         setTaxeName(e.target.value);
@@ -37,6 +38,9 @@ const Taxes = () => {
         setActiveTab(indexTab);
     }
 
+    const handleActiveTva = () => {
+        setActiveTva(!activeTva);
+    }
 
     return (
         <div
@@ -46,28 +50,32 @@ const Taxes = () => {
                 <span className='text-xl font-semibold text=gray-600 my-4'>Taxes</span>
                 <div className='w-full border-b border-gray-300 mb-10 pb-2.5'>
                     <span
-                        className={`text-base font-normal text=gray-600 pb-3 mr-6 pr-1 cursor-pointer ${activeTab == 1 && "border-b-2 border-indigo-600"}`}
+                        className={`text-base font-normal hover:font-medium text=gray-600 pb-3 mr-6 pr-1 cursor-pointer ${activeTab == 1 && "border-b-2 border-indigo-600"}`}
                         onClick={() => handleTaxesTabs(1)}
                     >
                         TVA
                     </span>
                     <span
-                        className={`text-base font-normal text=gray-600 pb-3 px-1 cursor-pointer ${activeTab == 2 && "border-b-2 border-indigo-600"}`}
+                        className={`text-base font-normal hover:font-medium text=gray-600 pb-3 px-1 cursor-pointer ${activeTab == 2 && "border-b-2 border-indigo-600"}`}
                         onClick={() => handleTaxesTabs(2)}
                     >
                         Autres frais
                     </span>
                 </div>
-                <div className="py-4">
-                    <span className="mb-5 font-semibold text-5">
-                        TVA
-                    </span>
-                </div>
+                <div className='w-full h-auto flex flex-row flex-wrap justify-start items-center mb-5'>
+                <Toggle
+                    isChecked={activeTva}
+                    change={handleActiveTva}
+                />
+                <label className='m-0 ml-2 p-0'>
+                    Activer le calcul de la TVA
+                </label>
+            </div>
 
                 <div className='grid grid-cols-[200px_200px_200px] gap-6 justify-start items-start w-full'>
 
                     <div className='flex flex-col justify-start items-start w-full'>
-                        <label>Nom*</label>
+                        <label>Nom</label>
                         <input className="w-full h-10 border border-gray-300 rounded-md pl-2.5 bg-white text-base"
                             type="text"
                             onChange={handleName}
@@ -123,7 +131,7 @@ const Taxes = () => {
                 <div className='grid grid-cols-[200px_200px_200px] gap-6 justify-start items-start w-full'>
 
                     <div className='flex flex-col justify-start items-start w-full'>
-                        <label>Nom*</label>
+                        <label>Nom</label>
                         <input className="w-full h-10 border border-gray-300 rounded-md pl-2.5 bg-white text-base"
                             type="text"
                             onChange={handleName}

@@ -38,7 +38,7 @@ const Image = () => {
                             <span className="faCircleQuestion tooltip_"
                                 onClick={() => confirmDeleteCategory(cat.id, cat.name)}>
                                 <img src='../images/icons/question-circle.svg' className="w20 h20" />
-                                <span className="tooltiptext">Ajouter une brève description de l'image ex. "Jeans noir avec fermeture éclair". Ceci améliore l'accessibilité et le référencement de votre boutique.</span>
+                                <span className="tooltiptext">Ajouter une brève description de l'image de votre collection. Ceci optimise l'accessibilité et le référencement de votre page de collection.</span>
                             </span>
                         </div>
                         <input className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1" type="text" name="alt" value={alt?.length > 0 ? alt : ''} maxLength="255" onChange={handleAlt} />
