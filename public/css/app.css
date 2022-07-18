@@ -1124,6 +1124,33 @@ Ensure the default browser behavior of the `hidden` attribute.
 .grid-cols-\[25px_1fr_100px_100px_150px_50px_30px\] {
   grid-template-columns: 25px 1fr 100px 100px 150px 50px 30px;
 }
+.grid-cols-\[200px_200px\] {
+  grid-template-columns: 200px 200px;
+}
+.grid-cols-\[1fr_200px\] {
+  grid-template-columns: 1fr 200px;
+}
+.grid-cols-\[50\%_200px\] {
+  grid-template-columns: 50% 200px;
+}
+.grid-cols-\[60\%_200px\] {
+  grid-template-columns: 60% 200px;
+}
+.grid-cols-\[60\%_100px\] {
+  grid-template-columns: 60% 100px;
+}
+.grid-cols-\[70\%_100px\] {
+  grid-template-columns: 70% 100px;
+}
+.grid-cols-\[70\%_100px_\] {
+  grid-template-columns: 70% 100px;
+}
+.grid-cols-\[70\%_100px_50px_50px\] {
+  grid-template-columns: 70% 100px 50px 50px;
+}
+.grid-cols-\[70\%_100px_40px_40px\] {
+  grid-template-columns: 70% 100px 40px 40px;
+}
 .flex-row {
   flex-direction: row;
 }
@@ -1206,6 +1233,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .self-start {
   align-self: flex-start;
 }
+.self-stretch {
+  align-self: stretch;
+}
 .overflow-auto {
   overflow: auto;
 }
@@ -1278,6 +1308,20 @@ Ensure the default browser behavior of the `hidden` attribute.
 .rounded-r-sm {
   border-top-right-radius: 0.125rem;
   border-bottom-right-radius: 0.125rem;
+}
+.rounded-r {
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+}
+.rounded-t {
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+}
+.rounded-tr-md {
+  border-top-right-radius: 0.375rem;
+}
+.rounded-tl-md {
+  border-top-left-radius: 0.375rem;
 }
 .border {
   border-width: 1px;
@@ -1778,6 +1822,22 @@ Ensure the default browser behavior of the `hidden` attribute.
 .bg-red-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(254 226 226 / var(--tw-bg-opacity));
+}
+.bg-yellow-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(254 249 195 / var(--tw-bg-opacity));
+}
+.bg-pink-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(252 231 243 / var(--tw-bg-opacity));
+}
+.bg-pink-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(253 242 248 / var(--tw-bg-opacity));
+}
+.bg-gray-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
 }
 .bg-chevron-expand {
   background-image: url('/images/icons/chevron-expand.svg');
@@ -2335,6 +2395,18 @@ select:-webkit-autofill:focus {
     background-color: rgb(211, 223, 255);
 }
 
+.placeholder\:pl-2::-moz-placeholder {
+  padding-left: 0.5rem;
+}
+
+.placeholder\:pl-2:-ms-input-placeholder {
+  padding-left: 0.5rem;
+}
+
+.placeholder\:pl-2::placeholder {
+  padding-left: 0.5rem;
+}
+
 .hover\:scale-125:hover {
   --tw-scale-x: 1.25;
   --tw-scale-y: 1.25;
@@ -2427,16 +2499,12 @@ select:-webkit-autofill:focus {
   font-weight: 600;
 }
 
-.hover\:font-bold:hover {
-  font-weight: 700;
-}
-
-.hover\:font-normal:hover {
-  font-weight: 400;
-}
-
 .hover\:font-medium:hover {
   font-weight: 500;
+}
+
+.hover\:font-bold:hover {
+  font-weight: 700;
 }
 
 .hover\:text-gray-500:hover {

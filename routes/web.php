@@ -11,6 +11,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\TaxeController;
 use App\Http\Controllers\HackerRank_Test;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ConfigController;
 use App\Http\Controllers\JumbosController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SliderController;
@@ -243,6 +244,14 @@ Route::any('{path}', function ($page) {
 });
 
 
+// CONFIGS ----------------------------------------------------------
+Route::get('/getConfigs', [ConfigController::class, 'getConfigs']);
+Route::get('/getConfig/{param}', [ConfigController::class, 'getConfig']);
+Route::post('/updateConfig', [ConfigController::class, 'updateConfig']);
+
+
+// TAXES ------------------------------------------------------------
+Route::get('/getTaxes', [TaxeController::class, 'getTaxes']);
 
 
 require __DIR__ . '/auth.php';

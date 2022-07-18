@@ -154,11 +154,11 @@ const Appcontainer = () => {
     const [listType, setListType] = useState([]);
     const [optionsData, setOptionsData] = useState([]);
     const [changedVariantes, setChangedVariantes] = useState([]);
-    
-     
+
+
     //---------------------------------------------------------------PRODUCT
 
-    
+
 
     // supplier-------------------------------------------------------------
     const [nameSupplier, setNameSupplier] = useState('');
@@ -170,10 +170,12 @@ const Appcontainer = () => {
     const [countrySupplier, setCountrySupplier] = useState('');
     const [listSuppliers, setListSuppliers] = useState([]);
     const [supplier, setSupplier] = useState('');
-    
+
+    // TVA---------------------------------------------------------------
+    const [activeCalculTva, setActiveCalculTva] = useState(0);
 
 
-    //---------------------------------------------------------------PRODUCT
+
 
 
     useEffect(() => {
@@ -188,7 +190,21 @@ const Appcontainer = () => {
                 });
         }
 
+        // chargement des configurations
+        Axios.get("http://127.0.0.1:8000/getConfigs")
+            .then(res => {
+                for (let i = 0; i < res.data.length; i++) {
+                    if (res.data[i].param == 'activation_calcul_tva') {
+                        setActiveCalculTva(res.data[i].value == "1");
+                    }
+                }
+            })
+            .catch(error => {
+                console.log('Error : ' + error.status);
+            });
     }, []);
+
+
 
     // remove records and images files from folders and temporaryStorage db when unused 
     function cleanTemporayStorage(keys_toDelete) {
@@ -518,8 +534,9 @@ const Appcontainer = () => {
         optionsData, setOptionsData,
         changedVariantes, setChangedVariantes,
         productCode, setProductCode,
+        activeCalculTva, setActiveCalculTva,
 
-        
+
     }
 
 

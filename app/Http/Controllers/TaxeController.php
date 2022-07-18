@@ -18,6 +18,12 @@ class TaxeController extends Controller
         return view('taxe.list')->with('taxes', $taxes);
     }
 
+    public function getTaxes()
+    {
+        $taxes = Taxe::all();
+        return $taxes;
+    }
+    
     /**
      * Show the form for creating a new resource.
      *

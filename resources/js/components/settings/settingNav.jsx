@@ -24,7 +24,7 @@ const SettingNav = ({ setCurrentComponent }) => {
                 icon="truck.svg"
                 title="Livraison"
                 text="Free, high quality, open source icon ln any project."
-                color="bg-yellow-50"
+                color="bg-pink-50"
                 component="shipping"
                 setCurrentComponent={setCurrentComponent}
             />

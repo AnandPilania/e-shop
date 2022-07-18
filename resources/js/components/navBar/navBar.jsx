@@ -20,7 +20,7 @@ const Navbar = () => {
 
 
   return (
-    <nav className="nav-container">
+    <nav className="nav-container self-stretch">
 
       <div className={"accordion ${isActive && 'active'}"} onClick={() => handleMenu(0)} ><img className="barcodeIcon" src="../images\icons\icons8-label-128.png" />
         Produit

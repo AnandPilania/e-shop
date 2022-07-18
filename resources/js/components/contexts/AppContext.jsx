@@ -191,5 +191,7 @@ export default React.createContext({
     setChangedVariantes: () => { },
     productCode: '',  
     setProductCode: () => { },
+    activeCalculTva: '', 
+    setActiveCalculTva: () => { },
 
 });
