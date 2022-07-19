@@ -15,11 +15,15 @@ const Taxes = () => {
     const [activeTab, setActiveTab] = useState(1);
     const [tvaRateList, setTvaRateList] = useState([]);
     const [idEditTva, setIdEditTva] = useState(null);
+    const [isAddNewTva, setIsAddNewTva] = useState(false);
 
     const { activeCalculTva, setActiveCalculTva } = useContext(AppContext);
 
-
     useEffect(() => {
+        getTaxes();
+    }, [])
+
+    const getTaxes = () => {
         Axios.get("http://127.0.0.1:8000/getTaxes")
             .then(res => {
                 setTvaRateList(res.data);
@@ -27,8 +31,7 @@ const Taxes = () => {
             .catch(error => {
                 console.log('Error : ' + error.status);
             });
-    }, [])
-    console.log('tvaRateList   ', tvaRateList)
+    }
 
     const handleName = (e) => {
         setTaxeName(e.target.value);
@@ -70,15 +73,35 @@ const Taxes = () => {
                 console.log('Error : ' + error.status);
             });
         setActiveCalculTva(!activeCalculTva);
+
+        // charge la liste des tva
+        if (activeCalculTva == false) {
+            getTaxes();
+        }
     }
 
-    const handleEditTva = (id) => {
-        setIdEditTva(id);
+    const handleEditTva = (itemTva) => {
+        setTaxeName(itemTva.name);
+        setTaxeValue(itemTva.tva_rate);
+        setIdEditTva(itemTva.id);
     }
 
     const handleDeleteTva = (id) => {
-    
+        let idTva = new FormData;
+        idTva.append('id', id);
+
+        Axios.post(`http://127.0.0.1:8000/deleteTaxes`, idTva)
+            .then(getTaxes())
+            .catch(error => {
+                console.log('Error : ' + error.status);
+            });
     }
+
+    const cancelEdit = () => {
+        setIdEditTva(null);
+    }
+
+
 
     return (
         <div
@@ -101,7 +124,7 @@ const Taxes = () => {
                     </span>
                 </div>
 
-                {/* tva */}
+                {/* tva ---------------------------------------------------- */}
                 {activeTab == 1 &&
                     <Flexbox_row_s_c_wrap>
                         <div className='w-full h-auto flex flex-row flex-wrap justify-start items-center mb-5'>
@@ -131,19 +154,21 @@ const Taxes = () => {
                                 Taux
                             </span>
                             <span
-                                className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2 self-stretch'></span>
+                                className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2 self-stretch'>
+                            </span>
                             <span
-                                className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2 self-stretch rounded-tr-md'></span>
+                                className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2 self-stretch rounded-tr-md'>
+                            </span>
                         </div>
 
                         {tvaRateList?.length > 0 &&
                             tvaRateList.map(itemTva =>
                                 <div
                                     key={itemTva.id}
-                                    className='grid grid-cols-[70%_100px_40px_40px] justify-start items-center w-full'
+                                    className='w-full'
                                 >
                                     {idEditTva != itemTva.id &&
-                                        <div className='w-full'>
+                                        <div className='grid grid-cols-[70%_100px_40px_40px] justify-start items-center w-full'>
                                             <span
                                                 className='text.sm w-full border-b border-gray-200 py-3 pl-2'
                                             >
@@ -152,76 +177,146 @@ const Taxes = () => {
                                             <span
                                                 className='text.sm w-full border-b border-gray-200 py-3 pl-2'
                                             >
-                                                {itemTva.tva_rate}
+                                                {itemTva.tva_rate} %
                                             </span>
+
+
+                                            {/* icons ->  edit - delete */}
+                                            <div
+                                                className="text.sm w-full border-b border-gray-200 py-3 pl-2"
+                                            >
+                                                <span
+                                                    className="w-6 h-6 flex flex-row justify-center items-center bg-gray-100 cursor-pointer"
+                                                    onClick={() => handleEditTva(itemTva)}
+                                                >
+                                                    <img
+                                                        src={window.location.origin + '/images/icons/pencil.svg'}
+                                                        className="h-4 w-4" />
+                                                </span>
+                                            </div>
+                                            <div
+                                                className="text.sm w-full border-b border-gray-200 py-3 pl-2"
+                                            >
+                                                <span
+                                                    className="w-6 h-6 flex flex-row justify-center items-center bg-red-600 cursor-pointer"
+                                                    onClick={() => handleDeleteTva(itemTva.id)}
+                                                >
+                                                    <img
+                                                        src={window.location.origin + '/images/icons/x-white.svg'}
+                                                        className="h-5 w-5" />
+                                                </span>
+                                            </div>
+
+
                                         </div>
                                     }
                                     {/* inputs */}
                                     {idEditTva == itemTva.id &&
-                                        <div className='w-full'>
-                                            <div className='flex flex-col justify-start items-start w-full'>
-                                                <input className="w-full h-10 border border-gray-300 rounded-md pl-2.5 bg-white text-base"
-                                                    type="text"
-                                                    onChange={handleName}
-                                                    value={taxeName}
-                                                    placeholder="Exemple. TVA à taux réduit -> 6%"
-                                                />
-                                            </div>
-
-                                            <div className='flex flex-col justify-start items-start w-full'>
-                                                <div
-                                                    className='flex flex-rox justify-start items-center w-full'>
-                                                    <input
-                                                        type="number"
-                                                        step={0.01}
-                                                        onChange={handleTaxeValue}
-                                                        value={taxeValue}
-                                                        className="w-full h-10 border border-gray-300 rounded-l-md pl-2.5 bg-white text-base"
-                                                        min="0" max="9999999999"
-                                                        placeholder="-"
-                                                    />
-                                                    <span
-                                                        className="w-auto h-10 px-3 border-y border-r border-gray-300 rounded-r-md bg-gray-50 text-base flex justify-center items-center"
-                                                    >
-                                                        %
-                                                    </span>
-                                                </div>
-                                            </div>
+                                        <div className='grid grid-cols-[70%_70px_30px_8px_80px] justify-start items-center w-full'
+                                        >
+                                            <input
+                                                className="w-auto h-full border-x border-b border-gray-200 pl-2.5 bg-[#fafafa] text-base"
+                                                id="inputTvaName"
+                                                type="text"
+                                                onChange={handleName}
+                                                value={taxeName}
+                                                placeholder="Exemple. TVA à taux réduit -> 6%"
+                                                autoFocus
+                                            />
+                                            <input
+                                                type="number"
+                                                step={0.01}
+                                                onChange={handleTaxeValue}
+                                                value={taxeValue}
+                                                className="w-auto h-full border border-gray-200 rounded-l-md pl-2.5 bg-[#fafafa] text-base"
+                                                min="0" max="9999999999"
+                                                placeholder="-"
+                                            />
+                                            <span
+                                                className="w-8 h-full px-3 border-y border-r border-gray-200 rounded-r-md bg-gray-50 text-base flex justify-center items-center"
+                                            >
+                                                %
+                                            </span>
+                                            <span></span>
+                                            <span
+                                                className='text.sm w-20 text-blue-400 underline py-3 pl-2 cursor-pointer'
+                                                onClick={() => cancelEdit()}
+                                            >
+                                                Annuler
+                                            </span>
                                         </div>
                                     }
-
-                                    {/* icons ->  edit - delete */}
-                                    <div
-                                        className="text.sm w-full border-b border-gray-200 py-3 pl-2"
-                                    >
-                                        <span 
-                                        className="w-6 h-6 flex flex-row justify-center items-center bg-gray-100"
-                                        onClick={() => handleEditTva(itemTva.id)}
-                                        >
-                                            <img
-                                                src={window.location.origin + '/images/icons/pencil.svg'}
-                                                className="h-4 w-4" />
-                                        </span>
-                                    </div>
-                                    <div
-                                        className="text.sm w-full border-b border-gray-200 py-3 pl-2"
-                                    >
-                                        <span 
-                                        className="w-6 h-6 flex flex-row justify-center items-center bg-red-600"
-                                        onClick={() => handleDeleteTva(itemTva.id)}
-                                        >
-                                            <img
-                                                src={window.location.origin + '/images/icons/x-white.svg'}
-                                                className="h-5 w-5" />
-                                        </span>
-                                    </div>
                                 </div>
                             )
                         }
+
+                        {/* add new tva */}
+                        {isAddNewTva &&
+                            <div className='grid grid-cols-[70%_70px_30px_8px_80px] justify-start items-center w-full mt-10'
+                            >
+                                <input
+                                    className="w-auto h-full border-x border-b border-gray-200 pl-2.5 bg-[#fafafa] text-base"
+                                    type="text"
+                                    onChange={handleName}
+                                    value={taxeName}
+                                    placeholder="Exemple. TVA à taux réduit -> 6%"
+                                    autoFocus
+                                />
+                                <input
+                                    type="number"
+                                    step={0.01}
+                                    onChange={handleTaxeValue}
+                                    value={taxeValue}
+                                    className="w-auto h-full border border-gray-200 rounded-l-md pl-2.5 bg-[#fafafa] text-base"
+                                    min="0" max="9999999999"
+                                    placeholder="-"
+                                />
+                                <span
+                                    className="w-8 h-full px-3 border-y border-r border-gray-200 rounded-r-md bg-gray-50 text-base flex justify-center items-center"
+                                >
+                                    %
+                                </span>
+                                <span></span>
+                                <span
+                                    className='text.sm w-20 text-blue-400 underline py-3 pl-2 cursor-pointer'
+                                    onClick={() => setIsAddNewTva(false)}
+                                >
+                                    Annuler
+                                </span>
+                            </div>
+                        }
+
+
+                        <div className='w-full flex flex-row justify-start items-center py-10'
+                        >
+                            {/* add new tva button */}
+                            {!isAddNewTva &&
+                            <div className='flex flex-row justify-start items-center'
+                            >
+                                <button className='flex justify-center py-2 px-3  w-20 bg-white text-gray-700 border border-gray-600 rounded-md'
+                                    onClick={() => setIsAddNewTva(true)}
+                                >
+                                    <img
+                                        src={window.location.origin + '/images/icons/add_icon.svg'}
+                                        className="h-5 w-5" />
+                                </button>
+                                <span className='ml-3'>Ajouter un nouveau taux de tva
+                                </span>
+                            </div>}
+
+                            {/* save */}
+                            <span></span>
+                            <button className='flex justify-center py-2 max-w-[110px] bg-green-500 text-white rounded-md ml-auto'>
+                                Enregistrer
+                            </button>
+                        </div>
                     </Flexbox_row_s_c_wrap>}
 
 
-                {/* autres frais */}
+
+
+
+                {/* autres frais -------------------------------------------*/}
                 {activeTab == 2 &&
                     <Flexbox_row_s_c_wrap>
                         <div className="py-4">

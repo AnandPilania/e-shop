@@ -57,7 +57,7 @@ Route::resource('/categories', CategoryController::class);
 Route::resource('/products', ProductController::class);
 Route::resource('/sliders', SliderController::class);
 Route::resource('/commandes', CommandeController::class);
-Route::resource('/taxes', TaxeController::class);
+// Route::resource('/taxes', TaxeController::class);
 Route::resource('/customers', CustomerController::class);
 Route::resource('/collections', CollectionController::class);
 Route::resource('/type_detail_products', Type_detail_productController::class);
@@ -252,6 +252,7 @@ Route::post('/updateConfig', [ConfigController::class, 'updateConfig']);
 
 // TAXES ------------------------------------------------------------
 Route::get('/getTaxes', [TaxeController::class, 'getTaxes']);
+Route::post('/deleteTaxes', [TaxeController::class, 'deleteTaxes']);
 
 
 require __DIR__ . '/auth.php';
