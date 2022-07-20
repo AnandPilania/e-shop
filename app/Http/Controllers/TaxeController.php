@@ -15,16 +15,17 @@ class TaxeController extends Controller
     }
     
 
-    public function store(Request $request)
+    public function addTaxes(Request $request)
     {
-        $this->validate($request, ['tva_rate' => 'required']);
+        $this->validate($request, ['taxeName' => 'required|string|max:255', 'taxeValue' => 'required']);
 
         $taxes = new Taxe;
-        $taxes->tva_rate = $request->tva_rate;
+        $taxes->name = $request->taxeName;
+        $taxes->tva_rate = $request->taxeValue;
 
         $taxes->save();
 
-        return redirect('/taxes/create')->with('status', 'Le taux de TVA ' . $taxes->tva_rate . ' a été ajoutée');
+        return 'ok';
     }
 
 
