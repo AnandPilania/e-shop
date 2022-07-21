@@ -41,7 +41,7 @@
 }
 /* Background color when toggle button will be active */
 .cm-toggleComponent:checked:after {
-    background: #005cc8;
+    background: #4f46e5;
 }
 
 /* Transition for smoothness */

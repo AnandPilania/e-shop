@@ -254,6 +254,8 @@ Route::post('/updateConfig', [ConfigController::class, 'updateConfig']);
 Route::get('/getTaxes', [TaxeController::class, 'getTaxes']);
 Route::post('/deleteTaxes', [TaxeController::class, 'deleteTaxes']);
 Route::post('/addTaxes', [TaxeController::class, 'addTaxes']);
+Route::post('/updateTaxes', [TaxeController::class, 'updateTaxes']);
+Route::post('/updateTvaRate', [TaxeController::class, 'updateTvaRate']);
 
 
 require __DIR__ . '/auth.php';

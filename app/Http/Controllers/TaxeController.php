@@ -21,7 +21,7 @@ class TaxeController extends Controller
 
         $taxes = new Taxe;
         $taxes->name = $request->taxeName;
-        $taxes->tva_rate = $request->taxeValue;
+        $taxes->tva_rate = round($request->taxeValue, 2);
 
         $taxes->save();
 
@@ -29,16 +29,37 @@ class TaxeController extends Controller
     }
 
 
-    public function update(Request $request, $id)
+    public function updateTaxes(Request $request)
     {
-        $this->validate($request, ['tva_rate' => 'required']);
+        $this->validate($request, ['taxeName' => 'required|string|max:255', 'taxeValue' => 'required', 'id' => 'required']);
 
-        $taxe =  Taxe::find($id);
-        $taxe->tva_rate = $request->tva_rate;
+        $taxe =  Taxe::find($request->id);
+        $taxe->name = $request->taxeName;
+        $taxe->tva_rate = round($request->taxeValue, 2);
 
         $taxe->save();
 
-        return redirect('/taxes')->with('status', 'La modification a été éffectuée'); 
+        return 'ok'; 
+    }   
+    
+    
+    // modifie la tva par défaut
+    public function updateTvaRate(Request $request)
+    {
+        $this->validate($request, ['id' => 'required']);
+
+        $taxe = Taxe::where('is_default', 1)->first();
+
+        if ($taxe != null) {
+            $taxe->is_default = 0;
+            $taxe->save();
+        }
+
+        $taxe =  Taxe::find($request->id);
+        $taxe->is_default = 1;
+        $taxe->save();
+
+        return 'ok'; 
     }
 
 

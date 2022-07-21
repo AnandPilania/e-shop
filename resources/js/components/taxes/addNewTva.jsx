@@ -5,7 +5,7 @@ const AddNewTva = ({ cancelEdit, handleName, handleTaxeValue, taxeName, taxeValu
 
 
     return (
-        <div className='w-full'>
+        <div className='w-full pt-5'>
             {isAddNewTva &&
                 <div className='grid grid-cols-[70%_70px_30px_8px_80px] justify-start items-center w-full mt-10'
                 >
@@ -33,8 +33,8 @@ const AddNewTva = ({ cancelEdit, handleName, handleTaxeValue, taxeName, taxeValu
                     </span>
                     <span></span>
                     <span
-                        className='text-base w-20 text-blue-400 underline underline-offset-1
-                                    hover:text-blue-600 py-3 pl-2 cursor-pointer'
+                        className='text-base w-20 text-red-400 underline underline-offset-1
+                                    hover:text-red-600 py-3 pl-2 cursor-pointer'
                         onClick={() => {
                             setIsAddNewTva(false);
                             setIsShowSaveButton(false);;
@@ -46,7 +46,7 @@ const AddNewTva = ({ cancelEdit, handleName, handleTaxeValue, taxeName, taxeValu
             }
 
 
-            <div className='flex flex-row justify-start items-center w-full pt-10 pb-5'
+            <div className='flex flex-row justify-start items-center w-full pt-3 pb-5'
             >
                 {/* add new tva button */}
                 {!isAddNewTva &&

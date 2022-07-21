@@ -22,6 +22,7 @@ const Taxes = () => {
     const [isShowSaveButton, setIsShowSaveButton] = useState(false);
     const [showModalSimpleMessage, setShowModalSimpleMessage] = useState(false);
     const [messageModal, setMessageModal] = useState('');
+    const [defaultTvaRateId, setDefaultTvaRateId] = useState('');
 
     const { activeCalculTva, setActiveCalculTva } = useContext(AppContext);
 
@@ -34,6 +35,10 @@ const Taxes = () => {
         Axios.get("http://127.0.0.1:8000/getTaxes")
             .then(res => {
                 setTvaRateList(res.data);
+                let ndx = res.data.findIndex(x => x.is_default == 1);
+                if (ndx > -1) {
+                    setDefaultTvaRateId(res.data[ndx].id);
+                }
             })
             .catch(error => {
                 console.log('Error : ' + error.status);
@@ -163,8 +168,13 @@ const Taxes = () => {
                         <div className='w-full'>
                             {/* tva Rate List */}
                             <div
-                                className='grid grid-cols-[70%_100px_40px_40px] justify-start items-start w-full'
+                                className='grid grid-cols-[80px_70%_100px_40px_40px] justify-start items-start w-full'
                             >
+                                <span
+                                    className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-3 rounded-tl-md'
+                                >
+                                    Défaut
+                                </span>
                                 <span
                                     className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2 rounded-tl-md'
                                 >
@@ -196,6 +206,8 @@ const Taxes = () => {
                                 setIdEditTva={setIdEditTva}
                                 setIsAddNewTva={setIsAddNewTva}
                                 getTaxes={getTaxes}
+                                setIsShowSaveButton={setIsShowSaveButton}
+                                defaultTvaRateId={defaultTvaRateId}
                             />
 
                             <AddNewTva
