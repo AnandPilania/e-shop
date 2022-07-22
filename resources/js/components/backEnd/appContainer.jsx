@@ -173,7 +173,7 @@ const Appcontainer = () => {
 
     // TVA---------------------------------------------------------------
     const [activeCalculTva, setActiveCalculTva] = useState(0);
-
+    const [tvaRateList, setTvaRateList] = useState([]);
 
 
 
@@ -535,6 +535,7 @@ const Appcontainer = () => {
         changedVariantes, setChangedVariantes,
         productCode, setProductCode,
         activeCalculTva, setActiveCalculTva,
+        tvaRateList, setTvaRateList,
 
 
     }

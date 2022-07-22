@@ -193,5 +193,7 @@ export default React.createContext({
     setProductCode: () => { },
     activeCalculTva: '', 
     setActiveCalculTva: () => { },
+    tvaRateList: '',
+    setTvaRateList: () => { },
 
 });

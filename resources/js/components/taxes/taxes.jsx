@@ -16,15 +16,14 @@ const Taxes = () => {
     const [taxeValue, setTaxeValue] = useState('');
     const [application, setApplication] = useState('localisation');
     const [activeTab, setActiveTab] = useState(1);
-    const [tvaRateList, setTvaRateList] = useState([]);
-    const [idEditTva, setIdEditTva] = useState(null);
+     const [idEditTva, setIdEditTva] = useState(null);
     const [isAddNewTva, setIsAddNewTva] = useState(false);
     const [isShowSaveButton, setIsShowSaveButton] = useState(false);
     const [showModalSimpleMessage, setShowModalSimpleMessage] = useState(false);
     const [messageModal, setMessageModal] = useState('');
     const [defaultTvaRateId, setDefaultTvaRateId] = useState('');
 
-    const { activeCalculTva, setActiveCalculTva } = useContext(AppContext);
+    const { activeCalculTva, setActiveCalculTva, tvaRateList, setTvaRateList } = useContext(AppContext);
 
     useEffect(() => {
         getTaxes();

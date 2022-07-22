@@ -20,8 +20,15 @@ const CreateProduct = () => {
     const [collectionsRelations, setCollectionsRelations] = useState([]);
     const [dataDetail, setDataDetail] = useState([]);
     const [showModalFromPrice, setShowModalFromPrice] = useState(false);
+    const [tva, setTva] = useState('');
+    const [toggleSelectSupplier, setToggleSelectSupplier] = useState(false);
+    const [toggleSelectTva, setToggleSelectTva] = useState(false);
+    const [selectValueColorTva, setSelectValueColorTva] = useState('');
+    const [selectValueColorSupplier, setSelectValueColorSupplier] = useState('');
 
-    const { image, descriptionProduct, listSuppliers, setListSuppliers, supplier, setSupplier, collection, setCollection, productPrice, productStock, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData } = useContext(AppContext);
+
+
+    const { image, descriptionProduct, listSuppliers, setListSuppliers, supplier, setSupplier, collection, setCollection, productPrice, productStock, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData, activeCalculTva, tvaRateList, setTvaRateList } = useContext(AppContext);
 
     useEffect(() => {
         // récupére les collections
@@ -49,6 +56,20 @@ const CreateProduct = () => {
             });
 
     }, []);
+
+
+
+    // récupère la liste des tva
+    useEffect(() => {
+        activeCalculTva == 1 &&
+            Axios.get("http://127.0.0.1:8000/getTaxes")
+                .then(res => {
+                    setTvaRateList(res.data);
+                })
+                .catch(error => {
+                    console.log('Error : ' + error.status);
+                });
+    }, [activeCalculTva])
 
 
 
@@ -91,7 +112,7 @@ const CreateProduct = () => {
                 spanMessage.innerHTML = 'Le champ nom de l\'option ne peut pas être vide';
 
                 let inputOptionError = document.getElementsByClassName(`name${optionsObj[i].id}`)[0];
-                
+
                 if (inputOptionError !== undefined) {
                     inputOptionError.classList.remove('border-gray-300');
                     inputOptionError.classList.add('border-red-500');
@@ -158,6 +179,7 @@ const CreateProduct = () => {
             });
     }
 
+    console.log('tvaRateList  ', tvaRateList)
 
     return (
         <div className="min-w-[750px] w-[60%] min-h-[130vh] my-[50px] mx-auto pb-80 grid grid-cols-mainContainer gap-2.5 text-base">
@@ -199,7 +221,9 @@ const CreateProduct = () => {
             <div className='form-side-container'>
                 {/* collection */}
                 <Flex_col_s_s>
-                    <h3 className="text-base font-semibold mb-2.5 text-gray-500 w-auto">Collections</h3>
+                    <h3 className="text-base font-semibold mb-2.5 text-gray-500 w-auto">
+                        Collections
+                    </h3>
                     <SelectWithCheckbox
                         unikId="SelectWithCheckbox_collection"
                         list={collectionsRelations}
@@ -225,17 +249,46 @@ const CreateProduct = () => {
                 </Flex_col_s_s>
 
                 {/* supplier */}
-                <Flex_col_s_s>
-                    <h3 className="text-base font-semibold mb-2.5 text-gray-500 w-auto">Fournisseur</h3>
+                {/* <Flex_col_s_s id="supplierSelectId">
+                    <h3 className="text-base font-semibold mb-2.5 text-gray-500 w-auto">
+                        Fournisseur
+                    </h3>
                     <Select
                         list={listSuppliers}
                         itemSelected={supplier}
                         setItemSelected={setSupplier}
+                        toggleSelect={toggleSelectSupplier}
+                        setToggleSelect={setToggleSelectSupplier}
+                        selectValueColor={selectValueColorSupplier}
+                        setSelectValueColor={setSelectValueColorSupplier}
+                        ulUnikId="ulSupplierSelectUniqueId"
                     />
-                </Flex_col_s_s>
+                </Flex_col_s_s> */}
+
+                {/* Tva */}
+                {activeCalculTva == 1 &&
+                    <Flex_col_s_s id="tvaSelectId">
+                        <h3 className="text-base font-semibold mb-2.5 text-gray-500 w-auto">
+                            Tva
+                        </h3>
+                        <Select
+                            list={tvaRateList}
+                            itemSelected={tva}
+                            setItemSelected={setTva}
+                            toggleSelect={toggleSelectTva}
+                            setToggleSelect={setToggleSelectTva}
+                            selectValueColor={selectValueColorTva}
+                            setSelectValueColor={setSelectValueColorTva}
+                            ulUnikId="ulTvaSelectUniqueId"
+                        />
+                    </Flex_col_s_s>
+                }
             </div>
 
-            <button className="btn bg-amber-300" onClick={handleSubmit}>
+            <button
+                className="flex justify-center items-center px-3 py-2 rounded-md bg-indigo-600 text-white"
+                onClick={handleSubmit}
+            >
                 Envoyer
             </button>
 
