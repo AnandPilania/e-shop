@@ -20,7 +20,6 @@ const CreateProduct = () => {
     const [collectionsRelations, setCollectionsRelations] = useState([]);
     const [dataDetail, setDataDetail] = useState([]);
     const [showModalFromPrice, setShowModalFromPrice] = useState(false);
-    const [tva, setTva] = useState('');
     const [toggleSelectSupplier, setToggleSelectSupplier] = useState(false);
     const [toggleSelectTva, setToggleSelectTva] = useState(false);
     const [selectValueColorTva, setSelectValueColorTva] = useState('');
@@ -28,7 +27,7 @@ const CreateProduct = () => {
 
 
 
-    const { image, descriptionProduct, listSuppliers, setListSuppliers, supplier, setSupplier, collection, setCollection, productPrice, productStock, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData, activeCalculTva, tvaRateList, setTvaRateList } = useContext(AppContext);
+    const { image, descriptionProduct, listSuppliers, setListSuppliers, supplier, setSupplier, collection, setCollection, productPrice, productStock, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData, activeCalculTva, tvaRateList, setTvaRateList, tva, setTva } = useContext(AppContext);
 
     useEffect(() => {
         // récupére les collections
@@ -59,7 +58,7 @@ const CreateProduct = () => {
 
 
 
-    // récupère la liste des tva
+    // récupère la liste des tva et setTva avec la tva par défaut
     useEffect(() => {
         activeCalculTva == 1 &&
             Axios.get("http://127.0.0.1:8000/getTaxes")
@@ -179,7 +178,7 @@ const CreateProduct = () => {
             });
     }
 
-    console.log('tvaRateList  ', tvaRateList)
+
 
     return (
         <div className="min-w-[750px] w-[60%] min-h-[130vh] my-[50px] mx-auto pb-80 grid grid-cols-mainContainer gap-2.5 text-base">
@@ -249,7 +248,7 @@ const CreateProduct = () => {
                 </Flex_col_s_s>
 
                 {/* supplier */}
-                {/* <Flex_col_s_s id="supplierSelectId">
+                <Flex_col_s_s id="supplierSelectId">
                     <h3 className="text-base font-semibold mb-2.5 text-gray-500 w-auto">
                         Fournisseur
                     </h3>
@@ -262,14 +261,18 @@ const CreateProduct = () => {
                         selectValueColor={selectValueColorSupplier}
                         setSelectValueColor={setSelectValueColorSupplier}
                         ulUnikId="ulSupplierSelectUniqueId"
+                        buttonUnikId="buttonSupplierSelectUniqueId"
                     />
-                </Flex_col_s_s> */}
+                </Flex_col_s_s>
 
                 {/* Tva */}
                 {activeCalculTva == 1 &&
                     <Flex_col_s_s id="tvaSelectId">
                         <h3 className="text-base font-semibold mb-2.5 text-gray-500 w-auto">
-                            Tva
+                            Tva {tva != '' && tva.tva_rate + '%'} {tva?.is_default == 1 &&
+                                <span className='text-sm  italic'>
+                                    (Par défaut)
+                                </span>}
                         </h3>
                         <Select
                             list={tvaRateList}
@@ -280,16 +283,17 @@ const CreateProduct = () => {
                             selectValueColor={selectValueColorTva}
                             setSelectValueColor={setSelectValueColorTva}
                             ulUnikId="ulTvaSelectUniqueId"
+                            buttonUnikId="buttonTvaSelectUniqueId"
                         />
                     </Flex_col_s_s>
                 }
             </div>
 
             <button
-                className="flex justify-center items-center px-3 py-2 rounded-md bg-indigo-600 text-white"
+                className="flex flex-row justify-center items-center w-32 px-3 py-2 rounded-md bg-green-600 text-white"
                 onClick={handleSubmit}
             >
-                Envoyer
+                Enregistrer
             </button>
 
             {/* modal for simple message */}

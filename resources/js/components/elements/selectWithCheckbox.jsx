@@ -87,14 +87,14 @@ export default function SelectWithCheckbox({ unikId, list, selected, setSelected
                     list.length > 0 && list.map(item =>
                         <li
                             key={item.id + unikId}
-                            className="flex items-center p-2 w-full text-gray-700 text-base hover:cursor-pointer hover:bg-indigo-600 group">
+                            className="flex items-center w-full text-gray-700 text-base hover:cursor-pointer hover:bg-indigo-600 group">
                             <input type='checkbox'
                                 value={item.id}
                                 id={item.id + unikId}
                                 checked={selected.indexOf(item.name) > -1} onChange={() => handleChange(item.name)}
-                                className="w-4 h-4 mr-4 cursor-pointer" />
+                                className="w-4 h-4 ml-3 mr-2 cursor-pointer" />
                             <label htmlFor={item.id + unikId}
-                                className="truncate group-hover:text-white cursor-pointer">
+                                className="truncate group-hover:text-white cursor-pointer p-2 w-full h-full">
                                 {item.name}
                             </label>
                         </li>

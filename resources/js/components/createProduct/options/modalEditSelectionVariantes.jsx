@@ -32,10 +32,10 @@ const ModalEditSelectionVariantes = ({ handleModalCancel, show }) => {
         if (checkedVariantesList.length > 0) {
             for (let i = 0; i < temp_variantes.length; i++) {
                 if (checkedVariantesList.indexOf(temp_variantes[i].id) > -1) {
-                    temp_variantes[i].price = productPriceModal;
-                    temp_variantes[i].prev_price = previousProductPriceModal;
-                    temp_variantes[i].stock = productStockModal;
-                    temp_variantes[i].unlimited = false;
+                    temp_variantes[i].price = productPriceModal != '' && productPriceModal;
+                    temp_variantes[i].prev_price = previousProductPriceModal != '' && previousProductPriceModal;
+                    temp_variantes[i].stock = productStockModal != '' && productStockModal;
+                    temp_variantes[i].unlimited = productStockModal != '' && false;
                 }
             }
 
@@ -58,7 +58,7 @@ const ModalEditSelectionVariantes = ({ handleModalCancel, show }) => {
             }
             setChangedVariantes([...tmp_changedVariantes]);
             //----------------------------------------------------------------
-            
+
 
             setVariantes([...temp_variantes]);
             setProductPriceModal('');
@@ -149,6 +149,20 @@ const ModalEditSelectionVariantes = ({ handleModalCancel, show }) => {
                         }}>
                         Annuler
                     </button>
+
+                    <div className="ml-auto">
+                        <input
+                            id="conservNotModifiedFieldsCheckbox"
+                            type="checkbox"
+                            className='mr-1 cursor-pointer'
+                        />
+                        <label
+                            htmlFor="conservNotModifiedFieldsCheckbox"
+                            className='cursor-pointer text-sm'
+                        >
+                            Conserver les champs non modifiés
+                        </label>
+                    </div>
                 </div>
 
             </div>
