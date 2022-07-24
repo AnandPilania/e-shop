@@ -7,6 +7,7 @@ const ModalEditSelectionVariantes = ({ handleModalCancel, show }) => {
     const [productPriceModal, setProductPriceModal] = useState('');
     const [previousProductPriceModal, setPreviousProductPriceModal] = useState('');
     const [productStockModal, setProductStockModal] = useState('');
+    const [conservNotModifiedFieldsCheckbox, setConservNotModifiedFieldsCheckbox] = useState(true);
 
     // const placeholder_price = 'Ajouter un prix';
     const placeholder_promo = 'Ajouter un prix avant promo';
@@ -31,11 +32,21 @@ const ModalEditSelectionVariantes = ({ handleModalCancel, show }) => {
         let temp_variantes = [...variantes];
         if (checkedVariantesList.length > 0) {
             for (let i = 0; i < temp_variantes.length; i++) {
+                console.log('productPriceModal  ', productPriceModal)
                 if (checkedVariantesList.indexOf(temp_variantes[i].id) > -1) {
-                    temp_variantes[i].price = productPriceModal != '' && productPriceModal;
-                    temp_variantes[i].prev_price = previousProductPriceModal != '' && previousProductPriceModal;
-                    temp_variantes[i].stock = productStockModal != '' && productStockModal;
-                    temp_variantes[i].unlimited = productStockModal != '' && false;
+                    if (conservNotModifiedFieldsCheckbox) {
+                        temp_variantes[i].price = productPriceModal != '' ? productPriceModal : temp_variantes[i].price;
+                        temp_variantes[i].prev_price = previousProductPriceModal != '' ? previousProductPriceModal : temp_variantes[i].prev_price;
+                        temp_variantes[i].stock = productStockModal != '' ? productStockModal : temp_variantes[i].stock;
+                        temp_variantes[i].unlimited = productStockModal != '' ? false : true;
+                    } else {
+                        temp_variantes[i].price = productPriceModal;
+                        temp_variantes[i].prev_price = previousProductPriceModal;
+                        temp_variantes[i].stock = productStockModal;
+                        temp_variantes[i].placeholderStock = String.fromCharCode(0x221E);
+                        temp_variantes[i].unlimited = true;
+                    }
+
                 }
             }
 
@@ -155,6 +166,8 @@ const ModalEditSelectionVariantes = ({ handleModalCancel, show }) => {
                             id="conservNotModifiedFieldsCheckbox"
                             type="checkbox"
                             className='mr-1 cursor-pointer'
+                            checked={conservNotModifiedFieldsCheckbox}
+                            onChange={() => setConservNotModifiedFieldsCheckbox(!conservNotModifiedFieldsCheckbox)}
                         />
                         <label
                             htmlFor="conservNotModifiedFieldsCheckbox"

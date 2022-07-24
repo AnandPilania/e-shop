@@ -262,7 +262,7 @@ const CreateCollection = () => {
 
 
     // demande confirmation avant de quitter le form sans sauvegarder
-    usePromptCollection('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?', checkIfIsDirty);
+    usePromptCollection('Quitter sans sauvegarder les changements ?', checkIfIsDirty);
 
 
     const handleNameCollection = (e) => {
@@ -272,7 +272,7 @@ const CreateCollection = () => {
     // Reset Form---------------------------------------------------------------
     // confirm reinitialisatio form
     const confirmInitCollectionForm = () => {
-        setMessageModal('Êtes-vous sûr de vouloir supprimer tout le contenu de ce formulaire ?')
+        setMessageModal('Supprimer tout le contenu de ce formulaire ?')
         setTextButtonConfirm('Confirmer');
         setImageModal('../images/icons/trash_dirty.png');
         setSender('initCollectionForm');
@@ -427,7 +427,9 @@ const CreateCollection = () => {
         <div className="min-w-[750px] w-[60%] min-h-[130vh] my-[50px] mx-auto pb-[300px] grid grid-cols-mainContainer gap-[10px]">
             <div className="w-full">
                 <div className="div-vert-align">
+
                     <div className="w100pct h40 flex justify-s align-c">
+                        {/* retour */}
                         <button className="w100 h40 flex-row-c-c brd-gray-light-1 radius5"
                             onClick={() => {
                                 setConditions([{
@@ -439,9 +441,12 @@ const CreateCollection = () => {
                             }}>
                             <Link to="/collections-list">
                                 <img src='../images/icons/arrow-left.svg' className="w15 h15 inline" />
-                                <span className="m-l-5">Retour</span>
+                                <span className="m-l-5">
+                                    Retour
+                                </span>
                             </Link>
                         </button>
+
                         {/* réinitialisation */}
                         {isDirty && (<button className='w100 h40 flex-row-c-c brd-gray-light-1 m-l-auto radius5'
                             onClick={() => {
@@ -451,6 +456,7 @@ const CreateCollection = () => {
                             Réinitialiser
                         </button>)}
                     </div>
+
                     {/* nom */}
                     <div className="div-label-inputTxt">
                         <h2>Nom de la collection*</h2>
@@ -460,14 +466,18 @@ const CreateCollection = () => {
                         />
                         <span className={`fs14 red ${nameCollection.length > 191 ? "block" : "none"}`}>Le nom de la collection ne peut pas dépasser 191 caractères</span>
                     </div>
+
                     {/* description */}
                     <div className="div-label-inputTxt">
                         <h2>Description (optionnel)</h2>
                     </div>
                     <TinyEditor />
                 </div>
+
                 <Conditions />
+
                 <Optimisation />
+
                 {/* submit */}
                 <div className="div-label-inputTxt">
                     <button className="btn-submit" onClick={handleSubmit}>
@@ -477,18 +487,23 @@ const CreateCollection = () => {
             </div>
             {/* ----------  side  ---------- */}
             <div className='form-side-container'>
+
                 <Image />
+
                 <Categories />
+
                 <Activation />
+
                 {/* modal for confirmation */}
                 <ModalConfirm
-                    show={showModalConfirm} // true/false show modal
+                    show={showModalConfirm}
                     handleModalConfirm={handleModalConfirm}
                     handleModalCancel={handleModalCancel}
                     textButtonConfirm={textButtonConfirm}
-                    image={imageModal}>
+                >
                     <h2 className="childrenModal">{messageModal}</h2>
                 </ModalConfirm>
+
                 {/* modal for simple message */}
                 <ModalSimpleMessage
                     show={showModalSimpleMessage} // true/false show modal

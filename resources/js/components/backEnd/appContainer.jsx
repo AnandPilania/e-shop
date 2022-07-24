@@ -154,6 +154,9 @@ const Appcontainer = () => {
     const [listType, setListType] = useState([]);
     const [optionsData, setOptionsData] = useState([]);
     const [changedVariantes, setChangedVariantes] = useState([]);
+    const [metaTitleProduct, setMetaTitleProduct] = useState('');
+    const [metaDescriptionProduct, setMetaDescriptionProduct] = useState('');
+    const [metaUrlProduct, setMetaUrlProduct] = useState(window.location.origin + '/');
 
 
     //---------------------------------------------------------------PRODUCT
@@ -537,6 +540,10 @@ const Appcontainer = () => {
         activeCalculTva, setActiveCalculTva,
         tvaRateList, setTvaRateList,
         tva, setTva,
+        metaTitleProduct, setMetaTitleProduct,
+        metaDescriptionProduct, setMetaDescriptionProduct,
+        metaUrlProduct, setMetaUrlProduct,
+
 
     }
 

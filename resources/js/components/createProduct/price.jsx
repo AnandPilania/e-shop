@@ -54,7 +54,7 @@ const Price = () => {
                     />
                 </div>
 
-                <div className='w-full'>
+                <div className='w-full col-span-2'>
                     <div className='w-full'>
                         <label>Prix d'achat pour un article</label>
                         <input

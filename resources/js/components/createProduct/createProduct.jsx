@@ -7,6 +7,7 @@ import Select from '../elements/select';
 import DropZoneProduct from './dropZoneProduct';
 import Price from './price';
 import Stock from './stock';
+import OptimisationProduct from './optimisationProduct';
 import TinyeditorProduct from './tinyEditorProduct';
 import Axios from "axios";
 import { handleTinyMceTemporary } from '../functions/temporaryStorage/handleTinyMceTemporary';
@@ -161,6 +162,9 @@ const CreateProduct = () => {
         // supprime listTypes de dataDetail car inutile côté controlleur
         dataDetail.forEach(obj => delete obj.listTypes);
 
+
+        // C EST QUOI CE dataDetail ?? ?? ?? <------------------ !!!
+
         // transformation de l'objet en string JSON
         var obj = JSON.stringify(dataDetail);
         formData.append("obj", obj);
@@ -212,6 +216,10 @@ const CreateProduct = () => {
                 <Flex_col_s_s>
                     <Options />
                 </Flex_col_s_s>
+
+                {/* Optimisation */}
+                <OptimisationProduct />
+                
             </div>
 
 
