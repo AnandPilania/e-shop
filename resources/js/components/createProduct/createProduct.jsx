@@ -28,7 +28,7 @@ const CreateProduct = () => {
 
 
 
-    const { image, descriptionProduct, listSuppliers, setListSuppliers, supplier, setSupplier, collection, setCollection, productPrice, productStock, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData, activeCalculTva, tvaRateList, setTvaRateList, tva, setTva } = useContext(AppContext);
+    const { image, descriptionProduct, listSuppliers, setListSuppliers, supplier, setSupplier, collection, setCollection, productPrice, productStock, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData, activeCalculTva, tvaRateList, setTvaRateList, tva, setTva, imageVariantes, productCode, productCost, previousProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct  } = useContext(AppContext);
 
     useEffect(() => {
         // récupére les collections
@@ -90,19 +90,19 @@ const CreateProduct = () => {
 
     const validation = () => {
 
-        // // name validation
-        // if (nameProduct.length == 0) {
-        //     setMessageModal('Le champ nom est obligatoir');
-        //     setShowModalFromPrice(true);
-        //     return false;
-        // }
+        // name validation
+        if (nameProduct.length == 0) {
+            setMessageModal('Le champ nom est obligatoir');
+            setShowModalFromPrice(true);
+            return false;
+        }
 
-        // // price validation
-        // if (productPrice <= 0) {
-        //     setMessageModal('Le champ prix est obligatoir');
-        //     setShowModalFromPrice(true);
-        //     return false;
-        // }
+        // price validation
+        if (productPrice <= 0) {
+            setMessageModal('Le champ prix est obligatoir');
+            setShowModalFromPrice(true);
+            return false;
+        }
 
         // options
         for (let i = 0; i < optionsObj.length; i++) {
@@ -159,15 +159,37 @@ const CreateProduct = () => {
         formData.append("price", productPrice);
         formData.append("collection", collection);
         formData.append("description", descriptionProduct);
+
+
+
         // supprime listTypes de dataDetail car inutile côté controlleur
         dataDetail.forEach(obj => delete obj.listTypes);
-
-
         // C EST QUOI CE dataDetail ?? ?? ?? <------------------ !!!
+
 
         // transformation de l'objet en string JSON
         var obj = JSON.stringify(dataDetail);
         formData.append("obj", obj);
+        
+        console.log('nameProduct  ', nameProduct);
+        console.log('productPrice  ', productPrice);
+        console.log('collection  ', collection);
+        console.log('descriptionProduct  ', descriptionProduct);
+        console.log('obj  ', obj);
+        console.log('tva  ', tva);
+        console.log('supplier  ', supplier);
+        console.log('imageVariantes  ', imageVariantes);
+        console.log('previousProductPrice  ', previousProductPrice);
+        console.log('productCost  ', productCost);
+        console.log('productStock  ', productStock);
+        console.log('productCode  ', productCode);
+        console.log('optionsObj  ', optionsObj);
+        console.log('variantes  ', variantes);
+        console.log('metaTitleProduct   ', metaTitleProduct);
+        console.log('metaDescriptionProduct   ', metaDescriptionProduct);
+        console.log('metaUrlProduct   ', metaUrlProduct);
+        
+
 
 
         Axios.post(`http://127.0.0.1:8000/products`, formData,

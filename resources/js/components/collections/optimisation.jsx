@@ -1,66 +1,72 @@
 import React, { useEffect, useState, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
+import { useWindowSize } from '../hooks/useWindowSize';
+import Flex_col_s_s from '../elements/container/flex_col_s_s';
+import Toggle from '../elements/toggle/toggle';
 
 
 
-const Optimisation = () => {
+const OptimisationProduct = () => {
 
-    const [isShowOptimisation, setIsShowOptimisation] = useState(false);
-    const [metaTitlebiggerThan50, setMetaTitleBiggerThan50] = useState(false);
-    const [metaDescriptionbiggerThan130, setMetaDescriptionbiggerThan130] = useState(false);
+    const [isShowOptimisationProduct, setIsShowOptimisationProduct] = useState(false);
+    const [metaTitlebiggerThan50Product, setMetaTitleBiggerThan50Product] = useState(false);
+    const [metaDescriptionbiggerThan130Product, setMetaDescriptionbiggerThan130Product] = useState(false);
+
+    const size = useWindowSize();
+
 
     const {
         normalizUrl,
-        metaTitle, setMetaTitle,
-        metaDescription, setMetaDescription,
-        metaUrl, setMetaUrl,
+        metaTitleProduct, setMetaTitleProduct,
+        metaDescriptionProduct, setMetaDescriptionProduct,
+        metaUrlProduct, setMetaUrlProduct,
     } = useContext(AppContext);
 
 
     useEffect(() => {
-        // détermine si on montre le block optimisation
-        if (localStorage.getItem('isShowOptimisation')) {
-            if (localStorage.getItem('isShowOptimisation') == 'false') {
-                setIsShowOptimisation(false);
+        // détermine si on montre le block optimisation au chergement
+        if (localStorage.getItem('isShowOptimisationProduct')) {
+            if (localStorage.getItem('isShowOptimisationProduct') == 'false') {
+                setIsShowOptimisationProduct(false);
             } else {
-                setIsShowOptimisation(true);
+                setIsShowOptimisationProduct(true);
             }
         }
 
         // affiche en rouge un avertissement sur la longeur du méta title
-        if (metaTitle.length > 50) {
-            setMetaTitleBiggerThan50(true);
+        if (metaTitleProduct.length > 50) {
+            setMetaTitleBiggerThan50Product(true);
         } else {
-            setMetaTitleBiggerThan50(false);
+            setMetaTitleBiggerThan50Product(false);
         }
-
 
         // affiche en rouge un avertissement sur la longeur de la méta description
-        if (metaDescription.length > 130) {
-            setMetaDescriptionbiggerThan130(true);
+        if (metaDescriptionProduct.length > 130) {
+            setMetaDescriptionbiggerThan130Product(true);
         } else {
-            setMetaDescriptionbiggerThan130(false);
+            setMetaDescriptionbiggerThan130Product(false);
         }
-
-
-
-
     }, []);
+
 
     // show / hide optimisation title & description & url
     const showHideOptimisation = () => {
-        localStorage.setItem("isShowOptimisation", !isShowOptimisation);
-        setIsShowOptimisation(!isShowOptimisation);
+        localStorage.setItem("isShowOptimisationProduct", !isShowOptimisationProduct);
+        setIsShowOptimisationProduct(!isShowOptimisationProduct);
         // clean fields
-        setMetaTitle('');
-        setMetaDescription('');
-        setMetaUrl(window.location.origin + '/');
+        setMetaTitleProduct('');
+        setMetaDescriptionProduct('');
+        setMetaUrlProduct(window.location.origin + '/');
     };
 
     useEffect(() => {
+        showOptimisationProduct();
+    }, [isShowOptimisationProduct]);
+
+    const showOptimisationProduct = () => {
         // dropDown optimisation
-        var dropable = document.getElementById('optimisation_collection');
-        if (!isShowOptimisation) {
+        var dropable = document.getElementById('optimisation_product');
+        if (!isShowOptimisationProduct) {
             dropable.style.maxHeight = null;
             dropable.style.overflow = 'hidden';
         } else {
@@ -69,13 +75,13 @@ const Optimisation = () => {
                 dropable.style.overflow = 'unset';
             }, 250);
         }
-    }, [isShowOptimisation]);
+    }
 
     // réinitialise les champs de l'optimisation seo
     const initOptimisationForm = () => {
-        setMetaTitle('');
-        setMetaDescription('');
-        setMetaUrl(window.location.origin + '/');
+        setMetaTitleProduct('');
+        setMetaDescriptionProduct('');
+        setMetaUrlProduct(window.location.origin + '/');
     }
 
 
@@ -84,144 +90,163 @@ const Optimisation = () => {
         let urlLength = 2047 - window.location.origin.length;
         let urlName = normalizUrl(e.target.value.substring(window.location.origin.length, 2047));
 
-        setMetaUrl(window.location.origin + '/' + urlName.substring(0, urlLength));
+        setMetaUrlProduct(window.location.origin + '/' + urlName.substring(0, urlLength));
     };
 
     const handleMetaTitle = (e) => {
-        setMetaTitle(e.target.value);
+        setMetaTitleProduct(e.target.value);
 
         // affiche en rouge un avertissement sur la longeur du méta title
         if (e.target.value.length > 50) {
-            setMetaTitleBiggerThan50(true);
+            setMetaTitleBiggerThan50Product(true);
         } else {
-            setMetaTitleBiggerThan50(false);
+            setMetaTitleBiggerThan50Product(false);
         }
     };
 
     const handleMetaDescription = (e) => {
-        setMetaDescription('');
-        setMetaDescription(e.target.value);
+        setMetaDescriptionProduct('');
+        setMetaDescriptionProduct(e.target.value);
 
-        // affiche en rouge un avertissement sur la longeur du méta title
+        // affiche en rouge un avertissement sur la longeur de la méta description
         if (e.target.value.length > 130) {
-            setMetaDescriptionbiggerThan130(true);
+            setMetaDescriptionbiggerThan130Product(true);
         } else {
-            setMetaDescriptionbiggerThan130(false);
+            setMetaDescriptionbiggerThan130Product(false);
         }
     };
 
+    // ajuste le heigth du block entier en fonction des messages warning
+    // size est un hook qui fourni le width et le height de la fenêtre 
+    useEffect(() => {
+        showOptimisationProduct();
+    }, [metaTitlebiggerThan50Product, metaDescriptionbiggerThan130Product, size]);
+
 
     return (
-        <div>
-            <div className="div-vert-align">
-                <div className="sub-div-horiz-align">
-                    <div className="sub-div-horiz-align">
-                        <h2>Optimisation SEO</h2>
-                        <input type='checkbox'
-                            className="cm-toggle"
-                            checked={isShowOptimisation}
-                            onChange={showHideOptimisation} />
-                    </div>
-                    {metaUrl?.length > (window.location.origin.toString() + '/').length ?
+        <Flex_col_s_s>
+            <div className='w-full h-auto flex flex-row justify-start items-center'>
+                <div className='w-full h-auto flex flex-row flex-wrap justify-start items-center mb-5'>
+                    <Toggle
+                        isChecked={isShowOptimisationProduct}
+                        change={() => showHideOptimisation()}
+                    />
+                    <label className='m-0 ml-2 p-0'>
+                        Optimisation SEO
+                    </label>
+                </div>
+
+                {metaUrlProduct?.length > (window.location.origin.toString() + '/').length ?
+                    (<button
+                        style={{ marginBottom: "10px" }}
+                        className='w-auto py-2 px-4 flex flex-row justify-center items-center text-white bg-red-700 rounded-md text-base cursor-pointer hover:bg-red-800'
+                        onClick={initOptimisationForm}>
+                        Annuler
+                    </button>) :
+                    metaTitleProduct?.length > 0 ?
                         (<button
                             style={{ marginBottom: "10px" }}
-                            className='btn-bcknd'
+                            className='w-auto py-2 px-4 flex flex-row justify-center items-center text-white bg-red-700 rounded-md text-base cursor-pointer hover:bg-red-800'
                             onClick={initOptimisationForm}>
-                            Annuler L'optimisation
+                            Annuler
                         </button>) :
-                        metaTitle?.length > 0 ?
+                        metaDescriptionProduct?.length > 0 ?
                             (<button
                                 style={{ marginBottom: "10px" }}
-                                className='btn-bcknd'
+                                className='w-auto py-2 px-4 flex flex-row justify-center items-center text-white bg-red-700 rounded-md text-base cursor-pointer hover:bg-red-800'
                                 onClick={initOptimisationForm}>
                                 Annuler
-                            </button>) :
-                            metaDescription?.length > 0 ?
-                                (<button
-                                    style={{ marginBottom: "10px" }}
-                                    className='btn-bcknd'
-                                    onClick={initOptimisationForm}>
-                                    Annuler
-                                </button>) : ''}
-                </div>
-                <div className="sub-div-vert-align dropable"
-                    id="optimisation_collection">
-                    {/* meta-url */}
-                    <div className="div-label-inputTxt">
-                        <div className="sub-div-horiz-align-m">
-                            <label>
-                                Url de la page de cette collection
-                            </label>
-                            <span className="faCircleQuestion tooltip_"
-                                onClick={() => confirmDeleteCategory(cat.id, cat.name)}>
-                                <img src='../images/icons/question-circle.svg' className="w20 h20 cursor" />
-                                <span className="tooltiptext">Utilisez des mots clés en rapport avec le contenu de cette collection <br></br><a href="http://127.0.0.1:8000"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="linkInTooltip">Mon lien</a></span>
-                            </span>
-                        </div>
-                        <input type='text'
-                            className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"
-                            value={metaUrl?.length > 0 ? metaUrl : ''}
-                            onChange={handleMetaUrl}
-                            placeholder="Url de cette collection"
-                            maxLength="2047"
-                        />
-                    </div>
+                            </button>) : ''}
+            </div>
 
-                    {/* meta-titre */}
-                    <div className="div-label-inputTxt">
-                        <div className="sub-div-horiz-align">
-                            <label>
-                                Méta-titre de la page de cette collection
-                            </label>
-                            <span className="faCircleQuestion tooltip_"
-                                onClick={() => confirmDeleteCategory(cat.id, cat.name)}>
-                                <img src='../images/icons/question-circle.svg' className="w20 h20 cursor" />
-                                <span className="tooltiptext">Le méta-titre est important pour le référencement d'une page web. Sa longueur idéal se situe entre 30 et 60 caractères mais il peut être plus long pour donner plus d'informations sur le contenu de la page. Toutefois, seuls les 50 premiers caractères à peu près seront affichés dans les résultats des moteurs de recherche. C'est pourquoi il est important de commence par des mots clés pertinants pour l'internaute afin d'améliorer le taux de clics vers votre page.
-                                </span>
-                            </span>
-                        </div>
-                        <input type='text'
-                            className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"
-                            value={metaTitle?.length > 0 ? metaTitle : ''}
-                            onChange={handleMetaTitle}
-                        />
-                        <div className='sub-div-vert-align'>
-                            {metaTitlebiggerThan50 &&
-                                <span className="inRed"> Seuls les 50 à 60 premiers caractères seront affichés par les moteurs de recherche
-                                </span>}
-                            Nombre de caractères: {metaTitle?.length > 0 ? metaTitle.length : 0}
-                        </div>
+            <div
+                className="flex flex-col justify-start items-center w-full max-h-0 overflow-hidden transition-[max-height] ease-in-out delay-150"
+                id="optimisation_product"
+            >
+                {/* meta-url */}
+                <div className="w-full flex flex-col justify-start items-start mb-[2px]">
+                    <div className="w-full mt-2.5 mb-1 flex flex-row justify-start items-center">
+                        <label className='mr-2 text-sm font-medium text-gray-700'>
+                            Url de la page de ce produit
+                        </label>
+                        <span className="tooltip_ break-words ml-auto mr-3"
+                            onClick={() => confirmDeleteCategory(cat.id, cat.name)}>
+                            <img src='../images/icons/find-problem.svg' className="w-4 h-4 cursor-pointer" />
+                            <span className="tooltiptext">Utilisez des mots clés en rapport avec cette collection <br></br><a href="http://127.0.0.1:8000"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="linkInTooltip">Mon lien</a></span>
+                        </span>
                     </div>
-  
-                    {/* meta-description */}
-                    <div className="div-label-inputTxt">
-                        <div className="sub-div-horiz-align">
-                            <label>Méta-déscription de cette collection:</label>
-                            <span className="faCircleQuestion tooltip_"
-                                onClick={() => confirmDeleteCategory(cat.id, cat.name)}>
-                                <img src='../images/icons/question-circle.svg' className="w20 h20 cursor" />
-                                <span className="tooltiptext">Cette déscription sera utilisée pour décrire le contenu de cette page et donner des indications sur son contenu à l'internaute. Les moteurs de recherche affichent à peu près les 130 premiers caractères.</span>
+                    <input type='text'
+                        className="w-full h-12 mb-2.5 px-3 rounded-md border border-gray-300"
+                        value={metaUrlProduct?.length > 0 ? metaUrlProduct : ''}
+                        onChange={handleMetaUrl}
+                        placeholder="Url de ce produit"
+                        maxLength="2047"
+                    />
+                </div>
+
+                {/* meta-titre */}
+                <div className="w-full flex flex-col justify-start items-start mb-[2px]">
+                    <div className="w-full mt-2.5 mb-1 flex flex-row">
+                        <label className='mr-2 text-sm font-medium text-gray-700'>
+                            Méta-titre de cette collection
+                        </label>
+                        <span className="tooltip_ break-words ml-auto mr-3"
+                            onClick={() => confirmDeleteCategory(cat.id, cat.name)}>
+                            <img src='../images/icons/find-problem.svg' className="w-4 h-4 cursor" />
+                            <span className="tooltiptext break-words">
+                                Le méta-titre est important pour le référencement d'une page web. Sa longueur idéal se situe entre 30 et 60 caractères mais il peut être plus long pour donner plus d'informations sur le contenu de la page. Toutefois, seuls les 50 premiers caractères à peu près seront affichés dans les résultats des moteurs de recherche. C'est pourquoi il est important de commence par des mots clés, pertinants pour l'internaute, afin d'améliorer le taux de clics vers votre page.
                             </span>
-                        </div>
-                        <textarea
-                            // style={{ opacity: "0.6" }}
-                            value={metaDescription?.length > 0 ? metaDescription : ''}
-                            onChange={handleMetaDescription}>
-                        </textarea>
-                        <div className='sub-div-vert-align'>
-                            {metaDescriptionbiggerThan130 &&
-                                <span className="inRed"> Seuls les 120 à 130 premiers caractères seront affichés par les moteurs de recherche
-                                </span>}
-                            Nombre de caractères: {metaDescription?.length > 0 ? metaDescription.length : 0}
-                        </div>
+                        </span>
+                    </div>
+                    <input type='text'
+                        className="w-full h-12 mb-1 px-3 rounded-md border border-gray-300"
+                        value={metaTitleProduct?.length > 0 ? metaTitleProduct : ''}
+                        onChange={handleMetaTitle}
+                    />
+                    <div className='w-full'>
+                        <span className='text-blue-800 italic text-sm font-normal'>
+                            Nombre de caractères {metaTitleProduct?.length > 0 ? metaTitleProduct.length : 0}
+                        </span>
+                        {metaTitlebiggerThan50Product &&
+                            <span className="text-red-700 break-words ml-2 italic text-sm font-normal">
+                                Seuls les 50 à 60 premiers caractères seront affichés par les moteurs de recherche
+                            </span>}
+                    </div>
+                </div>
+
+                {/* meta-description */}
+                <div className="w-full flex flex-col justify-start items-start mb-4">
+                    <div className="w-full mt-2.5 mb-1 flex flex-row">
+                        <label className='mr-2 text-sm font-medium text-gray-700'>
+                            Méta-déscription de cette collection
+                        </label>
+                        <span className="tooltip_ break-words ml-auto mr-3"
+                            onClick={() => confirmDeleteCategory(cat.id, cat.name)}>
+                            <img src='../images/icons/find-problem.svg' className="w-4 h-4 cursor-pointer" />
+                            <span className="tooltiptext break-words">Une méta-déscription est utilisée pour décrire le contenu de cette page et donner des indications sur son contenu à l'internaute. Les moteurs de recherche affichent à peu près les 130 premiers caractères.</span>
+                        </span>
+                    </div>
+                    <textarea
+                        value={metaDescriptionProduct?.length > 0 ? metaDescriptionProduct : ''}
+                        onChange={handleMetaDescription}
+                        className="w-full h-auto p-3 mb-1 min-h-[120px] border border-gray-300 rounded-md resize-none">
+                    </textarea>
+                    <div className='w-full h-auto'>
+                        <span className='text-blue-800 italic text-sm font-normal'>
+                            Nombre de caractères {metaDescriptionProduct?.length > 0 ? metaDescriptionProduct.length : 0}
+                        </span>
+                        {metaDescriptionbiggerThan130Product &&
+                            <span className="text-red-700 break-words ml-2 italic text-sm font-normal">
+                                Seuls les 120 à 130 premiers caractères seront affichés par les moteurs de recherche
+                            </span>}
                     </div>
                 </div>
             </div>
-        </div>
+        </Flex_col_s_s>
     );
 }
 
-export default Optimisation;
+export default OptimisationProduct;

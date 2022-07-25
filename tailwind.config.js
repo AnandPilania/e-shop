@@ -19,7 +19,8 @@ module.exports = {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
             transitionProperty: {
-                'height': 'height'
+                'height': 'height',
+                'maxHeight': 'max-height',
             },
             gridTemplateColumns: {
                 // grid main container
