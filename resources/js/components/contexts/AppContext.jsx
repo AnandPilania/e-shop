@@ -203,6 +203,9 @@ export default React.createContext({
     setMetaDescriptionProduct: () => { },
     metaUrlProduct: '',
     setMetaUrlProduct: () => { },
-    
+    listTransporters: '',
+    setListTransporters: () => { },
+    transporter: '', 
+    setTransporter: () => { },
 
 });

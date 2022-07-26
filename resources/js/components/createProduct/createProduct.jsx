@@ -25,10 +25,11 @@ const CreateProduct = () => {
     const [toggleSelectTva, setToggleSelectTva] = useState(false);
     const [selectValueColorTva, setSelectValueColorTva] = useState('');
     const [selectValueColorSupplier, setSelectValueColorSupplier] = useState('');
+    const [toggleSelectWithCheckboxCollection, setToggleSelectWithCheckboxCollection] = useState(false);
+    const [toggleSelectWithCheckboxTransporter, setToggleSelectWithCheckboxTransporter] = useState(false);
 
 
-
-    const { image, descriptionProduct, listSuppliers, setListSuppliers, supplier, setSupplier, collection, setCollection, productPrice, productStock, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData, activeCalculTva, tvaRateList, setTvaRateList, tva, setTva, imageVariantes, productCode, productCost, previousProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct  } = useContext(AppContext);
+    const { image, descriptionProduct, listSuppliers, setListSuppliers, supplier, setSupplier, collection, setCollection, productPrice, productStock, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData, activeCalculTva, tvaRateList, setTvaRateList, tva, setTva, imageVariantes, productCode, productCost, previousProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, listTransporters, setListTransporters, transporter, setTransporter } = useContext(AppContext);
 
     useEffect(() => {
         // récupére les collections
@@ -44,6 +45,14 @@ const CreateProduct = () => {
         Axios.get(`http://127.0.0.1:8000/suppliers-list`)
             .then(res => {
                 setListSuppliers(res.data);
+            }).catch(function (error) {
+                console.log('error:   ' + error);
+            });        
+            
+            // charge la liste des transporteurs
+        Axios.get(`http://127.0.0.1:8000/shipping-list`)
+            .then(res => {
+                setListTransporters(res.data);
             }).catch(function (error) {
                 console.log('error:   ' + error);
             });
@@ -75,11 +84,20 @@ const CreateProduct = () => {
 
 
     const removeCollection = (item) => {
-        let index = collection.indexOf(item);
+        let index = collection.findIndex(x => x.id == item.id);
         if (index > -1) {
             let tmp_arr = [...collection];
             tmp_arr.splice(index, 1);
             setCollection([...tmp_arr]);
+        }
+    }
+
+    const removeTransporter = (item) => {
+        let index = collection.findIndex(x => x.id == item.id);
+        if (index > -1) {
+            let tmp_arr = [...transporter];
+            tmp_arr.splice(index, 1);
+            setTransporter([...tmp_arr]);
         }
     }
 
@@ -170,7 +188,7 @@ const CreateProduct = () => {
         // transformation de l'objet en string JSON
         var obj = JSON.stringify(dataDetail);
         formData.append("obj", obj);
-        
+
         console.log('nameProduct  ', nameProduct);
         console.log('productPrice  ', productPrice);
         console.log('collection  ', collection);
@@ -188,7 +206,7 @@ const CreateProduct = () => {
         console.log('metaTitleProduct   ', metaTitleProduct);
         console.log('metaDescriptionProduct   ', metaDescriptionProduct);
         console.log('metaUrlProduct   ', metaUrlProduct);
-        
+
 
 
 
@@ -204,7 +222,9 @@ const CreateProduct = () => {
             });
     }
 
-
+console.log('listTransporters  ', listTransporters[0]);
+console.log('transporter  ', transporter);
+console.log('collection  ', collection);
 
     return (
         <div className="min-w-[750px] w-[60%] min-h-[130vh] my-[50px] mx-auto pb-80 grid grid-cols-mainContainer gap-2.5 text-base">
@@ -241,7 +261,7 @@ const CreateProduct = () => {
 
                 {/* Optimisation */}
                 <OptimisationProduct />
-                
+
             </div>
 
 
@@ -254,23 +274,26 @@ const CreateProduct = () => {
                         Collections
                     </h3>
                     <SelectWithCheckbox
+                        key="SelectWithCheckbox_collection"
                         unikId="SelectWithCheckbox_collection"
                         list={collectionsRelations}
                         selected={collection}
                         setSelected={setCollection}
+                        toggleSelectWithCheckbox={toggleSelectWithCheckboxCollection}
+                        setToggleSelectWithCheckbox={setToggleSelectWithCheckboxCollection}
                     />
-                    <div className={`flex flex-wrap ${collection.length > 0 && "pt-[15px]"} w-full`}>
+                    <div className={`flex flex-wrap ${collection.length > 0 && "pt-4"} w-full`}>
                         {collection.map(item =>
-                            <div key={item}
-                                className="flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-[8px] pr-[6px] py-[3px] mb-1 mr-2">
+                            <div key={item.id}
+                                className="flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-2 pr-1.5 py-1 mb-1 mr-2">
                                 <span
                                     className="h-full text-gray-500 mr-2 rounded-md">
-                                    {item}
+                                    {item.name}
                                 </span>
                                 <span
-                                    className="h-[20px] w-[20px] flex justify-center items-center hover:cursor-pointer bg-indigo-600  hover:bg-red-500 rounded-md"
+                                    className="h-5 w-5 flex justify-center items-center hover:cursor-pointer bg-indigo-600  hover:bg-red-500 rounded-md"
                                     onClick={() => removeCollection(item)}>
-                                    <img src='../images/icons/x-white.svg' className="w-[20px] h-[20px] hover:scale-125" />
+                                    <img src='../images/icons/x-white.svg' className="w-5 h-5 hover:scale-125" />
                                 </span>
                             </div>
                         )}
@@ -317,6 +340,37 @@ const CreateProduct = () => {
                         />
                     </Flex_col_s_s>
                 }
+                {/* Transporteurs */}
+                <Flex_col_s_s>
+                    <h3 className="text-base font-semibold mb-2.5 text-gray-500 w-auto">
+                        Transporteurs
+                    </h3>
+                    <SelectWithCheckbox
+                        key="SelectWithCheckbox_transporter"
+                        unikId="SelectWithCheckbox_transporter"
+                        list={listTransporters[0]}
+                        selected={transporter}
+                        setSelected={setTransporter}
+                        toggleSelectWithCheckbox={toggleSelectWithCheckboxTransporter}
+                        setToggleSelectWithCheckbox={setToggleSelectWithCheckboxTransporter}
+                    />
+                    <div className={`flex flex-wrap ${transporter.length > 0 && "pt-4"} w-full`}>
+                        {transporter.map(item =>
+                            <div key={item.id}
+                                className="flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-2 pr-1.5 py-1 mb-1 mr-2">
+                                <span
+                                    className="h-full text-gray-500 mr-2 rounded-md">
+                                    {item.name}
+                                </span>
+                                <span
+                                    className="h-5 w-5 flex justify-center items-center hover:cursor-pointer bg-indigo-600  hover:bg-red-500 rounded-md"
+                                    onClick={() => removeTransporter(item)}>
+                                    <img src='../images/icons/x-white.svg' className="w-5 h-5 hover:scale-125" />
+                                </span>
+                            </div>
+                        )}
+                    </div>
+                </Flex_col_s_s>
             </div>
 
             <button

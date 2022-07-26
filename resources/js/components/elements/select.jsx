@@ -11,16 +11,16 @@ export default function Select({ list, itemSelected, setItemSelected, toggleSele
 
 
     useEffect(() => {
-          let ndx = list.findIndex(x => x.is_default == 1);
+        let ndx = list.findIndex(x => x.is_default == 1);
         if (ndx > -1) {
             handleChangeSelect(list[ndx], 0);
             setItemSelected(list[ndx]);
         }
         let ul = document.querySelector('#' + ulUnikId);
-            ul.style.height = 0;
-            ul.classList.remove('border-b');
-            ul.classList.remove('border-t');
-            setToggleSelect(false);
+        ul.style.height = 0;
+        ul.classList.remove('border-b');
+        ul.classList.remove('border-t');
+        setToggleSelect(false);
 
     }, [list]);
 
@@ -151,7 +151,8 @@ export default function Select({ list, itemSelected, setItemSelected, toggleSele
                 id={ulUnikId}
                 className="absolute top-[46px] left-0 w-full h-0 bg-white mb-4 transition-height duration-150 ease-in-out overflow-auto z-10 border-gray-100 border-l border-r shadow-lg rounded-md">
                 {
-                    list.length > 0 && list.map((item, ndx) =>
+                    list.length > 0 && list.map((item, ndx) => (
+                        itemSelected.id != item.id &&
                         <li
                             key={item.id}
                             className="grid grid-cols-[30px_1fr] gap-2 justify-start items-center p-2 w-full  text-gray-700 text-base hover:cursor-pointer hover:bg-indigo-600 group"
@@ -163,6 +164,7 @@ export default function Select({ list, itemSelected, setItemSelected, toggleSele
                                 {item.name}
                             </span>
                         </li>
+                    )
                     )
                 }
             </ul>

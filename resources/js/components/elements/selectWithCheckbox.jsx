@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 
-export default function SelectWithCheckbox({ unikId, list, selected, setSelected }) {
+export default function SelectWithCheckbox({ unikId, list, selected, setSelected, toggleSelectWithCheckbox, setToggleSelectWithCheckbox }) {
 
     // list contient la liste à afficher dans le select
     // selected et setSelected sont le hook qui contient les éléments électionnés
     // example dans creatProduct
 
-    const [toggleSelectWithCheckbox, setToggleSelectWithCheckbox] = useState(false);
+
 
     // si l'élément a déjà été sélectionné on le retir sinon on l'ajout, ceci coche ou décoche la checkbox
-    const handleChange = (name) => {
-        let index = selected.indexOf(name);
+    const handleChange = (item) => {
+        let index = selected.findIndex(x => x.id == item.id);
         if (index > -1) {
             let tmp_arr = [...selected];
             tmp_arr.splice(index, 1);
             setSelected([...tmp_arr]);
         } else {
-            setSelected([...selected, name]);
+            setSelected([...selected, item]);
         }
     };
 
@@ -84,16 +84,18 @@ export default function SelectWithCheckbox({ unikId, list, selected, setSelected
                 id={'ul' + unikId}
                 className="absolute top-[46px] left-0 w-full h-0 bg-white mb-4 transition-height duration-150 ease-in-out overflow-auto z-10 border-gray-100 border-l border-r shadow-lg rounded-md">
                 {
-                    list.length > 0 && list.map(item =>
+                    list?.length > 0 && list.map(item =>
                         <li
                             key={item.id + unikId}
                             className="flex items-center w-full text-gray-700 text-base hover:cursor-pointer hover:bg-indigo-600 group">
                             <input type='checkbox'
                                 value={item.id}
                                 id={item.id + unikId}
-                                checked={selected.indexOf(item.name) > -1} onChange={() => handleChange(item.name)}
+                                checked={selected.findIndex(x => x.id == item.id) > -1}
+                                onChange={() => handleChange(item)}
                                 className="w-4 h-4 ml-3 mr-2 cursor-pointer" />
-                            <label htmlFor={item.id + unikId}
+                            <label
+                                htmlFor={item.id + unikId}
                                 className="truncate group-hover:text-white cursor-pointer p-2 w-full h-full">
                                 {item.name}
                             </label>

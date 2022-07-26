@@ -179,6 +179,10 @@ const Appcontainer = () => {
     const [tvaRateList, setTvaRateList] = useState([]);
     const [tva, setTva] = useState('');
 
+    // Shipping ---------------------------------------------------------
+    const [listTransporters, setListTransporters] = useState([]);
+    const [transporter, setTransporter] = useState([]);
+    
 
 
     useEffect(() => {
@@ -543,6 +547,8 @@ const Appcontainer = () => {
         metaTitleProduct, setMetaTitleProduct,
         metaDescriptionProduct, setMetaDescriptionProduct,
         metaUrlProduct, setMetaUrlProduct,
+        listTransporters, setListTransporters,
+        transporter, setTransporter,
 
 
     }

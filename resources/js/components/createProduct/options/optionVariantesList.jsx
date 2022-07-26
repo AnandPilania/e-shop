@@ -307,7 +307,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         setVariantes([...tmp_variantes]);
     }
 
-console.log('variante  ', variantes)
+
 
     return (
         <div className={`${variantes?.length > 0 && "border-t border-gray-200 mt-5"}`}>

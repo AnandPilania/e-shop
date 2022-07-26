@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import SettingNav from './settingNav';
 import Taxes from '../taxes/taxes';
 import CreateSupplier from '../suppliers/createSupplier';
-import CreateShipping from '../shipping/createShipping';
+import Transporter from '../transporter/transporter';
 
 
 const Settings = () => {
@@ -20,7 +20,7 @@ const Settings = () => {
             compo = <CreateSupplier />;
             break;
         case 'shipping':
-            compo = <CreateShipping />;
+            compo = <Transporter />;
             break;
         default:
             compo = '';
