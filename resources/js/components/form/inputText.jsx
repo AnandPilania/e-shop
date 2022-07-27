@@ -1,6 +1,6 @@
 import React from 'react';
 
-const InputText = ({ id, value, handleChange, handleClick, placeholder, label, customStyle }) => {
+const InputText = ({ id, value, handleChange, handleClick, placeholder, label, css }) => {
 
     return (
         <div>
@@ -16,7 +16,7 @@ const InputText = ({ id, value, handleChange, handleClick, placeholder, label, c
                 // placeholder={placeholder}
                 autoComplete="off"
                 className="focus:border-gray-400 w-full h-[45px] pl-2 mb-6 rounded-md border border-gray-300 bg-white text-gray-500 text-sm"
-                style={customStyle}
+                style={css}
             />
         </div>
     );

@@ -14,16 +14,22 @@ const SelectSimple = ({ id, value, handleChange, handleClick, placeholder, label
                 value={value}
                 onChange={handleChange}
                 onClick={handleClick}
-                // placeholder={placeholder}
                 autoComplete="off"
-                className="focus:border-gray-400 w-full h-[45px] pl-2 mb-6 rounded-md border border-gray-300 bg-white text-gray-500 text-sm"
+                className="focus:border-gray-400 w-full min-w-[150px] h-12 mb-6 rounded-md border border-gray-300 bg-white"
                 style={customStyle}
             >
-                <option value="">Choisir un pays</option>
+                {placeholder.length > 0 &&
+                    <option value="" disabled defaultValue
+                        className="truncate text-gray-700 text-base hover:cursor-pointer hover:text-white cursor-pointer hover:bg-indigo-600 p-2 w-full h-full"
+                    >
+                        {placeholder}
+                    </option>
+                }
                 {list.length > 0 &&
                     list.map((item, index) =>
                         <option key={index}
                             value={item}
+                            className="truncate text-gray-700 text-base hover:cursor-pointer hover:text-white cursor-pointer hover:bg-indigo-600 p-2 w-full h-full"
                         >
                             {item}
                         </option>

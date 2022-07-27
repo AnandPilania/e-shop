@@ -12,7 +12,7 @@ class ShippingController extends Controller
     public function index()
     {
         $shipping = Shipping::orderBy('name')->get();
-        $countries = Country::orderBy('name')->get();
+        $countries = Country::all();
 
         return [$shipping, $countries];
     }
@@ -22,24 +22,24 @@ class ShippingController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string|max:255',
-            'email' => 'nullable|string|max:255',
-            'phone' => 'nullable|string|max:50',
-            'website' => 'nullable|string|max:500',
-            'adress' => 'nullable|string|max:500',
-            'city' => 'nullable|string|max:100',
-            'country' => 'nullable|string|max:100',
-            'info' => 'nullable|string|max:500',
+            'criteria' => 'required',
+            'min_weight' => 'nullable|float|max:10',
+            'max_weight' => 'nullable|float|max:10',
+            'min_price' => 'nullable|float|max:10',
+            'max_price' => 'nullable|float|max:10',
+            'destination' => 'nullable|string|max:100',
+            'shipping_price' => 'required|float|max:10',
         ]);
 
         $shipping = new Shipping;
         $shipping->name = $request->name;
-        $shipping->email = $request->email;
-        $shipping->phone = $request->phone;
-        $shipping->website = $request->website;
-        $shipping->adress = $request->adress;
-        $shipping->city = $request->city;
-        $shipping->country = $request->country;
-        $shipping->info = $request->info;
+        $shipping->criteria = $request->criteria;
+        $shipping->min_weight = $request->min_weight;
+        $shipping->max_weight = $request->max_weight;
+        $shipping->min_price = $request->min_price;
+        $shipping->max_price = $request->max_price;
+        $shipping->destination = $request->destination;
+        $shipping->shipping_price = $request->shipping_price;
 
         $shipping->save();
 

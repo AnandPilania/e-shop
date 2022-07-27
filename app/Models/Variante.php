@@ -9,11 +9,6 @@ class Variante extends Model
 {
     use HasFactory;
 
-    public function delivery_company()
-    {
-        return $this->belongsTo(Delivery_company::class);
-    }
-
     public function images_products()
     {
         return $this->hasMany(Images_product::class);

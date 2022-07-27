@@ -16,13 +16,13 @@ class CreateShippingsTable extends Migration
         Schema::create('shippings', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('website')->nullable();
-            $table->string('adress')->nullable();
-            $table->string('city')->nullable();
-            $table->string('country')->nullable();
-            $table->string('info')->nullable();
+            $table->string('criteria');
+            $table->integer('min_weight')->nullable();
+            $table->integer('max_weight')->nullable();
+            $table->float('min_price')->nullable();
+            $table->float('max_price')->nullable();
+            $table->string('destination');
+            $table->float('shipping_price');
             $table->timestamps();
         });
     }
