@@ -8,7 +8,7 @@ import InputText from '../form/inputText';
 import InputNumeric from '../form/inputNumeric';
 import SelectSimple from '../form/selectSimple';
 import Flex_col_s_s from '../elements/container/flex_col_s_s';
-import SelectBasic from '../elements/selectBasic';
+import SelectWithCheckbox from '../elements/selectWithCheckbox';
 
 
 const TransporterForm = () => {
@@ -20,7 +20,7 @@ const TransporterForm = () => {
         max_weight: '',
         min_price: '',
         max_price: '',
-        destination: '',
+        destination: [],
         shipping_price: ''
     });
     const [shippingList, setShippingList] = useState([]);
@@ -29,6 +29,8 @@ const TransporterForm = () => {
     const [showSimpleMessageModal, setShowSimpleMessageModal] = useState(false);
     const [isDirty, setIsDirty] = useState(false);
     const [messageModal, setMessageModal] = useState('');
+    const [toggleSelectDestination, setToggleSelectDestination] = useState(false);
+    const [destination, setDestination] = useState([]);
 
 
     var navigate = useNavigate();
@@ -41,10 +43,8 @@ const TransporterForm = () => {
         // charge la liste des fournisseurs
         Axios.get(`http://127.0.0.1:8000/shipping-list`)
             .then(res => {
-                console.log('shipping-list  ', res.data[0]),
-                    setShippingList(res.data[0]);
-                let tmp_list = res.data[1].map(x => x.name);
-                setCountryList(tmp_list);
+                setShippingList(res.data[0]);
+                setCountryList(res.data[1]);
             }).catch(function (error) {
                 console.log('error:   ' + error);
             });
@@ -91,9 +91,9 @@ const TransporterForm = () => {
         setShipping({ ...shipping, name: e.target.value });
     };
     const handleCriteriaShipping = (e) => {
-        let val = e.target.value == 'Poids' ? 'weight' :
-            'min_price';
-        setShipping({ ...shipping, criteria: val });
+        // let val = e.target.value == 'Poids' ? 'weight' :
+        //     'min_price';
+        setShipping({ ...shipping, criteria: e.target.value });
     };
     const handleMin_weightShipping = (e) => {
         setShipping({ ...shipping, min_weight: e.target.value });
@@ -107,12 +107,13 @@ const TransporterForm = () => {
     const handleMax_priceShipping = (e) => {
         setShipping({ ...shipping, max_price: e.target.value });
     };
-    const handleDestinationShipping = (e) => {
-        setShipping({ ...shipping, destination: e.target.value });
-    };
+    useEffect(() => {
+        setShipping({ ...shipping, destination: destination });
+    }, [destination]);
     const handleShipping_price = (e) => {
         setShipping({ ...shipping, shipping_price: e.target.value });
     };
+
 
 
     // reset supplier form 
@@ -124,7 +125,7 @@ const TransporterForm = () => {
             max_weight: '',
             min_price: '',
             max_price: '',
-            destination: '',
+            destination: [],
             shipping_price: ''
         });
     }
@@ -221,6 +222,16 @@ const TransporterForm = () => {
     }
 
 
+    const removeDestination = (item) => {
+        let index = destination.findIndex(x => x.id == item.id);
+        if (index > -1) {
+            let tmp_arr = [...destination];
+            tmp_arr.splice(index, 1);
+            setDestination([...tmp_arr]);
+        }
+    }
+
+
     return (
         <div className="w-full mx-auto mt-10 flex flex-col justify-center items-start text-4">
             <Flex_col_s_s>
@@ -253,36 +264,38 @@ const TransporterForm = () => {
 
 
 
-                <div className='w-full'>
-                    <h3 className="text-sm  mb-1 text-gray-500 w-auto">
-                        Fournisseur
-                    </h3>
-                    <SelectBasic
-                        list={listSuppliers}
-                        itemSelected={supplier}
-                        setItemSelected={setSupplier}
-                        toggleSelect={toggleSelectSupplier}
-                        setToggleSelect={setToggleSelectSupplier}
-                        ulUnikId="ulDestinationSelectUniqueId"
-                        buttonUnikId="buttonDestinationSelectUniqueId"
-                    />
-                </div>
-
-
-
                 {/* destination */}
-                <div>
-                    <SelectSimple
-                        // id={}
-                        value={shipping.destination}
-                        handleChange={handleDestinationShipping}
-                        // handleClick={}
-                        placeholder="Choisir un pays"
-                        label="Destination"
+                <Flex_col_s_s>
+                    <h3 className="text-base font-semibold mb-2.5 text-gray-500 w-auto">
+                        Collections
+                    </h3>
+                    <SelectWithCheckbox
+                        key="SelectWithCheckbox_destinabbtion"
+                        unikId="SelectWithCheckbox_destibbnation"
                         list={countryList}
+                        selected={destination}
+                        setSelected={setDestination}
+                        toggleSelectWithCheckbox={toggleSelectDestination}
+                        setToggleSelectWithCheckbox={setToggleSelectDestination}
                     />
-                    <span className={`fs14 red ${shipping.destination.length > 100 ? "block" : "none"}`}>Maximum 100 caractères</span>
-                </div>
+                    <div className={`flex flex-wrap ${destination.length > 0 && "pt-4"} w-full`}>
+                        {destination.map(item =>
+                            <div key={item.id}
+                                className="flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-2 pr-1.5 py-1 mb-1 mr-2">
+                                <span
+                                    className="h-full text-gray-500 mr-2 rounded-md">
+                                    {item.name}
+                                </span>
+                                <span
+                                    className="h-5 w-5 flex justify-center items-center hover:cursor-pointer bg-indigo-600  hover:bg-red-500 rounded-md"
+                                    onClick={() => removeDestination(item)}>
+                                    <img src='../images/icons/x-white.svg' className="w-5 h-5 hover:scale-125" />
+                                </span>
+                            </div>
+                        )}
+                    </div>
+                </Flex_col_s_s>
+
 
 
                 <div className='w-full grid grid-cols-3 gap-5 justify-start items-center'>

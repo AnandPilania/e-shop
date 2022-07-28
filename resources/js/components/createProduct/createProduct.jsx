@@ -93,7 +93,7 @@ const CreateProduct = () => {
     }
 
     const removeTransporter = (item) => {
-        let index = collection.findIndex(x => x.id == item.id);
+        let index = transporter.findIndex(x => x.id == item.id);
         if (index > -1) {
             let tmp_arr = [...transporter];
             tmp_arr.splice(index, 1);
