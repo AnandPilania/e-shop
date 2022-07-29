@@ -18,7 +18,7 @@ const InputNumeric = ({ id, value, handleChange, handleClick, placeholder, label
                 max={max}
                 // placeholder={placeholder}
                 autoComplete="off"
-                className="focus:border-gray-400 w-full h-[45px] pl-2 mb-6 rounded-md border border-gray-300 bg-white text-gray-500 text-sm"
+                className="focus:border-gray-400 w-full h-10 pl-2 mb-6 rounded-md border border-gray-300 bg-white text-gray-500 text-sm"
                 style={css}
             />
         </div>

@@ -21,6 +21,10 @@
     clear: both;
 }
 
+.cm-toggleComponent:hover:after {
+    border: solid #4f46e5 1px;
+}
+
 /* Contents before checkbox to create toggle handle */
 .cm-toggleComponent:before {
     content: "";

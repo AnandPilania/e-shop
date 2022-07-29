@@ -16,7 +16,7 @@ const Taxes = () => {
     const [taxeValue, setTaxeValue] = useState('');
     const [application, setApplication] = useState('localisation');
     const [activeTab, setActiveTab] = useState(1);
-     const [idEditTva, setIdEditTva] = useState(null);
+    const [idEditTva, setIdEditTva] = useState(null);
     const [isAddNewTva, setIsAddNewTva] = useState(false);
     const [isShowSaveButton, setIsShowSaveButton] = useState(false);
     const [showModalSimpleMessage, setShowModalSimpleMessage] = useState(false);
@@ -153,15 +153,12 @@ const Taxes = () => {
             {/* tva ---------------------------------------------------- */}
             {activeTab == 1 &&
                 <Flexbox_row_s_c_wrap>
-                    <div className='w-full h-auto flex flex-row flex-wrap justify-start items-center mb-5'>
-                        <Toggle
-                            isChecked={activeCalculTva}
-                            change={() => handleActiveCalculTva()}
-                        />
-                        <label className='m-0 ml-2 p-0'>
-                            Activer le calcul de la TVA
-                        </label>
-                    </div>
+                    <Toggle
+                        id={`toggleTaxes${() => date()}`}
+                        isChecked={activeCalculTva}
+                        change={() => handleActiveCalculTva()}
+                        label="Activer le calcul de la TVA"
+                    />
 
                     {activeCalculTva &&
                         <div className='w-full'>

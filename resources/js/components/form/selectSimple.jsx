@@ -15,12 +15,12 @@ const SelectSimple = ({ id, value, handleChange, handleClick, placeholder, label
                 onChange={handleChange}
                 onClick={handleClick}
                 autoComplete="off"
-                className="focus:border-gray-400 w-full min-w-[150px] h-12 mb-6 rounded-md border border-gray-300 bg-white"
+                className="focus:border-gray-400 w-full min-w-[150px] h-10 mb-6 rounded-md border border-gray-300 bg-white"
                 style={customStyle}
             >
                 {placeholder.length > 0 &&
                     <option value="" disabled defaultValue
-                        className="truncate text-gray-700 text-base hover:cursor-pointer hover:text-white cursor-pointer hover:bg-indigo-600 p-2 w-full h-full"
+                        className="truncate text-gray-700 text-base hover:cursor-pointer hover:text-white cursor-pointer hover:bg-indigo-600 p-2 w-full h-10"
                     >
                         {placeholder}
                     </option>
@@ -29,7 +29,7 @@ const SelectSimple = ({ id, value, handleChange, handleClick, placeholder, label
                     list.map((item, index) =>
                         <option key={index}
                             value={item}
-                            className="truncate text-gray-700 text-base hover:cursor-pointer hover:text-white cursor-pointer hover:bg-indigo-600 p-2 w-full h-full"
+                            className="truncate text-gray-700 text-base hover:cursor-pointer hover:text-white cursor-pointer hover:bg-indigo-600 p-2 w-full h-10"
                         >
                             {item}
                         </option>

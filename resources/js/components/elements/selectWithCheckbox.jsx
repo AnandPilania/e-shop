@@ -52,7 +52,6 @@ export default function SelectWithCheckbox({ unikId, list, selected, setSelected
             let ulSelectWithCheckbox = document.getElementById("ul" + unikId);
             let ButtonSelectDropDown = document.getElementById("button" + unikId);
             let targetElement = e.target; // clicked element
-
             do {
                 if (targetElement == ulSelectWithCheckbox || targetElement == ButtonSelectDropDown) {
                     // click inside
@@ -63,10 +62,14 @@ export default function SelectWithCheckbox({ unikId, list, selected, setSelected
             } while (targetElement);
 
             // click outside.
-            ulSelectWithCheckbox.style.height = 0;
-            ulSelectWithCheckbox.classList.remove('border-b');
-            ButtonSelectDropDown.classList.remove('rounded-t-md');
-            ButtonSelectDropDown.classList.add('rounded-md');
+            if (ulSelectWithCheckbox != null) {
+                ulSelectWithCheckbox.style.height = 0;
+                ulSelectWithCheckbox.classList.remove('border-b');
+            }
+            if (ButtonSelectDropDown != null) {
+                ButtonSelectDropDown.classList.remove('rounded-t-md');
+                ButtonSelectDropDown.classList.add('rounded-md');
+            }
             setToggleSelectWithCheckbox(false);
         }
     }
@@ -87,7 +90,7 @@ export default function SelectWithCheckbox({ unikId, list, selected, setSelected
                     list?.length > 0 && list.map(item =>
                         <li
                             key={item.id + unikId}
-                            className="flex items-center w-full text-gray-700 text-base hover:cursor-pointer hover:bg-indigo-600 group">
+                            className="flex items-center w-full h-10 text-gray-700 text-base hover:cursor-pointer hover:bg-indigo-600 group">
                             <input type='checkbox'
                                 value={item.id}
                                 id={item.id + unikId}

@@ -1,231 +1,95 @@
-import React, { useState, useEffect, useContext } from 'react';
-import AppContext from '../contexts/AppContext';
+import React, { useState, useEffect } from 'react';
 import Flex_col_s_s from '../elements/container/flex_col_s_s';
 import Flexbox_row_s_c_wrap from '../elements/container/flexbox_row_s_c_wrap';
-import TransporteurForm from './transporterForm';
 import Axios from 'axios';
-import ModalSimpleMessage from '../modal/modalSimpleMessage';
+import SimpleMode from './simpleMode';
+import AdvancedMode from './advancedMode';
+import Toggle from '../elements/toggle/toggle';
 
 
 const Shipping = () => {
 
-    const [transporterName, setTransporterName] = useState('');
-    const [typeTransporter, setTypeTransporter] = useState('%');
-    const [transporterValue, setTransporterValue] = useState('');
-    const [application, setApplication] = useState('localisation');
-    const [activeTab, setActiveTab] = useState(1);
-    const [idEditTva, setIdEditTva] = useState(null);
-    const [isAddNewTva, setIsAddNewTva] = useState(false);
-    const [isShowSaveButton, setIsShowSaveButton] = useState(false);
-    const [showModalSimpleMessage, setShowModalSimpleMessage] = useState(false);
-    const [messageModal, setMessageModal] = useState('');
-    const [defaultTvaRateId, setDefaultTvaRateId] = useState('');
-
-    const { activeCalculTva, setActiveCalculTva, tvaRateList, setTvaRateList } = useContext(AppContext);
+    const [activeTabShipping, setActiveTabShipping] = useState(1);
+    const [isShippingAdvancedMode, setIsShippingAdvancedMode] = useState(false);
+    const [shippingList, setShippingList] = useState([]);
+    const [countryList, setCountryList] = useState([]);
 
     useEffect(() => {
-        getTaxes();
+        getShippings();
     }, []);
 
-
-    const getTaxes = () => {
-        Axios.get("http://127.0.0.1:8000/getTaxes")
+    const getShippings = () => {
+        // charge la liste des shippings
+        Axios.get(`http://127.0.0.1:8000/shipping-list`)
             .then(res => {
-                setTvaRateList(res.data);
-                let ndx = res.data.findIndex(x => x.is_default == 1);
-                if (ndx > -1) {
-                    setDefaultTvaRateId(res.data[ndx].id);
-                }
-            })
-            .catch(error => {
-                console.log('Error : ' + error.status);
+                setShippingList(res.data[0]);
+                setCountryList(res.data[1]);
+            }).catch(function (error) {
+                console.log('error:   ' + error);
             });
     }
 
-    const handleTaxesTabs = (indexTab) => {
-        setActiveTab(indexTab);
-    }
-
-    const handleName = (e) => {
-        setTransporterName(e.target.value);
-    }
-
-    const handleTaxeValue = (e) => {
-        setTransporterValue(e.target.value);
-    }
-
-
-
-    const cancelEdit = () => {
-        setIdEditTva(null);
-        setTransporterName('');
-        setTransporterValue('');
-        setIsShowSaveButton(false);
-    }
-
-    const saveTva = () => {
-        if (transporterName.length > 0 && transporterValue.length > 0) {
-            let newTva = new FormData;
-            newTva.append('transporterName', transporterName);
-            newTva.append('transporterValue', transporterValue);
-
-            Axios.post(`http://127.0.0.1:8000/addTaxes`, newTva)
-                .then(getTaxes())
-                .catch(error => {
-                    console.log('Error : ' + error.status);
-                });
-
-            setIsAddNewTva(false);
-            setIsShowSaveButton(false);
-        } else {
-            if (transporterName.length == 0) {
-                setMessageModal('Le champ nom ne peut pas être vide')
-            }
-            if (transporterValue.length == 0) {
-                setMessageModal('Le champ taux ne peut pas être vide')
-            }
-            if (transporterName.length == 0 && transporterValue.length == 0) {
-                setMessageModal('Les champs nom et taux ne peuvent pas être vides')
-            }
-            setShowModalSimpleMessage(true)
-        }
-    }
-
-    const cancelModalSimpleMessage = () => {
-        setShowModalSimpleMessage(false);
-    }
-
-
-
-    const handleApplication = (e) => {
-        if (e.target.value == 'product') {
-            setApplication('product');
-        } else if (e.target.value == 'localisation') {
-            setApplication('localisation');
-        }
-    }
-
-    const handleTypeTaxe = (e) => {
-        if (e.target.value == '€') {
-            setTypeTransporter('money');
-        } else {
-            setTypeTransporter('percent');
-        }
+    const handleShippingTabs = (indexTab) => {
+        setActiveTabShipping(indexTab);
     }
 
 
     return (
-        <Flex_col_s_s css="my-10">
-            <span className='text-xl font-semibold text=gray-600 my-4'>Shipping</span>
-            <div className='w-full border-b border-gray-300 mb-10 pb-2.5'>
+        <Flex_col_s_s css="mt-10">
+            <span className='text-xl font-semibold text=gray-600 my-4 px-4'>
+                Livraison
+            </span>
+            <div className='w-full border-b border-gray-300 mb-7 pb-2.5 px-4'>
                 <span
-                    className={`text-base font-normal hover:font-medium text=gray-600 pb-3 mr-6 pr-1 cursor-pointer ${activeTab == 1 && "border-b-2 border-indigo-600"}`}
-                    onClick={() => handleTaxesTabs(1)}
+                    className={`text-base font-normal hover:font-medium text=gray-600 pb-3 mr-6 pr-1 cursor-pointer ${activeTabShipping == 1 && "border-b-2 border-indigo-600"}`}
+                    onClick={() => handleShippingTabs(1)}
                 >
-                    Gérer les transporteurs
+                    Ajouter un mode d'expédition
                 </span>
                 <span
-                    className={`text-base font-normal hover:font-medium text=gray-600 pb-3 px-1 cursor-pointer ${activeTab == 2 && "border-b-2 border-indigo-600"}`}
-                    onClick={() => handleTaxesTabs(2)}
+                    className={`text-base font-normal hover:font-medium text=gray-600 pb-3 px-1 cursor-pointer ${activeTabShipping == 2 && "border-b-2 border-indigo-600"}`}
+                    onClick={() => handleShippingTabs(2)}
                 >
-                    Ajouter un transporteur
+                    Gérer les modes d'expédition
                 </span>
             </div>
 
-            {/* gérer les transporteurs---------------------------------- */}
-            {activeTab == 1 &&
+            {/* Ajouter un mode d'expédition---------------------------------*/}
+            {activeTabShipping == 1 &&
+                <div className='w-full'>
+
+                    <Toggle
+                        id={`toggleShipping${() => date()}`}
+                        isChecked={isShippingAdvancedMode}
+                        change={() => setIsShippingAdvancedMode(!isShippingAdvancedMode)}
+                        label="Créer un mode d'expédition avancé"
+                    />
+
+                    <div className='w-full'>
+                        {isShippingAdvancedMode ?
+                            <AdvancedMode
+                                shippingList={shippingList}
+                                setShippingList={setShippingList}
+                                countryList={countryList}
+                            />
+                            :
+                            <SimpleMode
+                                shippingList={shippingList}
+                                setShippingList={setShippingList}
+                                countryList={countryList}
+                            />}
+                    </div>
+                </div>
+            }
+
+            {/* Gérer les modes d'expédition-------------------------------- */}
+            {activeTabShipping == 2 &&
                 <Flexbox_row_s_c_wrap>
                     <div className='w-full'>
-                        {/* tva Rate List */}
-                        <div
-                            className='grid grid-cols-[80px_70%_100px_40px_40px] justify-start items-start w-full'
-                        >
-                            <span
-                                className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-3 rounded-tl-md'
-                            >
-                                Défaut
-                            </span>
-                            <span
-                                className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2 rounded-tl-md'
-                            >
-                                Nom
-                            </span>
-                            <span
-                                className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2'
-                            >
-                                Taux
-                            </span>
-                            <span
-                                className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2 self-stretch'>
-                            </span>
-                            <span
-                                className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2 self-stretch rounded-tr-md'>
-                            </span>
-                        </div>
-
-                        {/* <TvaList
-                            tvaRateList={tvaRateList}
-                            cancelEdit={cancelEdit}
-                            handleName={handleName}
-                            handleTaxeValue={handleTaxeValue}
-                            transporterName={transporterName}
-                            setTransporterName={setTransporterName}
-                            transporterValue={transporterValue}
-                            setTransporterValue={setTransporterValue}
-                            idEditTva={idEditTva}
-                            setIdEditTva={setIdEditTva}
-                            setIsAddNewTva={setIsAddNewTva}
-                            getTaxes={getTaxes}
-                            setIsShowSaveButton={setIsShowSaveButton}
-                            defaultTvaRateId={defaultTvaRateId}
-                        />
-
-                        <AddNewTva
-                            cancelEdit={cancelEdit}
-                            handleName={handleName}
-                            handleTaxeValue={handleTaxeValue}
-                            transporterName={transporterName}
-                            transporterValue={transporterValue}
-                            isAddNewTva={isAddNewTva}
-                            setIsAddNewTva={setIsAddNewTva}
-                            isShowSaveButton={isShowSaveButton}
-                            setIsShowSaveButton={setIsShowSaveButton}
-                            getTaxes={getTaxes}
-                        /> */}
-
-                        {/* save */}
-                        {isShowSaveButton &&
-                            <div className='flex flex-row justify-start items-center w-full pb-10'
-                            >
-                                <button
-                                    className='flex justify-center py-2 px-6  bg-green-500 text-white font-medium rounded-md'
-                                    onClick={() => saveTva()}
-                                >
-                                    Enregistrer
-                                </button>
-                            </div>}
+                        TAB 2
                     </div>
                 </Flexbox_row_s_c_wrap>
             }
-
-            {/* ajouter un transporteur---------------------------------*/}
-            {activeTab == 2 &&
-                <Flexbox_row_s_c_wrap>
-                    <div className="py-4">
-                        <span className="mb-5 font-semibold text-5">
-                            Ajouter un transporteur
-                        </span>
-                    </div>
-                    <TransporteurForm />
-
-                </Flexbox_row_s_c_wrap>}
-
-            <ModalSimpleMessage
-                handleModalCancel={cancelModalSimpleMessage}
-                show={showModalSimpleMessage}
-            >
-                {messageModal}
-            </ModalSimpleMessage>
         </Flex_col_s_s>
     );
 }
