@@ -13,6 +13,7 @@ const Shipping = () => {
     const [isShippingAdvancedMode, setIsShippingAdvancedMode] = useState(false);
     const [shippingList, setShippingList] = useState([]);
     const [countryList, setCountryList] = useState([]);
+    const [shipping, setShipping] = useState([]);
 
     useEffect(() => {
         getShippings();
@@ -71,12 +72,16 @@ const Shipping = () => {
                                 shippingList={shippingList}
                                 setShippingList={setShippingList}
                                 countryList={countryList}
+                                shipping={shipping}
+                                setShipping={setShipping}
                             />
                             :
                             <SimpleMode
                                 shippingList={shippingList}
                                 setShippingList={setShippingList}
                                 countryList={countryList}
+                                shipping={shipping}
+                                setShipping={setShipping}
                             />}
                     </div>
                 </div>

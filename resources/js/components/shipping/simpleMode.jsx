@@ -9,9 +9,9 @@ import InputNumeric from '../form/inputNumeric';
 import SelectWithCheckbox from '../elements/selectWithCheckbox';
 
 
-const SimpleMode = ({ shippingList, setShippingList, countryList }) => {
+const SimpleMode = ({ shippingList, setShippingList, countryList, shipping, setShipping }) => {
 
-    const [shipping, setShipping] = useState({
+    const [shippingSimple, setShippingSimple] = useState({
         name: '',
         criteria: 'simple',
         min_weight: '',
@@ -26,9 +26,13 @@ const SimpleMode = ({ shippingList, setShippingList, countryList }) => {
     const [showModalConfirmation, setShowModalConfirmation] = useState(false);
     const [showSimpleMessageModal, setShowSimpleMessageModal] = useState(false);
     const [isDirtySimpleShipping, setIsDirtySimpleShipping] = useState(false);
+    const [idEditShipping, setIdEditShipping] = useState(false);
+    const [isAddNewShipping, setIsAddNewShipping] = useState(false);
+    const [isShowSaveButton, setIsShowSaveButton] = useState(false);
     const [messageModal, setMessageModal] = useState('');
     const [toggleSelectDestination, setToggleSelectDestination] = useState(false);
     const [destinationSimple, setDestinationSimple] = useState([]);
+    const [localisation, setLocalisation] = useState([]);
 
 
     var navigate = useNavigate();
@@ -37,23 +41,33 @@ const SimpleMode = ({ shippingList, setShippingList, countryList }) => {
     // when click on edit in collection list it send collection id to db request for make edit collection
     const { state } = useLocation();
 
+    useEffect(() => {
+        Axios.get(`http://127.0.0.1:8000/getUserLocalisation`)
+            .then(res => {
+                setLocalisation(res.data);
+                console.log('res data  ', res.data)
+                // navigate('/collections-list');
+            }).catch(function (error) {
+                console.log('error:   ' + error);
+            });
+    }, []);
 
 
     // show or hide reset button
     useEffect(() => {
         switch (true) {
-            case shipping.name.length > 0: setIsDirtySimpleShipping(true); break;
-            case shipping.destination.length > 0: setIsDirtySimpleShipping(true); break;
-            case shipping.shipping_price.length > 0: setIsDirtySimpleShipping(true); break;
+            case shippingSimple.name.length > 0: setIsDirtySimpleShipping(true); break;
+            case shippingSimple.destination.length > 0: setIsDirtySimpleShipping(true); break;
+            case shippingSimple.shipping_price.length > 0: setIsDirtySimpleShipping(true); break;
             default: setIsDirtySimpleShipping(false);
         }
-    }, [shipping]);
+    }, [shippingSimple]);
 
     const checkIfIsDirty = () => {
         if (
-            shipping.name != '' ||
-            shipping.destination != '' ||
-            shipping.shipping_price != ''
+            shippingSimple.name != '' ||
+            shippingSimple.destination != '' ||
+            shippingSimple.shipping_price != ''
         ) {
             return true;
         } else {
@@ -66,13 +80,15 @@ const SimpleMode = ({ shippingList, setShippingList, countryList }) => {
 
 
     const handleNameShipping = (e) => {
-        setShipping({ ...shipping, name: e.target.value });
+        setShippingSimple({ ...shippingSimple, name: e.target.value });
     };
+
     useEffect(() => {
-        setShipping({ ...shipping, destination: destinationSimple });
+        setShippingSimple({ ...shippingSimple, destination: destinationSimple });
     }, [destinationSimple]);
+
     const handleShipping_price = (e) => {
-        setShipping({ ...shipping, shipping_price: e.target.value });
+        setShippingSimple({ ...shippingSimple, shipping_price: e.target.value });
     };
 
     const removeDestination = (item) => {
@@ -85,10 +101,19 @@ const SimpleMode = ({ shippingList, setShippingList, countryList }) => {
     }
 
 
+    const handleEditShipping = (itemShipping) => {
+        setIdEditShipping(itemShipping.id);
+    }
+
+    const cancelEditShipping = () => {
+        setIdEditShipping(null);
+        setIsShowSaveButton(false);
+        initShippingForm();
+    }
 
     // reset supplier form 
     const initShippingForm = () => {
-        setShipping({
+        setShippingSimple({
             name: '',
             criteria: 'simple',
             destination: [],
@@ -107,6 +132,8 @@ const SimpleMode = ({ shippingList, setShippingList, countryList }) => {
     }
 
 
+
+
     // Reset Form---------------------------------------------------------------
     // confirm reinitialisatio form
     const confirmInitShippingForm = () => {
@@ -121,20 +148,20 @@ const SimpleMode = ({ shippingList, setShippingList, countryList }) => {
     const validation = () => {
         // check if neme of supplier already exist
         let shipping_List_name = shippingList.map(item => item.name);
-        if (shipping_List_name.includes(shipping.name)) {
+        if (shipping_List_name.includes(shippingSimple.name)) {
             setMessageModal('Le nom du transporteur que vous avez entré éxiste déjà. Veuillez entrer un nom différent');
             setShowSimpleMessageModal(true);
             return false;
         }
 
-        if (shipping.name.length === 0) {
+        if (shippingSimple.name.length === 0) {
             document.getElementById('nameShipping').style.border = "solid 1px rgb(212, 0, 0)";
             setMessageModal('Le champ Nom du transporteur est obligatoire');
             setShowSimpleMessageModal(true);
             return false;
         }
 
-        if (shipping.name.length > 255) {
+        if (shippingSimple.name.length > 255) {
             document.getElementById('nameShipping').style.border = "solid 1px rgb(212, 0, 0)";
             setMessageModal('Le nom du transporteur ne doit pas dépasser 255 caractères');
             setShowSimpleMessageModal(true);
@@ -155,14 +182,14 @@ const SimpleMode = ({ shippingList, setShippingList, countryList }) => {
         if (valid) {
 
             let formDataShipping = new FormData;
-            formDataShipping.append('name', shipping.name);
-            formDataShipping.append('criteria', shipping.criteria);
+            formDataShipping.append('name', shippingSimple.name);
+            formDataShipping.append('criteria', shippingSimple.criteria);
             formDataShipping.append('min_weight', '');
             formDataShipping.append('max_weight', '');
             formDataShipping.append('min_price', '');
             formDataShipping.append('max_price', '');
-            formDataShipping.append('destination', shipping.destination);
-            formDataShipping.append('shipping_price', shipping.shipping_price);
+            formDataShipping.append('destination', shippingSimple.destination);
+            formDataShipping.append('shipping_price', shippingSimple.shipping_price);
 
 
             Axios.post(`http://127.0.0.1:8000/save-shipping`, formDataShipping)
@@ -171,7 +198,7 @@ const SimpleMode = ({ shippingList, setShippingList, countryList }) => {
                     if (res.data === 'ok') {
                         initShippingForm();
                         // chargement des trabsporteurs
-                        // refresh data after save new shipping
+                        // refresh data after save new shippingSimple
                         Axios.get(`http://127.0.0.1:8000/shippings-list`)
                             .then(res => {
                                 setShippingList(res.data[0]);
@@ -187,40 +214,126 @@ const SimpleMode = ({ shippingList, setShippingList, countryList }) => {
     }
 
 
+
     return (
         <div className='w-full flex flex-col justify-start items-start px-4'>
-            <div className='w-full grid grid-cols-[1fr_1fr_100px] gap-5 justify-start items-center'>
-                {/* name */}
-                <div>
-                    <InputText
-                        id="nameShipping"
-                        value={shipping.name}
-                        handleChange={handleNameShipping}
-                        // handleClick={}
-                        placeholder=""
-                        label="Nom"
-                    />
-                    <span className={`text-sm text-red-700 ${shipping.name.length > 255 ? "block" : "none"}`}>Le nom du transporteur ne peut pas dépasser 255 caractères</span>
+            {shippingList?.length > 0 && shippingList.map(itemShipping =>
+                <div
+                    key={itemShipping.id}
+                    className='w-full'
+                >
+                    {idEditShipping != itemShipping.id &&
+                        <div className='grid grid-cols-[80px_70%_100px_40px_40px] justify-start items-center w-full'>
+                            <span
+                                className='flex justify-center items-center w-full h-full'>
+                                <input
+                                    id={`idInputDefaultTvaRate${itemShipping.id}`}
+                                    type='radio'
+                                    className='w-4 h-4 cursor-pointer checked:bg-indigo-600'
+                                    name='btnRadioDefaultTvaRate'
+                                    onClick={() => handleDefaultTvaRate(itemShipping.id)}
+                                />
+                            </span>
+
+                            <span
+                                className='text-sm w-full border-b border-gray-200 py-3 pl-2 truncate'
+                            >
+                                {itemShipping.name}
+                            </span>
+                            <span
+                                className='text-sm w-full border-b border-gray-200 py-3 pl-2'
+                            >
+                                {itemShipping.shipping_price} %
+                            </span>
+
+
+                            {/* icons ->  edit - delete */}
+                            <div
+                                className="text-sm w-full border-b border-gray-200 py-3 pl-2"
+                            >
+                                <span
+                                    className="w-6 h-6 flex flex-row justify-center items-center bg-white cursor-pointer"
+                                    onClick={() => {
+                                        setIsAddNewShipping(false);
+                                        setIsShowSaveButton(false);
+                                        handleEditShipping(itemShipping);
+                                    }}
+                                >
+                                    <img
+                                        src={window.location.origin + '/images/icons/pencil.svg'}
+                                        className="h-4 w-4" />
+                                </span>
+                            </div>
+                            <div
+                                className="text-sm w-full border-b border-gray-200 py-3 pl-1"
+                            >
+                                <span
+                                    className="w-6 h-6 flex flex-row justify-center items-center bg-red-600 cursor-pointer"
+                                    onClick={() => showModalConfirmDeleteShippingList(itemShipping)}
+                                >
+                                    <img
+                                        src={window.location.origin + '/images/icons/x-white.svg'}
+                                        className="h-5 w-5" />
+                                </span>
+                            </div>
+                        </div>
+                    }
+
+                    {/* edit */}
+                    {idEditShipping == itemShipping.id &&
+                        <div className='grid grid-cols-[70%_70px_30px_8px_80px] gap-x-[1px] justify-start items-center w-full pb-2'
+                        >
+                            {/* name */}
+                            <div>
+                                <InputText
+                                    id="nameShipping"
+                                    value={shippingSimple.name}
+                                    handleChange={handleNameShipping}
+                                    // handleClick={}
+                                    placeholder=""
+                                    label="Nom"
+                                />
+                                <span className={`text-sm text-red-700 ${shippingSimple.name.length > 255 ? "block" : "none"}`}>Le nom du transporteur ne peut pas dépasser 255 caractères</span>
+                            </div>
+                            {/* shipping_price */}
+                            <div>
+                                <InputNumeric
+                                    // id={}
+                                    value={shippingSimple.shipping_price}
+                                    handleChange={handleShipping_price}
+                                    // handleClick={}
+                                    placeholder=""
+                                    label="Tarif"
+                                    step="0.01"
+                                    min="0"
+                                    max=""
+                                />
+                                <span className={`text-sm text-red-700 ${shippingSimple.shipping_price.length > 10 ? "block" : "none"}`}>Maximum 10 caractères</span>
+                            </div>
+                            <span></span>
+                            <span
+                                className='text-base w-20 text-red-400 underline underline-offset-1
+                                    hover:text-red-600 py-3 pl-2 cursor-pointer'
+                                onClick={() => {
+                                    cancelEditShipping();
+                                }}
+                            >
+                                Annuler
+                            </span>
+
+                            <button
+                                className='flex justify-center w-24 py-1 px-2 mt-1  bg-green-500 text-white font-medium text-sm rounded-md'
+                                onClick={() => {
+                                    updateShipping(itemShipping.id);
+                                    cancelEditShipping();
+                                }}
+                            >
+                                Enregistrer
+                            </button>
+                        </div>
+                    }
                 </div>
-
-
-                {/* shipping_price */}
-                <div>
-                    <InputNumeric
-                        // id={}
-                        value={shipping.shipping_price}
-                        handleChange={handleShipping_price}
-                        // handleClick={}
-                        placeholder=""
-                        label="Tarif"
-                        step="0.01"
-                        min="0"
-                        max=""
-                    />
-                    <span className={`text-sm text-red-700 ${shipping.shipping_price.length > 10 ? "block" : "none"}`}>Maximum 10 caractères</span>
-                </div>
-
-            </div>
+            )}
 
             {/* destinationSimple */}
             <div className='w-full'>

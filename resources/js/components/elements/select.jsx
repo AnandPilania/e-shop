@@ -18,6 +18,7 @@ export default function Select({ list, itemSelected, setItemSelected, toggleSele
         }
         let ul = document.querySelector('#' + ulUnikId);
         ul.style.height = 0;
+        ul.style.maxHeight = 0;
         ul.classList.remove('border-b');
         ul.classList.remove('border-t');
         setToggleSelect(false);
@@ -46,12 +47,14 @@ export default function Select({ list, itemSelected, setItemSelected, toggleSele
     const showSelectMenu = () => {
         let ul = document.querySelector('#' + ulUnikId);
         if (!toggleSelect) {
-            ul.style.height = '240px';
+            ul.style.height = 'auto';
+            ul.style.maxHeight = '240px';
             ul.classList.add('border-b');
             ul.classList.add('border-t');
             setToggleSelect(true);
         } else {
             ul.style.height = 0;
+            ul.style.maxHeight = 0;
             ul.classList.remove('border-b');
             ul.classList.remove('border-t');
             setToggleSelect(false);
@@ -83,6 +86,7 @@ export default function Select({ list, itemSelected, setItemSelected, toggleSele
 
         // click outside.
         ulSelect.style.height = 0;
+        ulSelect.style.maxHeight = 0;
         ulSelect.classList.remove('border-b');
         ulSelect.classList.remove('border-t');
         setToggleSelect(false);

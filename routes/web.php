@@ -248,6 +248,7 @@ Route::any('{path}', function ($page) {
 Route::get('/getConfigs', [ConfigController::class, 'getConfigs']);
 Route::get('/getConfig/{param}', [ConfigController::class, 'getConfig']);
 Route::post('/updateConfig', [ConfigController::class, 'updateConfig']);
+Route::get('/getUserLocalisation', [ConfigController::class, 'getUserLocalisation']);
 
 
 // TAXES ------------------------------------------------------------

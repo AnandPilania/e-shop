@@ -10,9 +10,9 @@ import SelectWithCheckbox from '../elements/selectWithCheckbox';
 import SelectBasic from '../elements/selectBasic';
 
 
-const AdvancedMode = ({ shippingList, setShippingList, countryList }) => {
+const AdvancedMode = ({ shippingList, setShippingList, countryList, shipping, setShipping }) => {
 
-    const [shipping, setShipping] = useState({
+    const [shippingAdvanced, setShippingAdvanced] = useState({
         name: '',
         criteria: 'Poids',
         min_weight: '',
@@ -22,8 +22,6 @@ const AdvancedMode = ({ shippingList, setShippingList, countryList }) => {
         destination: [],
         shipping_price: ''
     });
-
-
     const [showModalConfirmation, setShowModalConfirmation] = useState(false);
     const [showSimpleMessageModal, setShowSimpleMessageModal] = useState(false);
     const [messageModal, setMessageModal] = useState('');
@@ -43,28 +41,28 @@ const AdvancedMode = ({ shippingList, setShippingList, countryList }) => {
     // show or hide reset button
     useEffect(() => {
         switch (true) {
-            case shipping.name.length > 0: setIsDirtyAdvancedShippingForm(true);
+            case shippingAdvanced.name.length > 0: setIsDirtyAdvancedShippingForm(true);
                 break;
-            case shipping.min_weight.length > 0: setIsDirtyAdvancedShippingForm(true); break;
-            case shipping.max_weight.length > 0: setIsDirtyAdvancedShippingForm(true); break;
-            case shipping.min_price.length > 0: setIsDirtyAdvancedShippingForm(true); break;
-            case shipping.max_price.length > 0: setIsDirtyAdvancedShippingForm(true); break;
-            case shipping.destination.length > 0: setIsDirtyAdvancedShippingForm(true); break;
-            case shipping.shipping_price.length > 0: setIsDirtyAdvancedShippingForm(true);
+            case shippingAdvanced.min_weight.length > 0: setIsDirtyAdvancedShippingForm(true); break;
+            case shippingAdvanced.max_weight.length > 0: setIsDirtyAdvancedShippingForm(true); break;
+            case shippingAdvanced.min_price.length > 0: setIsDirtyAdvancedShippingForm(true); break;
+            case shippingAdvanced.max_price.length > 0: setIsDirtyAdvancedShippingForm(true); break;
+            case shippingAdvanced.destination.length > 0: setIsDirtyAdvancedShippingForm(true); break;
+            case shippingAdvanced.shipping_price.length > 0: setIsDirtyAdvancedShippingForm(true);
                 break;
             default: setIsDirtyAdvancedShippingForm(false);
         }
-    }, [shipping]);
+    }, [shippingAdvanced]);
 
     const checkIfIsDirty = () => {
         if (
-            shipping.name != '' ||
-            shipping.min_weight != '' ||
-            shipping.max_weight != '' ||
-            shipping.min_price != '' ||
-            shipping.max_price != '' ||
-            shipping.destination != '' ||
-            shipping.shipping_price != ''
+            shippingAdvanced.name != '' ||
+            shippingAdvanced.min_weight != '' ||
+            shippingAdvanced.max_weight != '' ||
+            shippingAdvanced.min_price != '' ||
+            shippingAdvanced.max_price != '' ||
+            shippingAdvanced.destination != '' ||
+            shippingAdvanced.shipping_price != ''
         ) {
             return true;
         } else {
@@ -77,28 +75,28 @@ const AdvancedMode = ({ shippingList, setShippingList, countryList }) => {
 
 
     const handleNameShipping = (e) => {
-        setShipping({ ...shipping, name: e.target.value });
+        setShippingAdvanced({ ...shippingAdvanced, name: e.target.value });
     };
     useEffect(() => {
-        setShipping({ ...shipping, criteria: criteria });
+        setShippingAdvanced({ ...shippingAdvanced, criteria: criteria });
     }, [criteria]);
     const handleMin_weightShipping = (e) => {
-        setShipping({ ...shipping, min_weight: e.target.value });
+        setShippingAdvanced({ ...shippingAdvanced, min_weight: e.target.value });
     };
     const handleMax_weightShipping = (e) => {
-        setShipping({ ...shipping, max_weight: e.target.value });
+        setShippingAdvanced({ ...shippingAdvanced, max_weight: e.target.value });
     };
     const handleMin_priceShipping = (e) => {
-        setShipping({ ...shipping, min_price: e.target.value });
+        setShippingAdvanced({ ...shippingAdvanced, min_price: e.target.value });
     };
     const handleMax_priceShipping = (e) => {
-        setShipping({ ...shipping, max_price: e.target.value });
+        setShippingAdvanced({ ...shippingAdvanced, max_price: e.target.value });
     };
     useEffect(() => {
-        setShipping({ ...shipping, destination: destinationAdvanced });
+        setShippingAdvanced({ ...shippingAdvanced, destination: destinationAdvanced });
     }, [destinationAdvanced]);
     const handleShipping_price = (e) => {
-        setShipping({ ...shipping, shipping_price: e.target.value });
+        setShippingAdvanced({ ...shippingAdvanced, shipping_price: e.target.value });
     };
 
     const removeDestination = (item) => {
@@ -114,7 +112,7 @@ const AdvancedMode = ({ shippingList, setShippingList, countryList }) => {
 
     // reset supplier form 
     const initShippingForm = () => {
-        setShipping({
+        setShippingAdvanced({
             name: '',
             criteria: 'Poids',
             min_weight: '',
@@ -141,7 +139,7 @@ const AdvancedMode = ({ shippingList, setShippingList, countryList }) => {
     // Reset Form---------------------------------------------------------------
     // confirm reinitialisatio form
     const confirmInitShippingForm = () => {
-        setMessageModal('Êtes-vous sûr de vouloir supprimer tout le contenu du formulaire ?');
+        setMessageModal('Effacer tous les champs ?');
         setShowModalConfirmation(true);
     }
 
@@ -154,20 +152,20 @@ const AdvancedMode = ({ shippingList, setShippingList, countryList }) => {
     const validation = () => {
         // check if neme of supplier already exist
         let shipping_List_name = shippingList.map(item => item.name);
-        if (shipping_List_name.includes(shipping.name)) {
+        if (shipping_List_name.includes(shippingAdvanced.name)) {
             setMessageModal('Le nom du transporteur que vous avez entré éxiste déjà. Veuillez entrer un nom différent');
             setShowSimpleMessageModal(true);
             return false;
         }
 
-        if (shipping.name.length === 0) {
+        if (shippingAdvanced.name.length === 0) {
             document.getElementById('nameShipping').style.border = "solid 1px rgb(212, 0, 0)";
             setMessageModal('Le champ Nom du transporteur est obligatoire');
             setShowSimpleMessageModal(true);
             return false;
         }
 
-        if (shipping.name.length > 255) {
+        if (shippingAdvanced.name.length > 255) {
             document.getElementById('nameShipping').style.border = "solid 1px rgb(212, 0, 0)";
             setMessageModal('Le nom du transporteur ne doit pas dépasser 255 caractères');
             setShowSimpleMessageModal(true);
@@ -186,14 +184,14 @@ const AdvancedMode = ({ shippingList, setShippingList, countryList }) => {
         if (valid) {
 
             let formDataShipping = new FormData;
-            formDataShipping.append('name', shipping.name);
-            formDataShipping.append('criteria', shipping.criteria);
-            formDataShipping.append('min_weight', shipping.min_weight);
-            formDataShipping.append('max_weight', shipping.max_weight);
-            formDataShipping.append('min_price', shipping.min_price);
-            formDataShipping.append('max_price', shipping.max_price);
-            formDataShipping.append('destination', shipping.destination);
-            formDataShipping.append('shipping_price', shipping.shipping_price);
+            formDataShipping.append('name', shippingAdvanced.name);
+            formDataShipping.append('criteria', shippingAdvanced.criteria);
+            formDataShipping.append('min_weight', shippingAdvanced.min_weight);
+            formDataShipping.append('max_weight', shippingAdvanced.max_weight);
+            formDataShipping.append('min_price', shippingAdvanced.min_price);
+            formDataShipping.append('max_price', shippingAdvanced.max_price);
+            formDataShipping.append('destination', shippingAdvanced.destination);
+            formDataShipping.append('shipping_price', shippingAdvanced.shipping_price);
 
             Axios.post(`http://127.0.0.1:8000/save-shipping`, formDataShipping)
                 .then(res => {
@@ -222,62 +220,64 @@ const AdvancedMode = ({ shippingList, setShippingList, countryList }) => {
         <div className='w-full flex flex-col justify-start items-start px-4'>
 
             {/* criteria */}
-            <SelectBasic
-                list={['Poids', 'Prix Minimum']}
-                itemSelected={criteria}
-                setItemSelected={setCriteria}
-                toggleSelect={toggleSelectCriteria}
-                setToggleSelect={setToggleSelectCriteria}
-                ulUnikId="ulShippingSelectUniqueId"
-                buttonUnikId="buttonShippingSelectUniqueId"
-            />
+            <div className='w-full mb-7'>
+                <SelectBasic
+                    list={['Poids', 'Prix Minimum']}
+                    itemSelected={criteria}
+                    setItemSelected={setCriteria}
+                    toggleSelect={toggleSelectCriteria}
+                    setToggleSelect={setToggleSelectCriteria}
+                    ulUnikId="ulShippingSelectUniqueId"
+                    buttonUnikId="buttonShippingSelectUniqueId"
+                />
+            </div>
 
-            <div className='w-full grid grid-cols-[1fr_1fr_100px] gap-5 justify-start items-center'>
+            <div className='w-full grid grid-cols-[2fr_1fr_100px_40px_40px] gap-2 justify-start items-center'>
                 {/* name */}
                 <div>
                     <InputText
                         id="nameShipping"
-                        value={shipping.name}
+                        value={shippingAdvanced.name}
                         handleChange={handleNameShipping}
                         // handleClick={}
                         placeholder=""
                         label="Nom"
                     />
-                    <span className={`text-sm text-red-700 ${shipping.name.length > 255 ? "block" : "hidden"}`}>Le nom du transporteur ne peut pas dépasser 255 caractères</span>
+                    <span className={`text-sm text-red-700 ${shippingAdvanced.name.length > 255 ? "block" : "hidden"}`}>Le nom du transporteur ne peut pas dépasser 255 caractères</span>
                 </div>
 
-                {shipping.criteria == "Poids" ?
-                    <div className='w-full grid grid-cols-2 gap-5 justify-start items-center'>
+                {shippingAdvanced.criteria == "Poids" ?
+                    <div className='w-full grid grid-cols-2 gap-2 justify-start items-center'>
                         {/* min_weight */}
                         <div>
                             <InputNumeric
                                 // id={}
-                                value={shipping.min_weight}
+                                value={shippingAdvanced.min_weight}
                                 handleChange={handleMin_weightShipping}
                                 // handleClick={}
                                 placeholder=""
-                                label="Poids minimum"
+                                label="Poids min"
                                 step="1"
                                 min="0"
                                 max=""
                             />
-                            <span className={`text-sm text-red-700 ${shipping.min_weight.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
+                            <span className={`text-sm text-red-700 ${shippingAdvanced.min_weight.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
                         </div>
 
                         {/* max_weight */}
                         <div>
                             <InputNumeric
                                 // id={}
-                                value={shipping.max_weight}
+                                value={shippingAdvanced.max_weight}
                                 handleChange={handleMax_weightShipping}
                                 // handleClick={}
                                 placeholder=""
-                                label="Poids maximum"
+                                label="Poids max"
                                 step="1"
                                 min="0"
                                 max=""
                             />
-                            <span className={`text-sm text-red-700 ${shipping.max_weight.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
+                            <span className={`text-sm text-red-700 ${shippingAdvanced.max_weight.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
                         </div>
                     </div>
                     :
@@ -286,32 +286,32 @@ const AdvancedMode = ({ shippingList, setShippingList, countryList }) => {
                         <div>
                             <InputNumeric
                                 // id={}
-                                value={shipping.min_price}
+                                value={shippingAdvanced.min_price}
                                 handleChange={handleMin_priceShipping}
                                 // handleClick={}
                                 placeholder=""
-                                label="Prix minimum"
+                                label="Prix min"
                                 step="0.01"
                                 min="0"
                                 max=""
                             />
-                            <span className={`text-sm text-red-700 ${shipping.min_price.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
+                            <span className={`text-sm text-red-700 ${shippingAdvanced.min_price.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
                         </div>
 
                         {/* max_price */}
                         <div>
                             <InputNumeric
                                 // id={}
-                                value={shipping.max_price}
+                                value={shippingAdvanced.max_price}
                                 handleChange={handleMax_priceShipping}
                                 // handleClick={}
                                 placeholder=""
-                                label="Prix maximum"
+                                label="Prix max"
                                 step="0.01"
                                 min="0"
                                 max=""
                             />
-                            <span className={`text-sm text-red-700 ${shipping.max_price.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
+                            <span className={`text-sm text-red-700 ${shippingAdvanced.max_price.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
                         </div>
                     </div>}
 
@@ -319,7 +319,7 @@ const AdvancedMode = ({ shippingList, setShippingList, countryList }) => {
                 <div>
                     <InputNumeric
                         // id={}
-                        value={shipping.shipping_price}
+                        value={shippingAdvanced.shipping_price}
                         handleChange={handleShipping_price}
                         // handleClick={}
                         placeholder=""
@@ -328,7 +328,37 @@ const AdvancedMode = ({ shippingList, setShippingList, countryList }) => {
                         min="0"
                         max=""
                     />
-                    <span className={`text-sm text-red-700 ${shipping.shipping_price.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
+                    <span className={`text-sm text-red-700 ${shippingAdvanced.shipping_price.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
+                </div>
+
+                {/* icons ->  edit - delete */}
+                <div
+                    className="text-sm w-full border-b border-gray-200 py-3 pl-2"
+                >
+                    <span
+                        className="w-6 h-6 flex flex-row justify-center items-center bg-white cursor-pointer"
+                        onClick={() => {
+                            // setIsAddNewShipping(false);
+                            // setIsShowSaveButton(false);
+                            // handleEditShipping(itemShipping);
+                        }}
+                    >
+                        <img
+                            src={window.location.origin + '/images/icons/pencil.svg'}
+                            className="h-4 w-4" />
+                    </span>
+                </div>
+                <div
+                    className="text-sm w-full border-b border-gray-200 py-3 pl-1"
+                >
+                    <span
+                        className="w-6 h-6 flex flex-row justify-center items-center bg-red-600 cursor-pointer"
+                    // onClick={() => showModalConfirmDeleteShippingList(itemShipping)}
+                    >
+                        <img
+                            src={window.location.origin + '/images/icons/x-white.svg'}
+                            className="h-5 w-5" />
+                    </span>
                 </div>
 
             </div>
@@ -352,13 +382,13 @@ const AdvancedMode = ({ shippingList, setShippingList, countryList }) => {
                 <div className={`flex flex-wrap ${destinationAdvanced.length > 0 && "pt-4"} w-full`}>
                     {destinationAdvanced.map(item =>
                         <div key={item.id}
-                            className="flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-2 pr-1.5 py-1 mb-1 mr-2">
+                            className="flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-2 pr-1.5 py-1 mb-2 mr-2">
                             <span
                                 className="h-full text-gray-500 mr-2 rounded-md">
                                 {item.name}
                             </span>
                             <span
-                                className="h-5 w-5 flex justify-center items-center hover:cursor-pointer bg-indigo-600  hover:bg-red-500 rounded-md"
+                                className="h-5 w-5 flex justify-center items-center hover:cursor-pointer bg-indigo-600  hover:bg-red-700 rounded-md"
                                 onClick={() => removeDestination(item)}>
                                 <img src='../images/icons/x-white.svg' className="w-5 h-5 hover:scale-125" />
                             </span>
@@ -378,12 +408,14 @@ const AdvancedMode = ({ shippingList, setShippingList, countryList }) => {
                 {/* réinitialisation */}
                 {isDirtyAdvancedShippingForm && (
                     <button
-                        className='w-auto ml-5 px-3 h-10  flex flex-row justify-center items-center border border-red-700 rounded-md text-gray-700'
+                        className='w-auto ml-5 px-3 h-10  flex flex-row justify-center items-center border-2 border-blue-500 rounded-md text-gray-700'
                         onClick={() => {
                             confirmInitShippingForm();
-                        }}>
-                        Réinitialiser
-                    </button>)}
+                        }}
+                    >
+                        Reset
+                    </button>
+                )}
             </div>
 
 
