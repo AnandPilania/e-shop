@@ -5,15 +5,21 @@ import Axios from 'axios';
 import SimpleMode from './simpleMode';
 import AdvancedMode from './advancedMode';
 import Toggle from '../elements/toggle/toggle';
+import DeliveryZoneForm from './deliveryZoneForm';
 
 
 const Shipping = () => {
 
     const [activeTabShipping, setActiveTabShipping] = useState(1);
-    const [isShippingAdvancedMode, setIsShippingAdvancedMode] = useState(false);
     const [shippingList, setShippingList] = useState([]);
     const [countryList, setCountryList] = useState([]);
     const [shipping, setShipping] = useState([]);
+    const [zone, setZone] = useState([]);
+
+    const [deliveriesZone, setDeliveriesZone] = useState({});
+
+
+
 
     useEffect(() => {
         getShippings();
@@ -34,6 +40,14 @@ const Shipping = () => {
         setActiveTabShipping(indexTab);
     }
 
+    const addNewDeliveryZone = (newZone) => {
+        setDeliveriesZone({
+
+        })
+    }
+
+
+
 
     return (
         <Flex_col_s_s css="mt-10">
@@ -45,56 +59,75 @@ const Shipping = () => {
                     className={`text-base font-normal hover:font-medium text=gray-600 pb-3 mr-6 pr-1 cursor-pointer ${activeTabShipping == 1 && "border-b-2 border-indigo-600"}`}
                     onClick={() => handleShippingTabs(1)}
                 >
+                    Ajouter une zone de livraison
+                </span>
+                <span
+                    className={`text-base font-normal hover:font-medium text=gray-600 pb-3 mr-6 pr-1 cursor-pointer ${activeTabShipping == 2 && "border-b-2 border-indigo-600"}`}
+                    onClick={() => handleShippingTabs(2)}
+                >
                     Ajouter un mode d'expédition
                 </span>
                 <span
-                    className={`text-base font-normal hover:font-medium text=gray-600 pb-3 px-1 cursor-pointer ${activeTabShipping == 2 && "border-b-2 border-indigo-600"}`}
-                    onClick={() => handleShippingTabs(2)}
+                    className={`text-base font-normal hover:font-medium text=gray-600 pb-3 px-1 cursor-pointer ${activeTabShipping == 3 && "border-b-2 border-indigo-600"}`}
+                    onClick={() => handleShippingTabs(3)}
                 >
                     Gérer les modes d'expédition
                 </span>
             </div>
 
-            {/* Ajouter un mode d'expédition---------------------------------*/}
+
+
             {activeTabShipping == 1 &&
                 <div className='w-full'>
+                    <span className='text-base text-blue-500 underline underline-offset-1 cursor-pointer '
+                        onClick={() => setActiveTabShipping(2)}>
+                        Ajouter une zone de livraison
+                    </span>
 
-                    <Toggle
-                        id={`toggleShipping${() => date()}`}
-                        isChecked={isShippingAdvancedMode}
-                        change={() => setIsShippingAdvancedMode(!isShippingAdvancedMode)}
-                        label="Créer un mode d'expédition avancé"
+                </div>}
+
+
+            {/* destinations */}
+            {activeTabShipping == 2 &&
+                <DeliveryZoneForm 
+                    countryList={countryList}
+                    addNewDeliveryZone={addNewDeliveryZone}
+                />
+            }
+
+
+            {/* Ajouter un mode d'expédition---------------------------------*/}
+            {
+                activeTabShipping == 22 &&
+                <div className='w-full'>
+                    {/* <AdvancedMode
+                                shippingList={shippingList}
+                                setShippingList={setShippingList}
+                                countryList={countryList}
+                                shipping={shipping}
+                                setShipping={setShipping}
+                            /> */}
+
+                    <SimpleMode
+                        shippingList={shippingList}
+                        setShippingList={setShippingList}
+                        countryList={countryList}
+                        shipping={shipping}
+                        setShipping={setShipping}
                     />
-
-                    <div className='w-full'>
-                        {isShippingAdvancedMode ?
-                            <AdvancedMode
-                                shippingList={shippingList}
-                                setShippingList={setShippingList}
-                                countryList={countryList}
-                                shipping={shipping}
-                                setShipping={setShipping}
-                            />
-                            :
-                            <SimpleMode
-                                shippingList={shippingList}
-                                setShippingList={setShippingList}
-                                countryList={countryList}
-                                shipping={shipping}
-                                setShipping={setShipping}
-                            />}
-                    </div>
                 </div>
             }
 
             {/* Gérer les modes d'expédition-------------------------------- */}
-            {activeTabShipping == 2 &&
+            {
+                activeTabShipping == 3 &&
                 <Flexbox_row_s_c_wrap>
                     <div className='w-full'>
                         TAB 2
                     </div>
                 </Flexbox_row_s_c_wrap>
             }
+
         </Flex_col_s_s>
     );
 }

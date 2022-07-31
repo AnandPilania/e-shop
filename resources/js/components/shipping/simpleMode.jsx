@@ -6,7 +6,7 @@ import ModalConfirmation from '../modal/modalConfirmation';
 import ModalSimpleMessage from '../modal/modalSimpleMessage';
 import InputText from '../form/inputText';
 import InputNumeric from '../form/inputNumeric';
-import SelectWithCheckbox from '../elements/selectWithCheckbox';
+import SelectWithCheckbox_icon from '../elements/selectWithCheckbox_icon';
 
 
 const SimpleMode = ({ shippingList, setShippingList, countryList, shipping, setShipping }) => {
@@ -340,8 +340,8 @@ const SimpleMode = ({ shippingList, setShippingList, countryList, shipping, setS
                 <h3 className="text-base font-semibold mb-2.5 text-gray-500 w-auto">
                     Destination
                 </h3>
-                <div className='w-48'>
-                    <SelectWithCheckbox
+                <div className='w-96'>
+                    <SelectWithCheckbox_icon
                         key="SelectWithCheckbox_destination_simple"
                         unikId="SelectWithCheckbox_destination_simple"
                         list={countryList}
@@ -349,6 +349,7 @@ const SimpleMode = ({ shippingList, setShippingList, countryList, shipping, setS
                         setSelected={setDestinationSimple}
                         toggleSelectWithCheckbox={toggleSelectDestination}
                         setToggleSelectWithCheckbox={setToggleSelectDestination}
+                        placeholder="Sélectionner un ou plusieurs pays"
                     />
                 </div>
                 <div className={`flex flex-wrap ${destinationSimple.length > 0 && "pt-4"} w-full`}>

@@ -99,7 +99,8 @@ export default function SelectWithCheckbox({ unikId, list, selected, setSelected
                                 id={item.id + unikId}
                                 checked={selected.findIndex(x => x.id == item.id) > -1}
                                 onChange={() => handleChange(item)}
-                                className="w-4 h-4 ml-3 mr-2 cursor-pointer" />
+                                className="w-4 h-4 ml-3 mr-2 cursor-pointer"
+                            />
                             <label
                                 htmlFor={item.id + unikId}
                                 className="truncate group-hover:text-white cursor-pointer p-2 w-full h-full">
