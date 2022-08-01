@@ -13,9 +13,4 @@ class Shipping extends Model
     {
         return $this->hasMany(Order_detail::class);
     }     
-    
-    public function shipping_prices_lists()
-    {
-        return $this->hasMany(Shipping_prices_list::class);
-    } 
 }

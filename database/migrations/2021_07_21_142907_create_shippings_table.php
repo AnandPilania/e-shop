@@ -15,14 +15,10 @@ class CreateShippingsTable extends Migration
     {
         Schema::create('shippings', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('criteria');
-            $table->integer('min_weight')->nullable();
-            $table->integer('max_weight')->nullable();
-            $table->float('min_price')->nullable();
-            $table->float('max_price')->nullable();
-            $table->string('destination');
-            $table->float('shipping_price');
+            $table->string('zoneName');
+            $table->text('destinations');
+            $table->float('price')->nullable();
+            $table->text('conditions')->nullable();
             $table->timestamps();
         });
     }

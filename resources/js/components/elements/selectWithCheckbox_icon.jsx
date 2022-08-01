@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 
-export default function SelectWithCheckbox_icon({ unikId, list, selected, setSelected, toggleSelectWithCheckbox, setToggleSelectWithCheckbox, placeholder }) {
+export default function SelectWithCheckbox_icon({ unikId, list, selected, setSelected, toggleSelectWithCheckbox, setToggleSelectWithCheckbox, placeholder, label }) {
 
     // list contient la liste à afficher dans le select
     // selected et setSelected sont le hook qui contient les éléments électionnés
@@ -80,14 +80,17 @@ export default function SelectWithCheckbox_icon({ unikId, list, selected, setSel
 
     return (
         <div className="w-full relative">
+            <label className='block text-sm font-medium text-gray-700 mb-1'>
+                {label}
+            </label>
             <div
                 id={'button' + unikId}
                 className="w-full h-10 px-2 m-0 border border-gray-300 rounded-md cursor-pointer bg-white hover:border-gray-400  bg-no-repeat bg-right-center bg-chevron-expand flex items-center"
                 onClick={() => showDropDown()}
             >
-            <span className='text-base text-gray-400'>
-                {placeholder}
-            </span>
+                <span className='text-base text-gray-400'>
+                    {placeholder}
+                </span>
             </div>
             <ul
                 id={'ul' + unikId}

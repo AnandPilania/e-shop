@@ -71,7 +71,7 @@ const Shipping = () => {
                     className={`text-base font-normal hover:font-medium text=gray-600 pb-3 px-1 cursor-pointer ${activeTabShipping == 3 && "border-b-2 border-indigo-600"}`}
                     onClick={() => handleShippingTabs(3)}
                 >
-                    Gérer les modes d'expédition
+                    pas oublier les délais de livraison
                 </span>
             </div>
 
@@ -83,8 +83,8 @@ const Shipping = () => {
                         onClick={() => setActiveTabShipping(2)}>
                         Ajouter une zone de livraison
                     </span>
-
-                </div>}
+                </div>
+            }
 
 
             {/* destinations */}

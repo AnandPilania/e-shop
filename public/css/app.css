@@ -955,6 +955,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .w-\[80\%\] {
   width: 80%;
 }
+.w-96 {
+  width: 24rem;
+}
 .w-24 {
   width: 6rem;
 }
@@ -987,9 +990,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .w-\[90\%\] {
   width: 90%;
-}
-.w-96 {
-  width: 24rem;
 }
 .min-w-\[750px\] {
   min-width: 750px;
@@ -1436,13 +1436,13 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-border-opacity: 1;
   border-color: rgb(59 130 246 / var(--tw-border-opacity));
 }
-.border-indigo-600 {
-  --tw-border-opacity: 1;
-  border-color: rgb(79 70 229 / var(--tw-border-opacity));
-}
 .border-red-700 {
   --tw-border-opacity: 1;
   border-color: rgb(185 28 28 / var(--tw-border-opacity));
+}
+.border-indigo-600 {
+  --tw-border-opacity: 1;
+  border-color: rgb(79 70 229 / var(--tw-border-opacity));
 }
 .border-green-500 {
   --tw-border-opacity: 1;
@@ -2258,6 +2258,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-text-opacity: 1;
   color: rgb(0 0 0 / var(--tw-text-opacity));
 }
+.text-blue-500 {
+  --tw-text-opacity: 1;
+  color: rgb(59 130 246 / var(--tw-text-opacity));
+}
 .text-red-400 {
   --tw-text-opacity: 1;
   color: rgb(248 113 113 / var(--tw-text-opacity));
@@ -2269,14 +2273,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-stone-800 {
   --tw-text-opacity: 1;
   color: rgb(41 37 36 / var(--tw-text-opacity));
-}
-.text-blue-500 {
-  --tw-text-opacity: 1;
-  color: rgb(59 130 246 / var(--tw-text-opacity));
-}
-.text-blue-700 {
-  --tw-text-opacity: 1;
-  color: rgb(29 78 216 / var(--tw-text-opacity));
 }
 .underline {
   -webkit-text-decoration-line: underline;
