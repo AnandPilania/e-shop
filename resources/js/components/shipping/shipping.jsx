@@ -1,109 +1,148 @@
 import React, { useState, useEffect } from 'react';
 import Flex_col_s_s from '../elements/container/flex_col_s_s';
-import Flexbox_row_s_c_wrap from '../elements/container/flexbox_row_s_c_wrap';
 import Axios from 'axios';
 import SimpleMode from './simpleMode';
 import AdvancedMode from './advancedMode';
 import Toggle from '../elements/toggle/toggle';
 import DeliveryZoneForm from './deliveryZoneForm';
+import RowListShipping from './rowListShipping';
 
 
 const Shipping = () => {
 
-    const [activeTabShipping, setActiveTabShipping] = useState(1);
+    const [activePanelShipping, setActivePanelShipping] = useState(1);
     const [shippingList, setShippingList] = useState([]);
-    const [countryList, setCountryList] = useState([]);
+    const [countriesList, setCountriesList] = useState([]);
     const [shipping, setShipping] = useState([]);
     const [zone, setZone] = useState([]);
 
-    const [deliveriesZone, setDeliveriesZone] = useState({});
-
-
-
+    const [deliveryZones, setDeliveryZones] = useState([]);
 
     useEffect(() => {
-        getShippings();
-    }, []);
-
-    const getShippings = () => {
         // charge la liste des shippings
         Axios.get(`http://127.0.0.1:8000/shipping-list`)
             .then(res => {
                 setShippingList(res.data[0]);
-                setCountryList(res.data[1]);
+                setCountriesList(res.data[1]);
+            }).catch(function (error) {
+                console.log('error:   ' + error);
+            });
+    }, []);
+
+    const getShippingsList = () => {
+        // charge la liste des shippings
+        Axios.get(`http://127.0.0.1:8000/shipping-list`)
+            .then(res => {
+                setShippingList(res.data[0]);
             }).catch(function (error) {
                 console.log('error:   ' + error);
             });
     }
 
-    const handleShippingTabs = (indexTab) => {
-        setActiveTabShipping(indexTab);
-    }
 
-    const addNewDeliveryZone = (newZone) => {
-        setDeliveriesZone({
+    console.log('shippingList  ', shippingList)
 
-        })
-    }
+    // const addNewDeliveryZone = (zoneName, destinations) => {
+    //     let tmp_deliveryZones = [...deliveryZones];
+    //     tmp_deliveryZones.push({
+    //         id: Date.now(),
+    //         zoneName: zoneName,
+    //         destinations: destinations,
+    //         hasDeliveryMode: 0,
+    //     });
 
+    //     setDeliveryZones([...tmp_deliveryZones]);
+
+    //     saveNewDeliveryZone(tmp_deliveryZones);
+    // }
+
+    // const saveNewDeliveryZone = (zonesData) => {
+    //     let deliveryZonesData = new FormData;
+    //     deliveryZonesData.append('zonesData', JSON.stringify(zonesData));
+
+    //     Axios.post(`http://127.0.0.1:8000/save-shipping`, deliveryZonesData)
+    //         .then(res => {
+    //             console.log('res.data  --->  ok');
+
+    //         });
+
+    // }
 
 
 
     return (
         <Flex_col_s_s css="mt-10">
             <span className='text-xl font-semibold text=gray-600 my-4 px-4'>
-                Livraison
+                Livraisons
             </span>
-            <div className='w-full border-b border-gray-300 mb-7 pb-2.5 px-4'>
-                <span
-                    className={`text-base font-normal hover:font-medium text=gray-600 pb-3 mr-6 pr-1 cursor-pointer ${activeTabShipping == 1 && "border-b-2 border-indigo-600"}`}
-                    onClick={() => handleShippingTabs(1)}
-                >
-                    Ajouter une zone de livraison
-                </span>
-                <span
-                    className={`text-base font-normal hover:font-medium text=gray-600 pb-3 mr-6 pr-1 cursor-pointer ${activeTabShipping == 2 && "border-b-2 border-indigo-600"}`}
-                    onClick={() => handleShippingTabs(2)}
-                >
-                    Ajouter un mode d'expédition
-                </span>
-                <span
-                    className={`text-base font-normal hover:font-medium text=gray-600 pb-3 px-1 cursor-pointer ${activeTabShipping == 3 && "border-b-2 border-indigo-600"}`}
-                    onClick={() => handleShippingTabs(3)}
-                >
-                    pas oublier les délais de livraison
-                </span>
-            </div>
 
-
-
-            {activeTabShipping == 1 &&
+            {activePanelShipping == 1 &&
                 <div className='w-full'>
-                    <span className='text-base text-blue-500 underline underline-offset-1 cursor-pointer '
-                        onClick={() => setActiveTabShipping(2)}>
+                    <span className='text-base text-blue-500 underline underline-offset-1 cursor-pointer'
+                        onClick={() => setActivePanelShipping(2)}>
                         Ajouter une zone de livraison
                     </span>
+
+                    <div className='w-full mt-10'>
+                        {/* tva Rate List */}
+                        <div
+                            className='grid grid-cols-[1fr_1fr_70px_1fr_40px_40px] justify-start items-start w-full'
+                        >
+                            <span
+                                className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2 rounded-tl-md'
+                            >
+                                Nom
+                            </span>
+                            <span
+                                className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2'
+                            >
+                                Destinations
+                            </span>
+                            <span
+                                className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2'
+                            >
+                                Tarif
+                            </span>
+                            <span
+                                className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2'
+                            >
+                                Conditions
+                            </span>
+                            <span
+                                className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2 self-stretch'>
+                            </span>
+                            <span
+                                className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2 self-stretch rounded-tr-md'>
+                            </span>
+                        </div>
+                    </div>
+
+                <RowListShipping 
+                    shippingList={shippingList}
+                />
                 </div>
             }
 
 
             {/* destinations */}
-            {activeTabShipping == 2 &&
-                <DeliveryZoneForm 
-                    countryList={countryList}
-                    addNewDeliveryZone={addNewDeliveryZone}
+            {activePanelShipping == 2 &&
+                <DeliveryZoneForm
+                    countriesList={countriesList}
+                    getShippingsList={getShippingsList}
+                    shippingList={shippingList}
+                    setActivePanelShipping={setActivePanelShipping}
                 />
             }
 
 
             {/* Ajouter un mode d'expédition---------------------------------*/}
             {
-                activeTabShipping == 22 &&
+                activePanelShipping == 22 &&
                 <div className='w-full'>
                     {/* <AdvancedMode
                                 shippingList={shippingList}
                                 setShippingList={setShippingList}
-                                countryList={countryList}
+                                countriesList={countriesList}
                                 shipping={shipping}
                                 setShipping={setShipping}
                             /> */}
@@ -111,7 +150,7 @@ const Shipping = () => {
                     <SimpleMode
                         shippingList={shippingList}
                         setShippingList={setShippingList}
-                        countryList={countryList}
+                        countriesList={countriesList}
                         shipping={shipping}
                         setShipping={setShipping}
                     />
@@ -120,7 +159,7 @@ const Shipping = () => {
 
             {/* Gérer les modes d'expédition-------------------------------- */}
             {
-                activeTabShipping == 3 &&
+                activePanelShipping == 3 &&
                 <Flexbox_row_s_c_wrap>
                     <div className='w-full'>
                         TAB 2

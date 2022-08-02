@@ -22,7 +22,7 @@ const SettingNav = ({ setCurrentComponent }) => {
             />
             <Card
                 icon="truck.svg"
-                title="Livraison"
+                title="Livraisons"
                 text="Free, high quality, open source icon ln any project."
                 color="bg-pink-50"
                 component="shipping"

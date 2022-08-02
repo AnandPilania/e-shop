@@ -219,6 +219,41 @@ const AdvancedMode = ({ shippingList, setShippingList, countryList, shipping, se
     return (
         <div className='w-full flex flex-col justify-start items-start px-4'>
 
+            {/* add new tarif */}
+            <span
+                className="h-5 w-5 flex justify-center items-center hover:cursor-pointer bg-indigo-600  hover:bg-red-500 rounded-md"
+                onClick={() => { }}>
+                <img src='../images/icons/add-square-dotted.svg' className="w-5 h-5 hover:scale-125" />
+            </span>
+
+            <div className='w-full flex flex-col justify-start items-start my-4'>
+                <div className='flex justify-start items-center'>
+                    <input
+                        type="radio"
+                        id="radioBtnShippingWeight"
+                        name="radioBtnShippingCriteria"
+                        onChange={() => setCriteria("wheight")}
+                        selected
+                    />
+                    <label htmlFor='radioBtnShippingWeight'>
+                        Définir un ou plusieurs tarifs en fonction du poids
+                    </label>
+                </div>
+                <div className='flex justify-start items-center'>
+                    <input
+                        type="radio"
+                        id="radioBtnShippingMin_amount"
+                        name="radioBtnShippingCriteria"
+                        onChange={() => setCriteria("min_amount")}
+                    />
+                    <label htmlFor='radioBtnShippingMin_amount'>
+                        Définir un ou plusieurs tarifs en fonction du montant minimum de la commande
+                    </label>
+                </div>
+            </div>
+
+
+
             {/* criteria */}
             <div className='w-full mb-7'>
                 <SelectBasic

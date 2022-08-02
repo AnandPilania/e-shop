@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 
 export default function SelectWithCheckbox_icon({ unikId, list, selected, setSelected, toggleSelectWithCheckbox, setToggleSelectWithCheckbox, placeholder, label }) {
@@ -7,7 +7,7 @@ export default function SelectWithCheckbox_icon({ unikId, list, selected, setSel
     // selected et setSelected sont le hook qui contient les éléments électionnés
     // example dans creatProduct
 
-
+const [place_holder, setPlace_holder] = useState(placeholder);
 
     // si l'élément a déjà été sélectionné on le retir sinon on l'ajout, ceci coche ou décoche la checkbox
     const handleChange = (item) => {
@@ -31,6 +31,7 @@ export default function SelectWithCheckbox_icon({ unikId, list, selected, setSel
             button.classList.remove('rounded-md');
             button.classList.add('rounded-t-md');
             setToggleSelectWithCheckbox(true);
+            setPlace_holder('');
         } else {
             ul.style.height = 0;
             ul.style.maxHeight = 0;
@@ -38,6 +39,7 @@ export default function SelectWithCheckbox_icon({ unikId, list, selected, setSel
             button.classList.remove('rounded-t-md');
             button.classList.add('rounded-md');
             setToggleSelectWithCheckbox(false);
+            setPlace_holder(placeholder);
         }
     }
 
@@ -74,6 +76,7 @@ export default function SelectWithCheckbox_icon({ unikId, list, selected, setSel
                 ButtonSelectDropDown.classList.add('rounded-md');
             }
             setToggleSelectWithCheckbox(false);
+            setPlace_holder(placeholder);
         }
     }
 
@@ -89,7 +92,7 @@ export default function SelectWithCheckbox_icon({ unikId, list, selected, setSel
                 onClick={() => showDropDown()}
             >
                 <span className='text-base text-gray-400'>
-                    {placeholder}
+                    {place_holder}
                 </span>
             </div>
             <ul

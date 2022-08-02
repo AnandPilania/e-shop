@@ -131,7 +131,7 @@ Route::post('/save-supplier', [SupplierController::class, 'store']);
 Route::get('/shipping-list', [ShippingController::class, 'index']);
 
 // save shipping
-Route::post('/save-shipping', [ShippingController::class, 'store']);
+Route::post('/save-shipping', [ShippingController::class, 'saveShipping']);
 
 
 Route::get('/editProduct/{productId}', [ProductController::class, 'editProduct']);
