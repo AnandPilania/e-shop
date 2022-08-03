@@ -103,7 +103,12 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
         <li className='grid grid-col-list2 w100pct h-auto min-h50 bg-white p15 brd-b-gray-light-1'>
             {/* checkBox */}
             <div className='flex-row min-h50 p5'>
-                {collectionFiltered && <CheckboxListCollection unikId={collectionFiltered.id} handleCheckboxListCollection={handleCheckboxListCollection} listCollectionsChecked={listCollectionsChecked} />}
+                {collectionFiltered &&
+                    <CheckboxListCollection
+                        unikId={collectionFiltered.id}
+                        handleCheckboxListCollection={handleCheckboxListCollection}
+                        listCollectionsChecked={listCollectionsChecked}
+                    />}
             </div>
             {/* name */}
             <div className='flex-row min-h50 p5 p-l-10 w95pct cursor word-break'>
@@ -140,8 +145,8 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
                                         </div>
                                         <ul className="scroll flex-col-s-s w300 max-h265 p20 bg-white ul scrolly">
                                             {conditions.map((item, index) =>
-                                                <li key={index} 
-                                                className="w100pct word-break">
+                                                <li key={index}
+                                                    className="w100pct word-break">
                                                     {getParameter(item.parameter) + ' ' + getOperator(item.operator) + ' ' + item.value}
                                                 </li>)}
                                         </ul>
@@ -168,7 +173,7 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
             {/* date activation */}
             <div className='flex-row min-h50'>
                 <span className={`noshrink flex-row-c-c radius-round15-square w120 h30 p-l-10 ${collectionFiltered?.status == 1 || collectionFiltered?.status == 2 ? collectionFiltered?.dateActivation <= getNowUs() ? 'active-collection' : 'soon-collection' : 'unactive-collection'}`}>
-                {collectionFiltered?.status == 1 || collectionFiltered?.status == 2 ? collectionFiltered?.dateActivation <= getNowUs() ? "On" : `${getOnlyDateShort(collectionFiltered?.dateActivation)}` : "Off"}
+                    {collectionFiltered?.status == 1 || collectionFiltered?.status == 2 ? collectionFiltered?.dateActivation <= getNowUs() ? "On" : `${getOnlyDateShort(collectionFiltered?.dateActivation)}` : "Off"}
                     <button
                         className="flex-row-c-c w30 h30 m-l-auto radius-square-round5 bg-blue-light"
                         checked={collectionFiltered.status == 1}

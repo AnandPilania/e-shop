@@ -40,7 +40,6 @@ const Shipping = () => {
     }
 
 
-    console.log('shippingList  ', shippingList)
 
     // const addNewDeliveryZone = (zoneName, destinations) => {
     //     let tmp_deliveryZones = [...deliveryZones];
@@ -83,43 +82,44 @@ const Shipping = () => {
                         Ajouter une zone de livraison
                     </span>
 
-                    <div className='w-full mt-10'>
-                        {/* tva Rate List */}
-                        <div
-                            className='grid grid-cols-[1fr_1fr_70px_1fr_40px_40px] justify-start items-start w-full'
-                        >
-                            <span
-                                className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2 rounded-tl-md'
+                    {shippingList.length > 0 &&
+                        <div className='w-full mt-10'>
+                            <div
+                                className='grid grid-cols-[1fr_1fr_70px_1fr_40px_40px] justify-start items-start w-full'
                             >
-                                Nom
-                            </span>
-                            <span
-                                className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2'
-                            >
-                                Destinations
-                            </span>
-                            <span
-                                className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2'
-                            >
-                                Tarif
-                            </span>
-                            <span
-                                className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2'
-                            >
-                                Conditions
-                            </span>
-                            <span
-                                className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2 self-stretch'>
-                            </span>
-                            <span
-                                className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2 self-stretch rounded-tr-md'>
-                            </span>
-                        </div>
-                    </div>
+                                <span
+                                    className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2 rounded-tl-md'
+                                >
+                                    Nom
+                                </span>
+                                <span
+                                    className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2'
+                                >
+                                    Destinations
+                                </span>
+                                <span
+                                    className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2'
+                                >
+                                    Tarif
+                                </span>
+                                <span
+                                    className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2'
+                                >
+                                    Conditions
+                                </span>
+                                <span
+                                    className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2 self-stretch'>
+                                </span>
+                                <span
+                                    className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2 self-stretch rounded-tr-md'>
+                                </span>
+                            </div>
 
-                <RowListShipping 
-                    shippingList={shippingList}
-                />
+                            <RowListShipping
+                                shippingList={shippingList}
+                            />
+                        </div>
+                    }
                 </div>
             }
 

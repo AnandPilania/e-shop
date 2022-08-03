@@ -54,7 +54,7 @@ const HeaderListCollections = ({ confirmDeleteCollection }) => {
 
         <div className='flex-col w100pct'>
 
-            <div className='w-full h12 border-b border-gray-300 bg-white flex flex-row justify-center items-center'>
+            <div className='w-full h-12 border-b border-gray-300 bg-white flex flex-row justify-center items-center'>
                 <span>my HeaderListCollections</span>
             </div>
 

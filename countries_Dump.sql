@@ -126,7 +126,7 @@ INSERT INTO `countries` (`id`, `name`, `code_1`, `code_2`, `code_3`) VALUES
 (81, 'Guinée équatoriale', 'GQ', 'GNQ', 226),
 (82, 'Guinée-Bissau', 'GW', 'GNB', 624),
 (83, 'Guyane', 'GY', 'GUY', 328),
-(84, 'Guyane franéaise', 'GF', 'GUF', 254),
+(84, 'Guyane française', 'GF', 'GUF', 254),
 (85, 'Haïti', 'HT', 'HTI', 332),
 (86, 'Honduras', 'HN', 'HND', 340),
 (87, 'Hong Kong', 'HK', 'HKG', 344),
