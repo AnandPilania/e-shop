@@ -13,10 +13,9 @@ const InputText = ({ id, value, handleChange, handleClick, placeholder, label, c
                 value={value}
                 onChange={handleChange}
                 onClick={handleClick}
-                // placeholder={placeholder}
+                placeholder={placeholder}
                 autoComplete="off"
-                className="focus:border-gray-400 w-full h-10 pl-2 mb-6 rounded-md border border-gray-300 bg-white text-gray-500 text-sm"
-                style={css}
+                className={`focus:border-gray-400 w-full h-10 pl-2 rounded-md border border-gray-300 bg-white text-gray-500 text-sm ${css}`}
             />
         </div>
     );

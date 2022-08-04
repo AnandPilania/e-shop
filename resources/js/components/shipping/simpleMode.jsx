@@ -9,7 +9,7 @@ import InputNumeric from '../form/inputNumeric';
 import SelectWithCheckbox_icon from '../elements/selectWithCheckbox_icon';
 
 
-const SimpleMode = ({ shippingList, setShippingList, countryList, shipping, setShipping }) => {
+const SimpleMode = ({ deliveryZoneList, setDeliveryZoneList, countryList }) => {
 
     const [shippingSimple, setShippingSimple] = useState({
         name: '',
@@ -147,7 +147,7 @@ const SimpleMode = ({ shippingList, setShippingList, countryList, shipping, setS
 
     const validation = () => {
         // check if neme of supplier already exist
-        let shipping_List_name = shippingList.map(item => item.name);
+        let shipping_List_name = deliveryZoneList.map(item => item.name);
         if (shipping_List_name.includes(shippingSimple.name)) {
             setMessageModal('Le nom du transporteur que vous avez entré éxiste déjà. Veuillez entrer un nom différent');
             setShowSimpleMessageModal(true);
@@ -201,7 +201,7 @@ const SimpleMode = ({ shippingList, setShippingList, countryList, shipping, setS
                         // refresh data after save new shippingSimple
                         Axios.get(`http://127.0.0.1:8000/shippings-list`)
                             .then(res => {
-                                setShippingList(res.data[0]);
+                                setDeliveryZoneList(res.data[0]);
                                 // navigate('/collections-list');
                             }).catch(function (error) {
                                 console.log('error:   ' + error);
@@ -217,7 +217,7 @@ const SimpleMode = ({ shippingList, setShippingList, countryList, shipping, setS
 
     return (
         <div className='w-full flex flex-col justify-start items-start px-4'>
-            {shippingList?.length > 0 && shippingList.map(itemShipping =>
+            {deliveryZoneList?.length > 0 && deliveryZoneList.map(itemShipping =>
                 <div
                     key={itemShipping.id}
                     className='w-full'

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const RowListShipping = ({ shippingList }) => {
+const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDeliveryZones }) => {
 
     const [showShipConditions, setShowShipConditions] = useState(false);
     const [distanceFromBottomShip, setDistanceFromBottomShip] = useState(null);
@@ -16,6 +16,11 @@ const RowListShipping = ({ shippingList }) => {
         setShowShipConditions(!showShipConditions);
     }
 
+    const addDeliveryMode = (id) => {
+        setIdDeliveryZones(id);
+        setActivePanelShipping(3);
+    }
+
 
     // permet la fermeture du popover quand on clique n'importe où en dehors du popover
     const cover = {
@@ -28,14 +33,16 @@ const RowListShipping = ({ shippingList }) => {
         cursor: 'default',
     }
 
-    console.log('idDistance  ', idDistance)
-    console.log('shippingList  ', shippingList)
+
+    console.log('deliveryZoneList  ', deliveryZoneList)
+
+
     return (
         <div className='w-full mt-2'>
-            {shippingList.map(shippingItem =>
+            {deliveryZoneList.map(shippingItem =>
                 <div
                     key={shippingItem.id}
-                    className='grid grid-cols-[1fr_1fr_70px_1fr_40px_40px] justify-start items-start w-full'
+                    className='grid grid-cols-[1fr_1fr_1fr_1fr] justify-start items-start w-full'
                 >
                     {/* name */}
                     <span>
@@ -43,22 +50,22 @@ const RowListShipping = ({ shippingList }) => {
                     </span>
 
                     {/* destinations */}
-                    <div className={`flex flex-row h-12 min-h-[48px]`}
+                    <div className={`flex flex-row h-3 min-h-[48px]`}
                         onClick={(e) => showHideShipDestinations(e, shippingItem.id)}
                     >
-                        <div className='relative w-auto flex-col justify-s align-s bg-white radius5 m-r-10'
+                        <div className='relative w-auto flex flex-col justify-start items-start bg-white rounded-md mr-2.5'
                         >
                             {!showShipConditions ?
-                                <div className='w-full flex'>
+                                <div className='w-full flex items-center'>
                                     <span>
                                         {shippingItem.destinations[0].name}
                                     </span>
                                 </div>
                                 :
                                 shippingItem.destinations.length > 1 && shippingItem.id == idDistance ?
-                                    <div className='w-full'>
+                                    <div className='w-full h-full'>
                                         <div
-                                            className={`flex-col-s-s w-72 max-h-80 absolute l0 bg-white shadow-l radius5 z3 ${distanceFromBottomShip < 300 ? "b0" : "t0"}`}
+                                            className={`flex flex-col justify-start items-start w-[300px] max-h-[300px] absolute left-0 bg-white shadow-xl rounded-md z-30 ${distanceFromBottomShip < 300 ? "bottom-0" : "top-0"}`}
                                         >
                                             <div
                                                 style={cover}
@@ -68,32 +75,38 @@ const RowListShipping = ({ shippingList }) => {
                                                 }}
                                             />
                                             <div
-                                                className='w100pct h60 p-l-20  flex-row-s-c bg-gray-light'
+                                                className='w-full h-auto p-4  flex flex-row justify-start items-center bg-gray-50'
                                             >
                                                 <span
-                                                    className="w30 h30 radius-round bg-blue white flex-row-c-c fs12"
+                                                    className="w-8 h-8 rounded-full bg-blue-500 text-white flex flex-row justify-center items-center text-sm"
                                                 >
                                                     {shippingItem.destinations.length}
                                                 </span>
-                                                &nbsp; Destinations
+                                                &nbsp; Pays
                                             </div>
-                                            <ul className="scroll flex-col-s-s w300 max-h265 p20 bg-white ul scrolly">
+                                            <ul className="overflow-y-auto flex flex-col justify-start items-start w-[300px] max-h-[265px] px-5 pt-2 pb-5 bg-white list-inside">
                                                 {shippingItem.destinations.map((item, index) =>
                                                     <li key={index}
-                                                        className="w100pct word-break">
-                                                        {item.name}
+                                                        className="w-full flex flex-row justify-start items-center py-2"
+                                                    >
+                                                        <img
+                                                            src={`../images/flags_4_3/${item.code_1}.svg`} className="h-4"
+                                                        />
+                                                        <span className='ml-2 truncate'>
+                                                            {item.name}
+                                                        </span>
                                                     </li>)}
                                             </ul>
                                         </div>
                                         :
-                                        <div className='w-full'>
+                                        <div className='w-full h-full flex items-center'>
                                             <span>
                                                 {shippingItem.destinations[0].name}
                                             </span>
                                         </div>
                                     </div>
                                     :
-                                    <div className='w-full'>
+                                    <div className='w-full h-full flex items-center'>
                                         <span>
                                             {shippingItem.destinations[0].name}
                                         </span>
@@ -103,26 +116,25 @@ const RowListShipping = ({ shippingList }) => {
 
                         {shippingItem.destinations?.length > 1 &&
                             <div
-                                className="w20 h20 m-r-20 m-l-auto min-w20"
+                                className="w-5 h-5 mr-5 ml-auto min-w-[20px]"
                                 onClick={(e) => showHideShipDestinations(e, shippingItem.id)}
                             >
-                                {!showShipConditions && shippingItem.id == idDistance ?
-                                    <img src={window.location.origin + '/images/icons/chevronDown.png'}
+                                {showShipConditions && shippingItem.id == idDistance ?
+                                    <img src={window.location.origin + '/images/icons/chevronUp.png'}
                                         className="w17" />
                                     :
-                                    <img src={window.location.origin + '/images/icons/chevronUp.png'} />}
-                            </div>}
+                                    <img src={window.location.origin + '/images/icons/chevronDown.png'} />}
+                            </div>
+                        }
                     </div>
 
-                    <span>
-                        Tarif
+                    <span
+                        className='text-blue-400 underline underline-offset-1 text-sm'
+                        onClick={() => addDeliveryMode(shippingItem.id)}>
+                        Ajouter un mode de livraison
                     </span>
                     <span>
-                        Conditions
-                    </span>
-                    <span>
-                    </span>
-                    <span>
+                        Voir
                     </span>
                 </div>
             )}

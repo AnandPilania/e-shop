@@ -6,11 +6,9 @@ import ModalConfirmation from '../modal/modalConfirmation';
 import ModalSimpleMessage from '../modal/modalSimpleMessage';
 import InputText from '../form/inputText';
 import InputNumeric from '../form/inputNumeric';
-import SelectWithCheckbox from '../elements/selectWithCheckbox';
-import SelectBasic from '../elements/selectBasic';
 
 
-const AdvancedMode = ({ shippingList, setShippingList, countryList, shipping, setShipping }) => {
+const AdvancedMode = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZones }) => {
 
     const [shippingAdvanced, setShippingAdvanced] = useState({
         name: '',
@@ -20,7 +18,7 @@ const AdvancedMode = ({ shippingList, setShippingList, countryList, shipping, se
         min_price: '',
         max_price: '',
         destination: [],
-        shipping_price: ''
+        shipping_price: 0
     });
     const [showModalConfirmation, setShowModalConfirmation] = useState(false);
     const [showSimpleMessageModal, setShowSimpleMessageModal] = useState(false);
@@ -30,6 +28,7 @@ const AdvancedMode = ({ shippingList, setShippingList, countryList, shipping, se
     const [destinationAdvanced, setDestinationAdvanced] = useState([]);
     const [isDirtyAdvancedShippingForm, setIsDirtyAdvancedShippingForm] = useState(false);
     const [criteria, setCriteria] = useState('Poids');
+    const [showDeliveryPriceConditions, setShowDeliveryPeiceConditions] = useState(false);
 
     var navigate = useNavigate();
 
@@ -47,7 +46,6 @@ const AdvancedMode = ({ shippingList, setShippingList, countryList, shipping, se
             case shippingAdvanced.max_weight.length > 0: setIsDirtyAdvancedShippingForm(true); break;
             case shippingAdvanced.min_price.length > 0: setIsDirtyAdvancedShippingForm(true); break;
             case shippingAdvanced.max_price.length > 0: setIsDirtyAdvancedShippingForm(true); break;
-            case shippingAdvanced.destination.length > 0: setIsDirtyAdvancedShippingForm(true); break;
             case shippingAdvanced.shipping_price.length > 0: setIsDirtyAdvancedShippingForm(true);
                 break;
             default: setIsDirtyAdvancedShippingForm(false);
@@ -61,8 +59,7 @@ const AdvancedMode = ({ shippingList, setShippingList, countryList, shipping, se
             shippingAdvanced.max_weight != '' ||
             shippingAdvanced.min_price != '' ||
             shippingAdvanced.max_price != '' ||
-            shippingAdvanced.destination != '' ||
-            shippingAdvanced.shipping_price != ''
+            shippingAdvanced.shipping_price != 0
         ) {
             return true;
         } else {
@@ -70,9 +67,13 @@ const AdvancedMode = ({ shippingList, setShippingList, countryList, shipping, se
         }
     }
 
+
     // demande confirmation avant de quitter le form sans sauvegarder
     usePromptCollection('Êtes-vous sûr de vouloir quitter sans sauvegarder vos changements ?', checkIfIsDirty);
 
+    const handleShowDeliveryPriceConditions = () => {
+        setShowDeliveryPeiceConditions(!showDeliveryPriceConditions);
+    }
 
     const handleNameShipping = (e) => {
         setShippingAdvanced({ ...shippingAdvanced, name: e.target.value });
@@ -92,21 +93,9 @@ const AdvancedMode = ({ shippingList, setShippingList, countryList, shipping, se
     const handleMax_priceShipping = (e) => {
         setShippingAdvanced({ ...shippingAdvanced, max_price: e.target.value });
     };
-    useEffect(() => {
-        setShippingAdvanced({ ...shippingAdvanced, destination: destinationAdvanced });
-    }, [destinationAdvanced]);
     const handleShipping_price = (e) => {
         setShippingAdvanced({ ...shippingAdvanced, shipping_price: e.target.value });
     };
-
-    const removeDestination = (item) => {
-        let index = destinationAdvanced.findIndex(x => x.id == item.id);
-        if (index > -1) {
-            let tmp_arr = [...destinationAdvanced];
-            tmp_arr.splice(index, 1);
-            setDestinationAdvanced([...tmp_arr]);
-        }
-    }
 
 
 
@@ -119,8 +108,7 @@ const AdvancedMode = ({ shippingList, setShippingList, countryList, shipping, se
             max_weight: '',
             min_price: '',
             max_price: '',
-            destination: [],
-            shipping_price: ''
+            shipping_price: 0
         });
         setDestinationAdvanced([]);
         setCriteria('Poids')
@@ -151,7 +139,7 @@ const AdvancedMode = ({ shippingList, setShippingList, countryList, shipping, se
 
     const validation = () => {
         // check if neme of supplier already exist
-        let shipping_List_name = shippingList.map(item => item.name);
+        let shipping_List_name = deliveryZoneList.map(item => item.name);
         if (shipping_List_name.includes(shippingAdvanced.name)) {
             setMessageModal('Le nom du transporteur que vous avez entré éxiste déjà. Veuillez entrer un nom différent');
             setShowSimpleMessageModal(true);
@@ -202,7 +190,7 @@ const AdvancedMode = ({ shippingList, setShippingList, countryList, shipping, se
                         // refresh data after save new shipping
                         Axios.get(`http://127.0.0.1:8000/shippings-list`)
                             .then(res => {
-                                setShippingList(res.data[0]);
+                                setDeliveryZoneList(res.data[0]);
                                 // navigate('/collections-list');
                             }).catch(function (error) {
                                 console.log('error:   ' + error);
@@ -214,223 +202,225 @@ const AdvancedMode = ({ shippingList, setShippingList, countryList, shipping, se
         }
     }
 
-
+    console.log('IdDeliveryZones   ', IdDeliveryZones);
 
     return (
         <div className='w-full flex flex-col justify-start items-start px-4'>
 
             {/* add new tarif */}
-            <span
+            {/* <span
                 className="h-5 w-5 flex justify-center items-center hover:cursor-pointer bg-indigo-600  hover:bg-red-500 rounded-md"
                 onClick={() => { }}>
                 <img src='../images/icons/add-square-dotted.svg' className="w-5 h-5 hover:scale-125" />
-            </span>
+            </span> */}
 
-            <div className='w-full flex flex-col justify-start items-start my-4'>
-                <div className='flex justify-start items-center'>
-                    <input
-                        type="radio"
-                        id="radioBtnShippingWeight"
-                        name="radioBtnShippingCriteria"
-                        onChange={() => setCriteria("wheight")}
-                        selected
-                    />
-                    <label htmlFor='radioBtnShippingWeight'>
-                        Définir un ou plusieurs tarifs en fonction du poids
-                    </label>
-                </div>
-                <div className='flex justify-start items-center'>
-                    <input
-                        type="radio"
-                        id="radioBtnShippingMin_amount"
-                        name="radioBtnShippingCriteria"
-                        onChange={() => setCriteria("min_amount")}
-                    />
-                    <label htmlFor='radioBtnShippingMin_amount'>
-                        Définir un ou plusieurs tarifs en fonction du montant minimum de la commande
-                    </label>
-                </div>
-            </div>
-
-
-
-            {/* criteria */}
-            <div className='w-full mb-7'>
-                <SelectBasic
-                    list={['Poids', 'Prix Minimum']}
-                    itemSelected={criteria}
-                    setItemSelected={setCriteria}
-                    toggleSelect={toggleSelectCriteria}
-                    setToggleSelect={setToggleSelectCriteria}
-                    ulUnikId="ulShippingSelectUniqueId"
-                    buttonUnikId="buttonShippingSelectUniqueId"
-                />
-            </div>
-
-            <div className='w-full grid grid-cols-[2fr_1fr_100px_40px_40px] gap-2 justify-start items-center'>
-                {/* name */}
+            {/* name */}
+            <div className='w-full grid grid-cols-[60%_120px_1fr] gap-3 justify-start items-start mb-4'>
                 <div>
                     <InputText
                         id="nameShipping"
                         value={shippingAdvanced.name}
                         handleChange={handleNameShipping}
-                        // handleClick={}
-                        placeholder=""
                         label="Nom"
                     />
                     <span className={`text-sm text-red-700 ${shippingAdvanced.name.length > 255 ? "block" : "hidden"}`}>Le nom du transporteur ne peut pas dépasser 255 caractères</span>
                 </div>
 
-                {shippingAdvanced.criteria == "Poids" ?
-                    <div className='w-full grid grid-cols-2 gap-2 justify-start items-center'>
-                        {/* min_weight */}
-                        <div>
-                            <InputNumeric
-                                // id={}
-                                value={shippingAdvanced.min_weight}
-                                handleChange={handleMin_weightShipping}
-                                // handleClick={}
-                                placeholder=""
-                                label="Poids min"
-                                step="1"
-                                min="0"
-                                max=""
-                            />
-                            <span className={`text-sm text-red-700 ${shippingAdvanced.min_weight.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
-                        </div>
+                {/* shipping_price simple */}
+                {!showDeliveryPriceConditions &&
+                    <div
+                        className='flex justify-start items-end'
+                    >
+                        <span className='w-10 h-10 flex justify-center items-center border-y border-l border-gray-300 bg-gray-100 text-gray-500 text-sm rounded-l-md'>
+                            €
+                        </span>
+                        <InputNumeric
+                            value={shippingAdvanced.shipping_price}
+                            handleChange={handleShipping_price}
+                            label="Tarif"
+                            step="0.01"
+                            min="0"
+                            max=""
+                            css="rounded-r-md"
+                        />
+                        <span className={`text-sm text-red-700 ${shippingAdvanced.shipping_price.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
+                    </div>
+                }
+            </div>
 
-                        {/* max_weight */}
-                        <div>
-                            <InputNumeric
-                                // id={}
-                                value={shippingAdvanced.max_weight}
-                                handleChange={handleMax_weightShipping}
-                                // handleClick={}
-                                placeholder=""
-                                label="Poids max"
-                                step="1"
-                                min="0"
-                                max=""
+            <span
+                className='w-full mt-6 text-sm text-blue-500 underline underline-offset-1 cursor-pointer'
+                onClick={handleShowDeliveryPriceConditions}
+            >
+                {!showDeliveryPriceConditions ?
+                    <span>Ajouter des conditions</span>
+                    :
+                    <span>Annuler les conditions</span>
+                }
+            </span>
+
+
+            {showDeliveryPriceConditions &&
+                <div className='w-full'>
+                    {/* radio btn (Poids / Montant) */}
+                    <div className='w-full flex flex-col justify-start items-start my-4'>
+                        <span
+                            className='text-base text-gray-700 font-medium mb-3'>
+                            Définir un ou plusieurs tarifs
+                        </span>
+                        <div className='flex justify-start items-center'>
+                            <input
+                                type="radio"
+                                id="radioBtnShippingWeight"
+                                name="radioBtnShippingCriteria"
+                                onChange={() => setCriteria("wheight")}
+                                checked
+                                className='cursor-pointer mr-3'
                             />
-                            <span className={`text-sm text-red-700 ${shippingAdvanced.max_weight.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
+                            <label
+                                htmlFor='radioBtnShippingWeight'
+                                className='cursor-pointer'
+                            >
+                                en fonction du poids
+                            </label>
+                        </div>
+                        <div className='flex justify-start items-center'>
+                            <input
+                                type="radio"
+                                id="radioBtnShippingMin_amount"
+                                name="radioBtnShippingCriteria"
+                                onChange={() => setCriteria("min_amount")}
+                                className='cursor-pointer mr-3'
+                            />
+                            <label
+                                htmlFor='radioBtnShippingMin_amount'
+                                className='cursor-pointer'
+                            >
+                                en fonction du montant minimum de la commande
+                            </label>
                         </div>
                     </div>
-                    :
-                    <div className='w-full grid grid-cols-2 gap-5 justify-start items-center'>
-                        {/* min_price */}
+
+                    <div className='w-full grid grid-cols-[2fr_1fr_100px_40px_40px] gap-2 justify-start items-center'>
+
+                        {shippingAdvanced.criteria == "Poids" ?
+                            <div className='w-full grid grid-cols-2 gap-2 justify-start items-center'>
+                                {/* min_weight */}
+                                <div>
+                                    <InputNumeric
+                                        // id={}
+                                        value={shippingAdvanced.min_weight}
+                                        handleChange={handleMin_weightShipping}
+                                        // handleClick={}
+                                        placeholder=""
+                                        label="Poids min"
+                                        step="1"
+                                        min="0"
+                                        max=""
+                                    />
+                                    <span className={`text-sm text-red-700 ${shippingAdvanced.min_weight.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
+                                </div>
+
+                                {/* max_weight */}
+                                <div>
+                                    <InputNumeric
+                                        // id={}
+                                        value={shippingAdvanced.max_weight}
+                                        handleChange={handleMax_weightShipping}
+                                        // handleClick={}
+                                        placeholder=""
+                                        label="Poids max"
+                                        step="1"
+                                        min="0"
+                                        max=""
+                                    />
+                                    <span className={`text-sm text-red-700 ${shippingAdvanced.max_weight.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
+                                </div>
+                            </div>
+                            :
+                            <div className='w-full grid grid-cols-2 gap-5 justify-start items-center'>
+                                {/* min_price */}
+                                <div>
+                                    <InputNumeric
+                                        // id={}
+                                        value={shippingAdvanced.min_price}
+                                        handleChange={handleMin_priceShipping}
+                                        // handleClick={}
+                                        placeholder=""
+                                        label="Prix min"
+                                        step="0.01"
+                                        min="0"
+                                        max=""
+                                    />
+                                    <span className={`text-sm text-red-700 ${shippingAdvanced.min_price.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
+                                </div>
+
+                                {/* max_price */}
+                                <div>
+                                    <InputNumeric
+                                        // id={}
+                                        value={shippingAdvanced.max_price}
+                                        handleChange={handleMax_priceShipping}
+                                        // handleClick={}
+                                        placeholder=""
+                                        label="Prix max"
+                                        step="0.01"
+                                        min="0"
+                                        max=""
+                                    />
+                                    <span className={`text-sm text-red-700 ${shippingAdvanced.max_price.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
+                                </div>
+                            </div>}
+
+                        {/* shipping_price */}
                         <div>
                             <InputNumeric
                                 // id={}
-                                value={shippingAdvanced.min_price}
-                                handleChange={handleMin_priceShipping}
+                                value={shippingAdvanced.shipping_price}
+                                handleChange={handleShipping_price}
                                 // handleClick={}
                                 placeholder=""
-                                label="Prix min"
+                                label="Tarif"
                                 step="0.01"
                                 min="0"
                                 max=""
                             />
-                            <span className={`text-sm text-red-700 ${shippingAdvanced.min_price.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
+                            <span className={`text-sm text-red-700 ${shippingAdvanced.shipping_price.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
                         </div>
 
-                        {/* max_price */}
-                        <div>
-                            <InputNumeric
-                                // id={}
-                                value={shippingAdvanced.max_price}
-                                handleChange={handleMax_priceShipping}
-                                // handleClick={}
-                                placeholder=""
-                                label="Prix max"
-                                step="0.01"
-                                min="0"
-                                max=""
-                            />
-                            <span className={`text-sm text-red-700 ${shippingAdvanced.max_price.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
-                        </div>
-                    </div>}
-
-                {/* shipping_price */}
-                <div>
-                    <InputNumeric
-                        // id={}
-                        value={shippingAdvanced.shipping_price}
-                        handleChange={handleShipping_price}
-                        // handleClick={}
-                        placeholder=""
-                        label="Tarif"
-                        step="0.01"
-                        min="0"
-                        max=""
-                    />
-                    <span className={`text-sm text-red-700 ${shippingAdvanced.shipping_price.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
-                </div>
-
-                {/* icons ->  edit - delete */}
-                <div
-                    className="text-sm w-full border-b border-gray-200 py-3 pl-2"
-                >
-                    <span
-                        className="w-6 h-6 flex flex-row justify-center items-center bg-white cursor-pointer"
-                        onClick={() => {
-                            // setIsAddNewShipping(false);
-                            // setIsShowSaveButton(false);
-                            // handleEditShipping(itemShipping);
-                        }}
-                    >
-                        <img
-                            src={window.location.origin + '/images/icons/pencil.svg'}
-                            className="h-4 w-4" />
-                    </span>
-                </div>
-                <div
-                    className="text-sm w-full border-b border-gray-200 py-3 pl-1"
-                >
-                    <span
-                        className="w-6 h-6 flex flex-row justify-center items-center bg-red-600 cursor-pointer"
-                    // onClick={() => showModalConfirmDeleteShippingList(itemShipping)}
-                    >
-                        <img
-                            src={window.location.origin + '/images/icons/x-white.svg'}
-                            className="h-5 w-5" />
-                    </span>
-                </div>
-
-            </div>
-
-            {/* destination */}
-            <div className='w-full'>
-                <h3 className="text-base font-semibold mb-2.5 text-gray-500 w-auto">
-                    Destination
-                </h3>
-                <div className='w-48'>
-                    <SelectWithCheckbox
-                        key="SelectWithCheckbox_destination_advanced"
-                        unikId="SelectWithCheckbox_destination_advanced"
-                        list={countryList}
-                        selected={destinationAdvanced}
-                        setSelected={setDestinationAdvanced}
-                        toggleSelectWithCheckbox={toggleSelectDestination}
-                        setToggleSelectWithCheckbox={setToggleSelectDestination}
-                    />
-                </div>
-                <div className={`flex flex-wrap ${destinationAdvanced.length > 0 && "pt-4"} w-full`}>
-                    {destinationAdvanced.map(item =>
-                        <div key={item.id}
-                            className="flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-2 pr-1.5 py-1 mb-2 mr-2">
+                        {/* icons ->  edit - delete */}
+                        <div
+                            className="text-sm w-full border-b border-gray-200 py-3 pl-2"
+                        >
                             <span
-                                className="h-full text-gray-500 mr-2 rounded-md">
-                                {item.name}
-                            </span>
-                            <span
-                                className="h-5 w-5 flex justify-center items-center hover:cursor-pointer bg-indigo-600  hover:bg-red-700 rounded-md"
-                                onClick={() => removeDestination(item)}>
-                                <img src='../images/icons/x-white.svg' className="w-5 h-5 hover:scale-125" />
+                                className="w-6 h-6 flex flex-row justify-center items-center bg-white cursor-pointer"
+                                onClick={() => {
+                                    // setIsAddNewShipping(false);
+                                    // setIsShowSaveButton(false);
+                                    // handleEditShipping(itemShipping);
+                                }}
+                            >
+                                <img
+                                    src={window.location.origin + '/images/icons/pencil.svg'}
+                                    className="h-4 w-4" />
                             </span>
                         </div>
-                    )}
+                        <div
+                            className="text-sm w-full border-b border-gray-200 py-3 pl-1"
+                        >
+                            <span
+                                className="w-6 h-6 flex flex-row justify-center items-center bg-red-600 cursor-pointer"
+                            // onClick={() => showModalConfirmDeleteShippingList(itemShipping)}
+                            >
+                                <img
+                                    src={window.location.origin + '/images/icons/x-white.svg'}
+                                    className="h-5 w-5" />
+                            </span>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            }
+
 
             {/* save */}
             <div className="w-full flex flex-row justify-start items-start mt-7">

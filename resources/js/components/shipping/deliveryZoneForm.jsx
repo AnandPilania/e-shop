@@ -6,7 +6,7 @@ import InputText from '../form/inputText';
 import Axios from 'axios';
 
 
-const DeliveryZoneForm = ({ countriesList, shippingList, setActivePanelShipping, getShippingsList }) => {
+const DeliveryZoneForm = ({ countriesList, deliveryZoneList, setActivePanelShipping, getShippingsList }) => {
 
     const [zoneName, setZoneName] = useState('');
     const [toggleSelectDestination, setToggleSelectDestination] = useState(false);
@@ -80,7 +80,7 @@ const DeliveryZoneForm = ({ countriesList, shippingList, setActivePanelShipping,
             return;
         }
 
-        let ndx = shippingList.findIndex(x => x.zoneName == zoneName);
+        let ndx = deliveryZoneList.findIndex(x => x.zoneName == zoneName);
         if (ndx > -1) {
             setMessageModalSimple('Le nom que vous avez entré existe déjà');
             setShowModalSimple(true);

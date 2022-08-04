@@ -2597,14 +2597,6 @@ a.link:hover {
   hyphens: auto;
 }
 
-.scrolly {
-  overflow-y: auto;
-}
-
-.ul {
-  list-style: inside;
-}
-
 .sub-div-horiz-align {
   width: 100%;
   display: flex;
