@@ -10,16 +10,23 @@ import InputNumeric from '../form/inputNumeric';
 
 const AdvancedMode = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZones }) => {
 
-    const [shippingAdvanced, setShippingAdvanced] = useState({
-        name: '',
-        criteria: 'Poids',
+    const [modeCondition, setModeCondition] = useState({
+        criteria: 'weight',
         min_weight: '',
         max_weight: '',
         min_price: '',
         max_price: '',
-        destination: [],
         shipping_price: 0
     });
+    const [arrOfModeConditions, setArrOfModeConditions] = useState([{
+        criteria: 'weight',
+        min_weight: 0,
+        max_weight: '',
+        min_price: 0,
+        max_price: '',
+        shipping_price: 0
+    }]);
+    const [modeName, setModeName] = useState('');
     const [showModalConfirmation, setShowModalConfirmation] = useState(false);
     const [showSimpleMessageModal, setShowSimpleMessageModal] = useState(false);
     const [messageModal, setMessageModal] = useState('');
@@ -27,7 +34,7 @@ const AdvancedMode = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZones }
     const [toggleSelectCriteria, setToggleSelectCriteria] = useState(false);
     const [destinationAdvanced, setDestinationAdvanced] = useState([]);
     const [isDirtyAdvancedShippingForm, setIsDirtyAdvancedShippingForm] = useState(false);
-    const [criteria, setCriteria] = useState('Poids');
+    const [criteria, setCriteria] = useState('weight');
     const [showDeliveryPriceConditions, setShowDeliveryPeiceConditions] = useState(false);
 
     var navigate = useNavigate();
@@ -40,26 +47,26 @@ const AdvancedMode = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZones }
     // show or hide reset button
     useEffect(() => {
         switch (true) {
-            case shippingAdvanced.name.length > 0: setIsDirtyAdvancedShippingForm(true);
+            case modeName.length > 0: setIsDirtyAdvancedShippingForm(true);
                 break;
-            case shippingAdvanced.min_weight.length > 0: setIsDirtyAdvancedShippingForm(true); break;
-            case shippingAdvanced.max_weight.length > 0: setIsDirtyAdvancedShippingForm(true); break;
-            case shippingAdvanced.min_price.length > 0: setIsDirtyAdvancedShippingForm(true); break;
-            case shippingAdvanced.max_price.length > 0: setIsDirtyAdvancedShippingForm(true); break;
-            case shippingAdvanced.shipping_price.length > 0: setIsDirtyAdvancedShippingForm(true);
+            case modeCondition.min_weight.length > 0: setIsDirtyAdvancedShippingForm(true); break;
+            case modeCondition.max_weight.length > 0: setIsDirtyAdvancedShippingForm(true); break;
+            case modeCondition.min_price.length > 0: setIsDirtyAdvancedShippingForm(true); break;
+            case modeCondition.max_price.length > 0: setIsDirtyAdvancedShippingForm(true); break;
+            case modeCondition.shipping_price.length > 0: setIsDirtyAdvancedShippingForm(true);
                 break;
             default: setIsDirtyAdvancedShippingForm(false);
         }
-    }, [shippingAdvanced]);
+    }, [modeCondition]);
 
     const checkIfIsDirty = () => {
         if (
-            shippingAdvanced.name != '' ||
-            shippingAdvanced.min_weight != '' ||
-            shippingAdvanced.max_weight != '' ||
-            shippingAdvanced.min_price != '' ||
-            shippingAdvanced.max_price != '' ||
-            shippingAdvanced.shipping_price != 0
+            modeName != '' ||
+            modeCondition.min_weight != '' ||
+            modeCondition.max_weight != '' ||
+            modeCondition.min_price != '' ||
+            modeCondition.max_price != '' ||
+            modeCondition.shipping_price != 0
         ) {
             return true;
         } else {
@@ -75,35 +82,37 @@ const AdvancedMode = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZones }
         setShowDeliveryPeiceConditions(!showDeliveryPriceConditions);
     }
 
-    const handleNameShipping = (e) => {
-        setShippingAdvanced({ ...shippingAdvanced, name: e.target.value });
+    const handleModeName = (e) => {
+        setModeName(e.target.value);
     };
-    useEffect(() => {
-        setShippingAdvanced({ ...shippingAdvanced, criteria: criteria });
-    }, [criteria]);
-    const handleMin_weightShipping = (e) => {
-        setShippingAdvanced({ ...shippingAdvanced, min_weight: e.target.value });
+    const handleCriteria = (criteriaSelected) => {
+        setCriteria(criteriaSelected);
+        setModeCondition({ ...modeCondition, criteria: criteriaSelected });
+    };
+    const handleMin_weightShipping = (e) => { alert('ok')
+        console.log('e.target.value  ', e.target.value)
+        setModeCondition({ ...modeCondition, min_weight: e.target.value });
     };
     const handleMax_weightShipping = (e) => {
-        setShippingAdvanced({ ...shippingAdvanced, max_weight: e.target.value });
+        setModeCondition({ ...modeCondition, max_weight: e.target.value });
     };
     const handleMin_priceShipping = (e) => {
-        setShippingAdvanced({ ...shippingAdvanced, min_price: e.target.value });
+        setModeCondition({ ...modeCondition, min_price: e.target.value });
     };
     const handleMax_priceShipping = (e) => {
-        setShippingAdvanced({ ...shippingAdvanced, max_price: e.target.value });
+        setModeCondition({ ...modeCondition, max_price: e.target.value });
     };
     const handleShipping_price = (e) => {
-        setShippingAdvanced({ ...shippingAdvanced, shipping_price: e.target.value });
+        setModeCondition({ ...modeCondition, shipping_price: e.target.value });
     };
 
 
 
     // reset supplier form 
     const initShippingForm = () => {
-        setShippingAdvanced({
+        setModeCondition({
             name: '',
-            criteria: 'Poids',
+            criteria: 'weight',
             min_weight: '',
             max_weight: '',
             min_price: '',
@@ -111,7 +120,7 @@ const AdvancedMode = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZones }
             shipping_price: 0
         });
         setDestinationAdvanced([]);
-        setCriteria('Poids')
+        setCriteria('weight')
     }
 
     const handleModalConfirm = () => {
@@ -140,20 +149,20 @@ const AdvancedMode = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZones }
     const validation = () => {
         // check if neme of supplier already exist
         let shipping_List_name = deliveryZoneList.map(item => item.name);
-        if (shipping_List_name.includes(shippingAdvanced.name)) {
+        if (shipping_List_name.includes(modeName)) {
             setMessageModal('Le nom du transporteur que vous avez entré éxiste déjà. Veuillez entrer un nom différent');
             setShowSimpleMessageModal(true);
             return false;
         }
 
-        if (shippingAdvanced.name.length === 0) {
+        if (modeName.length === 0) {
             document.getElementById('nameShipping').style.border = "solid 1px rgb(212, 0, 0)";
             setMessageModal('Le champ Nom du transporteur est obligatoire');
             setShowSimpleMessageModal(true);
             return false;
         }
 
-        if (shippingAdvanced.name.length > 255) {
+        if (modeName.length > 255) {
             document.getElementById('nameShipping').style.border = "solid 1px rgb(212, 0, 0)";
             setMessageModal('Le nom du transporteur ne doit pas dépasser 255 caractères');
             setShowSimpleMessageModal(true);
@@ -172,14 +181,14 @@ const AdvancedMode = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZones }
         if (valid) {
 
             let formDataShipping = new FormData;
-            formDataShipping.append('name', shippingAdvanced.name);
-            formDataShipping.append('criteria', shippingAdvanced.criteria);
-            formDataShipping.append('min_weight', shippingAdvanced.min_weight);
-            formDataShipping.append('max_weight', shippingAdvanced.max_weight);
-            formDataShipping.append('min_price', shippingAdvanced.min_price);
-            formDataShipping.append('max_price', shippingAdvanced.max_price);
-            formDataShipping.append('destination', shippingAdvanced.destination);
-            formDataShipping.append('shipping_price', shippingAdvanced.shipping_price);
+            formDataShipping.append('name', modeName);
+            formDataShipping.append('criteria', modeCondition.criteria);
+            formDataShipping.append('min_weight', modeCondition.min_weight);
+            formDataShipping.append('max_weight', modeCondition.max_weight);
+            formDataShipping.append('min_price', modeCondition.min_price);
+            formDataShipping.append('max_price', modeCondition.max_price);
+            formDataShipping.append('destination', modeCondition.destination);
+            formDataShipping.append('shipping_price', modeCondition.shipping_price);
 
             Axios.post(`http://127.0.0.1:8000/save-shipping`, formDataShipping)
                 .then(res => {
@@ -203,6 +212,7 @@ const AdvancedMode = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZones }
     }
 
     console.log('IdDeliveryZones   ', IdDeliveryZones);
+    console.log('criteria   ', criteria);
 
     return (
         <div className='w-full flex flex-col justify-start items-start px-4'>
@@ -219,11 +229,11 @@ const AdvancedMode = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZones }
                 <div>
                     <InputText
                         id="nameShipping"
-                        value={shippingAdvanced.name}
-                        handleChange={handleNameShipping}
+                        value={modeName}
+                        handleChange={handleModeName}
                         label="Nom"
                     />
-                    <span className={`text-sm text-red-700 ${shippingAdvanced.name.length > 255 ? "block" : "hidden"}`}>Le nom du transporteur ne peut pas dépasser 255 caractères</span>
+                    <span className={`text-sm text-red-700 ${modeName.length > 255 ? "block" : "hidden"}`}>Le nom du transporteur ne peut pas dépasser 255 caractères</span>
                 </div>
 
                 {/* shipping_price simple */}
@@ -231,25 +241,25 @@ const AdvancedMode = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZones }
                     <div
                         className='flex justify-start items-end'
                     >
-                        <span className='w-10 h-10 flex justify-center items-center border-y border-l border-gray-300 bg-gray-100 text-gray-500 text-sm rounded-l-md'>
-                            €
-                        </span>
                         <InputNumeric
-                            value={shippingAdvanced.shipping_price}
+                            value={modeCondition.shipping_price}
                             handleChange={handleShipping_price}
                             label="Tarif"
                             step="0.01"
                             min="0"
                             max=""
-                            css="rounded-r-md"
+                            css="rounded-l-md"
                         />
-                        <span className={`text-sm text-red-700 ${shippingAdvanced.shipping_price.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
+                        <span className='w-10 h-10 flex justify-center items-center border-y border-r border-gray-300 bg-gray-100 text-gray-500 text-sm rounded-r-md'>
+                            €
+                        </span>
+                        <span className={`text-sm text-red-700 ${modeCondition.shipping_price.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
                     </div>
                 }
             </div>
 
             <span
-                className='w-full mt-6 text-sm text-blue-500 underline underline-offset-1 cursor-pointer'
+                className='w-auto mt-6 text-base text-blue-500 underline underline-offset-1 cursor-pointer'
                 onClick={handleShowDeliveryPriceConditions}
             >
                 {!showDeliveryPriceConditions ?
@@ -262,26 +272,26 @@ const AdvancedMode = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZones }
 
             {showDeliveryPriceConditions &&
                 <div className='w-full'>
-                    {/* radio btn (Poids / Montant) */}
+                    {/* radio btn */}
                     <div className='w-full flex flex-col justify-start items-start my-4'>
-                        <span
+                        {/* <span
                             className='text-base text-gray-700 font-medium mb-3'>
-                            Définir un ou plusieurs tarifs
-                        </span>
+                            Définir un tarif en fonction du poids
+                        </span> */}
                         <div className='flex justify-start items-center'>
                             <input
                                 type="radio"
                                 id="radioBtnShippingWeight"
                                 name="radioBtnShippingCriteria"
-                                onChange={() => setCriteria("wheight")}
-                                checked
+                                onChange={() => handleCriteria("weight")}
+                                checked={criteria == "weight"}
                                 className='cursor-pointer mr-3'
                             />
                             <label
                                 htmlFor='radioBtnShippingWeight'
                                 className='cursor-pointer'
                             >
-                                en fonction du poids
+                                Définir le<span className='text-sm font-semibold'>(s)</span> tarif<span className='text-xs font-bold'>(s)</span> en fonction du poids
                             </label>
                         </div>
                         <div className='flex justify-start items-center'>
@@ -289,135 +299,166 @@ const AdvancedMode = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZones }
                                 type="radio"
                                 id="radioBtnShippingMin_amount"
                                 name="radioBtnShippingCriteria"
-                                onChange={() => setCriteria("min_amount")}
+                                onChange={() => handleCriteria("amount")}
                                 className='cursor-pointer mr-3'
+                                checked={criteria == "amount"}
                             />
                             <label
                                 htmlFor='radioBtnShippingMin_amount'
                                 className='cursor-pointer'
                             >
-                                en fonction du montant minimum de la commande
+                                Définir le<span className='text-sm font-semibold'>(s)</span> tarif<span className='text-xs font-bold'>(s)</span> en fonction du montant de la commande
                             </label>
                         </div>
                     </div>
 
-                    <div className='w-full grid grid-cols-[2fr_1fr_100px_40px_40px] gap-2 justify-start items-center'>
 
-                        {shippingAdvanced.criteria == "Poids" ?
-                            <div className='w-full grid grid-cols-2 gap-2 justify-start items-center'>
-                                {/* min_weight */}
-                                <div>
-                                    <InputNumeric
-                                        // id={}
-                                        value={shippingAdvanced.min_weight}
-                                        handleChange={handleMin_weightShipping}
-                                        // handleClick={}
-                                        placeholder=""
-                                        label="Poids min"
-                                        step="1"
-                                        min="0"
-                                        max=""
-                                    />
-                                    <span className={`text-sm text-red-700 ${shippingAdvanced.min_weight.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
-                                </div>
+                    {arrOfModeConditions.map((itemModeCondition, index) =>
+                        <div
+                            key={index}
+                            className='w-full grid grid-cols-[360px_120px_40px] gap-4 justify-start items-center'
+                        >
+                            {criteria == "weight" &&
+                                <div
+                                    className='w-full grid grid-cols-2 gap-4 justify-start items-center'
+                                >
+                                    {/* min_weight */}
+                                    <div
+                                        className='flex justify-start items-end'
+                                    >
+                                        <InputNumeric
+                                            // id={}
+                                            value={modeCondition.min_weight}
+                                            handleChange={handleMin_weightShipping}
+                                            // handleClick={}
+                                            placeholder=""
+                                            label="Poids min"
+                                            step="1"
+                                            min="0"
+                                            max=""
+                                            css="rounded-l-md"
+                                        />
+                                        <span className='w-10 h-10 flex justify-center items-center border-y border-r border-gray-300 bg-gray-100 text-gray-500 text-sm font-semibold  rounded-r-md'>
+                                            g
+                                        </span>
+                                        <span className={`text-sm text-red-700 ${modeCondition.min_weight.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
+                                    </div>
 
-                                {/* max_weight */}
-                                <div>
-                                    <InputNumeric
-                                        // id={}
-                                        value={shippingAdvanced.max_weight}
-                                        handleChange={handleMax_weightShipping}
-                                        // handleClick={}
-                                        placeholder=""
-                                        label="Poids max"
-                                        step="1"
-                                        min="0"
-                                        max=""
-                                    />
-                                    <span className={`text-sm text-red-700 ${shippingAdvanced.max_weight.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
+                                    {/* max_weight */}
+                                    <div
+                                        className='flex justify-start items-end'
+                                    >
+                                        <InputNumeric
+                                            // id={}
+                                            value={modeCondition.max_weight}
+                                            handleChange={handleMax_weightShipping}
+                                            // handleClick={}
+                                            placeholder=""
+                                            label="Poids max"
+                                            step="1"
+                                            min="0"
+                                            max=""
+                                            css="rounded-l-md"
+                                        />
+                                        <span className='w-10 h-10 flex justify-center items-center border-y border-r border-gray-300 bg-gray-100 text-gray-500 text-sm font-semibold rounded-r-md'>
+                                            g
+                                        </span>
+                                        <span className={`text-sm text-red-700 ${modeCondition.max_weight.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
+                                    </div>
                                 </div>
+                            }
+
+                            {criteria == "amount" &&
+                                <div className='w-full grid grid-cols-2 gap-4 justify-start items-center'>
+                                    {/* min_price */}
+                                    <div
+                                        className='flex justify-start items-end'
+                                    >
+                                        <InputNumeric
+                                            // id={}
+                                            value={modeCondition.min_price}
+                                            handleChange={handleMin_priceShipping}
+                                            // handleClick={}
+                                            placeholder=""
+                                            label="Montant min"
+                                            step="0.01"
+                                            min="0"
+                                            max=""
+                                            css="rounded-l-md"
+                                        />
+                                        <span className='w-10 h-10 flex justify-center items-center border-y border-r border-gray-300 bg-gray-100 text-gray-500 text-sm font-semibold rounded-r-md'>
+                                            €
+                                        </span>
+                                        <span className={`text-sm text-red-700 ${modeCondition.min_price.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
+                                    </div>
+
+                                    {/* max_price */}
+                                    <div
+                                        className='flex justify-start items-end'
+                                    >
+                                        <InputNumeric
+                                            // id={}
+                                            value={modeCondition.max_price}
+                                            handleChange={handleMax_priceShipping}
+                                            // handleClick={}
+                                            placeholder=""
+                                            label="Montant max"
+                                            step="0.01"
+                                            min="0"
+                                            max=""
+                                            css="rounded-l-md"
+                                        />
+                                        <span className='w-10 h-10 flex justify-center items-center border-y border-r border-gray-300 bg-gray-100 text-gray-500 text-sm font-semibold rounded-r-md'>
+                                            €
+                                        </span>
+                                        <span className={`text-sm text-red-700 ${modeCondition.max_price.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
+                                    </div>
+                                </div>
+                            }
+
+                            {/* shipping_price */}
+                            <div
+                                className='flex justify-start items-end'
+                            >
+                                <InputNumeric
+                                    // id={}
+                                    value={modeCondition.shipping_price}
+                                    handleChange={handleShipping_price}
+                                    // handleClick={}
+                                    placeholder=""
+                                    label="Tarif"
+                                    step="0.01"
+                                    min="0"
+                                    max=""
+                                    css="rounded-l-md"
+                                />
+                                <span className='w-10 h-10 flex justify-center items-center border-y border-r border-gray-300 bg-gray-100 text-gray-500 text-sm font-semibold rounded-r-md'>
+                                    €
+                                </span>
+                                <span className={`text-sm text-red-700 ${modeCondition.shipping_price.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
                             </div>
-                            :
-                            <div className='w-full grid grid-cols-2 gap-5 justify-start items-center'>
-                                {/* min_price */}
-                                <div>
-                                    <InputNumeric
-                                        // id={}
-                                        value={shippingAdvanced.min_price}
-                                        handleChange={handleMin_priceShipping}
-                                        // handleClick={}
-                                        placeholder=""
-                                        label="Prix min"
-                                        step="0.01"
-                                        min="0"
-                                        max=""
-                                    />
-                                    <span className={`text-sm text-red-700 ${shippingAdvanced.min_price.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
-                                </div>
 
-                                {/* max_price */}
-                                <div>
-                                    <InputNumeric
-                                        // id={}
-                                        value={shippingAdvanced.max_price}
-                                        handleChange={handleMax_priceShipping}
-                                        // handleClick={}
-                                        placeholder=""
-                                        label="Prix max"
-                                        step="0.01"
-                                        min="0"
-                                        max=""
-                                    />
-                                    <span className={`text-sm text-red-700 ${shippingAdvanced.max_price.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
-                                </div>
-                            </div>}
-
-                        {/* shipping_price */}
-                        <div>
-                            <InputNumeric
-                                // id={}
-                                value={shippingAdvanced.shipping_price}
-                                handleChange={handleShipping_price}
-                                // handleClick={}
-                                placeholder=""
-                                label="Tarif"
-                                step="0.01"
-                                min="0"
-                                max=""
-                            />
-                            <span className={`text-sm text-red-700 ${shippingAdvanced.shipping_price.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
-                        </div>
-
-                        {/* icons ->  edit - delete */}
-                        <div
-                            className="text-sm w-full border-b border-gray-200 py-3 pl-2"
-                        >
-                            <span
-                                className="w-6 h-6 flex flex-row justify-center items-center bg-white cursor-pointer"
-                                onClick={() => {
-                                    // setIsAddNewShipping(false);
-                                    // setIsShowSaveButton(false);
-                                    // handleEditShipping(itemShipping);
-                                }}
+                            {/* icons delete */}
+                            <div
+                                // onClick={() => toggleDeleteUndeleteVariante(item.id)}
+                                className='flex justify-center items-center  h-10 w-10 mt-6 rounded-md border border-gray-300'
                             >
-                                <img
-                                    src={window.location.origin + '/images/icons/pencil.svg'}
-                                    className="h-4 w-4" />
-                            </span>
+                                <span
+                                    // onClick={() => toggleDeleteUndeleteVariante(item.id)}
+                                    className='flex justify-center items-center w-6 h-6 cursor-pointer hover:bg-red-500 rounded-md group'
+                                >
+                                    <img
+                                        src={window.location.origin + '/images/icons/trash.svg'}
+                                        className="h-5 w-5 group-hover:hidden"
+                                    />
+                                    <img
+                                        src={window.location.origin + '/images/icons/x-white.svg'}
+                                        className="h-6 w-6 hidden group-hover:block"
+                                    />
+                                </span>
+                            </div>
                         </div>
-                        <div
-                            className="text-sm w-full border-b border-gray-200 py-3 pl-1"
-                        >
-                            <span
-                                className="w-6 h-6 flex flex-row justify-center items-center bg-red-600 cursor-pointer"
-                            // onClick={() => showModalConfirmDeleteShippingList(itemShipping)}
-                            >
-                                <img
-                                    src={window.location.origin + '/images/icons/x-white.svg'}
-                                    className="h-5 w-5" />
-                            </span>
-                        </div>
-                    </div>
+                    )}
                 </div>
             }
 

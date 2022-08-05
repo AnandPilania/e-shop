@@ -42,7 +42,7 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
             {deliveryZoneList.map(shippingItem =>
                 <div
                     key={shippingItem.id}
-                    className='grid grid-cols-[1fr_1fr_1fr_1fr] justify-start items-start w-full'
+                    className='grid grid-cols-[1fr_250px_1fr_1fr] justify-start items-start w-full'
                 >
                     {/* name */}
                     <span>
@@ -50,16 +50,17 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
                     </span>
 
                     {/* destinations */}
-                    <div className={`flex flex-row h-3 min-h-[48px]`}
+                    <div className={`flex flex-row w-full h-3 min-h-[48px]`}
                         onClick={(e) => showHideShipDestinations(e, shippingItem.id)}
                     >
                         <div className='relative w-auto flex flex-col justify-start items-start bg-white rounded-md mr-2.5'
                         >
                             {!showShipConditions ?
-                                <div className='w-full flex items-center'>
-                                    <span>
-                                        {shippingItem.destinations[0].name}
+                                <div className='w-full max-w-[170px] flex items-center'>
+                                    <span className='w-full truncate'>
+                                        {shippingItem.destinations.map(x => { return ' ' + x.name }).toString()}
                                     </span>
+
                                 </div>
                                 :
                                 shippingItem.destinations.length > 1 && shippingItem.id == idDistance ?
@@ -98,18 +99,13 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
                                                     </li>)}
                                             </ul>
                                         </div>
-                                        :
-                                        <div className='w-full h-full flex items-center'>
-                                            <span>
-                                                {shippingItem.destinations[0].name}
-                                            </span>
-                                        </div>
                                     </div>
                                     :
-                                    <div className='w-full h-full flex items-center'>
-                                        <span>
-                                            {shippingItem.destinations[0].name}
+                                    <div className='w-full max-w-[170px] flex items-center'>
+                                        <span className='w-full truncate'>
+                                            {shippingItem.destinations.map(x => { return ' ' + x.name }).toString()}
                                         </span>
+
                                     </div>
                             }
                         </div>
@@ -129,7 +125,7 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
                     </div>
 
                     <span
-                        className='text-blue-400 underline underline-offset-1 text-sm'
+                        className='text-blue-500 underline underline-offset-1 text-sm cursor-pointer hover:text-blue-400'
                         onClick={() => addDeliveryMode(shippingItem.id)}>
                         Ajouter un mode de livraison
                     </span>
