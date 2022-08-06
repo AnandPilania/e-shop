@@ -19,7 +19,7 @@ const HeaderListCollections = ({ confirmDeleteCollection }) => {
         };
     }, []);
     // ferme le select de category quand on click en dehors du select
-    function closeDropDownOperations(evt) { 
+    function closeDropDownOperations(evt) {
         const operationsElement = document.getElementById("operationsDropDown_Id");
         let targetElement = evt.target; // clicked element
 
@@ -54,8 +54,8 @@ const HeaderListCollections = ({ confirmDeleteCollection }) => {
 
         <div className='flex-col w100pct'>
 
-            <div className='w-full h-12 border-b border-gray-300 bg-white flex flex-row justify-center items-center'>
-                <span>my HeaderListCollections</span>
+            <div className='w-full h-12 border-b border-gray-300 bg-white flex flex-row justify-start items-center pl-[10%]'>
+                <span className='text-2xl text-green-700 font-bold'>think</span><span className='text-2xl text-indigo-600 font-bold'>boutik</span>
             </div>
 
 

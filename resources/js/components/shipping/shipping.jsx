@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Flex_col_s_s from '../elements/container/flex_col_s_s';
 import Axios from 'axios';
-import AdvancedMode from './advancedMode';
 import DeliveryZoneForm from './deliveryZoneForm';
 import RowListShipping from './rowListShipping';
+import DeliveryModeForm from './deliveryModeForm';
 
 
 const Shipping = () => {
@@ -11,7 +11,6 @@ const Shipping = () => {
     const [activePanelShipping, setActivePanelShipping] = useState(1);
     const [deliveryZoneList, setDeliveryZoneList] = useState([]);
     const [countriesList, setCountriesList] = useState([]);
-    const [shipping, setShipping] = useState([]);
     const [IdDeliveryZones, setIdDeliveryZones] = useState(null);
 
     useEffect(() => {
@@ -102,13 +101,11 @@ const Shipping = () => {
             {
                 activePanelShipping == 3 &&
                 <div className='w-full'>
-                    <AdvancedMode
+                    <DeliveryModeForm
                         deliveryZoneList={deliveryZoneList}
                         setDeliveryZoneList={setDeliveryZoneList}
-                        countriesList={countriesList}
-                        shipping={shipping}
-                        setShipping={setShipping}
                         IdDeliveryZones={IdDeliveryZones}
+                        setActivePanelShipping={setActivePanelShipping}
                     />
                 </div>
             }

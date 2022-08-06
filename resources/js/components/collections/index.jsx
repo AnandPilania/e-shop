@@ -262,7 +262,7 @@ const CreateCollection = () => {
 
 
     // demande confirmation avant de quitter le form sans sauvegarder
-    usePromptCollection('Quitter sans sauvegarder les changements ?', checkIfIsDirty);
+    usePromptCollection('Quitter sans sauvegarder les changements ?', checkIfIsDirty, setShowModalConfirm, setMessageModal);
 
 
     const handleNameCollection = (e) => {

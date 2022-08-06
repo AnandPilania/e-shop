@@ -3,9 +3,9 @@ import AppContext from '../contexts/AppContext';
 import { useBlocker } from './useBlocker';
 
 
-export function usePromptCollection(messageObj, shouldPrompt) {
+export function usePromptCollection(messageObj, shouldPrompt, setShowModalConfirm, setMessageModal) {
 
-    const { is, setIs, setMessageModal, setTextButtonConfirm, setImageModal, setSender, setTmp_parameter, setShowModalConfirm, setConditions } = useContext(AppContext);
+    const { is, setIs, setTextButtonConfirm, setSender, setTmp_parameter } = useContext(AppContext);
 
     const retryFn = useRef(() => { });
 
@@ -20,7 +20,6 @@ export function usePromptCollection(messageObj, shouldPrompt) {
     function openModal() {
         setMessageModal(messageObj);
         setTextButtonConfirm('Confirmer');
-        setImageModal('../images/icons/trash_dirty.png');
         setSender('leaveEditCollectionWithoutSaveChange');
         setTmp_parameter('');
         setShowModalConfirm(true);
@@ -34,13 +33,6 @@ export function usePromptCollection(messageObj, shouldPrompt) {
             openModal();
             retryFn.current = retry;
         } else {
-            // pour que les conditions soient vides quand on ajoute des conditions à un group de collections <--- normalement pas utilse !!!
-            // setConditions([{
-            //     id: 0,
-            //     parameter: '1',
-            //     operator: '1',
-            //     value: ''
-            // }])
             retry();
         }
     }

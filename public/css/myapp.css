@@ -3270,11 +3270,6 @@ a.link:hover {
   border: solid 1px #008aff;
   transition: ease-in-out 0.15s;
 }
-.app-container #nav-text {
-  font-size: 30px;
-  font-weight: bold;
-  color: #1151ff;
-}
 
 /* Hide scrollbar for Chrome, Safari and Opera */
 .classSectionModalImageVariante::-webkit-scrollbar {

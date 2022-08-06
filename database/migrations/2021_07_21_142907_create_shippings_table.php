@@ -17,9 +17,8 @@ class CreateShippingsTable extends Migration
             $table->id();
             $table->string('zoneName');
             $table->text('destinations');
-            $table->tinyInteger('hasDeliveryMode');
             $table->float('price')->nullable();
-            $table->text('conditions')->nullable();
+            $table->text('delivery_modes')->nullable();
             $table->timestamps();
         });
     }
