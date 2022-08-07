@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { usePromptCollection } from '../hooks/usePromptCollection';
 import Axios from 'axios';
 import ModalConfirmation from '../modal/modalConfirmation';
@@ -9,37 +8,30 @@ import InputNumeric from '../form/inputNumeric';
 import Label from '../form/label';
 
 
-
 const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZones, setActivePanelShipping }) => {
 
-    const [modeCondition, setModeCondition] = useState([{
-        id: 0,
-        criteria: 'weight',
-        min_weight: 0,
-        max_weight: '',
-        min_amount: 0,
-        max_amount: '',
-        modeTarif: ''
-    }]);
     const [modeName, setModeName] = useState('');
     const [modeSimplePrice, setModeSimplePrice] = useState('');
-    const [objOfModeConditions, setObjOfModeConditions] = useState({ "name": modeName, "price": modeSimplePrice, "conditions": modeCondition });
+    const [criteria, setCriteria] = useState('weight');
+    const [objOfModeConditions, setObjOfModeConditions] = useState([{
+        id: 0,
+        min_value: 0,
+        max_value: '',
+        modeTarif: ''
+    }]);
 
+    const [showErrorMessageMode, setShowErrorMessageMode] = useState(false);
     const [showModalConfirmation, setShowModalConfirmation] = useState(false);
     const [showSimpleMessageModal, setShowSimpleMessageModal] = useState(false);
     const [messageModal, setMessageModal] = useState('');
-    const [criteria, setCriteria] = useState('weight');
+    const [warningModeFieldMessages, setWarningModeFieldMessages] = useState([]);
     const [showDeliveryPriceConditions, setShowDeliveryPeiceConditions] = useState(false);
 
 
-    // when click on edit in collection list it send collection id to db request for make edit collection
-    const { state } = useLocation();
-
     const checkIfIsDirty = () => {
         const isDirtyCondition =
-            objOfModeConditions.conditions[0].max_weight > 0 ||
-            objOfModeConditions.conditions[0].max_amount > 0 ||
-            objOfModeConditions.conditions[0].modeTarif != '';
+            objOfModeConditions[0].max_value > 0 ||
+            objOfModeConditions[0].modeTarif != '';
 
         if (
             modeName != '' ||
@@ -67,82 +59,114 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
         setModeSimplePrice(e.target.value);
     };
 
+    function roundToTwo(num) {
+        return +(Math.round(num + "e+2") + "e-2");
+    }
+
     const handleCriteria = (criteriaSelected) => {
         setCriteria(criteriaSelected);
-        setModeCondition({ ...modeCondition, criteria: criteriaSelected });
+
+        // handle rounded number precision when change criteria
+        let tmp_conditions = [...objOfModeConditions];
+        if (criteriaSelected == "weight") {
+            tmp_conditions.forEach(x => x.min_value = Math.floor(x.min_value));
+        }
+        if (criteriaSelected == "amount") {
+            tmp_conditions.forEach(x => x.min_value = roundToTwo(x.min_value));
+        }
+        setObjOfModeConditions([...tmp_conditions]);
     };
 
-    const handleMax_weight = (e, id) => {
-        let ndx = objOfModeConditions.conditions.findIndex(x => x.id == id);
-        let tmp_conditions = objOfModeConditions.conditions;
+    const handleMax_value = (e, id) => {
+        let ndx = objOfModeConditions.findIndex(x => x.id == id);
+        let tmp_conditions = [...objOfModeConditions];
 
         if (ndx > -1) {
-            tmp_conditions[ndx].max_weight = e.target.value;
+            tmp_conditions[ndx].max_value = e.target.value;
         }
-        setObjOfModeConditions({
-            ...objOfModeConditions,
-            conditions: [...tmp_conditions]
-        });
+        setObjOfModeConditions([...tmp_conditions]);
     };
 
-    const handleMax_amount = (e, id) => {
-        let ndx = objOfModeConditions.conditions.findIndex(x => x.id == id);
-        let tmp_conditions = objOfModeConditions.conditions;
-
-        if (ndx > -1) {
-            tmp_conditions[ndx].max_amount = e.target.value;
-        }
-        setObjOfModeConditions({
-            ...objOfModeConditions,
-            conditions: [...tmp_conditions]
-        });
-    };
 
     const handleModeTarif = (e, id) => {
-        let ndx = objOfModeConditions.conditions.findIndex(x => x.id == id);
-        let tmp_conditions = objOfModeConditions.conditions;
+        let ndx = objOfModeConditions.findIndex(x => x.id == id);
+        let tmp_conditions = [...objOfModeConditions];
 
         if (ndx > -1) {
             tmp_conditions[ndx].modeTarif = e.target.value;
         }
-        setObjOfModeConditions({
-            ...objOfModeConditions,
-            conditions: [...tmp_conditions]
-        });
+        setObjOfModeConditions([...tmp_conditions]);
     };
 
     const removeCondition = (id) => {
-        if (objOfModeConditions.conditions.length > 1) {
-            let ndx = objOfModeConditions.conditions.findIndex(x => x.id == id);
-            let tmp_conditions = objOfModeConditions.conditions;
+        if (objOfModeConditions.length > 1) {
+            let ndx = objOfModeConditions.findIndex(x => x.id == id);
+            let tmp_conditions = [...objOfModeConditions];
 
             if (ndx > -1) {
                 tmp_conditions.splice(ndx, 1)
             }
-            setObjOfModeConditions({
-                ...objOfModeConditions,
-                conditions: [...tmp_conditions]
-            });
+            setObjOfModeConditions([...tmp_conditions]);
         }
     }
 
+    // validation before add new tarif
+    const fieldsIsNotEmptyValidation = () => {
+        let ndx = null;
+        let tmp_arr = [];
+        let showErrorMessage = false;
+
+        // check if empty
+        ndx = objOfModeConditions.findIndex(x => x.max_value == '' || x.modeTarif == '');
+
+        if (ndx > -1) {
+            showErrorMessage = true;
+            tmp_arr.push('Tous les champs doivent être complétés');
+        } else {
+            let index = tmp_arr.indexOf('Tous les champs doivent être complétés');
+            index > -1 && tmp_arr.splice(index, 1);
+        }
+
+        // check if max > min
+        ndx = objOfModeConditions.findIndex(x => x.max_value <= x.min_value);
+
+        let fieldName = criteria == "weight" ? "Poids" : "Montant";
+
+        if (ndx > -1) {
+            showErrorMessage = true;
+            tmp_arr.push('Le champ ' + fieldName + ' max doit être supérieur au champ ' + fieldName + ' min');
+
+        } else {
+            let index = tmp_arr.indexOf('Le champ ' + fieldName + ' max doit être supérieur au champ ' + fieldName + ' min');
+            index > -1 && tmp_arr.splice(index, 1);
+        }
+
+
+        setWarningModeFieldMessages([...tmp_arr]);
+        setShowErrorMessageMode(showErrorMessage);
+
+        // if there is error to show return false
+        return showErrorMessage ? false : true;
+
+    }
+
+
     const addTarif = () => {
-        let ndx = objOfModeConditions.conditions.findIndex(x => x.max_weight == '' || x.max_amount == '' || x.modeTarif == '');
+        if (fieldsIsNotEmptyValidation()) {
+            // get bigger Id
+            let condition = objOfModeConditions.reduce((prev, next) => { return prev.id > next.id ? prev.id : next });
 
-        let condition = objOfModeConditions.conditions.reduce((prev, next) => { return prev.id > next.id ? prev.id : next });
+            let min = criteria == "weight" ? Number(condition.max_value) + 1 : Number(condition.max_value) + 0.01;
 
-        setObjOfModeConditions({
-            ...objOfModeConditions,
-            conditions: [...objOfModeConditions.conditions, {
-                id: condition.id + 1,
-                criteria: criteria,
-                min_weight: 0,
-                max_weight: '',
-                min_amount: 0,
-                max_amount: '',
-                modeTarif: ''
-            }]
-        });
+            // add new condition
+            setObjOfModeConditions([...objOfModeConditions, {
+                    id: condition.id + 1,
+                    min_value: min,
+                    max_value: '',
+                    modeTarif: ''
+                }]
+            );
+        }
     }
 
     const handleModalConfirm = () => {
@@ -160,30 +184,31 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
 
 
     const validation = () => {
-        // check if neme of supplier already exist
-        let shipping_List_name = deliveryZoneList.map(item => item.name);
-        if (shipping_List_name.includes(modeName)) {
-            setMessageModal('Le nom du transporteur que vous avez entré éxiste déjà. Veuillez entrer un nom différent');
-            setShowSimpleMessageModal(true);
-            return false;
-        }
+        // check if name of mode already exist
+        // let listModeNames = deliveryZoneList.map(item => item.name);
+        // if (listModeNames.includes(modeName)) {
+        //     setMessageModal('Le nom du transporteur que vous avez entré éxiste déjà. Veuillez entrer un nom différent');
+        //     setShowSimpleMessageModal(true);
+        //     return false;
+        // }
 
-        if (modeName.length === 0) {
-            document.getElementById('nameShipping').style.border = "solid 1px rgb(212, 0, 0)";
-            setMessageModal('Le champ Nom du transporteur est obligatoire');
-            setShowSimpleMessageModal(true);
-            return false;
-        }
+        // if (modeName.length === 0) {
+        //     document.getElementById('nameShipping').style.border = "solid 1px rgb(212, 0, 0)";
+        //     setMessageModal('Le champ Nom du transporteur est obligatoire');
+        //     setShowSimpleMessageModal(true);
+        //     return false;
+        // }
 
-        if (modeName.length > 255) {
-            document.getElementById('nameShipping').style.border = "solid 1px rgb(212, 0, 0)";
-            setMessageModal('Le nom du transporteur ne doit pas dépasser 255 caractères');
-            setShowSimpleMessageModal(true);
-            return false;
-        } else {
-            document.getElementById('nameShipping').style.border = "solid 1px rgb(220, 220, 220)";
-            return true;
-        }
+        // if (modeName.length > 255) {
+        //     document.getElementById('nameShipping').style.border = "solid 1px rgb(212, 0, 0)";
+        //     setMessageModal('Le nom du transporteur ne doit pas dépasser 255 caractères');
+        //     setShowSimpleMessageModal(true);
+        //     return false;
+        // } else {
+        //     document.getElementById('nameShipping').style.border = "solid 1px rgb(220, 220, 220)";
+        //     return true;
+        // }
+        return true;
     }
 
     // submit
@@ -192,28 +217,22 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
         let valid = validation();
 
         if (valid) {
+            let modeShippingData = new FormData;
+            modeShippingData.append('name', modeName);
+            modeShippingData.append('IdDeliveryZones', IdDeliveryZones);
+            modeShippingData.append('criteria', criteria);
+            modeShippingData.append('modeSimplePrice', modeSimplePrice);
+            modeShippingData.append('conditions', JSON.stringify(objOfModeConditions));
 
-            let formDataShipping = new FormData;
-            formDataShipping.append('name', modeName);
-            formDataShipping.append('criteria', modeCondition.criteria);
-            formDataShipping.append('min_weight', modeCondition.min_weight);
-            formDataShipping.append('max_weight', modeCondition.max_weight);
-            formDataShipping.append('min_amount', modeCondition.min_amount);
-            formDataShipping.append('max_amount', modeCondition.max_amount);
-            formDataShipping.append('destination', modeCondition.destination);
-            formDataShipping.append('modeTarif', modeCondition.modeTarif);
-
-            Axios.post(`http://127.0.0.1:8000/save-shipping`, formDataShipping)
+            Axios.post(`http://127.0.0.1:8000/save-Shipping_mode`, modeShippingData)
                 .then(res => {
                     console.log('res.data  --->  ok');
                     if (res.data === 'ok') {
-                        // chargement des trabsporteurs
-                        // refresh data after save new shipping
+                        // refresh data after save new mode shipping
                         Axios.get(`http://127.0.0.1:8000/shippings-list`)
                             .then(res => {
                                 setDeliveryZoneList(res.data[0]);
                                 setActivePanelShipping(1);
-                                // navigate('/collections-list');
                             }).catch(function (error) {
                                 console.log('error:   ' + error);
                             });
@@ -257,7 +276,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
                                 handleChange={handleModeSimplePrice}
                                 step="0.01"
                                 min="0"
-                                max=""
+                                max="9999999999"
                                 css="rounded-l-md"
                             />
                             <span
@@ -265,10 +284,6 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
                                 €
                             </span>
                         </div>
-                        <span
-                            className={`text-sm text-red-700 ${modeCondition?.modeTarif?.length > 10 ? "block" : "hidden"}`}>
-                            Maximum 10 caractères
-                        </span>
                     </div>
                 }
             </div>
@@ -323,6 +338,21 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
                         </div>
                     </div>
 
+                    {showErrorMessageMode &&
+                        warningModeFieldMessages.map((itemError, index) =>
+                            <div
+                                key={index}
+                                className="w-full p-4 mt-4 flex justify-start items-start rounded-md bg-red-50 text-sm text-gray-700 font-semibold"
+                            >
+                                <img
+                                    src={window.location.origin + '/images/icons/exclamation-triangle.svg'}
+                                    className="h-4 w-4 mr-3"
+                                />
+                                {itemError}
+                            </div>
+                        )
+                    }
+
 
                     <div
                         className='w-full grid grid-cols-[360px_120px_40px] gap-4 justify-start items-center mt-8 mb-1'>
@@ -343,7 +373,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
                         </span>
                     </div>
 
-                    {objOfModeConditions.conditions.map((itemModeCondition, index) =>
+                    {objOfModeConditions.map((itemModeCondition, index) =>
                         <div
                             key={index}
                             className='w-full grid grid-cols-[360px_120px_40px] gap-4 justify-start items-center mb-3'
@@ -352,99 +382,81 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
                                 <div
                                     className='w-full grid grid-cols-2 gap-4 justify-start items-center'
                                 >
-                                    {/* min_weight */}
+                                    {/* min_value */}
                                     <div
-                                        className='w-full flex flex-col justify-start items-start'
+                                        className='w-full flex justify-start items-center'
                                     >
-                                        <div
-                                            className='w-full flex justify-start items-center'
+                                        <span
+                                            className="w-full flex items-center h-10 pl-2 border border-gray-300 bg-gray-50 text-gray-700 text-sm rounded-l-md cursor-not-allowed"
                                         >
-                                            <span
-                                                className="w-full flex items-center h-10 pl-2 border border-gray-300 bg-gray-50 text-gray-700 text-sm rounded-l-md"
-                                            >
-                                                0
-                                            </span>
-                                            <span className='w-10 h-10 flex justify-center items-center border-y border-r border-gray-300 bg-gray-100 text-gray-500 text-sm font-semibold  rounded-r-md'>
-                                                g
-                                            </span>
-                                        </div>
-                                        <span className={`text-sm text-red-700 ${itemModeCondition.min_weight?.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
+                                            {itemModeCondition.min_value}
+                                        </span>
+                                        <span className='w-10 h-10 flex justify-center items-center border-y border-r border-gray-300 bg-gray-100 text-gray-500 text-sm font-semibold  rounded-r-md cursor-not-allowed'>
+                                            g
+                                        </span>
                                     </div>
 
-                                    {/* max_weight */}
+                                    {/* max_value */}
                                     <div
-                                        className='flex flex-col justify-start items-start'
+                                        className={`flex justify-start items-center rounded-md ${itemModeCondition.max_value?.length == 0 && showErrorMessageMode && "border border-red-700"} ${itemModeCondition.max_value <= itemModeCondition.min_value && showErrorMessageMode && "border border-red-700"}`}
                                     >
-                                        <div
-                                            className='flex justify-start items-center'
-                                        >
-                                            <InputNumeric
-                                                value={itemModeCondition.max_weight}
-                                                handleChange={(e) => handleMax_weight(e, itemModeCondition.id)}
-                                                placeholder=""
-                                                label="Poids max"
-                                                step="1"
-                                                min="0"
-                                                max=""
-                                                css="rounded-l-md"
-                                            />
-                                            <span className='w-10 h-10 flex justify-center items-center border-y border-r border-gray-300 bg-gray-100 text-gray-500 text-sm font-semibold rounded-r-md'>
-                                                g
-                                            </span>
-                                        </div>
-                                        <span className={`text-sm text-red-700 ${itemModeCondition.max_weight?.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
+                                        <InputNumeric
+                                            value={itemModeCondition.max_value}
+                                            handleChange={(e) => handleMax_value(e, itemModeCondition.id)}
+                                            placeholder=""
+                                            label="Poids max"
+                                            step="1"
+                                            min="0"
+                                            max="9999999999"
+                                            css="rounded-l-md"
+                                        />
+                                        <span className='w-10 h-10 flex justify-center items-center border-y border-r border-gray-300 bg-gray-100 text-gray-500 text-sm font-semibold rounded-r-md'>
+                                            g
+                                        </span>
                                     </div>
                                 </div>
                             }
 
                             {criteria == "amount" &&
-                                <div className='w-full grid grid-cols-2 gap-4 justify-start items-center'>
-                                    {/* min_amount */}
+                                <div className='w-full grid grid-cols-2 gap-4 justify-start items-center'
+                                >
+                                    {/* min_value */}
                                     <div
-                                        className='flex justify-start items-end'
+                                        className='w-full flex justify-start items-center'
                                     >
-                                        <InputNumeric
-                                            // id={}
-                                            value={itemModeCondition.min_amount}
-                                            // handleChange={handleMin_priceShipping}
-                                            // handleClick={}
-                                            placeholder=""
-                                            label="Montant min"
-                                            step="0.01"
-                                            min="0"
-                                            max=""
-                                            css="rounded-l-md"
-                                        />
-                                        <span className='w-10 h-10 flex justify-center items-center border-y border-r border-gray-300 bg-gray-100 text-gray-500 text-sm font-semibold rounded-r-md'>
+                                        <span
+                                            className="w-full flex items-center h-10 pl-2 border border-gray-300 bg-gray-50 text-gray-700 text-sm rounded-l-md cursor-not-allowed"
+                                        >
+                                            {itemModeCondition.min_value > 0 ? itemModeCondition.min_value.toFixed(2) : 0}
+                                        </span>
+                                        <span className='w-10 h-10 flex justify-center items-center border-y border-r border-gray-300 bg-gray-100 text-gray-500 text-sm font-semibold  rounded-r-md cursor-not-allowed'>
                                             €
                                         </span>
-                                        <span className={`text-sm text-red-700 ${itemModeCondition.min_amount?.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
                                     </div>
 
                                     {/* max_amount */}
                                     <div
-                                        className='flex justify-start items-end'
+                                        className={`flex justify-start items-center rounded-md ${itemModeCondition.max_value?.length == 0 && showErrorMessageMode && "border border-red-700"} ${itemModeCondition.max_value <= itemModeCondition.min_value && showErrorMessageMode && "border border-red-700"}`}
                                     >
                                         <InputNumeric
-                                            value={itemModeCondition.max_amount}
-                                            handleChange={(e) => handleMax_amount(e, itemModeCondition.id)}
+                                            value={itemModeCondition.max_value}
+                                            handleChange={(e) => handleMax_value(e, itemModeCondition.id)}
                                             placeholder=""
                                             step="0.01"
                                             min="0"
-                                            max=""
+                                            max="9999999999"
                                             css="rounded-l-md"
                                         />
                                         <span className='w-10 h-10 flex justify-center items-center border-y border-r border-gray-300 bg-gray-100 text-gray-500 text-sm font-semibold rounded-r-md'>
                                             €
                                         </span>
-                                        <span className={`text-sm text-red-700 ${itemModeCondition.max_amount?.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
                                     </div>
                                 </div>
                             }
 
                             {/* modeTarif */}
                             <div
-                                className='flex justify-start items-center'
+                                className={`flex justify-start items-center rounded-md ${itemModeCondition.modeTarif?.length == 0 && showErrorMessageMode && "border border-red-700"}`}
                             >
                                 <InputNumeric
                                     value={itemModeCondition.modeTarif}
@@ -452,17 +464,16 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
                                     placeholder=""
                                     step="0.01"
                                     min="0"
-                                    max=""
+                                    max="9999999999"
                                     css="rounded-l-md"
                                 />
                                 <span className='w-10 h-10 flex justify-center items-center border-y border-r border-gray-300 bg-gray-100 text-gray-500 text-sm font-semibold rounded-r-md'>
                                     €
                                 </span>
-                                <span className={`text-sm text-red-700 ${itemModeCondition.modeTarif?.length > 10 ? "block" : "hidden"}`}>Maximum 10 caractères</span>
                             </div>
 
                             {/* icons delete */}
-                            {objOfModeConditions.conditions.length > 1 &&
+                            {objOfModeConditions.length > 1 &&
                                 <div
                                     className='flex justify-center items-center  h-10 w-10 rounded-md border border-gray-300'
                                 >

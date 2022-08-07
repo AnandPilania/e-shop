@@ -133,6 +133,9 @@ Route::get('/shipping-list', [ShippingController::class, 'index']);
 // save shipping
 Route::post('/save-shipping', [ShippingController::class, 'saveShipping']);
 
+// save shipping mode
+Route::post('/save-Shipping_mode', [ShippingController::class, 'saveShipping_mode']);
+
 
 Route::get('/editProduct/{productId}', [ProductController::class, 'editProduct']);
 

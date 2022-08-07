@@ -12,5 +12,10 @@ class Shipping extends Model
     public function order_details()
     {
         return $this->hasMany(Order_detail::class);
-    }     
+    }   
+    
+    public function shipping_modes()
+    {
+        return $this->hasMany(Shipping_mode::class);
+    }
 }

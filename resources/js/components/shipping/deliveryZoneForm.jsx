@@ -80,7 +80,7 @@ const DeliveryZoneForm = ({ countriesList, deliveryZoneList, setActivePanelShipp
             return;
         }
 
-        let ndx = deliveryZoneList.findIndex(x => x.zoneName == zoneName);
+        let ndx = deliveryZoneList.findIndex(x => x.zone_name == zoneName);
         if (ndx > -1) {
             setMessageModalSimple('Le nom que vous avez entré existe déjà');
             setShowModalSimple(true);

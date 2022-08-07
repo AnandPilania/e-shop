@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Country;
 use App\Models\Shipping;
+use App\Models\Shipping_mode;
 use Illuminate\Http\Request;
 
 
@@ -11,11 +12,13 @@ class ShippingController extends Controller
 {
     public function index()
     {
-        $shipping = Shipping::orderBy('zoneName')->get();
+        // $shipping = Shipping::orderBy('zone_name')->with('shipping_mode')->with('shipping_modes_contion');
+        $shipping = Shipping::orderBy('zone_name')->get();
         foreach ($shipping as $item) {
             $item->destinations = json_decode($item->destinations);
         }
         $countries = Country::all();
+ 
 
         return [$shipping, $countries];
     }
@@ -27,7 +30,7 @@ class ShippingController extends Controller
         // dd(json_decode($request->zonesData));
 
         $this->validate($request, [
-            'zoneName' => 'required|string|max:255',
+            'zone_name' => 'required|string|max:255',
             'destinations' => 'required',
             'hasDeliveryMode' => 'required',
             // 'max_weight' => 'nullable|float|max:10',
@@ -39,7 +42,7 @@ class ShippingController extends Controller
 
 
         $shipping = new Shipping;
-        $shipping->zoneName = $request->zoneName;
+        $shipping->zone_name = $request->zone_name;
         $shipping->destinations = $request->destinations;
         $shipping->hasDeliveryMode = $request->hasDeliveryMode;
         // $shipping->max_weight = $request->max_weight;
@@ -51,5 +54,13 @@ class ShippingController extends Controller
         $shipping->save();
 
         return 'ok';
+    }
+
+    public function saveShipping_mode(Request $request) 
+    {
+        dd($request);
+        $shipping_mode = new Shipping_mode;
+        $shipping_mode->criteria = $request->mode_name;
+        $shipping_mode->criteria = $request->criteria;
     }
 }

@@ -46,7 +46,7 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
                 >
                     {/* name */}
                     <span>
-                        {shippingItem.zoneName}
+                        {shippingItem.zone_name}
                     </span>
 
                     {/* destinations */}
