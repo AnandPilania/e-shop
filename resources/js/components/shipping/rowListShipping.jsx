@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Tooltip from '../elements/tooltip';
 
 const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDeliveryZones }) => {
 
@@ -124,11 +125,27 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
                         }
                     </div>
 
-                    <span
-                        className='text-blue-500 underline underline-offset-1 text-sm cursor-pointer hover:text-blue-400'
-                        onClick={() => addDeliveryMode(shippingItem.id)}>
-                        Ajouter un mode de livraison
-                    </span>
+                    <div className='w-full grid grid-cols-2 gap-2 justify-start items-center group relative'>
+                        <span
+                            className='text-blue-500 underline underline-offset-1 text-sm cursor-pointer hover:text-blue-400'
+                            onClick={() => addDeliveryMode(shippingItem.id)}
+                        >
+                                <img
+                                    src={window.location.origin + '/images/icons/trash.svg'}
+                                    className="h-5 w-5" />
+
+                                <Tooltip top={-20} left={0}>
+                                    Ajouter un mode de livraison
+                                </Tooltip>
+                        </span>
+
+                        <span
+                            className='text-blue-500 underline underline-offset-1 text-sm cursor-pointer hover:text-blue-400'
+                            onClick={() => addDeliveryMode(shippingItem.id)}>
+                            Ajouter un mode de livraison
+                        </span>
+                    </div>
+
                     <span>
                         Voir
                     </span>

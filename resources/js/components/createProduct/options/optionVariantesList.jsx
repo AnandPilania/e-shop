@@ -364,7 +364,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                         {/* variante */}
                         <span className={`w-full h-[30px] pt-[3px] rounded-md whitespace-nowrap text-ellipsis overflow-hidden cursor-default group ${item.deleted ? "text-gray-400" : "text-gray-500"} ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}>
                             {item?.optionsString}
-                            <Tooltip top={-30} left={2}>
+                            <Tooltip top={-20} left={20}>
                                 {item?.optionsString}
                             </Tooltip>
                         </span>
@@ -410,7 +410,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                 className={`w-[100px] h-[30px] border border-gray-300 rounded-l-md pl-[8px] text-[13px] leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
                             />
                             <span
-                                className={`flex flex-rox justify-start items-center h-[30px] border-y-[1px] border-r-[1px] border-gray-300 rounded-r-md px-[10px] cursor-pointer caret-transparent group relative ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
+                                className={`flex flex-rox justify-start items-center h-[30px] border-y border-r border-gray-300 rounded-r-md px-2.5 cursor-pointer caret-transparent group relative ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
                                 onClick={() => handleUnlimitedStock2(item)}>
                                 <input
                                     className='mr-[7px] caret-transparent cursor-pointer'
@@ -421,9 +421,9 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                     onChange={() => { }}
                                 />
                                 <label
-                                    className='cursor-pointer caret-transparent text-[20px] '>
+                                    className='cursor-pointer caret-transparent text-xl '>
                                     {String.fromCharCode(0x221E)}
-                                    <Tooltip top={-100} left={2} css='whitespace-nowrap'>
+                                    <Tooltip top={-20} left={5} css='whitespace-nowrap'>
                                         {item?.unlimited ? 'Stock illimité' : 'Entrer une quantité'}
                                     </Tooltip>
                                 </label>

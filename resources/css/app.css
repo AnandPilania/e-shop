@@ -51,20 +51,19 @@ select:-webkit-autofill:focus {
 .tooltip_ .tooltiptext,
 .listCollections .tooltip_ .tooltiptext {
     visibility: hidden;
-    width: 300px;
     bottom: 100%;
     left: -50%;
     margin-bottom: 0;
-    color: rgb(75, 75, 75);
+    color: #111827;
     text-align: left;
-    padding: 12px 12px 35px 12px;
-    border-radius: 5px;
+    padding: 8px 12px;
     font-weight: normal;
     letter-spacing: 1px;
     position: absolute;
     z-index: 10;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    border: solid 2px #d2e7ff;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    border: solid 1px #e5e7eb;
+    border-radius: 6px;
     transition-delay: 0.2s;
     background-color: white;
 }

@@ -23,7 +23,7 @@ const Shipping = () => {
                 console.log('error:   ' + error);
             });
     }, []);
-
+    console.log('deliveryZoneList   ', deliveryZoneList)
     const getShippingsList = () => {
         // charge la liste des shippings
         Axios.get(`http://127.0.0.1:8000/shipping-list`)
@@ -56,7 +56,7 @@ const Shipping = () => {
                                 <span
                                     className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2 rounded-tl-md'
                                 >
-                                    Nom
+                                    Nom Zones de Livraison
                                 </span>
                                 <span
                                     className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2'

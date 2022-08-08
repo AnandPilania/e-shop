@@ -11,7 +11,7 @@ import Label from '../form/label';
 const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZones, setActivePanelShipping }) => {
 
     const [modeName, setModeName] = useState('');
-    const [modeSimplePrice, setModeSimplePrice] = useState('');
+    const [priceWithoutCondition, setPriceWithoutCondition] = useState('');
     const [criteria, setCriteria] = useState('weight');
     const [objOfModeConditions, setObjOfModeConditions] = useState([{
         id: 0,
@@ -21,6 +21,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
     }]);
 
     const [showErrorMessageMode, setShowErrorMessageMode] = useState(false);
+    const [showValidationMessageMode, setShowValidationMessageMode] = useState(false);
     const [showModalConfirmation, setShowModalConfirmation] = useState(false);
     const [showSimpleMessageModal, setShowSimpleMessageModal] = useState(false);
     const [messageModal, setMessageModal] = useState('');
@@ -35,7 +36,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
 
         if (
             modeName != '' ||
-            modeSimplePrice != null ||
+            priceWithoutCondition != null ||
             isDirtyCondition == true
         ) {
             return true;
@@ -56,7 +57,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
     };
 
     const handleModeSimplePrice = (e) => {
-        setModeSimplePrice(e.target.value);
+        setPriceWithoutCondition(e.target.value);
     };
 
     function roundToTwo(num) {
@@ -106,12 +107,15 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
             if (ndx > -1) {
                 tmp_conditions.splice(ndx, 1)
             }
+
+            // met le premier min à 0 quand on supprime un tarif pcq le premier doit être à 0
+            tmp_conditions[0].min_value = 0;
             setObjOfModeConditions([...tmp_conditions]);
         }
     }
 
     // validation before add new tarif
-    const fieldsIsNotEmptyValidation = () => {
+    const addTarifValidation = () => {
         let ndx = null;
         let tmp_arr = [];
         let showErrorMessage = false;
@@ -132,7 +136,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
 
         let fieldName = criteria == "weight" ? "Poids" : "Montant";
 
-        if (ndx > -1) {
+        if (ndx > -1 && tmp_arr.length == 0) {
             showErrorMessage = true;
             tmp_arr.push('Le champ ' + fieldName + ' max doit être supérieur au champ ' + fieldName + ' min');
 
@@ -140,7 +144,6 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
             let index = tmp_arr.indexOf('Le champ ' + fieldName + ' max doit être supérieur au champ ' + fieldName + ' min');
             index > -1 && tmp_arr.splice(index, 1);
         }
-
 
         setWarningModeFieldMessages([...tmp_arr]);
         setShowErrorMessageMode(showErrorMessage);
@@ -152,7 +155,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
 
 
     const addTarif = () => {
-        if (fieldsIsNotEmptyValidation()) {
+        if (addTarifValidation()) {
             // get bigger Id
             let condition = objOfModeConditions.reduce((prev, next) => { return prev.id > next.id ? prev.id : next });
 
@@ -160,11 +163,11 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
 
             // add new condition
             setObjOfModeConditions([...objOfModeConditions, {
-                    id: condition.id + 1,
-                    min_value: min,
-                    max_value: '',
-                    modeTarif: ''
-                }]
+                id: condition.id + 1,
+                min_value: min,
+                max_value: '',
+                modeTarif: ''
+            }]
             );
         }
     }
@@ -185,30 +188,34 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
 
     const validation = () => {
         // check if name of mode already exist
-        // let listModeNames = deliveryZoneList.map(item => item.name);
-        // if (listModeNames.includes(modeName)) {
-        //     setMessageModal('Le nom du transporteur que vous avez entré éxiste déjà. Veuillez entrer un nom différent');
-        //     setShowSimpleMessageModal(true);
-        //     return false;
-        // }
+        let listModeNames = deliveryZoneList.map(item => item.name);
+        if (listModeNames.includes(modeName)) {
+            setMessageModal('Ce nom éxiste déjà. Veuillez entrer un nom différent');
+            setShowValidationMessageMode(true);
+            return false;
+        }
 
-        // if (modeName.length === 0) {
-        //     document.getElementById('nameShipping').style.border = "solid 1px rgb(212, 0, 0)";
-        //     setMessageModal('Le champ Nom du transporteur est obligatoire');
-        //     setShowSimpleMessageModal(true);
-        //     return false;
-        // }
+        if (modeName.length === 0) {
+            setMessageModal('Le champ Nom est obligatoire');
+            setShowValidationMessageMode(true);
+            return false;
+        }
 
-        // if (modeName.length > 255) {
-        //     document.getElementById('nameShipping').style.border = "solid 1px rgb(212, 0, 0)";
-        //     setMessageModal('Le nom du transporteur ne doit pas dépasser 255 caractères');
-        //     setShowSimpleMessageModal(true);
-        //     return false;
-        // } else {
-        //     document.getElementById('nameShipping').style.border = "solid 1px rgb(220, 220, 220)";
-        //     return true;
-        // }
-        return true;
+        if (modeName.length > 255) {
+            setMessageModal('Le nom ne doit pas dépasser 255 caractères');
+            setShowValidationMessageMode(true);
+            return false;
+        }
+
+        if (priceWithoutCondition.length === 0) {
+            setMessageModal('Le champ Tarif est obligatoire');
+            setShowValidationMessageMode(true);
+            return false;
+        } else {
+            setShowValidationMessageMode(false);
+            return true;
+        }
+
     }
 
     // submit
@@ -216,12 +223,12 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
 
         let valid = validation();
 
-        if (valid) {
+        if (valid && addTarifValidation()) {
             let modeShippingData = new FormData;
-            modeShippingData.append('name', modeName);
+            modeShippingData.append('mode_name', modeName);
             modeShippingData.append('IdDeliveryZones', IdDeliveryZones);
             modeShippingData.append('criteria', criteria);
-            modeShippingData.append('modeSimplePrice', modeSimplePrice);
+            modeShippingData.append('priceWithoutCondition', priceWithoutCondition);
             modeShippingData.append('conditions', JSON.stringify(objOfModeConditions));
 
             Axios.post(`http://127.0.0.1:8000/save-Shipping_mode`, modeShippingData)
@@ -229,7 +236,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
                     console.log('res.data  --->  ok');
                     if (res.data === 'ok') {
                         // refresh data after save new mode shipping
-                        Axios.get(`http://127.0.0.1:8000/shippings-list`)
+                        Axios.get(`http://127.0.0.1:8000/shipping-list`)
                             .then(res => {
                                 setDeliveryZoneList(res.data[0]);
                                 setActivePanelShipping(1);
@@ -247,9 +254,25 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
     return (
         <div className='w-full flex flex-col justify-start items-start px-4'>
 
+            {/* error message validation name && price without conditions */}
+            {showValidationMessageMode &&
+                <div
+                    className="w-full p-4 my-4 flex justify-start items-start rounded-md bg-red-50 text-sm text-gray-700 font-semibold"
+                >
+                    <img
+                        src={window.location.origin + '/images/icons/exclamation-triangle.svg'}
+                        className="h-4 w-4 mr-3"
+                    />
+                    {messageModal}
+                </div>
+            }
+
             {/* name */}
-            <div className='w-full grid grid-cols-[300px_120px_1fr] gap-3 justify-start items-start'>
-                <div>
+            <div className='w-full grid grid-cols-[300px_120px_1fr] gap-3 justify-start items-start'
+            >
+                <div
+                    className={`flex justify-start items-center rounded-md ${modeName?.length == 0 && showValidationMessageMode && "border-2 border-red-700"}`}
+                >
                     <InputText
                         id="nameShipping"
                         value={modeName}
@@ -262,17 +285,17 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
                     </span>
                 </div>
 
-                {/* modeTarif simple */}
+                {/* price without conditions */}
                 {!showDeliveryPriceConditions &&
                     <div
                         className='flex flex-col justify-start items-start'
                     >
                         <Label label="Tarif" />
                         <div
-                            className='w-full flex justify-start items-center'
+                            className={`flex justify-start items-center rounded-md ${priceWithoutCondition?.length == 0 && showValidationMessageMode && "border-2 border-red-700"}`}
                         >
                             <InputNumeric
-                                value={modeSimplePrice}
+                                value={priceWithoutCondition}
                                 handleChange={handleModeSimplePrice}
                                 step="0.01"
                                 min="0"
@@ -355,7 +378,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
 
 
                     <div
-                        className='w-full grid grid-cols-[360px_120px_40px] gap-4 justify-start items-center mt-8 mb-1'>
+                        className='w-full grid grid-cols-[360px_140px_40px] gap-4 justify-start items-center mt-8 mb-1'>
                         <div
                             className='w-full grid grid-cols-2 gap-4 justify-start items-center'>
                             <span
@@ -376,7 +399,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
                     {objOfModeConditions.map((itemModeCondition, index) =>
                         <div
                             key={index}
-                            className='w-full grid grid-cols-[360px_120px_40px] gap-4 justify-start items-center mb-3'
+                            className='w-full grid grid-cols-[360px_140px_40px] gap-4 justify-start items-center mb-3'
                         >
                             {criteria == "weight" &&
                                 <div
@@ -398,7 +421,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
 
                                     {/* max_value */}
                                     <div
-                                        className={`flex justify-start items-center rounded-md ${itemModeCondition.max_value?.length == 0 && showErrorMessageMode && "border border-red-700"} ${itemModeCondition.max_value <= itemModeCondition.min_value && showErrorMessageMode && "border border-red-700"}`}
+                                        className={`flex justify-start items-center rounded-md ${itemModeCondition.max_value?.length == 0 && showErrorMessageMode && "border-2 border-red-700"} ${itemModeCondition.max_value <= itemModeCondition.min_value && showErrorMessageMode && "border-2 border-red-700"}`}
                                     >
                                         <InputNumeric
                                             value={itemModeCondition.max_value}
@@ -436,7 +459,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
 
                                     {/* max_amount */}
                                     <div
-                                        className={`flex justify-start items-center rounded-md ${itemModeCondition.max_value?.length == 0 && showErrorMessageMode && "border border-red-700"} ${itemModeCondition.max_value <= itemModeCondition.min_value && showErrorMessageMode && "border border-red-700"}`}
+                                        className={`flex justify-start items-center rounded-md ${itemModeCondition.max_value?.length == 0 && showErrorMessageMode && "border-2 border-red-700"} ${itemModeCondition.max_value <= itemModeCondition.min_value && showErrorMessageMode && "border-2 border-red-700"}`}
                                     >
                                         <InputNumeric
                                             value={itemModeCondition.max_value}
@@ -456,7 +479,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
 
                             {/* modeTarif */}
                             <div
-                                className={`flex justify-start items-center rounded-md ${itemModeCondition.modeTarif?.length == 0 && showErrorMessageMode && "border border-red-700"}`}
+                                className={`flex justify-start items-center rounded-md ${itemModeCondition.modeTarif?.length == 0 && showErrorMessageMode && "border-2 border-red-700"}`}
                             >
                                 <InputNumeric
                                     value={itemModeCondition.modeTarif}

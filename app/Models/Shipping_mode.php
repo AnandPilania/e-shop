@@ -14,8 +14,4 @@ class Shipping_mode extends Model
         return $this->belongsTo(Shipping::class);
     }
 
-    public function shipping_modes_conditions()
-    {
-        return $this->hasMany(Shipping_modes_condition::class);
-    }
 }
