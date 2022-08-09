@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { usePromptCollection } from '../hooks/usePromptCollection';
 import Axios from 'axios';
 import ModalConfirmation from '../modal/modalConfirmation';
-import ModalSimpleMessage from '../modal/modalSimpleMessage';
 import InputText from '../form/inputText';
 import InputNumeric from '../form/inputNumeric';
 import Label from '../form/label';
+import Toggle from '../elements/toggle/toggle';
 
 
 const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZones, setActivePanelShipping }) => {
@@ -23,10 +23,10 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
     const [showErrorMessageMode, setShowErrorMessageMode] = useState(false);
     const [showValidationMessageMode, setShowValidationMessageMode] = useState(false);
     const [showModalConfirmation, setShowModalConfirmation] = useState(false);
-    const [showSimpleMessageModal, setShowSimpleMessageModal] = useState(false);
     const [messageModal, setMessageModal] = useState('');
     const [warningModeFieldMessages, setWarningModeFieldMessages] = useState([]);
     const [showDeliveryPriceConditions, setShowDeliveryPeiceConditions] = useState(false);
+    const [senderShippingMode, setSenderShippingMode] = useState(false);
 
 
     const checkIfIsDirty = () => {
@@ -49,7 +49,20 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
 
 
     const handleShowDeliveryPriceConditions = () => {
-        setShowDeliveryPeiceConditions(!showDeliveryPriceConditions);
+        if (showDeliveryPriceConditions && (objOfModeConditions[0].max_value != '' || objOfModeConditions[0].modeTarif != '')) {
+            setMessageModal("Supprimer les conditions ?")
+            setSenderShippingMode('handleShowDeliveryPriceConditions');
+            setShowModalConfirmation(true);
+        } else if (!showDeliveryPriceConditions && priceWithoutCondition != '') {
+            setMessageModal("Supprimer le tarif ?")
+            setSenderShippingMode('handleShowDeliveryPriceConditions');
+            setShowModalConfirmation(true);
+        } else {
+            setSenderShippingMode('');
+            setShowDeliveryPeiceConditions(!showDeliveryPriceConditions);
+            setShowValidationMessageMode(false);
+            setShowErrorMessageMode(false);
+        }
     }
 
     const handleModeName = (e) => {
@@ -174,15 +187,33 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
 
     const handleModalConfirm = () => {
         setShowModalConfirmation(false);
-        setActivePanelShipping(1);
+
+        // handleShowDeliveryPriceConditions
+        if (senderShippingMode == 'handleShowDeliveryPriceConditions') {
+            if (showDeliveryPriceConditions) {
+                setObjOfModeConditions([{
+                    id: 0,
+                    min_value: 0,
+                    max_value: '',
+                    modeTarif: ''
+                }]);
+            } if (!showDeliveryPriceConditions) {
+                setPriceWithoutCondition('');
+            }
+            setSenderShippingMode('');
+            setShowDeliveryPeiceConditions(!showDeliveryPriceConditions);
+            setShowValidationMessageMode(false);
+            setShowErrorMessageMode(false);
+
+        } else {
+            // usePromptCollection
+            setActivePanelShipping(1);
+        }
     }
+
 
     const handleModalCancel = () => {
         setShowModalConfirmation(false);
-    }
-
-    const handleModalSimpleMessageCancel = () => {
-        setShowSimpleMessageModal(false);
     }
 
 
@@ -267,22 +298,24 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
                 </div>
             }
 
-            {/* name */}
-            <div className='w-full grid grid-cols-[300px_120px_1fr] gap-3 justify-start items-start'
+            {/* container name + priceWithoutConditions */}
+            <div
+                className='w-full grid grid-cols-[300px_120px_1fr] gap-3 justify-start items-start'
             >
+                {/* name */}
                 <div
-                    className={`flex justify-start items-center rounded-md ${modeName?.length == 0 && showValidationMessageMode && "border-2 border-red-700"}`}
+                    className="w-full flex flex-col justify-start items-start rounded-md"
                 >
-                    <InputText
-                        id="nameShipping"
-                        value={modeName}
-                        handleChange={handleModeName}
-                        label="Nom"
-                    />
-                    <span
-                        className={`text-sm text-red-700 ${modeName?.length > 255 ? "block" : "hidden"}`}>
-                        Le nom du transporteur ne peut pas dépasser 255 caractères
-                    </span>
+                    <Label label="Nom" />
+                    <div
+                        className={`w-full rounded-md ${modeName?.length == 0 && showValidationMessageMode && "border-2 border-red-700"}`}>
+                        <InputText
+                            id="nameShipping"
+                            value={modeName}
+                            handleChange={handleModeName}
+                            css="w-full"
+                        />
+                    </div>
                 </div>
 
                 {/* price without conditions */}
@@ -311,16 +344,17 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
                 }
             </div>
 
-            <span
-                className='w-auto mt-6 text-base text-blue-500 underline underline-offset-1 cursor-pointer'
-                onClick={handleShowDeliveryPriceConditions}
+            <div
+                className='w-auto mt-16'
             >
-                {!showDeliveryPriceConditions ?
-                    <span>Ajouter des conditions</span>
-                    :
-                    <span>Annuler les conditions</span>
-                }
-            </span>
+                <Toggle
+                    isChecked={showDeliveryPriceConditions}
+                    change={handleShowDeliveryPriceConditions}
+                    id="idDeliveryModeForm"
+                    label="Ajouter des conditions"
+                    labelCss="text-base font-semibold text-gray-500"
+                />
+            </div>
 
 
             {showDeliveryPriceConditions &&
@@ -544,12 +578,9 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
                     className='w-auto px-4 ml-4 h-10 flex flex-row justify-center items-center border border-gray-300 rounded-md bg-red-600 text-white'
                     onClick={() => setActivePanelShipping(1)}
                 >
-                    Annuler
+                    Annuler+++
                 </button>
             </div>
-
-
-
 
 
             {/* modal for confirmation */}
@@ -560,14 +591,6 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
             >
                 <h2 className="childrenModal">{messageModal}</h2>
             </ModalConfirmation>
-
-            {/* modal for simple message */}
-            <ModalSimpleMessage ModalSimpleMessage
-                show={showSimpleMessageModal}
-                handleModalCancel={handleModalSimpleMessageCancel}
-            >
-                <h2 className="childrenModal">{messageModal}</h2>
-            </ModalSimpleMessage>
         </div>
     );
 }

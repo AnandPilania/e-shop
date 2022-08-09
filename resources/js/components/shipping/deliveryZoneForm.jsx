@@ -4,6 +4,7 @@ import ModalConfirmation from '../modal/modalConfirmation';
 import ModalSimpleMessage from '../modal/modalSimpleMessage';
 import InputText from '../form/inputText';
 import Axios from 'axios';
+import Label from '../form/label';
 
 
 const DeliveryZoneForm = ({ countriesList, deliveryZoneList, setActivePanelShipping, getShippingsList }) => {
@@ -12,13 +13,14 @@ const DeliveryZoneForm = ({ countriesList, deliveryZoneList, setActivePanelShipp
     const [toggleSelectDestination, setToggleSelectDestination] = useState(false);
     const [destinations, setDestinations] = useState([]);
     const [showModalConfirmation, setShowModalConfirmation] = useState(false);
+    const [showValidationMessageZone, setShowValidationMessageZone] = useState(false);
     const [showModalSimple, setShowModalSimple] = useState(false);
     const [messageModal, setMessageModal] = useState('');
     const [messageModalSimple, setMessageModalSimple] = useState('');
     const [isDirtyZoneShipping, setIsDirtyZoneShipping] = useState(false);
     const [inputValue, setInputValue] = useState('');
 
-    const [criteria, setCriteria] = useState('weight');
+
 
     const handleNameZoneShipping = (e) => {
         setZoneName(e.target.value);
@@ -122,16 +124,19 @@ const DeliveryZoneForm = ({ countriesList, deliveryZoneList, setActivePanelShipp
             </h3>
 
             {/* name */}
-            <div className='w-96 mb-4'>
-                <InputText
-                    id="nameDeliveryZone"
-                    value={zoneName}
-                    handleChange={handleNameZoneShipping}
-                    // handleClick={}
-                    placeholder=""
-                    label="Nom"
-                />
-                <span className={`text-sm text-red-700 ${zoneName.length > 255 ? "block" : "none"}`}>Le nom de la zone d'expédition ne peut pas dépasser 255 caractères</span>
+            <div className='w-96 mb-4 flex flex-col justify-start items-start rounded-md'>
+                <Label lebel="Nom" />
+                <div
+                    className={`w-full rounded-md ${zoneName?.length == 0 && showValidationMessageZone && "border-2 border-red-700"}`}
+                >
+                    <InputText
+                        id="nameDeliveryZone"
+                        value={zoneName}
+                        handleChange={handleNameZoneShipping}
+                        placeholder=""
+                        css="w-full"
+                    />
+                </div>
             </div>
 
             {/* destinations */}

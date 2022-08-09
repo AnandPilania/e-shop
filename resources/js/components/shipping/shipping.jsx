@@ -51,25 +51,25 @@ const Shipping = () => {
                     {deliveryZoneList.length > 0 &&
                         <div className='w-full mt-10'>
                             <div
-                                className='grid grid-cols-[1fr_1fr_1fr_1fr] justify-start items-start w-full'
+                                className='grid grid-cols-[1fr_1fr_120px_60px] justify-start items-start w-full bg-gray-50 rounded-t-md text-base'
                             >
                                 <span
-                                    className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2 rounded-tl-md'
+                                    className='w-full border-gray-200 py-3 pl-2'
                                 >
                                     Nom Zones de Livraison
                                 </span>
                                 <span
-                                    className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2'
+                                    className='w-full border-gray-200 py-3 pl-2'
                                 >
                                     Destinations
                                 </span>
                                 <span
-                                    className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2'
+                                    className='w-full border-gray-200 py-3 pl-2'
                                 >
-                                    Mode de livraison
+                                    Opérations
                                 </span>
                                 <span
-                                    className='text.base w-full border-gray-300 bg-gray-50 py-3 pl-2'
+                                    className='w-full border-gray-200 py-3 pl-2'
                                 >
                                     Détails
                                 </span>

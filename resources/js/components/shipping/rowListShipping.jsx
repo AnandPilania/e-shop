@@ -6,6 +6,7 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
     const [showShipConditions, setShowShipConditions] = useState(false);
     const [distanceFromBottomShip, setDistanceFromBottomShip] = useState(null);
     const [idDistance, setIdDistance] = useState(null);
+    const [listModesDetails, setListModesDetails] = useState([]);
 
 
     const showHideShipDestinations = (e, id) => {
@@ -20,6 +21,18 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
     const addDeliveryMode = (id) => {
         setIdDeliveryZones(id);
         setActivePanelShipping(3);
+    }
+
+    const showListModesDetails = (id) => {
+        let tmp_listModesDetails = [...listModesDetails];
+        let ndx = tmp_listModesDetails.indexOf(id);
+
+        if (ndx > -1) {
+            tmp_listModesDetails.splice(ndx, 1);
+        } else {
+            tmp_listModesDetails.push(id);
+        }
+        setListModesDetails([...tmp_listModesDetails]);
     }
 
 
@@ -39,19 +52,19 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
 
 
     return (
-        <div className='w-full mt-2'>
+        <div className='w-full'>
             {deliveryZoneList.map(shippingItem =>
                 <div
                     key={shippingItem.id}
-                    className='grid grid-cols-[1fr_250px_1fr_1fr] justify-start items-start w-full'
+                    className="grid grid-cols-[1fr_1fr_120px_60px] justify-start items-center w-full h-full border-b border-gray-200 py-2"
                 >
                     {/* name */}
-                    <span>
+                    <span className={`w-full h-full flex items-center ${listModesDetails.includes(shippingItem.id) ? "bg-gray-50 font-semibold" : "bg-white"}`}>
                         {shippingItem.zone_name}
                     </span>
 
                     {/* destinations */}
-                    <div className={`flex flex-row w-full h-3 min-h-[48px]`}
+                    <div className={`flex flex-row w-full h-full min-h-[48px] ${listModesDetails.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
                         onClick={(e) => showHideShipDestinations(e, shippingItem.id)}
                     >
                         <div className='relative w-auto flex flex-col justify-start items-start bg-white rounded-md mr-2.5'
@@ -61,7 +74,6 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
                                     <span className='w-full truncate'>
                                         {shippingItem.destinations.map(x => { return ' ' + x.name }).toString()}
                                     </span>
-
                                 </div>
                                 :
                                 shippingItem.destinations.length > 1 && shippingItem.id == idDistance ?
@@ -125,31 +137,99 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
                         }
                     </div>
 
-                    <div className='w-full grid grid-cols-2 gap-2 justify-start items-center group relative'>
+                    <div className={`w-full h-full grid grid-cols-2  justify-center items-center group relative${listModesDetails.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
+                    >
                         <span
-                            className='text-blue-500 underline underline-offset-1 text-sm cursor-pointer hover:text-blue-400'
-                            onClick={() => addDeliveryMode(shippingItem.id)}
+                            className={`w-full h-full text-blue-500 underline underline-offset-1 text-sm flex items-center hover:text-blue-400 ${listModesDetails.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
                         >
-                                <img
-                                    src={window.location.origin + '/images/icons/trash.svg'}
-                                    className="h-5 w-5" />
+                            <img
+                                src={window.location.origin + '/images/icons/pencil.svg'}
+                                className="h-5 w-5 m-auto cursor-pointer"
+                                onClick={() => addDeliveryMode(shippingItem.id)}
+                            />
 
-                                <Tooltip top={-20} left={0}>
-                                    Ajouter un mode de livraison
-                                </Tooltip>
+                            <Tooltip top={-40} left={0}>
+                                Modifier
+                            </Tooltip>
                         </span>
 
                         <span
-                            className='text-blue-500 underline underline-offset-1 text-sm cursor-pointer hover:text-blue-400'
-                            onClick={() => addDeliveryMode(shippingItem.id)}>
-                            Ajouter un mode de livraison
+                            className={`w-full h-full text-blue-500 underline underline-offset-1 text-sm flex items-center hover:text-blue-400 ${listModesDetails.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
+                        >
+                            <img
+                                src={window.location.origin + '/images/icons/add_icon.svg'}
+                                className="h-5 w-5 m-auto cursor-pointer"
+                                onClick={() => addDeliveryMode(shippingItem.id)}
+                            />
+
+                            <Tooltip top={-40} left={0}>
+                                Ajouter un mode de livraison
+                            </Tooltip>
                         </span>
                     </div>
 
-                    <span>
-                        Voir
-                    </span>
+                    {/* show / hide list modes details */}
+                    {shippingItem.shipping_modes.length > 0 ?
+                        <span className={`w-full h-full flex items-center ${listModesDetails.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
+                        >
+                            <span
+                                className='cursor-pointer m-auto'
+                                onClick={() => { showListModesDetails(shippingItem.id) }}
+                            >
+                               {listModesDetails.includes(shippingItem.id) ? "Fermer" : "Voir"} 
+                            </span>
+                        </span>
+                        :
+                        <span></span>
+                    }
+
+                    {/* affiche les modes de livraison */}
+                    <div className={`w-full col-span-4 border-t border-gray-200 pb-4 ${listModesDetails.includes(shippingItem.id) ? "block" : "hidden"}`}>
+                        <div className='w-full py-2 text-sm font-semibold'>
+                            Modes de livraison de la zone {shippingItem.zone_name}
+                        </div>
+                        {shippingItem.shipping_modes.length > 0 &&
+                            shippingItem.shipping_modes.map((modesItem, modeIndex) =>
+                                <div
+                                    key={modeIndex}
+                                    className='w-full grid grid-cols-[1fr_1fr_40px_40px] gap-3 justify-start items-center'
+                                >
+                                    <span>
+                                        {modesItem.mode_name}
+                                    </span>
+                                    <span>
+                                        {modesItem.conditions.length} Conditions
+                                    </span>
+                                    <span
+                                        className='text-blue-500 underline underline-offset-1 text-sm cursor-pointer hover:text-blue-400 relative group'
+                                        onClick={() => addDeliveryMode(shippingItem.id)}
+                                    >
+                                        <img
+                                            src={window.location.origin + '/images/icons/pencil.svg'}
+                                            className="h-5 w-5" />
+
+                                        <Tooltip top={-40} left={0}>
+                                            Modifier
+                                        </Tooltip>
+                                    </span>
+                                    <span
+                                        className='text-blue-500 underline underline-offset-1 text-sm cursor-pointer hover:text-blue-400 relative group'
+                                        onClick={() => addDeliveryMode(shippingItem.id)}
+                                    >
+                                        <img
+                                            src={window.location.origin + '/images/icons/trash.svg'}
+                                            className="h-5 w-5" />
+
+                                        <Tooltip top={-40} left={0}>
+                                            Supprimer
+                                        </Tooltip>
+                                    </span>
+                                </div>
+                            )
+                        }
+                    </div>
                 </div>
+
             )}
         </div>
     );
