@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Tooltip from '../elements/tooltip';
 
-const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDeliveryZones }) => {
+const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDeliveryZones, setIdMode }) => {
 
     const [showShipConditions, setShowShipConditions] = useState(false);
     const [distanceFromBottomShip, setDistanceFromBottomShip] = useState(null);
@@ -33,6 +33,12 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
             tmp_listModesDetails.push(id);
         }
         setListModesDetails([...tmp_listModesDetails]);
+    }
+
+    const editDeliveryMode = (zoneId, modeId) => {
+        setIdDeliveryZones(zoneId);
+        setIdMode(modeId);
+        setActivePanelShipping(3);
     }
 
 
@@ -202,7 +208,7 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
                                     </span>
                                     <span
                                         className='text-blue-500 underline underline-offset-1 text-sm cursor-pointer hover:text-blue-400 relative group'
-                                        onClick={() => addDeliveryMode(shippingItem.id)}
+                                        onClick={() => editDeliveryMode(shippingItem.id, modesItem.id)}
                                     >
                                         <img
                                             src={window.location.origin + '/images/icons/pencil.svg'}
@@ -214,7 +220,7 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
                                     </span>
                                     <span
                                         className='text-blue-500 underline underline-offset-1 text-sm cursor-pointer hover:text-blue-400 relative group'
-                                        onClick={() => addDeliveryMode(shippingItem.id)}
+                                        onClick={() => (shippingItem.id)}
                                     >
                                         <img
                                             src={window.location.origin + '/images/icons/trash.svg'}

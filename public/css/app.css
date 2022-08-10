@@ -548,11 +548,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .col-span-2 {
   grid-column: span 2 / span 2;
 }
-.col-span-3 {
-  grid-column: span 3 / span 3;
-}
 .col-span-4 {
   grid-column: span 4 / span 4;
+}
+.col-span-3 {
+  grid-column: span 3 / span 3;
 }
 .m-auto {
   margin: auto;
@@ -849,9 +849,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .h-0 {
   height: 0px;
-}
-.h-3 {
-  height: 0.75rem;
 }
 .h-\[100\%\] {
   height: 100%;
@@ -1208,11 +1205,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .grid-cols-\[360px_140px_40px\] {
   grid-template-columns: 360px 140px 40px;
 }
-.grid-cols-\[1fr_250px_1fr_1fr\] {
-  grid-template-columns: 1fr 250px 1fr 1fr;
+.grid-cols-\[1fr_1fr_120px_60px\] {
+  grid-template-columns: 1fr 1fr 120px 60px;
 }
-.grid-cols-\[1fr_1fr_1fr_1fr\] {
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+.grid-cols-\[1fr_1fr_40px_40px\] {
+  grid-template-columns: 1fr 1fr 40px 40px;
 }
 .grid-cols-\[80px_70\%_100px_40px_40px\] {
   grid-template-columns: 80px 70% 100px 40px 40px;
@@ -1237,39 +1234,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .grid-cols-\[25px_1fr_100px_100px_150px_50px_30px\] {
   grid-template-columns: 25px 1fr 100px 100px 150px 50px 30px;
-}
-.grid-cols-\[1fr_1fr_40px_40px\] {
-  grid-template-columns: 1fr 1fr 40px 40px;
-}
-.grid-cols-\[1fr_250px_40px_1fr\] {
-  grid-template-columns: 1fr 250px 40px 1fr;
-}
-.grid-cols-\[1fr_250px_40px_40px\] {
-  grid-template-columns: 1fr 250px 40px 40px;
-}
-.grid-cols-\[250px_250px_40px_40px\] {
-  grid-template-columns: 250px 250px 40px 40px;
-}
-.grid-cols-\[250px_250px_80px_40px\] {
-  grid-template-columns: 250px 250px 80px 40px;
-}
-.grid-cols-\[250px_250px_80px_80px\] {
-  grid-template-columns: 250px 250px 80px 80px;
-}
-.grid-cols-\[250px_250px_80px_80px_80px\] {
-  grid-template-columns: 250px 250px 80px 80px 80px;
-}
-.grid-cols-\[1\] {
-  grid-template-columns: 1;
-}
-.grid-cols-\[1fr_1fr_\] {
-  grid-template-columns: 1fr 1fr;
-}
-.grid-cols-\[1fr_1fr_120px\] {
-  grid-template-columns: 1fr 1fr 120px;
-}
-.grid-cols-\[1fr_1fr_120px_60px\] {
-  grid-template-columns: 1fr 1fr 120px 60px;
 }
 .flex-row {
   flex-direction: row;

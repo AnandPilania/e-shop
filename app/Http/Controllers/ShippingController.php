@@ -57,4 +57,19 @@ class ShippingController extends Controller
 
         return "ok";
     }
+
+
+    public function updateShipping_mode(Request $request)
+    {
+        // dd($request);
+        $shipping_mode = Shipping_mode::find($request->idMode);
+        $shipping_mode->mode_name = $request->mode_name;
+        $shipping_mode->criteria = $request->criteria;
+        $shipping_mode->conditions = $request->conditions;
+        $shipping_mode->price_without_condition = $request->priceWithoutCondition;
+        $shipping_mode->shipping_id = $request->IdDeliveryZones;
+        $shipping_mode->save();
+
+        return "ok";
+    }
 }

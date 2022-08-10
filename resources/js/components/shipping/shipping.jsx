@@ -12,8 +12,9 @@ const Shipping = () => {
     const [deliveryZoneList, setDeliveryZoneList] = useState([]);
     const [countriesList, setCountriesList] = useState([]);
     const [IdDeliveryZones, setIdDeliveryZones] = useState(null);
+    const [idMode, setIdMode] = useState(null);
 
-    useEffect(() => {
+    useEffect(() => { 
         // charge la liste des shippings
         Axios.get(`http://127.0.0.1:8000/shipping-list`)
             .then(res => {
@@ -23,7 +24,10 @@ const Shipping = () => {
                 console.log('error:   ' + error);
             });
     }, []);
+    
     console.log('deliveryZoneList   ', deliveryZoneList)
+    console.log('idMode   ', idMode)
+
     const getShippingsList = () => {
         // charge la liste des shippings
         Axios.get(`http://127.0.0.1:8000/shipping-list`)
@@ -79,6 +83,7 @@ const Shipping = () => {
                                 deliveryZoneList={deliveryZoneList}
                                 setActivePanelShipping={setActivePanelShipping}
                                 setIdDeliveryZones={setIdDeliveryZones}
+                                setIdMode={setIdMode}
                             />
                         </div>
                     }
@@ -106,6 +111,8 @@ const Shipping = () => {
                         setDeliveryZoneList={setDeliveryZoneList}
                         IdDeliveryZones={IdDeliveryZones}
                         setActivePanelShipping={setActivePanelShipping}
+                        idMode={idMode}
+                        setIdMode={setIdMode}
                     />
                 </div>
             }
