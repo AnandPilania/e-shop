@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import Tooltip from '../elements/tooltip';
+import Axios from 'axios';
 
-const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDeliveryZones, setIdMode }) => {
+
+const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDeliveryZones, setIdMode, setDeliveryZoneList }) => {
 
     const [showShipConditions, setShowShipConditions] = useState(false);
     const [distanceFromBottomShip, setDistanceFromBottomShip] = useState(null);
@@ -39,6 +41,29 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
         setIdDeliveryZones(zoneId);
         setIdMode(modeId);
         setActivePanelShipping(3);
+    }
+
+    const deleteShippingMode = (id_shippingMode) => {
+
+        let modeToDeleteData = new FormData;
+        modeToDeleteData.append('id', id_shippingMode);
+
+        Axios.post(`http://127.0.0.1:8000/delete-Shipping_mode`, modeToDeleteData)
+        .then(res => {
+            console.log('res.data  --->  ok');
+            if (res.data === 'ok') {
+                // refresh data after save new mode shipping
+                Axios.get(`http://127.0.0.1:8000/shipping-list`)
+                    .then(res => {
+                        setDeliveryZoneList(res.data[0]);
+                        // setActivePanelShipping(1);
+                    }).catch(function (error) {
+                        console.log('error:   ' + error);
+                    });
+            }
+        }).catch(function (error) {
+            console.log('error:   ' + error);
+        });
     }
 
 
@@ -220,7 +245,7 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
                                     </span>
                                     <span
                                         className='text-blue-500 underline underline-offset-1 text-sm cursor-pointer hover:text-blue-400 relative group'
-                                        onClick={() => (shippingItem.id)}
+                                        onClick={() => deleteShippingMode(modesItem.id)}
                                     >
                                         <img
                                             src={window.location.origin + '/images/icons/trash.svg'}

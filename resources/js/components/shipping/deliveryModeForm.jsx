@@ -45,17 +45,21 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
                     setTmp_modeName_for_edit(shipping_mode[ndxMode].mode_name);
                     setPriceWithoutCondition(shipping_mode[ndxMode].price_without_condition != null ? shipping_mode[ndxMode].price_without_condition : '');
                     setCriteria(shipping_mode[ndxMode].criteria);
-                    setShowDeliveryPeiceConditions(true);
+                    setShowDeliveryPeiceConditions(shipping_mode[ndxMode].criteria == "simple" ? false : true);
                 }
             }
         }
     }, []);
 
+    useEffect(() => {
+        console.log('showDeliveryPriceConditions   ', showDeliveryPriceConditions)
+    }, [showDeliveryPriceConditions])
+
     console.log('objOfModeConditions   ', objOfModeConditions)
 
     const checkIfIsDirty = () => {
         const isDirtyCondition =
-            objOfModeConditions[0].max_value > 0 ||
+            objOfModeConditions[0].max_value != '' ||
             objOfModeConditions[0].modeTarif != '';
 
         if (
@@ -118,6 +122,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
         setObjOfModeConditions([...tmp_conditions]);
     };
 
+
     const handleMax_value = (e, id) => {
         let ndx = objOfModeConditions.findIndex(x => x.id == id);
         let tmp_conditions = [...objOfModeConditions];
@@ -125,7 +130,19 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
         if (ndx > -1) {
             tmp_conditions[ndx].max_value = e.target.value;
         }
-        setObjOfModeConditions([...tmp_conditions]);
+
+        let tmp = [...objOfModeConditions];
+        // check si le champ min est suppérieur au champ max précédent
+        if (tmp.length > 1) {
+            for (let i = 1; i < tmp.length; i++) {
+                if (tmp[i - 1].max_value > 0) {
+                    tmp[i].min_value = criteria == "weight" ? Number(tmp[i - 1].max_value) + 1 : Number(tmp[i - 1].max_value) + 0.01;
+                    setObjOfModeConditions([...tmp]);
+                }
+            }
+        } else {
+            setObjOfModeConditions([...tmp_conditions]);
+        }
     };
 
 
@@ -151,6 +168,8 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
             // met le premier min à 0 quand on supprime un tarif pcq le premier doit être à 0
             tmp_conditions[0].min_value = 0;
             setObjOfModeConditions([...tmp_conditions]);
+
+            ajustMinWithPrevMax(tmp_conditions);
         }
     }
 
@@ -159,6 +178,28 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
         let ndx = null;
         let tmp_arr = [];
         let showErrorMessage = false;
+        let fieldName = criteria == "weight" ? "Poids" : "Montant";
+
+        // check if min <= prev max
+        if (objOfModeConditions.length > 1) {
+            for (let i = 1; i < objOfModeConditions.length; i++) {
+                if (objOfModeConditions[i - 1].max_value > objOfModeConditions[i].min_value && i < objOfModeConditions.length - 1) {
+                    showErrorMessage = true;
+                    tmp_arr.push('Le champ ' + fieldName + ' min doit être supérieur au champ ' + fieldName + ' max précédent');
+                    setWarningModeFieldMessages([...tmp_arr]);
+                    setShowErrorMessageMode(showErrorMessage);
+
+                    return showErrorMessage ? false : true;
+
+                } else {
+                    let index = tmp_arr.indexOf('Le champ ' + fieldName + ' min doit être supérieur au champ ' + fieldName + ' max précédent');
+                    index > -1 && tmp_arr.splice(index, 1);
+                    setWarningModeFieldMessages([...tmp_arr]);
+                    setShowErrorMessageMode(showErrorMessage);
+                }
+            }
+        }
+
 
         // check if empty
         ndx = objOfModeConditions.findIndex(x => x.max_value == '' || x.modeTarif == '');
@@ -166,63 +207,74 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
         if (ndx > -1) {
             showErrorMessage = true;
             tmp_arr.push('Tous les champs doivent être complétés');
+            setWarningModeFieldMessages([...tmp_arr]);
+            setShowErrorMessageMode(showErrorMessage);
+
+            return showErrorMessage ? false : true;
         } else {
             let index = tmp_arr.indexOf('Tous les champs doivent être complétés');
             index > -1 && tmp_arr.splice(index, 1);
+            setWarningModeFieldMessages([...tmp_arr]);
+            setShowErrorMessageMode(showErrorMessage);
         }
 
         // check if max > min
         ndx = objOfModeConditions.findIndex(x => x.max_value <= x.min_value);
 
-        let fieldName = criteria == "weight" ? "Poids" : "Montant";
-
         if (ndx > -1 && tmp_arr.length == 0) {
             showErrorMessage = true;
             tmp_arr.push('Le champ ' + fieldName + ' max doit être supérieur au champ ' + fieldName + ' min');
+            setWarningModeFieldMessages([...tmp_arr]);
+            setShowErrorMessageMode(showErrorMessage);
+
+            return showErrorMessage ? false : true;
 
         } else {
             let index = tmp_arr.indexOf('Le champ ' + fieldName + ' max doit être supérieur au champ ' + fieldName + ' min');
             index > -1 && tmp_arr.splice(index, 1);
-        }
-
-        let tmp = [...objOfModeConditions];
-        // check si le champ min est suppérieur au champ max
-        if (tmp.length > 1) {
-            for (let i = 1; i < tmp.length; i++) {
-                if (tmp[i - 1].max_value > tmp[i].min_value) {
-                    tmp[i].min_value = criteria == "weight" ? Number(tmp[i - 1].max_value) + 1 : Number(tmp[i - 1].max_value) + 0.01;
-                    setObjOfModeConditions([...tmp]);
-                    addTarifValidation();
-                }
-            }
-        }
-
-        setWarningModeFieldMessages([...tmp_arr]);
-        setShowErrorMessageMode(showErrorMessage);
-
-        // if there is error to show return false
-        return showErrorMessage ? false : true;
-    }
-
-    useEffect(() => {
-        // check si le champ min est suppérieur au champ max
-        if (objOfModeConditions.length > 1) {
-            let showErrorMessage = false;
-            let fieldName = criteria == "weight" ? "Poids" : "Montant";
-            let tmp_arr = [];
-            for (let i = 1; i < objOfModeConditions.length; i++) {
-                if (objOfModeConditions[i - 1].max_value > objOfModeConditions[i].min_value) {
-                    showErrorMessage = true;
-                    tmp_arr.push('Le champ ' + fieldName + ' min doit être supérieur au champ ' + fieldName + ' max précédent');
-                } else {
-                    let index = tmp_arr.indexOf('Le champ ' + fieldName + ' min doit être supérieur au champ ' + fieldName + ' max précédent');
-                    index > -1 && tmp_arr.splice(index, 1);
-                }
-            }
             setWarningModeFieldMessages([...tmp_arr]);
             setShowErrorMessageMode(showErrorMessage);
         }
-    }, [objOfModeConditions])
+
+        return showErrorMessage ? false : true;
+    }
+
+
+    const ajustMinWithPrevMax = (tmp_conditions) => {
+        let tmp = tmp_conditions.length > 0 ? tmp_conditions : [...objOfModeConditions];
+        let ndx = null;
+        let tmp_arr = [];
+        let showErrorMessage = false;
+        let fieldName = criteria == "weight" ? "Poids" : "Montant";
+
+        // check si le champ min est suppérieur au champ max précédent
+        if (tmp.length > 1) {
+            for (let i = 1; i < tmp.length; i++) {
+                if (tmp[i - 1].max_value > 0) {
+                    tmp[i].min_value = criteria == "weight" ? Number(tmp[i - 1].max_value) + 1 : Number(tmp[i - 1].max_value) + 0.01;
+                    setObjOfModeConditions([...tmp]);
+                }
+            }
+        }
+        // check if max > min
+        ndx = tmp.findIndex(x => x.max_value <= x.min_value);
+
+        if (ndx > -1 && tmp_arr.length == 0 && tmp[ndx].max_value != '') {
+            showErrorMessage = true;
+            tmp_arr.push('Le champ ' + fieldName + ' max doit être supérieur au champ ' + fieldName + ' min');
+            setWarningModeFieldMessages([...tmp_arr]);
+            setShowErrorMessageMode(showErrorMessage);
+
+            return showErrorMessage ? false : true;
+
+        } else {
+            let index = tmp_arr.indexOf('Le champ ' + fieldName + ' max doit être supérieur au champ ' + fieldName + ' min');
+            index > -1 && tmp_arr.splice(index, 1);
+            setWarningModeFieldMessages([...tmp_arr]);
+            setShowErrorMessageMode(showErrorMessage);
+        }
+    }
+
 
 
     const addTarif = () => {
@@ -404,18 +456,37 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
     return (
         <div className='w-full flex flex-col justify-start items-start px-4'>
 
-            {/* error message validation name && price without conditions */}
-            {showValidationMessageMode &&
-                <div
-                    className="w-full p-4 my-4 flex justify-start items-start rounded-md bg-red-50 text-sm text-gray-700 font-semibold"
-                >
-                    <img
-                        src={window.location.origin + '/images/icons/exclamation-triangle.svg'}
-                        className="h-4 w-4 mr-3"
-                    />
-                    {messageModal}
-                </div>
-            }
+            <div className='w-full min-h-[50px] mb-2 relative'>
+
+                {/* error message validation name && price without conditions */}
+                {showValidationMessageMode &&
+                    <div
+                        className="w-full p-4 flex justify-start items-start rounded-md bg-red-50 text-sm text-gray-700 font-semibold absolute top-0 left-0"
+                    >
+                        <img
+                            src={window.location.origin + '/images/icons/exclamation-triangle.svg'}
+                            className="h-4 w-4 mr-3"
+                        />
+                        {messageModal}
+                    </div>
+                }
+
+                {/* error message validation conditions */}
+                {showErrorMessageMode &&
+                    warningModeFieldMessages.map((itemError, index) =>
+                        <div
+                            key={index}
+                            className="w-full p-4 flex justify-start items-start rounded-md bg-red-50 text-sm text-gray-700 font-semibold absolute top-0 left-0"
+                        >
+                            <img
+                                src={window.location.origin + '/images/icons/exclamation-triangle.svg'}
+                                className="h-4 w-4 mr-3"
+                            />
+                            {itemError}
+                        </div>
+                    )
+                }
+            </div>
 
             {/* container name + priceWithoutConditions */}
             <div
@@ -464,7 +535,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
             </div>
 
             <div
-                className='w-auto mt-16'
+                className='w-auto mt-10'
             >
                 <Toggle
                     isChecked={showDeliveryPriceConditions}
@@ -477,7 +548,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
 
 
             {showDeliveryPriceConditions &&
-                <div className='w-full mt-4'>
+                <div className='w-full mt-6'>
                     {/* radio btn */}
                     <div className='w-full flex flex-col justify-start items-start'>
                         <div className='flex justify-start items-center'>
@@ -514,24 +585,9 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
                         </div>
                     </div>
 
-                    {showErrorMessageMode &&
-                        warningModeFieldMessages.map((itemError, index) =>
-                            <div
-                                key={index}
-                                className="w-full p-4 mt-4 flex justify-start items-start rounded-md bg-red-50 text-sm text-gray-700 font-semibold"
-                            >
-                                <img
-                                    src={window.location.origin + '/images/icons/exclamation-triangle.svg'}
-                                    className="h-4 w-4 mr-3"
-                                />
-                                {itemError}
-                            </div>
-                        )
-                    }
-
-
+                    {/* title fields */}
                     <div
-                        className='w-full grid grid-cols-[360px_140px_40px] gap-4 justify-start items-center mt-8 mb-1'>
+                        className='w-full grid grid-cols-[360px_140px_40px] gap-4 justify-start items-center mt-4 mb-1'>
                         <div
                             className='w-full grid grid-cols-2 gap-4 justify-start items-center'>
                             <span

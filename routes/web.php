@@ -139,6 +139,9 @@ Route::post('/save-Shipping_mode', [ShippingController::class, 'saveShipping_mod
 // update shipping mode
 Route::post('/update-Shipping_mode', [ShippingController::class, 'updateShipping_mode']);
 
+// delete shipping mode
+Route::post('/delete-Shipping_mode', [ShippingController::class, 'deleteShipping_mode']);
+
 
 Route::get('/editProduct/{productId}', [ProductController::class, 'editProduct']);
 

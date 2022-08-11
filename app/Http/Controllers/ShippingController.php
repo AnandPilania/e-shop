@@ -72,4 +72,12 @@ class ShippingController extends Controller
 
         return "ok";
     }
+
+    public function deleteShipping_mode(Request $request)
+    {
+        $shipping_mode = Shipping_mode::find($request->id);
+        $shipping_mode != null && $shipping_mode->delete();
+
+        return "ok";
+    }
 }

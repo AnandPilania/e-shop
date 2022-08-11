@@ -41,7 +41,7 @@ const Shipping = () => {
 
     return (
         <Flex_col_s_s css="mt-10">
-            <span className='text-xl font-semibold text=gray-600 my-4 px-4'>
+            <span className='text-xl font-semibold text=gray-600 mt-4 mb-2 px-4'>
                 Livraisons
             </span>
 
@@ -84,6 +84,7 @@ const Shipping = () => {
                                 setActivePanelShipping={setActivePanelShipping}
                                 setIdDeliveryZones={setIdDeliveryZones}
                                 setIdMode={setIdMode}
+                                setDeliveryZoneList={setDeliveryZoneList}
                             />
                         </div>
                     }
