@@ -6,13 +6,13 @@ const Tooltip = ({ children, top, left, bottom, right, css }) => {
         top: top + 'px',
         left: left + 'px',
         bottom: bottom + 'px',
-        right: right + 'px'
+        right: right + 'px',
     }
 
     return (
         <div
             style={style}
-            className={`absolute  whitespace-normal w-auto h-auto max-w-[370px] px-3 py-2 text-sm text-gray-900 bg-white z-10 invisible group-hover:visible overflow-auto border border-gray-200 rounded-md shadow-lg cursor-default ${css}`}
+            className={`absolute whitespace-normal max-w-[370px] px-3 py-2 text-sm text-gray-900 bg-white z-50 invisible group-hover:visible overflow-auto border border-gray-700 rounded-md shadow-lg cursor-default ${css}`}
         >
             {children}
 

@@ -47,7 +47,7 @@ const Shipping = () => {
 
             {activePanelShipping == 1 &&
                 <div className='w-full'>
-                    <span className='text-base text-blue-500 underline underline-offset-1 cursor-pointer'
+                    <span className='w-full flex justify-end text-base text-blue-500 underline underline-offset-1 cursor-pointer'
                         onClick={() => setActivePanelShipping(2)}>
                         Ajouter une zone de livraison
                     </span>
@@ -55,25 +55,25 @@ const Shipping = () => {
                     {deliveryZoneList.length > 0 &&
                         <div className='w-full mt-10'>
                             <div
-                                className='grid grid-cols-[1fr_1fr_120px_60px] justify-start items-start w-full bg-gray-50 rounded-t-md text-base'
+                                className='grid grid-cols-4 justify-start items-start w-full bg-gray-50 rounded-t-md text-base px-2'
                             >
                                 <span
-                                    className='w-full border-gray-200 py-3 pl-2'
+                                    className='w-full border-gray-200 py-3 font-semibold'
                                 >
-                                    Nom Zones de Livraison
+                                    Zone de Livraison
                                 </span>
                                 <span
-                                    className='w-full border-gray-200 py-3 pl-2'
+                                    className='w-full border-gray-200 py-3 font-semibold'
                                 >
-                                    Destinations
+                                    Pays
                                 </span>
                                 <span
-                                    className='w-full border-gray-200 py-3 pl-2'
+                                    className='w-full border-gray-200 py-3 font-semibold'
                                 >
                                     Opérations
                                 </span>
                                 <span
-                                    className='w-full border-gray-200 py-3 pl-2'
+                                    className='w-full border-gray-200 py-3 font-semibold'
                                 >
                                     Détails
                                 </span>

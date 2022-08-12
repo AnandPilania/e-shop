@@ -49,21 +49,21 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
         modeToDeleteData.append('id', id_shippingMode);
 
         Axios.post(`http://127.0.0.1:8000/delete-Shipping_mode`, modeToDeleteData)
-        .then(res => {
-            console.log('res.data  --->  ok');
-            if (res.data === 'ok') {
-                // refresh data after save new mode shipping
-                Axios.get(`http://127.0.0.1:8000/shipping-list`)
-                    .then(res => {
-                        setDeliveryZoneList(res.data[0]);
-                        // setActivePanelShipping(1);
-                    }).catch(function (error) {
-                        console.log('error:   ' + error);
-                    });
-            }
-        }).catch(function (error) {
-            console.log('error:   ' + error);
-        });
+            .then(res => {
+                console.log('res.data  --->  ok');
+                if (res.data === 'ok') {
+                    // refresh data after save new mode shipping
+                    Axios.get(`http://127.0.0.1:8000/shipping-list`)
+                        .then(res => {
+                            setDeliveryZoneList(res.data[0]);
+                            // setActivePanelShipping(1);
+                        }).catch(function (error) {
+                            console.log('error:   ' + error);
+                        });
+                }
+            }).catch(function (error) {
+                console.log('error:   ' + error);
+            });
     }
 
 
@@ -87,24 +87,33 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
             {deliveryZoneList.map(shippingItem =>
                 <div
                     key={shippingItem.id}
-                    className="grid grid-cols-[1fr_1fr_120px_60px] justify-start items-center w-full h-full border-b border-gray-200 py-2"
+                    className={`grid grid-cols-4 justify-start items-center w-full h-full border-b border-gray-200 ${listModesDetails.includes(shippingItem.id) && "first:border-t"}`}
                 >
                     {/* name */}
-                    <span className={`w-full h-full flex items-center ${listModesDetails.includes(shippingItem.id) ? "bg-gray-50 font-semibold" : "bg-white"}`}>
+                    <span className={`w-full h-full px-2 flex items-center ${listModesDetails.includes(shippingItem.id) ? "bg-gray-50 font-semibold" : "bg-white"}`}>
                         {shippingItem.zone_name}
                     </span>
 
                     {/* destinations */}
-                    <div className={`flex flex-row w-full h-full min-h-[48px] ${listModesDetails.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
+                    <div className={` px-2 flex flex-row w-full h-full min-h-[48px] ${listModesDetails.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
                         onClick={(e) => showHideShipDestinations(e, shippingItem.id)}
                     >
                         <div className='relative w-auto flex flex-col justify-start items-start bg-white rounded-md mr-2.5'
                         >
                             {!showShipConditions ?
-                                <div className='w-full max-w-[170px] flex items-center'>
+                                <div className={`w-full max-w-[170px] flex items-center ${listModesDetails.includes(shippingItem.id) && "bg-gray-50"}`}>
                                     <span className='w-full truncate'>
-                                        {shippingItem.destinations.map(x => { return ' ' + x.name }).toString()}
+                                        {shippingItem.destinations.length} Pays
                                     </span>
+                                    {shippingItem.destinations?.length > 1 &&
+                                        <div
+                                            className="w-4 h-4 m-5 min-w-[20px]"
+                                            onClick={(e) => showHideShipDestinations(e, shippingItem.id)}
+                                        >
+                                            <img src={window.location.origin + '/images/icons/caret-down-empty.svg'}
+                                                className="w17" />
+                                        </div>
+                                    }
                                 </div>
                                 :
                                 shippingItem.destinations.length > 1 && shippingItem.id == idDistance ?
@@ -145,33 +154,41 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
                                         </div>
                                     </div>
                                     :
-                                    <div className='w-full max-w-[170px] flex items-center'>
+                                    <div className={`w-full max-w-[170px] flex items-center ${listModesDetails.includes(shippingItem.id) && "bg-gray-50"}`}>
                                         <span className='w-full truncate'>
-                                            {shippingItem.destinations.map(x => { return ' ' + x.name }).toString()}
+                                            {shippingItem.destinations.length} Pays
                                         </span>
-
+                                        {shippingItem.destinations?.length > 1 &&
+                                            <div
+                                                className="w-4 h-4 ml-5 min-w-[20px]"
+                                                onClick={(e) => showHideShipDestinations(e, shippingItem.id)}
+                                            >
+                                                <img src={window.location.origin + '/images/icons/caret-down-empty.svg'}
+                                                    className="w17" />
+                                            </div>
+                                        }
                                     </div>
                             }
                         </div>
-
-                        {shippingItem.destinations?.length > 1 &&
-                            <div
-                                className="w-5 h-5 mr-5 ml-auto min-w-[20px]"
-                                onClick={(e) => showHideShipDestinations(e, shippingItem.id)}
-                            >
-                                {showShipConditions && shippingItem.id == idDistance ?
-                                    <img src={window.location.origin + '/images/icons/chevronUp.png'}
-                                        className="w17" />
-                                    :
-                                    <img src={window.location.origin + '/images/icons/chevronDown.png'} />}
-                            </div>
-                        }
                     </div>
 
-                    <div className={`w-full h-full grid grid-cols-2  justify-center items-center group relative${listModesDetails.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
+                    <div className={`w-full h-full grid grid-cols-3  justify-center items-center group relative${listModesDetails.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
                     >
                         <span
-                            className={`w-full h-full text-blue-500 underline underline-offset-1 text-sm flex items-center hover:text-blue-400 ${listModesDetails.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
+                            className={`w-full h-full px-2 text-blue-500 underline underline-offset-1 text-sm flex items-center hover:text-blue-400 ${listModesDetails.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
+                        >
+                            <img
+                                src={window.location.origin + '/images/icons/add_icon.svg'}
+                                className="h-5 w-5 m-auto cursor-pointer"
+                                onClick={() => addDeliveryMode(shippingItem.id)}
+                            />
+
+                            <Tooltip top={-40} left={0}>
+                                Ajouter un mode de livraison
+                            </Tooltip>
+                        </span>
+                        <span
+                            className={`w-full h-full px-2 text-blue-500 underline underline-offset-1 text-sm flex items-center hover:text-blue-400 ${listModesDetails.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
                         >
                             <img
                                 src={window.location.origin + '/images/icons/pencil.svg'}
@@ -185,29 +202,29 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
                         </span>
 
                         <span
-                            className={`w-full h-full text-blue-500 underline underline-offset-1 text-sm flex items-center hover:text-blue-400 ${listModesDetails.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
+                            className={`w-full h-full px-2 text-blue-500 underline underline-offset-1 text-sm flex items-center hover:text-blue-400 ${listModesDetails.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
                         >
                             <img
-                                src={window.location.origin + '/images/icons/add_icon.svg'}
+                                src={window.location.origin + '/images/icons/trash.svg'}
                                 className="h-5 w-5 m-auto cursor-pointer"
                                 onClick={() => addDeliveryMode(shippingItem.id)}
                             />
 
                             <Tooltip top={-40} left={0}>
-                                Ajouter un mode de livraison
+                                Supprimer
                             </Tooltip>
                         </span>
                     </div>
 
                     {/* show / hide list modes details */}
                     {shippingItem.shipping_modes.length > 0 ?
-                        <span className={`w-full h-full flex items-center ${listModesDetails.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
+                        <span className={`w-full h-full px-2 flex items-center ${listModesDetails.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
                         >
                             <span
-                                className='cursor-pointer m-auto'
+                                className='cursor-pointer'
                                 onClick={() => { showListModesDetails(shippingItem.id) }}
                             >
-                               {listModesDetails.includes(shippingItem.id) ? "Fermer" : "Voir"} 
+                                {listModesDetails.includes(shippingItem.id) ? "Fermer" : "Voir"}
                             </span>
                         </span>
                         :
@@ -216,47 +233,64 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
 
                     {/* affiche les modes de livraison */}
                     <div className={`w-full col-span-4 border-t border-gray-200 pb-4 ${listModesDetails.includes(shippingItem.id) ? "block" : "hidden"}`}>
-                        <div className='w-full py-2 text-sm font-semibold'>
-                            Modes de livraison de la zone {shippingItem.zone_name}
+                        <div className='w-full flex justify-start m-0 p-0 '>
+                            <div className='w-auto flex justify-center items-center py-3 px-2 text-sm font-semibold'>
+                                {shippingItem.length > 1 ? "Modes" : "Mode"} de livraison de la zone {shippingItem.zone_name}
+                            </div>
                         </div>
                         {shippingItem.shipping_modes.length > 0 &&
-                            shippingItem.shipping_modes.map((modesItem, modeIndex) =>
+                            <div className='w-full'>
                                 <div
-                                    key={modeIndex}
-                                    className='w-full grid grid-cols-[1fr_1fr_40px_40px] gap-3 justify-start items-center'
+                                    className='w-full py-1 px-2  even:bg-violet-50 grid grid-cols-[1fr_140px_30px_30px] gap-2 justify-start items-center'
                                 >
-                                    <span>
-                                        {modesItem.mode_name}
+                                    <span className='text-sm font-semibold'>
+                                        Nom
                                     </span>
-                                    <span>
-                                        {modesItem.conditions.length} Conditions
+                                    <span className='text-sm font-semibold'>
+                                        Tarif.s
                                     </span>
-                                    <span
-                                        className='text-blue-500 underline underline-offset-1 text-sm cursor-pointer hover:text-blue-400 relative group'
-                                        onClick={() => editDeliveryMode(shippingItem.id, modesItem.id)}
-                                    >
-                                        <img
-                                            src={window.location.origin + '/images/icons/pencil.svg'}
-                                            className="h-5 w-5" />
-
-                                        <Tooltip top={-40} left={0}>
-                                            Modifier
-                                        </Tooltip>
-                                    </span>
-                                    <span
-                                        className='text-blue-500 underline underline-offset-1 text-sm cursor-pointer hover:text-blue-400 relative group'
-                                        onClick={() => deleteShippingMode(modesItem.id)}
-                                    >
-                                        <img
-                                            src={window.location.origin + '/images/icons/trash.svg'}
-                                            className="h-5 w-5" />
-
-                                        <Tooltip top={-40} left={0}>
-                                            Supprimer
-                                        </Tooltip>
+                                    <span className='col-span-2 text-sm font-semibold'>
+                                        Opérations
                                     </span>
                                 </div>
-                            )
+                                {shippingItem.shipping_modes.map((modesItem, modeIndex) =>
+                                    <div
+                                        key={modeIndex}
+                                        className='w-full py-2 px-2 even:bg-[#f9fdff] grid grid-cols-[1fr_140px_30px_30px] gap-2 justify-start items-center'
+                                    >
+                                        <span className='w-full truncate'>
+                                            {modesItem.mode_name}
+                                        </span>
+                                        <span>
+                                            {modesItem.conditions.length} {modesItem.conditions.length > 1 ? "tarifs" : "tarif"}
+                                        </span>
+                                        <span
+                                            className='w-full h-full flex justify-center items-center cursor-pointer relative group'
+                                            onClick={() => editDeliveryMode(shippingItem.id, modesItem.id)}
+                                        >
+                                            <img
+                                                src={window.location.origin + '/images/icons/pencil.svg'}
+                                                className="h-5 w-5" />
+
+                                            <Tooltip top={-40} left={0}>
+                                                Modifier
+                                            </Tooltip>
+                                        </span>
+                                        <span
+                                            className='w-full h-full flex justify-center items-center cursor-pointer relative group'
+                                            onClick={() => deleteShippingMode(modesItem.id)}
+                                        >
+                                            <img
+                                                src={window.location.origin + '/images/icons/trash.svg'}
+                                                className="h-5 w-5" />
+
+                                            <Tooltip top={-40} left={0}>
+                                                Supprimer
+                                            </Tooltip>
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
                         }
                     </div>
                 </div>
