@@ -13,6 +13,8 @@ const Shipping = () => {
     const [countriesList, setCountriesList] = useState([]);
     const [IdDeliveryZones, setIdDeliveryZones] = useState(null);
     const [idMode, setIdMode] = useState(null);
+    const [isEdidtZone, setIsEditZone] = useState(false);
+
 
     useEffect(() => { 
         // charge la liste des shippings
@@ -41,8 +43,8 @@ const Shipping = () => {
 
     return (
         <Flex_col_s_s css="mt-10">
-            <span className='text-xl font-semibold text=gray-600 mt-4 mb-2 px-4'>
-                Livraisons
+            <span className='text-xl font-semibold text=gray-600 mt-4 mb-4'>
+                Livraison
             </span>
 
             {activePanelShipping == 1 &&
@@ -82,9 +84,12 @@ const Shipping = () => {
                             <RowListShipping
                                 deliveryZoneList={deliveryZoneList}
                                 setActivePanelShipping={setActivePanelShipping}
+                                IdDeliveryZones={IdDeliveryZones} 
                                 setIdDeliveryZones={setIdDeliveryZones}
                                 setIdMode={setIdMode}
                                 setDeliveryZoneList={setDeliveryZoneList}
+                                setIsEditZone={setIsEditZone}
+                                getShippingsList={getShippingsList}
                             />
                         </div>
                     }
@@ -99,6 +104,10 @@ const Shipping = () => {
                     getShippingsList={getShippingsList}
                     deliveryZoneList={deliveryZoneList}
                     setActivePanelShipping={setActivePanelShipping}
+                    isEdidtZone={isEdidtZone}
+                    setIsEditZone={setIsEditZone}
+                    IdDeliveryZones={IdDeliveryZones} 
+                    setIdDeliveryZones={setIdDeliveryZones}
                 />
             }
 

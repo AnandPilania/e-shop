@@ -11,23 +11,27 @@ import Toggle from '../elements/toggle/toggle';
 const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZones, setActivePanelShipping, idMode, setIdMode }) => {
 
     const [modeName, setModeName] = useState('');
+    const [prevModeName, setPrevModeName] = useState(null);
     const [tmp_modeName_for_edit, setTmp_modeName_for_edit] = useState('');
     const [priceWithoutCondition, setPriceWithoutCondition] = useState('');
+    const [prevPriceWithoutCondition, setPrevPriceWithoutCondition] = useState(null);
     const [criteria, setCriteria] = useState('simple');
     const [objOfModeConditions, setObjOfModeConditions] = useState([{
         id: 0,
         min_value: 0,
         max_value: '',
         modeTarif: ''
-    }]);
-
+    }]);    
+    const [prevObjOfModeConditions, setPrevObjOfModeConditions] = useState(null);
     const [showErrorMessageMode, setShowErrorMessageMode] = useState(false);
     const [showValidationMessageMode, setShowValidationMessageMode] = useState(false);
     const [showModalConfirmation, setShowModalConfirmation] = useState(false);
+    const [showModalConfirmation2, setShowModalConfirmation2] = useState(false);
     const [messageModal, setMessageModal] = useState('');
     const [warningModeFieldMessages, setWarningModeFieldMessages] = useState([]);
     const [showDeliveryPriceConditions, setShowDeliveryPeiceConditions] = useState(false);
     const [senderShippingMode, setSenderShippingMode] = useState(false);
+    const [isDirtyShippingMode, setisDirtyShippingMode] = useState(false);
 
     console.log('idMode   ', idMode)
 
@@ -41,9 +45,12 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
                 let ndxMode = shipping_mode.findIndex(x => x.id == idMode);
                 if (ndxMode > -1) {
                     setObjOfModeConditions([...shipping_mode[ndxMode].conditions]);
+                    setPrevObjOfModeConditions([...shipping_mode[ndxMode].conditions]);
                     setModeName(shipping_mode[ndxMode].mode_name);
+                    setPrevModeName(shipping_mode[ndxMode].mode_name);
                     setTmp_modeName_for_edit(shipping_mode[ndxMode].mode_name);
                     setPriceWithoutCondition(shipping_mode[ndxMode].price_without_condition != null ? shipping_mode[ndxMode].price_without_condition : '');
+                    setPrevPriceWithoutCondition(shipping_mode[ndxMode].price_without_condition != null ? shipping_mode[ndxMode].price_without_condition : '');
                     setCriteria(shipping_mode[ndxMode].criteria);
                     setShowDeliveryPeiceConditions(shipping_mode[ndxMode].criteria == "simple" ? false : true);
                 }
@@ -51,9 +58,10 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
         }
     }, []);
 
+
     useEffect(() => {
-        console.log('showDeliveryPriceConditions   ', showDeliveryPriceConditions)
-    }, [showDeliveryPriceConditions])
+        setisDirtyShippingMode(() => checkIfIsDirty());
+    }, [objOfModeConditions, modeName, priceWithoutCondition]);
 
     console.log('objOfModeConditions   ', objOfModeConditions)
 
@@ -64,7 +72,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
 
         if (
             modeName != '' ||
-            priceWithoutCondition != null ||
+            priceWithoutCondition != '' ||
             isDirtyCondition == true
         ) {
             return true;
@@ -200,7 +208,6 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
             }
         }
 
-
         // check if empty
         ndx = objOfModeConditions.findIndex(x => x.max_value == '' || x.modeTarif == '');
 
@@ -240,6 +247,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
     }
 
 
+    // défini le min value en fonction du précédent max value
     const ajustMinWithPrevMax = (tmp_conditions) => {
         let tmp = tmp_conditions.length > 0 ? tmp_conditions : [...objOfModeConditions];
         let ndx = null;
@@ -326,6 +334,29 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
 
     const handleModalCancel = () => {
         setShowModalConfirmation(false);
+        setShowModalConfirmation2(false);
+    }
+
+    const handleModalConfirm2 = () => {
+        setShowModalConfirmation2(false);
+        setObjOfModeConditions([{
+            id: 0,
+            min_value: 0,
+            max_value: '',
+            modeTarif: ''
+        }]);
+        setPriceWithoutCondition('');
+        setCriteria('weight');
+        setSenderShippingMode('');
+        setShowDeliveryPeiceConditions(false);
+        setShowValidationMessageMode(false);
+        setShowErrorMessageMode(false);
+        setisDirtyShippingMode(false);
+        setPrevModeName(null);
+        setPrevPriceWithoutCondition(null);
+
+        setActivePanelShipping(1);
+
     }
 
 
@@ -450,6 +481,23 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
             }
 
         }
+    }
+
+
+    // gère le annuler sans sauvegarder
+    const handleCancel = () => {
+        if (isDirtyShippingMode && prevModeName == null &&
+            prevPriceWithoutCondition == null && prevObjOfModeConditions == null) {
+            setMessageModal('Quitter sans sauvegarder vos données ?');
+            setShowModalConfirmation2(true);
+        } else if ((prevModeName !== modeName ||
+            prevPriceWithoutCondition !== priceWithoutCondition || prevObjOfModeConditions !== objOfModeConditions) && prevModeName !== null && prevPriceWithoutCondition !== null && prevObjOfModeConditions !== null) {
+            setMessageModal('Quitter sans sauvegarder vos données ?');
+            setShowModalConfirmation2(true);
+        } else {
+            setActivePanelShipping(1);
+        }
+        setIdMode(null);
     }
 
 
@@ -751,12 +799,9 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
                 {/* cancel */}
                 <button
                     className='w-auto px-4 ml-4 h-10 flex flex-row justify-center items-center border border-gray-300 rounded-md bg-red-600 text-white'
-                    onClick={() => {
-                        setIdMode(null);
-                        setActivePanelShipping(1);
-                    }}
+                    onClick={handleCancel}
                 >
-                    Annuler+++
+                    Annuler
                 </button>
             </div>
 
@@ -765,6 +810,14 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
             <ModalConfirmation
                 show={showModalConfirmation}
                 handleModalConfirm={handleModalConfirm}
+                handleModalCancel={handleModalCancel}
+            >
+                <h2 className="childrenModal">{messageModal}</h2>
+            </ModalConfirmation>
+
+            <ModalConfirmation
+                show={showModalConfirmation2}
+                handleModalConfirm={handleModalConfirm2}
                 handleModalCancel={handleModalCancel}
             >
                 <h2 className="childrenModal">{messageModal}</h2>

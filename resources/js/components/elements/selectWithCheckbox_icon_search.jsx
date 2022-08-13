@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CheckBox_generic from './checkBox_generic';
 
 
-export default function SelectWithCheckbox_icon_search({ unikId, list, selected, setSelected, toggleSelectWithCheckbox, setToggleSelectWithCheckbox, placeholder, label, inputValue, setInputValue }) {
+export default function SelectWithCheckbox_icon_search({ unikId, list, selected, setSelected, toggleSelectWithCheckbox, setToggleSelectWithCheckbox, placeholder, inputValue, setInputValue }) {
 
     // list contient la liste à afficher dans le select
     // selected et setSelected sont le hook qui contient les éléments électionnés
@@ -118,10 +118,7 @@ export default function SelectWithCheckbox_icon_search({ unikId, list, selected,
 
     return (
         <div className="w-full">
-            <label className='block text-sm font-medium text-gray-700 mb-1'>
-                {label}
-            </label>
-            <div className='w-full relative'>
+           <div className='w-full relative'>
                 <input
                     type='text'
                     id={'inputSelectCheckIconSearch' + unikId}

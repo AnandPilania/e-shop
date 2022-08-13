@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import Tooltip from '../elements/tooltip';
 import Axios from 'axios';
+import ModalConfirmation from '../modal/modalConfirmation';
 
 
-const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDeliveryZones, setIdMode, setDeliveryZoneList }) => {
+const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, IdDeliveryZones, setIdDeliveryZones, setIdMode, setDeliveryZoneList, setIsEditZone, getShippingsList }) => {
 
     const [showShipConditions, setShowShipConditions] = useState(false);
     const [distanceFromBottomShip, setDistanceFromBottomShip] = useState(null);
     const [idDistance, setIdDistance] = useState(null);
     const [listModesDetails, setListModesDetails] = useState([]);
+    const [showModalConfirmation, setShowModalConfirmation] = useState(false);
+    const [messageModal, setMessageModal] = useState('');
 
 
     const showHideShipDestinations = (e, id) => {
@@ -18,11 +21,6 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
 
         setIdDistance(id);
         setShowShipConditions(!showShipConditions);
-    }
-
-    const addDeliveryMode = (id) => {
-        setIdDeliveryZones(id);
-        setActivePanelShipping(3);
     }
 
     const showListModesDetails = (id) => {
@@ -37,6 +35,11 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
         setListModesDetails([...tmp_listModesDetails]);
     }
 
+    const addDeliveryMode = (id) => {
+        setIdDeliveryZones(id);
+        setActivePanelShipping(3);
+    }
+
     const editDeliveryMode = (zoneId, modeId) => {
         setIdDeliveryZones(zoneId);
         setIdMode(modeId);
@@ -44,7 +47,6 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
     }
 
     const deleteShippingMode = (id_shippingMode) => {
-
         let modeToDeleteData = new FormData;
         modeToDeleteData.append('id', id_shippingMode);
 
@@ -66,6 +68,38 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
             });
     }
 
+
+    const editZone = (zoneId) => {
+        setIdDeliveryZones(zoneId);
+        setActivePanelShipping(2);
+        setIsEditZone(true);
+    }
+
+    const deleteZone = (shippingItem) => {
+        setIdDeliveryZones(shippingItem.id);
+        setMessageModal('Supprimer définitivement la zone ' + shippingItem.zone_name + ' ?');
+        setShowModalConfirmation(true);
+    }
+
+
+    const handleModalConfirm = () => {
+        setShowModalConfirmation(false);
+        let zondIdData = new FormData;
+        zondIdData.append('IdDeliveryZones', IdDeliveryZones);
+
+        Axios.post(`http://127.0.0.1:8000/delete-shipping`, zondIdData)
+            .then(res => {
+                console.log('res.data  --->  ok');
+                setIdDeliveryZones(null);
+                getShippingsList();
+            }).catch(function (error) {
+                console.log('error:   ' + error);
+            });
+    }
+
+    const handleModalCancel = () => {
+        setShowModalConfirmation(false);
+    }
 
     // permet la fermeture du popover quand on clique n'importe où en dehors du popover
     const cover = {
@@ -174,6 +208,7 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
 
                     <div className={`w-full h-full grid grid-cols-3  justify-center items-center group relative${listModesDetails.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
                     >
+                        {/* add delivery mode */}
                         <span
                             className={`w-full h-full px-2 text-blue-500 underline underline-offset-1 text-sm flex items-center hover:text-blue-400 ${listModesDetails.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
                         >
@@ -187,13 +222,15 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
                                 Ajouter un mode de livraison
                             </Tooltip>
                         </span>
+
+                        {/* edit zone */}
                         <span
                             className={`w-full h-full px-2 text-blue-500 underline underline-offset-1 text-sm flex items-center hover:text-blue-400 ${listModesDetails.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
                         >
                             <img
                                 src={window.location.origin + '/images/icons/pencil.svg'}
                                 className="h-5 w-5 m-auto cursor-pointer"
-                                onClick={() => addDeliveryMode(shippingItem.id)}
+                                onClick={() => editZone(shippingItem.id)}
                             />
 
                             <Tooltip top={-40} left={0}>
@@ -201,13 +238,14 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
                             </Tooltip>
                         </span>
 
+                        {/* delete zone */}
                         <span
                             className={`w-full h-full px-2 text-blue-500 underline underline-offset-1 text-sm flex items-center hover:text-blue-400 ${listModesDetails.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
                         >
                             <img
                                 src={window.location.origin + '/images/icons/trash.svg'}
                                 className="h-5 w-5 m-auto cursor-pointer"
-                                onClick={() => addDeliveryMode(shippingItem.id)}
+                                onClick={() => deleteZone(shippingItem)}
                             />
 
                             <Tooltip top={-40} left={0}>
@@ -296,6 +334,13 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, setIdDelive
                 </div>
 
             )}
+            <ModalConfirmation
+                show={showModalConfirmation}
+                handleModalConfirm={handleModalConfirm}
+                handleModalCancel={handleModalCancel}
+            >
+                <h2 className="childrenModal">{messageModal}</h2>
+            </ModalConfirmation>
         </div>
     );
 }

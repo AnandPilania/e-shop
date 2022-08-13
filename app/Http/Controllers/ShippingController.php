@@ -44,6 +44,31 @@ class ShippingController extends Controller
         return 'ok';
     }
 
+    // edit delivery zone name with their destinations
+    public function editShipping(Request $request)
+    {
+        $this->validate($request, [
+            'zone_name' => 'required|string|max:255',
+            'destinations' => 'required',
+        ]);
+
+        $shipping = Shipping::find($request->IdDeliveryZones);
+        $shipping->zone_name = $request->zone_name;
+        $shipping->destinations = $request->destinations;
+        $shipping->save();
+
+        return 'ok';
+    }
+
+    // delete delivery zone name with their destinations
+    public function deleteShipping(Request $request)
+    {
+        $shipping = Shipping::find($request->IdDeliveryZones);
+        $shipping != null && $shipping->delete();
+
+        return 'ok';
+    }
+
 
     public function saveShipping_mode(Request $request)
     {
