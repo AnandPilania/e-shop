@@ -19,14 +19,14 @@ const ModalConfirmation = ({ show, messageModal, children, handleModalConfirm, h
 
                 {/* conversion d'un message en html pour affichage structuré */}
                 <div
-                    className="w-full h-auto flex flex-row justify-start items-start break-all text-base"
+                    className="w-full h-auto flex flex-row justify-start items-start text-lg font-semibold mt-8 break-all"
                 >
                     {messageModal?.length > 0 && parse(messageModal)}
                 </div>
 
                 {/* children affiche les méssages passés en children quand il y en a */}
                 <div
-                    className="w-full h-auto flex flex-row justify-start items-start text-base break-all"
+                    className="w-full h-auto flex flex-row justify-start items-start text-lg font-semibold mt-8 break-all"
                 >
                     {children}
                 </div>

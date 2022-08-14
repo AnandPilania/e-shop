@@ -53,16 +53,27 @@ class ShippingController extends Controller
         ]);
 
         $shipping = Shipping::find($request->IdDeliveryZones);
-        $shipping->zone_name = $request->zone_name;
-        $shipping->destinations = $request->destinations;
-        $shipping->save();
+        if ($shipping != null) {
+            $shipping->zone_name = $request->zone_name;
+            $shipping->destinations = $request->destinations;
+            $shipping->save();
 
-        return 'ok';
+            return 'ok';
+        }
+        return 'not ok';
     }
 
-    // delete delivery zone name with their destinations
+    // delete delivery zone  with their destinations
     public function deleteShipping(Request $request)
     {
+        $shipping_mode = Shipping_mode::where('shipping_id', $request->IdDeliveryZones)->get();
+
+        if ($shipping_mode != null) {
+            foreach ($shipping_mode as $mode) {
+                Shipping_mode::where('id', $mode->id)->delete();
+            }
+        }
+
         $shipping = Shipping::find($request->IdDeliveryZones);
         $shipping != null && $shipping->delete();
 

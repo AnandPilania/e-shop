@@ -16,6 +16,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
     const [priceWithoutCondition, setPriceWithoutCondition] = useState('');
     const [prevPriceWithoutCondition, setPrevPriceWithoutCondition] = useState(null);
     const [criteria, setCriteria] = useState('simple');
+    const [prevCriteria, setPrevCriteria] = useState(null);
     const [objOfModeConditions, setObjOfModeConditions] = useState([{
         id: 0,
         min_value: 0,
@@ -33,11 +34,10 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
     const [senderShippingMode, setSenderShippingMode] = useState(false);
     const [isDirtyShippingMode, setisDirtyShippingMode] = useState(false);
 
-    console.log('idMode   ', idMode)
 
     // si idMode contient un id alors DeliveryModeForm est en mode édition. 
     // On veut éditer le deliveryMode qui correspond à la zone IdDeliveryZones et au mode idMode
-    useEffect(() => {
+    useEffect(() => { 
         if (idMode != null) {
             let ndxZone = deliveryZoneList.findIndex(x => x.id == IdDeliveryZones);
             if (ndxZone > -1) {
@@ -45,13 +45,14 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
                 let ndxMode = shipping_mode.findIndex(x => x.id == idMode);
                 if (ndxMode > -1) {
                     setObjOfModeConditions([...shipping_mode[ndxMode].conditions]);
-                    setPrevObjOfModeConditions([...shipping_mode[ndxMode].conditions]);
+                    setPrevObjOfModeConditions(JSON.stringify(shipping_mode[ndxMode].conditions));
                     setModeName(shipping_mode[ndxMode].mode_name);
                     setPrevModeName(shipping_mode[ndxMode].mode_name);
                     setTmp_modeName_for_edit(shipping_mode[ndxMode].mode_name);
                     setPriceWithoutCondition(shipping_mode[ndxMode].price_without_condition != null ? shipping_mode[ndxMode].price_without_condition : '');
                     setPrevPriceWithoutCondition(shipping_mode[ndxMode].price_without_condition != null ? shipping_mode[ndxMode].price_without_condition : '');
                     setCriteria(shipping_mode[ndxMode].criteria);
+                    setPrevCriteria(shipping_mode[ndxMode].criteria);
                     setShowDeliveryPeiceConditions(shipping_mode[ndxMode].criteria == "simple" ? false : true);
                 }
             }
@@ -61,9 +62,8 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
 
     useEffect(() => {
         setisDirtyShippingMode(() => checkIfIsDirty());
-    }, [objOfModeConditions, modeName, priceWithoutCondition]);
-
-    console.log('objOfModeConditions   ', objOfModeConditions)
+    }, [objOfModeConditions, modeName, priceWithoutCondition]);   
+    
 
     const checkIfIsDirty = () => {
         const isDirtyCondition =
@@ -337,8 +337,10 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
         setShowModalConfirmation2(false);
     }
 
-    const handleModalConfirm2 = () => {
+
+    const handleModalConfirm2 = () => { 
         setShowModalConfirmation2(false);
+        setModeName('');
         setObjOfModeConditions([{
             id: 0,
             min_value: 0,
@@ -346,7 +348,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
             modeTarif: ''
         }]);
         setPriceWithoutCondition('');
-        setCriteria('weight');
+        setCriteria('simple');
         setSenderShippingMode('');
         setShowDeliveryPeiceConditions(false);
         setShowValidationMessageMode(false);
@@ -354,9 +356,18 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
         setisDirtyShippingMode(false);
         setPrevModeName(null);
         setPrevPriceWithoutCondition(null);
+        setPrevObjOfModeConditions(null);
+        setPrevCriteria(null);
+
+        // refresh data 
+        Axios.get(`http://127.0.0.1:8000/shipping-list`)
+        .then(res => {
+            setDeliveryZoneList(res.data[0]);
+        }).catch(function (error) {
+            console.log('error:   ' + error);
+        });
 
         setActivePanelShipping(1);
-
     }
 
 
@@ -483,16 +494,16 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
         }
     }
 
-
+    
     // gère le annuler sans sauvegarder
     const handleCancel = () => {
         if (isDirtyShippingMode && prevModeName == null &&
             prevPriceWithoutCondition == null && prevObjOfModeConditions == null) {
-            setMessageModal('Quitter sans sauvegarder vos données ?');
+            setMessageModal('Quitter sans sauvegarder vos données 1 ?');
             setShowModalConfirmation2(true);
         } else if ((prevModeName !== modeName ||
-            prevPriceWithoutCondition !== priceWithoutCondition || prevObjOfModeConditions !== objOfModeConditions) && prevModeName !== null && prevPriceWithoutCondition !== null && prevObjOfModeConditions !== null) {
-            setMessageModal('Quitter sans sauvegarder vos données ?');
+            prevPriceWithoutCondition !== priceWithoutCondition || prevObjOfModeConditions !== JSON.stringify(objOfModeConditions) || prevCriteria !== criteria) && prevModeName !== null && prevPriceWithoutCondition !== null && prevObjOfModeConditions !== null && prevCriteria !== null) {
+            setMessageModal('Quitter sans sauvegarder vos données 2 ?');
             setShowModalConfirmation2(true);
         } else {
             setActivePanelShipping(1);

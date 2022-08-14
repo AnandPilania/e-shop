@@ -28,7 +28,6 @@ const Shipping = () => {
     }, []);
     
     console.log('deliveryZoneList   ', deliveryZoneList)
-    console.log('idMode   ', idMode)
 
     const getShippingsList = () => {
         // charge la liste des shippings
@@ -57,25 +56,25 @@ const Shipping = () => {
                     {deliveryZoneList.length > 0 &&
                         <div className='w-full mt-10'>
                             <div
-                                className='grid grid-cols-4 justify-start items-start w-full bg-gray-50 rounded-t-md text-base px-2'
+                                className='grid grid-cols-[1fr_200px_120px_200px] justify-start items-start w-full bg-gray-50 rounded-t-md text-base px-2'
                             >
                                 <span
-                                    className='w-full border-gray-200 py-3 font-semibold'
+                                    className='w-full border-gray-200 px-2 py-3 font-semibold'
                                 >
                                     Zone de Livraison
                                 </span>
                                 <span
-                                    className='w-full border-gray-200 py-3 font-semibold'
+                                    className='w-full border-gray-200 px-2 py-3 font-semibold'
                                 >
                                     Pays
                                 </span>
                                 <span
-                                    className='w-full border-gray-200 py-3 font-semibold'
+                                    className='w-full border-gray-200 px-2 py-3 font-semibold'
                                 >
                                     Opérations
                                 </span>
                                 <span
-                                    className='w-full border-gray-200 py-3 font-semibold'
+                                    className='w-full border-gray-200 px-2 py-3 font-semibold'
                                 >
                                     Détails
                                 </span>
