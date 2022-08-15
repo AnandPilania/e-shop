@@ -16,7 +16,7 @@ const Shipping = () => {
     const [isEdidtZone, setIsEditZone] = useState(false);
 
 
-    useEffect(() => { 
+    useEffect(() => {
         // charge la liste des shippings
         Axios.get(`http://127.0.0.1:8000/shipping-list`)
             .then(res => {
@@ -26,7 +26,7 @@ const Shipping = () => {
                 console.log('error:   ' + error);
             });
     }, []);
-    
+
     console.log('deliveryZoneList   ', deliveryZoneList)
 
     const getShippingsList = () => {
@@ -48,10 +48,12 @@ const Shipping = () => {
 
             {activePanelShipping == 1 &&
                 <div className='w-full'>
-                    <span className='w-full flex justify-end text-base text-blue-500 underline underline-offset-1 cursor-pointer'
-                        onClick={() => setActivePanelShipping(2)}>
-                        Ajouter une zone de livraison
-                    </span>
+                    <div className='w-full'>
+                        <button className='w-auto py-2 px-3 text-base text-gray-700 cursor-pointer border border-gray-200 rounded-md'
+                            onClick={() => setActivePanelShipping(2)}>
+                            Ajouter une zone de livraison
+                        </button>
+                    </div>
 
                     {deliveryZoneList.length > 0 &&
                         <div className='w-full mt-10'>
@@ -83,7 +85,7 @@ const Shipping = () => {
                             <RowListShipping
                                 deliveryZoneList={deliveryZoneList}
                                 setActivePanelShipping={setActivePanelShipping}
-                                IdDeliveryZones={IdDeliveryZones} 
+                                IdDeliveryZones={IdDeliveryZones}
                                 setIdDeliveryZones={setIdDeliveryZones}
                                 setIdMode={setIdMode}
                                 setDeliveryZoneList={setDeliveryZoneList}
@@ -105,7 +107,7 @@ const Shipping = () => {
                     setActivePanelShipping={setActivePanelShipping}
                     isEdidtZone={isEdidtZone}
                     setIsEditZone={setIsEditZone}
-                    IdDeliveryZones={IdDeliveryZones} 
+                    IdDeliveryZones={IdDeliveryZones}
                     setIdDeliveryZones={setIdDeliveryZones}
                 />
             }

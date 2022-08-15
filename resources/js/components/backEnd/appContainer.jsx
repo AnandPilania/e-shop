@@ -8,7 +8,7 @@ import { Routes, Route } from 'react-router-dom';
 import Navbar from '../navBar/navBar';
 // import AliProductImport from '../aliProductImport/aliProductImport';
 import CreateProduct from '../createProduct/createProduct';
-import EditProduct from '../createProduct/editProduct';
+// import EditProduct from '../createProduct/editProduct';
 import EditImages from '../createProduct/edit_images';
 import List from '../createProduct/list';
 import ListCollections from '../collections/list';
@@ -562,7 +562,7 @@ const Appcontainer = () => {
                 <Routes>
                     <Route path="/listProduct" element={<List />} />
                     <Route path="/addProduct" element={<CreateProduct />} />
-                    <Route path="/editProduct/:productId" element={<EditProduct />} />
+                    {/* <Route path="/editProduct/:productId" element={<EditProduct />} /> */}
                     <Route path="/editImagesProduct/:product_id" element={<EditImages />} />
 
 

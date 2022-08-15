@@ -22,7 +22,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
         min_value: 0,
         max_value: '',
         modeTarif: ''
-    }]);    
+    }]);
     const [prevObjOfModeConditions, setPrevObjOfModeConditions] = useState(null);
     const [showErrorMessageMode, setShowErrorMessageMode] = useState(false);
     const [showValidationMessageMode, setShowValidationMessageMode] = useState(false);
@@ -33,11 +33,12 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
     const [showDeliveryPriceConditions, setShowDeliveryPeiceConditions] = useState(false);
     const [senderShippingMode, setSenderShippingMode] = useState(false);
     const [isDirtyShippingMode, setisDirtyShippingMode] = useState(false);
+    const [warningUnlimited, setWarningUnlimited] = useState(false);
 
 
     // si idMode contient un id alors DeliveryModeForm est en mode édition. 
     // On veut éditer le deliveryMode qui correspond à la zone IdDeliveryZones et au mode idMode
-    useEffect(() => { 
+    useEffect(() => {
         if (idMode != null) {
             let ndxZone = deliveryZoneList.findIndex(x => x.id == IdDeliveryZones);
             if (ndxZone > -1) {
@@ -62,8 +63,8 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
 
     useEffect(() => {
         setisDirtyShippingMode(() => checkIfIsDirty());
-    }, [objOfModeConditions, modeName, priceWithoutCondition]);   
-    
+    }, [objOfModeConditions, modeName, priceWithoutCondition]);
+
 
     const checkIfIsDirty = () => {
         const isDirtyCondition =
@@ -89,12 +90,12 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
             setMessageModal("Supprimer les conditions ?")
             setSenderShippingMode('handleShowDeliveryPriceConditions');
             setShowModalConfirmation(true);
-            setCriteria('simple');
+            // setCriteria('simple');
         } else if (!showDeliveryPriceConditions && priceWithoutCondition != '') {
             setMessageModal("Supprimer le tarif ?")
             setSenderShippingMode('handleShowDeliveryPriceConditions');
             setShowModalConfirmation(true);
-            setCriteria('weight');
+            // setCriteria('weight');
         } else {
             setSenderShippingMode('');
             setShowDeliveryPeiceConditions(!showDeliveryPriceConditions);
@@ -103,6 +104,40 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
             setCriteria(showDeliveryPriceConditions ? 'simple' : 'weight');
         }
     }
+
+    const handleModalConfirm = () => {
+        setShowModalConfirmation(false);
+
+        // called from handleShowDeliveryPriceConditions
+        if (senderShippingMode == 'handleShowDeliveryPriceConditions') {
+            if (showDeliveryPriceConditions) {
+                setObjOfModeConditions([{
+                    id: 0,
+                    min_value: 0,
+                    max_value: '',
+                    modeTarif: ''
+                }]);
+                setCriteria('simple');
+            } if (!showDeliveryPriceConditions) {
+                setPriceWithoutCondition('');
+                setCriteria('weight');
+            }
+            setSenderShippingMode('');
+            setShowDeliveryPeiceConditions(!showDeliveryPriceConditions);
+            setShowValidationMessageMode(false);
+            setShowErrorMessageMode(false);
+
+        } else {
+            // called from usePromptCollection
+            setActivePanelShipping(1);
+        }
+    }
+
+    const handleModalCancel = () => {
+        setShowModalConfirmation(false);
+        setShowModalConfirmation2(false);
+    }
+
 
     const handleModeName = (e) => {
         setModeName(e.target.value);
@@ -182,7 +217,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
     }
 
     // validation before add new tarif
-    const addTarifValidation = () => {
+    const addTarifValidation = (sender) => {
         let ndx = null;
         let tmp_arr = [];
         let showErrorMessage = false;
@@ -193,14 +228,14 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
             for (let i = 1; i < objOfModeConditions.length; i++) {
                 if (objOfModeConditions[i - 1].max_value > objOfModeConditions[i].min_value && i < objOfModeConditions.length - 1) {
                     showErrorMessage = true;
-                    tmp_arr.push('Le champ ' + fieldName + ' min doit être supérieur au champ ' + fieldName + ' max précédent');
+                    tmp_arr.push('Le champ, ' + fieldName + ' min, doit être supérieur au champ ' + fieldName + ' max précédent');
                     setWarningModeFieldMessages([...tmp_arr]);
                     setShowErrorMessageMode(showErrorMessage);
 
                     return showErrorMessage ? false : true;
 
                 } else {
-                    let index = tmp_arr.indexOf('Le champ ' + fieldName + ' min doit être supérieur au champ ' + fieldName + ' max précédent');
+                    let index = tmp_arr.indexOf('Le champ, ' + fieldName + ' min, doit être supérieur au champ ' + fieldName + ' max précédent');
                     index > -1 && tmp_arr.splice(index, 1);
                     setWarningModeFieldMessages([...tmp_arr]);
                     setShowErrorMessageMode(showErrorMessage);
@@ -208,25 +243,28 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
             }
         }
 
-        // check if empty
-        ndx = objOfModeConditions.findIndex(x => x.max_value == '' || x.modeTarif == '');
-
-        if (ndx > -1) {
+        // check if prev max is Unlimiter when add new tarif
+        if (objOfModeConditions[objOfModeConditions.length - 1].max_value == '' && sender == 'addTarif') {
             showErrorMessage = true;
-            tmp_arr.push('Tous les champs doivent être complétés');
+            tmp_arr.push('Le champ, ' + fieldName + ' max, ne peut pas être illimité lorsque vous ajoutez un tarif supplémentaire');
             setWarningModeFieldMessages([...tmp_arr]);
             setShowErrorMessageMode(showErrorMessage);
+            setWarningUnlimited(true);
 
             return showErrorMessage ? false : true;
+
         } else {
-            let index = tmp_arr.indexOf('Tous les champs doivent être complétés');
+            let index = tmp_arr.indexOf('Le champ, ' + fieldName + ' max, ne peut pas être illimité lorsque vous ajoutez un tarif supplémentaire');
             index > -1 && tmp_arr.splice(index, 1);
             setWarningModeFieldMessages([...tmp_arr]);
             setShowErrorMessageMode(showErrorMessage);
+            setWarningUnlimited(false);
         }
 
         // check if max > min
-        ndx = objOfModeConditions.findIndex(x => x.max_value <= x.min_value);
+        ndx = objOfModeConditions.findIndex(x => {
+            return x.max_value <= x.min_value && x.max_value != '';
+        });
 
         if (ndx > -1 && tmp_arr.length == 0) {
             showErrorMessage = true;
@@ -235,9 +273,25 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
             setShowErrorMessageMode(showErrorMessage);
 
             return showErrorMessage ? false : true;
-
         } else {
             let index = tmp_arr.indexOf('Le champ ' + fieldName + ' max doit être supérieur au champ ' + fieldName + ' min');
+            index > -1 && tmp_arr.splice(index, 1);
+            setWarningModeFieldMessages([...tmp_arr]);
+            setShowErrorMessageMode(showErrorMessage);
+        }
+
+        // check if tarif field is empty
+        ndx = objOfModeConditions.findIndex(x => x.modeTarif == '');
+
+        if (ndx > -1) {
+            showErrorMessage = true;
+            tmp_arr.push('Le champ tarif est obligatoire');
+            setWarningModeFieldMessages([...tmp_arr]);
+            setShowErrorMessageMode(showErrorMessage);
+
+            return showErrorMessage ? false : true;
+        } else {
+            let index = tmp_arr.indexOf('Le champ tarif est obligatoire');
             index > -1 && tmp_arr.splice(index, 1);
             setWarningModeFieldMessages([...tmp_arr]);
             setShowErrorMessageMode(showErrorMessage);
@@ -286,7 +340,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
 
 
     const addTarif = () => {
-        if (addTarifValidation()) {
+        if (addTarifValidation('addTarif')) {
             // get bigger Id
             let condition = objOfModeConditions.reduce((prev, next) => { return prev.id > next.id ? prev.id : next });
 
@@ -303,42 +357,8 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
         }
     }
 
-    const handleModalConfirm = () => {
-        setShowModalConfirmation(false);
 
-        // called from handleShowDeliveryPriceConditions
-        if (senderShippingMode == 'handleShowDeliveryPriceConditions') {
-            if (showDeliveryPriceConditions) {
-                setObjOfModeConditions([{
-                    id: 0,
-                    min_value: 0,
-                    max_value: '',
-                    modeTarif: ''
-                }]);
-                setCriteria('simple');
-            } if (!showDeliveryPriceConditions) {
-                setPriceWithoutCondition('');
-                setCriteria('weight');
-            }
-            setSenderShippingMode('');
-            setShowDeliveryPeiceConditions(!showDeliveryPriceConditions);
-            setShowValidationMessageMode(false);
-            setShowErrorMessageMode(false);
-
-        } else {
-            // called from usePromptCollection
-            setActivePanelShipping(1);
-        }
-    }
-
-
-    const handleModalCancel = () => {
-        setShowModalConfirmation(false);
-        setShowModalConfirmation2(false);
-    }
-
-
-    const handleModalConfirm2 = () => { 
+    const handleModalConfirm2 = () => {
         setShowModalConfirmation2(false);
         setModeName('');
         setObjOfModeConditions([{
@@ -358,14 +378,15 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
         setPrevPriceWithoutCondition(null);
         setPrevObjOfModeConditions(null);
         setPrevCriteria(null);
+        setIdMode(null);
 
         // refresh data 
         Axios.get(`http://127.0.0.1:8000/shipping-list`)
-        .then(res => {
-            setDeliveryZoneList(res.data[0]);
-        }).catch(function (error) {
-            console.log('error:   ' + error);
-        });
+            .then(res => {
+                setDeliveryZoneList(res.data[0]);
+            }).catch(function (error) {
+                console.log('error:   ' + error);
+            });
 
         setActivePanelShipping(1);
     }
@@ -397,7 +418,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
         }
         if (idMode == null) {
             if (modeNameList.includes(modeName)) {
-                setMessageModal('Ce nom éxiste déjà. Veuillez entrer un nom différent');
+                setMessageModal('Ce nom éxiste déjà. Veuillez entrer un nom différent 1');
                 setShowValidationMessageMode(true);
                 return false;
             }
@@ -405,7 +426,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
         // si on edit alors le modeName sera déjà dans modeNameList sauf si on le change     
         if (idMode != null) {
             if (modeNameList.includes(modeName) && modeName != tmp_modeName_for_edit) {
-                setMessageModal('Ce nom éxiste déjà. Veuillez entrer un nom différent');
+                setMessageModal('Ce nom éxiste déjà. Veuillez entrer un nom différent 2');
                 setShowValidationMessageMode(true);
                 return false;
             }
@@ -432,7 +453,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
         let validationIsOk = false;
 
         if (criteria == "weight" || criteria == "amount") {
-            validationIsOk = validation() && addTarifValidation();
+            validationIsOk = validation() && addTarifValidation('saveDeliveryMode');
         }
         if (criteria == "simple") {
             validationIsOk = validation();
@@ -494,21 +515,21 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
         }
     }
 
-    
+
     // gère le annuler sans sauvegarder
     const handleCancel = () => {
         if (isDirtyShippingMode && prevModeName == null &&
             prevPriceWithoutCondition == null && prevObjOfModeConditions == null) {
-            setMessageModal('Quitter sans sauvegarder vos données 1 ?');
+            setMessageModal('Quitter sans sauvegarder vos données ?');
             setShowModalConfirmation2(true);
         } else if ((prevModeName !== modeName ||
             prevPriceWithoutCondition !== priceWithoutCondition || prevObjOfModeConditions !== JSON.stringify(objOfModeConditions) || prevCriteria !== criteria) && prevModeName !== null && prevPriceWithoutCondition !== null && prevObjOfModeConditions !== null && prevCriteria !== null) {
-            setMessageModal('Quitter sans sauvegarder vos données 2 ?');
+            setMessageModal('Quitter sans sauvegarder vos données ?');
             setShowModalConfirmation2(true);
         } else {
             setActivePanelShipping(1);
+            setIdMode(null);
         }
-        setIdMode(null);
     }
 
 
@@ -689,12 +710,12 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
 
                                     {/* max_value */}
                                     <div
-                                        className={`flex justify-start items-center rounded-md ${itemModeCondition.max_value?.length == 0 && showErrorMessageMode && "border-2 border-red-700"} ${itemModeCondition.max_value <= itemModeCondition.min_value && showErrorMessageMode && "border-2 border-red-700"} ${index > 0 && itemModeCondition.min_value < arr[index - 1].max_value && showErrorMessageMode && "border-2 border-red-700"}`}
+                                        className={`flex justify-start items-center rounded-md ${itemModeCondition.max_value <= itemModeCondition.min_value && itemModeCondition.max_value != '' && showErrorMessageMode && "border-2 border-red-700"} ${index > 0 && itemModeCondition.min_value < arr[index - 1].max_value && showErrorMessageMode && "border-2 border-red-700"} ${warningUnlimited && itemModeCondition.max_value == '' && "border-2 border-red-700"}`}
                                     >
                                         <InputNumeric
                                             value={itemModeCondition.max_value}
                                             handleChange={(e) => handleMax_value(e, itemModeCondition.id)}
-                                            placeholder=""
+                                            placeholder="Illimité"
                                             label="Poids max"
                                             step="1"
                                             min="0"
@@ -727,12 +748,12 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
 
                                     {/* max_amount */}
                                     <div
-                                        className={`flex justify-start items-center rounded-md ${itemModeCondition.max_value?.length == 0 && showErrorMessageMode && "border-2 border-red-700"} ${itemModeCondition.max_value <= itemModeCondition.min_value && showErrorMessageMode && "border-2 border-red-700"} ${index > 0 && itemModeCondition.min_value < arr[index - 1].max_value && showErrorMessageMode && "border-2 border-red-700"}`}
+                                        className={`flex justify-start items-center rounded-md ${itemModeCondition.max_value <= itemModeCondition.min_value && itemModeCondition.max_value != '' && showErrorMessageMode && "border-2 border-red-700"} ${index > 0 && itemModeCondition.min_value < arr[index - 1].max_value && showErrorMessageMode && "border-2 border-red-700"} ${warningUnlimited && itemModeCondition.max_value == '' && "border-2 border-red-700"}`}
                                     >
                                         <InputNumeric
                                             value={itemModeCondition.max_value}
                                             handleChange={(e) => handleMax_value(e, itemModeCondition.id)}
-                                            placeholder=""
+                                            placeholder="Illimité"
                                             step="0.01"
                                             min="0"
                                             max="9999999999"

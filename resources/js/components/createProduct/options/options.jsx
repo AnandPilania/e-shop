@@ -135,17 +135,15 @@ const Options = () => {
      };
 
 
-    // console.log('optionsObj  -> ', optionsObj)
     return (
         <div className="w-full">
-            <div className='w-full h-auto flex flex-row flex-wrap justify-start items-center mb-5'>
+            <div className='w-full h-auto mb-5'>
                 <Toggle
+                id="options_add_variantes"
                     isChecked={showOptions}
                     change={handleShowOptions}
+                    label="Ajouter des variantes"
                 />
-                <label className='m-0 ml-2 p-0'>
-                    Ajouter des options. Exemples, "Couleur, taille, poids, ..."
-                </label>
             </div>
 
 

@@ -19,6 +19,7 @@ class CreateVariantesTable extends Migration
             $table->float('price', 8, 2)->default(0);
             $table->float('prev_price', 8, 2)->default(0);
             $table->double('weight', 8, 2)->nullable()->default(0);
+            $table->double('parcels_weight', 8, 2)->nullable()->default(0);
             $table->integer('stock')->nullable()->default(0);
             $table->text('shipping')->nullable()->default('');
             $table->tinyInteger('active')->default('0');

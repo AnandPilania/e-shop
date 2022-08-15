@@ -41,6 +41,7 @@ class VarianteFactory extends Factory
             'price'=> $amount * 1.5, 
             'prev_price'=> $amount * 2, 
             'weight' => rand(1,3), 
+            'parcels_weight' => rand(2,5), 
             'stock' => rand(0,50),
             'shipping_cost' => rand(1,30), 
             'currency_cost_shipping' => rand(1,3),

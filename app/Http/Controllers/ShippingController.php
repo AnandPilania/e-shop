@@ -97,7 +97,6 @@ class ShippingController extends Controller
 
     public function updateShipping_mode(Request $request)
     {
-        // dd($request);
         $shipping_mode = Shipping_mode::find($request->idMode);
         $shipping_mode->mode_name = $request->mode_name;
         $shipping_mode->criteria = $request->criteria;

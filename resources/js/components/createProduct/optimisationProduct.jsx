@@ -126,14 +126,13 @@ const OptimisationProduct = () => {
     return (
         <Flex_col_s_s>
             <div className='w-full h-auto flex flex-row justify-start items-center'>
-                <div className='w-full h-auto flex flex-row flex-wrap justify-start items-center mb-5'>
+                <div className='w-full h-auto mb-5'>
                     <Toggle
+                        id="optimisation_create_product_15822"
                         isChecked={isShowOptimisationProduct}
                         change={() => showHideOptimisation()}
+                        label="Optimisation SEO"
                     />
-                    <label className='m-0 ml-2 p-0'>
-                        Optimisation SEO
-                    </label>
                 </div>
 
                 {metaUrlProduct?.length > (window.location.origin.toString() + '/').length ?

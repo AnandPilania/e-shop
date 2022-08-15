@@ -11,7 +11,9 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, IdDeliveryZ
     const [idDistance, setIdDistance] = useState(null);
     const [idZone_arr, setIdZone_arr] = useState([]);
     const [showModalConfirmation, setShowModalConfirmation] = useState(false);
+    const [showModalConfirmation2, setShowModalConfirmation2] = useState(false);
     const [messageModal, setMessageModal] = useState('');
+    const [idShippingMode, setIdShippingMode] = useState(null);
 
 
     const showHideShipDestinations = (e, id) => {
@@ -47,7 +49,18 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, IdDeliveryZ
         setActivePanelShipping(3);
     }
 
-    const deleteShippingMode = (id_zone, id_shippingMode) => {
+    const deleteShippingMode = (shippingItem, modesItem) => {
+        setIdDeliveryZones(shippingItem.id);
+        setIdShippingMode(modesItem.id);
+        setMessageModal('Supprimer le mode de livraison ' + modesItem.mode_name + ' ?');
+        setShowModalConfirmation2(true);
+    }
+
+    const handleModalConfirm2 = () => {
+        setShowModalConfirmation2(false);
+
+        let id_zone = IdDeliveryZones;
+        let id_shippingMode = idShippingMode
         let modeToDeleteData = new FormData;
         modeToDeleteData.append('id', id_shippingMode);
 
@@ -64,6 +77,9 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, IdDeliveryZ
                             if (ndx_zone > -1) {
                                 if (res.data[0][ndx_zone].shipping_modes.length == 0) showListModesDetails(id_zone);
                             }
+
+                            setIdDeliveryZones(null);
+                            setIdShippingMode(null);
 
                         }).catch(function (error) {
                             console.log('error:   ' + error);
@@ -84,7 +100,7 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, IdDeliveryZ
     const deleteZone = (shippingItem) => {
         setIdDeliveryZones(shippingItem.id);
         let modesHTML = shippingItem.shipping_modes.map(x => x.mode_name + '<br>');
-        setMessageModal('Supprimer définitivement la zone ' + shippingItem.zone_name + ' et ses modes de livraison ? <br><br>Mode.s de livraison à supprimer: <br>' + modesHTML.join(""));
+        setMessageModal('<br>Supprimer définitivement la zone ' + shippingItem.zone_name + ' et ses modes de livraison ? <br> Mode.s de livraison: <br>' + modesHTML.join(""));
         setShowModalConfirmation(true);
     }
 
@@ -107,6 +123,7 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, IdDeliveryZ
 
     const handleModalCancel = () => {
         setShowModalConfirmation(false);
+        setShowModalConfirmation2(false);
     }
 
     // permet la fermeture du popover quand on clique n'importe où en dehors du popover
@@ -123,10 +140,10 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, IdDeliveryZ
 
     return (
         <div className='w-full'>
-            {deliveryZoneList.map(shippingItem =>
+            {deliveryZoneList.map((shippingItem, indexLast) =>
                 <div
                     key={shippingItem.id}
-                    className={`grid grid-cols-[1fr_200px_120px_200px] justify-start items-center w-full h-full border-b border-gray-200 ${idZone_arr.includes(shippingItem.id) && "first:border-t"}`}
+                    className={`grid grid-cols-[1fr_200px_120px_200px] justify-start items-center w-full h-full border-b border-gray-200 ${idZone_arr.includes(shippingItem.id) && "first:border-t"} ${indexLast == deliveryZoneList.length - 1 && !idZone_arr.includes(shippingItem.id) && "border-b-0"}`}
                 >
                     {/* name */}
                     <span
@@ -159,7 +176,7 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, IdDeliveryZ
                                         </span>
 
                                         <span>
-                                            Pays
+                                            pays
                                         </span>
                                     </span>
                                     {shippingItem.destinations?.length > 1 &&
@@ -226,7 +243,7 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, IdDeliveryZ
                                             </span>
 
                                             <span>
-                                                Pays
+                                                pays
                                             </span>
                                         </span>
                                         {shippingItem.destinations?.length > 1 &&
@@ -296,7 +313,7 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, IdDeliveryZ
                         <span className={`w-full h-full px-2 flex items-center ${idZone_arr.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
                         >
                             <span
-                                className='cursor-pointer'
+                                className='cursor-pointer relative group'
                                 onClick={() => { showListModesDetails(shippingItem.id) }}
                             >
                                 {idZone_arr.includes(shippingItem.id) ?
@@ -310,6 +327,9 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, IdDeliveryZ
                                         className="h-5 w-5"
                                     />
                                 }
+                                <Tooltip top={-60} left={-150}>
+                                    Voir les modes de livraison
+                                </Tooltip>
                             </span>
                         </span>
                         :
@@ -363,7 +383,7 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, IdDeliveryZ
                                         </span>
                                         <span
                                             className='w-full h-full flex justify-center items-center cursor-pointer relative group'
-                                            onClick={() => deleteShippingMode(shippingItem.id, modesItem.id)}
+                                            onClick={() => deleteShippingMode(shippingItem, modesItem)}
                                         >
                                             <img
                                                 src={window.location.origin + '/images/icons/trash.svg'}
@@ -387,6 +407,14 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, IdDeliveryZ
                 handleModalCancel={handleModalCancel}
                 messageModal={messageModal}
             />
+
+            <ModalConfirmation
+                show={showModalConfirmation2}
+                handleModalConfirm={handleModalConfirm2}
+                handleModalCancel={handleModalCancel}
+            >
+                <h2 className="childrenModal">{messageModal}</h2>
+            </ModalConfirmation>
         </div>
     );
 }
