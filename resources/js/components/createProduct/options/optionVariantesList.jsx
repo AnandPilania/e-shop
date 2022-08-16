@@ -57,7 +57,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         // quand on modifie les params d'une variantes on la copie ici pour conserver ses modifications
         let tmp_changedVariantes = [];
 
-        for (let i = 0; i < allValuesAsString.length; i++) { 
+        for (let i = 0; i < allValuesAsString.length; i++) {
             console.log('i  -->   ', i)
             // tmp_changedVariantes contien les variantes qui ont été modifiées
             tmp_changedVariantes = [...changedVariantes];
@@ -335,10 +335,10 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                             handlechange={selectAllCheckbox}
                         />
                     </div>
-                    <span>Variantes</span>
-                    <span>Prix</span>
-                    <span>Promo</span>
-                    <span>Stock</span>
+                    <span className='font-semibold text-base'>Variantes</span>
+                    <span className='font-semibold text-base'>Prix</span>
+                    <span className='font-semibold text-base'>Ancien prix</span>
+                    <span className='font-semibold text-base'>Stock</span>
                     <span></span>
                     <span></span>
                 </div>}
@@ -349,7 +349,9 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                 (isHideDeletedVariantes && item.deleted === true) ? '' :
                     <div
                         key={index}
-                        className={`w-full h-auto grid gap-x-2 grid-cols-[25px_1fr_100px_100px_150px_50px_30px] justify-start items-center py-[8px] border-b border-slate-100 relative bg-white hover:bg-gray-50 ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
+                        className={`w-full h-auto grid gap-x-2 grid-cols-[25px_1fr_100px_100px_150px_50px_30px] gap-1 justify-start items-center py-[8px] 
+                        brd-red-2
+                        relative bg-white hover:bg-gray-50 ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
                     >
                         {/* checkbox "!!! a son css !!!" */}
                         <div className='w-full h-[30px] flex flex-row justify-start items-center pt-[6px] pl-[1px]'>
@@ -362,7 +364,9 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                         </div>
 
                         {/* variante */}
-                        <span className={`w-full h-[30px] pt-[3px] rounded-md whitespace-nowrap text-ellipsis overflow-hidden cursor-default group ${item.deleted ? "text-gray-400" : "text-gray-500"} ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}>
+                        <span
+                            className={`w-full h-[30px] pt-[3px] rounded-md whitespace-nowrap text-ellipsis overflow-hidden cursor-default group ${item.deleted ? "text-gray-400" : "text-gray-500"} ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
+                        >
                             {item?.optionsString}
                             <Tooltip top={-20} left={20}>
                                 {item?.optionsString}

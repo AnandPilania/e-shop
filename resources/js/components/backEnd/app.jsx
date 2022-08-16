@@ -5,7 +5,7 @@ import Appcontainer from './appContainer';
 const App = () => {
     
     return (
-        <div className="app-container">
+        <div className="w-full min-h-full relative">
                 <BrowserRouter basename='/admin'>
                     <Appcontainer />
                 </BrowserRouter>

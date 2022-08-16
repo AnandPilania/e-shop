@@ -51,15 +51,7 @@ const HeaderListCollections = ({ confirmDeleteCollection }) => {
 
 
     return (
-
-        <div className='flex-col w100pct'>
-
-            <div className='w-full h-12 border-b border-gray-300 bg-white flex flex-row justify-start items-center pl-[10%]'>
-                <span className='text-2xl text-green-700 font-bold'>think</span><span className='text-2xl text-indigo-600 font-bold'>boutik</span>
-            </div>
-
-
-
+        <div className='flex flex-col w-full'>
             <div className='w100pct p-lr-5pct flex-row-s-c m-t-50 m-b-30'>
                 <h1 className="fs20 b p-l-5">Collection</h1>
                 <button type="button" className='w200 h40 flex-row-c-c brd-gray-light-1 radius5 m-l-20 bg-white'

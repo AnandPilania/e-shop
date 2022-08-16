@@ -205,7 +205,12 @@ export default React.createContext({
     setMetaUrlProduct: () => { },
     listTransporters: '',
     setListTransporters: () => { },
-    transporter: '', 
+    transporter: '',
     setTransporter: () => { },
+    productWeight: '',
+    setProductWeight: () => { },
+    productParcelWeight: '',
+    setProductParcelWeight: () => { },
+    
 
 });

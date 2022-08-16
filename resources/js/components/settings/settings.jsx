@@ -27,7 +27,9 @@ const Settings = () => {
     }
 
     return (
-        <div className='grid grid-cols-[400px_1fr] gap-x-[1px] w-[80%] min-w-[800px] mx-auto'>
+        <div
+            className='min-h-[100vh] w-[80%] min-w-[800px] mx-auto grid grid-cols-[400px_1fr] gap-x-[1px]'
+        >
             <SettingNav setCurrentComponent={setCurrentComponent} />
             <div>
                 {compo}

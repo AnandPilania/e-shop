@@ -50,7 +50,7 @@ const OptimisationProduct = () => {
 
 
     // show / hide optimisation title & description & url
-    const showHideOptimisation = () => {
+    const showHideOptimisationProduct = () => {
         localStorage.setItem("isShowOptimisationProduct", !isShowOptimisationProduct);
         setIsShowOptimisationProduct(!isShowOptimisationProduct);
         // clean fields
@@ -130,7 +130,7 @@ const OptimisationProduct = () => {
                     <Toggle
                         id="optimisation_create_product_15822"
                         isChecked={isShowOptimisationProduct}
-                        change={() => showHideOptimisation()}
+                        change={() => showHideOptimisationProduct()}
                         label="Optimisation SEO"
                     />
                 </div>

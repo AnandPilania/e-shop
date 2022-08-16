@@ -2,9 +2,26 @@ import React from 'react';
 
 const MainNav = () => {
     return (
-        <div className="main-nav">
-            <span className='text-xl text-teal-700 font-bold'>think</span><span className='text-xl text-indigo-700 font-bold'>boutik</span>
-            <button className="btn-main-nav">Login</button>
+        <div
+            className="col-span-2 sticky top-0 left-0 w-full h-14 flex flex-row justify-start items-center bg-white z-50 border-b border-gray-300"
+        >
+            <div className='flex flex-row justify-start items-center ml-10'>
+                <span
+                    className='text-[24px] text-teal-700 font-bold'
+                >
+                    think
+                </span>
+                <span
+                    className='text-[24px] text-indigo-700 font-bold'
+                >
+                    boutik
+                </span>
+            </div>
+            <button
+                className="py-2 px-5 bg-blue-500 rounded-md text-white ml-auto mr-10"
+            >
+                Login
+            </button>
         </div>
     );
 }

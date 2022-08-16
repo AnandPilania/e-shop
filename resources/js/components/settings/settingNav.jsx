@@ -3,7 +3,7 @@ import Card from './card';
 
 const SettingNav = ({ setCurrentComponent }) => {
     return (
-        <div className=' w-[400px] h-auto flex flex-col justify-start items-start self-start mt-10 rounded-md bg-white'>
+        <div className=' w-[400px] min-h-[100vh] flex flex-col justify-start items-start self-start mt-10 rounded-md bg-transparent'>
             <Card
                 icon="trash.svg"
                 title="Général"

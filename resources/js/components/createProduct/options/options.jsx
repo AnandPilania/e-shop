@@ -10,7 +10,7 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 const Options = () => {
 
     const [showOptions, setShowOptions] = useState(false);
-    const [showModalCancelWithoutSapveOptions, setShowModalCancelWithoutSapveOptions] = useState(false);
+    const [showModalCancelWithoutSaveOptions, setShowModalCancelWithoutSaveOptions] = useState(false);
 
     const { optionsObj, setOptionsObj, listType, setListType } = useContext(AppContext);
 
@@ -27,13 +27,13 @@ const Options = () => {
 
 
     const confirmCancelWithoutSapveOptions = () => {
-        setShowModalCancelWithoutSapveOptions(false);
+        setShowModalCancelWithoutSaveOptions(false);
         setShowOptions(false);
         setOptionsObj([]);
     }
 
     const closeModal = () => {
-        setShowModalCancelWithoutSapveOptions(false);
+        setShowModalCancelWithoutSaveOptions(false);
     }
 
 
@@ -89,7 +89,7 @@ const Options = () => {
         if (showOptions) {
             // on demande confirmation avant d'annuler les options et de perdre tout ce qu'il y a dans les champs 
             if (optionsObj.findIndex(x => x.name.length > 0 || x.values.length > 0) > -1) {
-                setShowModalCancelWithoutSapveOptions(true);
+                setShowModalCancelWithoutSaveOptions(true);
             } else {
                 setShowOptions(false);
                 setOptionsObj([]);
@@ -109,7 +109,7 @@ const Options = () => {
     }
 
 
-    const onDragEnd = (result) => { 
+    const onDragEnd = (result) => {
         const { source, destination } = result;
 
         // si on drop en dehors de la zone droppable 
@@ -132,14 +132,14 @@ const Options = () => {
             x.ordre = index;
         });
         setOptionsObj(tmp_optionsObj_DnD);
-     };
+    };
 
 
     return (
-        <div className="w-full">
+        <div className="w-full brd-blue-2">
             <div className='w-full h-auto mb-5'>
                 <Toggle
-                id="options_add_variantes"
+                    id="options_add_variantes"
                     isChecked={showOptions}
                     change={handleShowOptions}
                     label="Ajouter des variantes"
@@ -148,7 +148,9 @@ const Options = () => {
 
 
             {optionsObj?.length > 0 &&
-                <div className='w-full h-auto grid gap-x-4 gap-y-2 grid-cols-[1fr_1fr_25px] justify-start items-start px-4 pb-1'>
+                <div
+                    className='w-full h-auto grid gap-x-4 gap-y-2 grid-cols-[1fr_1fr_25px] justify-start items-start px-4 pb-1'
+                >
                     <label className='mt-0 mx-0 p-0'>Nom de l'option</label>
                     <label className='mt-0 mx-0 p-0'>Valeur de l'option</label>
                     <label className='mt-0 mx-0 p-0'></label>
@@ -199,7 +201,7 @@ const Options = () => {
                 }
 
             </DragDropContext>
-            
+
             <OptionVariantesList
                 // listType={listType}
                 setShowOptions={setShowOptions}
@@ -207,7 +209,7 @@ const Options = () => {
 
             {/* modal for confirmation */}
             <ModalconfirmCancelWithoutSapveOptions
-                show={showModalCancelWithoutSapveOptions}
+                show={showModalCancelWithoutSaveOptions}
                 handleModalConfirm={confirmCancelWithoutSapveOptions}
                 handleModalCancel={closeModal}
                 textButtonConfirm="Confirmer">

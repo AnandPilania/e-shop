@@ -58,7 +58,7 @@ const Shipping = () => {
                     {deliveryZoneList.length > 0 &&
                         <div className='w-full mt-10'>
                             <div
-                                className='grid grid-cols-[1fr_200px_120px_200px] justify-start items-start w-full bg-gray-50 rounded-t-md text-base px-2'
+                                className='grid grid-cols-[1fr_200px_120px_200px] justify-start items-start w-full bg-gray-50 rounded-t-md text-base'
                             >
                                 <span
                                     className='w-full border-gray-200 px-2 py-3 font-semibold'

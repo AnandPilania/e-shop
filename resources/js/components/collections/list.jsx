@@ -212,7 +212,7 @@ const ListCollections = () => {
 
     return (
 
-        <div className='flex-col-s-c'>
+        <div className='min-h-[100vh] flex-col-s-c'>
             <HeaderListCollections confirmDeleteCollection={confirmDeleteCollection} />
             <section className='flex-col justify-s align-s m-b-10 bg-gray-cool min-h100pct w90pct'>
                 <ul className='sub-div-vert-align shadow-md'>

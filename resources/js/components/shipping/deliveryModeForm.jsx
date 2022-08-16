@@ -710,13 +710,15 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
 
                                     {/* max_value */}
                                     <div
-                                        className={`flex justify-start items-center rounded-md ${itemModeCondition.max_value <= itemModeCondition.min_value && itemModeCondition.max_value != '' && showErrorMessageMode && "border-2 border-red-700"} ${index > 0 && itemModeCondition.min_value < arr[index - 1].max_value && showErrorMessageMode && "border-2 border-red-700"} ${warningUnlimited && itemModeCondition.max_value == '' && "border-2 border-red-700"}`}
+                                        className={`flex justify-start items-center rounded-md 
+                                        ${itemModeCondition.max_value <= itemModeCondition.min_value && itemModeCondition.max_value != '' && showErrorMessageMode && "border-2 border-red-700"} 
+                                        ${index > 0 && itemModeCondition.min_value < arr[index - 1].max_value && showErrorMessageMode && "border-2 border-red-700"} 
+                                        ${warningUnlimited && itemModeCondition.max_value == '' && "border-2 border-red-700"}`}
                                     >
                                         <InputNumeric
                                             value={itemModeCondition.max_value}
                                             handleChange={(e) => handleMax_value(e, itemModeCondition.id)}
                                             placeholder="Illimité"
-                                            label="Poids max"
                                             step="1"
                                             min="0"
                                             max="9999999999"

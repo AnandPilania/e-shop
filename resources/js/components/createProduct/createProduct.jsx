@@ -7,6 +7,7 @@ import Select from '../elements/select';
 import DropZoneProduct from './dropZoneProduct';
 import Price from './price';
 import Stock from './stock';
+import Weight from './weight';
 import OptimisationProduct from './optimisationProduct';
 import TinyeditorProduct from './tinyEditorProduct';
 import Axios from "axios";
@@ -253,6 +254,9 @@ console.log('collection  ', collection);
 
                 {/* Stock */}
                 <Stock />
+
+                {/* Weight */}
+                <Weight />
 
                 {/* options */}
                 <Flex_col_s_s>

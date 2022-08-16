@@ -5,6 +5,7 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 import Axios from 'axios';
 import { getNow } from '../functions/dateTools';
 import { Routes, Route } from 'react-router-dom';
+import MainNav from './mainNav';
 import Navbar from '../navBar/navBar';
 // import AliProductImport from '../aliProductImport/aliProductImport';
 import CreateProduct from '../createProduct/createProduct';
@@ -138,6 +139,8 @@ const Appcontainer = () => {
     const [descriptionProduct, setDescriptionProduct] = useState('');
     const [collection, setCollection] = useState([]);
     const [productPrice, setProductPrice] = useState('');
+    const [productWeight, setProductWeight] = useState('');
+    const [productParcelWeight, setProductParcelWeight] = useState('');
     const [previousProductPrice, setPreviousProductPrice] = useState('');
     const [productCost, setProductCost] = useState('');
     const [productStock, setProductStock] = useState('');
@@ -182,7 +185,7 @@ const Appcontainer = () => {
     // Shipping ---------------------------------------------------------
     const [listTransporters, setListTransporters] = useState([]);
     const [transporter, setTransporter] = useState([]);
-    
+
 
 
     useEffect(() => {
@@ -549,7 +552,8 @@ const Appcontainer = () => {
         metaUrlProduct, setMetaUrlProduct,
         listTransporters, setListTransporters,
         transporter, setTransporter,
-
+        productWeight, setProductWeight,
+        productParcelWeight, setProductParcelWeight
 
     }
 
@@ -557,28 +561,33 @@ const Appcontainer = () => {
 
     return (
         <AppContext.Provider value={contextValue}>
-            <Navbar />
-            <div className='w-full bg-gray-cool'>
-                <Routes>
-                    <Route path="/listProduct" element={<List />} />
-                    <Route path="/addProduct" element={<CreateProduct />} />
-                    {/* <Route path="/editProduct/:productId" element={<EditProduct />} /> */}
-                    <Route path="/editImagesProduct/:product_id" element={<EditImages />} />
+            <MainNav />
+            <div
+                className='w-full h-full grid grid-cols-[240px_1fr] items-start'
+            >
+                <Navbar />
+                <div className='w-full bg-[#f6f6f7] overflow-auto'>
+                    <Routes>
+                        <Route path="/listProduct" element={<List />} />
+                        <Route path="/addProduct" element={<CreateProduct />} />
+                        {/* <Route path="/editProduct/:productId" element={<EditProduct />} /> */}
+                        <Route path="/editImagesProduct/:product_id" element={<EditImages />} />
 
 
-                    <Route path="/collections-list" element={<ListCollections />} />
-                    <Route path="/add-collection" element={<WrapIndexcroppe />} />
-                    <Route path="/settings" element={<Settings />} />
-                    {/* <Route path="/cropImage" element={<CroppeImage />} /> */}
-                    <Route
-                        path="*"
-                        element={
-                            <main style={{ padding: "1rem" }}>
-                                <p>There's nothing here!</p>
-                            </main>
-                        }
-                    />
-                </Routes>
+                        <Route path="/collections-list" element={<ListCollections />} />
+                        <Route path="/add-collection" element={<WrapIndexcroppe />} />
+                        <Route path="/settings" element={<Settings />} />
+                        {/* <Route path="/cropImage" element={<CroppeImage />} /> */}
+                        <Route
+                            path="*"
+                            element={
+                                <main style={{ padding: "1rem" }}>
+                                    <p>There's nothing here!</p>
+                                </main>
+                            }
+                        />
+                    </Routes>
+                </div>
             </div>
         </AppContext.Provider>
     );

@@ -3,40 +3,41 @@ import { Link } from 'react-router-dom';
 
 
 const Navbar = () => {
-  const [isActive, setIsActive] = useState(false);
+  const [itemMenuSelected, setItemMenuSelected] = useState('');
 
-
-  // gère le menu déroulant
-  const handleMenu = (i) => {
-    var acc = document.getElementsByClassName("accordion")[i];
-    setIsActive(!isActive);
-    var panel = acc.nextElementSibling;
-    if (panel.style.maxHeight) {
-      panel.style.maxHeight = null;
-    } else {
-      panel.style.maxHeight = panel.scrollHeight + "px";
-    }
+  const handleMenu = (menuItem) => {
+    setItemMenuSelected(menuItem);
   }
 
-
   return (
-    <nav className="nav-container self-stretch">
-
-      <div className={"accordion ${isActive && 'active'}"} onClick={() => handleMenu(0)} ><img className="barcodeIcon" src="../images\icons\icons8-label-128.png" />
-        Produit
+    <nav className="sticky top-14 w-full h-[calc(100vh_-_56px)] pt-8 pl-3 bg-slate-800 flex flex-col justify-start items-start">
+      <div className="w-full py-1 text-base text-white cursor-pointer"
+        onClick={() => handleMenu("products")}>
+        Produits
       </div>
-
-      <div className="panel">
-        <div className="panel_elements">
-          <Link className="link" to="/listProduct">Tous les produits</Link>
-          <Link className="link" to="/addProduct">Ajouter un produit</Link>
-          <Link className="link" to="/editProduct/1">Modifier un produit</Link>
-          <Link className="link" to="/collections-list">Collections</Link>
-          <Link className="link" to="/settings">Paramètres</Link>
-          <Link className="link" to="/cropImage">Crop</Link>
-        </div>
+      {itemMenuSelected == "products" &&
+        <div className="w-full py-1">
+          <Link className="block visited:text-white hover:text-white text-base text-white cursor-pointer" to="/listProduct">Tous les produits</Link>
+          <Link className="block visited:text-white hover:text-white text-base text-white cursor-pointer" to="/addProduct">Ajouter un produit</Link>
+        </div>}
+      <div
+        className="w-full py-1 text-base text-white cursor-pointer"
+        onClick={() => handleMenu("collections")}>
+        Collection
       </div>
-
+      {itemMenuSelected == "collections" &&
+        <div className="w-full py-1">
+          <Link className="block visited:text-white hover:text-white text-base text-white cursor-pointer" to="/collections-list">Collections</Link>
+        </div>}
+      <div className="w-full py-1 text-base text-white cursor-pointer"
+        onClick={() => handleMenu("parameters")}>
+        Paramètres
+      </div>
+      {itemMenuSelected == "parameters" &&
+        <div className="w-full py-1">
+          <Link className="block visited:text-white hover:text-white text-base text-white cursor-pointer" to="/settings">Paramètres</Link>
+          <Link className="block visited:text-white hover:text-white text-base text-white cursor-pointer" to="/cropImage">Crop</Link>
+        </div>}
     </nav>
   );
 }

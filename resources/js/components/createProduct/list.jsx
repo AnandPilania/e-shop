@@ -45,7 +45,7 @@ const List = () => {
 
 
     return (
-        <div className='flex-col justify-s align-s m-b-10 bg-gray-cool min-h100pct w90pct'>
+        <div className='flex-col justify-s align-s m-b-10 bg-gray-cool w90pct min-h-[100vh]'>
             <h4 className="card-title">Produits</h4>
             <button className="btn btn_ajouter"><a href="/products/create">Ajouter un article</a></button>
             <table className="table">
