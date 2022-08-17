@@ -7,14 +7,19 @@ const MainNav = () => {
         >
             <div className='flex flex-row justify-start items-center ml-10'>
                 <span
-                    className='text-[24px] text-teal-700 font-bold'
+                    className='text-[24px] text-teal-700 font-semibold'
                 >
-                    think
+                    my
                 </span>
                 <span
-                    className='text-[24px] text-indigo-700 font-bold'
+                    className='text-[24px] text-teal-700 font-semibold'
                 >
-                    boutik
+                    easy
+                </span>
+                <span
+                    className='text-[24px] text-indigo-700 font-semibold'
+                >
+                    boutique
                 </span>
             </div>
             <button

@@ -7,7 +7,6 @@ import Select from '../elements/select';
 import DropZoneProduct from './dropZoneProduct';
 import Price from './price';
 import Stock from './stock';
-import Weight from './weight';
 import OptimisationProduct from './optimisationProduct';
 import TinyeditorProduct from './tinyEditorProduct';
 import Axios from "axios";
@@ -48,9 +47,9 @@ const CreateProduct = () => {
                 setListSuppliers(res.data);
             }).catch(function (error) {
                 console.log('error:   ' + error);
-            });        
-            
-            // charge la liste des transporteurs
+            });
+
+        // charge la liste des transporteurs
         Axios.get(`http://127.0.0.1:8000/shipping-list`)
             .then(res => {
                 setListTransporters(res.data);
@@ -68,7 +67,6 @@ const CreateProduct = () => {
     }, []);
 
 
-
     // récupère la liste des tva et setTva avec la tva par défaut
     useEffect(() => {
         activeCalculTva == 1 &&
@@ -80,9 +78,6 @@ const CreateProduct = () => {
                     console.log('Error : ' + error.status);
                 });
     }, [activeCalculTva])
-
-
-
 
     const removeCollection = (item) => {
         let index = collection.findIndex(x => x.id == item.id);
@@ -105,7 +100,6 @@ const CreateProduct = () => {
     const handleName = (e) => {
         setNameProduct(e.target.value);
     }
-
 
     const validation = () => {
 
@@ -179,12 +173,9 @@ const CreateProduct = () => {
         formData.append("collection", collection);
         formData.append("description", descriptionProduct);
 
-
-
         // supprime listTypes de dataDetail car inutile côté controlleur
         dataDetail.forEach(obj => delete obj.listTypes);
         // C EST QUOI CE dataDetail ?? ?? ?? <------------------ !!!
-
 
         // transformation de l'objet en string JSON
         var obj = JSON.stringify(dataDetail);
@@ -208,9 +199,6 @@ const CreateProduct = () => {
         console.log('metaDescriptionProduct   ', metaDescriptionProduct);
         console.log('metaUrlProduct   ', metaUrlProduct);
 
-
-
-
         Axios.post(`http://127.0.0.1:8000/products`, formData,
             {
                 headers: {
@@ -223,12 +211,12 @@ const CreateProduct = () => {
             });
     }
 
-console.log('listTransporters  ', listTransporters[0]);
-console.log('transporter  ', transporter);
-console.log('collection  ', collection);
+    console.log('listTransporters  ', listTransporters[0]);
+    console.log('transporter  ', transporter);
+    console.log('collection  ', collection);
 
     return (
-        <div className="min-w-[750px] w-[60%] min-h-[130vh] my-[50px] mx-auto pb-80 grid grid-cols-mainContainer gap-2.5 text-base">
+        <div className="min-w-[750px] w-[70%] min-h-[100vh] my-[50px] mx-auto pb-80 grid grid-cols-mainContainer gap-2.5 text-base">
             <div className="w-full">
                 <div className="div-vert-align">
                     <h4 className="mb-[18px] font-semibold text-[20]">Ajouter un produit</h4>
@@ -249,14 +237,6 @@ console.log('collection  ', collection);
                 {/* dropZone */}
                 <DropZoneProduct />
 
-                {/* Price */}
-                <Price />
-
-                {/* Stock */}
-                <Stock />
-
-                {/* Weight */}
-                <Weight />
 
                 {/* options */}
                 <Flex_col_s_s>
@@ -303,6 +283,12 @@ console.log('collection  ', collection);
                         )}
                     </div>
                 </Flex_col_s_s>
+
+                {/* Price */}
+                <Price />
+
+                {/* Stock */}
+                <Stock />
 
                 {/* supplier */}
                 <Flex_col_s_s id="supplierSelectId">
