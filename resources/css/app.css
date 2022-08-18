@@ -5,7 +5,6 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities"; */
 
-
 /* Change Autocomplete styles in Chrome*/
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -16,12 +15,10 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset;
-  box-shadow: 0 0 0px 1000px #ffffff inset;
-  transition: background-color 5000s ease-in-out 0s;
+    -webkit-box-shadow: 0 0 0px 1000px #ffffff inset;
+    box-shadow: 0 0 0px 1000px #ffffff inset;
+    transition: background-color 5000s ease-in-out 0s;
 }
-
-
 
 /* scrollbar  */
 .scroll::-webkit-scrollbar-track {
@@ -39,8 +36,6 @@ select:-webkit-autofill:focus {
     border-radius: 5px;
     background-color: rgb(211, 223, 255);
 }
-
-
 
 /* toolTip -------------------------------------------*/
 .tooltip_ {
@@ -61,7 +56,8 @@ select:-webkit-autofill:focus {
     letter-spacing: 1px;
     position: absolute;
     z-index: 10;
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+        0 4px 6px -4px rgb(0 0 0 / 0.1);
     border: solid 1px #e5e7eb;
     border-radius: 6px;
     transition-delay: 0.2s;
@@ -85,7 +81,7 @@ select:-webkit-autofill:focus {
 }
 
 /* animation link toolTip________________________________________________*/
- .linkInTooltip {
+.linkInTooltip {
     position: absolute;
     bottom: 6px;
     left: 10px;
@@ -98,7 +94,7 @@ select:-webkit-autofill:focus {
     font-weight: bold;
 }
 
- .linkInTooltip::before {
+.linkInTooltip::before {
     content: "";
     position: absolute;
     background: rgb(71, 71, 71);
@@ -110,8 +106,9 @@ select:-webkit-autofill:focus {
     transition: transform 0.4s;
 }
 
- .linkInTooltip:hover::before {
+.linkInTooltip:hover::before {
     transform-origin: 0 0;
     transform: scaleX(1);
 }
 /*/ ________________________________________________animation *link toolTip*/
+

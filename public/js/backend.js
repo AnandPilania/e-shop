@@ -16562,7 +16562,7 @@ var Appcontainer = function Appcontainer() {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"].Provider, {
     value: contextValue,
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_mainNav__WEBPACK_IMPORTED_MODULE_5__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
-      className: "w-full h-full grid grid-cols-[240px_1fr] items-start",
+      className: "w-full h-full flex flex-row justify-center items-start",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_navBar_navBar__WEBPACK_IMPORTED_MODULE_6__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
         className: "w-full bg-[#f6f6f7] overflow-auto",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_15__.Routes, {
@@ -29608,7 +29608,12 @@ var Navbar = function Navbar() {
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState4 = _slicedToArray(_useState3, 2),
       screenSize = _useState4[0],
-      setScreenSize = _useState4[1]; // get screen size
+      setScreenSize = _useState4[1];
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+      _useState6 = _slicedToArray(_useState5, 2),
+      showSideNav = _useState6[0],
+      setShowSideNav = _useState6[1]; // get screen size
 
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
@@ -29617,15 +29622,37 @@ var Navbar = function Navbar() {
     }
 
     window.addEventListener('resize', handleResize);
-  });
+  }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    setShowSideNav(screenSize < 1024 ? false : true);
+  }, [screenSize]);
 
   var handleMenu = function handleMenu(menuItem) {
     setItemMenuSelected(menuItem);
+  }; //  handle hamberguer nav
+
+
+  var handleShowSideNav = function handleShowSideNav(e) {
+    e.target.setAttribute("aria-expanded", showSideNav ? "false" : "true");
+    setShowSideNav(!showSideNav);
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("nav", {
-    className: "sticky top-14 w-full h-[calc(100vh_-_56px)] pt-8 pl-3 bg-slate-800 flex flex-col justify-start items-start",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    className: "sideNav absolute lg:sticky top-14 left-0 w-0 h-[calc(100vh_-_56px)] pt-8 pl-3 bg-slate-800 flex flex-col justify-start items-start z-50 transition ease-in-out delay-150 ".concat(showSideNav ? "translate-x-0 w-60" : "translate-x-[-100%] w-0", " lg:w-60 lg:translate-x-0"),
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("button", {
+      className: "absolute top-2 left-5 w-10 h-10 p-1 cursor-pointer flex flex-col justify-around items-center bg-[#fafafa] rounded-md z-50 hover:bg-slate-200 lg:hidden",
+      type: "button",
+      "aria-label": "Toggle navigation",
+      "aria-expanded": "false",
+      onClick: handleShowSideNav,
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+        className: "w-full h-[3px] bg-gray-600 pointer-events-none"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+        className: "w-full h-[3px] bg-gray-600 pointer-events-none"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
+        className: "w-full h-[3px] bg-gray-600 pointer-events-none"
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
       className: "w-full py-1 text-base text-white cursor-pointer",
       onClick: function onClick() {
         return handleMenu("products");

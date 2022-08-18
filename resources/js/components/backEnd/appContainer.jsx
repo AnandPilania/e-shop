@@ -563,7 +563,7 @@ const Appcontainer = () => {
         <AppContext.Provider value={contextValue}>
             <MainNav />
             <div
-                className='w-full h-full grid grid-cols-[240px_1fr] items-start'
+                className='w-full h-full flex flex-row justify-center items-start'
             >
                 <Navbar />
                 <div className='w-full bg-[#f6f6f7] overflow-auto'>
