@@ -85,7 +85,7 @@ export default function SelectWithCheckbox({ unikId, list, selected, setSelected
             </label>
             <div
                 id={'button' + unikId}
-                className="w-full h-10 px-2 m-0 border border-gray-300 rounded-md cursor-pointer bg-white hover:border-gray-400  bg-no-repeat bg-right-center bg-chevron-expand"
+                className="w-full h-10 px-2 m-0 border border-gray-300 rounded-md cursor-pointer bg-white hover:border-gray-400  bg-no-repeat bg-right-center bg-chevron-expand caret-transparent"
                 onClick={() => showDropDown()}
             >
             </div>

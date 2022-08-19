@@ -141,7 +141,8 @@ const Appcontainer = () => {
     const [productPrice, setProductPrice] = useState('');
     const [productWeight, setProductWeight] = useState('');
     const [productParcelWeight, setProductParcelWeight] = useState('');
-    const [previousProductPrice, setPreviousProductPrice] = useState('');
+    const [promoApplied, setPromoApplied] = useState('');
+    const [reducedProductPrice, setReducedProductPrice] = useState('');
     const [productCost, setProductCost] = useState('');
     const [productStock, setProductStock] = useState('');
     const [productCode, setProductCode] = useState('');
@@ -334,9 +335,10 @@ const Appcontainer = () => {
 
     // reset product form ----------------------------------------------------
     const initProductForm = () => {
-        setProductPrice(null);
-        setPreviousProductPrice(null);
-        setProductCost(null);
+        setProductPrice('');
+        setPromoProductPrice('');
+        setReducedProductPrice('');
+        setProductCost('');
         setIsDirty(false);
     }
     //------------------------------------------------------reset product form
@@ -528,7 +530,8 @@ const Appcontainer = () => {
         initSupplierForm,
         collection, setCollection,
         productPrice, setProductPrice,
-        previousProductPrice, setPreviousProductPrice,
+        promoApplied, setPromoApplied,
+        reducedProductPrice, setReducedProductPrice,
         productCost, setProductCost,
         productStock, setProductStock,
         optionsObj, setOptionsObj,

@@ -222,7 +222,7 @@ const CreateProduct = () => {
                     <h4 className="mb-[18px] font-semibold text-[20]">Ajouter un produit</h4>
 
                     {/* name */}
-                    <label>Nom<span className='text-red-600'>*</span></label>
+                    <label>Nom<span className='text-red-600 caret-transparent'>*</span></label>
                     <input className="w-full h-10 border border-gray-300 rounded-md pl-2.5 mb-4 mt-1"
                         type="text"
                         onChange={handleName}
@@ -230,7 +230,7 @@ const CreateProduct = () => {
                     />
 
                     {/* description */}
-                    <label>Déscription</label>
+                    <label className='caret-transparent'>Déscription</label>
                     <TinyeditorProduct />
                 </div>
 
@@ -254,7 +254,7 @@ const CreateProduct = () => {
             <div className='form-side-container'>
                 {/* collection */}
                 <Flex_col_s_s>
-                    <h3 className="text-base font-semibold mb-2.5 text-gray-500 w-auto">
+                    <h3 className="text-base font-semibold mb-2.5 text-gray-500 w-auto caret-transparent">
                         Collections
                     </h3>
                     <SelectWithCheckbox
