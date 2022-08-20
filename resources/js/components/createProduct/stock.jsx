@@ -67,7 +67,7 @@ const Stock = () => {
         <Flex_col_s_s>
             <h3 className='w-full text-left mb-[15px] font-semibold text-[16px]'>Stock</h3>
 
-            <div className='w-full h-auto grid gap-x-6 grid-cols-2 justify-start items-center'
+            <div className='w-full h-auto grid gap-x-4 grid-cols-2 justify-start items-center'
             >
                 <div className='flex flex-col justify-start items-start mb-2.5'
                 >

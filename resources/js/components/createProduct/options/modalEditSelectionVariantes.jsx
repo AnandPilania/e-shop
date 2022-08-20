@@ -32,7 +32,6 @@ const ModalEditSelectionVariantes = ({ handleModalCancel, show }) => {
         let temp_variantes = [...variantes];
         if (checkedVariantesList.length > 0) {
             for (let i = 0; i < temp_variantes.length; i++) {
-                console.log('productPriceModal  ', productPriceModal)
                 if (checkedVariantesList.indexOf(temp_variantes[i].id) > -1) {
                     if (conservNotModifiedFieldsCheckbox) {
                         temp_variantes[i].price = productPriceModal != '' ? productPriceModal : temp_variantes[i].price;

@@ -22021,11 +22021,11 @@ var CreateProduct = function CreateProduct() {
     }).then(function (res) {
       console.log('res.data  --->  ok');
     });
-  }
+  } // console.log('listTransporters  ', listTransporters[0]);
+  // console.log('transporter  ', transporter);
+  // console.log('collection  ', collection);
 
-  console.log('listTransporters  ', listTransporters[0]);
-  console.log('transporter  ', transporter);
-  console.log('collection  ', collection);
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
     className: "min-w-[750px] w-[70%] min-h-[100vh] my-[50px] mx-auto pb-80 grid grid-cols-mainContainer gap-2.5 text-base",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
@@ -23645,8 +23645,6 @@ var ModalEditSelectionVariantes = function ModalEditSelectionVariantes(_ref) {
 
     if (checkedVariantesList.length > 0) {
       for (var i = 0; i < temp_variantes.length; i++) {
-        console.log('productPriceModal  ', productPriceModal);
-
         if (checkedVariantesList.indexOf(temp_variantes[i].id) > -1) {
           if (conservNotModifiedFieldsCheckbox) {
             temp_variantes[i].price = productPriceModal != '' ? productPriceModal : temp_variantes[i].price;
@@ -24958,11 +24956,20 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
       showModalImageVariante = _useState6[0],
       setShowModalImageVariante = _useState6[1];
 
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState8 = _slicedToArray(_useState7, 2),
-      showMCancelDeleteButton = _useState8[0],
-      setShowMCancelDeleteButton = _useState8[1]; // const [deletedVariantesList, setDeletedVariantesList] = useState([]);
+      visiblesFields = _useState8[0],
+      setVisiblesFields = _useState8[1];
 
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState10 = _slicedToArray(_useState9, 2),
+      screenSize = _useState10[0],
+      setScreenSize = _useState10[1];
+
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+      _useState12 = _slicedToArray(_useState11, 2),
+      indexOfVisiblesFields = _useState12[0],
+      setIndexOfVisiblesFields = _useState12[1];
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       optionsObj = _useContext.optionsObj,
@@ -24989,9 +24996,9 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var allValuesAsString = []; // renvoi toutes les combinaisons possible des différentes options 
 
-    var mapping = optionsObj.map(function (x) {
+    var optionsCombinations = optionsObj.map(function (x) {
       return x.values;
-    }); // crée un tableau avec les index des optionsObj.values non vides pour que getCombinaisons parcoure uniquement les values non vides dans mapping
+    }); // crée un tableau avec les index des optionsObj.values non vides pour que getCombinaisons parcoure uniquement les values non vides dans optionsCombinations
 
     var index_tab = [];
 
@@ -25007,15 +25014,15 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
         return;
       }
 
-      for (var i = 0; i < ((_mapping$ndxTab$ = mapping[ndxTab[0]]) === null || _mapping$ndxTab$ === void 0 ? void 0 : _mapping$ndxTab$.length); i++) {
-        var _mapping$ndxTab$;
+      for (var i = 0; i < ((_optionsCombinations$ = optionsCombinations[ndxTab[0]]) === null || _optionsCombinations$ === void 0 ? void 0 : _optionsCombinations$.length); i++) {
+        var _optionsCombinations$;
 
         var separator = comb.length > 0 ? " - " : "";
-        getCombinaisons(ndxTab.slice(1), comb + separator + mapping[ndxTab[0]][i]);
+        getCombinaisons(ndxTab.slice(1), comb + separator + optionsCombinations[ndxTab[0]][i]);
       }
     }
 
-    mapping.length > 0 && getCombinaisons(index_tab, ""); // get les noms d'options pour les associer à leur values dans un objet
+    optionsCombinations.length > 0 && getCombinaisons(index_tab, ""); // get les noms d'options pour les associer à leur values dans un objet
 
     var optionsName = optionsObj.map(function (x) {
       return x.name;
@@ -25025,8 +25032,7 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
     var tmp_changedVariantes = [];
 
     for (var _i2 = 0; _i2 < allValuesAsString.length; _i2++) {
-      console.log('i  -->   ', _i2); // tmp_changedVariantes contien les variantes qui ont été modifiées
-
+      // tmp_changedVariantes contien les variantes qui ont été modifiées
       tmp_changedVariantes = _toConsumableArray(changedVariantes); // split les values de optionsObj pour les récupérer séparements et les associer à leur option Name dans un objet "destiné au back-end !" 
 
       var tmp = allValuesAsString[_i2].split(',');
@@ -25288,6 +25294,36 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
     setVariantes(_toConsumableArray(tmp_variantes));
   };
 
+  var handleChangeShowedFields = function handleChangeShowedFields(nextOrPrevious) {
+    if (nextOrPrevious == 'next' && indexOfVisiblesFields < visiblesFields.length - 1) {
+      setIndexOfVisiblesFields(indexOfVisiblesFields + 1);
+    } else if (nextOrPrevious == 'previous' && indexOfVisiblesFields > 0) {
+      setIndexOfVisiblesFields(indexOfVisiblesFields - 1);
+    }
+  }; // get screen size
+
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    function handleResizeScreen() {
+      setScreenSize(window.innerWidth);
+    }
+
+    window.addEventListener('resize', handleResizeScreen);
+    handleResizeScreen();
+  }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    var tmp_arr = [];
+
+    if (screenSize < 1000) {
+      tmp_arr = [['price', 'reducedPrice'], ['stock', 'cost'], ['sku', 'weght']];
+    } else {
+      tmp_arr = [['price', 'reducedPrice', 'stock'], ['cost', 'sku', 'weight']];
+    }
+
+    setVisiblesFields(tmp_arr);
+  }, [screenSize]);
+  console.log('indexOfVisiblesFields', indexOfVisiblesFields);
+  console.log('visiblesFields[indexOfVisiblesFields]', visiblesFields[indexOfVisiblesFields]);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
     className: "".concat((variantes === null || variantes === void 0 ? void 0 : variantes.length) > 0 && "border-t border-gray-200 mt-5"),
     children: [(variantes === null || variantes === void 0 ? void 0 : variantes.length) > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h3", {
@@ -25298,9 +25334,9 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
       checkedVariantesList: checkedVariantesList,
       setCheckedVariantesList: setCheckedVariantesList
     }), (variantes === null || variantes === void 0 ? void 0 : variantes.length) > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-      className: "w-full h-auto grid gap-x-2 grid-cols-[25px_1fr_100px_100px_150px_50px_30px] justify-start items-center border-b-[1px] border-gray-200 mb-[20px]",
+      className: "w-full h-auto grid gap-x-2 grid-cols-[25px_1fr_100px_100px_150px_80px] justify-start items-center border-b border-gray-200 mb-5",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
-        className: "w-full h-[30px] flex flex-row justify-start items-center pt-[6px] pl-[1px]",
+        className: "w-full h-8 flex flex-row justify-start items-center pt-2 pl-[1px]",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_elements_animateCheckbox__WEBPACK_IMPORTED_MODULE_4__["default"], {
           id: "_unUsedId",
           value: "",
@@ -25310,21 +25346,48 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
         className: "font-semibold text-base",
         children: "Variantes"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+        className: "w-full flex justify-start items-center",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+          className: "w-6 h-6 mr-2 flex justify-center items-center rounded-md bg-white border border-gray-800 hover:border-2",
+          onClick: function onClick() {
+            return handleChangeShowedFields('previous');
+          },
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("svg", {
+            className: "h-4 w-4 fill-gray-900 cursor-pointer bi bi-caret-left-fill",
+            viewBox: "0 0 16 16",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("path", {
+              d: "m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"
+            })
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+          className: "w-6 h-6 flex justify-center items-center rounded-md bg-white border border-gray-800 hover:border-2",
+          onClick: function onClick() {
+            return handleChangeShowedFields('next');
+          },
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("svg", {
+            className: "h-4 w-4 fill-gray-900 cursor-pointer bi bi-caret-right-fill",
+            viewBox: "0 0 16 16",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("path", {
+              d: "m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"
+            })
+          })
+        })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
         className: "font-semibold text-base",
         children: "Prix"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
         className: "font-semibold text-base",
-        children: "Ancien prix"
+        children: "Prix r\xE9duit"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
         className: "font-semibold text-base",
         children: "Stock"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {})]
+      })]
     }), (variantes === null || variantes === void 0 ? void 0 : variantes.length) > 0 && variantes.map(function (item, index) {
       return isHideDeletedVariantes && item.deleted === true ? '' : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-        className: "w-full h-auto grid gap-x-2 grid-cols-[25px_1fr_100px_100px_150px_50px_30px] gap-1 justify-start items-center py-[8px] \n                        brd-red-2\n                        relative bg-white hover:bg-gray-50 ".concat(checkedVariantesList.includes(item.id) && "bg-blue-50"),
+        className: "w-full h-auto grid gap-x-2 grid-cols-[25px_160px_1fr_1fr_1fr_50px_32px] justify-start items-center py-2 relative bg-white hover:bg-gray-50 ".concat(checkedVariantesList.includes(item.id) && "bg-blue-50"),
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
-          className: "w-full h-[30px] flex flex-row justify-start items-center pt-[6px] pl-[1px]",
+          className: "w-6 h-8 flex flex-row justify-start items-center pt-2 pl-[1px]",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_elements_animateCheckbox__WEBPACK_IMPORTED_MODULE_4__["default"], {
             id: item.id,
             value: "",
@@ -25332,13 +25395,13 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
             handlechange: handleChangeCheckbox
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("span", {
-          className: "w-full h-[30px] pt-[3px] rounded-md whitespace-nowrap text-ellipsis overflow-hidden cursor-default group ".concat(item.deleted ? "text-gray-400" : "text-gray-500", " ").concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50"),
+          className: "w-40 min-w-[160px] h-8 pt-1 rounded-md whitespace-nowrap text-ellipsis overflow-hidden cursor-default group ".concat(item.deleted ? "text-gray-400" : "text-gray-500", " ").concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50"),
           children: [item === null || item === void 0 ? void 0 : item.optionsString, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_3__["default"], {
             top: -20,
             left: 20,
             children: item === null || item === void 0 ? void 0 : item.optionsString
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+        }), visiblesFields[indexOfVisiblesFields].includes('price') && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
           id: item === null || item === void 0 ? void 0 : item.id,
           type: "number",
           step: ".01",
@@ -25347,8 +25410,8 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
           placeholder: "0.00",
           min: "0",
           max: "9999999999",
-          className: "w-full h-[30px] border border-gray-300 rounded-md pl-[8px] text-[13px] leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50")
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+          className: "w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50")
+        }), visiblesFields[indexOfVisiblesFields].includes('reducedPrice') && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
           id: "inputPrevPrice".concat(item === null || item === void 0 ? void 0 : item.id),
           type: "number",
           step: ".01",
@@ -25359,9 +25422,9 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
           placeholder: "0.00",
           min: "0",
           max: "9999999999",
-          className: "w-full h-[30px] border border-gray-300 rounded-md pl-[8px] text-[13px] leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50")
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-          className: "flex flex-rox justify-start items-center",
+          className: "w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50")
+        }), visiblesFields[indexOfVisiblesFields].includes('stock') && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+          className: "w-36 flex flex-rox justify-start items-center",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
             type: "number",
             id: "inputStock".concat(item === null || item === void 0 ? void 0 : item.id),
@@ -25375,14 +25438,14 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
             onClick: function onClick() {
               return handleProductStockOnFocus2(item);
             },
-            className: "w-[100px] h-[30px] border border-gray-300 rounded-l-md pl-[8px] text-[13px] leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50")
+            className: "w-full h-8 border border-gray-300 rounded-l-md pl-2 text-sm leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50")
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("span", {
-            className: "flex flex-rox justify-start items-center h-[30px] border-y border-r border-gray-300 rounded-r-md px-2.5 cursor-pointer caret-transparent group relative ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50"),
+            className: "flex flex-rox justify-start items-center h-8 border-y border-r border-gray-300 rounded-r-md px-2.5 cursor-pointer caret-transparent group relative ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50"),
             onClick: function onClick() {
               return handleUnlimitedStock2(item);
             },
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
-              className: "mr-[7px] caret-transparent cursor-pointer",
+              className: "mr-2 caret-transparent cursor-pointer",
               id: "unlimitedStockCheckbox".concat(item === null || item === void 0 ? void 0 : item.id),
               type: "checkbox",
               checked: (item === null || item === void 0 ? void 0 : item.stock) != '' ? false : item === null || item === void 0 ? void 0 : item.unlimited // pour pas avoir de warning "input checkbox non controlé"
@@ -25398,8 +25461,44 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
               })]
             })]
           })]
+        }), visiblesFields[indexOfVisiblesFields].includes('cost') && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+          id: "inputPrevPrice".concat(item === null || item === void 0 ? void 0 : item.id),
+          type: "number",
+          step: ".01",
+          onChange: function onChange(e) {
+            return handleVariantetPrevPrice(e, item);
+          },
+          value: item === null || item === void 0 ? void 0 : item.prev_price,
+          placeholder: "0.00",
+          min: "0",
+          max: "9999999999",
+          className: "w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50")
+        }), visiblesFields[indexOfVisiblesFields].includes('sku') && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+          id: "inputPrevPrice".concat(item === null || item === void 0 ? void 0 : item.id),
+          type: "number",
+          step: ".01",
+          onChange: function onChange(e) {
+            return handleVariantetPrevPrice(e, item);
+          },
+          value: item === null || item === void 0 ? void 0 : item.prev_price,
+          placeholder: "0.00",
+          min: "0",
+          max: "9999999999",
+          className: "w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50")
+        }), visiblesFields[indexOfVisiblesFields].includes('weight') && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+          id: "inputPrevPrice".concat(item === null || item === void 0 ? void 0 : item.id),
+          type: "number",
+          step: ".01",
+          onChange: function onChange(e) {
+            return handleVariantetPrevPrice(e, item);
+          },
+          value: item === null || item === void 0 ? void 0 : item.prev_price,
+          placeholder: "0.00",
+          min: "0",
+          max: "9999999999",
+          className: "w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50")
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
-          className: "w-full h-[30px] border border-gray-300 flex justify-center items-center cursor-pointer ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50"),
+          className: "w-full h-8 border border-gray-300 flex justify-center items-center cursor-pointer ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50"),
           onClick: function onClick() {
             return loadImagesVariantes(item);
           },
@@ -25407,31 +25506,31 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
             className: "w-auto max-h-[28px]",
             src: window.location.origin + '/' + item.selectedImage.value
           }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("img", {
-            className: "w-[25px] h-auto",
+            className: "w-6 h-auto",
             src: "../images/icons/image.svg"
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
-          className: "group flex justify-center items-center w-[30px] h-[30px] p-0 m-0 cursor-pointer",
+          className: "group flex justify-center items-center w-8 h-8 p-0 m-0 cursor-pointer",
           children: !item.deleted ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("span", {
             onClick: function onClick() {
               return toggleDeleteUndeleteVariante(item.id);
             },
-            className: "flex justify-center items-center w-[30px] h-[30px] p-0 m-0 cursor-pointer hover:bg-red-500 rounded-md",
+            className: "flex justify-center items-center w-8 h-8 p-0 m-0 cursor-pointer hover:bg-red-500 rounded-md",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("img", {
               src: window.location.origin + '/images/icons/trash.svg',
-              className: "h-[20px] w-[20px] group-hover:hidden"
+              className: "h-5 w-5 group-hover:hidden"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("img", {
               src: window.location.origin + '/images/icons/x-white.svg',
-              className: "h-[25px] w-[25px] hidden group-hover:block"
+              className: "h-6 w-6 hidden group-hover:block"
             })]
           }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
             onClick: function onClick() {
               return toggleDeleteUndeleteVariante(item.id);
             },
-            className: "flex justify-center items-center w-[30px] h-[30px] p-0 m-0 cursor-pointer hover:bg-blue-200 rounded-md",
+            className: "flex justify-center items-center w-8 h-8 p-0 m-0 cursor-pointer hover:bg-blue-200 rounded-md",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("img", {
               src: window.location.origin + '/images/icons/arrow-back.svg',
-              className: "h-[20px] w-[20px]"
+              className: "h-5 w-5"
             })
           })
         })]
@@ -25648,7 +25747,7 @@ var Options = function Options() {
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-    className: "w-full brd-blue-2",
+    className: "w-full",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
       className: "w-full h-auto mb-5",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_elements_toggle_toggle__WEBPACK_IMPORTED_MODULE_5__["default"], {
@@ -25690,10 +25789,10 @@ var Options = function Options() {
           }));
         }
       }), (optionsObj === null || optionsObj === void 0 ? void 0 : optionsObj.length) < 4 && showOptions && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-        className: "w-full h-auto flex flrx-row justify-start items-center mb-[25px]",
+        className: "w-full h-auto flex flex-row justify-start items-center mb-6",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
           onClick: addOption,
-          className: "h-[40px] px-[10px] mt-4 border border-slate-200 ",
+          className: "h-10 px-2.5 mt-4 border border-slate-200 ",
           children: "Ajouter une option"
         })
       }), (optionsObj === null || optionsObj === void 0 ? void 0 : optionsObj.length) === 4 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
@@ -26413,9 +26512,9 @@ var Price = function Price() {
           label: "Faire une promotion"
         })
       }), isShowPromoProduct && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-        className: "w-full col-span-2",
+        className: "w-full col-span-2 mb-4",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-          className: "w-full flex flex-col justify-start items-start mb-[10px]",
+          className: "w-full flex flex-col justify-start items-start mb-2.5",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_4__["default"], {
             label: "R\xE9duction"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
@@ -26438,13 +26537,13 @@ var Price = function Price() {
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
               className: "h-8 px-1 ml-2 flex flex-row justify-center items-center border border-gray-300 rounded-r-md bg-white",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-                className: "w-6 h-6 flex flex-row justify-center items-center rounded-md ".concat(promoType != "%" && "hover:bg-indigo-400", " hover:text-white text-base font-semibold cursor-pointer mr-1 ").concat(promoType == "%" ? "bg-indigo-600 text-white" : "bg-gray-50 text-gray-700"),
+                className: "w-6 h-6 flex flex-row justify-center items-center rounded-md ".concat(promoType != "%" && "hover:bg-indigo-300", " hover:text-white text-base font-semibold cursor-pointer mr-1 ").concat(promoType == "%" ? "bg-indigo-500 text-white" : "bg-gray-50 text-gray-700"),
                 onClick: function onClick() {
                   return handlePromoType("%");
                 },
                 children: "%"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-                className: "w-6 h-6 flex flex-row justify-center items-center rounded-md ".concat(promoType != "€" && "hover:bg-indigo-400", " hover:text-white text-base font-semibold cursor-pointer ").concat(promoType == "€" ? "bg-indigo-600 text-white" : "bg-gray-50 text-gray-700"),
+                className: "w-6 h-6 flex flex-row justify-center items-center rounded-md ".concat(promoType != "€" && "hover:bg-indigo-300", " hover:text-white text-base font-semibold cursor-pointer ").concat(promoType == "€" ? "bg-indigo-500 text-white" : "bg-gray-50 text-gray-700"),
                 onClick: function onClick() {
                   return handlePromoType("€");
                 },
@@ -26453,7 +26552,7 @@ var Price = function Price() {
             })]
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-          className: "w-full flex flex-col justify-start items-start mb-[10px]",
+          className: "w-full flex flex-col justify-start items-start",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_4__["default"], {
             label: "Prix apr\xE8s r\xE9duction"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_inputNumeric__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -26472,7 +26571,7 @@ var Price = function Price() {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_4__["default"], {
           label: "Prix d'achat pour un article"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-          className: "w-6/12",
+          className: "w-full",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_inputNumeric__WEBPACK_IMPORTED_MODULE_3__["default"], {
             id: "inputCost19822",
             value: productCost,
@@ -26484,6 +26583,9 @@ var Price = function Price() {
             css: "rounded-md"
           })
         })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+        className: "col-span-2 text-[14px] mt-[-3px]",
+        children: "Cette information ne sera pas visible par les clients"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
         className: "w-full",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -26512,9 +26614,6 @@ var Price = function Price() {
           max: "9999999999",
           css: "rounded-md"
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-        className: "col-span-2 text-[14px] mt-[-3px]",
-        children: "Cette information ne sera pas visible par les clients"
       })]
     })]
   });
@@ -26638,7 +26737,7 @@ var Stock = function Stock() {
       className: "w-full text-left mb-[15px] font-semibold text-[16px]",
       children: "Stock"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-      className: "w-full h-auto grid gap-x-6 grid-cols-2 justify-start items-center",
+      className: "w-full h-auto grid gap-x-4 grid-cols-2 justify-start items-center",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         className: "flex flex-col justify-start items-start mb-2.5",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
@@ -28552,7 +28651,7 @@ __webpack_require__.r(__webpack_exports__);
 var Label = function Label(_ref) {
   var label = _ref.label;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("label", {
-    className: "w-auto text-sm font-medium text-gray-700 mb-1",
+    className: "w-auto text-sm font-medium text-gray-700 mb-2",
     children: label
   });
 };
@@ -31963,7 +32062,6 @@ var Shipping = function Shipping() {
       console.log('error:   ' + error);
     });
   }, []);
-  console.log('deliveryZoneList   ', deliveryZoneList);
 
   var getShippingsList = function getShippingsList() {
     // charge la liste des shippings
@@ -37652,7 +37750,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "/* Toggle Button ------------------------------*/\r\n.cm-toggleComponent {\r\n    -webkit-appearance: none;\r\n    -webkit-tap-highlight-color: transparent;\r\n    position: relative;\r\n    border: 0;\r\n    outline: 0;\r\n    cursor: pointer;\r\n    display: flex;\r\n    align-items: \"center\";\r\n}\r\n\r\n/* To create surface of toggle button */\r\n.cm-toggleComponent:after {\r\n    content: \"\";\r\n    width: 40px;\r\n    height: 24px;\r\n    display: inline-block;\r\n    background: #dbdbe8;\r\n    border-radius: 12px;\r\n    clear: both;\r\n}\r\n\r\n/*.cm-toggleComponent:hover:before {\r\n    background: #e3c9f1;\r\n}*/\r\n\r\n/* Contents before checkbox to create toggle handle */\r\n.cm-toggleComponent:before {\r\n    content: \"\";\r\n    width: 16px;\r\n    height: 16px;\r\n    display: block;\r\n    position: absolute;\r\n    left: 4px;\r\n    top: 4px;\r\n    /*margin-top: 4px;*/\r\n    border-radius: 50%;\r\n    background: rgb(255, 255, 255);\r\n}\r\n\r\n/* Shift the handle to left on check event */\r\n.cm-toggleComponent:checked:before {\r\n    left: 20px;\r\n}\r\n/* Background color when toggle button will be active */\r\n.cm-toggleComponent:checked:after {\r\n    background: #4f46e5;\r\n}\r\n\r\n/* Transition for smoothness */\r\n.cm-toggleComponent,\r\n.cm-toggleComponent:before,\r\n.cm-toggleComponent:after,\r\n.cm-toggleComponent:checked:before,\r\n.cm-toggleComponent:checked:after {\r\n    transition: ease 0.3s;\r\n    -webkit-transition: ease 0.3s;\r\n    -moz-transition: ease 0.3s;\r\n    -o-transition: ease 0.3s;\r\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "/* Toggle Button ------------------------------*/\r\n.cm-toggleComponent {\r\n    -webkit-appearance: none;\r\n    -webkit-tap-highlight-color: transparent;\r\n    position: relative;\r\n    border: 0;\r\n    outline: 0;\r\n    cursor: pointer;\r\n    display: flex;\r\n    align-items: \"center\";\r\n}\r\n\r\n/* To create surface of toggle button */\r\n.cm-toggleComponent:after {\r\n    content: \"\";\r\n    width: 40px;\r\n    height: 24px;\r\n    display: inline-block;\r\n    background: #dbdbe8;\r\n    border-radius: 12px;\r\n    clear: both;\r\n}\r\n\r\n/*.cm-toggleComponent:hover:before {\r\n    background: #e3c9f1;\r\n}*/\r\n\r\n/* Contents before checkbox to create toggle handle */\r\n.cm-toggleComponent:before {\r\n    content: \"\";\r\n    width: 16px;\r\n    height: 16px;\r\n    display: block;\r\n    position: absolute;\r\n    left: 4px;\r\n    top: 4px;\r\n    /*margin-top: 4px;*/\r\n    border-radius: 50%;\r\n    background: rgb(255, 255, 255);\r\n}\r\n\r\n/* Shift the handle to left on check event */\r\n.cm-toggleComponent:checked:before {\r\n    left: 20px;\r\n}\r\n/* Background color when toggle button will be active */\r\n.cm-toggleComponent:checked:after {\r\n    background: #6366f1; /*#4f46e5;*/\r\n}\r\n\r\n/* Transition for smoothness */\r\n.cm-toggleComponent,\r\n.cm-toggleComponent:before,\r\n.cm-toggleComponent:after,\r\n.cm-toggleComponent:checked:before,\r\n.cm-toggleComponent:checked:after {\r\n    transition: ease 0.3s;\r\n    -webkit-transition: ease 0.3s;\r\n    -moz-transition: ease 0.3s;\r\n    -o-transition: ease 0.3s;\r\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

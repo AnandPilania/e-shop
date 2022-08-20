@@ -13,9 +13,9 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
     const [idVariante, setIdVariante] = useState(null);
     const [imageVariante, setImageVariante] = useState({});
     const [showModalImageVariante, setShowModalImageVariante] = useState(false);
-    const [showMCancelDeleteButton, setShowMCancelDeleteButton] = useState(false);
-    // const [deletedVariantesList, setDeletedVariantesList] = useState([]);
-
+    const [visiblesFields, setVisiblesFields] = useState([]);
+    const [screenSize, setScreenSize] = useState('');
+    const [indexOfVisiblesFields, setIndexOfVisiblesFields] = useState(0);
 
     const { optionsObj, productPrice, previousProductPrice, productStock, listType, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, isHideDeletedVariantes, variante, setVariante, setImageVariantes, changedVariantes, setChangedVariantes } = useContext(AppContext);
 
@@ -30,8 +30,8 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         let allValuesAsString = [];
 
         // renvoi toutes les combinaisons possible des différentes options 
-        let mapping = optionsObj.map(x => x.values);
-        // crée un tableau avec les index des optionsObj.values non vides pour que getCombinaisons parcoure uniquement les values non vides dans mapping
+        let optionsCombinations = optionsObj.map(x => x.values);
+        // crée un tableau avec les index des optionsObj.values non vides pour que getCombinaisons parcoure uniquement les values non vides dans optionsCombinations
         let index_tab = [];
         for (let i = 0; i < optionsObj.length; i++) {
             if (optionsObj[i].values.length > 0) {
@@ -43,12 +43,12 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                 allValuesAsString.push(comb);
                 return;
             }
-            for (var i = 0; i < mapping[ndxTab[0]]?.length; i++) {
+            for (var i = 0; i < optionsCombinations[ndxTab[0]]?.length; i++) {
                 let separator = comb.length > 0 ? " - " : "";
-                getCombinaisons(ndxTab.slice(1), comb + separator + mapping[ndxTab[0]][i]);
+                getCombinaisons(ndxTab.slice(1), comb + separator + optionsCombinations[ndxTab[0]][i]);
             }
         }
-        mapping.length > 0 && getCombinaisons(index_tab, "");
+        optionsCombinations.length > 0 && getCombinaisons(index_tab, "");
 
 
         // get les noms d'options pour les associer à leur values dans un objet
@@ -58,7 +58,6 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         let tmp_changedVariantes = [];
 
         for (let i = 0; i < allValuesAsString.length; i++) {
-            console.log('i  -->   ', i)
             // tmp_changedVariantes contien les variantes qui ont été modifiées
             tmp_changedVariantes = [...changedVariantes];
             // split les values de optionsObj pour les récupérer séparements et les associer à leur option Name dans un objet "destiné au back-end !" 
@@ -308,6 +307,34 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
     }
 
 
+    const handleChangeShowedFields = (nextOrPrevious) => {
+        if (nextOrPrevious == 'next' && indexOfVisiblesFields < visiblesFields.length - 1) {
+            setIndexOfVisiblesFields(indexOfVisiblesFields + 1);
+        } else if (nextOrPrevious == 'previous' && indexOfVisiblesFields > 0) {
+            setIndexOfVisiblesFields(indexOfVisiblesFields - 1);
+        }
+    }
+    // get screen size
+    useEffect(() => {
+        function handleResizeScreen() {
+            setScreenSize(window.innerWidth);
+        }
+        window.addEventListener('resize', handleResizeScreen)
+        handleResizeScreen();
+    }, []);
+
+    useEffect(() => {
+        let tmp_arr = [];
+        if (screenSize < 1000) {
+            tmp_arr = [['price', 'reducedPrice'], ['stock', 'cost'], ['sku', 'weght']];
+        } else {
+            tmp_arr = [['price', 'reducedPrice', 'stock'], ['cost', 'sku', 'weight']];
+        }
+        setVisiblesFields(tmp_arr);
+    }, [screenSize]);
+
+    console.log('indexOfVisiblesFields', indexOfVisiblesFields)
+    console.log('visiblesFields[indexOfVisiblesFields]', visiblesFields[indexOfVisiblesFields])
 
     return (
         <div className={`${variantes?.length > 0 && "border-t border-gray-200 mt-5"}`}>
@@ -325,9 +352,9 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                 />}
 
             {variantes?.length > 0 &&
-                <div className="w-full h-auto grid gap-x-2 grid-cols-[25px_1fr_100px_100px_150px_50px_30px] justify-start items-center border-b-[1px] border-gray-200 mb-[20px]">
+                <div className="w-full h-auto grid gap-x-2 grid-cols-[25px_1fr_100px_100px_150px_80px] justify-start items-center border-b border-gray-200 mb-5">
                     {/* checkbox select all */}
-                    <div className='w-full h-[30px] flex flex-row justify-start items-center pt-[6px] pl-[1px]'>
+                    <div className='w-full h-8 flex flex-row justify-start items-center pt-2 pl-[1px]'>
                         <AnimateCheckbox
                             id='_unUsedId'
                             value=''
@@ -336,141 +363,202 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                         />
                     </div>
                     <span className='font-semibold text-base'>Variantes</span>
+
+                    <div className='w-full flex justify-start items-center'>
+                        <span
+                            className='w-6 h-6 mr-2 flex justify-center items-center rounded-md bg-white border border-gray-800 hover:border-2'
+                            onClick={() => handleChangeShowedFields('previous')}>
+                            <svg className="h-4 w-4 fill-gray-900 cursor-pointer bi bi-caret-left-fill" viewBox="0 0 16 16">
+                                <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
+                            </svg>
+                        </span>
+                        <span
+                            className='w-6 h-6 flex justify-center items-center rounded-md bg-white border border-gray-800 hover:border-2'
+                            onClick={() => handleChangeShowedFields('next')}>
+                            <svg className="h-4 w-4 fill-gray-900 cursor-pointer bi bi-caret-right-fill" viewBox="0 0 16 16">
+                                <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
+                            </svg>
+                        </span>
+                    </div>
+
                     <span className='font-semibold text-base'>Prix</span>
-                    <span className='font-semibold text-base'>Ancien prix</span>
+                    <span className='font-semibold text-base'>Prix réduit</span>
                     <span className='font-semibold text-base'>Stock</span>
-                    <span></span>
-                    <span></span>
                 </div>}
 
 
+
             {/* isHideDeletedVariantes cache les variantes deleted -> toggle */}
-            {variantes?.length > 0 && variantes.map((item, index) =>
-                (isHideDeletedVariantes && item.deleted === true) ? '' :
-                    <div
-                        key={index}
-                        className={`w-full h-auto grid gap-x-2 grid-cols-[25px_1fr_100px_100px_150px_50px_30px] gap-1 justify-start items-center py-[8px] 
-                        brd-red-2
-                        relative bg-white hover:bg-gray-50 ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
-                    >
-                        {/* checkbox "!!! a son css !!!" */}
-                        <div className='w-full h-[30px] flex flex-row justify-start items-center pt-[6px] pl-[1px]'>
-                            <AnimateCheckbox
-                                id={item.id}
-                                value=''
-                                checked={checkedVariantesList.includes(item.id)}
-                                handlechange={handleChangeCheckbox}
-                            />
-                        </div>
-
-                        {/* variante */}
-                        <span
-                            className={`w-full h-[30px] pt-[3px] rounded-md whitespace-nowrap text-ellipsis overflow-hidden cursor-default group ${item.deleted ? "text-gray-400" : "text-gray-500"} ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
-                        >
-                            {item?.optionsString}
-                            <Tooltip top={-20} left={20}>
-                                {item?.optionsString}
-                            </Tooltip>
-                        </span>
-
-                        {/* price */}
-                        <input
-                            id={item?.id}
-                            type="number"
-                            step=".01"
-                            onChange={handleVariantetPrice}
-                            value={item?.price}
-                            placeholder="0.00"
-                            min="0"
-                            max="9999999999"
-                            className={`w-full h-[30px] border border-gray-300 rounded-md pl-[8px] text-[13px] leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
-                        />
-
-                        {/* prev_price -- promo -- */}
-                        <input
-                            id={`inputPrevPrice${item?.id}`}
-                            type="number"
-                            step=".01"
-                            onChange={(e) => handleVariantetPrevPrice(e, item)}
-                            value={item?.prev_price}
-                            placeholder="0.00"
-                            min="0"
-                            max="9999999999"
-                            className={`w-full h-[30px] border border-gray-300 rounded-md pl-[8px] text-[13px] leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
-                        />
-
-                        {/* stock */}
+            {
+                variantes?.length > 0 && variantes.map((item, index) =>
+                    (isHideDeletedVariantes && item.deleted === true) ? '' :
                         <div
-                            className='flex flex-rox justify-start items-center'
+                            key={index}
+                            className={`w-full h-auto grid gap-x-2 grid-cols-[25px_160px_1fr_1fr_1fr_50px_32px] justify-start items-center py-2 relative bg-white hover:bg-gray-50 ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
                         >
-                            <input
-                                type="number"
-                                id={`inputStock${item?.id}`}
-                                onChange={(e) => handleProductStock2(e, item)}
-                                value={item?.stock}
-                                placeholder={item.placeholderStock}
-                                min="0" max="9999999999"
-                                onClick={(() => handleProductStockOnFocus2(item))}
-                                className={`w-[100px] h-[30px] border border-gray-300 rounded-l-md pl-[8px] text-[13px] leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
-                            />
-                            <span
-                                className={`flex flex-rox justify-start items-center h-[30px] border-y border-r border-gray-300 rounded-r-md px-2.5 cursor-pointer caret-transparent group relative ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
-                                onClick={() => handleUnlimitedStock2(item)}>
-                                <input
-                                    className='mr-[7px] caret-transparent cursor-pointer'
-                                    id={`unlimitedStockCheckbox${item?.id}`}
-                                    type="checkbox"
-                                    checked={item?.stock != '' ? false : item?.unlimited}
-                                    // pour pas avoir de warning "input checkbox non controlé"
-                                    onChange={() => { }}
+                            {/* checkbox "!!! a son css !!!" */}
+                            <div className='w-6 h-8 flex flex-row justify-start items-center pt-2 pl-[1px]'>
+                                <AnimateCheckbox
+                                    id={item.id}
+                                    value=''
+                                    checked={checkedVariantesList.includes(item.id)}
+                                    handlechange={handleChangeCheckbox}
                                 />
-                                <label
-                                    className='cursor-pointer caret-transparent text-xl '>
-                                    {String.fromCharCode(0x221E)}
-                                    <Tooltip top={-20} left={5} css='whitespace-nowrap'>
-                                        {item?.unlimited ? 'Stock illimité' : 'Entrer une quantité'}
-                                    </Tooltip>
-                                </label>
+                            </div>
+
+                            {/* variante */}
+                            <span
+                                className={`w-40 min-w-[160px] h-8 pt-1 rounded-md whitespace-nowrap text-ellipsis overflow-hidden cursor-default group ${item.deleted ? "text-gray-400" : "text-gray-500"} ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
+                            >
+                                {item?.optionsString}
+                                <Tooltip top={-20} left={20}>
+                                    {item?.optionsString}
+                                </Tooltip>
                             </span>
-                        </div>
 
-                        {/* image variante */}
-                        <span
-                            className={`w-full h-[30px] border border-gray-300 flex justify-center items-center cursor-pointer ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
-                            onClick={() => loadImagesVariantes(item)}
-                        >
-                            {
-                                item.selectedImage !== undefined && item.selectedImage !== null && Object.keys(item.selectedImage).length !== 0 ?
-                                    <img className='w-auto max-h-[28px]'
-                                        src={window.location.origin + '/' + item.selectedImage.value}
-                                    />
-                                    :
-                                    <img className='w-[25px] h-auto'
-                                        src='../images/icons/image.svg'
-                                    />
-                            }
-                        </span>
 
-                        {/* delete */}
-                        <div className='group flex justify-center items-center w-[30px] h-[30px] p-0 m-0 cursor-pointer'>
-                            {
-                                !item.deleted ?
+                            {/* price */}
+                            {visiblesFields[indexOfVisiblesFields].includes('price') &&
+                                <input
+                                    id={item?.id}
+                                    type="number"
+                                    step=".01"
+                                    onChange={handleVariantetPrice}
+                                    value={item?.price}
+                                    placeholder="0.00"
+                                    min="0"
+                                    max="9999999999"
+                                    className={`w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
+                                />}
+
+                            {/* reduced_price -- promo -- */}
+                            {visiblesFields[indexOfVisiblesFields].includes('reducedPrice') &&
+                                <input
+                                    id={`inputPrevPrice${item?.id}`}
+                                    type="number"
+                                    step=".01"
+                                    onChange={(e) => handleVariantetPrevPrice(e, item)}
+                                    value={item?.prev_price}
+                                    placeholder="0.00"
+                                    min="0"
+                                    max="9999999999"
+                                    className={`w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
+                                />}
+
+                            {/* stock */}
+                            {visiblesFields[indexOfVisiblesFields].includes('stock') &&
+                                <div
+                                    className='w-36 flex flex-rox justify-start items-center'
+                                >
+                                    <input
+                                        type="number"
+                                        id={`inputStock${item?.id}`}
+                                        onChange={(e) => handleProductStock2(e, item)}
+                                        value={item?.stock}
+                                        placeholder={item.placeholderStock}
+                                        min="0" max="9999999999"
+                                        onClick={(() => handleProductStockOnFocus2(item))}
+                                        className={`w-full h-8 border border-gray-300 rounded-l-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
+                                    />
                                     <span
-                                        onClick={() => toggleDeleteUndeleteVariante(item.id)}
-                                        className='flex justify-center items-center w-[30px] h-[30px] p-0 m-0 cursor-pointer hover:bg-red-500 rounded-md'>
-                                        <img src={window.location.origin + '/images/icons/trash.svg'} className="h-[20px] w-[20px] group-hover:hidden" />
-                                        <img src={window.location.origin + '/images/icons/x-white.svg'} className="h-[25px] w-[25px] hidden group-hover:block" />
+                                        className={`flex flex-rox justify-start items-center h-8 border-y border-r border-gray-300 rounded-r-md px-2.5 cursor-pointer caret-transparent group relative ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
+                                        onClick={() => handleUnlimitedStock2(item)}>
+                                        <input
+                                            className='mr-2 caret-transparent cursor-pointer'
+                                            id={`unlimitedStockCheckbox${item?.id}`}
+                                            type="checkbox"
+                                            checked={item?.stock != '' ? false : item?.unlimited}
+                                            // pour pas avoir de warning "input checkbox non controlé"
+                                            onChange={() => { }}
+                                        />
+                                        <label
+                                            className='cursor-pointer caret-transparent text-xl '>
+                                            {String.fromCharCode(0x221E)}
+                                            <Tooltip top={-20} left={5} css='whitespace-nowrap'>
+                                                {item?.unlimited ? 'Stock illimité' : 'Entrer une quantité'}
+                                            </Tooltip>
+                                        </label>
                                     </span>
-                                    :
-                                    <span
-                                        onClick={() => toggleDeleteUndeleteVariante(item.id)}
-                                        className='flex justify-center items-center w-[30px] h-[30px] p-0 m-0 cursor-pointer hover:bg-blue-200 rounded-md'>
-                                        <img src={window.location.origin + '/images/icons/arrow-back.svg'} className="h-[20px] w-[20px]" />
-                                    </span>
-                            }
+                                </div>}
+
+                            {/* cost -- */}
+                            {visiblesFields[indexOfVisiblesFields].includes('cost') &&
+                                <input
+                                    id={`inputPrevPrice${item?.id}`}
+                                    type="number"
+                                    step=".01"
+                                    onChange={(e) => handleVariantetPrevPrice(e, item)}
+                                    value={item?.prev_price}
+                                    placeholder="0.00"
+                                    min="0"
+                                    max="9999999999"
+                                    className={`w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
+                                />}
+                            {/* sku -- */}
+                            {visiblesFields[indexOfVisiblesFields].includes('sku') &&
+                                <input
+                                    id={`inputPrevPrice${item?.id}`}
+                                    type="number"
+                                    step=".01"
+                                    onChange={(e) => handleVariantetPrevPrice(e, item)}
+                                    value={item?.prev_price}
+                                    placeholder="0.00"
+                                    min="0"
+                                    max="9999999999"
+                                    className={`w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
+                                />}
+                            {/* weight */}
+                            {visiblesFields[indexOfVisiblesFields].includes('weight') &&
+                                <input
+                                    id={`inputPrevPrice${item?.id}`}
+                                    type="number"
+                                    step=".01"
+                                    onChange={(e) => handleVariantetPrevPrice(e, item)}
+                                    value={item?.prev_price}
+                                    placeholder="0.00"
+                                    min="0"
+                                    max="9999999999"
+                                    className={`w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
+                                />}
+
+                            {/* image variante */}
+                            <span
+                                className={`w-full h-8 border border-gray-300 flex justify-center items-center cursor-pointer ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
+                                onClick={() => loadImagesVariantes(item)}
+                            >
+                                {
+                                    item.selectedImage !== undefined && item.selectedImage !== null && Object.keys(item.selectedImage).length !== 0 ?
+                                        <img className='w-auto max-h-[28px]'
+                                            src={window.location.origin + '/' + item.selectedImage.value}
+                                        />
+                                        :
+                                        <img className='w-6 h-auto'
+                                            src='../images/icons/image.svg'
+                                        />
+                                }
+                            </span>
+
+                            {/* delete */}
+                            <div className='group flex justify-center items-center w-8 h-8 p-0 m-0 cursor-pointer'>
+                                {
+                                    !item.deleted ?
+                                        <span
+                                            onClick={() => toggleDeleteUndeleteVariante(item.id)}
+                                            className='flex justify-center items-center w-8 h-8 p-0 m-0 cursor-pointer hover:bg-red-500 rounded-md'>
+                                            <img src={window.location.origin + '/images/icons/trash.svg'} className="h-5 w-5 group-hover:hidden" />
+                                            <img src={window.location.origin + '/images/icons/x-white.svg'} className="h-6 w-6 hidden group-hover:block" />
+                                        </span>
+                                        :
+                                        <span
+                                            onClick={() => toggleDeleteUndeleteVariante(item.id)}
+                                            className='flex justify-center items-center w-8 h-8 p-0 m-0 cursor-pointer hover:bg-blue-200 rounded-md'>
+                                            <img src={window.location.origin + '/images/icons/arrow-back.svg'} className="h-5 w-5" />
+                                        </span>
+                                }
+                            </div>
                         </div>
-                    </div>
-            )}
+                )
+            }
 
 
             <ModalImageVariante
@@ -480,7 +568,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                 imageVariante={imageVariante}
                 setImageVariante={setImageVariante}
             />
-        </div>
+        </div >
     );
 }
 

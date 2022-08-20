@@ -27,7 +27,6 @@ const Shipping = () => {
             });
     }, []);
 
-    console.log('deliveryZoneList   ', deliveryZoneList)
 
     const getShippingsList = () => {
         // charge la liste des shippings

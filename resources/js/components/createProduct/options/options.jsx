@@ -136,7 +136,7 @@ const Options = () => {
 
 
     return (
-        <div className="w-full brd-blue-2">
+        <div className="w-full">
             <div className='w-full h-auto mb-5'>
                 <Toggle
                     id="options_add_variantes"
@@ -186,10 +186,10 @@ const Options = () => {
 
 
                 {optionsObj?.length < 4 && showOptions &&
-                    <div className="w-full h-auto flex flrx-row justify-start items-center mb-[25px]">
+                    <div className="w-full h-auto flex flex-row justify-start items-center mb-6">
                         <button
                             onClick={addOption}
-                            className='h-[40px] px-[10px] mt-4 border border-slate-200 '>
+                            className='h-10 px-2.5 mt-4 border border-slate-200 '>
                             Ajouter une option
                         </button>
                     </div>

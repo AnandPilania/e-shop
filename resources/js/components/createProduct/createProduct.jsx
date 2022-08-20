@@ -211,9 +211,9 @@ const CreateProduct = () => {
             });
     }
 
-    console.log('listTransporters  ', listTransporters[0]);
-    console.log('transporter  ', transporter);
-    console.log('collection  ', collection);
+    // console.log('listTransporters  ', listTransporters[0]);
+    // console.log('transporter  ', transporter);
+    // console.log('collection  ', collection);
 
     return (
         <div className="min-w-[750px] w-[70%] min-h-[100vh] my-[50px] mx-auto pb-80 grid grid-cols-mainContainer gap-2.5 text-base">

@@ -132,9 +132,9 @@ const Price = () => {
                 </div>
 
                 {isShowPromoProduct &&
-                    <div className='w-full col-span-2'>
+                    <div className='w-full col-span-2 mb-4'>
                         {/* réduction */}
-                        <div className='w-full flex flex-col justify-start items-start mb-[10px]'>
+                        <div className='w-full flex flex-col justify-start items-start mb-2.5'>
                             <Label label="Réduction" />
                             <div className='w-full flex flex-row justify-start items-center'>
                                 <InputNumeric
@@ -156,18 +156,18 @@ const Price = () => {
                                 </div>
                                 <div className='h-8 px-1 ml-2 flex flex-row justify-center items-center border border-gray-300 rounded-r-md bg-white'>
                                     <span
-                                        className={`w-6 h-6 flex flex-row justify-center items-center rounded-md ${promoType != "%" && "hover:bg-indigo-400"} hover:text-white text-base font-semibold cursor-pointer mr-1 ${promoType == "%" ? "bg-indigo-600 text-white" : "bg-gray-50 text-gray-700"}`}
+                                        className={`w-6 h-6 flex flex-row justify-center items-center rounded-md ${promoType != "%" && "hover:bg-indigo-300"} hover:text-white text-base font-semibold cursor-pointer mr-1 ${promoType == "%" ? "bg-indigo-500 text-white" : "bg-gray-50 text-gray-700"}`}
                                         onClick={() => handlePromoType("%")}
                                     >%</span>
                                     <span
-                                        className={`w-6 h-6 flex flex-row justify-center items-center rounded-md ${promoType != "€" && "hover:bg-indigo-400"} hover:text-white text-base font-semibold cursor-pointer ${promoType == "€" ? "bg-indigo-600 text-white" : "bg-gray-50 text-gray-700"}`}
+                                        className={`w-6 h-6 flex flex-row justify-center items-center rounded-md ${promoType != "€" && "hover:bg-indigo-300"} hover:text-white text-base font-semibold cursor-pointer ${promoType == "€" ? "bg-indigo-500 text-white" : "bg-gray-50 text-gray-700"}`}
                                         onClick={() => handlePromoType("€")}
                                     >€</span>
                                 </div>
                             </div>
                         </div>
                         {/* Prix réduit */}
-                        <div className='w-full flex flex-col justify-start items-start mb-[10px]'>
+                        <div className='w-full flex flex-col justify-start items-start'>
                             <Label label="Prix après réduction" />
                             <InputNumeric
                                 id="inputReducedPrice19822"
@@ -186,7 +186,7 @@ const Price = () => {
                 {/* cost */}
                 <div className='w-full col-span-2 mt-2'>
                     <Label label="Prix d'achat pour un article" />
-                    <div className='w-6/12'>
+                    <div className='w-full'>
                         <InputNumeric
                             id="inputCost19822"
                             value={productCost}
@@ -199,6 +199,7 @@ const Price = () => {
                         />
                     </div>
                 </div>
+                <span className='col-span-2 text-[14px] mt-[-3px]'>Cette information ne sera pas visible par les clients</span>
 
                 {/* benefit */}
                 <div className='w-full'>
@@ -228,9 +229,6 @@ const Price = () => {
                         css="rounded-md"
                     />
                 </div>
-                <span className='col-span-2 text-[14px] mt-[-3px]'>Cette information ne sera pas visible par les clients</span>
-
-
             </div>
         </div>
     )
