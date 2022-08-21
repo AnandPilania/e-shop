@@ -213,6 +213,7 @@ export default React.createContext({
     setProductWeight: () => { },
     productParcelWeight: '',
     setProductParcelWeight: () => { },
+    screenSize: '', 
     
 
 });

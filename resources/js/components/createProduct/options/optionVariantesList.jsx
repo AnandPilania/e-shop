@@ -14,10 +14,11 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
     const [imageVariante, setImageVariante] = useState({});
     const [showModalImageVariante, setShowModalImageVariante] = useState(false);
     const [visiblesFields, setVisiblesFields] = useState([]);
-    const [screenSize, setScreenSize] = useState('');
     const [indexOfVisiblesFields, setIndexOfVisiblesFields] = useState(0);
+    const [animateSlideLeftIsActived, setAnimateSlideLeftIsActived] = useState(false);
+    const [animateSlideRightIsActived, setAnimateSlideRightIsActived] = useState(false);
 
-    const { optionsObj, productPrice, previousProductPrice, productStock, listType, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, isHideDeletedVariantes, variante, setVariante, setImageVariantes, changedVariantes, setChangedVariantes } = useContext(AppContext);
+    const { optionsObj, productPrice, previousProductPrice, productStock, listType, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, isHideDeletedVariantes, variante, setVariante, setImageVariantes, changedVariantes, setChangedVariantes, screenSize } = useContext(AppContext);
 
 
 
@@ -114,7 +115,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                     prev_price: previousProductPrice,
                     stock: productStock,
                     unlimited: true,
-                    placeholderStock: String.fromCharCode(0x221E),
+                    placeholderStock: 'Illimité',
                     deleted: false,
                     selectedImage: {},
                 })
@@ -195,7 +196,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         } else {
             handleVariantes(item.id, 'unlimited', true);
             handleVariantes(item.id, 'stock', '');
-            handleVariantes(item.id, 'placeholderStock', String.fromCharCode(0x221E));
+            handleVariantes(item.id, 'placeholderStock', 'Illimité');
         }
     }
 
@@ -309,19 +310,18 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
     const handleChangeShowedFields = (nextOrPrevious) => {
         if (nextOrPrevious == 'next' && indexOfVisiblesFields < visiblesFields.length - 1) {
+            setAnimateSlideRightIsActived(true);
             setIndexOfVisiblesFields(indexOfVisiblesFields + 1);
         } else if (nextOrPrevious == 'previous' && indexOfVisiblesFields > 0) {
+            setAnimateSlideLeftIsActived(true);
             setIndexOfVisiblesFields(indexOfVisiblesFields - 1);
         }
+        setTimeout(() => {
+            setAnimateSlideRightIsActived(false);
+            setAnimateSlideLeftIsActived(false);
+        }, 350);
     }
-    // get screen size
-    useEffect(() => {
-        function handleResizeScreen() {
-            setScreenSize(window.innerWidth);
-        }
-        window.addEventListener('resize', handleResizeScreen)
-        handleResizeScreen();
-    }, []);
+    
 
     useEffect(() => {
         let tmp_arr = [];
@@ -352,7 +352,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                 />}
 
             {variantes?.length > 0 &&
-                <div className="w-full h-auto grid gap-x-2 grid-cols-[25px_1fr_100px_100px_150px_80px] justify-start items-center border-b border-gray-200 mb-5">
+                <div className="w-full h-auto grid gap-x-2 grid-cols-[25px_160px_1fr_1fr_1fr_82px] justify-start items-center border-b border-gray-200 mb-5">
                     {/* checkbox select all */}
                     <div className='w-full h-8 flex flex-row justify-start items-center pt-2 pl-[1px]'>
                         <AnimateCheckbox
@@ -362,9 +362,33 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                             handlechange={selectAllCheckbox}
                         />
                     </div>
-                    <span className='font-semibold text-base'>Variantes</span>
+                    <span className='font-semibold text-base bg-white z-10'>Variantes</span>
+                    {visiblesFields[indexOfVisiblesFields]?.includes('price') &&
+                    <span className={`BRD-BLUE-1 w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
+                        Prix
+                    </span>}
+                    {visiblesFields[indexOfVisiblesFields]?.includes('reducedPrice') &&
+                    <span className={`brd-red-1 w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
+                        Promo
+                    </span>}
+                    {visiblesFields[indexOfVisiblesFields]?.includes('stock') &&
+                    <span className={`brd-green-1 w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
+                        Stock
+                    </span>}
+                    {visiblesFields[indexOfVisiblesFields]?.includes('cost') &&
+                    <span className={`w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
+                        Cout
+                    </span>}
+                    {visiblesFields[indexOfVisiblesFields]?.includes('sku') &&
+                    <span className={`w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
+                        SKU
+                    </span>}
+                    {visiblesFields[indexOfVisiblesFields]?.includes('weight') &&
+                    <span className={`w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
+                        Poids Colis (gr)
+                    </span>}
 
-                    <div className='w-full flex justify-start items-center'>
+                    <div className='w-full flex justify-start items-center bg-white z-10'>
                         <span
                             className='w-6 h-6 mr-2 flex justify-center items-center rounded-md bg-white border border-gray-800 hover:border-2'
                             onClick={() => handleChangeShowedFields('previous')}>
@@ -380,10 +404,6 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                             </svg>
                         </span>
                     </div>
-
-                    <span className='font-semibold text-base'>Prix</span>
-                    <span className='font-semibold text-base'>Prix réduit</span>
-                    <span className='font-semibold text-base'>Stock</span>
                 </div>}
 
 
@@ -416,110 +436,120 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                 </Tooltip>
                             </span>
 
-
                             {/* price */}
-                            {visiblesFields[indexOfVisiblesFields].includes('price') &&
-                                <input
-                                    id={item?.id}
-                                    type="number"
-                                    step=".01"
-                                    onChange={handleVariantetPrice}
-                                    value={item?.price}
-                                    placeholder="0.00"
-                                    min="0"
-                                    max="9999999999"
-                                    className={`w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
-                                />}
+                            {visiblesFields[indexOfVisiblesFields]?.includes('price') &&
+                                <div className='w-full overflow-hidden'>
+                                    <input
+                                        id={item?.id}
+                                        type="number"
+                                        step=".01"
+                                        onChange={handleVariantetPrice}
+                                        value={item?.price}
+                                        placeholder="0.00"
+                                        min="0"
+                                        max="9999999999"
+                                        className={`w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
+                                    />
+                                </div>}
 
                             {/* reduced_price -- promo -- */}
-                            {visiblesFields[indexOfVisiblesFields].includes('reducedPrice') &&
-                                <input
-                                    id={`inputPrevPrice${item?.id}`}
-                                    type="number"
-                                    step=".01"
-                                    onChange={(e) => handleVariantetPrevPrice(e, item)}
-                                    value={item?.prev_price}
-                                    placeholder="0.00"
-                                    min="0"
-                                    max="9999999999"
-                                    className={`w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
-                                />}
+                            {visiblesFields[indexOfVisiblesFields]?.includes('reducedPrice') &&
+                                <div className='w-full overflow-hidden'>
+                                    <input
+                                        id={`inputPrevPrice${item?.id}`}
+                                        type="number"
+                                        step=".01"
+                                        onChange={(e) => handleVariantetPrevPrice(e, item)}
+                                        value={item?.prev_price}
+                                        placeholder="0.00"
+                                        min="0"
+                                        max="9999999999"
+                                        className={`w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
+                                    />
+                                </div>}
 
                             {/* stock */}
-                            {visiblesFields[indexOfVisiblesFields].includes('stock') &&
-                                <div
-                                    className='w-36 flex flex-rox justify-start items-center'
-                                >
-                                    <input
-                                        type="number"
-                                        id={`inputStock${item?.id}`}
-                                        onChange={(e) => handleProductStock2(e, item)}
-                                        value={item?.stock}
-                                        placeholder={item.placeholderStock}
-                                        min="0" max="9999999999"
-                                        onClick={(() => handleProductStockOnFocus2(item))}
-                                        className={`w-full h-8 border border-gray-300 rounded-l-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
-                                    />
-                                    <span
-                                        className={`flex flex-rox justify-start items-center h-8 border-y border-r border-gray-300 rounded-r-md px-2.5 cursor-pointer caret-transparent group relative ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
-                                        onClick={() => handleUnlimitedStock2(item)}>
+                            {visiblesFields[indexOfVisiblesFields]?.includes('stock') &&
+                                <div className='w-full'>
+                                    <div
+                                        className='w-36 flex flex-rox justify-start items-center'
+                                    >
                                         <input
-                                            className='mr-2 caret-transparent cursor-pointer'
-                                            id={`unlimitedStockCheckbox${item?.id}`}
-                                            type="checkbox"
-                                            checked={item?.stock != '' ? false : item?.unlimited}
-                                            // pour pas avoir de warning "input checkbox non controlé"
-                                            onChange={() => { }}
+                                            type="number"
+                                            id={`inputStock${item?.id}`}
+                                            onChange={(e) => handleProductStock2(e, item)}
+                                            value={item?.stock}
+                                            placeholder={item.placeholderStock}
+                                            min="0" max="9999999999"
+                                            onClick={(() => handleProductStockOnFocus2(item))}
+                                            className={`w-full h-8 border border-gray-300 rounded-l-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
                                         />
-                                        <label
-                                            className='cursor-pointer caret-transparent text-xl '>
-                                            {String.fromCharCode(0x221E)}
-                                            <Tooltip top={-20} left={5} css='whitespace-nowrap'>
+                                        <span
+                                            className={`flex flex-rox justify-start items-center h-8 border-y border-r border-gray-300 rounded-r-md px-2.5 cursor-pointer caret-transparent group relative ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
+                                            onClick={() => handleUnlimitedStock2(item)}>
+                                            <input
+                                                className='mr-2 caret-transparent cursor-pointer bg-red-500'
+                                                id={`unlimitedStockCheckbox${item?.id}`}
+                                                type="checkbox"
+                                                placeholder="Illimité"
+                                                checked={item?.stock != '' ? false : item?.unlimited}
+                                                // pour pas avoir de warning "input checkbox non controlé"
+                                                onChange={() => { }}
+                                            />
+                                            <Tooltip top={-40} left={-100} css='whitespace-nowrap'>
                                                 {item?.unlimited ? 'Stock illimité' : 'Entrer une quantité'}
                                             </Tooltip>
-                                        </label>
-                                    </span>
+                                        </span>
+                                    </div>
                                 </div>}
 
                             {/* cost -- */}
-                            {visiblesFields[indexOfVisiblesFields].includes('cost') &&
-                                <input
-                                    id={`inputPrevPrice${item?.id}`}
-                                    type="number"
-                                    step=".01"
-                                    onChange={(e) => handleVariantetPrevPrice(e, item)}
-                                    value={item?.prev_price}
-                                    placeholder="0.00"
-                                    min="0"
-                                    max="9999999999"
-                                    className={`w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
-                                />}
+                            {visiblesFields[indexOfVisiblesFields]?.includes('cost') &&
+                                <div className='w-full overflow-hidden'>
+                                    <input
+                                        id={`inputPrevPrice${item?.id}`}
+                                        type="number"
+                                        step=".01"
+                                        onChange={(e) => handleVariantetPrevPrice(e, item)}
+                                        value={item?.prev_price}
+                                        placeholder="0.00"
+                                        min="0"
+                                        max="9999999999"
+                                        className={`w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
+                                    />
+                                </div>}
+
                             {/* sku -- */}
-                            {visiblesFields[indexOfVisiblesFields].includes('sku') &&
-                                <input
-                                    id={`inputPrevPrice${item?.id}`}
-                                    type="number"
-                                    step=".01"
-                                    onChange={(e) => handleVariantetPrevPrice(e, item)}
-                                    value={item?.prev_price}
-                                    placeholder="0.00"
-                                    min="0"
-                                    max="9999999999"
-                                    className={`w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
-                                />}
+                            {visiblesFields[indexOfVisiblesFields]?.includes('sku') &&
+                                <div className='w-full overflow-hidden'>
+                                    <input
+                                        id={`inputPrevPrice${item?.id}`}
+                                        type="number"
+                                        step=".01"
+                                        onChange={(e) => handleVariantetPrevPrice(e, item)}
+                                        value={item?.prev_price}
+                                        placeholder="0.00"
+                                        min="0"
+                                        max="9999999999"
+                                        className={`w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
+                                    />
+                                </div>}
+
                             {/* weight */}
-                            {visiblesFields[indexOfVisiblesFields].includes('weight') &&
-                                <input
-                                    id={`inputPrevPrice${item?.id}`}
-                                    type="number"
-                                    step=".01"
-                                    onChange={(e) => handleVariantetPrevPrice(e, item)}
-                                    value={item?.prev_price}
-                                    placeholder="0.00"
-                                    min="0"
-                                    max="9999999999"
-                                    className={`w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
-                                />}
+                            {visiblesFields[indexOfVisiblesFields]?.includes('weight') &&
+                                <div className='w-full overflow-hidden'>
+                                    <input
+                                        id={`inputPrevPrice${item?.id}`}
+                                        type="number"
+                                        step=".01"
+                                        onChange={(e) => handleVariantetPrevPrice(e, item)}
+                                        value={item?.prev_price}
+                                        placeholder="0.00"
+                                        min="0"
+                                        max="9999999999"
+                                        className={`w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
+                                    />
+                                </div>}
 
                             {/* image variante */}
                             <span

@@ -3,7 +3,7 @@ import AppContext from '../contexts/AppContext';
 import Toggle from '../elements/toggle/toggle';
 import InputNumeric from '../form/inputNumeric';
 import Label from '../form/label';
-
+import Flex_col_s_s from '../elements/container/flex_col_s_s';
 
 const Price = () => {
 
@@ -89,7 +89,7 @@ const Price = () => {
 
 
     return (
-        <div className="flex-col justify-start items-start bg-white rounded-md w-full p-[20px] mb-[10px] shadow-md">
+        <Flex_col_s_s>
 
             <h3 className='w-full text-left mb-[15px] font-semibold text-[16px]'>Prix</h3>
 
@@ -230,7 +230,7 @@ const Price = () => {
                     />
                 </div>
             </div>
-        </div>
+        </Flex_col_s_s>
     )
 }
 

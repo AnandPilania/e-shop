@@ -3,7 +3,7 @@ import React from 'react';
 const Flex_row_s_s = ( props ) => {
     return (
         <div id={`${props.id && props.id}`}
-            className="flex flex-col justify-start items-start h-auto bg-white rounded-md w-full p-5 mb-2.5 shadow-md">
+            className="flex flex-col justify-start items-start h-auto bg-white rounded-md w-full p-4 shadow">
 
             {props.children}
             

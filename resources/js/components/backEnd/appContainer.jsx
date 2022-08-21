@@ -188,6 +188,9 @@ const Appcontainer = () => {
     const [transporter, setTransporter] = useState([]);
 
 
+    // GENERAL -----------------------------------------------------------
+    const [screenSize, setScreenSize] = useState('');
+
 
     useEffect(() => {
         // chargement des collections
@@ -213,6 +216,14 @@ const Appcontainer = () => {
             .catch(error => {
                 console.log('Error : ' + error.status);
             });
+
+
+        // get screen size
+        function handleResizeScreen() {
+            setScreenSize(window.innerWidth);
+        }
+        window.addEventListener('resize', handleResizeScreen)
+        handleResizeScreen();
     }, []);
 
 
@@ -556,7 +567,8 @@ const Appcontainer = () => {
         listTransporters, setListTransporters,
         transporter, setTransporter,
         productWeight, setProductWeight,
-        productParcelWeight, setProductParcelWeight
+        productParcelWeight, setProductParcelWeight,
+        screenSize
 
     }
 

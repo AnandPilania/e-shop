@@ -7,6 +7,7 @@ import Select from '../elements/select';
 import DropZoneProduct from './dropZoneProduct';
 import Price from './price';
 import Stock from './stock';
+import Collection from './collection';
 import OptimisationProduct from './optimisationProduct';
 import TinyeditorProduct from './tinyEditorProduct';
 import Axios from "axios";
@@ -18,29 +19,18 @@ import ModalSimpleMessage from '../modal/modalSimpleMessage';
 // props.id = detailx
 const CreateProduct = () => {
 
-    const [collectionsRelations, setCollectionsRelations] = useState([]);
     const [dataDetail, setDataDetail] = useState([]);
     const [showModalFromPrice, setShowModalFromPrice] = useState(false);
     const [toggleSelectSupplier, setToggleSelectSupplier] = useState(false);
     const [toggleSelectTva, setToggleSelectTva] = useState(false);
     const [selectValueColorTva, setSelectValueColorTva] = useState('');
     const [selectValueColorSupplier, setSelectValueColorSupplier] = useState('');
-    const [toggleSelectWithCheckboxCollection, setToggleSelectWithCheckboxCollection] = useState(false);
     const [toggleSelectWithCheckboxTransporter, setToggleSelectWithCheckboxTransporter] = useState(false);
 
 
-    const { image, descriptionProduct, listSuppliers, setListSuppliers, supplier, setSupplier, collection, setCollection, productPrice, productStock, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData, activeCalculTva, tvaRateList, setTvaRateList, tva, setTva, imageVariantes, productCode, productCost, previousProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, listTransporters, setListTransporters, transporter, setTransporter } = useContext(AppContext);
+    const { image, descriptionProduct, listSuppliers, setListSuppliers, supplier, setSupplier, collection, setCollection, productPrice, productStock, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData, activeCalculTva, tvaRateList, setTvaRateList, tva, setTva, imageVariantes, productCode, productCost, previousProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, listTransporters, setListTransporters, transporter, setTransporter, screenSize } = useContext(AppContext);
 
     useEffect(() => {
-        // récupére les collections
-        Axios.get(`http://127.0.0.1:8000/getCollections`)
-            .then(res => {
-                setCollectionsRelations(res.data.collections);
-            }).catch(function (error) {
-                console.log('error:   ' + error);
-            });
-
-
         // charge la liste des fournisseurs
         Axios.get(`http://127.0.0.1:8000/suppliers-list`)
             .then(res => {
@@ -78,15 +68,6 @@ const CreateProduct = () => {
                     console.log('Error : ' + error.status);
                 });
     }, [activeCalculTva])
-
-    const removeCollection = (item) => {
-        let index = collection.findIndex(x => x.id == item.id);
-        if (index > -1) {
-            let tmp_arr = [...collection];
-            tmp_arr.splice(index, 1);
-            setCollection([...tmp_arr]);
-        }
-    }
 
     const removeTransporter = (item) => {
         let index = transporter.findIndex(x => x.id == item.id);
@@ -216,13 +197,15 @@ const CreateProduct = () => {
     // console.log('collection  ', collection);
 
     return (
-        <div className="min-w-[750px] w-[70%] min-h-[100vh] my-[50px] mx-auto pb-80 grid grid-cols-mainContainer gap-2.5 text-base">
-            <div className="w-full">
-                <div className="div-vert-align">
-                    <h4 className="mb-[18px] font-semibold text-[20]">Ajouter un produit</h4>
+        <div className="w-full lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] min-h-[100vh] my-[50px] mx-auto pb-80 flex flex-col justify-center items-start md:grid grid-cols-[1fr_33.3333%] gap-4 text-base">
+            <div className="w-full grid grid-cols-1 gap-y-4">
+                <Flex_col_s_s>
+                    <h4 className="mb-5 font-semibold text-xl">
+                        Ajouter un produit
+                    </h4>
 
                     {/* name */}
-                    <label>Nom<span className='text-red-600 caret-transparent'>*</span></label>
+                    <label>Nom<span className='text-red-700 caret-transparent'>*</span></label>
                     <input className="w-full h-10 border border-gray-300 rounded-md pl-2.5 mb-4 mt-1"
                         type="text"
                         onChange={handleName}
@@ -232,7 +215,7 @@ const CreateProduct = () => {
                     {/* description */}
                     <label className='caret-transparent'>Déscription</label>
                     <TinyeditorProduct />
-                </div>
+                </Flex_col_s_s>
 
                 {/* dropZone */}
                 <DropZoneProduct />
@@ -251,38 +234,9 @@ const CreateProduct = () => {
 
 
             {/* ----------  side  ---------- */}
-            <div className='form-side-container'>
+            <div className='grid grid-cols-1 gap-y-4'>
                 {/* collection */}
-                <Flex_col_s_s>
-                    <h3 className="text-base font-semibold mb-2.5 text-gray-500 w-auto caret-transparent">
-                        Collections
-                    </h3>
-                    <SelectWithCheckbox
-                        key="SelectWithCheckbox_collection"
-                        unikId="SelectWithCheckbox_collection"
-                        list={collectionsRelations}
-                        selected={collection}
-                        setSelected={setCollection}
-                        toggleSelectWithCheckbox={toggleSelectWithCheckboxCollection}
-                        setToggleSelectWithCheckbox={setToggleSelectWithCheckboxCollection}
-                    />
-                    <div className={`flex flex-wrap ${collection.length > 0 && "pt-4"} w-full`}>
-                        {collection.map(item =>
-                            <div key={item.id}
-                                className="flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-2 pr-1.5 py-1 mb-1 mr-2">
-                                <span
-                                    className="h-full text-gray-500 mr-2 rounded-md">
-                                    {item.name}
-                                </span>
-                                <span
-                                    className="h-5 w-5 flex justify-center items-center hover:cursor-pointer bg-indigo-600  hover:bg-red-500 rounded-md"
-                                    onClick={() => removeCollection(item)}>
-                                    <img src='../images/icons/x-white.svg' className="w-5 h-5 hover:scale-125" />
-                                </span>
-                            </div>
-                        )}
-                    </div>
-                </Flex_col_s_s>
+                <Collection />
 
                 {/* Price */}
                 <Price />
@@ -374,7 +328,7 @@ const CreateProduct = () => {
             <ModalSimpleMessage
                 show={showModalFromPrice} // true/false show modal
                 handleModalCancel={closelModal}>
-                <h2 className="childrenModal">{messageModal}</h2>
+                <h2 className="text-lg font-bold mt-8">{messageModal}</h2>
             </ModalSimpleMessage>
         </div>
     )

@@ -16092,7 +16092,13 @@ var Appcontainer = function Appcontainer() {
   var _useState203 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState204 = _slicedToArray(_useState203, 2),
       transporter = _useState204[0],
-      setTransporter = _useState204[1];
+      setTransporter = _useState204[1]; // GENERAL -----------------------------------------------------------
+
+
+  var _useState205 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState206 = _slicedToArray(_useState205, 2),
+      screenSize = _useState206[0],
+      setScreenSize = _useState206[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // chargement des collections
@@ -16114,7 +16120,14 @@ var Appcontainer = function Appcontainer() {
       }
     })["catch"](function (error) {
       console.log('Error : ' + error.status);
-    });
+    }); // get screen size
+
+    function handleResizeScreen() {
+      setScreenSize(window.innerWidth);
+    }
+
+    window.addEventListener('resize', handleResizeScreen);
+    handleResizeScreen();
   }, []); // remove records and images files from folders and temporaryStorage db when unused 
 
   function cleanTemporayStorage(keys_toDelete) {
@@ -16565,7 +16578,8 @@ var Appcontainer = function Appcontainer() {
     productWeight: productWeight,
     setProductWeight: setProductWeight,
     productParcelWeight: productParcelWeight,
-    setProductParcelWeight: setProductParcelWeight
+    setProductParcelWeight: setProductParcelWeight,
+    screenSize: screenSize
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"].Provider, {
     value: contextValue,
@@ -21712,8 +21726,131 @@ __webpack_require__.r(__webpack_exports__);
   productWeight: '',
   setProductWeight: function setProductWeight() {},
   productParcelWeight: '',
-  setProductParcelWeight: function setProductParcelWeight() {}
+  setProductParcelWeight: function setProductParcelWeight() {},
+  screenSize: ''
 }));
+
+/***/ }),
+
+/***/ "./resources/js/components/createProduct/collection.jsx":
+/*!**************************************************************!*\
+  !*** ./resources/js/components/createProduct/collection.jsx ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
+/* harmony import */ var _elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../elements/container/flex_col_s_s */ "./resources/js/components/elements/container/flex_col_s_s.jsx");
+/* harmony import */ var _elements_selectWithCheckbox__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../elements/selectWithCheckbox */ "./resources/js/components/elements/selectWithCheckbox.jsx");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+
+
+var Collection = function Collection() {
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      collectionsRelations = _useState2[0],
+      setCollectionsRelations = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState4 = _slicedToArray(_useState3, 2),
+      toggleSelectWithCheckboxCollection = _useState4[0],
+      setToggleSelectWithCheckboxCollection = _useState4[1];
+
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
+      collection = _useContext.collection,
+      setCollection = _useContext.setCollection;
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // récupére les collections
+    axios__WEBPACK_IMPORTED_MODULE_4___default().get("http://127.0.0.1:8000/getCollections").then(function (res) {
+      setCollectionsRelations(res.data.collections);
+    })["catch"](function (error) {
+      console.log('error:   ' + error);
+    });
+  }, []);
+
+  var removeCollection = function removeCollection(item) {
+    var index = collection.findIndex(function (x) {
+      return x.id == item.id;
+    });
+
+    if (index > -1) {
+      var tmp_arr = _toConsumableArray(collection);
+
+      tmp_arr.splice(index, 1);
+      setCollection(_toConsumableArray(tmp_arr));
+    }
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h3", {
+      className: "text-base font-semibold mb-2.5 text-gray-500 w-auto caret-transparent",
+      children: "Collections"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_elements_selectWithCheckbox__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      unikId: "SelectWithCheckbox_collection",
+      list: collectionsRelations,
+      selected: collection,
+      setSelected: setCollection,
+      toggleSelectWithCheckbox: toggleSelectWithCheckboxCollection,
+      setToggleSelectWithCheckbox: setToggleSelectWithCheckboxCollection
+    }, "SelectWithCheckbox_collection"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      className: "flex flex-wrap ".concat(collection.length > 0 && "pt-4", " w-full"),
+      children: collection.map(function (item) {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+          className: "flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-2 pr-1.5 py-1 mb-1 mr-2",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+            className: "h-full text-gray-500 mr-2 rounded-md",
+            children: item.name
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+            className: "h-5 w-5 flex justify-center items-center hover:cursor-pointer bg-indigo-600  hover:bg-red-500 rounded-md",
+            onClick: function onClick() {
+              return removeCollection(item);
+            },
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
+              src: "../images/icons/x-white.svg",
+              className: "w-5 h-5 hover:scale-125"
+            })
+          })]
+        }, item.id);
+      })
+    })]
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Collection);
 
 /***/ }),
 
@@ -21737,13 +21874,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _dropZoneProduct__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./dropZoneProduct */ "./resources/js/components/createProduct/dropZoneProduct.jsx");
 /* harmony import */ var _price__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./price */ "./resources/js/components/createProduct/price.jsx");
 /* harmony import */ var _stock__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./stock */ "./resources/js/components/createProduct/stock.jsx");
-/* harmony import */ var _optimisationProduct__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./optimisationProduct */ "./resources/js/components/createProduct/optimisationProduct.jsx");
-/* harmony import */ var _tinyEditorProduct__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./tinyEditorProduct */ "./resources/js/components/createProduct/tinyEditorProduct.jsx");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var _functions_temporaryStorage_handleTinyMceTemporary__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../functions/temporaryStorage/handleTinyMceTemporary */ "./resources/js/components/functions/temporaryStorage/handleTinyMceTemporary.js");
-/* harmony import */ var _modal_modalSimpleMessage__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../modal/modalSimpleMessage */ "./resources/js/components/modal/modalSimpleMessage.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _collection__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./collection */ "./resources/js/components/createProduct/collection.jsx");
+/* harmony import */ var _optimisationProduct__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./optimisationProduct */ "./resources/js/components/createProduct/optimisationProduct.jsx");
+/* harmony import */ var _tinyEditorProduct__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./tinyEditorProduct */ "./resources/js/components/createProduct/tinyEditorProduct.jsx");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var _functions_temporaryStorage_handleTinyMceTemporary__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../functions/temporaryStorage/handleTinyMceTemporary */ "./resources/js/components/functions/temporaryStorage/handleTinyMceTemporary.js");
+/* harmony import */ var _modal_modalSimpleMessage__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../modal/modalSimpleMessage */ "./resources/js/components/modal/modalSimpleMessage.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -21777,6 +21915,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
  // props.id = detailx
 
 
@@ -21785,48 +21924,38 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var CreateProduct = function CreateProduct() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
-      collectionsRelations = _useState2[0],
-      setCollectionsRelations = _useState2[1];
+      dataDetail = _useState2[0],
+      setDataDetail = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState4 = _slicedToArray(_useState3, 2),
-      dataDetail = _useState4[0],
-      setDataDetail = _useState4[1];
+      showModalFromPrice = _useState4[0],
+      setShowModalFromPrice = _useState4[1];
 
   var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState6 = _slicedToArray(_useState5, 2),
-      showModalFromPrice = _useState6[0],
-      setShowModalFromPrice = _useState6[1];
+      toggleSelectSupplier = _useState6[0],
+      setToggleSelectSupplier = _useState6[1];
 
   var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState8 = _slicedToArray(_useState7, 2),
-      toggleSelectSupplier = _useState8[0],
-      setToggleSelectSupplier = _useState8[1];
+      toggleSelectTva = _useState8[0],
+      setToggleSelectTva = _useState8[1];
 
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState10 = _slicedToArray(_useState9, 2),
-      toggleSelectTva = _useState10[0],
-      setToggleSelectTva = _useState10[1];
+      selectValueColorTva = _useState10[0],
+      setSelectValueColorTva = _useState10[1];
 
   var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState12 = _slicedToArray(_useState11, 2),
-      selectValueColorTva = _useState12[0],
-      setSelectValueColorTva = _useState12[1];
+      selectValueColorSupplier = _useState12[0],
+      setSelectValueColorSupplier = _useState12[1];
 
-  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState14 = _slicedToArray(_useState13, 2),
-      selectValueColorSupplier = _useState14[0],
-      setSelectValueColorSupplier = _useState14[1];
-
-  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState16 = _slicedToArray(_useState15, 2),
-      toggleSelectWithCheckboxCollection = _useState16[0],
-      setToggleSelectWithCheckboxCollection = _useState16[1];
-
-  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState18 = _slicedToArray(_useState17, 2),
-      toggleSelectWithCheckboxTransporter = _useState18[0],
-      setToggleSelectWithCheckboxTransporter = _useState18[1];
+      toggleSelectWithCheckboxTransporter = _useState14[0],
+      setToggleSelectWithCheckboxTransporter = _useState14[1];
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       image = _useContext.image,
@@ -21861,53 +21990,35 @@ var CreateProduct = function CreateProduct() {
       listTransporters = _useContext.listTransporters,
       setListTransporters = _useContext.setListTransporters,
       transporter = _useContext.transporter,
-      setTransporter = _useContext.setTransporter;
+      setTransporter = _useContext.setTransporter,
+      screenSize = _useContext.screenSize;
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    // récupére les collections
-    axios__WEBPACK_IMPORTED_MODULE_11___default().get("http://127.0.0.1:8000/getCollections").then(function (res) {
-      setCollectionsRelations(res.data.collections);
-    })["catch"](function (error) {
-      console.log('error:   ' + error);
-    }); // charge la liste des fournisseurs
-
-    axios__WEBPACK_IMPORTED_MODULE_11___default().get("http://127.0.0.1:8000/suppliers-list").then(function (res) {
+    // charge la liste des fournisseurs
+    axios__WEBPACK_IMPORTED_MODULE_12___default().get("http://127.0.0.1:8000/suppliers-list").then(function (res) {
       setListSuppliers(res.data);
     })["catch"](function (error) {
       console.log('error:   ' + error);
     }); // charge la liste des transporteurs
 
-    axios__WEBPACK_IMPORTED_MODULE_11___default().get("http://127.0.0.1:8000/shipping-list").then(function (res) {
+    axios__WEBPACK_IMPORTED_MODULE_12___default().get("http://127.0.0.1:8000/shipping-list").then(function (res) {
       setListTransporters(res.data);
     })["catch"](function (error) {
       console.log('error:   ' + error);
     }); // charge les données des types d'options et leurs valeurs ex. Couleurs, rouge, vert, ...
 
-    axios__WEBPACK_IMPORTED_MODULE_11___default().get("http://127.0.0.1:8000/getOptionValues").then(function (res) {
+    axios__WEBPACK_IMPORTED_MODULE_12___default().get("http://127.0.0.1:8000/getOptionValues").then(function (res) {
       setOptionsData(Object.values(res.data));
     });
   }, []); // récupère la liste des tva et setTva avec la tva par défaut
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    activeCalculTva == 1 && axios__WEBPACK_IMPORTED_MODULE_11___default().get("http://127.0.0.1:8000/getTaxes").then(function (res) {
+    activeCalculTva == 1 && axios__WEBPACK_IMPORTED_MODULE_12___default().get("http://127.0.0.1:8000/getTaxes").then(function (res) {
       setTvaRateList(res.data);
     })["catch"](function (error) {
       console.log('Error : ' + error.status);
     });
   }, [activeCalculTva]);
-
-  var removeCollection = function removeCollection(item) {
-    var index = collection.findIndex(function (x) {
-      return x.id == item.id;
-    });
-
-    if (index > -1) {
-      var tmp_arr = _toConsumableArray(collection);
-
-      tmp_arr.splice(index, 1);
-      setCollection(_toConsumableArray(tmp_arr));
-    }
-  };
 
   var removeTransporter = function removeTransporter(item) {
     var index = transporter.findIndex(function (x) {
@@ -21976,7 +22087,7 @@ var CreateProduct = function CreateProduct() {
     e.preventDefault();
     validation(); // delete removed tinyMCE images in folder and db
 
-    (0,_functions_temporaryStorage_handleTinyMceTemporary__WEBPACK_IMPORTED_MODULE_12__.handleTinyMceTemporary)(descriptionProduct, null, 'product');
+    (0,_functions_temporaryStorage_handleTinyMceTemporary__WEBPACK_IMPORTED_MODULE_13__.handleTinyMceTemporary)(descriptionProduct, null, 'product');
     var formData = new FormData(); // on boucle sur imageFiles pour récupérer toutes les images
 
     if (image) {
@@ -22014,7 +22125,7 @@ var CreateProduct = function CreateProduct() {
     console.log('metaTitleProduct   ', metaTitleProduct);
     console.log('metaDescriptionProduct   ', metaDescriptionProduct);
     console.log('metaUrlProduct   ', metaUrlProduct);
-    axios__WEBPACK_IMPORTED_MODULE_11___default().post("http://127.0.0.1:8000/products", formData, {
+    axios__WEBPACK_IMPORTED_MODULE_12___default().post("http://127.0.0.1:8000/products", formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -22026,72 +22137,39 @@ var CreateProduct = function CreateProduct() {
   // console.log('collection  ', collection);
 
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
-    className: "min-w-[750px] w-[70%] min-h-[100vh] my-[50px] mx-auto pb-80 grid grid-cols-mainContainer gap-2.5 text-base",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
-      className: "w-full",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
-        className: "div-vert-align",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h4", {
-          className: "mb-[18px] font-semibold text-[20]",
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
+    className: "w-full lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] min-h-[100vh] my-[50px] mx-auto pb-80 flex flex-col justify-center items-start md:grid grid-cols-[1fr_33.3333%] gap-4 text-base",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
+      className: "w-full grid grid-cols-1 gap-y-4",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)(_elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h4", {
+          className: "mb-5 font-semibold text-xl",
           children: "Ajouter un produit"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("label", {
-          children: ["Nom", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("span", {
-            className: "text-red-600 caret-transparent",
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("label", {
+          children: ["Nom", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("span", {
+            className: "text-red-700 caret-transparent",
             children: "*"
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("input", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("input", {
           className: "w-full h-10 border border-gray-300 rounded-md pl-2.5 mb-4 mt-1",
           type: "text",
           onChange: handleName,
           value: nameProduct
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("label", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("label", {
           className: "caret-transparent",
           children: "D\xE9scription"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_tinyEditorProduct__WEBPACK_IMPORTED_MODULE_10__["default"], {})]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_dropZoneProduct__WEBPACK_IMPORTED_MODULE_6__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_options_options__WEBPACK_IMPORTED_MODULE_3__["default"], {})
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_optimisationProduct__WEBPACK_IMPORTED_MODULE_9__["default"], {})]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
-      className: "form-side-container",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(_elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h3", {
-          className: "text-base font-semibold mb-2.5 text-gray-500 w-auto caret-transparent",
-          children: "Collections"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_elements_selectWithCheckbox__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          unikId: "SelectWithCheckbox_collection",
-          list: collectionsRelations,
-          selected: collection,
-          setSelected: setCollection,
-          toggleSelectWithCheckbox: toggleSelectWithCheckboxCollection,
-          setToggleSelectWithCheckbox: setToggleSelectWithCheckboxCollection
-        }, "SelectWithCheckbox_collection"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
-          className: "flex flex-wrap ".concat(collection.length > 0 && "pt-4", " w-full"),
-          children: collection.map(function (item) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
-              className: "flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-2 pr-1.5 py-1 mb-1 mr-2",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("span", {
-                className: "h-full text-gray-500 mr-2 rounded-md",
-                children: item.name
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("span", {
-                className: "h-5 w-5 flex justify-center items-center hover:cursor-pointer bg-indigo-600  hover:bg-red-500 rounded-md",
-                onClick: function onClick() {
-                  return removeCollection(item);
-                },
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("img", {
-                  src: "../images/icons/x-white.svg",
-                  className: "w-5 h-5 hover:scale-125"
-                })
-              })]
-            }, item.id);
-          })
-        })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_price__WEBPACK_IMPORTED_MODULE_7__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_stock__WEBPACK_IMPORTED_MODULE_8__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(_elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_tinyEditorProduct__WEBPACK_IMPORTED_MODULE_11__["default"], {})]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_dropZoneProduct__WEBPACK_IMPORTED_MODULE_6__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_options_options__WEBPACK_IMPORTED_MODULE_3__["default"], {})
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_optimisationProduct__WEBPACK_IMPORTED_MODULE_10__["default"], {})]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
+      className: "grid grid-cols-1 gap-y-4",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_collection__WEBPACK_IMPORTED_MODULE_9__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_price__WEBPACK_IMPORTED_MODULE_7__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_stock__WEBPACK_IMPORTED_MODULE_8__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)(_elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_2__["default"], {
         id: "supplierSelectId",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h3", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h3", {
           className: "text-base font-semibold mb-2.5 text-gray-500 w-auto",
           children: "Fournisseur"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_elements_select__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_elements_select__WEBPACK_IMPORTED_MODULE_5__["default"], {
           list: listSuppliers,
           itemSelected: supplier,
           setItemSelected: setSupplier,
@@ -22102,15 +22180,15 @@ var CreateProduct = function CreateProduct() {
           ulUnikId: "ulSupplierSelectUniqueId",
           buttonUnikId: "buttonSupplierSelectUniqueId"
         })]
-      }), activeCalculTva == 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(_elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }), activeCalculTva == 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)(_elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_2__["default"], {
         id: "tvaSelectId",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("h3", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("h3", {
           className: "text-base font-semibold mb-2.5 text-gray-500 w-auto",
-          children: ["Tva ", tva != '' && tva.tva_rate + '%', " ", (tva === null || tva === void 0 ? void 0 : tva.is_default) == 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("span", {
+          children: ["Tva ", tva != '' && tva.tva_rate + '%', " ", (tva === null || tva === void 0 ? void 0 : tva.is_default) == 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("span", {
             className: "text-sm  italic",
             children: "(Par d\xE9faut)"
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_elements_select__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_elements_select__WEBPACK_IMPORTED_MODULE_5__["default"], {
           list: tvaRateList,
           itemSelected: tva,
           setItemSelected: setTva,
@@ -22121,31 +22199,31 @@ var CreateProduct = function CreateProduct() {
           ulUnikId: "ulTvaSelectUniqueId",
           buttonUnikId: "buttonTvaSelectUniqueId"
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(_elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h3", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)(_elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h3", {
           className: "text-base font-semibold mb-2.5 text-gray-500 w-auto",
           children: "Transporteurs"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_elements_selectWithCheckbox__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_elements_selectWithCheckbox__WEBPACK_IMPORTED_MODULE_4__["default"], {
           unikId: "SelectWithCheckbox_transporter",
           list: listTransporters[0],
           selected: transporter,
           setSelected: setTransporter,
           toggleSelectWithCheckbox: toggleSelectWithCheckboxTransporter,
           setToggleSelectWithCheckbox: setToggleSelectWithCheckboxTransporter
-        }, "SelectWithCheckbox_transporter"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
+        }, "SelectWithCheckbox_transporter"), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", {
           className: "flex flex-wrap ".concat(transporter.length > 0 && "pt-4", " w-full"),
           children: transporter.map(function (item) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)("div", {
               className: "flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-2 pr-1.5 py-1 mb-1 mr-2",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("span", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("span", {
                 className: "h-full text-gray-500 mr-2 rounded-md",
                 children: item.name
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("span", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("span", {
                 className: "h-5 w-5 flex justify-center items-center hover:cursor-pointer bg-indigo-600  hover:bg-red-500 rounded-md",
                 onClick: function onClick() {
                   return removeTransporter(item);
                 },
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("img", {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("img", {
                   src: "../images/icons/x-white.svg",
                   className: "w-5 h-5 hover:scale-125"
                 })
@@ -22154,16 +22232,16 @@ var CreateProduct = function CreateProduct() {
           })
         })]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("button", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("button", {
       className: "flex flex-row justify-center items-center w-32 px-3 py-2 rounded-md bg-green-600 text-white",
       onClick: handleSubmit,
       children: "Enregistrer"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_modal_modalSimpleMessage__WEBPACK_IMPORTED_MODULE_13__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_modal_modalSimpleMessage__WEBPACK_IMPORTED_MODULE_14__["default"], {
       show: showModalFromPrice // true/false show modal
       ,
       handleModalCancel: closelModal,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h2", {
-        className: "childrenModal",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("h2", {
+        className: "text-lg font-bold mt-8",
         children: messageModal
       })
     })]
@@ -24936,6 +25014,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var OptionVariantesList = function OptionVariantesList(_ref) {
+  var _visiblesFields$index, _visiblesFields$index2, _visiblesFields$index3, _visiblesFields$index4, _visiblesFields$index5, _visiblesFields$index6;
+
   var handleChangeSelectionVariantesList = _ref.handleChangeSelectionVariantesList,
       isAllSelectedCheckbox = _ref.isAllSelectedCheckbox,
       setIsAllSelectedCheckbox = _ref.setIsAllSelectedCheckbox,
@@ -24961,15 +25041,20 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
       visiblesFields = _useState8[0],
       setVisiblesFields = _useState8[1];
 
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
       _useState10 = _slicedToArray(_useState9, 2),
-      screenSize = _useState10[0],
-      setScreenSize = _useState10[1];
+      indexOfVisiblesFields = _useState10[0],
+      setIndexOfVisiblesFields = _useState10[1];
 
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState12 = _slicedToArray(_useState11, 2),
-      indexOfVisiblesFields = _useState12[0],
-      setIndexOfVisiblesFields = _useState12[1];
+      animateSlideLeftIsActived = _useState12[0],
+      setAnimateSlideLeftIsActived = _useState12[1];
+
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState14 = _slicedToArray(_useState13, 2),
+      animateSlideRightIsActived = _useState14[0],
+      setAnimateSlideRightIsActived = _useState14[1];
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       optionsObj = _useContext.optionsObj,
@@ -24988,7 +25073,8 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
       setVariante = _useContext.setVariante,
       setImageVariantes = _useContext.setImageVariantes,
       changedVariantes = _useContext.changedVariantes,
-      setChangedVariantes = _useContext.setChangedVariantes;
+      setChangedVariantes = _useContext.setChangedVariantes,
+      screenSize = _useContext.screenSize;
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     selectedVariantesList.length > 0 && handleChangeSelectionVariantesList(null, null);
@@ -25091,7 +25177,7 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
           prev_price: previousProductPrice,
           stock: productStock,
           unlimited: true,
-          placeholderStock: String.fromCharCode(0x221E),
+          placeholderStock: 'Illimité',
           deleted: false,
           selectedImage: {}
         });
@@ -25179,7 +25265,7 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
     } else {
       handleVariantes(item.id, 'unlimited', true);
       handleVariantes(item.id, 'stock', '');
-      handleVariantes(item.id, 'placeholderStock', String.fromCharCode(0x221E));
+      handleVariantes(item.id, 'placeholderStock', 'Illimité');
     }
   };
 
@@ -25296,21 +25382,19 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
 
   var handleChangeShowedFields = function handleChangeShowedFields(nextOrPrevious) {
     if (nextOrPrevious == 'next' && indexOfVisiblesFields < visiblesFields.length - 1) {
+      setAnimateSlideRightIsActived(true);
       setIndexOfVisiblesFields(indexOfVisiblesFields + 1);
     } else if (nextOrPrevious == 'previous' && indexOfVisiblesFields > 0) {
+      setAnimateSlideLeftIsActived(true);
       setIndexOfVisiblesFields(indexOfVisiblesFields - 1);
     }
-  }; // get screen size
 
+    setTimeout(function () {
+      setAnimateSlideRightIsActived(false);
+      setAnimateSlideLeftIsActived(false);
+    }, 350);
+  };
 
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    function handleResizeScreen() {
-      setScreenSize(window.innerWidth);
-    }
-
-    window.addEventListener('resize', handleResizeScreen);
-    handleResizeScreen();
-  }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var tmp_arr = [];
 
@@ -25334,7 +25418,7 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
       checkedVariantesList: checkedVariantesList,
       setCheckedVariantesList: setCheckedVariantesList
     }), (variantes === null || variantes === void 0 ? void 0 : variantes.length) > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-      className: "w-full h-auto grid gap-x-2 grid-cols-[25px_1fr_100px_100px_150px_80px] justify-start items-center border-b border-gray-200 mb-5",
+      className: "w-full h-auto grid gap-x-2 grid-cols-[25px_160px_1fr_1fr_1fr_82px] justify-start items-center border-b border-gray-200 mb-5",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
         className: "w-full h-8 flex flex-row justify-start items-center pt-2 pl-[1px]",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_elements_animateCheckbox__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -25344,10 +25428,28 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
           handlechange: selectAllCheckbox
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
-        className: "font-semibold text-base",
+        className: "font-semibold text-base bg-white z-10",
         children: "Variantes"
+      }), ((_visiblesFields$index = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index === void 0 ? void 0 : _visiblesFields$index.includes('price')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+        className: "BRD-BLUE-1 w-full overflow-hidden font-semibold text-base ".concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight"),
+        children: "Prix"
+      }), ((_visiblesFields$index2 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index2 === void 0 ? void 0 : _visiblesFields$index2.includes('reducedPrice')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+        className: "brd-red-1 w-full overflow-hidden font-semibold text-base ".concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight"),
+        children: "Promo"
+      }), ((_visiblesFields$index3 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index3 === void 0 ? void 0 : _visiblesFields$index3.includes('stock')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+        className: "brd-green-1 w-full overflow-hidden font-semibold text-base ".concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight"),
+        children: "Stock"
+      }), ((_visiblesFields$index4 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index4 === void 0 ? void 0 : _visiblesFields$index4.includes('cost')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+        className: "w-full overflow-hidden font-semibold text-base ".concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight"),
+        children: "Cout"
+      }), ((_visiblesFields$index5 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index5 === void 0 ? void 0 : _visiblesFields$index5.includes('sku')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+        className: "w-full overflow-hidden font-semibold text-base ".concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight"),
+        children: "SKU"
+      }), ((_visiblesFields$index6 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index6 === void 0 ? void 0 : _visiblesFields$index6.includes('weight')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+        className: "w-full overflow-hidden font-semibold text-base ".concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight"),
+        children: "Poids Colis (gr)"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-        className: "w-full flex justify-start items-center",
+        className: "w-full flex justify-start items-center bg-white z-10",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
           className: "w-6 h-6 mr-2 flex justify-center items-center rounded-md bg-white border border-gray-800 hover:border-2",
           onClick: function onClick() {
@@ -25373,17 +25475,10 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
             })
           })
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
-        className: "font-semibold text-base",
-        children: "Prix"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
-        className: "font-semibold text-base",
-        children: "Prix r\xE9duit"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
-        className: "font-semibold text-base",
-        children: "Stock"
       })]
     }), (variantes === null || variantes === void 0 ? void 0 : variantes.length) > 0 && variantes.map(function (item, index) {
+      var _visiblesFields$index7, _visiblesFields$index8, _visiblesFields$index9, _visiblesFields$index10, _visiblesFields$index11, _visiblesFields$index12;
+
       return isHideDeletedVariantes && item.deleted === true ? '' : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
         className: "w-full h-auto grid gap-x-2 grid-cols-[25px_160px_1fr_1fr_1fr_50px_32px] justify-start items-center py-2 relative bg-white hover:bg-gray-50 ".concat(checkedVariantesList.includes(item.id) && "bg-blue-50"),
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
@@ -25401,102 +25496,118 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
             left: 20,
             children: item === null || item === void 0 ? void 0 : item.optionsString
           })]
-        }), visiblesFields[indexOfVisiblesFields].includes('price') && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
-          id: item === null || item === void 0 ? void 0 : item.id,
-          type: "number",
-          step: ".01",
-          onChange: handleVariantetPrice,
-          value: item === null || item === void 0 ? void 0 : item.price,
-          placeholder: "0.00",
-          min: "0",
-          max: "9999999999",
-          className: "w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50")
-        }), visiblesFields[indexOfVisiblesFields].includes('reducedPrice') && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
-          id: "inputPrevPrice".concat(item === null || item === void 0 ? void 0 : item.id),
-          type: "number",
-          step: ".01",
-          onChange: function onChange(e) {
-            return handleVariantetPrevPrice(e, item);
-          },
-          value: item === null || item === void 0 ? void 0 : item.prev_price,
-          placeholder: "0.00",
-          min: "0",
-          max: "9999999999",
-          className: "w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50")
-        }), visiblesFields[indexOfVisiblesFields].includes('stock') && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
-          className: "w-36 flex flex-rox justify-start items-center",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+        }), ((_visiblesFields$index7 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index7 === void 0 ? void 0 : _visiblesFields$index7.includes('price')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+          className: "w-full overflow-hidden",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+            id: item === null || item === void 0 ? void 0 : item.id,
             type: "number",
-            id: "inputStock".concat(item === null || item === void 0 ? void 0 : item.id),
-            onChange: function onChange(e) {
-              return handleProductStock2(e, item);
-            },
-            value: item === null || item === void 0 ? void 0 : item.stock,
-            placeholder: item.placeholderStock,
+            step: ".01",
+            onChange: handleVariantetPrice,
+            value: item === null || item === void 0 ? void 0 : item.price,
+            placeholder: "0.00",
             min: "0",
             max: "9999999999",
-            onClick: function onClick() {
-              return handleProductStockOnFocus2(item);
+            className: "w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50", " ").concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight")
+          })
+        }), ((_visiblesFields$index8 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index8 === void 0 ? void 0 : _visiblesFields$index8.includes('reducedPrice')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+          className: "w-full overflow-hidden",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+            id: "inputPrevPrice".concat(item === null || item === void 0 ? void 0 : item.id),
+            type: "number",
+            step: ".01",
+            onChange: function onChange(e) {
+              return handleVariantetPrevPrice(e, item);
             },
-            className: "w-full h-8 border border-gray-300 rounded-l-md pl-2 text-sm leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50")
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("span", {
-            className: "flex flex-rox justify-start items-center h-8 border-y border-r border-gray-300 rounded-r-md px-2.5 cursor-pointer caret-transparent group relative ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50"),
-            onClick: function onClick() {
-              return handleUnlimitedStock2(item);
-            },
+            value: item === null || item === void 0 ? void 0 : item.prev_price,
+            placeholder: "0.00",
+            min: "0",
+            max: "9999999999",
+            className: "w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50", " ").concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight")
+          })
+        }), ((_visiblesFields$index9 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index9 === void 0 ? void 0 : _visiblesFields$index9.includes('stock')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+          className: "w-full",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+            className: "w-36 flex flex-rox justify-start items-center",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
-              className: "mr-2 caret-transparent cursor-pointer",
-              id: "unlimitedStockCheckbox".concat(item === null || item === void 0 ? void 0 : item.id),
-              type: "checkbox",
-              checked: (item === null || item === void 0 ? void 0 : item.stock) != '' ? false : item === null || item === void 0 ? void 0 : item.unlimited // pour pas avoir de warning "input checkbox non controlé"
-              ,
-              onChange: function onChange() {}
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("label", {
-              className: "cursor-pointer caret-transparent text-xl ",
-              children: [String.fromCharCode(0x221E), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_3__["default"], {
-                top: -20,
-                left: 5,
+              type: "number",
+              id: "inputStock".concat(item === null || item === void 0 ? void 0 : item.id),
+              onChange: function onChange(e) {
+                return handleProductStock2(e, item);
+              },
+              value: item === null || item === void 0 ? void 0 : item.stock,
+              placeholder: item.placeholderStock,
+              min: "0",
+              max: "9999999999",
+              onClick: function onClick() {
+                return handleProductStockOnFocus2(item);
+              },
+              className: "w-full h-8 border border-gray-300 rounded-l-md pl-2 text-sm leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50", " ").concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight")
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("span", {
+              className: "flex flex-rox justify-start items-center h-8 border-y border-r border-gray-300 rounded-r-md px-2.5 cursor-pointer caret-transparent group relative ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50", " ").concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight"),
+              onClick: function onClick() {
+                return handleUnlimitedStock2(item);
+              },
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+                className: "mr-2 caret-transparent cursor-pointer bg-red-500",
+                id: "unlimitedStockCheckbox".concat(item === null || item === void 0 ? void 0 : item.id),
+                type: "checkbox",
+                placeholder: "Illimit\xE9",
+                checked: (item === null || item === void 0 ? void 0 : item.stock) != '' ? false : item === null || item === void 0 ? void 0 : item.unlimited // pour pas avoir de warning "input checkbox non controlé"
+                ,
+                onChange: function onChange() {}
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_3__["default"], {
+                top: -40,
+                left: -100,
                 css: "whitespace-nowrap",
                 children: item !== null && item !== void 0 && item.unlimited ? 'Stock illimité' : 'Entrer une quantité'
               })]
             })]
-          })]
-        }), visiblesFields[indexOfVisiblesFields].includes('cost') && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
-          id: "inputPrevPrice".concat(item === null || item === void 0 ? void 0 : item.id),
-          type: "number",
-          step: ".01",
-          onChange: function onChange(e) {
-            return handleVariantetPrevPrice(e, item);
-          },
-          value: item === null || item === void 0 ? void 0 : item.prev_price,
-          placeholder: "0.00",
-          min: "0",
-          max: "9999999999",
-          className: "w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50")
-        }), visiblesFields[indexOfVisiblesFields].includes('sku') && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
-          id: "inputPrevPrice".concat(item === null || item === void 0 ? void 0 : item.id),
-          type: "number",
-          step: ".01",
-          onChange: function onChange(e) {
-            return handleVariantetPrevPrice(e, item);
-          },
-          value: item === null || item === void 0 ? void 0 : item.prev_price,
-          placeholder: "0.00",
-          min: "0",
-          max: "9999999999",
-          className: "w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50")
-        }), visiblesFields[indexOfVisiblesFields].includes('weight') && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
-          id: "inputPrevPrice".concat(item === null || item === void 0 ? void 0 : item.id),
-          type: "number",
-          step: ".01",
-          onChange: function onChange(e) {
-            return handleVariantetPrevPrice(e, item);
-          },
-          value: item === null || item === void 0 ? void 0 : item.prev_price,
-          placeholder: "0.00",
-          min: "0",
-          max: "9999999999",
-          className: "w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50")
+          })
+        }), ((_visiblesFields$index10 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index10 === void 0 ? void 0 : _visiblesFields$index10.includes('cost')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+          className: "w-full overflow-hidden",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+            id: "inputPrevPrice".concat(item === null || item === void 0 ? void 0 : item.id),
+            type: "number",
+            step: ".01",
+            onChange: function onChange(e) {
+              return handleVariantetPrevPrice(e, item);
+            },
+            value: item === null || item === void 0 ? void 0 : item.prev_price,
+            placeholder: "0.00",
+            min: "0",
+            max: "9999999999",
+            className: "w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50", " ").concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight")
+          })
+        }), ((_visiblesFields$index11 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index11 === void 0 ? void 0 : _visiblesFields$index11.includes('sku')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+          className: "w-full overflow-hidden",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+            id: "inputPrevPrice".concat(item === null || item === void 0 ? void 0 : item.id),
+            type: "number",
+            step: ".01",
+            onChange: function onChange(e) {
+              return handleVariantetPrevPrice(e, item);
+            },
+            value: item === null || item === void 0 ? void 0 : item.prev_price,
+            placeholder: "0.00",
+            min: "0",
+            max: "9999999999",
+            className: "w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50", " ").concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight")
+          })
+        }), ((_visiblesFields$index12 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index12 === void 0 ? void 0 : _visiblesFields$index12.includes('weight')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+          className: "w-full overflow-hidden",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+            id: "inputPrevPrice".concat(item === null || item === void 0 ? void 0 : item.id),
+            type: "number",
+            step: ".01",
+            onChange: function onChange(e) {
+              return handleVariantetPrevPrice(e, item);
+            },
+            value: item === null || item === void 0 ? void 0 : item.prev_price,
+            placeholder: "0.00",
+            min: "0",
+            max: "9999999999",
+            className: "w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50", " ").concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight")
+          })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
           className: "w-full h-8 border border-gray-300 flex justify-center items-center cursor-pointer ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50"),
           onClick: function onClick() {
@@ -26345,7 +26456,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _elements_toggle_toggle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../elements/toggle/toggle */ "./resources/js/components/elements/toggle/toggle.jsx");
 /* harmony import */ var _form_inputNumeric__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../form/inputNumeric */ "./resources/js/components/form/inputNumeric.jsx");
 /* harmony import */ var _form_label__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../form/label */ "./resources/js/components/form/label.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../elements/container/flex_col_s_s */ "./resources/js/components/elements/container/flex_col_s_s.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -26357,6 +26469,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -26470,26 +26583,25 @@ var Price = function Price() {
     setReducedProductPrice(productPrice);
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-    className: "flex-col justify-start items-start bg-white rounded-md w-full p-[20px] mb-[10px] shadow-md",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h3", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h3", {
       className: "w-full text-left mb-[15px] font-semibold text-[16px]",
       children: "Prix"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
       className: "w-full h-auto grid gap-x-4 gap-y-2 grid-cols-2 justify-start items-start",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         className: "col-span-2 flex flex-col justify-start items-start mb-2.5",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
           className: "w-full flex",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_4__["default"], {
             label: "Prix"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
             className: "text-red-600",
             children: "*"
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
           className: "w-full rounded-md ".concat(isShowPromoProduct && productPrice == '' && "border-2 border-red-700"),
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_inputNumeric__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_inputNumeric__WEBPACK_IMPORTED_MODULE_3__["default"], {
             id: "inputPriceProduct19822",
             value: productPrice,
             handleChange: handleProductPrice,
@@ -26499,27 +26611,27 @@ var Price = function Price() {
             max: "9999999999",
             css: "rounded-md"
           })
-        }), isShowPromoProduct && productPrice == '' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+        }), isShowPromoProduct && productPrice == '' && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
           className: "text-sm font-semiblod text-red-700 mt-1",
           children: "Ce champ est requis"
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
         className: "col-span-2 flex flex-col justify-start items-start my-2",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_elements_toggle_toggle__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_elements_toggle_toggle__WEBPACK_IMPORTED_MODULE_2__["default"], {
           id: "promo_product_19822",
           isChecked: isShowPromoProduct,
           change: handleIsShowPromoProduct,
           label: "Faire une promotion"
         })
-      }), isShowPromoProduct && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      }), isShowPromoProduct && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         className: "w-full col-span-2 mb-4",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
           className: "w-full flex flex-col justify-start items-start mb-2.5",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_4__["default"], {
             label: "R\xE9duction"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
             className: "w-full flex flex-row justify-start items-center",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_inputNumeric__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_inputNumeric__WEBPACK_IMPORTED_MODULE_3__["default"], {
               id: "inputReduction19822",
               value: promoApplied,
               handleChange: handlePromoProductPrice,
@@ -26528,21 +26640,21 @@ var Price = function Price() {
               min: "0",
               max: "9999999999",
               css: "rounded-l-md"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
               className: "h-10 flex flex-row justify-center items-center border-y border-r border-gray-300 rounded-r-md bg-gray-50",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
                 className: "w-10 h-10 flex flex-row justify-center items-center rounded-r-md text-gray-700 font-semibold",
                 children: promoType == "€" ? "€" : "%"
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
               className: "h-8 px-1 ml-2 flex flex-row justify-center items-center border border-gray-300 rounded-r-md bg-white",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
                 className: "w-6 h-6 flex flex-row justify-center items-center rounded-md ".concat(promoType != "%" && "hover:bg-indigo-300", " hover:text-white text-base font-semibold cursor-pointer mr-1 ").concat(promoType == "%" ? "bg-indigo-500 text-white" : "bg-gray-50 text-gray-700"),
                 onClick: function onClick() {
                   return handlePromoType("%");
                 },
                 children: "%"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
                 className: "w-6 h-6 flex flex-row justify-center items-center rounded-md ".concat(promoType != "€" && "hover:bg-indigo-300", " hover:text-white text-base font-semibold cursor-pointer ").concat(promoType == "€" ? "bg-indigo-500 text-white" : "bg-gray-50 text-gray-700"),
                 onClick: function onClick() {
                   return handlePromoType("€");
@@ -26551,11 +26663,11 @@ var Price = function Price() {
               })]
             })]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
           className: "w-full flex flex-col justify-start items-start",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_4__["default"], {
             label: "Prix apr\xE8s r\xE9duction"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_inputNumeric__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_inputNumeric__WEBPACK_IMPORTED_MODULE_3__["default"], {
             id: "inputReducedPrice19822",
             value: reducedProductPrice,
             handleChange: handleReducedProductPrice,
@@ -26566,13 +26678,13 @@ var Price = function Price() {
             css: "rounded-md"
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         className: "w-full col-span-2 mt-2",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_4__["default"], {
           label: "Prix d'achat pour un article"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
           className: "w-full",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_inputNumeric__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_inputNumeric__WEBPACK_IMPORTED_MODULE_3__["default"], {
             id: "inputCost19822",
             value: productCost,
             handleChange: handleProductCost,
@@ -26583,14 +26695,14 @@ var Price = function Price() {
             css: "rounded-md"
           })
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
         className: "col-span-2 text-[14px] mt-[-3px]",
         children: "Cette information ne sera pas visible par les clients"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         className: "w-full",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_4__["default"], {
           label: "B\xE9n\xE9fice"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_inputNumeric__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_inputNumeric__WEBPACK_IMPORTED_MODULE_3__["default"], {
           id: "inputProfit19822",
           value: productProfit,
           handleChange: function handleChange() {},
@@ -26600,11 +26712,11 @@ var Price = function Price() {
           max: "9999999999",
           css: "rounded-md"
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         className: "w-full",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_4__["default"], {
           label: "Marge b\xE9n\xE9ficiaire"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_inputNumeric__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_inputNumeric__WEBPACK_IMPORTED_MODULE_3__["default"], {
           id: "inputMargin19822",
           value: productMargin,
           handleChange: function handleChange() {},
@@ -27667,7 +27779,7 @@ __webpack_require__.r(__webpack_exports__);
 var Flex_col_s_s = function Flex_col_s_s(props) {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
     id: "".concat(props.id && props.id),
-    className: "flex flex-col justify-start items-start h-auto bg-white rounded-md w-full p-4 mb-2.5 shadow-md ".concat(props.css),
+    className: "flex flex-col justify-start items-start h-auto bg-white rounded-md w-full p-4 shadow ".concat(props.css),
     children: props.children
   });
 };
@@ -27697,7 +27809,7 @@ var Flexbox_row_s_c_wrap = function Flexbox_row_s_c_wrap(props) {
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
     id: "".concat(props.id && props.id),
-    className: "flex flex-row justify-start items-center flex-wrap w-full ".concat(((_props$css = props.css) === null || _props$css === void 0 ? void 0 : _props$css.length) > 0 && props.css),
+    className: "flex flex-row flex-wrap justify-start items-center h-auto bg-white rounded-md w-full p-4 shadow ".concat(((_props$css = props.css) === null || _props$css === void 0 ? void 0 : _props$css.length) > 0 && props.css),
     children: props.children
   });
 };
