@@ -6,6 +6,8 @@ import Axios from "axios";
 import Toggle from "../../elements/toggle/toggle";
 import ModalconfirmCancelWithoutSapveOptions from './modalconfirmCancelWithoutSapveOptions';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import Label from '../../form/label';
+import Flex_col_s_s from '../../elements/container/flex_col_s_s';
 
 const Options = () => {
 
@@ -136,8 +138,9 @@ const Options = () => {
 
 
     return (
-        <div className="w-full">
-            <div className='w-full h-auto mb-5'>
+        <Flex_col_s_s>
+            <Label label="Variantes" />
+            <div className='w-full h-auto mb-5 mt-2.5'>
                 <Toggle
                     id="options_add_variantes"
                     isChecked={showOptions}
@@ -216,7 +219,7 @@ const Options = () => {
                 <h2 className="childrenModal">Fermer sans sauvegarder les options</h2>
             </ModalconfirmCancelWithoutSapveOptions>
 
-        </div>
+        </Flex_col_s_s>
     );
 }
 

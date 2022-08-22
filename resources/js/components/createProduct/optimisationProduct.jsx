@@ -3,6 +3,7 @@ import AppContext from '../contexts/AppContext';
 import { useWindowSize } from '../hooks/useWindowSize';
 import Flex_col_s_s from '../elements/container/flex_col_s_s';
 import Toggle from '../elements/toggle/toggle';
+import Label from '../form/label';
 
 
 
@@ -125,8 +126,9 @@ const OptimisationProduct = () => {
 
     return (
         <Flex_col_s_s>
-            <div className='w-full h-auto flex flex-row justify-start items-center'>
-                <div className='w-full h-auto mb-5'>
+            <Label label="SEO" />
+            <div className='w-full h-auto flex flex-row justify-start items-center mb-5 mt-2.5'>
+                <div className='w-full h-auto'>
                     <Toggle
                         id="optimisation_create_product_15822"
                         isChecked={isShowOptimisationProduct}

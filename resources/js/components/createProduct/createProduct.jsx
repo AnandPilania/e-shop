@@ -2,17 +2,19 @@ import { React, useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import Flex_col_s_s from '../elements/container/flex_col_s_s';
 import Options from './options/options';
-import SelectWithCheckbox from '../elements/selectWithCheckbox';
-import Select from '../elements/select';
 import DropZoneProduct from './dropZoneProduct';
 import Price from './price';
 import Stock from './stock';
 import Collection from './collection';
 import OptimisationProduct from './optimisationProduct';
-import TinyeditorProduct from './tinyEditorProduct';
 import Axios from "axios";
 import { handleTinyMceTemporary } from '../functions/temporaryStorage/handleTinyMceTemporary';
 import ModalSimpleMessage from '../modal/modalSimpleMessage';
+import Name from './name';
+import Description from './description';
+import Supplier from './supplier';
+import Tva from './tva';
+import Shipping from './shipping';
 
 
 
@@ -21,14 +23,8 @@ const CreateProduct = () => {
 
     const [dataDetail, setDataDetail] = useState([]);
     const [showModalFromPrice, setShowModalFromPrice] = useState(false);
-    const [toggleSelectSupplier, setToggleSelectSupplier] = useState(false);
-    const [toggleSelectTva, setToggleSelectTva] = useState(false);
-    const [selectValueColorTva, setSelectValueColorTva] = useState('');
-    const [selectValueColorSupplier, setSelectValueColorSupplier] = useState('');
-    const [toggleSelectWithCheckboxTransporter, setToggleSelectWithCheckboxTransporter] = useState(false);
 
-
-    const { image, descriptionProduct, listSuppliers, setListSuppliers, supplier, setSupplier, collection, setCollection, productPrice, productStock, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData, activeCalculTva, tvaRateList, setTvaRateList, tva, setTva, imageVariantes, productCode, productCost, previousProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, listTransporters, setListTransporters, transporter, setTransporter, screenSize } = useContext(AppContext);
+    const { image, descriptionProduct, setListSuppliers, supplier, collection, productPrice, productStock, messageModal, setMessageModal, nameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, imageVariantes, productCode, productCost, previousProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, screenSize } = useContext(AppContext);
 
     useEffect(() => {
         // charge la liste des fournisseurs
@@ -69,21 +65,8 @@ const CreateProduct = () => {
                 });
     }, [activeCalculTva])
 
-    const removeTransporter = (item) => {
-        let index = transporter.findIndex(x => x.id == item.id);
-        if (index > -1) {
-            let tmp_arr = [...transporter];
-            tmp_arr.splice(index, 1);
-            setTransporter([...tmp_arr]);
-        }
-    }
-
-    const handleName = (e) => {
-        setNameProduct(e.target.value);
-    }
 
     const validation = () => {
-
         // name validation
         if (nameProduct.length == 0) {
             setMessageModal('Le champ nom est obligatoir');
@@ -192,9 +175,6 @@ const CreateProduct = () => {
             });
     }
 
-    // console.log('listTransporters  ', listTransporters[0]);
-    // console.log('transporter  ', transporter);
-    // console.log('collection  ', collection);
 
     return (
         <div className="w-full lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] min-h-[100vh] my-[50px] mx-auto pb-80 flex flex-col justify-center items-start md:grid grid-cols-[1fr_33.3333%] gap-4 text-base">
@@ -203,118 +183,26 @@ const CreateProduct = () => {
                     <h4 className="mb-5 font-semibold text-xl">
                         Ajouter un produit
                     </h4>
-
-                    {/* name */}
-                    <label>Nom<span className='text-red-700 caret-transparent'>*</span></label>
-                    <input className="w-full h-10 border border-gray-300 rounded-md pl-2.5 mb-4 mt-1"
-                        type="text"
-                        onChange={handleName}
-                        value={nameProduct}
-                    />
-
-                    {/* description */}
-                    <label className='caret-transparent'>Déscription</label>
-                    <TinyeditorProduct />
+                    <Name />
+                    <Description />
                 </Flex_col_s_s>
-
-                {/* dropZone */}
                 <DropZoneProduct />
 
-
-                {/* options */}
-                <Flex_col_s_s>
                     <Options />
-                </Flex_col_s_s>
 
-                {/* Optimisation */}
                 <OptimisationProduct />
-
             </div>
-
-
 
             {/* ----------  side  ---------- */}
             <div className='grid grid-cols-1 gap-y-4'>
-                {/* collection */}
                 <Collection />
-
-                {/* Price */}
                 <Price />
-
-                {/* Stock */}
                 <Stock />
-
-                {/* supplier */}
-                <Flex_col_s_s id="supplierSelectId">
-                    <h3 className="text-base font-semibold mb-2.5 text-gray-500 w-auto">
-                        Fournisseur
-                    </h3>
-                    <Select
-                        list={listSuppliers}
-                        itemSelected={supplier}
-                        setItemSelected={setSupplier}
-                        toggleSelect={toggleSelectSupplier}
-                        setToggleSelect={setToggleSelectSupplier}
-                        selectValueColor={selectValueColorSupplier}
-                        setSelectValueColor={setSelectValueColorSupplier}
-                        ulUnikId="ulSupplierSelectUniqueId"
-                        buttonUnikId="buttonSupplierSelectUniqueId"
-                    />
-                </Flex_col_s_s>
-
-                {/* Tva */}
+                <Supplier />
                 {activeCalculTva == 1 &&
-                    <Flex_col_s_s id="tvaSelectId">
-                        <h3 className="text-base font-semibold mb-2.5 text-gray-500 w-auto">
-                            Tva {tva != '' && tva.tva_rate + '%'} {tva?.is_default == 1 &&
-                                <span className='text-sm  italic'>
-                                    (Par défaut)
-                                </span>}
-                        </h3>
-                        <Select
-                            list={tvaRateList}
-                            itemSelected={tva}
-                            setItemSelected={setTva}
-                            toggleSelect={toggleSelectTva}
-                            setToggleSelect={setToggleSelectTva}
-                            selectValueColor={selectValueColorTva}
-                            setSelectValueColor={setSelectValueColorTva}
-                            ulUnikId="ulTvaSelectUniqueId"
-                            buttonUnikId="buttonTvaSelectUniqueId"
-                        />
-                    </Flex_col_s_s>
+                    <Tva />
                 }
-                {/* Transporteurs */}
-                <Flex_col_s_s>
-                    <h3 className="text-base font-semibold mb-2.5 text-gray-500 w-auto">
-                        Transporteurs
-                    </h3>
-                    <SelectWithCheckbox
-                        key="SelectWithCheckbox_transporter"
-                        unikId="SelectWithCheckbox_transporter"
-                        list={listTransporters[0]}
-                        selected={transporter}
-                        setSelected={setTransporter}
-                        toggleSelectWithCheckbox={toggleSelectWithCheckboxTransporter}
-                        setToggleSelectWithCheckbox={setToggleSelectWithCheckboxTransporter}
-                    />
-                    <div className={`flex flex-wrap ${transporter.length > 0 && "pt-4"} w-full`}>
-                        {transporter.map(item =>
-                            <div key={item.id}
-                                className="flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-2 pr-1.5 py-1 mb-1 mr-2">
-                                <span
-                                    className="h-full text-gray-500 mr-2 rounded-md">
-                                    {item.name}
-                                </span>
-                                <span
-                                    className="h-5 w-5 flex justify-center items-center hover:cursor-pointer bg-indigo-600  hover:bg-red-500 rounded-md"
-                                    onClick={() => removeTransporter(item)}>
-                                    <img src='../images/icons/x-white.svg' className="w-5 h-5 hover:scale-125" />
-                                </span>
-                            </div>
-                        )}
-                    </div>
-                </Flex_col_s_s>
+                <Shipping />
             </div>
 
             <button

@@ -224,6 +224,7 @@ const Appcontainer = () => {
         }
         window.addEventListener('resize', handleResizeScreen)
         handleResizeScreen();
+        
     }, []);
 
 

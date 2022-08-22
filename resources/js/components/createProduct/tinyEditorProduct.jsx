@@ -5,11 +5,9 @@ import { loadProgressBar } from 'axios-progress-bar';
 import { Editor } from '@tinymce/tinymce-react';
 import { saveInTemporaryStorage } from '../functions/temporaryStorage/saveInTemporaryStorage';
 
-
 const TinyeditorProduct = () => {
 
-    const {
-        nameProduct, setNameProduct, descriptionProduct, setDescriptionProduct, tinyLanguage
+    const { descriptionProduct, setDescriptionProduct, tinyLanguage
     } = useContext(AppContext);
 
     const editorRef = useRef(null);
@@ -93,8 +91,9 @@ const TinyeditorProduct = () => {
     }
 
     return (
-        <div className="sub-div-vert-align mt-1">
+        <div className='w-full flex flex-col justify-start items-start'>
             <Editor
+                tinymceScriptSrc="/tinymce/tinymce.min.js"
                 id='tinyEditor'
                 apiKey="859uqxkoeg5bds7w4yx9ihw5exy86bhtgq56fvxwsjopxbf2"
                 onInit={(evt, editor) => {
@@ -151,7 +150,7 @@ const TinyeditorProduct = () => {
                     remove_script_host: false,
                     document_base_url: window.location.origin, //'http://127.0.0.1:8000',
                     //------------------------------------------
-                    images_upload_handler: tinyMCE_image_upload_handler, 
+                    images_upload_handler: tinyMCE_image_upload_handler,
                     // allow drop images
                     paste_data_images: true,
                     /* enable title field in the Image dialog*/
@@ -180,7 +179,7 @@ const TinyeditorProduct = () => {
                     //     editor.UndoManager.hasRedo(false)
                     // },
                     // a11y_advanced_options: true,
-                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px; } body::-webkit-scrollbar-track { box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); border-radius: 10px; background-color: #f5f5f5; color: red;}' + 'tox-sidebar--sliding-closed { background-color: #f5f5f5; }'
+                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px; } body::-webkit-scrollbar-track { box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); border-radius: 10px; background-color: #f5f5f5; color: red;}' + 'tox-sidebar--sliding-closed { background-color: #f5f5f5; }',
                 }}
 
             />

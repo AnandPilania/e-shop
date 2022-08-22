@@ -4,6 +4,7 @@ import ModalInput from '../elements/modalInput';
 import Flex_col_s_s from '../elements/container/flex_col_s_s';
 import Axios from 'axios';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import Label from '../form/label';
 
 const DropZoneProduct = () => {
 
@@ -436,7 +437,7 @@ const DropZoneProduct = () => {
 
     return (
         <Flex_col_s_s id="main-image-product">
-            <h4 className='mb-2.5'>Images</h4>
+            <Label label="Images" />
             <div id="drop-region_product"
                 className="w-full h-auto flex-col justify-start items-center bg-white rounded-md py-10 px-2.5 border-dashed border-2 border-gray-300 hover:bg-gray-50 cursor-pointer"
                 ref={dropRegionRef}>
@@ -482,7 +483,7 @@ const DropZoneProduct = () => {
                             key={ndx}>
                             {(provided, snapshot) => (
                                 <div
-                                    className='grid gap-2.5 grid-cols-4 justify-center my-[5px] w-full h-[120px]'
+                                    className='grid gap-2.5 grid-cols-4 justify-center my-1.5 w-full h-32'
                                     {...provided.droppableProps}
                                     ref={provided.innerRef}
                                 >
@@ -494,7 +495,7 @@ const DropZoneProduct = () => {
                                         >
                                             {(provided, snapshot) => (
                                                 <div
-                                                    className="image-view flex flex-row justify-center items-center mb[20px]  relative border border-gray-300 rounded bg-white group"
+                                                    className="image-view flex flex-row justify-center items-center mb-5 relative border border-gray-300 rounded bg-white group"
                                                     ref={provided.innerRef}
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}
@@ -503,16 +504,16 @@ const DropZoneProduct = () => {
                                                         provided.draggableProps.style
                                                     )}
                                                 >
-                                                    <img className='imgClass max-w-[(calc(100% / 4) - 10px] max-h-[120px]'
+                                                    <img className='imgClass max-w-3/12 max-h-32'
                                                         src={window.location.origin + '/' + item.value}
                                                     />
                                                     <button id="removeImg"
-                                                        className="invisible group-hover:visible absolute top-[5px] right-[5px] w-[25px] h-[25px] bg-[#d23e44] rounded"
+                                                        className="invisible group-hover:visible absolute top-1.5 right-1.5 w-6 h-6 bg-[#d23e44] rounded"
                                                         onClick={() => {
                                                             removeOneImage(item.id, ndx, index);
                                                         }}
                                                     >
-                                                        <img className='w-[25px] h-[25px] rounded'
+                                                        <img className='w-6 h-6 rounded'
                                                             src='../images/icons/x-white.svg'
                                                         />
                                                     </button>

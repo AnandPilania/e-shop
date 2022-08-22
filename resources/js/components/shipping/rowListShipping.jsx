@@ -52,7 +52,7 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, IdDeliveryZ
     const deleteShippingMode = (shippingItem, modesItem) => {
         setIdDeliveryZones(shippingItem.id);
         setIdShippingMode(modesItem.id);
-        setMessageModal('Supprimer le mode de livraison ' + modesItem.mode_name + ' ?');
+        setMessageModal('Supprimer le mode de livraison ' + modesItem.name + ' ?');
         setShowModalConfirmation2(true);
     }
 
@@ -99,8 +99,8 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, IdDeliveryZ
 
     const deleteZone = (shippingItem) => {
         setIdDeliveryZones(shippingItem.id);
-        let modesHTML = shippingItem.shipping_modes.map(x => x.mode_name + '<br>');
-        setMessageModal('<br>Supprimer définitivement la zone ' + shippingItem.zone_name + ' et ses modes de livraison ? <br> Mode.s de livraison: <br>' + modesHTML.join(""));
+        let modesHTML = shippingItem.shipping_modes.map(x => x.name + '<br>');
+        setMessageModal('<br>Supprimer définitivement la zone ' + shippingItem.name + ' et ses modes de livraison ? <br> Mode.s de livraison: <br>' + modesHTML.join(""));
         setShowModalConfirmation(true);
     }
 
@@ -149,7 +149,7 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, IdDeliveryZ
                     <span
                         className={`w-full h-full px-2 flex flex-row justify-start items-center truncate ${idZone_arr.includes(shippingItem.id) ? "bg-gray-50 font-semibold" : "bg-white"}`}
                     >
-                        {shippingItem.zone_name}
+                        {shippingItem.name}
                     </span>
 
                     {/* destinations */}
@@ -340,7 +340,7 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, IdDeliveryZ
                     <div className={`w-full col-span-4 border-t border-x  border-gray-200 pb-4 bg-[#fefefe] ${idZone_arr.includes(shippingItem.id) ? "block" : "hidden"}`}>
                         <div className='w-full flex justify-start m-0 p-0 '>
                             <div className='w-auto flex justify-center items-center pt-3 pb-1 px-2 text-sm font-semibold'>
-                                {shippingItem.length > 1 ? "Modes" : "Mode"} de livraison de la zone {shippingItem.zone_name}
+                                {shippingItem.length > 1 ? "Modes" : "Mode"} de livraison de la zone {shippingItem.name}
                             </div>
                         </div>
                         {shippingItem.shipping_modes.length > 0 &&
@@ -364,7 +364,7 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, IdDeliveryZ
                                         className='w-full py-2 px-2 even:bg-[#f9fdff] grid grid-cols-[1fr_140px_50px_50px] gap-2 justify-start items-center'
                                     >
                                         <span className='w-full truncate'>
-                                            {modesItem.mode_name}
+                                            {modesItem.name}
                                         </span>
                                         <span>
                                             {modesItem.conditions.length} {modesItem.conditions.length > 1 ? "tarifs" : "tarif"}

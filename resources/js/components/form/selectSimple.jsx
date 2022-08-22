@@ -5,7 +5,7 @@ const SelectSimple = ({ id, value, handleChange, handleClick, placeholder, label
 
     return (
         <div>
-            <label className='block text-sm font-medium text-gray-700 mb-1'>
+            <label className='block text-sm font-medium text-gray-700 mb-1 caret-transparent'>
                 {label}
             </label>
             <select
