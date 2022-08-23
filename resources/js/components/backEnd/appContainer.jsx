@@ -136,6 +136,7 @@ const Appcontainer = () => {
     //PRODUCT---------------------------------------------------------------
 
     const [nameProduct, setNameProduct] = useState('');
+    const [ribbonProduct, setRibbonProduct] = useState('');
     const [descriptionProduct, setDescriptionProduct] = useState('');
     const [collection, setCollection] = useState([]);
     const [productPrice, setProductPrice] = useState('');
@@ -529,6 +530,7 @@ const Appcontainer = () => {
         dsablDate, setDsablDate,
         refresh, setRefresh,
         nameProduct, setNameProduct,
+        ribbonProduct, setRibbonProduct,
         descriptionProduct, setDescriptionProduct,
         nameSupplier, setNameSupplier,
         emailSupplier, setEmailSupplier,

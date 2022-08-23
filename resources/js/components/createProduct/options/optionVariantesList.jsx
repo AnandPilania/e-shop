@@ -18,7 +18,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
     const [animateSlideLeftIsActived, setAnimateSlideLeftIsActived] = useState(false);
     const [animateSlideRightIsActived, setAnimateSlideRightIsActived] = useState(false);
 
-    const { optionsObj, productPrice, previousProductPrice, productStock, listType, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, isHideDeletedVariantes, variante, setVariante, setImageVariantes, changedVariantes, setChangedVariantes, screenSize } = useContext(AppContext);
+    const { optionsObj, productPrice, reducedProductPrice, productStock, productCost, listType, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, isHideDeletedVariantes, variante, setVariante, setImageVariantes, changedVariantes, setChangedVariantes, screenSize } = useContext(AppContext);
 
 
 
@@ -112,8 +112,9 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                     optionsString: allValuesAsString[i],
                     options: variantesOptions,
                     price: productPrice,
-                    prev_price: previousProductPrice,
+                    reducedPrice: reducedProductPrice,
                     stock: productStock,
+                    cost: productCost,
                     unlimited: true,
                     placeholderStock: 'Illimité',
                     deleted: false,
@@ -165,19 +166,23 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
     }
 
 
-    const handleVariantetPrice = (e) => {
+    const handleVariantePrice = (e) => {
         handleVariantes(e.target.id, 'price', e.target.value);
     }
 
-    const handleVariantetPrevPrice = (e, item) => {
-        handleVariantes(item.id, 'prev_price', e.target.value);
+    const handleVarianteReducedPrice = (e, item) => {
+        handleVariantes(item.id, 'reducedPrice', e.target.value);
     }
 
-    const handleProductStock2 = (e, item) => {
+    const handleStockProduct = (e, item) => {
         handleVariantes(item.id, 'stock', e.target.value);
+    }    
+    
+    const handleVarianteCost = (e, item) => {
+        handleVariantes(item.id, 'cost', e.target.value);
     }
 
-    const handleProductStockOnFocus2 = (item) => {
+    const handleStockProductOnFocus = (item) => {
         let unlimitedStockCheckbox = document.getElementById('unlimitedStockCheckbox' + item.id);
         unlimitedStockCheckbox.checked = false;
 
@@ -188,7 +193,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         }
     }
 
-    const handleUnlimitedStock2 = (item) => {
+    const handleUnlimitedStockProduct = (item) => {
         if (item.unlimited && item.stock == '') {
             handleVariantes(item.id, 'unlimited', false);
             handleVariantes(item.id, 'stock', '');
@@ -308,6 +313,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
     }
 
 
+    // gère les boutons prev et next des champs de la liste des variantes
     const handleChangeShowedFields = (nextOrPrevious) => {
         if (nextOrPrevious == 'next' && indexOfVisiblesFields < visiblesFields.length - 1) {
             setAnimateSlideRightIsActived(true);
@@ -321,7 +327,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
             setAnimateSlideLeftIsActived(false);
         }, 350);
     }
-    
+
 
     useEffect(() => {
         let tmp_arr = [];
@@ -333,8 +339,6 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         setVisiblesFields(tmp_arr);
     }, [screenSize]);
 
-    console.log('indexOfVisiblesFields', indexOfVisiblesFields)
-    console.log('visiblesFields[indexOfVisiblesFields]', visiblesFields[indexOfVisiblesFields])
 
     return (
         <div className={`${variantes?.length > 0 && "border-t border-gray-200 mt-5"}`}>
@@ -364,42 +368,44 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                     </div>
                     <span className='font-semibold text-base bg-white z-10'>Variantes</span>
                     {visiblesFields[indexOfVisiblesFields]?.includes('price') &&
-                    <span className={`BRD-BLUE-1 w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
-                        Prix
-                    </span>}
+                        <span className={`BRD-BLUE-1 w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
+                            Prix
+                        </span>}
                     {visiblesFields[indexOfVisiblesFields]?.includes('reducedPrice') &&
-                    <span className={`brd-red-1 w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
-                        Promo
-                    </span>}
+                        <span className={`brd-red-1 w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
+                            Promo
+                        </span>}
                     {visiblesFields[indexOfVisiblesFields]?.includes('stock') &&
-                    <span className={`brd-green-1 w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
-                        Stock
-                    </span>}
+                        <span className={`brd-green-1 w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
+                            Stock
+                        </span>}
                     {visiblesFields[indexOfVisiblesFields]?.includes('cost') &&
-                    <span className={`w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
-                        Cout
-                    </span>}
+                        <span className={`w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
+                            Cout
+                        </span>}
                     {visiblesFields[indexOfVisiblesFields]?.includes('sku') &&
-                    <span className={`w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
-                        SKU
-                    </span>}
+                        <span className={`w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
+                            SKU
+                        </span>}
                     {visiblesFields[indexOfVisiblesFields]?.includes('weight') &&
-                    <span className={`w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
-                        Poids Colis (gr)
-                    </span>}
+                        <span className={`w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
+                            Poids Colis (gr)
+                        </span>}
 
                     <div className='w-full flex justify-start items-center bg-white z-10'>
+                        {/* button previous */}
                         <span
-                            className='w-6 h-6 mr-2 flex justify-center items-center rounded-md bg-white border border-gray-800 hover:border-2'
+                            className={`w-6 h-6 mr-2 flex justify-center items-center rounded-md border ${indexOfVisiblesFields == 0 ? "bg-gray-100 border-gray-300" : "bg-white border-gray-800 hover:border-2"}`}
                             onClick={() => handleChangeShowedFields('previous')}>
-                            <svg className="h-4 w-4 fill-gray-900 cursor-pointer bi bi-caret-left-fill" viewBox="0 0 16 16">
+                            <svg className={`h-4 w-4 ${indexOfVisiblesFields == 0 ? "fill-gray-300 cursor-not-allowed" : "fill-gray-900 cursor-pointer"} bi bi-caret-left-fill" viewBox="0 0 16 16`}>
                                 <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
                             </svg>
                         </span>
+                        {/* button next */}
                         <span
-                            className='w-6 h-6 flex justify-center items-center rounded-md bg-white border border-gray-800 hover:border-2'
+                            className={`w-6 h-6 flex justify-center items-center rounded-md bg-white border ${indexOfVisiblesFields == visiblesFields.length - 1 ? "bg-gray-100 border-gray-300" : "bg-white border-gray-800 hover:border-2"}`}
                             onClick={() => handleChangeShowedFields('next')}>
-                            <svg className="h-4 w-4 fill-gray-900 cursor-pointer bi bi-caret-right-fill" viewBox="0 0 16 16">
+                            <svg className={`h-4 w-4 ${indexOfVisiblesFields == visiblesFields.length - 1 ? "fill-gray-300 cursor-not-allowed" : "fill-gray-900 cursor-pointer"} bi bi-caret-right-fill" viewBox="0 0 16 1`}>
                                 <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
                             </svg>
                         </span>
@@ -443,7 +449,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                         id={item?.id}
                                         type="number"
                                         step=".01"
-                                        onChange={handleVariantetPrice}
+                                        onChange={handleVariantePrice}
                                         value={item?.price}
                                         placeholder="0.00"
                                         min="0"
@@ -459,8 +465,8 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                         id={`inputPrevPrice${item?.id}`}
                                         type="number"
                                         step=".01"
-                                        onChange={(e) => handleVariantetPrevPrice(e, item)}
-                                        value={item?.prev_price}
+                                        onChange={(e) => handleVarianteReducedPrice(e, item)}
+                                        value={item?.reducedPrice}
                                         placeholder="0.00"
                                         min="0"
                                         max="9999999999"
@@ -477,16 +483,16 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                         <input
                                             type="number"
                                             id={`inputStock${item?.id}`}
-                                            onChange={(e) => handleProductStock2(e, item)}
+                                            onChange={(e) => handleStockProduct(e, item)}
                                             value={item?.stock}
                                             placeholder={item.placeholderStock}
                                             min="0" max="9999999999"
-                                            onClick={(() => handleProductStockOnFocus2(item))}
+                                            onClick={(() => handleStockProductOnFocus(item))}
                                             className={`w-full h-8 border border-gray-300 rounded-l-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
                                         />
                                         <span
                                             className={`flex flex-rox justify-start items-center h-8 border-y border-r border-gray-300 rounded-r-md px-2.5 cursor-pointer caret-transparent group relative ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
-                                            onClick={() => handleUnlimitedStock2(item)}>
+                                            onClick={() => handleUnlimitedStockProduct(item)}>
                                             <input
                                                 className='mr-2 caret-transparent cursor-pointer bg-red-500'
                                                 id={`unlimitedStockCheckbox${item?.id}`}
@@ -510,8 +516,8 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                         id={`inputPrevPrice${item?.id}`}
                                         type="number"
                                         step=".01"
-                                        onChange={(e) => handleVariantetPrevPrice(e, item)}
-                                        value={item?.prev_price}
+                                        onChange={(e) => handleVarianteCost(e, item)}
+                                        value={item?.reducedPrice}
                                         placeholder="0.00"
                                         min="0"
                                         max="9999999999"
@@ -526,8 +532,8 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                         id={`inputPrevPrice${item?.id}`}
                                         type="number"
                                         step=".01"
-                                        onChange={(e) => handleVariantetPrevPrice(e, item)}
-                                        value={item?.prev_price}
+                                        onChange={(e) => handleVarianteReducedPrice(e, item)}
+                                        value={item?.reducedPrice}
                                         placeholder="0.00"
                                         min="0"
                                         max="9999999999"
@@ -542,8 +548,8 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                         id={`inputPrevPrice${item?.id}`}
                                         type="number"
                                         step=".01"
-                                        onChange={(e) => handleVariantetPrevPrice(e, item)}
-                                        value={item?.prev_price}
+                                        onChange={(e) => handleVarianteReducedPrice(e, item)}
+                                        value={item?.reducedPrice}
                                         placeholder="0.00"
                                         min="0"
                                         max="9999999999"

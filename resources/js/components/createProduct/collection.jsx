@@ -3,6 +3,7 @@ import AppContext from '../contexts/AppContext';
 import Flex_col_s_s from '../elements/container/flex_col_s_s';
 import SelectWithCheckbox from '../elements/selectWithCheckbox';
 import Axios from 'axios';
+import Label from '../form/label';
 
 
 const Collection = () => {
@@ -33,9 +34,7 @@ const Collection = () => {
 
     return (
         <Flex_col_s_s>
-            <h3 className="text-base font-semibold mb-2.5 text-gray-500 w-auto caret-transparent">
-                Collections
-            </h3>
+            <Label label="Collections" />
             <SelectWithCheckbox
                 key="SelectWithCheckbox_collection"
                 unikId="SelectWithCheckbox_collection"

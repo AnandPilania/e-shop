@@ -3,27 +3,44 @@ import AppContext from '../contexts/AppContext';
 import InputText from '../form/inputText';
 import Label from '../form/label';
 
-const Name = () => {
+const NameAndRibbon = () => {
 
-    const { nameProduct, setNameProduct } = useContext(AppContext);
-    
+    const { nameProduct, setNameProduct, ribbonProduct, setRibbonProduct } = useContext(AppContext);
+
     const handleName = (e) => {
         setNameProduct(e.target.value);
     }
 
-    return (
-        <div className='w-full mb-5 flex flex-col justify-start items-start'>
-            <div className='w-full flex justify-start items-center'>
-                <Label label="Nom" /><span className='text-red-700 caret-transparent'>*</span>
-            </div>
+    const handleRibbon = (e) => {
+        setRibbonProduct(e.target.value);
+    }
 
-            <InputText
-                id="productName22822"
-                value={nameProduct}
-                handleChange={handleName}
-            />
+    return (
+        <div className='w-full grid grid-cols-2 gap-4'>
+            {/* name */}
+            <div className='w-full mb-5 flex flex-col justify-start items-start'>
+                <div className='w-full flex caret-transparent'>
+                    <Label label="Nom" /><span className='text-red-700'>*</span>
+                </div>
+                <InputText
+                    id="productName22822"
+                    value={nameProduct}
+                    handleChange={handleName}
+                />
+            </div>
+            {/* ribbon */}
+            <div className='w-full mb-5 flex flex-col justify-start items-start'>
+                <div className='w-full flex caret-transparent'>
+                    <Label label="Ruban" />
+                </div>
+                <InputText
+                    id="productRibbon22822"
+                    value={ribbonProduct}
+                    handleChange={handleRibbon}
+                />
+            </div>
         </div>
     );
 }
 
-export default Name;
+export default NameAndRibbon;

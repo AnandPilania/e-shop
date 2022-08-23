@@ -90,11 +90,6 @@ const Price = () => {
 
     return (
         <Flex_col_s_s>
-
-            <h3 className='w-full text-left mb-[15px] font-semibold text-[16px]'>Prix</h3>
-
-
-
             <div className='w-full h-auto grid gap-x-4 gap-y-2 grid-cols-2 justify-start items-start'>
                 {/* price */}
                 <div className='col-span-2 flex flex-col justify-start items-start mb-2.5'>
@@ -199,7 +194,7 @@ const Price = () => {
                         />
                     </div>
                 </div>
-                <span className='col-span-2 text-[14px] mt-[-3px]'>Cette information ne sera pas visible par les clients</span>
+                <span className='col-span-2 text-[13px] leading-4 mt-[-5px] mb-1 p-0'>Cette information ne sera pas visible par les clients</span>
 
                 {/* benefit */}
                 <div className='w-full'>

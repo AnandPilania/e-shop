@@ -134,6 +134,8 @@ export default React.createContext({
     setRefresh: () => { },
     nameProduct: '',
     setNameProduct: () => { },
+    ribbonProduct: '', 
+    setRibbonProduct: () => { },
     descriptionProduct: '',
     setDescriptionProduct: () => { },
     nameSupplier: '',

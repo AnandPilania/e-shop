@@ -65,8 +65,6 @@ const Stock = () => {
 
     return (
         <Flex_col_s_s>
-            <h3 className='w-full text-left mb-[15px] font-semibold text-[16px]'>Stock</h3>
-
             <div className='w-full h-auto grid gap-x-4 grid-cols-2 justify-start items-center'
             >
                 <div className='flex flex-col justify-start items-start mb-2.5'
@@ -114,7 +112,7 @@ const Stock = () => {
                         <div className='w-full relative group'>
                             <img src='../images/icons/info-circle.svg'
                                 className="w-4 h-4 ml-2 cursor-help" />
-                            <Tooltip top={-140} left={-50}>
+                            <Tooltip top={-150} left={-100}>
                                 Une SKU, « unité de gestion des stocks »,  est un code servant à identifier un article ou une variante de manière unique. Elle permet une gestion plus efficace de vos stocks.
                             </Tooltip>
                         </div>
@@ -135,10 +133,10 @@ const Stock = () => {
                 <div className='w-full col-span-2 flex flex-col justify-start items-start my-2.5'>
                     <div className='w-full flex'>
                         <Label label="Poids" />
-                        <div className='relative group'>
+                        <div className='relative group w-full'>
                             <img src='../images/icons/info-circle.svg'
                                 className="w-4 h-4 ml-2 cursor-help" />
-                            <Tooltip top={-60} left={-50}>
+                            <Tooltip top={-50} left={-50}>
                                 Poids du produit avec son emballage
                             </Tooltip>
                         </div>

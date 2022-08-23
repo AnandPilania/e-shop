@@ -10,12 +10,12 @@ import OptimisationProduct from './optimisationProduct';
 import Axios from "axios";
 import { handleTinyMceTemporary } from '../functions/temporaryStorage/handleTinyMceTemporary';
 import ModalSimpleMessage from '../modal/modalSimpleMessage';
-import Name from './name';
+import NameAndRibbon from './name';
 import Description from './description';
 import Supplier from './supplier';
 import Tva from './tva';
 import Shipping from './shipping';
-
+import { v4 as uuidv4 } from 'uuid';
 
 
 // props.id = detailx
@@ -24,7 +24,7 @@ const CreateProduct = () => {
     const [dataDetail, setDataDetail] = useState([]);
     const [showModalFromPrice, setShowModalFromPrice] = useState(false);
 
-    const { image, descriptionProduct, setListSuppliers, supplier, collection, productPrice, productStock, messageModal, setMessageModal, nameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, imageVariantes, productCode, productCost, previousProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, screenSize } = useContext(AppContext);
+    const { image, descriptionProduct, setListSuppliers, supplier, collection, productPrice, productStock, messageModal, setMessageModal, nameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, imageVariantes, productCode, productCost, previousProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, productWeight, setListTransporters, ribbonProduct, screenSize } = useContext(AppContext);
 
     useEffect(() => {
         // charge la liste des fournisseurs
@@ -113,7 +113,7 @@ const CreateProduct = () => {
     const closelModal = () => {
         setShowModalFromPrice(false);
     }
-
+    console.log('uuidv4  ',  uuidv4());
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -146,17 +146,19 @@ const CreateProduct = () => {
         formData.append("obj", obj);
 
         console.log('nameProduct  ', nameProduct);
+        console.log('ribbonProduct  ', ribbonProduct);
         console.log('productPrice  ', productPrice);
         console.log('collection  ', collection);
         console.log('descriptionProduct  ', descriptionProduct);
         console.log('obj  ', obj);
         console.log('tva  ', tva);
         console.log('supplier  ', supplier);
+        console.log('productWeight  ', productWeight);
         console.log('imageVariantes  ', imageVariantes);
         console.log('previousProductPrice  ', previousProductPrice);
         console.log('productCost  ', productCost);
         console.log('productStock  ', productStock);
-        console.log('productCode  ', productCode);
+        console.log('productSKU  ', productCode == '' ? uuidv4() : productCode);
         console.log('optionsObj  ', optionsObj);
         console.log('variantes  ', variantes);
         console.log('metaTitleProduct   ', metaTitleProduct);
@@ -177,40 +179,72 @@ const CreateProduct = () => {
 
 
     return (
-        <div className="w-full lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] min-h-[100vh] my-[50px] mx-auto pb-80 flex flex-col justify-center items-start md:grid grid-cols-[1fr_33.3333%] gap-4 text-base">
-            <div className="w-full grid grid-cols-1 gap-y-4">
-                <Flex_col_s_s>
-                    <h4 className="mb-5 font-semibold text-xl">
-                        Ajouter un produit
-                    </h4>
-                    <Name />
-                    <Description />
-                </Flex_col_s_s>
-                <DropZoneProduct />
+        <div className="w-full">
+            {screenSize > 1023 ?
+                <div className="w-full lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] min-h-[100vh] mt-[50px] mx-auto grid grid-cols-[1fr_33.3333%] gap-4 ustify-center items-start text-base">
+                    <div className="w-full grid grid-cols-1 gap-y-4">
+                        <Flex_col_s_s>
+                            <h4 className="mb-5 font-semibold text-xl">
+                                Ajouter un produit
+                            </h4>
+                            <NameAndRibbon />
+                            <Description />
+                        </Flex_col_s_s>
+                        <DropZoneProduct />
 
-                    <Options />
+                        <Options />
 
-                <OptimisationProduct />
+                        <OptimisationProduct />
+                    </div>
+                    {/* ----------  side  ---------- */}
+                    <div className='grid grid-cols-1 gap-y-4'>
+                        <Collection />
+                        <Price />
+                        <Stock />
+                        <Supplier />
+                        {activeCalculTva == 1 &&
+                            <Tva />
+                        }
+                        <Shipping />
+                    </div>
+                </div>
+                :
+                <div className="w-full md:w-[90%] min-h-[100vh] flex flex-col justify-center items-start mt-[50px] mx-auto text-base">
+                    <div className="w-full grid grid-cols-1 gap-y-4">
+                        <Flex_col_s_s>
+                            <h4 className="mb-5 font-semibold text-xl">
+                                Ajouter un produit
+                            </h4>
+                            <NameAndRibbon />
+                            <Description />
+                        </Flex_col_s_s>
+                        <DropZoneProduct />
+
+                        <Options />
+
+                        <OptimisationProduct />
+                    </div>
+                    {/* ----------  side  ---------- */}
+                    <div className='grid grid-cols-1 gap-y-4'>
+                        <Collection />
+                        <Price />
+                        <Stock />
+                        <Supplier />
+                        {activeCalculTva == 1 &&
+                            <Tva />
+                        }
+                        <Shipping />
+                    </div>
+                </div>
+            }
+            <div className='w-full flex justify-center md:justify-start md:w-[90%] lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] mx-auto mt-5 mb-48'>
+                <button
+                    className="flex flex-row justify-center items-center w-44 md:w-32 px-3 py-2 rounded-md bg-green-600 text-white"
+                    onClick={handleSubmit}
+                >
+                    Enregistrer
+                </button>
             </div>
-
-            {/* ----------  side  ---------- */}
-            <div className='grid grid-cols-1 gap-y-4'>
-                <Collection />
-                <Price />
-                <Stock />
-                <Supplier />
-                {activeCalculTva == 1 &&
-                    <Tva />
-                }
-                <Shipping />
-            </div>
-
-            <button
-                className="flex flex-row justify-center items-center w-32 px-3 py-2 rounded-md bg-green-600 text-white"
-                onClick={handleSubmit}
-            >
-                Enregistrer
-            </button>
 
             {/* modal for simple message */}
             <ModalSimpleMessage
