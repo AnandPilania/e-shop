@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import Flex_col_s_s from '../elements/container/flex_col_s_s';
+import SelectMeasureUnit from '../elements/selectMeasureUnit';
 import Tooltip from '../elements/tooltip';
 import InputNumeric from '../form/inputNumeric';
 import Label from '../form/label';
-
+import { v4 as uuidv4 } from 'uuid';
 
 const Stock = () => {
 
     const [placeholder, setPlaceholder] = useState(String.fromCharCode(0x221E));
+    const [toggleSelect, setToggleSelect] = useState(false);
 
-    const { productStock, setProductStock, unlimited, setUnlimited, productCode, setProductCode, productWeight, setProductWeight } = useContext(AppContext);
+    const { productStock, setProductStock, unlimited, setUnlimited, productCode, setProductCode, productParcelWeight, setProductParcelWeight, productParcelWeightMeasureUnit, setProductParcelWeightMeasureUnit } = useContext(AppContext);
 
     useEffect(() => {
         let inputStock = document.getElementById('inputStock');
@@ -59,8 +61,8 @@ const Stock = () => {
         setProductCode(e.target.value)
     }
 
-    const handleProductWeight = (e) => {
-        setProductWeight(e.target.value);
+    const handleProductParcelWeight = (e) => {
+        setProductParcelWeight(e.target.value);
     }
 
     return (
@@ -98,9 +100,9 @@ const Stock = () => {
                                 type="checkbox"
                                 checked={unlimited}
                                 onChange={handleUnlimitedStock} />
-                                <Tooltip top={-40} left={-30}>
-                                    Illimité
-                                </Tooltip>
+                            <Tooltip top={-40} left={-30}>
+                                Illimité
+                            </Tooltip>
                         </span>
                     </div>
                 </div>
@@ -124,7 +126,6 @@ const Stock = () => {
                         placeholder=""
                         step="1"
                         min="0"
-                        max="9999999999"
                         css="rounded-md"
                     />
                 </div>
@@ -145,18 +146,26 @@ const Stock = () => {
                         className='w-full flex flex-row justify-start items-center'
                     >
                         <InputNumeric
-                            value={productWeight}
-                            handleChange={handleProductWeight}
+                            value={productParcelWeight}
+                            handleChange={handleProductParcelWeight}
                             placeholder="Poids du colis"
-                            step="1"
+                            step={productParcelWeightMeasureUnit == 'kg' ? "1" : "0.01"}
                             min="0"
                             max="9999999999"
                             css="rounded-l-md"
                         />
                         <span
-                            className='w-10 h-10 flex justify-center items-center border-y border-r border-gray-300 bg-gray-100 text-gray-500 text-sm font-semibold rounded-r-md'
+                            className='w-16 h-10 flex justify-center items-center border-y border-r border-gray-300 bg-gray-100 text-gray-500 text-sm font-semibold rounded-r-md'
                         >
-                            g
+                            <SelectMeasureUnit
+                                list={['gr', 'kg']}
+                                itemSelected={productParcelWeightMeasureUnit}
+                                setItemSelected={setProductParcelWeightMeasureUnit}
+                                toggleSelect={toggleSelect}
+                                setToggleSelect={setToggleSelect}
+                                ulUnikId={uuidv4()}
+                                buttonUnikId={uuidv4()}
+                            />
                         </span>
                     </div>
                 </div>

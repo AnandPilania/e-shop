@@ -6,7 +6,7 @@ export default function SelectWithCheckbox_icon_search({ unikId, list, selected,
 
     // list contient la liste à afficher dans le select
     // selected et setSelected sont le hook qui contient les éléments électionnés
-    // example dans deliveryZoneForm.jsx
+
 
 
     const [listFiltered, setListFiltered] = useState([]);

@@ -211,10 +211,10 @@ export default React.createContext({
     setListTransporters: () => { },
     transporter: '',
     setTransporter: () => { },
-    productWeight: '',
-    setProductWeight: () => { },
     productParcelWeight: '',
     setProductParcelWeight: () => { },
+    productParcelWeightMeasureUnit: '',
+    setProductParcelWeightMeasureUnit: () => { },
     screenSize: '', 
     
 

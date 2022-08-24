@@ -127,9 +127,9 @@ const Price = () => {
                 </div>
 
                 {isShowPromoProduct &&
-                    <div className='w-full col-span-2 mb-4'>
+                    <div className='w-full col-span-2 mb-6'>
                         {/* réduction */}
-                        <div className='w-full flex flex-col justify-start items-start mb-2.5'>
+                        <div className='w-full flex flex-col justify-start items-start mb-4'>
                             <Label label="Réduction" />
                             <div className='w-full flex flex-row justify-start items-center'>
                                 <InputNumeric
@@ -179,7 +179,7 @@ const Price = () => {
                 }
 
                 {/* cost */}
-                <div className='w-full col-span-2 mt-2'>
+                <div className='w-full col-span-2'>
                     <Label label="Prix d'achat pour un article" />
                     <div className='w-full'>
                         <InputNumeric

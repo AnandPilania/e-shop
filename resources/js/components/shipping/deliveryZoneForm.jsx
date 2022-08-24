@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { usePromptCollection } from '../hooks/usePromptCollection';
-import SelectWithCheckbox_icon_search from '../elements/selectWithCheckbox_icon_search';
+import SelectWithCheckbox_icon_search from './selectWithCheckbox_icon_search';
 import ModalConfirmation from '../modal/modalConfirmation';
 import ModalSimpleMessage from '../modal/modalSimpleMessage';
 import InputText from '../form/inputText';
@@ -51,6 +51,13 @@ const DeliveryZoneForm = ({ countriesList, deliveryZoneList, IdDeliveryZones, se
         if (index > -1) {
             let tmp_arr = [...destinations];
             tmp_arr.splice(index, 1);
+
+            // si "Tous les pays" est coché et qu'on décoche un pays alors on décoche "Tous les pays"
+            let all_countries_index = destinations.findIndex(x => x.id == 1);
+            if (all_countries_index > -1) {
+                tmp_arr.splice(all_countries_index, 1);
+            }
+            
             setDestinations([...tmp_arr]);
         }
     }

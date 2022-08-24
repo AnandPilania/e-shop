@@ -78,7 +78,7 @@ export default function SelectWithCheckboxProduct({ unikId, list, selected, setS
         }
     }
 
-    console.log('list  ', list)
+
 
     return (
         <div className="w-full relative">

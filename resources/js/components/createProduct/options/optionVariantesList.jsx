@@ -18,7 +18,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
     const [animateSlideLeftIsActived, setAnimateSlideLeftIsActived] = useState(false);
     const [animateSlideRightIsActived, setAnimateSlideRightIsActived] = useState(false);
 
-    const { optionsObj, productPrice, reducedProductPrice, productStock, productCost, listType, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, isHideDeletedVariantes, variante, setVariante, setImageVariantes, changedVariantes, setChangedVariantes, screenSize } = useContext(AppContext);
+    const { optionsObj, productPrice, reducedProductPrice, productStock, productCost, productParcelWeight, productCode, listType, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, isHideDeletedVariantes, variante, setVariante, setImageVariantes, changedVariantes, setChangedVariantes, screenSize } = useContext(AppContext);
 
 
 
@@ -28,15 +28,19 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
 
     useEffect(() => {
+
+        // Lorsqu'on ajoute des options après avoir modifié des fields dans la liste des variantes, toutes les modification sont perdues. Ceci car l'ajout d'options duplique les variantes et leur rajoute la nouvelle value sans que les variantes dupliquées reçoivent les mêmes modifications faites précédement, ce qui n'est pas cohérent !!!
+
         let allValuesAsString = [];
 
-        // renvoi toutes les combinaisons possible des différentes options 
+        // renvoi un tableau contenant les tableaux des VALEURS des différentes options. Sert à récupérer toutes les combinaisons possible entre les différentes options 
         let optionsCombinations = optionsObj.map(x => x.values);
-        // crée un tableau avec les index des optionsObj.values non vides pour que getCombinaisons parcoure uniquement les values non vides dans optionsCombinations
-        let index_tab = [];
+
+        // crée un tableau avec les index des optionsObj dont les VALUES ne sont pas vides pour que getCombinaisons parcoure uniquement les values non vides dans optionsCombinations
+        let indexOfNotEmpty_optionsObj_values = [];
         for (let i = 0; i < optionsObj.length; i++) {
             if (optionsObj[i].values.length > 0) {
-                index_tab.push(i);
+                indexOfNotEmpty_optionsObj_values.push(i);
             }
         }
         function getCombinaisons(ndxTab, comb) {
@@ -49,8 +53,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                 getCombinaisons(ndxTab.slice(1), comb + separator + optionsCombinations[ndxTab[0]][i]);
             }
         }
-        optionsCombinations.length > 0 && getCombinaisons(index_tab, "");
-
+        optionsCombinations.length > 0 && getCombinaisons(indexOfNotEmpty_optionsObj_values, "");
 
         // get les noms d'options pour les associer à leur values dans un objet
         let optionsName = optionsObj.map(x => x.name);
@@ -114,7 +117,9 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                     price: productPrice,
                     reducedPrice: reducedProductPrice,
                     stock: productStock,
+                    productCode: productCode,
                     cost: productCost,
+                    parcelWeight: productParcelWeight,
                     unlimited: true,
                     placeholderStock: 'Illimité',
                     deleted: false,
@@ -139,7 +144,6 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         // ferme "ajouter des options quand on supprime toutes les options"
         optionsObj.length === 0 && setShowOptions(false);
     }, [optionsObj]);
-
 
 
 
@@ -180,6 +184,14 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
     
     const handleVarianteCost = (e, item) => {
         handleVariantes(item.id, 'cost', e.target.value);
+    }    
+    
+    const handleVarianteParcelWeight = (e, item) => {
+        handleVariantes(item.id, 'parcelWeight', e.target.value);
+    }
+
+    const handleVarianteProductCode = (e, item) => {
+        handleVariantes(item.id, 'productCode', e.target.value);
     }
 
     const handleStockProductOnFocus = (item) => {
@@ -478,14 +490,14 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                             {visiblesFields[indexOfVisiblesFields]?.includes('stock') &&
                                 <div className='w-full'>
                                     <div
-                                        className='w-36 flex flex-rox justify-start items-center'
+                                        className='w-full flex flex-rox justify-start items-center'
                                     >
                                         <input
                                             type="number"
                                             id={`inputStock${item?.id}`}
                                             onChange={(e) => handleStockProduct(e, item)}
                                             value={item?.stock}
-                                            placeholder={item.placeholderStock}
+                                            placeholder={screenSize > 1350 ? item.placeholderStock : String.fromCharCode(0x221E)}
                                             min="0" max="9999999999"
                                             onClick={(() => handleStockProductOnFocus(item))}
                                             className={`w-full h-8 border border-gray-300 rounded-l-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
@@ -494,10 +506,10 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                             className={`flex flex-rox justify-start items-center h-8 border-y border-r border-gray-300 rounded-r-md px-2.5 cursor-pointer caret-transparent group relative ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
                                             onClick={() => handleUnlimitedStockProduct(item)}>
                                             <input
-                                                className='mr-2 caret-transparent cursor-pointer bg-red-500'
+                                                className='caret-transparent cursor-pointer bg-red-500'
                                                 id={`unlimitedStockCheckbox${item?.id}`}
                                                 type="checkbox"
-                                                placeholder="Illimité"
+                                                // placeholder="Illimité"
                                                 checked={item?.stock != '' ? false : item?.unlimited}
                                                 // pour pas avoir de warning "input checkbox non controlé"
                                                 onChange={() => { }}
@@ -517,7 +529,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                         type="number"
                                         step=".01"
                                         onChange={(e) => handleVarianteCost(e, item)}
-                                        value={item?.reducedPrice}
+                                        value={item?.cost}
                                         placeholder="0.00"
                                         min="0"
                                         max="9999999999"
@@ -530,26 +542,23 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                 <div className='w-full overflow-hidden'>
                                     <input
                                         id={`inputPrevPrice${item?.id}`}
-                                        type="number"
-                                        step=".01"
-                                        onChange={(e) => handleVarianteReducedPrice(e, item)}
-                                        value={item?.reducedPrice}
-                                        placeholder="0.00"
-                                        min="0"
-                                        max="9999999999"
+                                        type="text"
+                                        onChange={(e) => handleVarianteProductCode(e, item)}
+                                        value={item?.productCode}
+                                        placeholder=""
                                         className={`w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
                                     />
                                 </div>}
 
-                            {/* weight */}
+                            {/* parcelWeight */}
                             {visiblesFields[indexOfVisiblesFields]?.includes('weight') &&
                                 <div className='w-full overflow-hidden'>
                                     <input
                                         id={`inputPrevPrice${item?.id}`}
                                         type="number"
                                         step=".01"
-                                        onChange={(e) => handleVarianteReducedPrice(e, item)}
-                                        value={item?.reducedPrice}
+                                        onChange={(e) => handleVarianteParcelWeight(e, item)}
+                                        value={item?.parcelWeight}
                                         placeholder="0.00"
                                         min="0"
                                         max="9999999999"
@@ -604,7 +613,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                 imageVariante={imageVariante}
                 setImageVariante={setImageVariante}
             />
-        </div >
+        </div>
     );
 }
 

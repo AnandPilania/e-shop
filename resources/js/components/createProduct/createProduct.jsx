@@ -24,7 +24,7 @@ const CreateProduct = () => {
     const [dataDetail, setDataDetail] = useState([]);
     const [showModalFromPrice, setShowModalFromPrice] = useState(false);
 
-    const { image, descriptionProduct, setListSuppliers, supplier, collection, productPrice, productStock, messageModal, setMessageModal, nameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, imageVariantes, productCode, productCost, previousProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, productWeight, setListTransporters, ribbonProduct, screenSize } = useContext(AppContext);
+    const { image, descriptionProduct, setListSuppliers, supplier, collection, productPrice, productStock, productParcelWeight, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, imageVariantes, productCode, productCost, previousProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, screenSize } = useContext(AppContext);
 
     useEffect(() => {
         // charge la liste des fournisseurs
@@ -113,7 +113,8 @@ const CreateProduct = () => {
     const closelModal = () => {
         setShowModalFromPrice(false);
     }
-    console.log('uuidv4  ',  uuidv4());
+
+    // console.log('uuidv4  ', uuidv4());
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -153,7 +154,8 @@ const CreateProduct = () => {
         console.log('obj  ', obj);
         console.log('tva  ', tva);
         console.log('supplier  ', supplier);
-        console.log('productWeight  ', productWeight);
+        console.log('productParcelWeight  ', productParcelWeight);
+        console.log('productParcelWeightMeasureUnit  ', productParcelWeightMeasureUnit);
         console.log('imageVariantes  ', imageVariantes);
         console.log('previousProductPrice  ', previousProductPrice);
         console.log('productCost  ', productCost);
@@ -201,40 +203,34 @@ const CreateProduct = () => {
                         <Collection />
                         <Price />
                         <Stock />
-                        <Supplier />
+                        <Shipping />
                         {activeCalculTva == 1 &&
                             <Tva />
                         }
-                        <Shipping />
+                        <Supplier />
                     </div>
                 </div>
                 :
-                <div className="w-full md:w-[90%] min-h-[100vh] flex flex-col justify-center items-start mt-[50px] mx-auto text-base">
-                    <div className="w-full grid grid-cols-1 gap-y-4">
-                        <Flex_col_s_s>
-                            <h4 className="mb-5 font-semibold text-xl">
-                                Ajouter un produit
-                            </h4>
-                            <NameAndRibbon />
-                            <Description />
-                        </Flex_col_s_s>
-                        <DropZoneProduct />
-
-                        <Options />
-
-                        <OptimisationProduct />
-                    </div>
-                    {/* ----------  side  ---------- */}
-                    <div className='grid grid-cols-1 gap-y-4'>
-                        <Collection />
-                        <Price />
-                        <Stock />
-                        <Supplier />
-                        {activeCalculTva == 1 &&
-                            <Tva />
-                        }
-                        <Shipping />
-                    </div>
+                <div className="w-full md:w-[90%] min-h-[100vh] grid grid-cols-1 gap-y-4 justify-center items-start mt-[50px] mx-auto text-base"
+                >
+                    <Flex_col_s_s>
+                        <h4 className="mb-5 font-semibold text-xl">
+                            Ajouter un produit
+                        </h4>
+                        <NameAndRibbon />
+                        <Description />
+                    </Flex_col_s_s>
+                    <DropZoneProduct />
+                    <Collection />
+                    <Price />
+                    <Stock />
+                    <Shipping />
+                    <Options />
+                    {activeCalculTva == 1 &&
+                        <Tva />
+                    }
+                    <Supplier />
+                    <OptimisationProduct />
                 </div>
             }
             <div className='w-full flex justify-center md:justify-start md:w-[90%] lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] mx-auto mt-5 mb-48'>

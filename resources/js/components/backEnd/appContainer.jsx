@@ -140,8 +140,8 @@ const Appcontainer = () => {
     const [descriptionProduct, setDescriptionProduct] = useState('');
     const [collection, setCollection] = useState([]);
     const [productPrice, setProductPrice] = useState('');
-    const [productWeight, setProductWeight] = useState('');
     const [productParcelWeight, setProductParcelWeight] = useState('');
+    const [productParcelWeightMeasureUnit, setProductParcelWeightMeasureUnit] = useState('kg');
     const [promoApplied, setPromoApplied] = useState('');
     const [reducedProductPrice, setReducedProductPrice] = useState('');
     const [productCost, setProductCost] = useState('');
@@ -190,7 +190,7 @@ const Appcontainer = () => {
 
 
     // GENERAL -----------------------------------------------------------
-    const [screenSize, setScreenSize] = useState('');
+    const [screenSize, setScreenSize] = useState(window.innerWidth);
 
 
     useEffect(() => {
@@ -218,14 +218,15 @@ const Appcontainer = () => {
                 console.log('Error : ' + error.status);
             });
 
-
-        // get screen size
+        // Listener screen size change
         function handleResizeScreen() {
             setScreenSize(window.innerWidth);
         }
-        window.addEventListener('resize', handleResizeScreen)
-        handleResizeScreen();
-        
+        window.addEventListener('resize', handleResizeScreen);
+        return () => {
+            window.removeEventListener('resize', handleResizeScreen);
+        };
+
     }, []);
 
 
@@ -569,8 +570,8 @@ const Appcontainer = () => {
         metaUrlProduct, setMetaUrlProduct,
         listTransporters, setListTransporters,
         transporter, setTransporter,
-        productWeight, setProductWeight,
         productParcelWeight, setProductParcelWeight,
+        productParcelWeightMeasureUnit, setProductParcelWeightMeasureUnit,
         screenSize
 
     }
