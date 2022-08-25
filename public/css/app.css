@@ -567,6 +567,21 @@ Ensure the default browser behavior of the `hidden` attribute.
 .z-30 {
   z-index: 30;
 }
+.z-\[100\] {
+  z-index: 100;
+}
+.order-1 {
+  order: 1;
+}
+.order-2 {
+  order: 2;
+}
+.order-3 {
+  order: 3;
+}
+.order-4 {
+  order: 4;
+}
 .col-span-2 {
   grid-column: span 2 / span 2;
 }
@@ -724,6 +739,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mt-0 {
   margin-top: 0px;
 }
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
 .mr-1 {
   margin-right: 0.25rem;
 }
@@ -735,9 +753,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .ml-2\.5 {
   margin-left: 0.625rem;
-}
-.mb-6 {
-  margin-bottom: 1.5rem;
 }
 .ml-5 {
   margin-left: 1.25rem;
@@ -804,6 +819,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .mb-1\.5 {
   margin-bottom: 0.375rem;
+}
+.mb-7 {
+  margin-bottom: 1.75rem;
 }
 .block {
   display: block;
@@ -949,6 +967,18 @@ Ensure the default browser behavior of the `hidden` attribute.
 .max-h-\[28px\] {
   max-height: 28px;
 }
+.max-h-\[\] {
+  max-height: ;
+}
+.max-h-\[400px\] {
+  max-height: 400px;
+}
+.max-h-\[500px\] {
+  max-height: 500px;
+}
+.max-h-\[100vh\] {
+  max-height: 100vh;
+}
 .min-h-screen {
   min-height: 100vh;
 }
@@ -978,6 +1008,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .min-h-\[40px\] {
   min-height: 40px;
+}
+.min-h-\[500px\] {
+  min-height: 500px;
 }
 .w-5 {
   width: 1.25rem;
@@ -1018,6 +1051,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .w-14 {
   width: 3.5rem;
 }
+.w-16 {
+  width: 4rem;
+}
 .w-\[100px\] {
   width: 100px;
 }
@@ -1054,9 +1090,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .w-24 {
   width: 6rem;
 }
-.w-16 {
-  width: 4rem;
-}
 .w-\[40\%\] {
   width: 40%;
 }
@@ -1087,20 +1120,35 @@ Ensure the default browser behavior of the `hidden` attribute.
 .w-40 {
   width: 10rem;
 }
-.w-36 {
-  width: 9rem;
-}
 .w-\[130px\] {
   width: 130px;
 }
 .w-\[90\%\] {
   width: 90%;
 }
+.w-\[calc\] {
+  width: calc;
+}
+.w-\[calc\(100\%_-_10px\)\] {
+  width: calc(100% - 10px);
+}
+.w-\[calc\(100\%_-_100px\)\] {
+  width: calc(100% - 100px);
+}
+.w-\[calc\(100\%_-_20px\)\] {
+  width: calc(100% - 20px);
+}
+.w-\[98\%\] {
+  width: 98%;
+}
 .min-w-\[750px\] {
   min-width: 750px;
 }
 .min-w-\[20px\] {
   min-width: 20px;
+}
+.min-w-\[64px\] {
+  min-width: 64px;
 }
 .min-w-\[150px\] {
   min-width: 150px;
@@ -1116,12 +1164,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .min-w-\[160px\] {
   min-width: 160px;
-}
-.min-w-\[\] {
-  min-width: ;
-}
-.min-w-\[64px\] {
-  min-width: 64px;
 }
 .max-w-7xl {
   max-width: 80rem;
@@ -1376,6 +1418,18 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .grid-cols-\[25px_160px_1fr_1fr_1fr_50px_32px\] {
   grid-template-columns: 25px 160px 1fr 1fr 1fr 50px 32px;
+}
+.grid-cols-\[25px_100px_1fr_1fr_1fr_50px_32px\] {
+  grid-template-columns: 25px 100px 1fr 1fr 1fr 50px 32px;
+}
+.grid-cols-\[25px_100px_1fr_1fr_1fr_82px\] {
+  grid-template-columns: 25px 100px 1fr 1fr 1fr 82px;
+}
+.grid-cols-\[25px_100px_1fr_1fr_82px\] {
+  grid-template-columns: 25px 100px 1fr 1fr 82px;
+}
+.grid-cols-\[25px_100px_1fr_1fr_50px_32px\] {
+  grid-template-columns: 25px 100px 1fr 1fr 50px 32px;
 }
 .flex-row {
   flex-direction: row;
@@ -1643,6 +1697,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 .border-gray-800 {
   --tw-border-opacity: 1;
   border-color: rgb(31 41 55 / var(--tw-border-opacity));
+}
+.border-red-600 {
+  --tw-border-opacity: 1;
+  border-color: rgb(220 38 38 / var(--tw-border-opacity));
 }
 .bg-white {
   --tw-bg-opacity: 1;
@@ -2251,14 +2309,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 .pb-2\.5 {
   padding-bottom: 0.625rem;
 }
+.pr-2 {
+  padding-right: 0.5rem;
+}
 .pt-5 {
   padding-top: 1.25rem;
 }
 .pb-8 {
   padding-bottom: 2rem;
-}
-.pr-2 {
-  padding-right: 0.5rem;
 }
 .pl-8 {
   padding-left: 2rem;
@@ -2817,6 +2875,10 @@ select:-webkit-autofill:focus {
   --tw-bg-opacity: 1;
   background-color: rgb(100 116 139 / var(--tw-bg-opacity));
 }
+.hover\:bg-indigo-400:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(129 140 248 / var(--tw-bg-opacity));
+}
 .hover\:bg-slate-100:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(241 245 249 / var(--tw-bg-opacity));
@@ -2824,10 +2886,6 @@ select:-webkit-autofill:focus {
 .hover\:bg-blue-200:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(191 219 254 / var(--tw-bg-opacity));
-}
-.hover\:bg-indigo-400:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(129 140 248 / var(--tw-bg-opacity));
 }
 .hover\:bg-caret-down:hover {
   background-image: url('/images/icons/caret-down.svg');
@@ -2992,6 +3050,14 @@ select:-webkit-autofill:focus {
 }
 @media (min-width: 640px) {
 
+  .sm\:order-4 {
+    order: 4;
+  }
+
+  .sm\:order-3 {
+    order: 3;
+  }
+
   .sm\:-my-px {
     margin-top: -1px;
     margin-bottom: -1px;
@@ -3003,6 +3069,30 @@ select:-webkit-autofill:focus {
 
   .sm\:ml-6 {
     margin-left: 1.5rem;
+  }
+
+  .sm\:mr-4 {
+    margin-right: 1rem;
+  }
+
+  .sm\:mt-3 {
+    margin-top: 0.75rem;
+  }
+
+  .sm\:mb-0 {
+    margin-bottom: 0px;
+  }
+
+  .sm\:mb-\[50px\] {
+    margin-bottom: 50px;
+  }
+
+  .sm\:mt-5 {
+    margin-top: 1.25rem;
+  }
+
+  .sm\:mb-3 {
+    margin-bottom: 0.75rem;
   }
 
   .sm\:flex {
@@ -3021,12 +3111,20 @@ select:-webkit-autofill:focus {
     flex: 1 1 0%;
   }
 
+  .sm\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .sm\:items-center {
     align-items: center;
   }
 
   .sm\:justify-start {
     justify-content: flex-start;
+  }
+
+  .sm\:justify-end {
+    justify-content: flex-end;
   }
 
   .sm\:justify-center {
@@ -3039,6 +3137,10 @@ select:-webkit-autofill:focus {
 
   .sm\:rounded-lg {
     border-radius: 0.5rem;
+  }
+
+  .sm\:p-5 {
+    padding: 1.25rem;
   }
 
   .sm\:px-6 {
@@ -3058,6 +3160,26 @@ select:-webkit-autofill:focus {
 
   .md\:w-32 {
     width: 8rem;
+  }
+
+  .md\:grid-cols-\[25px_100px_1fr_1fr_1fr_82px\] {
+    grid-template-columns: 25px 100px 1fr 1fr 1fr 82px;
+  }
+
+  .md\:grid-cols-\[25px_100px_1fr_1fr_1fr_50px_32px\] {
+    grid-template-columns: 25px 100px 1fr 1fr 1fr 50px 32px;
+  }
+
+  .md\:grid-cols-\[25px_80px_1fr_1fr_1fr_50px_32px\] {
+    grid-template-columns: 25px 80px 1fr 1fr 1fr 50px 32px;
+  }
+
+  .md\:grid-cols-\[25px_80px_1fr_1fr_110px_50px_32px\] {
+    grid-template-columns: 25px 80px 1fr 1fr 110px 50px 32px;
+  }
+
+  .md\:grid-cols-\[25px_100px_1fr_1fr_110px_82px\] {
+    grid-template-columns: 25px 100px 1fr 1fr 110px 82px;
   }
 
   .md\:justify-start {
@@ -3083,9 +3205,29 @@ select:-webkit-autofill:focus {
     width: 15rem;
   }
 
+  .lg\:w-\[80\%\] {
+    width: 80%;
+  }
+
+  .lg\:w-\[70\%\] {
+    width: 70%;
+  }
+
   .lg\:translate-x-0 {
     --tw-translate-x: 0px;
     transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+
+  .lg\:grid-cols-\[1fr_33\.3333\%\] {
+    grid-template-columns: 1fr 33.3333%;
+  }
+
+  .lg\:p-0 {
+    padding: 0px;
+  }
+
+  .lg\:p-5 {
+    padding: 1.25rem;
   }
 
   .lg\:px-8 {
@@ -3098,6 +3240,48 @@ select:-webkit-autofill:focus {
   .xl\:w-\[90\%\] {
     width: 90%;
   }
+
+  .xl\:w-\[70\%\] {
+    width: 70%;
+  }
+
+  .xl\:w-\[65\%\] {
+    width: 65%;
+  }
+
+  .xl\:w-\[60\%\] {
+    width: 60%;
+  }
+
+  .xl\:w-\[55\%\] {
+    width: 55%;
+  }
+
+  .xl\:grid-cols-\[25px_160px_1fr_1fr_1fr_50px_32px\] {
+    grid-template-columns: 25px 160px 1fr 1fr 1fr 50px 32px;
+  }
+
+  .xl\:grid-cols-\[25px_160px_1fr_1fr_1fr_82px\] {
+    grid-template-columns: 25px 160px 1fr 1fr 1fr 82px;
+  }
+
+  .xl\:grid-cols-\[25px_140px_1fr_1fr_1fr_82px\] {
+    grid-template-columns: 25px 140px 1fr 1fr 1fr 82px;
+  }
+
+  .xl\:grid-cols-\[25px_140px_1fr_1fr_1fr_50px_32px\] {
+    grid-template-columns: 25px 140px 1fr 1fr 1fr 50px 32px;
+  }
+
+  .xl\:px-2\.5 {
+    padding-left: 0.625rem;
+    padding-right: 0.625rem;
+  }
+
+  .xl\:px-2 {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
 }
 @media (min-width: 1536px) {
 
@@ -3109,6 +3293,10 @@ select:-webkit-autofill:focus {
 
   .\33xl\:w-\[70\%\] {
     width: 70%;
+  }
+
+  .\33xl\:w-\[40\%\] {
+    width: 40%;
   }
 }
 

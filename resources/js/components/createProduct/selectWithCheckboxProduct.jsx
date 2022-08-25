@@ -101,7 +101,7 @@ export default function SelectWithCheckboxProduct({ unikId, list, selected, setS
                             className="flex flex-col justify-start items-center w-full h-auto text-gray-700 text-base bg-white"
                         >
                             <span
-                                className="truncate font-semibold cursor-pointer p-2 w-full h-full">
+                                className="truncate font-semibold cursor-default p-2 w-full h-full">
                                 {zone.name}
                             </span>
 

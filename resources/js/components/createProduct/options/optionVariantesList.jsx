@@ -180,12 +180,12 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
     const handleStockProduct = (e, item) => {
         handleVariantes(item.id, 'stock', e.target.value);
-    }    
-    
+    }
+
     const handleVarianteCost = (e, item) => {
         handleVariantes(item.id, 'cost', e.target.value);
-    }    
-    
+    }
+
     const handleVarianteParcelWeight = (e, item) => {
         handleVariantes(item.id, 'parcelWeight', e.target.value);
     }
@@ -327,6 +327,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
     // gère les boutons prev et next des champs de la liste des variantes
     const handleChangeShowedFields = (nextOrPrevious) => {
+        console.log('nextOrPrevious  ', nextOrPrevious)
         if (nextOrPrevious == 'next' && indexOfVisiblesFields < visiblesFields.length - 1) {
             setAnimateSlideRightIsActived(true);
             setIndexOfVisiblesFields(indexOfVisiblesFields + 1);
@@ -343,17 +344,21 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
     useEffect(() => {
         let tmp_arr = [];
-        if (screenSize < 1000) {
-            tmp_arr = [['price', 'reducedPrice'], ['stock', 'cost'], ['sku', 'weght']];
+        if (screenSize < 768) {
+            tmp_arr = [['price', 'reducedPrice'], ['stock', 'cost'], ['sku', 'weight']];
         } else {
             tmp_arr = [['price', 'reducedPrice', 'stock'], ['cost', 'sku', 'weight']];
         }
         setVisiblesFields(tmp_arr);
+        // evite un bug sur l'affichage des colonnes
+        screenSize < 768 && handleChangeShowedFields('previous');
     }, [screenSize]);
 
 
     return (
-        <div className={`${variantes?.length > 0 && "border-t border-gray-200 mt-5"}`}>
+        <div
+            className={`w-full ${variantes?.length > 0 && "border-t border-gray-200 mt-5"}`}
+        >
             {variantes?.length > 0 &&
                 <h3 className='w-full text-left mb-5 mt-6 font-semibold text-[16px]'>
                     Variantes
@@ -368,7 +373,9 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                 />}
 
             {variantes?.length > 0 &&
-                <div className="w-full h-auto grid gap-x-2 grid-cols-[25px_160px_1fr_1fr_1fr_82px] justify-start items-center border-b border-gray-200 mb-5">
+                <div
+                    className="w-full h-auto grid gap-x-2 grid-cols-[25px_100px_1fr_1fr_82px] md:grid-cols-[25px_100px_1fr_1fr_1fr_82px] xl:grid-cols-[25px_140px_1fr_1fr_1fr_82px] justify-start items-center border-b border-gray-200 mb-5"
+                >
                     {/* checkbox select all */}
                     <div className='w-full h-8 flex flex-row justify-start items-center pt-2 pl-[1px]'>
                         <AnimateCheckbox
@@ -380,20 +387,20 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                     </div>
                     <span className='font-semibold text-base bg-white z-10'>Variantes</span>
                     {visiblesFields[indexOfVisiblesFields]?.includes('price') &&
-                        <span className={`BRD-BLUE-1 w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
+                        <span className={`w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
                             Prix
                         </span>}
                     {visiblesFields[indexOfVisiblesFields]?.includes('reducedPrice') &&
-                        <span className={`brd-red-1 w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
+                        <span className={`w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
                             Promo
                         </span>}
                     {visiblesFields[indexOfVisiblesFields]?.includes('stock') &&
-                        <span className={`brd-green-1 w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
+                        <span className={`w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
                             Stock
                         </span>}
                     {visiblesFields[indexOfVisiblesFields]?.includes('cost') &&
                         <span className={`w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
-                            Cout
+                            Prix d'achat
                         </span>}
                     {visiblesFields[indexOfVisiblesFields]?.includes('sku') &&
                         <span className={`w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
@@ -432,7 +439,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                     (isHideDeletedVariantes && item.deleted === true) ? '' :
                         <div
                             key={index}
-                            className={`w-full h-auto grid gap-x-2 grid-cols-[25px_160px_1fr_1fr_1fr_50px_32px] justify-start items-center py-2 relative bg-white hover:bg-gray-50 ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
+                            className={`w-full h-auto grid gap-x-2 grid-cols-[25px_100px_1fr_1fr_50px_32px] md:grid-cols-[25px_80px_1fr_1fr_1fr_50px_32px] xl:grid-cols-[25px_140px_1fr_1fr_1fr_50px_32px] justify-start items-center py-2 relative bg-white  hover:bg-gray-50 ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
                         >
                             {/* checkbox "!!! a son css !!!" */}
                             <div className='w-6 h-8 flex flex-row justify-start items-center pt-2 pl-[1px]'>
@@ -446,7 +453,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
                             {/* variante */}
                             <span
-                                className={`w-40 min-w-[160px] h-8 pt-1 rounded-md whitespace-nowrap text-ellipsis overflow-hidden cursor-default group ${item.deleted ? "text-gray-400" : "text-gray-500"} ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
+                                className={`w-full h-8 pt-1 rounded-md whitespace-nowrap text-ellipsis overflow-hidden cursor-default group ${item.deleted ? "text-gray-400" : "text-gray-500"} ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
                             >
                                 {item?.optionsString}
                                 <Tooltip top={-20} left={20}>
@@ -503,7 +510,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                             className={`w-full h-8 border border-gray-300 rounded-l-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
                                         />
                                         <span
-                                            className={`flex flex-rox justify-start items-center h-8 border-y border-r border-gray-300 rounded-r-md px-2.5 cursor-pointer caret-transparent group relative ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
+                                            className={`flex flex-rox justify-start items-center h-8 border-y border-r border-gray-300 rounded-r-md xl:px-2.5 cursor-pointer caret-transparent group relative ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
                                             onClick={() => handleUnlimitedStockProduct(item)}>
                                             <input
                                                 className='caret-transparent cursor-pointer bg-red-500'
@@ -584,7 +591,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                             </span>
 
                             {/* delete */}
-                            <div className='group flex justify-center items-center w-8 h-8 p-0 m-0 cursor-pointer'>
+                            <div className='group flex justify-center items-center w-full h-8 p-0 m-0 cursor-pointer'>
                                 {
                                     !item.deleted ?
                                         <span

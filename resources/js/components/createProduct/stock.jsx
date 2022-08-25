@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import Flex_col_s_s from '../elements/container/flex_col_s_s';
-import SelectMeasureUnit from '../elements/selectMeasureUnit';
+import SelectMeasureUnit from './selectMeasureUnit';
 import Tooltip from '../elements/tooltip';
 import InputNumeric from '../form/inputNumeric';
 import Label from '../form/label';
-import { v4 as uuidv4 } from 'uuid';
+
 
 const Stock = () => {
 
@@ -163,8 +163,8 @@ const Stock = () => {
                                 setItemSelected={setProductParcelWeightMeasureUnit}
                                 toggleSelect={toggleSelect}
                                 setToggleSelect={setToggleSelect}
-                                ulUnikId={uuidv4()}
-                                buttonUnikId={uuidv4()}
+                                ulUnikId="stockIdUl25822"
+                                buttonUnikId="stockIdButton25822"
                             />
                         </span>
                     </div>

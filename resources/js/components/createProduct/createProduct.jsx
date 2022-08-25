@@ -181,38 +181,10 @@ const CreateProduct = () => {
 
 
     return (
-        <div className="w-full">
-            {screenSize > 1023 ?
-                <div className="w-full lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] min-h-[100vh] mt-[50px] mx-auto grid grid-cols-[1fr_33.3333%] gap-4 ustify-center items-start text-base">
-                    <div className="w-full grid grid-cols-1 gap-y-4">
-                        <Flex_col_s_s>
-                            <h4 className="mb-5 font-semibold text-xl">
-                                Ajouter un produit
-                            </h4>
-                            <NameAndRibbon />
-                            <Description />
-                        </Flex_col_s_s>
-                        <DropZoneProduct />
-
-                        <Options />
-
-                        <OptimisationProduct />
-                    </div>
-                    {/* ----------  side  ---------- */}
-                    <div className='grid grid-cols-1 gap-y-4'>
-                        <Collection />
-                        <Price />
-                        <Stock />
-                        <Shipping />
-                        {activeCalculTva == 1 &&
-                            <Tva />
-                        }
-                        <Supplier />
-                    </div>
-                </div>
-                :
-                <div className="w-full md:w-[90%] min-h-[100vh] grid grid-cols-1 gap-y-4 justify-center items-start mt-[50px] mx-auto text-base"
-                >
+        <div className="w-full px-2.5 lg:p-0">
+            {/* {screenSize > 1023 ? */}
+            <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_33.3333%] gap-4 justify-center items-start lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] min-h-[100vh] mt-[50px] mx-auto  text-base">
+                <div className="w-full grid grid-cols-1 gap-y-4">
                     <Flex_col_s_s>
                         <h4 className="mb-5 font-semibold text-xl">
                             Ajouter un produit
@@ -220,19 +192,38 @@ const CreateProduct = () => {
                         <NameAndRibbon />
                         <Description />
                     </Flex_col_s_s>
+
                     <DropZoneProduct />
-                    <Collection />
-                    <Price />
-                    <Stock />
-                    <Shipping />
+
+                    {screenSize < 1024 &&
+                        <div className='w-full grid grid-cols-1 gap-y-4'>
+                            <Collection />
+                            <Price />
+                            <Stock />
+                            <Shipping />
+                        </div>
+                    }
+
                     <Options />
+
+                    <OptimisationProduct />
+                </div>
+                {/* ----------  side  ---------- */}
+                <div className='w-full grid grid-cols-1 gap-y-4'>
+                    {screenSize > 1023 &&
+                        <div className='w-full grid grid-cols-1 gap-y-4'>
+                            <Collection />
+                            <Price />
+                            <Stock />
+                            <Shipping />
+                        </div>
+                    }
                     {activeCalculTva == 1 &&
                         <Tva />
                     }
                     <Supplier />
-                    <OptimisationProduct />
                 </div>
-            }
+            </div>
             <div className='w-full flex justify-center md:justify-start md:w-[90%] lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] mx-auto mt-5 mb-48'>
                 <button
                     className="flex flex-row justify-center items-center w-44 md:w-32 px-3 py-2 rounded-md bg-green-600 text-white"

@@ -205,10 +205,13 @@ const Options = () => {
 
             </DragDropContext>
 
-            <OptionVariantesList
-                // listType={listType}
-                setShowOptions={setShowOptions}
-            />
+            <div className='w-full'>
+                <OptionVariantesList
+                    // listType={listType}
+                    setShowOptions={setShowOptions}
+                />
+            </div>
+
 
             {/* modal for confirmation */}
             <ModalconfirmCancelWithoutSapveOptions

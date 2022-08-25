@@ -30,8 +30,12 @@ const Price = () => {
     // calcul le bénéfice en €/$ et la marge en %
     useEffect(() => {
         let profit = reducedProductPrice == '' ? productPrice - productCost : reducedProductPrice - productCost;
-        setProductProfit(profit.toFixed(2));
+        productPrice != '' && setProductProfit(profit.toFixed(2));
         setProductMargin(((profit / productCost) * 100).toFixed(2));
+        if (productPrice == '') {
+            setProductProfit('');
+            setProductMargin('');
+        }
     }, [productPrice, reducedProductPrice, productCost]);
 
 
@@ -60,7 +64,7 @@ const Price = () => {
     const handlePromoType = (typePromo) => {
         setPromoType(typePromo);
         setPromoApplied('');
-        setReducedProductPrice(productPrice);
+        setReducedProductPrice('');
     }
 
     const reCalculPromoApplied = () => {
@@ -102,7 +106,7 @@ const Price = () => {
                             id="inputPriceProduct19822"
                             value={productPrice}
                             handleChange={handleProductPrice}
-                            placeholder="0.00"
+                            placeholder=""
                             step=".01"
                             min="0"
                             max="9999999999"
@@ -136,7 +140,7 @@ const Price = () => {
                                     id="inputReduction19822"
                                     value={promoApplied}
                                     handleChange={handlePromoProductPrice}
-                                    placeholder="0.00"
+                                    placeholder=""
                                     step=".01"
                                     min="0"
                                     max="9999999999"
@@ -150,10 +154,12 @@ const Price = () => {
                                     </span>
                                 </div>
                                 <div className='h-8 px-1 ml-2 flex flex-row justify-center items-center border border-gray-300 rounded-r-md bg-white'>
+                                    {/* % button */}
                                     <span
                                         className={`w-6 h-6 flex flex-row justify-center items-center rounded-md ${promoType != "%" && "hover:bg-indigo-300"} hover:text-white text-base font-semibold cursor-pointer mr-1 ${promoType == "%" ? "bg-indigo-500 text-white" : "bg-gray-50 text-gray-700"}`}
                                         onClick={() => handlePromoType("%")}
                                     >%</span>
+                                    {/* € button */}
                                     <span
                                         className={`w-6 h-6 flex flex-row justify-center items-center rounded-md ${promoType != "€" && "hover:bg-indigo-300"} hover:text-white text-base font-semibold cursor-pointer ${promoType == "€" ? "bg-indigo-500 text-white" : "bg-gray-50 text-gray-700"}`}
                                         onClick={() => handlePromoType("€")}
@@ -168,7 +174,7 @@ const Price = () => {
                                 id="inputReducedPrice19822"
                                 value={reducedProductPrice}
                                 handleChange={handleReducedProductPrice}
-                                placeholder="0.00"
+                                placeholder=""
                                 step=".01"
                                 min="0"
                                 max="9999999999"
@@ -186,7 +192,7 @@ const Price = () => {
                             id="inputCost19822"
                             value={productCost}
                             handleChange={handleProductCost}
-                            placeholder="0.00"
+                            placeholder=""
                             step=".01"
                             min="0"
                             max="9999999999"
@@ -203,7 +209,7 @@ const Price = () => {
                         id="inputProfit19822"
                         value={productProfit}
                         handleChange={() => { }}
-                        placeholder="0.00"
+                        placeholder=""
                         step=".01"
                         min="0"
                         max="9999999999"
@@ -212,12 +218,12 @@ const Price = () => {
                 </div>
                 {/* margin */}
                 <div className='w-full'>
-                    <Label label="Marge bénéficiaire" />
+                    <Label label="Marge" />
                     <InputNumeric
                         id="inputMargin19822"
                         value={productMargin}
                         handleChange={() => { }}
-                        placeholder="0.00"
+                        placeholder=""
                         step=".01"
                         min="0"
                         max="9999999999"
