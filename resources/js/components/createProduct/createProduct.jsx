@@ -21,10 +21,9 @@ import { v4 as uuidv4 } from 'uuid';
 // props.id = detailx
 const CreateProduct = () => {
 
-    const [dataDetail, setDataDetail] = useState([]);
     const [showModalFromPrice, setShowModalFromPrice] = useState(false);
 
-    const { image, descriptionProduct, setListSuppliers, supplier, collection, productPrice, productStock, productParcelWeight, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, imageVariantes, productCode, productCost, previousProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, screenSize } = useContext(AppContext);
+    const { descriptionProduct, setListSuppliers, supplier, collection, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, screenSize, isInAutoCollection } = useContext(AppContext);
 
     useEffect(() => {
         // charge la liste des fournisseurs
@@ -126,46 +125,49 @@ const CreateProduct = () => {
 
         var formData = new FormData;
 
-        // on boucle sur imageFiles pour récupérer toutes les images
-        if (image) {
-            for (var i = 0; i < image.length; i++) {
-                formData.append('image[]', image[i]);
-            }
-        }
-
-        formData.append("name", nameProduct);
-        formData.append("price", productPrice);
-        formData.append("collection", collection);
-        formData.append("description", descriptionProduct);
-
-        // supprime listTypes de dataDetail car inutile côté controlleur
-        dataDetail.forEach(obj => delete obj.listTypes);
-        // C EST QUOI CE dataDetail ?? ?? ?? <------------------ !!!
-
-        // transformation de l'objet en string JSON
-        var obj = JSON.stringify(dataDetail);
-        formData.append("obj", obj);
+        formData.append('nameProduct  ', nameProduct);
+        formData.append('ribbonProduct  ', ribbonProduct);
+        formData.append('descriptionProduct  ', descriptionProduct);
+        formData.append('imageVariantes', JSON.stringify(imageVariantes));
+        formData.append('collection  ', collection);
+        formData.append('isInAutoCollection  ', isInAutoCollection);
+        formData.append('productPrice  ', productPrice);
+        formData.append('reducedProductPrice  ', reducedProductPrice);
+        formData.append('productCost  ', productCost);
+        formData.append('productStock  ', productStock);
+        formData.append('productSKU  ', productCode == '' ? uuidv4() : productCode);
+        formData.append('productParcelWeight  ', productParcelWeight);
+        formData.append('productParcelWeightMeasureUnit  ', productParcelWeightMeasureUnit);
+        formData.append('transporter  ', transporter);
+        formData.append('tva  ', tva);
+        formData.append('supplier  ', supplier);
+        formData.append('optionsObj  ', optionsObj);
+        formData.append('variantes  ', variantes);
+        formData.append('metaUrlProduct   ', metaUrlProduct);
+        formData.append('metaTitleProduct   ', metaTitleProduct);
+        formData.append('metaDescriptionProduct   ', metaDescriptionProduct);
 
         console.log('nameProduct  ', nameProduct);
         console.log('ribbonProduct  ', ribbonProduct);
-        console.log('productPrice  ', productPrice);
-        console.log('collection  ', collection);
         console.log('descriptionProduct  ', descriptionProduct);
-        console.log('obj  ', obj);
-        console.log('tva  ', tva);
-        console.log('supplier  ', supplier);
-        console.log('productParcelWeight  ', productParcelWeight);
-        console.log('productParcelWeightMeasureUnit  ', productParcelWeightMeasureUnit);
-        console.log('imageVariantes  ', imageVariantes);
-        console.log('previousProductPrice  ', previousProductPrice);
+        console.log('imageVariantes', JSON.stringify(imageVariantes));
+        console.log('collection  ', collection);
+        console.log('isInAutoCollection  ', isInAutoCollection);
+        console.log('productPrice  ', productPrice);
+        console.log('reducedProductPrice  ', reducedProductPrice);
         console.log('productCost  ', productCost);
         console.log('productStock  ', productStock);
         console.log('productSKU  ', productCode == '' ? uuidv4() : productCode);
+        console.log('productParcelWeight  ', productParcelWeight);
+        console.log('productParcelWeightMeasureUnit  ', productParcelWeightMeasureUnit);
+        console.log('transporter  ', transporter);
+        console.log('tva  ', tva);
+        console.log('supplier  ', supplier);
         console.log('optionsObj  ', optionsObj);
         console.log('variantes  ', variantes);
+        console.log('metaUrlProduct   ', metaUrlProduct);
         console.log('metaTitleProduct   ', metaTitleProduct);
         console.log('metaDescriptionProduct   ', metaDescriptionProduct);
-        console.log('metaUrlProduct   ', metaUrlProduct);
 
         Axios.post(`http://127.0.0.1:8000/products`, formData,
             {
@@ -201,6 +203,10 @@ const CreateProduct = () => {
                             <Price />
                             <Stock />
                             <Shipping />
+                            {activeCalculTva == 1 &&
+                                <Tva />
+                            }
+                            <Supplier />
                         </div>
                     }
 
@@ -216,12 +222,11 @@ const CreateProduct = () => {
                             <Price />
                             <Stock />
                             <Shipping />
-                        </div>
-                    }
-                    {activeCalculTva == 1 &&
-                        <Tva />
-                    }
-                    <Supplier />
+                            {activeCalculTva == 1 &&
+                                <Tva />
+                            }
+                            <Supplier />
+                        </div>}
                 </div>
             </div>
             <div className='w-full flex justify-center md:justify-start md:w-[90%] lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] mx-auto mt-5 mb-48'>

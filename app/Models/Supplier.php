@@ -9,8 +9,8 @@ class Supplier extends Model
 {
     use HasFactory;
 
-    public function variantes() 
+    public function products() 
     {
-        return $this->hasMany(Variante::class);
+        return $this->hasMany(Product::class);
     }
 }

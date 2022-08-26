@@ -154,6 +154,7 @@ const Appcontainer = () => {
     const [selectedVariantesList, setSelectedVariantesList] = useState([]);
     const [allOptionsVariantesNeeded, setAllOptionsVariantesNeeded] = useState(0);
     const [isHideDeletedVariantes, setIsHideDeletedVariantes] = useState(false);
+    const [isInAutoCollection, setIsInAutoCollection] = useState(false);
     const [variante, setVariante] = useState({});
     const [imageVariantes, setImageVariantes] = useState([]);
     const [listType, setListType] = useState([]);
@@ -572,7 +573,8 @@ const Appcontainer = () => {
         transporter, setTransporter,
         productParcelWeight, setProductParcelWeight,
         productParcelWeightMeasureUnit, setProductParcelWeightMeasureUnit,
-        screenSize
+        screenSize,
+        isInAutoCollection, setIsInAutoCollection,
 
     }
 

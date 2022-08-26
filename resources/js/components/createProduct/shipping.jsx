@@ -12,7 +12,7 @@ const Shipping = () => {
 
     // delete pastille des transporteurs sélectionnés
     const removeTransporter = (item) => {
-        let index = transporter.findIndex(x => x.id == item.id);
+        let index = transporter.findIndex(x => x.modeId == item.modeId);
         if (index > -1) {
             let tmp_arr = [...transporter];
             tmp_arr.splice(index, 1);
@@ -22,13 +22,10 @@ const Shipping = () => {
 
     return (
         <Flex_col_s_s>
-                    <Label label="Mode.s de livraison" />
+                    <Label label="Mode.s de livraison exclusif.s" />
                     <SelectWithCheckboxProduct
                         key="SelectWithCheckbox_transporter"
                         unikId="SelectWithCheckbox_transporter22822"
-                        // list={listTransporters[0]?.reduce((prev, next) => {
-                        //     return prev.shipping_modes.concat(next.shipping_modes)
-                        // })}
                         list={listTransporters[0]}
                         selected={transporter}
                         setSelected={setTransporter}
@@ -37,7 +34,7 @@ const Shipping = () => {
                     />
                     <div className={`flex flex-wrap ${transporter.length > 0 && "pt-4"} w-full`}>
                         {transporter.map(item =>
-                            <div key={item.id}
+                            <div key={item.modeId}
                                 className="flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-2 pr-1.5 py-1 mb-1 mr-2">
                                 <span
                                     className="h-full text-gray-500 mr-2 rounded-md">

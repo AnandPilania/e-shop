@@ -39,7 +39,7 @@ class VarianteFactory extends Factory
         return [
             'cost' => $amount, 
             'price'=> $amount * 1.5, 
-            'promo_price'=> $amount * 2, 
+            'reduced_price'=> $amount * 2, 
             'weight' => rand(1,3), 
             'stock' => rand(0,50),
             'shipping_cost' => rand(1,30), 

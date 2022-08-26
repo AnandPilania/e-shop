@@ -11,7 +11,7 @@ const Collection = () => {
     const [collectionsRelations, setCollectionsRelations] = useState([]);
     const [toggleSelectWithCheckboxCollection, setToggleSelectWithCheckboxCollection] = useState(false);
 
-    const { collection, setCollection } = useContext(AppContext);
+    const { collection, setCollection, isInAutoCollection, setIsInAutoCollection } = useContext(AppContext);
 
     useEffect(() => {
         // récupére les collections
@@ -30,6 +30,10 @@ const Collection = () => {
             tmp_arr.splice(index, 1);
             setCollection([...tmp_arr]);
         }
+    }
+
+    const handleIsInAutoCollection = () => {
+        setIsInAutoCollection(!isInAutoCollection);
     }
 
     return (
@@ -59,6 +63,22 @@ const Collection = () => {
                         </span>
                     </div>
                 )}
+            </div>
+
+            <div className='w-full mt-7 flex items-start'>
+                <input
+                id="isInAutoCollectionId26822"
+                    type="checkbox"
+                    value={isInAutoCollection}
+                    onChange={handleIsInAutoCollection}
+                    checked={isInAutoCollection}
+                    className="h-5 w-5"
+                />
+                <label 
+                htmlFor='isInAutoCollectionId26822'
+                className='text-sm ml-2'>
+                    Ne pas inclure ce produit dans les collections automatiques
+                </label>
             </div>
         </Flex_col_s_s>
     );

@@ -216,6 +216,8 @@ export default React.createContext({
     productParcelWeightMeasureUnit: '',
     setProductParcelWeightMeasureUnit: () => { },
     screenSize: '', 
+    isInAutoCollection: '', 
+    setIsInAutoCollection: () => { },
     
 
 });

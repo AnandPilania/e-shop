@@ -65,7 +65,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        dd(json_decode($request->imageVariantes));
 
         // $this->validate($request, ['name' => 'required', 'price' => 'required', 'collection' => 'required', 'image' => 'required', 'description' => 'required']);
 
@@ -83,6 +83,7 @@ class ProductController extends Controller
         dd($product);
         $collections = explode(",", $request->collection);
 
+        // collection_product <---
         foreach ($collections as $collection) {
             $collection_id = Collection::where('name', $collection)->first('id');
             $product->collections()->attach($collection_id);

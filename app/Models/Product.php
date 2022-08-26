@@ -64,4 +64,9 @@ class Product extends Model
         return $this->hasMany(Variante::class);
     }
 
+    public function supplier() 
+    {
+        return $this->belongsTo(Supplier::class);
+    }
+
 }

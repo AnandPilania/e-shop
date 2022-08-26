@@ -101,7 +101,7 @@ const Price = () => {
                         <Label label="Prix" />
                         <span className='text-red-600'>*</span>
                     </div>
-                    <div className={`w-full rounded-md ${isShowPromoProduct && productPrice == '' && "border-2 border-red-700"}`}>
+                    <div className={`w-full rounded-md ${isShowPromoProduct && productPrice == '' && "border-2 border-red-600"}`}>
                         <InputNumeric
                             id="inputPriceProduct19822"
                             value={productPrice}
@@ -115,7 +115,7 @@ const Price = () => {
                     </div>
                     {isShowPromoProduct && productPrice == '' &&
                         <span
-                            className='text-sm font-semiblod text-red-700 mt-1'>
+                            className='text-sm font-semiblod text-red-600 mt-1'>
                             Ce champ est requis
                         </span>}
                 </div>
