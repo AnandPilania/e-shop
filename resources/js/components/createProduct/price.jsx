@@ -31,7 +31,7 @@ const Price = () => {
     useEffect(() => {
         let profit = reducedProductPrice == '' ? productPrice - productCost : reducedProductPrice - productCost;
         productPrice != '' && setProductProfit(profit.toFixed(2));
-        setProductMargin(((profit / productCost) * 100).toFixed(2));
+        productCost != '' && setProductMargin(((profit / productCost) * 100).toFixed(2));
         if (productPrice == '') {
             setProductProfit('');
             setProductMargin('');
@@ -205,30 +205,26 @@ const Price = () => {
                 {/* benefit */}
                 <div className='w-full'>
                     <Label label="Bénéfice" />
-                    <InputNumeric
-                        id="inputProfit19822"
-                        value={productProfit}
-                        handleChange={() => { }}
-                        placeholder=""
-                        step=".01"
-                        min="0"
-                        max="9999999999"
-                        css="rounded-md"
-                    />
+                    <div className='w-full flex flex-row justify-start items-center'>
+                        <span className="flex flex-row justify-start items-center bg-gray-50 w-full h-10 pl-2 border border-gray-300 text-gray-500 text-sm rounded-l-md caret-transparent">
+                            {productProfit}
+                        </span>
+                        <span className='min-w-[40px] h-10 flex flex-row justify-center items-center border-y border-r border-gray-300 rounded-r-md bg-gray-50 text-gray-700 font-semibold caret-transparent'>
+                            €
+                        </span>
+                    </div>
                 </div>
                 {/* margin */}
                 <div className='w-full'>
                     <Label label="Marge" />
-                    <InputNumeric
-                        id="inputMargin19822"
-                        value={productMargin}
-                        handleChange={() => { }}
-                        placeholder=""
-                        step=".01"
-                        min="0"
-                        max="9999999999"
-                        css="rounded-md"
-                    />
+                    <div className='w-full flex flex-row justify-start items-center'>
+                        <span className="flex flex-row justify-start items-center bg-gray-50 w-full h-10 pl-2 border border-gray-300 text-gray-500 text-sm rounded-l-md caret-transparent">
+                            {productCost != '' && productMargin}
+                        </span>
+                        <span className='min-w-[40px] h-10 flex flex-row justify-center items-center border-y border-r border-gray-300 rounded-r-md bg-gray-50 text-gray-700 font-semibold caret-transparent'>
+                            %
+                        </span>
+                    </div>
                 </div>
             </div>
         </Flex_col_s_s>

@@ -28,10 +28,10 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\AliExpressController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ProductSheetController;
-use App\Http\Controllers\ProductDetailController;
+use App\Http\Controllers\OptionsValueController;
 use App\Http\Controllers\TemporaryStorageController;
 use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\Type_detail_productController;
+use App\Http\Controllers\OptionsNameController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,7 +60,7 @@ Route::resource('/commandes', CommandeController::class);
 // Route::resource('/taxes', TaxeController::class);
 Route::resource('/customers', CustomerController::class);
 Route::resource('/collections', CollectionController::class);
-Route::resource('/type_detail_products', Type_detail_productController::class);
+Route::resource('/type_detail_products', OptionsNameController::class);
 Route::resource('/jumbos', JumbosController::class);
 Route::resource('/bannieres', BanniereController::class);
 Route::resource('/reviews', ReviewController::class);
@@ -104,7 +104,7 @@ Route::post('/handleTinyMceTemporaryElements', [TemporaryStorageController::clas
 // remove records from db and files from folders when unused more
 Route::post('/cleanTemporayStorage', [TemporaryStorageController::class, 'cleanTemporayStorage']);
 
-Route::get('/listtype', [Type_detail_productController::class, 'listtype']);
+Route::get('/listtype', [OptionsNameController::class, 'listtype']);
 
 // utilisé dans selectCollections.jsx 
 Route::get('/getCollections', [CollectionController::class, 'getCollections']);
@@ -174,16 +174,16 @@ Route::get('/creatFrontIndex', [FrontEndController::class, 'create']);
 // store les reviews envoyées par les users
 Route::post('/storeReveiw', [ReviewController::class, 'storeReveiw']);
 
-//sert à rien ??
-Route::post('/details', [ProductDetailController::class, 'details']);
+// //sert à rien ??
+// Route::post('/details', [OptionsValueController::class, 'details']);
 
-// A SUPPRIMER ? !!!
-Route::get('/detailCompletion', [ProductDetailController::class, 'detailCompletion']);
+// // A SUPPRIMER ? !!!
+// Route::get('/detailCompletion', [OptionsValueController::class, 'detailCompletion']);
 
-Route::get('/getOptionValues', [ProductDetailController::class, 'getOptionValues']);
+Route::get('/getOptionValues', [OptionsValueController::class, 'getOptionValues']);
 
 // renvoi les valeurs d'option d'un produit donné
-Route::get('/getOptionValues', [ProductDetailController::class, 'getOptionValues']);
+Route::get('/getOptionValues', [OptionsValueController::class, 'getOptionValues']);
 
 //met en best seller un produit dans la table products
 Route::post('/bestSeller', [ProductController::class, 'bestSeller']);

@@ -47,9 +47,9 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
                 if (ndxMode > -1) {
                     setObjOfModeConditions([...shipping_mode[ndxMode].conditions]);
                     setPrevObjOfModeConditions(JSON.stringify(shipping_mode[ndxMode].conditions));
-                    setModeName(shipping_mode[ndxMode].name);
-                    setPrevModeName(shipping_mode[ndxMode].name);
-                    setTmp_modeName_for_edit(shipping_mode[ndxMode].name);
+                    setModeName(shipping_mode[ndxMode].mode_name);
+                    setPrevModeName(shipping_mode[ndxMode].mode_name);
+                    setTmp_modeName_for_edit(shipping_mode[ndxMode].mode_name);
                     setPriceWithoutCondition(shipping_mode[ndxMode].price_without_condition != null ? shipping_mode[ndxMode].price_without_condition : '');
                     setPrevPriceWithoutCondition(shipping_mode[ndxMode].price_without_condition != null ? shipping_mode[ndxMode].price_without_condition : '');
                     setCriteria(shipping_mode[ndxMode].criteria);
@@ -393,6 +393,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
 
 
     const validation = () => {
+        console.log('modeName   ', modeName)
         if (modeName.length === 0) {
             setMessageModal('Le champ Nom est obligatoire');
             setShowValidationMessageMode(true);
@@ -414,7 +415,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
         let ndx = deliveryZoneList.findIndex(x => x.id == IdDeliveryZones);
         let modeNameList = [];
         if (ndx > -1) {
-            modeNameList = deliveryZoneList[ndx].shipping_modes.map(item => item.name);
+            modeNameList = deliveryZoneList[ndx].shipping_modes.map(item => item.mode_name);
         }
         if (idMode == null) {
             if (modeNameList.includes(modeName)) {

@@ -17,7 +17,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
     const [indexOfVisiblesFields, setIndexOfVisiblesFields] = useState(0);
     const [animateSlideLeftIsActived, setAnimateSlideLeftIsActived] = useState(false);
     const [animateSlideRightIsActived, setAnimateSlideRightIsActived] = useState(false);
-
+  
     const { optionsObj, productPrice, reducedProductPrice, productStock, productCost, productParcelWeight, productCode, listType, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, isHideDeletedVariantes, variante, setVariante, setImageVariantes, changedVariantes, setChangedVariantes, screenSize } = useContext(AppContext);
 
 
@@ -392,7 +392,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                         </span>}
                     {visiblesFields[indexOfVisiblesFields]?.includes('reducedPrice') &&
                         <span className={`w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
-                            Promo
+                            Prix réduit
                         </span>}
                     {visiblesFields[indexOfVisiblesFields]?.includes('stock') &&
                         <span className={`w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
@@ -477,7 +477,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                     />
                                 </div>}
 
-                            {/* reduced_price -- promo -- */}
+                            {/* reduced_price */}
                             {visiblesFields[indexOfVisiblesFields]?.includes('reducedPrice') &&
                                 <div className='w-full overflow-hidden'>
                                     <input

@@ -7,10 +7,10 @@ use App\Models\Product;
 use App\Models\Collection;
 use Illuminate\Http\Request;
 use App\Models\Product_sheet;
-use App\Models\Image_variante;
-use App\Models\Product_detail;
+use App\Models\Images_product;
+use App\Models\Options_value;
 use Illuminate\Support\Facades\DB;
-use App\Models\Type_detail_product;
+use App\Models\Options_name;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use App\Http\Controllers\Functions\CleanLink;
@@ -115,7 +115,7 @@ class ProductController extends Controller
         $images = $request->file('image');
         $i = 1;
         foreach ($images as $image) {
-            $image_variante = new Image_variante;
+            $image_variante = new Images_product;
             // on crée une random string pour ajouter au nom de l'image
             $random = substr(str_shuffle("0123456789abcdefghijklmnopqrstvwxyz"), 0, 10);
             // on explode pour récuppérer le nom sans l'extention
@@ -148,11 +148,11 @@ class ProductController extends Controller
 
         // Insertion dans product_details - on boucle car chaque détail  correspond à un enregistrement dans la table product_details
         foreach (json_decode($request->obj, true) as $detail => $value) {
-            $id_type_detail_product = Type_detail_product::where('name', $value['type'])->first();
+            $id_type_detail_product = Options_name::where('name', $value['type'])->first();
 
             $ordre = 1;
             foreach ($value['detail'] as $libelle) {
-                $product_detail =  new Product_detail;
+                $product_detail =  new Options_value;
                 $product_detail->libelle = $libelle;
                 $product_detail->ordre = $ordre;
                 $product_detail->product_id = $product->id;
@@ -237,7 +237,7 @@ class ProductController extends Controller
             $temp_Array['libelle'] = $detail->libelle;
             $temp_Array['ordre'] = $detail->ordre;
 
-            $detailName = Type_detail_product::find($detail->type_detail_product_id);
+            $detailName = Options_name::find($detail->type_detail_product_id);
             $temp_Array['type'] = $detailName['name'];
 
             array_push($objDetails, $temp_Array);
@@ -263,7 +263,7 @@ class ProductController extends Controller
     // pour react edit_images.jsx
     public function editImagesProduct($id)
     {
-        $images_product = Image_variante::where('product_id', $id)
+        $images_product = Images_product::where('product_id', $id)
             ->orderBy('ordre')
             ->get();
 
@@ -274,7 +274,7 @@ class ProductController extends Controller
     public function replaceImagesProduct(Request $request)
     {
         // dd($request);
-        $image_variante = Image_variante::find($request->id);
+        $image_variante = Images_product::find($request->id);
 
         if ($request->hasFile('newImage')) {
 
@@ -320,7 +320,7 @@ class ProductController extends Controller
 
         $images = $request->file('image');
         foreach ($images as $image) {
-            $image_variante = new Image_variante;
+            $image_variante = new Images_product;
             // on crée une random string pour ajouter au nom de l'image
             $random = substr(str_shuffle("0123456789abcdefghijklmnopqrstvwxyz"), 0, 10);
             // on explode pour récuppérer le nom sans l'extention
@@ -345,7 +345,7 @@ class ProductController extends Controller
 
 
             // récup max ordre pour déterminer l'ordre à inserer
-            $max = Image_variante::where('product_id', $product_id)->max('ordre');
+            $max = Images_product::where('product_id', $product_id)->max('ordre');
             $image_variante->ordre = $max + 1;
             $image_variante->path = 'images/' . $input['image'];
             $image_variante->product_id = $product_id;
@@ -353,23 +353,23 @@ class ProductController extends Controller
             $image_variante->save();
         }
 
-        $images_products = Image_variante::where('product_id', $product_id)->get();
+        $images_products = Images_product::where('product_id', $product_id)->get();
 
         return back()->with('images_product', $images_products);
     }
 
     public function deleteImagesProduct($id)
     {
-        $images_product = Image_variante::find($id);
-        $images_products = Image_variante::where('product_id', $images_product->product_id)->get();
+        $images_product = Images_product::find($id);
+        $images_products = Images_product::where('product_id', $images_product->product_id)->get();
 
         File::delete($images_product->path);
-        Image_variante::destroy($id);
+        Images_product::destroy($id);
 
         // réctifie si besoin les valeurs de ordre
         // pour garder la continuité et supprimer les trous
         // dans le champ ordre
-        $images_products = Image_variante::where('product_id', $images_product->product_id)
+        $images_products = Images_product::where('product_id', $images_product->product_id)
             ->orderBy('ordre', 'asc')
             ->get();
 
@@ -424,9 +424,9 @@ class ProductController extends Controller
             Product_sheet::query()->where('product_id', $request->id)->update(array('text' => $request->technicalSheet));
         }
 
-        // Product_detail
+        // Options_value
         // on supprime tous les détails du produit
-        Product_detail::where('product_id', $request->id)->delete();
+        Options_value::where('product_id', $request->id)->delete();
 
         // Insertion dans product_details - on boucle car chaque détail  correspond à un enregistrement dans la table product_details
         if ($request->obj) {
@@ -438,12 +438,12 @@ class ProductController extends Controller
                     $type = $value['type'];
                 }
 
-                // on récupère le Type_detail_product pour en extraire l'id et l'enregistrer dans $product_detail->type_detail_product_id
-                $id_type_detail_product = Type_detail_product::where('name', $type)->first();
+                // on récupère le Options_name pour en extraire l'id et l'enregistrer dans $product_detail->type_detail_product_id
+                $id_type_detail_product = Options_name::where('name', $type)->first();
 
                 $ordre = 1;
                 foreach ($value['detail'] as $key => $libelle) {
-                    $product_detail =  new Product_detail;
+                    $product_detail =  new Options_value;
                     $product_detail->libelle = $libelle;
                     $product_detail->ordre = $ordre;
                     $product_detail->product_id = $product->id;
@@ -466,7 +466,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         dd($product);
-        $images_products = Image_variante::where('product_id', $product->id)->get();
+        $images_products = Images_product::where('product_id', $product->id)->get();
 
         // suppression des fichiers images dans public/images
         foreach ($images_products as $image_variante) {
@@ -476,9 +476,9 @@ class ProductController extends Controller
         }
 
         // supprimer toutes les images d'un produit donné
-        Image_variante::where('product_id', $product->id)->delete();
+        Images_product::where('product_id', $product->id)->delete();
         // supprimer tous les détails d'un produit donné
-        Product_detail::where('product_id', $product->id)->delete();
+        Options_value::where('product_id', $product->id)->delete();
         // supprimer fiche produit d'un produit donné
         Product_sheet::where('product_id', $product->id)->delete();
         // supprime les clés étrangères dans la table pivot entre produit et collection

@@ -26,6 +26,7 @@ const NameAndRibbon = () => {
                     id="productName22822"
                     value={nameProduct}
                     handleChange={handleName}
+                    css="rounded-md"
                 />
             </div>
             {/* ribbon */}
@@ -37,6 +38,7 @@ const NameAndRibbon = () => {
                     id="productRibbon22822"
                     value={ribbonProduct}
                     handleChange={handleRibbon}
+                    css="rounded-md"
                 />
             </div>
         </div>

@@ -162,7 +162,7 @@ const Appcontainer = () => {
     const [changedVariantes, setChangedVariantes] = useState([]);
     const [metaTitleProduct, setMetaTitleProduct] = useState('');
     const [metaDescriptionProduct, setMetaDescriptionProduct] = useState('');
-    const [metaUrlProduct, setMetaUrlProduct] = useState(window.location.origin + '/');
+    const [metaUrlProduct, setMetaUrlProduct] = useState('');
 
 
     //---------------------------------------------------------------PRODUCT

@@ -16,7 +16,7 @@ const Stock = () => {
 
     useEffect(() => {
         let inputStock = document.getElementById('inputStock');
-        inputStock.style.backgroundColor = '#f1f5f9';
+        inputStock.style.backgroundColor = '#f9fafb';
     }, []);
 
     const handleProductStock = (e) => {
@@ -40,7 +40,7 @@ const Stock = () => {
     const handleUnlimitedStock = () => {
         if (!unlimited) {
             let inputStock = document.getElementById('inputStock');
-            inputStock.style.backgroundColor = '#f1f5f9';
+            inputStock.style.backgroundColor = '#f9fafb';
             setUnlimited(!unlimited);
             setProductStock('');
             setPlaceholder(String.fromCharCode(0x221E));
@@ -111,7 +111,7 @@ const Stock = () => {
                 <div className='flex flex-col justify-start items-start mb-[10px]'>
                     <div className='w-full flex'>
                         <Label label="SKU" />
-                        <div className='w-full relative group'>
+                        <div className='w-4 hover:w-full relative group'>
                             <img src='../images/icons/info-circle.svg'
                                 className="w-4 h-4 ml-2 cursor-help" />
                             <Tooltip top={-150} left={-100}>
@@ -134,11 +134,11 @@ const Stock = () => {
                 <div className='w-full col-span-2 flex flex-col justify-start items-start my-2.5'>
                     <div className='w-full flex'>
                         <Label label="Poids" />
-                        <div className='relative group w-full'>
+                        <div className=' w-4 hover:w-full relative group'>
                             <img src='../images/icons/info-circle.svg'
                                 className="w-4 h-4 ml-2 cursor-help" />
                             <Tooltip top={-50} left={-50}>
-                                Poids du produit avec son emballage
+                                Poids de l'article avec son emballage
                             </Tooltip>
                         </div>
                     </div>
@@ -155,7 +155,7 @@ const Stock = () => {
                             css="rounded-l-md"
                         />
                         <span
-                            className='w-16 h-10 flex justify-center items-center border-y border-r border-gray-300 bg-gray-100 text-gray-500 text-sm font-semibold rounded-r-md'
+                            className='w-16 h-10 flex justify-center items-center border-y border-r border-gray-300 bg-white text-gray-500 text-sm font-semibold rounded-r-md'
                         >
                             <SelectMeasureUnit
                                 list={['gr', 'kg']}

@@ -12,7 +12,7 @@ class ShippingController extends Controller
 {
     public function index()
     {
-        $shipping = Shipping::with('shipping_modes')->orderBy('name')->get();
+        $shipping = Shipping::with('shipping_modes')->orderBy('zone_name')->get();
 
         foreach ($shipping as $item) {
             $item->destinations = json_decode($item->destinations);
@@ -37,7 +37,7 @@ class ShippingController extends Controller
         ]);
 
         $shipping = new Shipping;
-        $shipping->name = $request->zone_name;
+        $shipping->zone_name = $request->zone_name;
         $shipping->destinations = $request->destinations;
         $shipping->save();
 
@@ -54,7 +54,7 @@ class ShippingController extends Controller
 
         $shipping = Shipping::find($request->IdDeliveryZones);
         if ($shipping != null) {
-            $shipping->name = $request->zone_name;
+            $shipping->zone_name = $request->zone_name;
             $shipping->destinations = $request->destinations;
             $shipping->save();
 
@@ -84,7 +84,7 @@ class ShippingController extends Controller
     public function saveShipping_mode(Request $request)
     {
         $shipping_mode = new Shipping_mode;
-        $shipping_mode->name = $request->mode_name;
+        $shipping_mode->mode_name = $request->mode_name;
         $shipping_mode->criteria = $request->criteria;
         $shipping_mode->conditions = $request->conditions;
         $shipping_mode->price_without_condition = $request->priceWithoutCondition;
@@ -98,7 +98,7 @@ class ShippingController extends Controller
     public function updateShipping_mode(Request $request)
     {
         $shipping_mode = Shipping_mode::find($request->idMode);
-        $shipping_mode->name = $request->mode_name;
+        $shipping_mode->mode_name = $request->mode_name;
         $shipping_mode->criteria = $request->criteria;
         $shipping_mode->conditions = $request->conditions;
         $shipping_mode->price_without_condition = $request->priceWithoutCondition;

@@ -19,7 +19,8 @@ const Shipping = () => {
             setTransporter([...tmp_arr]);
         }
     }
-
+console.log('listTransporters[0]  ', listTransporters[0])
+console.log('transporter  ', transporter)
     return (
         <Flex_col_s_s>
                     <Label label="Mode.s de livraison exclusif.s" />
@@ -36,6 +37,7 @@ const Shipping = () => {
                         {transporter.map(item =>
                             <div key={item.modeId}
                                 className="flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-2 pr-1.5 py-1 mb-1 mr-2">
+                                {console.log('item  ', item)}
                                 <span
                                     className="h-full text-gray-500 mr-2 rounded-md">
                                     {item.zoneName} ({item.modeName})

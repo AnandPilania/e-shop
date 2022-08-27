@@ -41,17 +41,16 @@ class VarianteFactory extends Factory
             'price'=> $amount * 1.5, 
             'reduced_price'=> $amount * 2, 
             'weight' => rand(1,3), 
+            'weightMeasure' => 'gr', 
             'stock' => rand(0,50),
-            'shipping_cost' => rand(1,30), 
-            'currency_cost_shipping' => rand(1,3),
-            'active' => 1, 
+            'unlimitedStock' => rand(0,1),
+            'sku' => '123456789', 
+            'deleted' => 0,
             'link' => $link, 
             'ordre' => self::$ordre++, 
             'options' => "['color' => 'red', 'size' => 'm']", 
             'image_path' => "image path", 
             // 'product_id' => self::$prod_id++, <--- est géré dans le seeder !!
-            'supplier_id' => rand(1,5),
-            'delivery_company_id' => 1,
         ];
     }
 }

@@ -34,6 +34,11 @@ class Product extends Model
         return $this->hasMany(Image_ali_import_temp::class);
     }
 
+    public function images_products()
+    {
+        return $this->hasMany(Images_product::class);
+    } 
+
     public function order_details()
     {
         return $this->hasMany(Order_detail::class);

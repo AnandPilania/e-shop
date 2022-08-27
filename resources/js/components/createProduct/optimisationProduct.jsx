@@ -4,6 +4,9 @@ import { useWindowSize } from '../hooks/useWindowSize';
 import Flex_col_s_s from '../elements/container/flex_col_s_s';
 import Toggle from '../elements/toggle/toggle';
 import Label from '../form/label';
+import InputText from '../form/inputText';
+import Tooltip from '../elements/tooltip';
+import TextArea from '../form/textarea';
 
 
 
@@ -85,13 +88,9 @@ const OptimisationProduct = () => {
         setMetaUrlProduct(window.location.origin + '/');
     }
 
-
     const handleMetaUrl = (e) => {
-        // limit la taille de l'url à 2047 caracères
-        let urlLength = 2047 - window.location.origin.length;
-        let urlName = normalizUrl(e.target.value.substring(window.location.origin.length, 2047));
-
-        setMetaUrlProduct(window.location.origin + '/' + urlName.substring(0, urlLength));
+        let urlName = normalizUrl(e.target.value);
+        setMetaUrlProduct(urlName.substring(0, 2047));
     };
 
     const handleMetaTitle = (e) => {
@@ -127,7 +126,9 @@ const OptimisationProduct = () => {
     return (
         <Flex_col_s_s>
             <Label label="SEO" />
-            <div className='w-full h-auto flex flex-row justify-start items-center mb-5 mt-2.5'>
+            <div
+                className='w-full h-auto flex flex-row justify-start items-center mb-5 mt-2.5'
+            >
                 <div className='w-full h-auto'>
                     <Toggle
                         id="optimisation_create_product_15822"
@@ -137,24 +138,21 @@ const OptimisationProduct = () => {
                     />
                 </div>
 
-                {metaUrlProduct?.length > (window.location.origin.toString() + '/').length ?
+                {metaUrlProduct?.length > 0 ?
                     (<button
-                        style={{ marginBottom: "10px" }}
-                        className='w-auto py-2 px-4 flex flex-row justify-center items-center text-white bg-red-700 rounded-md text-base cursor-pointer hover:bg-red-800'
+                        className='w-auto py-2 px-4 mb-2.5 flex flex-row justify-center items-center text-white bg-red-700 rounded-md text-base cursor-pointer hover:bg-red-800'
                         onClick={initOptimisationForm}>
                         Annuler
                     </button>) :
                     metaTitleProduct?.length > 0 ?
                         (<button
-                            style={{ marginBottom: "10px" }}
-                            className='w-auto py-2 px-4 flex flex-row justify-center items-center text-white bg-red-700 rounded-md text-base cursor-pointer hover:bg-red-800'
+                            className='w-auto py-2 px-4 mb-2.5 flex flex-row justify-center items-center text-white bg-red-700 rounded-md text-base cursor-pointer hover:bg-red-800'
                             onClick={initOptimisationForm}>
                             Annuler
                         </button>) :
                         metaDescriptionProduct?.length > 0 ?
                             (<button
-                                style={{ marginBottom: "10px" }}
-                                className='w-auto py-2 px-4 flex flex-row justify-center items-center text-white bg-red-700 rounded-md text-base cursor-pointer hover:bg-red-800'
+                                className='w-auto py-2 px-4 mb-2.5 flex flex-row justify-center items-center text-white bg-red-700 rounded-md text-base cursor-pointer hover:bg-red-800'
                                 onClick={initOptimisationForm}>
                                 Annuler
                             </button>) : ''}
@@ -165,50 +163,60 @@ const OptimisationProduct = () => {
                 id="optimisation_product"
             >
                 {/* meta-url */}
-                <div className="w-full flex flex-col justify-start items-start mb-[2px]">
-                    <div className="w-full mt-2.5 mb-1 flex flex-row justify-start items-center">
-                        <label className='mr-2 text-sm font-medium text-gray-700'>
-                            Url de la page de ce produit
-                        </label>
-                        <span className="tooltip_ break-words ml-auto mr-3"
-                            onClick={() => confirmDeleteCategory(cat.id, cat.name)}>
-                            <img src='../images/icons/find-problem.svg' className="w-4 h-4 cursor-pointer" />
-                            <span className="tooltiptext">Utilisez des mots clés en rapport avec cette collection <br></br><a href="http://127.0.0.1:8000"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="linkInTooltip">Mon lien</a></span>
-                        </span>
+                <div className="w-full flex flex-col justify-start items-start mb-5">
+                    <div className="w-full flex">
+                        <Label label="Url de la page de cet article" css="shrink-0" />
+                        <div className='w-4 hover:w-full relative group'>
+                            <img src='../images/icons/info-circle.svg'
+                                className="w-4 h-4 ml-2 cursor-help" />
+                            <Tooltip top={-100} left={-150}>
+                                Utilisez des mots clés en rapport avec cette collection <br></br>
+                                <a href="http://127.0.0.1:8000"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-sm underline underline-offset-1 text-blue-500 font-semibold">Mon lien</a>
+                            </Tooltip>
+                        </div>
                     </div>
-                    <input type='text'
-                        className="w-full h-12 mb-2.5 px-3 rounded-md border border-gray-300"
-                        value={metaUrlProduct?.length > 0 ? metaUrlProduct : ''}
-                        onChange={handleMetaUrl}
-                        placeholder="Url de ce produit"
-                        maxLength="2047"
-                    />
+                    <div
+                        className='w-full flex flex-row justify-start items-center'
+                    >
+                        <span
+                            className='w-auto h-10 px-3 flex justify-start items-center border-y border-l border-gray-300 bg-gray-50 text-gray-500 text-sm font-semibold rounded-l-md'
+                        >
+                            {window.location.origin + '/'}
+                        </span>
+                        <InputText
+                            value={metaUrlProduct?.length > 0 ? metaUrlProduct : ''}
+                            handleChange={handleMetaUrl}
+                            maxLength="2047"
+                            css="rounded-r-md"
+                        />
+                    </div>
                 </div>
-
                 {/* meta-titre */}
-                <div className="w-full flex flex-col justify-start items-start mb-[2px]">
-                    <div className="w-full mt-2.5 mb-1 flex flex-row">
-                        <label className='mr-2 text-sm font-medium text-gray-700'>
-                            Méta-titre de la page de cette collection
-                        </label>
-                        <span className="tooltip_ break-words ml-auto mr-3"
-                            onClick={() => confirmDeleteCategory(cat.id, cat.name)}>
-                            <img src='../images/icons/find-problem.svg' className="w-4 h-4 cursor" />
-                            <span className="tooltiptext break-words">
-                                Le méta-titre est important pour le référencement d'une page web. Sa longueur idéal se situe entre 30 et 60 caractères mais il peut être plus long pour donner plus d'informations sur le contenu de la page. Toutefois, seuls les 50 premiers caractères à peu près seront affichés dans les résultats des moteurs de recherche. C'est pourquoi il est important de commence par des mots clés, pertinants pour l'internaute, afin d'améliorer le taux de clics vers votre page.
-                            </span>
-                        </span>
+                <div className="w-full flex flex-col justify-start items-start mb-5">
+                    <div className="w-full flex">
+                        <Label label="Méta-titre de la page de cet article" css="shrink-0" />
+                        <div className='w-4 hover:w-full relative group'>
+                            <img src='../images/icons/info-circle.svg'
+                                className="w-4 h-4 ml-2 cursor-help" />
+                            <Tooltip top={-100} left={-150}>
+                                La longueur idéal pour un méta-titre se situe entre 30 et 60 caractères. <br></br>
+                                <a href="http://127.0.0.1:8000"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-sm underline underline-offset-1 text-blue-500 font-semibold">Mon lien</a>
+                            </Tooltip>
+                        </div>
                     </div>
-                    <input type='text'
-                        className="w-full h-12 mb-1 px-3 rounded-md border border-gray-300"
+                    <InputText
                         value={metaTitleProduct?.length > 0 ? metaTitleProduct : ''}
-                        onChange={handleMetaTitle}
+                        handleChange={handleMetaTitle}
+                        css="rounded-md"
                     />
                     <div className='w-full'>
-                        <span className='text-blue-800 italic text-sm font-normal'>
+                        <span className='text-blue-700 italic text-xs font-normal mb-2'>
                             Nombre de caractères {metaTitleProduct?.length > 0 ? metaTitleProduct.length : 0}
                         </span>
                         {metaTitlebiggerThan50Product &&
@@ -220,23 +228,26 @@ const OptimisationProduct = () => {
 
                 {/* meta-description */}
                 <div className="w-full flex flex-col justify-start items-start mb-4">
-                    <div className="w-full mt-2.5 mb-1 flex flex-row">
-                        <label className='mr-2 text-sm font-medium text-gray-700'>
-                            Méta-déscription de cette collection
-                        </label>
-                        <span className="tooltip_ break-words ml-auto mr-3"
-                            onClick={() => confirmDeleteCategory(cat.id, cat.name)}>
-                            <img src='../images/icons/find-problem.svg' className="w-4 h-4 cursor-pointer" />
-                            <span className="tooltiptext break-words">Une méta-déscription est utilisée pour décrire le contenu de cette page et donner des indications sur son contenu à l'internaute. Les moteurs de recherche affichent à peu près les 130 premiers caractères.</span>
-                        </span>
+                    <div className="w-full flex">
+                        <Label label="Méta-déscription de cet article" css="shrink-0" />
+                        <div className='w-4 hover:w-full relative group'>
+                            <img src='../images/icons/info-circle.svg'
+                                className="w-4 h-4 ml-2 cursor-help" />
+                            <Tooltip top={-100} left={-150}>
+                                La longueur idéal pour un méta-titre se situe entre 30 et 60 caractères. <br></br>
+                                <a href="http://127.0.0.1:8000"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-sm underline underline-offset-1 text-blue-500 font-semibold">Mon lien</a>
+                            </Tooltip>
+                        </div>
                     </div>
-                    <textarea
+                    <TextArea
                         value={metaDescriptionProduct?.length > 0 ? metaDescriptionProduct : ''}
-                        onChange={handleMetaDescription}
-                        className="w-full h-auto p-3 mb-1 min-h-[120px] border border-gray-300 rounded-md resize-none">
-                    </textarea>
+                        handleChange={handleMetaDescription}
+                    />
                     <div className='w-full h-auto'>
-                        <span className='text-blue-800 italic text-sm font-normal'>
+                        <span className='text-blue-700 italic text-xs font-normal'>
                             Nombre de caractères {metaDescriptionProduct?.length > 0 ? metaDescriptionProduct.length : 0}
                         </span>
                         {metaDescriptionbiggerThan130Product &&

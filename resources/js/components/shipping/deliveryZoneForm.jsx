@@ -30,9 +30,9 @@ const DeliveryZoneForm = ({ countriesList, deliveryZoneList, IdDeliveryZones, se
         if (isEdidtZone) {
             let ndx = deliveryZoneList.findIndex(x => x.id == IdDeliveryZones);
             if (ndx > -1) {
-                setZoneName(deliveryZoneList[ndx].name);
+                setZoneName(deliveryZoneList[ndx].zone_name);
                 setDestinations(deliveryZoneList[ndx].destinations);
-                setPrevZoneName(deliveryZoneList[ndx].name);
+                setPrevZoneName(deliveryZoneList[ndx].zone_name);
                 setPrevDestinations(deliveryZoneList[ndx].destinations);
             }
         }
@@ -150,8 +150,8 @@ const DeliveryZoneForm = ({ countriesList, deliveryZoneList, IdDeliveryZones, se
             return;
         }
 
-        let ndx = deliveryZoneList.findIndex(x => x.name == zoneName);
-        if (ndx > -1) {
+        let ndx = deliveryZoneList.findIndex(x => x.zone_name == zoneName);
+        if (ndx > -1 && isEdidtZone == false) {
             setMessageModal('Ce nom éxiste déjà. Veuillez entrer un nom différent');
             setShowErrorMessageZone(true);
             return;
@@ -222,7 +222,7 @@ const DeliveryZoneForm = ({ countriesList, deliveryZoneList, IdDeliveryZones, se
                         value={zoneName}
                         handleChange={handleNameZoneShipping}
                         placeholder=""
-                        css="w-full"
+                        css="w-full rounded-md"
                     />
                 </div>
             </div>

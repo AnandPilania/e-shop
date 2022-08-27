@@ -18,7 +18,7 @@ class CreateShippingModesTable extends Migration
             $table->string('mode_name', 255);
             $table->string('criteria', 20);
             $table->text('conditions')->nullable();
-            $table->float('price_without_condition', 8, 2);
+            $table->float('price_without_condition', 8, 2)->nullable();
             $table->unsignedBigInteger('shipping_id');
             $table->foreign('shipping_id')->references('id')->on('shippings');
             $table->timestamps();

@@ -27,8 +27,10 @@ class ProductFactory extends Factory
         $random = rand(0, 2);
         return [
             'name' => $name,
+            'isInAutoCollection' => 1,
             'ribbon' => $ribbon,
             'description' => $this->faker->sentence(15, true),
+            'onlyTheseCarriers' => 0,
             'type' => $type[$random],
             'taxe_id' => 1, 
         ];
