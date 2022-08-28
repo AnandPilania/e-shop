@@ -23,7 +23,7 @@ const CreateProduct = () => {
 
     const [showModalFromPrice, setShowModalFromPrice] = useState(false);
 
-    const { descriptionProduct, setListSuppliers, supplier, collection, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, screenSize, isInAutoCollection } = useContext(AppContext);
+    const { descriptionProduct, setListSuppliers, supplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, screenSize, unlimited, isInAutoCollection } = useContext(AppContext);
 
     useEffect(() => {
         // charge la liste des fournisseurs
@@ -125,33 +125,34 @@ const CreateProduct = () => {
 
         var formData = new FormData;
 
-        formData.append('nameProduct  ', nameProduct);
-        formData.append('ribbonProduct  ', ribbonProduct);
-        formData.append('descriptionProduct  ', descriptionProduct);
+        formData.append('nameProduct', nameProduct);
+        formData.append('ribbonProduct', ribbonProduct);
+        formData.append('descriptionProduct', descriptionProduct);
         formData.append('imageVariantes', JSON.stringify(imageVariantes));
-        formData.append('collection  ', collection);
-        formData.append('isInAutoCollection  ', isInAutoCollection);
-        formData.append('productPrice  ', productPrice);
-        formData.append('reducedProductPrice  ', reducedProductPrice);
-        formData.append('productCost  ', productCost);
-        formData.append('productStock  ', productStock);
-        formData.append('productSKU  ', productCode == '' ? uuidv4() : productCode);
-        formData.append('productParcelWeight  ', productParcelWeight);
-        formData.append('productParcelWeightMeasureUnit  ', productParcelWeightMeasureUnit);
-        formData.append('transporter  ', transporter);
-        formData.append('tva  ', tva);
-        formData.append('supplier  ', supplier);
-        formData.append('optionsObj  ', optionsObj);
-        formData.append('variantes  ', variantes);
-        formData.append('metaUrlProduct   ', metaUrlProduct);
-        formData.append('metaTitleProduct   ', metaTitleProduct);
-        formData.append('metaDescriptionProduct   ', metaDescriptionProduct);
+        formData.append('collections', JSON.stringify(collections));
+        formData.append('isInAutoCollection', isInAutoCollection);
+        formData.append('productPrice', productPrice);
+        formData.append('reducedProductPrice', reducedProductPrice);
+        formData.append('productCost', productCost);
+        formData.append('productStock', productStock);
+        formData.append('unlimitedStock', unlimited);
+        formData.append('productSKU', productCode == '' ? uuidv4() : productCode);
+        formData.append('productParcelWeight', productParcelWeight);
+        formData.append('WeightMeasureUnit', productParcelWeightMeasureUnit);
+        formData.append('transporter', transporter);
+        formData.append('tva', JSON.stringify(tva));
+        formData.append('supplier', supplier);
+        formData.append('optionsObj', optionsObj);
+        formData.append('variantes', variantes);
+        formData.append('metaUrlProduct', metaUrlProduct);
+        formData.append('metaTitleProduct', metaTitleProduct);
+        formData.append('metaDescriptionProduct', metaDescriptionProduct);
 
         console.log('nameProduct  ', nameProduct);
         console.log('ribbonProduct  ', ribbonProduct);
         console.log('descriptionProduct  ', descriptionProduct);
         console.log('imageVariantes', JSON.stringify(imageVariantes));
-        console.log('collection  ', collection);
+        console.log('collections  ', collections);
         console.log('isInAutoCollection  ', isInAutoCollection);
         console.log('productPrice  ', productPrice);
         console.log('reducedProductPrice  ', reducedProductPrice);
@@ -161,7 +162,7 @@ const CreateProduct = () => {
         console.log('productParcelWeight  ', productParcelWeight);
         console.log('productParcelWeightMeasureUnit  ', productParcelWeightMeasureUnit);
         console.log('transporter  ', transporter);
-        console.log('tva  ', tva);
+        console.log('tva  ', JSON.stringify(tva));
         console.log('supplier  ', supplier);
         console.log('optionsObj  ', optionsObj);
         console.log('variantes  ', variantes);

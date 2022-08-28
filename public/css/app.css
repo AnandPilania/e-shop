@@ -1111,6 +1111,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .w-\[90\%\] {
   width: 90%;
 }
+.w-6\/12 {
+  width: 50%;
+}
 .min-w-\[750px\] {
   min-width: 750px;
 }

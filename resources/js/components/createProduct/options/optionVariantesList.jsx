@@ -17,8 +17,9 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
     const [indexOfVisiblesFields, setIndexOfVisiblesFields] = useState(0);
     const [animateSlideLeftIsActived, setAnimateSlideLeftIsActived] = useState(false);
     const [animateSlideRightIsActived, setAnimateSlideRightIsActived] = useState(false);
-  
-    const { optionsObj, productPrice, reducedProductPrice, productStock, productCost, productParcelWeight, productCode, listType, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, isHideDeletedVariantes, variante, setVariante, setImageVariantes, changedVariantes, setChangedVariantes, screenSize } = useContext(AppContext);
+
+
+    const { optionsObj, productPrice, reducedProductPrice, productStock, productCost, productParcelWeight, productParcelWeightMeasureUnit, productCode, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, isHideDeletedVariantes, variante, setVariante, setImageVariantes, changedVariantes, setChangedVariantes, screenSize } = useContext(AppContext);
 
 
 
@@ -29,7 +30,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
     useEffect(() => {
 
-        // Lorsqu'on ajoute des options après avoir modifié des fields dans la liste des variantes, toutes les modification sont perdues. Ceci car l'ajout d'options duplique les variantes et leur rajoute la nouvelle value sans que les variantes dupliquées reçoivent les mêmes modifications faites précédement, ce qui n'est pas cohérent !!!
+        // Lorsqu'on ajoute des options après avoir modifié des fields dans la liste des variantes, toutes les modification sont perdues. Ceci car l'ajout d'options duplique les variantes et leur ajoute la nouvelle value sans que les variantes dupliquées reçoivent les mêmes modifications faites précédement, ce qui n'est pas cohérent !!!
 
         let allValuesAsString = [];
 
@@ -120,6 +121,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                     productCode: productCode,
                     cost: productCost,
                     parcelWeight: productParcelWeight,
+                    parcelWeightMeasureUnit: productParcelWeightMeasureUnit,
                     unlimited: true,
                     placeholderStock: 'Illimité',
                     deleted: false,
@@ -188,6 +190,10 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
     const handleVarianteParcelWeight = (e, item) => {
         handleVariantes(item.id, 'parcelWeight', e.target.value);
+    }
+
+    const handleVarianteWeightMeasureUnit = (e, item) => {
+        handleVariantes(item.id, 'parcelWeightMeasureUnit', e.target.value);
     }
 
     const handleVarianteProductCode = (e, item) => {
@@ -327,7 +333,6 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
     // gère les boutons prev et next des champs de la liste des variantes
     const handleChangeShowedFields = (nextOrPrevious) => {
-        console.log('nextOrPrevious  ', nextOrPrevious)
         if (nextOrPrevious == 'next' && indexOfVisiblesFields < visiblesFields.length - 1) {
             setAnimateSlideRightIsActived(true);
             setIndexOfVisiblesFields(indexOfVisiblesFields + 1);
@@ -355,6 +360,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
     }, [screenSize]);
 
 
+    console.log('variantes ---> ', variantes)
     return (
         <div
             className={`w-full ${variantes?.length > 0 && "border-t border-gray-200 mt-5"}`}
@@ -408,7 +414,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                         </span>}
                     {visiblesFields[indexOfVisiblesFields]?.includes('weight') &&
                         <span className={`w-full overflow-hidden font-semibold text-base ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}>
-                            Poids Colis (gr)
+                            Poids Colis
                         </span>}
 
                     <div className='w-full flex justify-start items-center bg-white z-10'>
@@ -559,7 +565,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
                             {/* parcelWeight */}
                             {visiblesFields[indexOfVisiblesFields]?.includes('weight') &&
-                                <div className='w-full overflow-hidden'>
+                                <div className='w-full overflow-hidden flex flex-row justify-start items-center'>
                                     <input
                                         id={`inputPrevPrice${item?.id}`}
                                         type="number"
@@ -569,8 +575,16 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                         placeholder="0.00"
                                         min="0"
                                         max="9999999999"
-                                        className={`w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
+                                        className={`w-full h-8 border border-gray-300 rounded-l-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
                                     />
+                                    <select id="ulVarianteParcelWeightMeasureUnit28822"
+                                        className={`w-16 h-8 flex justify-center items-center border-y border-r border-gray-300 bg-white text-gray-500 text-sm font-semibold rounded-r-md ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
+                                        value={item?.parcelWeightMeasureUnit}
+                                        onChange={(e) => handleVarianteWeightMeasureUnit(e, item)}
+                                    >
+                                        <option value="gr">gr</option>
+                                        <option value="kg">kg</option>
+                                    </select>
                                 </div>}
 
                             {/* image variante */}
@@ -620,7 +634,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                 imageVariante={imageVariante}
                 setImageVariante={setImageVariante}
             />
-        </div>
+        </div >
     );
 }
 

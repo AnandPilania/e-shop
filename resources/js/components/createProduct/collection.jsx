@@ -11,7 +11,7 @@ const Collection = () => {
     const [collectionsRelations, setCollectionsRelations] = useState([]);
     const [toggleSelectWithCheckboxCollection, setToggleSelectWithCheckboxCollection] = useState(false);
 
-    const { collection, setCollection, isInAutoCollection, setIsInAutoCollection } = useContext(AppContext);
+    const { collections, setCollections, isInAutoCollection, setIsInAutoCollection } = useContext(AppContext);
 
     useEffect(() => {
         // récupére les collections
@@ -24,11 +24,11 @@ const Collection = () => {
     }, []);
 
     const removeCollection = (item) => {
-        let index = collection.findIndex(x => x.id == item.id);
+        let index = collections.findIndex(x => x.id == item.id);
         if (index > -1) {
-            let tmp_arr = [...collection];
+            let tmp_arr = [...collections];
             tmp_arr.splice(index, 1);
-            setCollection([...tmp_arr]);
+            setCollections([...tmp_arr]);
         }
     }
 
@@ -43,13 +43,13 @@ const Collection = () => {
                 key="SelectWithCheckbox_collection"
                 unikId="SelectWithCheckbox_collection"
                 list={collectionsRelations}
-                selected={collection}
-                setSelected={setCollection}
+                selected={collections}
+                setSelected={setCollections}
                 toggleSelectWithCheckbox={toggleSelectWithCheckboxCollection}
                 setToggleSelectWithCheckbox={setToggleSelectWithCheckboxCollection}
             />
-            <div className={`flex flex-wrap ${collection.length > 0 && "pt-4"} w-full`}>
-                {collection.map(item =>
+            <div className={`flex flex-wrap ${collections.length > 0 && "pt-4"} w-full`}>
+                {collections.map(item =>
                     <div key={item.id}
                         className="flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-2 pr-1.5 py-1 mb-1 mr-2">
                         <span

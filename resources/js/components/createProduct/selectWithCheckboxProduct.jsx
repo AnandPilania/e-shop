@@ -17,7 +17,7 @@ export default function SelectWithCheckboxProduct({ unikId, list, selected, setS
             tmp_arr.splice(index, 1);
             setSelected([...tmp_arr]);
         } else {
-            setSelected([...selected, {zoneId: zone.id, zoneName: zone.name, modeId: mode.id, modeName: mode.name}]);
+            setSelected([...selected, {zoneId: zone.id, zoneName: zone.zone_name, modeId: mode.id, modeName: mode.mode_name}]);
         }
     };
 
@@ -101,7 +101,7 @@ export default function SelectWithCheckboxProduct({ unikId, list, selected, setS
                         >
                             <span
                                 className="truncate font-semibold cursor-default p-2 w-full h-full">
-                                {zone.name}
+                                {zone.zone_name}
                             </span>
 
                             <ul
@@ -123,7 +123,7 @@ export default function SelectWithCheckboxProduct({ unikId, list, selected, setS
                                             <label
                                                 htmlFor={mode.id + zone.id + "shippinModes"}
                                                 className="truncate group-hover:text-white cursor-pointer p-2 w-full h-full">
-                                                {mode.name}
+                                                {mode.mode_name}
                                             </label>
                                         </li>
                                     )

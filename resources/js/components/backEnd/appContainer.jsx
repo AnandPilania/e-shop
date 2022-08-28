@@ -138,10 +138,10 @@ const Appcontainer = () => {
     const [nameProduct, setNameProduct] = useState('');
     const [ribbonProduct, setRibbonProduct] = useState('');
     const [descriptionProduct, setDescriptionProduct] = useState('');
-    const [collection, setCollection] = useState([]);
+    const [collections, setCollections] = useState([]);
     const [productPrice, setProductPrice] = useState('');
     const [productParcelWeight, setProductParcelWeight] = useState('');
-    const [productParcelWeightMeasureUnit, setProductParcelWeightMeasureUnit] = useState('kg');
+    const [productParcelWeightMeasureUnit, setProductParcelWeightMeasureUnit] = useState('gr');
     const [promoApplied, setPromoApplied] = useState('');
     const [reducedProductPrice, setReducedProductPrice] = useState('');
     const [productCost, setProductCost] = useState('');
@@ -544,7 +544,7 @@ const Appcontainer = () => {
         listSuppliers, setListSuppliers,
         supplier, setSupplier,
         initSupplierForm,
-        collection, setCollection,
+        collections, setCollections,
         productPrice, setProductPrice,
         promoApplied, setPromoApplied,
         reducedProductPrice, setReducedProductPrice,

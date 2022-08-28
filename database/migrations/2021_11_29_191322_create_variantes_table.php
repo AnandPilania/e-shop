@@ -24,7 +24,6 @@ class CreateVariantesTable extends Migration
             $table->tinyInteger('unlimitedStock')->default(1);
             $table->integer('sku');
             $table->tinyInteger('deleted')->default(0);
-            $table->string('link');
             $table->integer('ordre')->default(0);
             $table->text('options')->nullable();
             $table->string('image_path')->nullable()->default('');

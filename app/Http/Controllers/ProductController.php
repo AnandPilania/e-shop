@@ -14,8 +14,7 @@ use App\Models\Options_name;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use App\Http\Controllers\Functions\CleanLink;
-
-
+use App\Models\Variante;
 
 class ProductController extends Controller
 {
@@ -24,7 +23,7 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index() // A REFAIRE !!!
     {
         $products = DB::table('products')
             ->select('products.id as id', 'images_products.path as image_path', 'products.name as name', 'collections.name as collection', 'categories.name as category', 'products.created_at as created_at')
@@ -45,17 +44,6 @@ class ProductController extends Controller
         // return view('product.list')->with('products', $products);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $collections = Collection::all();
-        return view('product.form', ['collections' => $collections]);
-    }
-
 
     /**
      * Store a newly created resource in storage.
@@ -65,47 +53,56 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        dd(json_decode($request->imageVariantes));
+
+        // dd(json_decode($request->imageVariantes));
 
         // $this->validate($request, ['name' => 'required', 'price' => 'required', 'collection' => 'required', 'image' => 'required', 'description' => 'required']);
 
+	
+        // supplier_id
+        // taxe_id
 
         $product =  new Product;
-        $product->name = $request->name;
-        $product->ribbon = $request->ribbon;
+        $product->name = $request->nameProduct;
+        $product->isInAutoCollection = $request->isInAutoCollection;
+        $product->ribbon = $request->ribbonProduct;
         // remplace dans les src de la description le chemin du dossier temporaryStorage par celui de la destionation finale des images et vidéos. !!! c'est handleTinyMceTemporaryElements qui se charge de déplacer les fichiers dans ces dossiers !!!
-        $tmp_description = str_replace('temporaryStorage', 'images', $request->description);
+        $tmp_description = str_replace('temporaryStorage', 'images', $request->descriptionProduct);
         $product->description = preg_replace('/(<source src=").+(images)/', '<source src="' . url('') . '/videos', $tmp_description);
-        $product->type = 'none';
-        $product->taxe_id = 1; // '!!! à définir !!!'
+        $product->onlyTheseCarriers = $request->transporter;
+        $product->metaUrl = $request->metaUrlProduct;
+        $product->metaTitle = $request->metaTitleProduct;
+        $product->metaDescription = $request->metaDescriptionProduct;
+        $cleanLink = new CleanLink;
+        $product->link = $cleanLink->cleanLink($request->name);
+        $product->type = 'no type';
+        $product->taxe_id = json_decode($request->tva)->id;
 
-        $product->save();
-        dd($product);
-        $collections = explode(",", $request->collection);
+        // $product->save();
 
-        // collection_product <---
-        foreach ($collections as $collection) {
-            $collection_id = Collection::where('name', $collection)->first('id');
-            $product->collections()->attach($collection_id);
+        // dd(json_decode($request->collections));
+        // save in collection_product table <---
+        foreach (json_decode($request->collections) as $collection) {
+            $product->collections()->attach($collection->id);
         }
 
 
         // variantes table !!!
-        $product->cost = $request->cost;
-        $product->price = $request->price;
-        $product->price_before_discount = $request->price_before_discount;
-        $product->weight = $request->weight;
-        $product->stock = $request->stock;
-        $product->shipping_cost = $request->shipping_cost;
-        $product->currency_cost_shipping = $request->currency_cost_shipping;
-        $product->active = 1;
-        $cleanLink = new CleanLink;
-        $product->link = $cleanLink->cleanLink($request->name);
-        $product->ordre = Product::all()->max('ordre') + 1;
-        $product->characteristic = $request->characteristic;
-        $product->product_id = $request->product_id;
-        $product->supplier_id = $request->supplier_id;
-        $product->delivery_company_id = $request->delivery_company_id;
+        $variante = new Variante;
+        $variante->cost = $request->productCost;
+        $variante->price = $request->productPrice;
+        $variante->reduced_price = $request->reducedProductPrice;
+        $variante->weight = $request->productParcelWeight;
+        $variante->weightMeasure = $request->WeightMeasureUnit;
+        $variante->stock = $request->productStock;
+        $variante->unlimitedStock = $request->unlimitedStock;
+        $variante->sku = $request->productCode;
+        $variante->deleted = $request->stock;
+        $variante->ordre = Product::all()->max('ordre') + 1;
+        $variante->options = $request->characteristic;
+        $variante->image_path = $request->characteristic;
+        $variante->product_id = $request->product_id;
+
 
         // $product->ali_url_product = $request->ali_url_product;
         // $product->ali_product_id = $request->ali_product_id;
@@ -196,30 +193,6 @@ class ProductController extends Controller
         // return redirect()->route('collections.index');
     }
 
-
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        // !!! N EST PLUS UTILISE !!!
-        // return view('product.edit', ['id' => $id]);
-    }
 
     public function editProduct($productId)
     {

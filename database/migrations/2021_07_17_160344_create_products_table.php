@@ -18,14 +18,13 @@ class CreateProductsTable extends Migration
             $table->string('name', 255);
             $table->integer('isInAutoCollection')->default(1);
             $table->string('ribbon', 255)->nullable();
+            $table->string('link');
             $table->mediumText('description')->nullable();
             $table->text('onlyTheseCarriers')->nullable();
             $table->string('metaUrl', 255)->nullable();
             $table->string('metaTitle', 255)->nullable();
             $table->mediumText('metaDescription')->nullable();
             $table->string('type')->nullable(); 
-            $table->unsignedBigInteger('images_product_id')->nullable()->default(1);
-            $table->foreign('images_product_id')->references('id')->on('images_products');   
             $table->unsignedBigInteger('supplier_id')->nullable()->default(1);
             $table->foreign('supplier_id')->references('id')->on('suppliers');   
             $table->unsignedBigInteger('taxe_id')->nullable()->default(1);

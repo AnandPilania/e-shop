@@ -171,7 +171,6 @@ const TinyeditorProduct = () => {
                         }
                     },
                     video_template_callback: function (data) {
-                        console.log('data  ', data.source)
                         return '<video width="' + data.width + '" height="' + data.height + '"' + (data.poster ? ' poster="' + data.poster + '"' : '') + ' controls="controls">\n' + '<source src="' + data.source + '"' + (data.sourcemime ? ' type="' + data.sourcemime + '"' : '') + ' />\n' + (data.altsource ? '<source src="' + data.altsource + '"' + (data.altsourcemime ? ' type="' + data.altsourcemime + '"' : '') + ' />\n' : '') + '</video>';
                     },
                     // setup: function (editor) {

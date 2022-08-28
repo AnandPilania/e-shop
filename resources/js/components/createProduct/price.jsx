@@ -136,22 +136,24 @@ const Price = () => {
                         <div className='w-full flex flex-col justify-start items-start mb-4'>
                             <Label label="Réduction" />
                             <div className='w-full flex flex-row justify-start items-center'>
-                                <InputNumeric
-                                    id="inputReduction19822"
-                                    value={promoApplied}
-                                    handleChange={handlePromoProductPrice}
-                                    placeholder=""
-                                    step=".01"
-                                    min="0"
-                                    max="9999999999"
-                                    css="rounded-l-md"
-                                />
-                                <div className='h-10 flex flex-row justify-center items-center border-y border-r border-gray-300 rounded-r-md bg-gray-50'>
-                                    <span
-                                        className="w-10 h-10 flex flex-row justify-center items-center rounded-r-md text-gray-700 font-semibold"
-                                    >
-                                        {promoType == "€" ? "€" : "%"}
-                                    </span>
+                                <div className='w-6/12 flex justify-start items-center'>
+                                    <InputNumeric
+                                        id="inputReduction19822"
+                                        value={promoApplied}
+                                        handleChange={handlePromoProductPrice}
+                                        placeholder=""
+                                        step=".01"
+                                        min="0"
+                                        max="9999999999"
+                                        css="rounded-l-md"
+                                    />
+                                    <div className='h-10 flex flex-row justify-center items-center border-y border-r border-gray-300 rounded-r-md bg-gray-50'>
+                                        <span
+                                            className="w-10 h-10 flex flex-row justify-center items-center rounded-r-md text-gray-700 font-semibold"
+                                        >
+                                            {promoType == "€" ? "€" : "%"}
+                                        </span>
+                                    </div>
                                 </div>
                                 <div className='h-8 px-1 ml-2 flex flex-row justify-center items-center border border-gray-300 rounded-r-md bg-white'>
                                     {/* % button */}
