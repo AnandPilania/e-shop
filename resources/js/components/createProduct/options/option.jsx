@@ -69,12 +69,12 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
 
     const handleChangeOption = (e) => {
         if (e.target != undefined) {
-            setOptionObj({ ...optionObj, name: e.target.value, values: [] });
+            setOptionObj({ ...optionObj, name: e.target.value, values: [], idValues_Names: null });
             setShowListType(false);
             removeErrorMessageOptionName();
         }
-        if (e != undefined && e.length > 0) {
-            setOptionObj({ ...optionObj, name: e, values: [] });
+        if (e != undefined && e.name.length > 0) {
+            setOptionObj({ ...optionObj, name: e.name, values: [], idValues_Names: e.id });
             setShowListType(false);
             removeErrorMessageOptionName();
         }
@@ -251,15 +251,15 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
         ...draggableStyle,
     });
 
-    const getStyleOnGrip = (id) => { 
+    const getStyleOnGrip = (id) => {
         let optionCardDnD = document.getElementById(id);
         optionCardDnD.style.border = "dashed 4px #d1d1d1";
-     }
+    }
 
-     const getStyleOffGrip = (id) => { 
+    const getStyleOffGrip = (id) => {
         let optionCardDnD = document.getElementById(id);
         optionCardDnD.style.border = "solid 1px rgb(209 213 219)";
-     }
+    }
 
     const onDragEnd = (result) => {
         const { source, destination } = result;
@@ -290,9 +290,9 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
             index={index}
         >
             {(provided, snapshot) => (
-                <div 
-                id={`${"optionCardDnD" + option_obj.id}`}
-                className="w-full h-auto grid gap-x-4 grid-cols-[25px_1fr_1fr_25px] justify-start items-start px-4 pt-4 pb-2 mb-2 rounded border border-gray-300 bg-white"
+                <div
+                    id={`${"optionCardDnD" + option_obj.id}`}
+                    className="w-full h-auto grid gap-x-4 grid-cols-[25px_1fr_1fr_25px] justify-start items-start px-4 pt-4 pb-2 mb-2 rounded border border-gray-300 bg-white"
                     ref={provided.innerRef}
                     {...provided.draggableProps}
                     style={getItemStyle(
@@ -303,8 +303,8 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
                     {/* drag */}
                     <div className='h-10 pt-[9px]'>
                         <img src={window.location.origin + '/images/icons/grip-vertical.svg'} className="h-[22px] w-[22px] cursor-move"
-                        onMouseDown={() => getStyleOnGrip(`${"optionCardDnD" + option_obj.id}`)}
-                        onMouseUp={() => getStyleOffGrip(`${"optionCardDnD" + option_obj.id}`)}
+                            onMouseDown={() => getStyleOnGrip(`${"optionCardDnD" + option_obj.id}`)}
+                            onMouseUp={() => getStyleOffGrip(`${"optionCardDnD" + option_obj.id}`)}
                             {...provided.dragHandleProps}
                         />
                     </div>
@@ -347,7 +347,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
                                                 key={index}
                                                 value={item.name}
                                                 onClick={() => {
-                                                    handleChangeOption(item.name);
+                                                    handleChangeOption(item);
                                                     getOptionValues();
                                                 }}
                                                 className="w-full h-[40px] cursor-pointer hover:bg-slate-100"

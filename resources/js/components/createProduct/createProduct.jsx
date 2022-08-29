@@ -139,11 +139,11 @@ const CreateProduct = () => {
         formData.append('productSKU', productCode == '' ? uuidv4() : productCode);
         formData.append('productParcelWeight', productParcelWeight);
         formData.append('WeightMeasureUnit', productParcelWeightMeasureUnit);
-        formData.append('transporter', transporter);
+        formData.append('transporter', JSON.stringify(transporter));
         formData.append('tva', JSON.stringify(tva));
-        formData.append('supplier', supplier);
-        formData.append('optionsObj', optionsObj);
-        formData.append('variantes', variantes);
+        formData.append('supplier', JSON.stringify(supplier));
+        formData.append('optionsObj', JSON.stringify(optionsObj));
+        formData.append('variantes', JSON.stringify(variantes));
         formData.append('metaUrlProduct', metaUrlProduct);
         formData.append('metaTitleProduct', metaTitleProduct);
         formData.append('metaDescriptionProduct', metaDescriptionProduct);

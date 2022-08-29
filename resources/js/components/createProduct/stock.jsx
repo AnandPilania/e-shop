@@ -95,7 +95,7 @@ const Stock = () => {
                             onClick={handleUnlimitedStock}
                         >
                             <input
-                                className='caret-transparent cursor-pointer'
+                                className='w-4 h-4 caret-transparent cursor-pointer'
                                 id='unlimitedStockCheckbox'
                                 type="checkbox"
                                 checked={unlimited}
@@ -115,7 +115,7 @@ const Stock = () => {
                             <img src='../images/icons/info-circle.svg'
                                 className="w-4 h-4 ml-2 cursor-help" />
                             <Tooltip top={-150} left={-100}>
-                                Une SKU, « unité de gestion des stocks »,  est un code servant à identifier un article ou une variante de manière unique. Elle permet une gestion plus efficace de vos stocks.
+                                Une SKU, (unité de gestion des stocks), est un code permettant d'identifier un article de manière unique. Si vous ne l'indiquez pas, un code sera généré automatiquement.
                             </Tooltip>
                         </div>
                     </div>

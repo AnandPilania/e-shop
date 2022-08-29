@@ -1030,6 +1030,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .w-\[50px\] {
   width: 50px;
 }
+.w-6\/12 {
+  width: 50%;
+}
 .w-10 {
   width: 2.5rem;
 }
@@ -1110,9 +1113,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .w-\[90\%\] {
   width: 90%;
-}
-.w-6\/12 {
-  width: 50%;
 }
 .min-w-\[750px\] {
   min-width: 750px;

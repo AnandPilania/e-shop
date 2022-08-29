@@ -6,6 +6,8 @@ import AnimateCheckbox from '../../elements/animateCheckbox';
 import ModalImageVariante from './modalImageVariante';
 import SelectionVariantesInList from './selectionVariantesInList';
 import WithHandleSelectionList from './withHandleSelectionList';
+import { v4 as uuidv4 } from 'uuid';
+
 
 
 const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelectedCheckbox, setIsAllSelectedCheckbox, setShowOptions }) => {
@@ -57,7 +59,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         optionsCombinations.length > 0 && getCombinaisons(indexOfNotEmpty_optionsObj_values, "");
 
         // get les noms d'options pour les associer à leur values dans un objet
-        let optionsName = optionsObj.map(x => x.name);
+        let optionsIdValuesNames = optionsObj.map(x => x.idValues_Names);
         let tmp_variantesAsString = [];
         // quand on modifie les params d'une variantes on la copie ici pour conserver ses modifications
         let tmp_changedVariantes = [];
@@ -71,10 +73,9 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
             let variantesOptions = {};
             for (let j = 0; j < optionsObj.length; j++) {
                 if (optionsObj[j].values.length > 0) {
-                    variantesOptions[optionsName[j]] = valuesSplited[j];
+                    variantesOptions[optionsIdValuesNames[j]] = valuesSplited[j];
                 }
             }
-
 
             // compare deux tableaux 
             for (let j = 0; j < tmp_changedVariantes.length; j++) {
@@ -118,7 +119,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                     price: productPrice,
                     reducedPrice: reducedProductPrice,
                     stock: productStock,
-                    productCode: productCode,
+                    productCode: productCode == '' ? uuidv4() : productCode,
                     cost: productCost,
                     parcelWeight: productParcelWeight,
                     parcelWeightMeasureUnit: productParcelWeightMeasureUnit,

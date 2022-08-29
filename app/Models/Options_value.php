@@ -9,9 +9,9 @@ class Options_value extends Model
 {
     use HasFactory;
 
-    public function variante()
+    public function variantes()
     {
-        return $this->belongsTo(Variante::class);
+        return $this->belongsToMany(Variante::class);
     }
 
     public function options_name()

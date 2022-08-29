@@ -77,7 +77,7 @@ const Collection = () => {
                 <label 
                 htmlFor='isInAutoCollectionId26822'
                 className='text-sm ml-2'>
-                    Ne pas inclure ce produit dans les collections automatiques
+                    Inclure ce produit dans les collections automatiques
                 </label>
             </div>
         </Flex_col_s_s>

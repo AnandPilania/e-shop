@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use App\Http\Controllers\Functions\CleanLink;
 use App\Models\Variante;
+use Illuminate\Support\Str;
+
+
+
 
 class ProductController extends Controller
 {
@@ -54,13 +58,12 @@ class ProductController extends Controller
     public function store(Request $request)
     {
 
-        // dd(json_decode($request->imageVariantes));
+
+        // dd(json_decode($request->supplier)->id);
+        // dd(json_decode($request->variantes)[0]);
 
         // $this->validate($request, ['name' => 'required', 'price' => 'required', 'collection' => 'required', 'image' => 'required', 'description' => 'required']);
 
-	
-        // supplier_id
-        // taxe_id
 
         $product =  new Product;
         $product->name = $request->nameProduct;
@@ -77,8 +80,8 @@ class ProductController extends Controller
         $product->link = $cleanLink->cleanLink($request->name);
         $product->type = 'no type';
         $product->taxe_id = json_decode($request->tva)->id;
-
-        // $product->save();
+        $product->supplier_id = json_decode($request->supplier) != "" && json_decode($request->supplier)->id;
+        $product->save();
 
         // dd(json_decode($request->collections));
         // save in collection_product table <---
@@ -88,20 +91,123 @@ class ProductController extends Controller
 
 
         // variantes table !!!
-        $variante = new Variante;
-        $variante->cost = $request->productCost;
-        $variante->price = $request->productPrice;
-        $variante->reduced_price = $request->reducedProductPrice;
-        $variante->weight = $request->productParcelWeight;
-        $variante->weightMeasure = $request->WeightMeasureUnit;
-        $variante->stock = $request->productStock;
-        $variante->unlimitedStock = $request->unlimitedStock;
-        $variante->sku = $request->productCode;
-        $variante->deleted = $request->stock;
-        $variante->ordre = Product::all()->max('ordre') + 1;
-        $variante->options = $request->characteristic;
-        $variante->image_path = $request->characteristic;
-        $variante->product_id = $request->product_id;
+        $variantes = json_decode($request->variantes);
+        foreach ($variantes as $item) {
+            $variante = new Variante;
+
+            if ($item->cost != '') {
+                $variante->cost = $item->cost;
+            } elseif ($request->productCost != '') {
+                $variante->cost = $request->productCost;
+            } else {
+                $variante->cost = null;
+            }
+
+            if ($item->price != '') {
+                $variante->price = $item->price;
+            } elseif ($request->productPrice != '') {
+                $variante->price = $request->productPrice;
+            } else {
+                $variante->price = 0;
+            }
+
+            if ($item->reducedPrice != '') {
+                $variante->reduced_price = $item->reducedPrice;
+            } elseif ($request->reducedProductPrice != '') {
+                $variante->reduced_price = $request->reducedProductPrice;
+            } else {
+                $variante->reduced_price = null;
+            }
+
+            if ($item->parcelWeight != '') {
+                $variante->weight = $item->parcelWeight;
+            } elseif ($request->productParcelWeight != '') {
+                $variante->weight = $request->productParcelWeight;
+            } else {
+                $variante->weight = null;
+            }
+
+            if ($item->parcelWeightMeasureUnit != '') {
+                $variante->weightMeasure = $item->parcelWeightMeasureUnit;
+            } elseif ($request->productParcelWeightMeasureUnit != '') {
+                $variante->weightMeasure = $request->productParcelWeightMeasureUnit;
+            } else {
+                $variante->weightMeasure = 'gr';
+            }
+
+            if ($item->stock != '') {
+                $variante->stock = $item->stock;
+            } elseif ($request->productStock != '') {
+                $variante->stock = $request->productStock;
+            } else {
+                $variante->stock = null;
+            }
+            if ($item->unlimited != '') {
+                $variante->unlimitedStock = $item->unlimited;
+            } elseif ($request->unlimitedStock != '') {
+                $variante->unlimitedStock = $request->unlimitedStock;
+            } else {
+                $variante->unlimitedStock = 1;
+            }
+
+            if ($item->productCode != '') {
+                $variante->sku = $item->productCode;
+            } elseif ($request->productCode != '') {
+                $variante->sku = $request->productCode;
+            } else {
+                $variante->sku = Str::uuid();
+            }
+
+            if ($item->deleted != '') {
+                $variante->deleted = $item->deleted;
+            } else {
+                $variante->deleted = false;
+            }
+
+            if (property_exists($item->selectedImage, 'value')) {
+                $variante->image_path = $item->selectedImage->value;
+            } else {
+                $variante->image_path = null;
+            }
+
+            $variante->product_id = $product->id;
+
+            $variante->save();
+
+            // cherche dans optionsObj l'élément dont idValues_Names correspond à l'index de $item->options qui lui représente l'id de options_names ex. couleur.
+            // avec cet élément on peut récupérer le nom de l'options_names et son id
+            
+            $options = Options_value::whereIn()
+            dd(json_decode($request->optionsObj));
+            dd($item->options);
+            $optionsObj = json_decode($request->optionsObj);
+            if ($item->options != '') {
+                foreach ($item->options as $option) {
+                    $variante->options_values()->attach($option->id);
+                }
+            }
+
+            $optionsObj = json_decode($request->optionsObj);
+            if ($item->options != '') {
+                foreach ($item->options as $index => $value) {
+                    foreach ($optionsObj as $option_obj) {
+                        if ($index == $option_obj->idValues_Names) {
+                            if (count($option_obj->values) > 0) {
+                                foreach ($option_obj->values as $key => $val) {
+                                    $options_value = new Options_value;
+                                    $options_value->name = $val;
+                                    $options_value->ordre = $key;
+                                    $options_value->variante_id = $variante->id;
+                                    $options_value->options_names_id = $option_obj->idValues_Names;
+                                    $options_value->save();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
 
 
         // $product->ali_url_product = $request->ali_url_product;
@@ -109,65 +215,42 @@ class ProductController extends Controller
 
 
 
-        $images = $request->file('image');
-        $i = 1;
-        foreach ($images as $image) {
-            $image_variante = new Images_product;
-            // on crée une random string pour ajouter au nom de l'image
-            $random = substr(str_shuffle("0123456789abcdefghijklmnopqrstvwxyz"), 0, 10);
-            // on explode pour récuppérer le nom sans l'extention
-            $imageName = explode(".", $image->getClientOriginalName());
-            $imageName[0] = str_replace(" ", "", $imageName[0]);
+        // $images = $request->file('image');
+        // $i = 1;
+        // foreach ($images as $image) {
+        //     $image_variante = new Images_product;
+        //     // on crée une random string pour ajouter au nom de l'image
+        //     $random = substr(str_shuffle("0123456789abcdefghijklmnopqrstvwxyz"), 0, 10);
+        //     // on explode pour récuppérer le nom sans l'extention
+        //     $imageName = explode(".", $image->getClientOriginalName());
+        //     $imageName[0] = str_replace(" ", "", $imageName[0]);
 
-            // on reconstruit le nom de l'image
-            if ($image->getClientOriginalExtension() == '') {
-                // si l'image a été drag drop d'un autre site elle n'aura peut-être pas d'extention même si c'est un fichier png ou autres
-                $input['image'] = $imageName[0] . '_' .  $random . '.jpg';
-            } else {
-                // ici tout est normale
-                $input['image'] = $imageName[0] . '_' .  $random . '.' .  '.jpg';
-            }
+        //     // on reconstruit le nom de l'image
+        //     if ($image->getClientOriginalExtension() == '') {
+        //         // si l'image a été drag drop d'un autre site elle n'aura peut-être pas d'extention même si c'est un fichier png ou autres
+        //         $input['image'] = $imageName[0] . '_' .  $random . '.jpg';
+        //     } else {
+        //         // ici tout est normale
+        //         $input['image'] = $imageName[0] . '_' .  $random . '.' .  '.jpg';
+        //     }
 
-            $destinationPath = public_path('/images');
-            $imgFile = Image::make($image);
-            // $imgFile->resize(400, 400, function ($constraint) {
-            //     $constraint->aspectRatio();
-            // });
-            $imgFile->save($destinationPath . '/' . $input['image']);
+        //     $destinationPath = public_path('/images');
+        //     $imgFile = Image::make($image);
+        //     // $imgFile->resize(400, 400, function ($constraint) {
+        //     //     $constraint->aspectRatio();
+        //     // });
+        //     $imgFile->save($destinationPath . '/' . $input['image']);
 
-            $image_variante->path = 'images/' . $input['image'];
-            $image_variante->ordre = $i;
-            $image_variante->product_id = $product->id;
-            $image_variante->save();
+        //     $image_variante->path = 'images/' . $input['image'];
+        //     $image_variante->ordre = $i;
+        //     $image_variante->product_id = $product->id;
+        //     $image_variante->save();
 
-            $i++;
-        }
-
-        // Insertion dans product_details - on boucle car chaque détail  correspond à un enregistrement dans la table product_details
-        foreach (json_decode($request->obj, true) as $detail => $value) {
-            $id_type_detail_product = Options_name::where('name', $value['type'])->first();
-
-            $ordre = 1;
-            foreach ($value['detail'] as $libelle) {
-                $product_detail =  new Options_value;
-                $product_detail->libelle = $libelle;
-                $product_detail->ordre = $ordre;
-                $product_detail->product_id = $product->id;
-                $product_detail->type_detail_product_id = $id_type_detail_product['id'];
-                $product_detail->save();
-                $ordre++;
-            }
-        }
-
-        if (!empty($request->technicalSheet)) {
-            $product_sheet = new Product_sheet;
-            $product_sheet->text = $request->technicalSheet;
-            $product_sheet->product_id = $product->id;
-            $product_sheet->save();
-        }
+        //     $i++;
+        // }
 
 
-        return redirect('/products/create')->with('status', 'Le produit ' . $input['image'] . ' a été ajouté');
+        return 'ok';
     }
 
 
@@ -472,10 +555,11 @@ class ProductController extends Controller
         $product->save();
     }
 
-    public function fetchImage(Request $request) {
+    public function fetchImage(Request $request)
+    {
         // dd($request->url);
         $img = file_get_contents($request->url);
         dd($img);
-        return $img;                          
+        return $img;
     }
 }
