@@ -635,7 +635,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                 imageVariante={imageVariante}
                 setImageVariante={setImageVariante}
             />
-        </div >
+        </div>
     );
 }
 

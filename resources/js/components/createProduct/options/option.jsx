@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useContext } from 'react';
 import { useStateIfMounted } from "use-state-if-mounted";
 import AppContext from '../../contexts/AppContext';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { unset } from 'lodash';
+import { upperFirstLetter } from '../../functions/upperFirstLetter';
 
 
 const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => {
@@ -124,14 +124,14 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
 
 
     const handleChangeOptionValues = (e) => {
-        setTmp_optionValues(e.target.value);
+        setTmp_optionValues(upperFirstLetter(e.target.value));
         setShowOptionValues(false);
         removeErrorMessageOptionValue();
     };
 
     const handleEnterOptionsValue = () => {
         setShowOptionValues(false);
-        if (optionObj.values.includes(tmp_optionValues)) {
+        if (optionObj.values.includes(upperFirstLetter(tmp_optionValues))) {
             setOptionValueMessage(true);
             return;
         } else {
@@ -185,7 +185,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
         if (input_optionValuesRef.current && !input_optionValuesRef.current.contains(event.target)) {
             // si le nom de l'option tapée existe déjà affiche un message d'errreur
             if (tmp_optionValues.length > 0) {
-                if (optionObj.values.includes(tmp_optionValues)) {
+                if (optionObj.values.includes(upperFirstLetter(tmp_optionValues))) {
                     setOptionValueMessage(true);
                     return;
 
@@ -390,7 +390,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
                                 />
                             </div>
                             {optionValueMessage &&
-                                <span className='block text-red-700 text-sm pb-1'>Ce nom existe déjà dans la liste des options</span>
+                                <span className='block text-red-700 text-sm pb-1'>Cette option existe déjà</span>
                             }
 
                             {/* affiche les erreurs */}

@@ -60,10 +60,10 @@ class OptionsValueController extends Controller
 
 
     // renvoi tous les détails pour un type donné
-    public function getOptionValues(Request $request)
+    public function getOptionValues()
     {
         $optionsData = DB::table('options_values')
-            ->select('options_names.name as optionName', 'options_values.name as name', 'ordre', 'variante_id', 'options_names_id')
+            ->select('options_names.name as optionName', 'options_values.name as name', 'options_values.id as idOptionValue', 'ordre', 'options_names_id')
             ->join('options_names', 'options_names.id', '=', 'options_names_id')
             ->groupBy('options_values.name')
             ->orderBy('options_names.name')

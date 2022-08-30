@@ -125,6 +125,7 @@ const CreateProduct = () => {
 
         var formData = new FormData;
 
+
         formData.append('nameProduct', nameProduct);
         formData.append('ribbonProduct', ribbonProduct);
         formData.append('descriptionProduct', descriptionProduct);

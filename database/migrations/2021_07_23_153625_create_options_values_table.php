@@ -19,8 +19,6 @@ class CreateOptionsValuesTable extends Migration
             $table->id();
             $table->string('name');
             $table->integer('ordre');
-            $table->unsignedBigInteger('variante_id');
-            $table->foreign('variante_id')->references('id')->on('variantes');
             $table->unsignedBigInteger('options_names_id');
             $table->foreign('options_names_id')->references('id')->on('options_names');
             $table->timestamps();

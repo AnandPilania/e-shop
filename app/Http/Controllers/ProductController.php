@@ -59,7 +59,7 @@ class ProductController extends Controller
     {
 
 
-        // dd(json_decode($request->supplier)->id);
+        dd(json_decode($request->imageVariantes));
         // dd(json_decode($request->variantes)[0]);
 
         // $this->validate($request, ['name' => 'required', 'price' => 'required', 'collection' => 'required', 'image' => 'required', 'description' => 'required']);
@@ -174,35 +174,21 @@ class ProductController extends Controller
 
             $variante->save();
 
-            // cherche dans optionsObj l'élément dont idValues_Names correspond à l'index de $item->options qui lui représente l'id de options_names ex. couleur.
-            // avec cet élément on peut récupérer le nom de l'options_names et son id
-            
-            $options = Options_value::whereIn()
-            dd(json_decode($request->optionsObj));
-            dd($item->options);
-            $optionsObj = json_decode($request->optionsObj);
+            // si la value de l'option existe alors on l'attache sinon on la crée d'abord puis on  l'attache
             if ($item->options != '') {
-                foreach ($item->options as $option) {
-                    $variante->options_values()->attach($option->id);
-                }
-            }
-
-            $optionsObj = json_decode($request->optionsObj);
-            if ($item->options != '') {
-                foreach ($item->options as $index => $value) {
-                    foreach ($optionsObj as $option_obj) {
-                        if ($index == $option_obj->idValues_Names) {
-                            if (count($option_obj->values) > 0) {
-                                foreach ($option_obj->values as $key => $val) {
-                                    $options_value = new Options_value;
-                                    $options_value->name = $val;
-                                    $options_value->ordre = $key;
-                                    $options_value->variante_id = $variante->id;
-                                    $options_value->options_names_id = $option_obj->idValues_Names;
-                                    $options_value->save();
-                                }
-                            }
-                        }
+                foreach ($item->options as $key => $value) {
+                    $optionValueFounded = Options_value::where('name', $value)
+                        ->where('options_names_id', $key)->first();
+                    if ($optionValueFounded) {
+                        $variante->options_values()->attach($optionValueFounded->id);
+                    } else {
+                        $option_value = new Options_value;
+                        $maxOrdre = Options_value::where('options_names_id', $key)->max('ordre');
+                        $option_value->name = $value;
+                        $option_value->ordre = $maxOrdre + 1;
+                        $option_value->options_names_id = $key;
+                        $option_value->save();
+                        $variante->options_values()->attach($option_value->id);
                     }
                 }
             }
@@ -215,39 +201,39 @@ class ProductController extends Controller
 
 
 
-        // $images = $request->file('image');
-        // $i = 1;
-        // foreach ($images as $image) {
-        //     $image_variante = new Images_product;
-        //     // on crée une random string pour ajouter au nom de l'image
-        //     $random = substr(str_shuffle("0123456789abcdefghijklmnopqrstvwxyz"), 0, 10);
-        //     // on explode pour récuppérer le nom sans l'extention
-        //     $imageName = explode(".", $image->getClientOriginalName());
-        //     $imageName[0] = str_replace(" ", "", $imageName[0]);
+        $images = json_decode($request->imageVariantes);
+        $i = 1;
+        foreach ($images as $image) {
+            $image_variante = new Images_product;
+            // on crée une random string pour ajouter au nom de l'image
+            $random = substr(str_shuffle("0123456789abcdefghijklmnopqrstvwxyz"), 0, 10);
+            // on explode pour récuppérer le nom sans l'extention
+            $imageName = explode(".", $image->getClientOriginalName());
+            $imageName[0] = str_replace(" ", "", $imageName[0]);
 
-        //     // on reconstruit le nom de l'image
-        //     if ($image->getClientOriginalExtension() == '') {
-        //         // si l'image a été drag drop d'un autre site elle n'aura peut-être pas d'extention même si c'est un fichier png ou autres
-        //         $input['image'] = $imageName[0] . '_' .  $random . '.jpg';
-        //     } else {
-        //         // ici tout est normale
-        //         $input['image'] = $imageName[0] . '_' .  $random . '.' .  '.jpg';
-        //     }
+            // on reconstruit le nom de l'image
+            if ($image->getClientOriginalExtension() == '') {
+                // si l'image a été drag drop d'un autre site elle n'aura peut-être pas d'extention même si c'est un fichier png ou autres
+                $input['image'] = $imageName[0] . '_' .  $random . '.jpg';
+            } else {
+                // ici tout est normale
+                $input['image'] = $imageName[0] . '_' .  $random . '.' .  '.jpg';
+            }
 
-        //     $destinationPath = public_path('/images');
-        //     $imgFile = Image::make($image);
-        //     // $imgFile->resize(400, 400, function ($constraint) {
-        //     //     $constraint->aspectRatio();
-        //     // });
-        //     $imgFile->save($destinationPath . '/' . $input['image']);
+            $destinationPath = public_path('/images');
+            $imgFile = Image::make($image);
+            // $imgFile->resize(400, 400, function ($constraint) {
+            //     $constraint->aspectRatio();
+            // });
+            $imgFile->save($destinationPath . '/' . $input['image']);
 
-        //     $image_variante->path = 'images/' . $input['image'];
-        //     $image_variante->ordre = $i;
-        //     $image_variante->product_id = $product->id;
-        //     $image_variante->save();
+            $image_variante->path = 'images/' . $input['image'];
+            $image_variante->ordre = $i;
+            $image_variante->product_id = $product->id;
+            $image_variante->save();
 
-        //     $i++;
-        // }
+            $i++;
+        }
 
 
         return 'ok';
