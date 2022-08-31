@@ -214,6 +214,7 @@ const OptimisationProduct = () => {
                         value={metaTitleProduct?.length > 0 ? metaTitleProduct : ''}
                         handleChange={handleMetaTitle}
                         css="rounded-md"
+                        maxLength="2047"
                     />
                     <div className='w-full'>
                         <span className='text-blue-700 italic text-xs font-normal mb-2'>
@@ -245,6 +246,7 @@ const OptimisationProduct = () => {
                     <TextArea
                         value={metaDescriptionProduct?.length > 0 ? metaDescriptionProduct : ''}
                         handleChange={handleMetaDescription}
+                        maxLength="2047"
                     />
                     <div className='w-full h-auto'>
                         <span className='text-blue-700 italic text-xs font-normal'>

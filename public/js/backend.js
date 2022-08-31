@@ -22028,14 +22028,14 @@ var CreateProduct = function CreateProduct() {
   var validation = function validation() {
     // name validation
     if (nameProduct.length == 0) {
-      setMessageModal('Le champ nom est obligatoir');
+      setMessageModal('Le champ nom est requis');
       setShowModalFromPrice(true);
       return false;
     } // price validation
 
 
     if (productPrice <= 0) {
-      setMessageModal('Le champ prix est obligatoir');
+      setMessageModal('Le champ prix est requis');
       setShowModalFromPrice(true);
       return false;
     } // options
@@ -23333,7 +23333,8 @@ var NameAndRibbon = function NameAndRibbon() {
         id: "productName22822",
         value: nameProduct,
         handleChange: handleName,
-        css: "rounded-md"
+        css: "rounded-md",
+        maxLength: 255
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
       className: "w-full mb-5 flex flex-col justify-start items-start",
@@ -23346,7 +23347,8 @@ var NameAndRibbon = function NameAndRibbon() {
         id: "productRibbon22822",
         value: ribbonProduct,
         handleChange: handleRibbon,
-        css: "rounded-md"
+        css: "rounded-md",
+        maxLength: 255
       })]
     })]
   });
@@ -23613,7 +23615,8 @@ var OptimisationProduct = function OptimisationProduct() {
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_form_inputText__WEBPACK_IMPORTED_MODULE_6__["default"], {
           value: (metaTitleProduct === null || metaTitleProduct === void 0 ? void 0 : metaTitleProduct.length) > 0 ? metaTitleProduct : '',
           handleChange: handleMetaTitle,
-          css: "rounded-md"
+          css: "rounded-md",
+          maxLength: "2047"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
           className: "w-full",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("span", {
@@ -23650,7 +23653,8 @@ var OptimisationProduct = function OptimisationProduct() {
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_form_textarea__WEBPACK_IMPORTED_MODULE_8__["default"], {
           value: (metaDescriptionProduct === null || metaDescriptionProduct === void 0 ? void 0 : metaDescriptionProduct.length) > 0 ? metaDescriptionProduct : '',
-          handleChange: handleMetaDescription
+          handleChange: handleMetaDescription,
+          maxLength: "2047"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
           className: "w-full h-auto",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("span", {
@@ -26360,10 +26364,10 @@ var SelectionVariantesInList = function SelectionVariantesInList(_ref) {
                   value: value,
                   id: value + unikIdSelectionVariantesList,
                   checked: selectedVariantesList.findIndex(function (x) {
-                    return x.name == item.name && x.value == value;
+                    return x.name == item.idValues_Names && x.value == value;
                   }) > -1,
                   onChange: function onChange() {
-                    return handleChangeSelectionVariantesList(value, item.name);
+                    return handleChangeSelectionVariantesList(value, item.idValues_Names);
                   },
                   className: "w-[17px] h-[17px] mr-[5px] cursor-pointer"
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
@@ -26550,14 +26554,14 @@ var WithHandleSelectionList = function WithHandleSelectionList(Component) {
       }
     };
 
-    var handleChangeSelectionVariantesList = function handleChangeSelectionVariantesList(value, name) {
+    var handleChangeSelectionVariantesList = function handleChangeSelectionVariantesList(value, idValues_Names) {
       var tmpSelectedList = _toConsumableArray(selectedVariantesList); // si alloptionsNeeded est true alors on check s'il le type d'option qu'on veut ajouter n'est pas déjà présent dans selectedVariantesList. si oui on retire dabord l'ancien avant d'ajouter le nouveau 
 
 
       if (allOptionsVariantesNeeded === 1) {
         tmpSelectedList.forEach(function (x) {
           var index = tmpSelectedList.findIndex(function (x) {
-            return x.name == name && x.value != value;
+            return x.name == idValues_Names && x.value != value;
           });
 
           if (index > -1) {
@@ -26568,7 +26572,7 @@ var WithHandleSelectionList = function WithHandleSelectionList(Component) {
 
 
       var index = tmpSelectedList.findIndex(function (x) {
-        return x.name == name && x.value == value;
+        return x.name == idValues_Names && x.value == value;
       });
 
       if (index > -1) {
@@ -26579,7 +26583,7 @@ var WithHandleSelectionList = function WithHandleSelectionList(Component) {
         // si value n'est pas null c'est qu'on a coché une option pour sélectionner les variantes qui ont cette option
         if (value != null) {
           tmpSelectedList = [].concat(_toConsumableArray(tmpSelectedList), [{
-            name: name,
+            name: idValues_Names,
             value: value
           }]);
           setSelectedVariantesList(_toConsumableArray(tmpSelectedList));
@@ -29300,6 +29304,7 @@ var TextArea = function TextArea(_ref) {
       handleChange = _ref.handleChange,
       handleClick = _ref.handleClick,
       placeholder = _ref.placeholder,
+      maxLength = _ref.maxLength,
       css = _ref.css;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("textarea", {
     id: id,
@@ -29309,6 +29314,7 @@ var TextArea = function TextArea(_ref) {
     onClick: handleClick,
     placeholder: placeholder,
     autoComplete: "off",
+    maxLength: maxLength,
     className: "focus:border-gray-400 w-full h-auto min-h-[80px] pl-2 rounded-md border border-gray-300 bg-white text-gray-500 text-sm ".concat(css)
   });
 };

@@ -68,14 +68,14 @@ const CreateProduct = () => {
     const validation = () => {
         // name validation
         if (nameProduct.length == 0) {
-            setMessageModal('Le champ nom est obligatoir');
+            setMessageModal('Le champ nom est requis');
             setShowModalFromPrice(true);
             return false;
         }
 
         // price validation
         if (productPrice <= 0) {
-            setMessageModal('Le champ prix est obligatoir');
+            setMessageModal('Le champ prix est requis');
             setShowModalFromPrice(true);
             return false;
         }

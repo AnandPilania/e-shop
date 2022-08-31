@@ -143,8 +143,6 @@ const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
         setIsHideDeletedVariantes(!isHideDeletedVariantes);
     }
 
-
-
     return (
         <div className="w-full relative mb-[10px] flex flex-row flex-wrap justify-start items-center">
             <div className="w-[130px] mr-[15px] mb-[20px]">
@@ -203,13 +201,13 @@ const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
                                 <div key={index}
                                     className="flex flex-row justify-start items-center px-[3px] mb-[5px] mr-[7px] group"
                                 >
-                                    {/* checkbox qui sélectionne les variantes dans la liste des variantes en fonction des options cochées */}
+                                    {/* checkbox qui sélectionne les variantes dans la liste des variantes en fonction des options cochées  !!! --> x.name et idValues_Names représentent l'id du type d'options */}
                                     <input type='checkbox'
                                         value={value}
                                         id={value + unikIdSelectionVariantesList}
-                                        checked={selectedVariantesList.findIndex(x => x.name == item.name && x.value == value) > -1}
+                                        checked={selectedVariantesList.findIndex(x => x.name == item.idValues_Names && x.value == value) > -1}
                                         onChange={() =>
-                                            handleChangeSelectionVariantesList(value, item.name)}
+                                            handleChangeSelectionVariantesList(value, item.idValues_Names)}
                                         className="w-[17px] h-[17px] mr-[5px] cursor-pointer"
                                     />
                                     <label htmlFor={value + unikIdSelectionVariantesList}

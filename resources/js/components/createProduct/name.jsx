@@ -27,6 +27,7 @@ const NameAndRibbon = () => {
                     value={nameProduct}
                     handleChange={handleName}
                     css="rounded-md"
+                    maxLength={255}
                 />
             </div>
             {/* ribbon */}
@@ -39,6 +40,7 @@ const NameAndRibbon = () => {
                     value={ribbonProduct}
                     handleChange={handleRibbon}
                     css="rounded-md"
+                    maxLength={255}
                 />
             </div>
         </div>

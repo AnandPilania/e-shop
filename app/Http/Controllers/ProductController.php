@@ -4,18 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Body;
 use App\Models\Product;
+use App\Models\Variante;
 use App\Models\Collection;
+use Illuminate\Support\Str;
+use App\Models\Options_name;
 use Illuminate\Http\Request;
+use App\Models\Options_value;
 use App\Models\Product_sheet;
 use App\Models\Images_product;
-use App\Models\Options_value;
+use App\Models\Temporary_storage;
 use Illuminate\Support\Facades\DB;
-use App\Models\Options_name;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
+use App\Http\Requests\StoreProductRequest;
 use App\Http\Controllers\Functions\CleanLink;
-use App\Models\Variante;
-use Illuminate\Support\Str;
 
 
 
@@ -49,22 +51,8 @@ class ProductController extends Controller
     }
 
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-
-
-        dd(json_decode($request->imageVariantes));
-        // dd(json_decode($request->variantes)[0]);
-
-        // $this->validate($request, ['name' => 'required', 'price' => 'required', 'collection' => 'required', 'image' => 'required', 'description' => 'required']);
-
-
         $product =  new Product;
         $product->name = $request->nameProduct;
         $product->isInAutoCollection = $request->isInAutoCollection;
@@ -77,21 +65,37 @@ class ProductController extends Controller
         $product->metaTitle = $request->metaTitleProduct;
         $product->metaDescription = $request->metaDescriptionProduct;
         $cleanLink = new CleanLink;
-        $product->link = $cleanLink->cleanLink($request->name);
+        $product->link = $cleanLink->cleanLink($request->nameProduct);
         $product->type = 'no type';
         $product->taxe_id = json_decode($request->tva)->id;
         $product->supplier_id = json_decode($request->supplier) != "" && json_decode($request->supplier)->id;
         $product->save();
 
-        // dd(json_decode($request->collections));
         // save in collection_product table <---
         foreach (json_decode($request->collections) as $collection) {
             $product->collections()->attach($collection->id);
         }
 
-
         // variantes table !!!
         $variantes = json_decode($request->variantes);
+        if (count($variantes) == 0) {
+            $emptyVariante = (object) [
+                'cost' => '',
+                'price' => '',
+                'reducedPrice' => '',
+                'parcelWeight' => '',
+                'parcelWeightMeasureUnit' => '',
+                'stock' => '',
+                'unlimited' => '',
+                'productCode' => '',
+                'deleted' => '',
+                'selectedImage' => '',
+                'product_id' => '',
+                'options' => '',
+            ];
+            array_push($variantes, $emptyVariante);
+        }
+
         foreach ($variantes as $item) {
             $variante = new Variante;
 
@@ -129,8 +133,8 @@ class ProductController extends Controller
 
             if ($item->parcelWeightMeasureUnit != '') {
                 $variante->weightMeasure = $item->parcelWeightMeasureUnit;
-            } elseif ($request->productParcelWeightMeasureUnit != '') {
-                $variante->weightMeasure = $request->productParcelWeightMeasureUnit;
+            } elseif ($request->WeightMeasureUnit != '') {
+                $variante->weightMeasure = $request->WeightMeasureUnit;
             } else {
                 $variante->weightMeasure = 'gr';
             }
@@ -174,13 +178,13 @@ class ProductController extends Controller
 
             $variante->save();
 
-            // si la value de l'option existe alors on l'attache sinon on la crée d'abord puis on  l'attache
+            // si la value de l'option existe alors on l'attache sinon on la crée d'abord puis on l'attache
             if ($item->options != '') {
                 foreach ($item->options as $key => $value) {
-                    $optionValueFounded = Options_value::where('name', $value)
+                    $optionValue = Options_value::where('name', $value)
                         ->where('options_names_id', $key)->first();
-                    if ($optionValueFounded) {
-                        $variante->options_values()->attach($optionValueFounded->id);
+                    if ($optionValue) {
+                        $variante->options_values()->attach($optionValue->id);
                     } else {
                         $option_value = new Options_value;
                         $maxOrdre = Options_value::where('options_names_id', $key)->max('ordre');
@@ -194,47 +198,24 @@ class ProductController extends Controller
             }
         }
 
-
-
-        // $product->ali_url_product = $request->ali_url_product;
-        // $product->ali_product_id = $request->ali_product_id;
-
-
-
-        $images = json_decode($request->imageVariantes);
-        $i = 1;
+        // save images
+        $images = array_merge(...json_decode($request->imageVariantes));
         foreach ($images as $image) {
-            $image_variante = new Images_product;
-            // on crée une random string pour ajouter au nom de l'image
-            $random = substr(str_shuffle("0123456789abcdefghijklmnopqrstvwxyz"), 0, 10);
-            // on explode pour récuppérer le nom sans l'extention
-            $imageName = explode(".", $image->getClientOriginalName());
-            $imageName[0] = str_replace(" ", "", $imageName[0]);
+            if (File::exists(public_path($image->value))) {
+                $imageName = str_replace('temporaryStorage/', '', $image->value);
+                File::move(public_path($image->value), public_path('images/' . $imageName));
+                File::delete(public_path($image->value));
 
-            // on reconstruit le nom de l'image
-            if ($image->getClientOriginalExtension() == '') {
-                // si l'image a été drag drop d'un autre site elle n'aura peut-être pas d'extention même si c'est un fichier png ou autres
-                $input['image'] = $imageName[0] . '_' .  $random . '.jpg';
-            } else {
-                // ici tout est normale
-                $input['image'] = $imageName[0] . '_' .  $random . '.' .  '.jpg';
+                Temporary_storage::destroy($image->id);
+
+                $image_product = new Images_product;
+                $image_product->path = 'images/' . $imageName;
+                $image_product->alt = $imageName;
+                $image_product->ordre = $image->ordre;
+                $image_product->product_id = $product->id;
+                $image_product->save();
             }
-
-            $destinationPath = public_path('/images');
-            $imgFile = Image::make($image);
-            // $imgFile->resize(400, 400, function ($constraint) {
-            //     $constraint->aspectRatio();
-            // });
-            $imgFile->save($destinationPath . '/' . $input['image']);
-
-            $image_variante->path = 'images/' . $input['image'];
-            $image_variante->ordre = $i;
-            $image_variante->product_id = $product->id;
-            $image_variante->save();
-
-            $i++;
         }
-
 
         return 'ok';
     }

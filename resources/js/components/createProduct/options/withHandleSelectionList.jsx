@@ -24,7 +24,6 @@ const WithHandleSelectionList = (Component) => (props) => {
                 let tmp_tab = [];
                 for (let i = 0; i < variantes.length; i++) {
                     for (let j = 0; j < tmpSelectedList.length; j++) {
-
                         if (variantes[i].options[tmpSelectedList[j].name] == tmpSelectedList[j].value) {
 
                             if (tmp_tab.indexOf(variantes[i].id) == -1) {
@@ -60,14 +59,12 @@ const WithHandleSelectionList = (Component) => (props) => {
     }
 
 
-    const handleChangeSelectionVariantesList = (value, name) => {
-
+    const handleChangeSelectionVariantesList = (value, idValues_Names) => {
         let tmpSelectedList = [...selectedVariantesList];
-
         // si alloptionsNeeded est true alors on check s'il le type d'option qu'on veut ajouter n'est pas déjà présent dans selectedVariantesList. si oui on retire dabord l'ancien avant d'ajouter le nouveau 
         if (allOptionsVariantesNeeded === 1) {
             tmpSelectedList.forEach(x => {
-                let index = tmpSelectedList.findIndex(x => x.name == name && x.value != value);
+                let index = tmpSelectedList.findIndex(x => x.name == idValues_Names && x.value != value);
                 if (index > -1) {
                     tmpSelectedList.splice(index, 1);
                 }
@@ -75,7 +72,7 @@ const WithHandleSelectionList = (Component) => (props) => {
         }
 
         // si l'élément a déjà été sélectionné on le retir sinon on l'ajout, ceci coche ou décoche la checkbox. 
-        let index = tmpSelectedList.findIndex(x => x.name == name && x.value == value);
+        let index = tmpSelectedList.findIndex(x => x.name == idValues_Names && x.value == value);
         if (index > -1) {
             tmpSelectedList.splice(index, 1);
             setSelectedVariantesList([...tmpSelectedList]);
@@ -84,7 +81,7 @@ const WithHandleSelectionList = (Component) => (props) => {
         } else {
             // si value n'est pas null c'est qu'on a coché une option pour sélectionner les variantes qui ont cette option
             if (value != null) {
-                tmpSelectedList = [...tmpSelectedList, { name: name, value: value }];
+                tmpSelectedList = [...tmpSelectedList, { name: idValues_Names, value: value }];
                 setSelectedVariantesList([...tmpSelectedList]);
             }
             // si value est null c'est qu'on a ajouté une option sans changer la sélection. Donc on a juste besoin de mettre à jour checkedVariantesList après un setVariantes dans optionVariontesList.jsx
@@ -100,7 +97,7 @@ const WithHandleSelectionList = (Component) => (props) => {
         <div>
             <Component
                 handleChangeSelectionVariantesList={handleChangeSelectionVariantesList}
-                isAllSelectedCheckbox={isAllSelectedCheckbox} 
+                isAllSelectedCheckbox={isAllSelectedCheckbox}
                 setIsAllSelectedCheckbox={setIsAllSelectedCheckbox}
                 {...props}
             />

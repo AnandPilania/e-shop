@@ -190,14 +190,12 @@ class OptionsValuesSeeder extends Seeder
             DB::table('images_products')->insert([
                 'path' => 'images/croppée - Copie (' . $ii . ').jpg',
                 'alt' => 'mon alt',
-                'title' => 'mon title',
                 'ordre' => 1,
                 'product_id' => $i,
             ]);
             DB::table('images_products')->insert([
                 'path' => 'images/croppée2 - Copie (' . $ii . ').jpg',
                 'alt' => 'mon alt',
-                'title' => 'mon title',
                 'ordre' => 2,
                 'product_id' => $i,
             ]);
