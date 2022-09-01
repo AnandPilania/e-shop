@@ -100,9 +100,9 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
     }
 
     return (
-        <li className='grid grid-col-list2 w100pct h-auto min-h50 bg-white p15 brd-b-gray-light-1'>
+        <li className='grid grid-cols-[5%_18%_7%_7%_19%_12%_12%_10%_10%] w-full h-auto min-h-[48px] bg-white p-4 border-b border-gray-200'>
             {/* checkBox */}
-            <div className='flex-row min-h50 p5'>
+            <div className='flex-row min-h-[48px]'>
                 {collectionFiltered &&
                     <CheckboxListCollection
                         unikId={collectionFiltered.id}
@@ -111,48 +111,48 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
                     />}
             </div>
             {/* name */}
-            <div className='flex-row min-h50 p5 p-l-10 w95pct cursor word-break'>
+            <div className='flex-row min-h[48px] w-[95%] cursor-pointer truncate break-all '>
                 {collectionFiltered && collectionFiltered.name}
             </div>
             {/* thumbnail */}
-            <div className='flex-row-c-c min-h50 w50'>
+            <div className='flex flex-row justify-center items-center min-h[48px] w-12'>
                 {collectionFiltered.thumbnail &&
-                    <figure className="h50 w50 radius-round" style={figureSize}>
+                    <figure className="h-12 w-12 rounded-full" style={figureSize}>
                     </figure>}
             </div>
-            {/* nb product */}
-            <div className="flex-row-c-c w40 h40 radius-round bg-blue-light m-auto">
+            {/* nb stock */}
+            <div className="flex flex-row justify-center items-center w-10 h-10 rounded-full bg-blue-50 m-auto">
                 {collectionFiltered.products.length}
             </div>
             {/* conditions */}
-            <div className={`flex-row min-h50 ${conditions?.length > 1 && "cursor"}`} onClick={showHideConditions}>
+            <div className={`flex flex-row justify-start items-center min-h-[48px] ${conditions?.length > 1 && "cursor-pointer"}`} onClick={showHideConditions}>
                 {conditions !== null ?
                     conditions[0].value !== '' ?
-                        <div className='relative w-auto flex-col justify-s align-s bg-white radius5 m-r-10'>
+                        <div className='relative w-auto flex flex-col justify-start items-start bg-white rounded-md m-r-2.5'>
 
                             {!showConditions ?
-                                <div className='w100pct'>
+                                <div className='w-full'>
                                     <span>
                                         {getParameter(conditions[0].parameter) + ' ' + getOperator(conditions[0].operator) + ' ' + conditions[0].value}
                                     </span>
                                 </div>
                                 :
                                 conditions.length > 1 ?
-                                    <div className={`flex-col-s-s w300 max-h310 absolute l0 bg-white shadow-l radius5 z3 ${distanceFromBottom < 300 ? "b0" : "t0"}`}>
+                                    <div className={`flex flex-col justify-start items-start w-72 max-h-[310px] absolute left-0 bg-white shadow-xl rounded-md z-30 ${distanceFromBottom < 300 ? "bottom-0" : "top-0"}`}>
                                         <div style={cover} onClick={showHideConditions} />
-                                        <div className='w100pct h60 p-l-20  flex-row-s-c bg-gray-light'>
-                                            <span className="w30 h30 radius-round bg-blue white flex-row-c-c fs12">{conditions.length} </span>  &nbsp; Conditions
+                                        <div className='w-full h-14 pl-5 flex flex-row justify-start items-center bg-gray-50'>
+                                            <span className="w-8 h-8 rounded-md bg-blue-600 text-white flex flex-row justify-center  items-center text-xs">{conditions.length} </span>  &nbsp; Conditions
                                         </div>
-                                        <ul className="scroll flex-col-s-s w300 max-h265 p20 bg-white ul scrolly">
+                                        <ul className="flex flex-col justify-start items-start w-72 max-h-[265px] p-5 bg-white list-inside overflow-y-auto">
                                             {conditions.map((item, index) =>
                                                 <li key={index}
-                                                    className="w100pct word-break">
+                                                    className="w-full break-all">
                                                     {getParameter(item.parameter) + ' ' + getOperator(item.operator) + ' ' + item.value}
                                                 </li>)}
                                         </ul>
                                     </div>
                                     :
-                                    <div className='w100pct'>
+                                    <div className='w-full'>
                                         <span>
                                             {getParameter(conditions[0].parameter) + ' ' + getOperator(conditions[0].operator) + ' ' + conditions[0].value}
                                         </span>
@@ -162,20 +162,20 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
                         : '_'
                     : '_'}
 
-                {conditions?.length > 1 && <div className="w20 h20 m-r-20 m-l-auto min-w20">
+                {conditions?.length > 1 && <div className="w-5 h-5 mr-5 ml-auto min-w-[20px]">
                     {!showConditions ? <img src={window.location.origin + '/images/icons/chevronDown.png'} className="w17" /> : <img src={window.location.origin + '/images/icons/chevronUp.png'} />}
                 </div>}
             </div>
             {/* category */}
-            <div className='flex-row min-h50 p5'>
+            <div className='flex-row min-h-[48px]'>
                 <span>{category && category.name}</span>
             </div>
             {/* date activation */}
-            <div className='flex-row min-h50'>
-                <span className={`noshrink flex-row-c-c radius-round15-square w120 h30 p-l-10 ${collectionFiltered?.status == 1 || collectionFiltered?.status == 2 ? collectionFiltered?.dateActivation <= getNowUs() ? 'active-collection' : 'soon-collection' : 'unactive-collection'}`}>
+            <div className='flex min-h[48px]'>
+                <span className={`shrink-0 flex flex-row justify-center items-center rounded-l-[16px] rounded-r-md w-32 h-8 pl-2.5 ${collectionFiltered?.status == 1 || collectionFiltered?.status == 2 ? collectionFiltered?.dateActivation <= getNowUs() ? 'bg-green-100' : 'bg-yellow-100' : 'bg-red-100'}`}>
                     {collectionFiltered?.status == 1 || collectionFiltered?.status == 2 ? collectionFiltered?.dateActivation <= getNowUs() ? "On" : `${getOnlyDateShort(collectionFiltered?.dateActivation)}` : "Off"}
                     <button
-                        className="flex-row-c-c w30 h30 m-l-auto radius-square-round5 bg-blue-light"
+                        className="flex flex-row justify-center items-center w-8 h-8 ml-auto rounded-r-md bg-blue-50"
                         checked={collectionFiltered.status == 1}
                         onClick={() => handleActivation(collectionFiltered.id, collectionFiltered.status)}>
                         <img src='../images/icons/power.PNG' className="h20" />
@@ -183,21 +183,22 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
                 </span>
             </div>
             {/* created_at */}
-            <div className='flex-row min-h50 p5'>
+            <div className='flex-row min-h-[48px]'>
                 {collectionFiltered && getOnlyDate(collectionFiltered.created_at)}
             </div>
             {/* edit & delete */}
             <div>
-                <span className="m-r-20 cursor"
+                <span className="mr-5 cursor-pointer"
                     onClick={() => {
                         editCollection(collectionFiltered.id);
                     }}>
-                    <img src='../images/icons/recycle.svg' className="w20 h20 inline" />
+                    <img src='../images/icons/recycle.svg' 
+                    className="w-5 h-5 inline" />
                 </span>
 
-                <span className="cursor"
+                <span className="cursor-pointer"
                     onClick={() => confirmDeleteCollection(collectionFiltered.id, collectionFiltered.name)}>
-                    <img src='../images/icons/trash.svg' className="w20 h20 inline" />
+                    <img src='../images/icons/trash.svg' className="w-5 h-5 inline" />
                 </span>
             </div>
         </li>

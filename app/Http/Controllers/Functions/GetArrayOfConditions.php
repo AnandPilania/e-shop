@@ -73,7 +73,7 @@ class GetArrayOfConditions
                     } else if ($field === 'supplier') {
                         $suppliers = DB::table('products')
                             ->join('variantes', 'products.id', '=', 'variantes.product_id')
-                            ->join('suppliers', 'suppliers.id', '=', 'variantes.supplier_id')
+                            ->join('suppliers', 'suppliers.id', '=', 'products.supplier_id')
                             ->Where('suppliers.name', $value)
                             ->groupBy('variantes.product_id')
                             ->get();
@@ -118,7 +118,7 @@ class GetArrayOfConditions
                     } else if ($field === 'supplier') {
                         $suppliers = DB::table('products')
                             ->join('variantes', 'products.id', '=', 'variantes.product_id')
-                            ->join('suppliers', 'suppliers.id', '=', 'variantes.supplier_id')
+                            ->join('suppliers', 'suppliers.id', '=', 'products.supplier_id')
                             ->Where('suppliers.name', '!=', $value)
                             ->groupBy('variantes.product_id')
                             ->get();
@@ -182,7 +182,7 @@ class GetArrayOfConditions
                     } else if ($field === 'supplier') {
                         $suppliers = DB::table('products')
                             ->join('variantes', 'products.id', '=', 'variantes.product_id')
-                            ->join('suppliers', 'suppliers.id', '=', 'variantes.supplier_id')
+                            ->join('suppliers', 'suppliers.id', '=', 'products.supplier_id')
                             ->Where('suppliers.name', 'like', $value . '%')
                             ->groupBy('variantes.product_id')
                             ->get();
@@ -202,7 +202,7 @@ class GetArrayOfConditions
                     } else if ($field === 'supplier') {
                         $suppliers = DB::table('products')
                             ->join('variantes', 'products.id', '=', 'variantes.product_id')
-                            ->join('suppliers', 'suppliers.id', '=', 'variantes.supplier_id')
+                            ->join('suppliers', 'suppliers.id', '=', 'products.supplier_id')
                             ->Where('suppliers.name', 'like', '%' . $value)
                             ->groupBy('variantes.product_id')
                             ->get();
@@ -223,7 +223,7 @@ class GetArrayOfConditions
                         if ($field === 'supplier') {
                             $suppliers = DB::table('products')
                                 ->join('variantes', 'products.id', '=', 'variantes.product_id')
-                                ->join('suppliers', 'suppliers.id', '=', 'variantes.supplier_id')
+                                ->join('suppliers', 'suppliers.id', '=', 'products.supplier_id')
                                 ->Where('suppliers.name', 'like', '%' . $value . '%')
                                 ->groupBy('variantes.product_id')
                                 ->get();
@@ -245,7 +245,7 @@ class GetArrayOfConditions
                         if ($field === 'supplier') {
                             $suppliers = DB::table('products')
                                 ->join('variantes', 'products.id', '=', 'variantes.product_id')
-                                ->join('suppliers', 'suppliers.id', '=', 'variantes.supplier_id')
+                                ->join('suppliers', 'suppliers.id', '=', 'products.supplier_id')
                                 ->Where('suppliers.name', 'not like', '%' . $value . '%')
                                 ->groupBy('variantes.product_id')
                                 ->get();

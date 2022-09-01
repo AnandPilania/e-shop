@@ -212,61 +212,72 @@ const ListCollections = () => {
 
     return (
 
-        <div className='min-h-[100vh] flex-col-s-c'>
+        <div className='w-full min-h-[100vh] flex flex-col justify-start items-center'>
             <HeaderListCollections confirmDeleteCollection={confirmDeleteCollection} />
-            <section className='flex-col justify-s align-s m-b-10 bg-gray-cool min-h100pct w90pct'>
-                <ul className='sub-div-vert-align shadow-md'>
+            <section className='flex flex-col justify-start items-start mb-2.5 bg-gray-50 min-h-full w-[90%] rounded-md'>
+                <ul className='w-full flex flex-col justify-start items-start shadow-sm'>
 
-                    <li className='grid grid-col-list1 w100pct p15 bg-gray-light radius10-t'>
+                    <li className='w-full p-4 bg-gray-50 rounded-t-md grid grid-cols-[5%_25%_7%_19%_12%_12%_10%_10%]'>
 
-                        <div className='flex-row h50 p5'><CheckboxListCollection unikId={'all'} handleCheckboxListCollection={handleCheckboxListCollection} listCollectionsChecked={listCollectionsChecked} /></div>
+                        <div className='flex h-12 p-1.5'>
+                            <CheckboxListCollection unikId={'all'} handleCheckboxListCollection={handleCheckboxListCollection} listCollectionsChecked={listCollectionsChecked} />
+                        </div>
 
-                        <div className='flex-row h50 p5'>
+                        <div className='h12 flex flex-row justify-start items-center'>
 
-                            <span className='cursor noshrink b' onClick={() => sortList('name')}>Nom</span>
+                            <span
+                                className='cursor-pointer shrink-0 font-semibold'
+                                onClick={() => sortList('name')}>
+                                Nom
+                            </span>
 
-                            <figure className='h22 w22 m-lr-5 cursor noshrink' onClick={() => sortList('name')}>
+                            <figure className='h-6 w-6 mx-1.5 cursor-pointer shrink-0' onClick={() => sortList('name')}>
                                 <img src={window.location.origin + '/images/icons/' + imgSort.imgName} className="h22 w22" />
                             </figure>
 
-                            <div className="flex-row w80pct noWrap m-l-10">
+                            <div className="flex w-[80%] flex-nowrap m-l-2.5">
 
-                                <input className="w80pct h40 p-lr-10 radius5-l brd-gray-light-1 input-foc" type="text" value={searchValue} onChange={handleSearch} />
+                                <input className="w-[80%] h-10 p-x-2.5 rounded-l-md brd-gray-50 outline-0" type="text" value={searchValue} onChange={handleSearch} />
 
-                                <figure className="w40 h40 flex-row-c-c brd-t-gray-light-1 brd-b-gray-light-1 brd-r-gray-light-1 radius5-r">
-                                    <img className='w15 h-auto' src={window.location.origin + '/images/icons/search.png'} />
+                                <figure className="w-10 h-10 flex flex-row justify-center items-center border-y border-r border-gray-300 rounded-r-md">
+                                    <img className='w-4 h-auto' src={window.location.origin + '/images/icons/search.png'} />
                                 </figure>
 
                             </div>
                         </div>
 
-                        <div className="h50 p5 flex-row-c-c wrap b">
-                            Produit
+                        <div className="h-12 flex flex-row justify-center items-center flex-wrap font-semibold">
+                            Stock
                         </div>
 
-                        <div className="h50 p5 flex-row noshrink b">
-                            Condition
+                        <div className="h-12 flex flex-row justify-start items-center font-semibold">
+                            Conditions
                         </div>
 
-                        <div className='h50 p5 flex-row'>
-                            <span className='cursor noshrink b' onClick={() => sortList('categoryName')}>Catégorie</span>
-                            <figure className='h22 w22 m-l-5 cursor noshrink' onClick={() => sortList('categoryName')}>
+                        <div className='h12 flex flex-row justify-start items-center'>
+                            <span
+                                className='cursor-pointer shrink-0 font-semibold'
+                                onClick={() => sortList('categoryName')}>Catégories
+                            </span>
+                            <figure
+                                className='h-6 w-6 ml-1.5 cursor-pointer shrink-0'
+                                onClick={() => sortList('categoryName')}>
                                 <img src={window.location.origin + '/images/icons/' + imgSort.imgCat} className="h22 w22" />
                             </figure>
                             {listCategories && <CategoriesFilter arrayList={listCategories} categoriesFilter={categoriesFilter} />}
                         </div>
 
-                        <div className='h50 p5 flex-row'>
-                            <span className='noshrink b'>Statut</span>
+                        <div className='h-12 flex-row'>
+                            <span className='shrink-0 font-semibold'>Statut</span>
                         </div>
 
-                        <div className='h50 p5 flex-row'>
-                            <span className='cursor noshrink b' onClick={() => sortList('created_at')}>Crée le</span>
-                            <figure className='h22 w22 m-l-5 cursor noshrink' onClick={() => sortList('created_at')}>
-                                <img src={window.location.origin + '/images/icons/' + imgSort.imgDate} className="h22 w22" />
+                        <div className='h-12 flex flex-row justify-start items-center'>
+                            <span className='cursor-pointer shrink-0 font-semibold' onClick={() => sortList('created_at')}>Crée le</span>
+                            <figure className='h-6 w-6 ml-1.5 cursor-pointer shrink-0' onClick={() => sortList('created_at')}>
+                                <img src={window.location.origin + '/images/icons/' + imgSort.imgDate} className="h-6 w-6" />
                             </figure>
                         </div>
-                        <div className='flex-row min-h50 p5 b'>
+                        <div className='h-12 flex flex-row justify-start items-center font-semibold'>
                             Opérations
                         </div>
                     </li>

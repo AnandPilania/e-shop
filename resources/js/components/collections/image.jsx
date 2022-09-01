@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import DropZone from '../tools/dropZone';
-
+import Label from '../form/label';
+import Tooltip from '../elements/tooltip';
+import InputText from '../form/inputText';
 
 const Image = () => {
 
@@ -24,35 +26,52 @@ const Image = () => {
     return (
         <div>
             {/* image */}
-            <div className="div-vert-align">
-                <div className="div-label-inputTxt">
-                    <h2>Image</h2>
+            <div className="flex flex-col justify-start items-start h-auto w-full bg-white mb-2.5 p-5 shadow-sm">
+                <div className="w-full flex flex-col justify-start items-start">
+                <Label label="Image" />
                     <DropZone multiple={false} />
                 </div>
 
                 {/* Référencement */}
-                <div className="sub-div-vert-align">
-                    <div className="div-label-inputTxt">
-                        <div className="sub-div-horiz-align-m">
-                            <label>Texte alternatif (*optionnel) </label>
-                            <span className="faCircleQuestion tooltip_"
-                                onClick={() => confirmDeleteCategory(cat.id, cat.name)}>
-                                <img src='../images/icons/question-circle.svg' className="w20 h20" />
-                                <span className="tooltiptext">Ajouter une brève description de l'image de votre collection. Ceci optimise l'accessibilité et le référencement de votre page de collection.</span>
-                            </span>
-                        </div>
-                        <input className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1" type="text" name="alt" value={alt?.length > 0 ? alt : ''} maxLength="255" onChange={handleAlt} />
+                <div className="w-full flex flex-col justify-start items-start">
+                    <div className="w-full flex flex-col justify-start items-start">
+                        <div
+                            className="w-full flex flex-row justify-start items-center my-2.5 group relative"
+                        >
+                            <Label label="Texte alternatif (optionnel)" />
+                                <Tooltip>
+                                    Ajouter une brève description de l'image de votre collection. Ceci optimise l'accessibilité et le référencement de votre page de collection. <br></br>
+                                    <a href="http://127.0.0.1:8000"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-sm underline underline-offset-1 text-blue-500 font-semibold">Mon lien</a>
+                                </Tooltip>
+                            </div>
+                  
+                        <InputText
+                            value={alt?.length > 0 ? alt : ''}
+                            handleChange={handleAlt}
+                            css="rounded-md"
+                            maxLength="255"
+                        />
                     </div>
-                    <div className="div-label-inputTxt">
-                        <div className="sub-div-horiz-align-m">
-                            <label>Modifier le nom de l'image</label>
-                            <span className="faCircleQuestion tooltip_"
-                                onClick={() => confirmDeleteCategory(cat.id, cat.name)}>
-                                 <img src='../images/icons/question-circle.svg' className="w20 h20 cursor" />
-                                <span className="tooltiptext">Donnez un nom en rapport avec le contenu de l'image. Ceci améliore le référencement de votre boutique dans les recherches par image.</span>
-                            </span>
+                    <div className="w-full flex flex-col justify-start items-start">
+                        <div className="w-full flex flex-row justify-start items-center my-2.5 group relative">
+                            <Label label="Modifier le nom de l'image" />
+                            <Tooltip>
+                                Donnez un nom en rapport avec le contenu de l'image. Ceci améliore le référencement de votre boutique dans les recherches par image. <br></br>
+                                <a href="http://127.0.0.1:8000"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-sm underline underline-offset-1 text-blue-500 font-semibold">Mon lien</a>
+                            </Tooltip>
                         </div>
-                        <input className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1" type="text" name="imgColection" value={imageName?.length > 0 ? imageName : ''} maxLength="255" onChange={handleImageName} />
+                        <InputText
+                            value={imageName?.length > 0 ? imageName : ''}
+                            handleChange={handleImageName}
+                            css="rounded-md"
+                            maxLength="255"
+                        />
                     </div>
                 </div>
             </div>

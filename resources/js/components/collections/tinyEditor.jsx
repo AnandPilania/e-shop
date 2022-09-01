@@ -98,7 +98,7 @@ const TinyEditor = () => {
     }
 
     return (
-        <div className="sub-div-vert-align">
+        <div className="w-full flex flex-col justify-start items-start">
             <Editor
                 id='tinyEditor'
                 apiKey="859uqxkoeg5bds7w4yx9ihw5exy86bhtgq56fvxwsjopxbf2"
