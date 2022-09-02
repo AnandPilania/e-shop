@@ -18887,15 +18887,19 @@ var Image = function Image() {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
           className: "w-full flex flex-col justify-start items-start",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-            className: "w-full flex flex-row justify-start items-center my-2.5 group relative",
+            id: "altImgCollection2922",
+            className: "w-full flex flex-row justify-start items-center brd-red-1",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_3__["default"], {
               label: "Texte alternatif (optionnel)"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              id: "altImgCollection2922",
+              widthTip: 300,
+              css: "mb-2",
               children: ["Ajouter une br\xE8ve description de l'image de votre collection. Ceci optimise l'accessibilit\xE9 et le r\xE9f\xE9rencement de votre page de collection. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
                 href: "http://127.0.0.1:8000",
                 target: "_blank",
                 rel: "noopener noreferrer",
-                className: "text-sm underline underline-offset-1 text-blue-500 font-semibold",
+                className: "text-sm underline underline-offset-1 text-blue-200 font-semibold",
                 children: "Mon lien"
               })]
             })]
@@ -18908,15 +18912,18 @@ var Image = function Image() {
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
           className: "w-full flex flex-col justify-start items-start",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-            className: "w-full flex flex-row justify-start items-center my-2.5 group relative",
+            id: "nameImgCollection2922",
+            className: "w-full flex flex-row justify-start items-center my-2.5 brd-red-1",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_3__["default"], {
               label: "Modifier le nom de l'image"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_4__["default"], {
+              id: "nameImgCollection2922",
+              widthTip: 300,
               children: ["Donnez un nom en rapport avec le contenu de l'image. Ceci am\xE9liore le r\xE9f\xE9rencement de votre boutique dans les recherches par image. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
                 href: "http://127.0.0.1:8000",
                 target: "_blank",
                 rel: "noopener noreferrer",
-                className: "text-sm underline underline-offset-1 text-blue-500 font-semibold",
+                className: "text-sm underline underline-offset-1 text-blue-200 font-semibold",
                 children: "Mon lien"
               })]
             })]
@@ -23549,25 +23556,21 @@ var OptimisationProduct = function OptimisationProduct() {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
         className: "w-full flex flex-col justify-start items-start mb-5",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
-          className: "w-full flex",
+          id: "urlOptimisationProduct2922",
+          className: "w-full flex flex-row justify-start items-center brd-red-1",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_5__["default"], {
             label: "Url de la page de cet article",
             css: "shrink-0"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
-            className: "w-4 hover:w-full relative group",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("img", {
-              src: "../images/icons/info-circle.svg",
-              className: "w-4 h-4 ml-2 cursor-help"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_7__["default"], {
-              top: -100,
-              left: -150,
-              children: ["Utilisez des mots cl\xE9s en rapport avec cette collection ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("a", {
-                href: "http://127.0.0.1:8000",
-                target: "_blank",
-                rel: "noopener noreferrer",
-                className: "text-sm underline underline-offset-1 text-blue-500 font-semibold",
-                children: "Mon lien"
-              })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_7__["default"], {
+            id: "urlOptimisationProduct2922",
+            widthTip: 300,
+            css: "mb-2",
+            children: ["Utilisez des mots cl\xE9s en rapport avec cette collection ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("a", {
+              href: "http://127.0.0.1:8000",
+              target: "_blank",
+              rel: "noopener noreferrer",
+              className: "text-sm underline underline-offset-1 text-blue-200 font-semibold",
+              children: "Mon lien"
             })]
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
@@ -29146,57 +29149,104 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var Tooltip = function Tooltip(_ref) {
   var children = _ref.children,
-      top = _ref.top,
-      left = _ref.left,
-      bottom = _ref.bottom,
-      right = _ref.right,
-      css = _ref.css;
+      css = _ref.css,
+      id = _ref.id,
+      widthTip = _ref.widthTip;
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
-      _useState2 = _slicedToArray(_useState, 2),
-      heightToolTip = _useState2[0],
-      setHeightToolTip = _useState2[1];
-
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
-    top: top + 'px',
-    left: left + 'px',
-    bottom: bottom + 'px',
-    right: right + 'px'
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    top: 0 + 'px',
+    left: 0 + 'px',
+    display: 'none'
   }),
-      _useState4 = _slicedToArray(_useState3, 2),
-      style = _useState4[0],
-      setStyle = _useState4[1];
+      _useState2 = _slicedToArray(_useState, 2),
+      style = _useState2[0],
+      setStyle = _useState2[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    var tip = document.querySelector('#toolTipMessage1922');
-    var width = tip.offsetWidth;
-    var height = tip.offsetHeight;
-    setStyle({
-      top: "".concat(-height, "px"),
-      left: left + "px",
-      bottom: bottom + 'px',
-      right: right + 'px'
+    var tipImg = document.getElementById("".concat(id, "toolTipImg2922"));
+    var tipIcon = document.getElementById("".concat(id, "toolTipMessage2922"));
+    var parent = document.getElementById(id);
+    var width = 300;
+    var left;
+    var bodyWidth = document.body.offsetWidth,
+        bodyHeight = document.body.offsetHeight,
+        bodyRect = document.body.getBoundingClientRect(),
+        parentRect = parent.getBoundingClientRect(),
+        offsetParentY = parentRect.top - bodyRect.top,
+        offsetParentX = parentRect.left - bodyRect.left,
+        toolTipIconRect = tipIcon.getBoundingClientRect(),
+        offsetToolTipIconY = toolTipIconRect.top - bodyRect.top,
+        offsetToolTipIconX = toolTipIconRect.left - bodyRect.left,
+        toolTipWidth = tipIcon.offsetWidth,
+        tipIconWidth = tipIcon.offsetWidth,
+        tipIconHeight = tipIcon.offsetHeight;
+    parent.addEventListener("mouseover", function () {
+      tipIcon.style.visibility = "visible";
+      tipIconWidth = tipIcon.offsetWidth;
+      tipIconHeight = tipIcon.offsetHeight + 12;
+
+      if (bodyWidth - parentRect.right < widthTip) {
+        width = bodyWidth;
+        left = toolTipIconRect.left;
+        console.log('toolTipIconRect.left  ', toolTipIconRect.left);
+        console.log('left 1  ', left);
+      } else {
+        width = bodyWidth < widthTip ? "w-full" : widthTip;
+        left = widthTip / 2 - 16;
+        console.log('left 2  ', left);
+      }
+
+      setStyle({
+        top: "".concat(-tipIconHeight, "px"),
+        left: "".concat(-left, "px"),
+        width: width
+      });
     });
-    console.log('width  ', width);
-    console.log('height  ', height);
-    var bodyRect = document.body.getBoundingClientRect(),
-        elemRect = tip.getBoundingClientRect(),
-        offsetY = elemRect.top - bodyRect.top;
-    var bodyRect = document.body.getBoundingClientRect(),
-        elemRect = tip.getBoundingClientRect(),
-        offsetX = elemRect.left - bodyRect.left;
-    console.log('x  ' + offsetX + ' y  ' + offsetY);
-  }, []);
-  console.log('style  ', style);
+    tipIcon.addEventListener("mouseover", function () {
+      tipIcon.style.visibility = "visible";
+      tipIconWidth = tipIcon.offsetWidth;
+      tipIconHeight = tipIcon.offsetHeight + 12;
+
+      if (bodyWidth - parentRect.right < widthTip) {
+        width = bodyWidth;
+        left = toolTipIconRect.left;
+        console.log('toolTipIconRect.left  ', toolTipIconRect.left);
+        console.log('left 1  ', left);
+      } else {
+        width = bodyWidth < widthTip ? "w-full" : widthTip;
+        left = widthTip / 2 - 16;
+        console.log('left 2  ', left);
+      }
+
+      setStyle({
+        top: "".concat(-tipIconHeight, "px"),
+        left: "".concat(-left, "px"),
+        width: width
+      });
+    });
+    parent.addEventListener("mouseleave", function () {
+      setTimeout(function () {
+        tipIcon.style.visibility = "hidden";
+        ;
+      }, 300);
+    }); // console.log('tipIconHeight  ', tipIconHeight)
+    // console.log('tipIconWidth  ', tipIconWidth)
+    // console.log('tipIconWidth / 2  ', `${-(tipIconWidth / 2)}px`)
+    // console.log('bodyWidth  ' + bodyWidth + ' bodyHeight  ' + bodyHeight);
+    // console.log('offsetParentY  ' + offsetParentY + ' offsetParentX  ' + offsetParentX);
+    // console.log('offsetToolTipIconY  ' + offsetToolTipIconY + ' offsetToolTipIconX  ' + offsetToolTipIconX);
+  }, []); // console.log('style  ', style);
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-    className: "w-auto",
+    className: "w-auto flex flex-row justify-start items-center relative ".concat(css),
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
+      id: "".concat(id, "toolTipImg2922"),
       src: "../images/icons/info-circle.svg",
       className: "w-4 h-4 ml-2 cursor-help"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-      id: "toolTipMessage1922",
+      id: "".concat(id, "toolTipMessage2922"),
       style: style,
-      className: "w-full absolute whitespace-normal max-w-[370px] px-3 py-2 text-sm text-gray-900 bg-white z-[100] invisible group-hover:visible overflow-auto border border-gray-700 rounded-md shadow-lg cursor-default ".concat(css),
+      className: "w-[300px] absolute invisible whitespace-normal max-w-[370px] px-3 py-2 text-sm text-white bg-indigo-700 z-[100] rounded-md shadow-lg cursor-default after:content-[''] after:ml-[-10px] after:absolute after:top-full after:left-[50%] after:border-[10px] after:border-t-indigo-700 after:border-x-transparent after:border-b-transparent after:z-[100]",
       children: children
     })]
   });

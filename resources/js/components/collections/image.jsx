@@ -5,6 +5,7 @@ import Label from '../form/label';
 import Tooltip from '../elements/tooltip';
 import InputText from '../form/inputText';
 
+
 const Image = () => {
 
 
@@ -28,7 +29,7 @@ const Image = () => {
             {/* image */}
             <div className="flex flex-col justify-start items-start h-auto w-full bg-white mb-2.5 p-5 shadow-sm">
                 <div className="w-full flex flex-col justify-start items-start">
-                <Label label="Image" />
+                    <Label label="Image" />
                     <DropZone multiple={false} />
                 </div>
 
@@ -36,18 +37,19 @@ const Image = () => {
                 <div className="w-full flex flex-col justify-start items-start">
                     <div className="w-full flex flex-col justify-start items-start">
                         <div
-                            className="w-full flex flex-row justify-start items-center my-2.5 group relative"
+                            id="altImgCollection2922"
+                            className="w-full flex flex-row justify-start items-center brd-red-1"
                         >
                             <Label label="Texte alternatif (optionnel)" />
-                                <Tooltip>
-                                    Ajouter une brève description de l'image de votre collection. Ceci optimise l'accessibilité et le référencement de votre page de collection. <br></br>
-                                    <a href="http://127.0.0.1:8000"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-sm underline underline-offset-1 text-blue-500 font-semibold">Mon lien</a>
-                                </Tooltip>
-                            </div>
-                  
+                            <Tooltip id="altImgCollection2922" widthTip={300} css="mb-2">
+                                Ajouter une brève description de l'image de votre collection. Ceci optimise l'accessibilité et le référencement de votre page de collection. <br></br>
+                                <a href="http://127.0.0.1:8000"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-sm underline underline-offset-1 text-blue-200 font-semibold">Mon lien</a>
+                            </Tooltip>
+                        </div>
+
                         <InputText
                             value={alt?.length > 0 ? alt : ''}
                             handleChange={handleAlt}
@@ -56,14 +58,17 @@ const Image = () => {
                         />
                     </div>
                     <div className="w-full flex flex-col justify-start items-start">
-                        <div className="w-full flex flex-row justify-start items-center my-2.5 group relative">
+                        <div
+                            id="nameImgCollection2922"
+                            className="w-full flex flex-row justify-start items-center my-2.5 brd-red-1"
+                        >
                             <Label label="Modifier le nom de l'image" />
-                            <Tooltip>
+                            <Tooltip id="nameImgCollection2922" widthTip={300}>
                                 Donnez un nom en rapport avec le contenu de l'image. Ceci améliore le référencement de votre boutique dans les recherches par image. <br></br>
                                 <a href="http://127.0.0.1:8000"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-sm underline underline-offset-1 text-blue-500 font-semibold">Mon lien</a>
+                                    className="text-sm underline underline-offset-1 text-blue-200 font-semibold">Mon lien</a>
                             </Tooltip>
                         </div>
                         <InputText

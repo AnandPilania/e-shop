@@ -164,19 +164,18 @@ const OptimisationProduct = () => {
             >
                 {/* meta-url */}
                 <div className="w-full flex flex-col justify-start items-start mb-5">
-                    <div className="w-full flex">
+                    <div
+                        id="urlOptimisationProduct2922"
+                        className="w-full flex flex-row justify-start items-center brd-red-1"
+                    >
                         <Label label="Url de la page de cet article" css="shrink-0" />
-                        <div className='w-4 hover:w-full relative group'>
-                            <img src='../images/icons/info-circle.svg'
-                                className="w-4 h-4 ml-2 cursor-help" />
-                            <Tooltip top={-100} left={-150}>
-                                Utilisez des mots clés en rapport avec cette collection <br></br>
-                                <a href="http://127.0.0.1:8000"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-sm underline underline-offset-1 text-blue-500 font-semibold">Mon lien</a>
-                            </Tooltip>
-                        </div>
+                        <Tooltip id="urlOptimisationProduct2922" widthTip={300} css="mb-2">
+                            Utilisez des mots clés en rapport avec cette collection <br></br>
+                            <a href="http://127.0.0.1:8000"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-sm underline underline-offset-1 text-blue-200 font-semibold">Mon lien</a>
+                        </Tooltip>
                     </div>
                     <div
                         className='w-full flex flex-row justify-start items-center'
