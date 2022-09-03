@@ -3,6 +3,8 @@ import AppContext from '../contexts/AppContext';
 import { useWindowSize } from '../hooks/useWindowSize';
 import Flex_col_s_s from '../elements/container/flex_col_s_s';
 import Toggle from '../elements/toggle/toggle';
+import Tooltip from '../elements/tooltip';
+import Label from '../form/label';
 
 
 
@@ -165,18 +167,18 @@ const OptimisationProduct = () => {
             >
                 {/* meta-url */}
                 <div className="w-full flex flex-col justify-start items-start mb-[2px]">
-                    <div className="w-full mt-2.5 mb-1 flex flex-row justify-start items-center">
-                        <label className='mr-2 text-sm font-medium text-gray-700'>
-                            Url de la page de ce produit
-                        </label>
-                        <span className="tooltip_ break-words ml-auto mr-3"
-                            onClick={() => confirmDeleteCategory(cat.id, cat.name)}>
-                            <img src='../images/icons/find-problem.svg' className="w-4 h-4 cursor-pointer" />
-                            <span className="tooltiptext">Utilisez des mots clés en rapport avec cette collection <br></br><a href="http://127.0.0.1:8000"
+                    <div
+                        id="urlOptimisationCollection3922"
+                        className="w-full flex flex-row justify-start items-center"
+                    >
+                        <Label label="Url de la page de cette collection" css="shrink-0" />
+                        <Tooltip id="urlOptimisationCollection3922" widthTip={300}>
+                            Utilisez des mots clés en rapport avec cette collection.<br></br>
+                            <a href="http://127.0.0.1:8000"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="linkInTooltip">Mon lien</a></span>
-                        </span>
+                                className="mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300">Mon lien</a>
+                        </Tooltip>
                     </div>
                     <input type='text'
                         className="w-full h-12 mb-2.5 px-3 rounded-md border border-gray-300"
@@ -189,17 +191,18 @@ const OptimisationProduct = () => {
 
                 {/* meta-titre */}
                 <div className="w-full flex flex-col justify-start items-start mb-[2px]">
-                    <div className="w-full mt-2.5 mb-1 flex flex-row">
-                        <label className='mr-2 text-sm font-medium text-gray-700'>
-                            Méta-titre de cette collection
-                        </label>
-                        <span className="tooltip_ break-words ml-auto mr-3"
-                            onClick={() => confirmDeleteCategory(cat.id, cat.name)}>
-                            <img src='../images/icons/find-problem.svg' className="w-4 h-4 cursor" />
-                            <span className="tooltiptext break-words">
-                                Le méta-titre est important pour le référencement d'une page web. Sa longueur idéal se situe entre 30 et 60 caractères mais il peut être plus long pour donner plus d'informations sur le contenu de la page. Toutefois, seuls les 50 premiers caractères à peu près seront affichés dans les résultats des moteurs de recherche. C'est pourquoi il est important de commence par des mots clés, pertinants pour l'internaute, afin d'améliorer le taux de clics vers votre page.
-                            </span>
-                        </span>
+                    <div
+                        id="titleOptimisationCollection3922"
+                        className="w-full flex flex-row justify-start items-center"
+                    >
+                        <Label label="méta-titre de la page de cette collection" css="shrink-0" />
+                        <Tooltip id="titleOptimisationCollection3922" widthTip={300}>
+                        Le méta-titre est important pour le référencement d'une page web. Sa longueur idéal se situe entre 30 et 60 caractères mais il peut être plus long pour donner plus d'informations sur le contenu de la page. <br></br>
+                            <a href="http://127.0.0.1:8000"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300">Mon lien</a>
+                        </Tooltip>
                     </div>
                     <input type='text'
                         className="w-full h-12 mb-1 px-3 rounded-md border border-gray-300"
@@ -219,15 +222,18 @@ const OptimisationProduct = () => {
 
                 {/* meta-description */}
                 <div className="w-full flex flex-col justify-start items-start mb-4">
-                    <div className="w-full mt-2.5 mb-1 flex flex-row">
-                        <label className='mr-2 text-sm font-medium text-gray-700'>
-                            Méta-déscription de cette collection
-                        </label>
-                        <span className="tooltip_ break-words ml-auto mr-3"
-                            onClick={() => confirmDeleteCategory(cat.id, cat.name)}>
-                            <img src='../images/icons/find-problem.svg' className="w-4 h-4 cursor-pointer" />
-                            <span className="tooltiptext break-words">Une méta-déscription est utilisée pour décrire le contenu de cette page et donner des indications sur son contenu à l'internaute. Les moteurs de recherche affichent à peu près les 130 premiers caractères.</span>
-                        </span>
+                    <div
+                        id="metadescriptiontitleOptimisationCollection3922"
+                        className="w-full flex flex-row justify-start items-center"
+                    >
+                        <Label label="Méta-déscription de cette collection" css="shrink-0" />
+                        <Tooltip id="metadescriptiontitleOptimisationCollection3922" widthTip={300}>
+                        Une méta-déscription est utilisée pour donner des informations plus précies sur le contenu d'une page. Les moteurs de recherche affichent à peu près les 130 premiers caractères. <br></br>
+                            <a href="http://127.0.0.1:8000"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300">Mon lien</a>
+                        </Tooltip>
                     </div>
                     <textarea
                         value={metaDescriptionProduct?.length > 0 ? metaDescriptionProduct : ''}

@@ -18888,18 +18888,17 @@ var Image = function Image() {
           className: "w-full flex flex-col justify-start items-start",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
             id: "altImgCollection2922",
-            className: "w-full flex flex-row justify-start items-center brd-red-1",
+            className: "w-full flex flex-row justify-start items-center",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_3__["default"], {
               label: "Texte alternatif (optionnel)"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_4__["default"], {
               id: "altImgCollection2922",
               widthTip: 300,
-              css: "mb-2",
               children: ["Ajouter une br\xE8ve description de l'image de votre collection. Ceci optimise l'accessibilit\xE9 et le r\xE9f\xE9rencement de votre page de collection. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("a", {
                 href: "http://127.0.0.1:8000",
                 target: "_blank",
                 rel: "noopener noreferrer",
-                className: "text-sm underline underline-offset-1 text-blue-200 font-semibold",
+                className: "mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300",
                 children: "Mon lien"
               })]
             })]
@@ -18913,7 +18912,7 @@ var Image = function Image() {
           className: "w-full flex flex-col justify-start items-start",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
             id: "nameImgCollection2922",
-            className: "w-full flex flex-row justify-start items-center my-2.5 brd-red-1",
+            className: "w-full flex flex-row justify-start items-center my-2.5",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_3__["default"], {
               label: "Modifier le nom de l'image"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -18923,7 +18922,7 @@ var Image = function Image() {
                 href: "http://127.0.0.1:8000",
                 target: "_blank",
                 rel: "noopener noreferrer",
-                className: "text-sm underline underline-offset-1 text-blue-200 font-semibold",
+                className: "mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300",
                 children: "Mon lien"
               })]
             })]
@@ -19551,11 +19550,11 @@ var CreateCollection = function CreateCollection() {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
       className: "w-full",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
-        className: "div-vert-align",
+        className: "w-full h-auto flex flex-col justify-start items-start bg-white p-5 mb-2.5 shadow-sm",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
-          className: "w100pct h40 flex justify-s align-c",
+          className: "w-full h-10 flex justify-start items-center",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("button", {
-            className: "w100 h40 flex-row-c-c brd-gray-light-1 radius5",
+            className: "w-24 h-10 flex flex-row justify-center items-center border border-gray-300 rounded-md",
             onClick: function onClick() {
               setConditions([{
                 id: 0,
@@ -19568,14 +19567,14 @@ var CreateCollection = function CreateCollection() {
               to: "/collections-list",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("img", {
                 src: "../images/icons/arrow-left.svg",
-                className: "w15 h15 inline"
+                className: "w-4 h-4 inline"
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("span", {
-                className: "m-l-5",
+                className: "ml-1.5",
                 children: "Retour"
               })]
             })
           }), isDirty && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("button", {
-            className: "w100 h40 flex-row-c-c brd-gray-light-1 m-l-auto radius5",
+            className: "w-24 h-10 flex flex-row justify-center items-center border border-gray-300 rounded-md ml-auto",
             onClick: function onClick() {
               setIdCollection(null);
               confirmInitCollectionForm();
@@ -19583,35 +19582,34 @@ var CreateCollection = function CreateCollection() {
             children: "R\xE9initialiser"
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
-          className: "div-label-inputTxt",
+          className: "w-full flex flex-col justify-start items-start",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h2", {
             children: "Nom de la collection*"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("input", {
-            className: "w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1 red-corner",
+            className: "w-full h-12 mb-2.5 p-x-5 rounded-md border border-gray-300",
             type: "text",
             id: "titreCollection",
             value: nameCollection,
             onChange: handleNameCollection
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("span", {
-            className: "fs14 red ".concat(nameCollection.length > 191 ? "block" : "none"),
+            className: "text-sm text-red-600 ".concat(nameCollection.length > 191 ? "block" : "none"),
             children: "Le nom de la collection ne peut pas d\xE9passer 191 caract\xE8res"
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
-          className: "div-label-inputTxt",
+          className: "w-full flex flex-col justify-start items-start",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("h2", {
             children: "Description (optionnel)"
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_tinyEditor__WEBPACK_IMPORTED_MODULE_11__["default"], {})]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_conditions__WEBPACK_IMPORTED_MODULE_6__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_optimisation__WEBPACK_IMPORTED_MODULE_7__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("div", {
-        className: "div-label-inputTxt",
+        className: "w-full mt-5 flex justify-start",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)("button", {
-          className: "btn-submit",
+          className: "w-auto px-3 py-2 flex justify-center items-center text-base text-white bg-indigo-700 rounded-md",
           onClick: handleSubmit,
           children: "Enregistrer"
         })
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)("div", {
-      className: "form-side-container",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_image__WEBPACK_IMPORTED_MODULE_10__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_categories__WEBPACK_IMPORTED_MODULE_8__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_activation__WEBPACK_IMPORTED_MODULE_9__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsx)(_modal_modalConfirm__WEBPACK_IMPORTED_MODULE_4__["default"], {
         show: showModalConfirm,
         handleModalConfirm: handleModalConfirm,
@@ -20620,7 +20618,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _hooks_useWindowSize__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../hooks/useWindowSize */ "./resources/js/components/hooks/useWindowSize.jsx");
 /* harmony import */ var _elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../elements/container/flex_col_s_s */ "./resources/js/components/elements/container/flex_col_s_s.jsx");
 /* harmony import */ var _elements_toggle_toggle__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../elements/toggle/toggle */ "./resources/js/components/elements/toggle/toggle.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _elements_tooltip__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../elements/tooltip */ "./resources/js/components/elements/tooltip.jsx");
+/* harmony import */ var _form_label__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../form/label */ "./resources/js/components/form/label.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -20632,6 +20632,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
 
 
 
@@ -20761,35 +20763,35 @@ var OptimisationProduct = function OptimisationProduct() {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     showOptimisationProduct();
   }, [metaTitlebiggerThan50Product, metaDescriptionbiggerThan130Product, size]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
       className: "w-full h-auto flex flex-row justify-start items-center",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
         className: "w-full h-auto flex flex-row flex-wrap justify-start items-center mb-5",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_elements_toggle_toggle__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_elements_toggle_toggle__WEBPACK_IMPORTED_MODULE_4__["default"], {
           isChecked: isShowOptimisationProduct,
           change: function change() {
             return showHideOptimisation();
           }
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("label", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("label", {
           className: "m-0 ml-2 p-0",
           children: "Optimisation SEO"
         })]
-      }), (metaUrlProduct === null || metaUrlProduct === void 0 ? void 0 : metaUrlProduct.length) > (window.location.origin.toString() + '/').length ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+      }), (metaUrlProduct === null || metaUrlProduct === void 0 ? void 0 : metaUrlProduct.length) > (window.location.origin.toString() + '/').length ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
         style: {
           marginBottom: "10px"
         },
         className: "w-auto py-2 px-4 flex flex-row justify-center items-center text-white bg-red-700 rounded-md text-base cursor-pointer hover:bg-red-800",
         onClick: initOptimisationForm,
         children: "Annuler"
-      }) : (metaTitleProduct === null || metaTitleProduct === void 0 ? void 0 : metaTitleProduct.length) > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+      }) : (metaTitleProduct === null || metaTitleProduct === void 0 ? void 0 : metaTitleProduct.length) > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
         style: {
           marginBottom: "10px"
         },
         className: "w-auto py-2 px-4 flex flex-row justify-center items-center text-white bg-red-700 rounded-md text-base cursor-pointer hover:bg-red-800",
         onClick: initOptimisationForm,
         children: "Annuler"
-      }) : (metaDescriptionProduct === null || metaDescriptionProduct === void 0 ? void 0 : metaDescriptionProduct.length) > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+      }) : (metaDescriptionProduct === null || metaDescriptionProduct === void 0 ? void 0 : metaDescriptionProduct.length) > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("button", {
         style: {
           marginBottom: "10px"
         },
@@ -20797,36 +20799,29 @@ var OptimisationProduct = function OptimisationProduct() {
         onClick: initOptimisationForm,
         children: "Annuler"
       }) : '']
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
       className: "flex flex-col justify-start items-center w-full max-h-0 overflow-hidden transition-[max-height] ease-in-out delay-150",
       id: "optimisation_product",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
         className: "w-full flex flex-col justify-start items-start mb-[2px]",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-          className: "w-full mt-2.5 mb-1 flex flex-row justify-start items-center",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("label", {
-            className: "mr-2 text-sm font-medium text-gray-700",
-            children: "Url de la page de ce produit"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
-            className: "tooltip_ break-words ml-auto mr-3",
-            onClick: function onClick() {
-              return confirmDeleteCategory(cat.id, cat.name);
-            },
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
-              src: "../images/icons/find-problem.svg",
-              className: "w-4 h-4 cursor-pointer"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
-              className: "tooltiptext",
-              children: ["Utilisez des mots cl\xE9s en rapport avec cette collection ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("a", {
-                href: "http://127.0.0.1:8000",
-                target: "_blank",
-                rel: "noopener noreferrer",
-                className: "linkInTooltip",
-                children: "Mon lien"
-              })]
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          id: "urlOptimisationCollection3922",
+          className: "w-full flex flex-row justify-start items-center",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_6__["default"], {
+            label: "Url de la page de cette collection",
+            css: "shrink-0"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            id: "urlOptimisationCollection3922",
+            widthTip: 300,
+            children: ["Utilisez des mots cl\xE9s en rapport avec cette collection.", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("a", {
+              href: "http://127.0.0.1:8000",
+              target: "_blank",
+              rel: "noopener noreferrer",
+              className: "mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300",
+              children: "Mon lien"
             })]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
           type: "text",
           className: "w-full h-12 mb-2.5 px-3 rounded-md border border-gray-300",
           value: (metaUrlProduct === null || metaUrlProduct === void 0 ? void 0 : metaUrlProduct.length) > 0 ? metaUrlProduct : '',
@@ -20834,71 +20829,69 @@ var OptimisationProduct = function OptimisationProduct() {
           placeholder: "Url de ce produit",
           maxLength: "2047"
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
         className: "w-full flex flex-col justify-start items-start mb-[2px]",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-          className: "w-full mt-2.5 mb-1 flex flex-row",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("label", {
-            className: "mr-2 text-sm font-medium text-gray-700",
-            children: "M\xE9ta-titre de cette collection"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
-            className: "tooltip_ break-words ml-auto mr-3",
-            onClick: function onClick() {
-              return confirmDeleteCategory(cat.id, cat.name);
-            },
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
-              src: "../images/icons/find-problem.svg",
-              className: "w-4 h-4 cursor"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-              className: "tooltiptext break-words",
-              children: "Le m\xE9ta-titre est important pour le r\xE9f\xE9rencement d'une page web. Sa longueur id\xE9al se situe entre 30 et 60 caract\xE8res mais il peut \xEAtre plus long pour donner plus d'informations sur le contenu de la page. Toutefois, seuls les 50 premiers caract\xE8res \xE0 peu pr\xE8s seront affich\xE9s dans les r\xE9sultats des moteurs de recherche. C'est pourquoi il est important de commence par des mots cl\xE9s, pertinants pour l'internaute, afin d'am\xE9liorer le taux de clics vers votre page."
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          id: "titleOptimisationCollection3922",
+          className: "w-full flex flex-row justify-start items-center",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_6__["default"], {
+            label: "m\xE9ta-titre de la page de cette collection",
+            css: "shrink-0"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            id: "titleOptimisationCollection3922",
+            widthTip: 300,
+            children: ["Le m\xE9ta-titre est important pour le r\xE9f\xE9rencement d'une page web. Sa longueur id\xE9al se situe entre 30 et 60 caract\xE8res mais il peut \xEAtre plus long pour donner plus d'informations sur le contenu de la page. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("a", {
+              href: "http://127.0.0.1:8000",
+              target: "_blank",
+              rel: "noopener noreferrer",
+              className: "mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300",
+              children: "Mon lien"
             })]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
           type: "text",
           className: "w-full h-12 mb-1 px-3 rounded-md border border-gray-300",
           value: (metaTitleProduct === null || metaTitleProduct === void 0 ? void 0 : metaTitleProduct.length) > 0 ? metaTitleProduct : '',
           onChange: handleMetaTitle
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "w-full",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("span", {
             className: "text-blue-800 italic text-sm font-normal",
             children: ["Nombre de caract\xE8res ", (metaTitleProduct === null || metaTitleProduct === void 0 ? void 0 : metaTitleProduct.length) > 0 ? metaTitleProduct.length : 0]
-          }), metaTitlebiggerThan50Product && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+          }), metaTitlebiggerThan50Product && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
             className: "text-red-700 break-words ml-2 italic text-sm font-normal",
             children: "Seuls les 50 \xE0 60 premiers caract\xE8res seront affich\xE9s par les moteurs de recherche"
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
         className: "w-full flex flex-col justify-start items-start mb-4",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-          className: "w-full mt-2.5 mb-1 flex flex-row",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("label", {
-            className: "mr-2 text-sm font-medium text-gray-700",
-            children: "M\xE9ta-d\xE9scription de cette collection"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
-            className: "tooltip_ break-words ml-auto mr-3",
-            onClick: function onClick() {
-              return confirmDeleteCategory(cat.id, cat.name);
-            },
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
-              src: "../images/icons/find-problem.svg",
-              className: "w-4 h-4 cursor-pointer"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
-              className: "tooltiptext break-words",
-              children: "Une m\xE9ta-d\xE9scription est utilis\xE9e pour d\xE9crire le contenu de cette page et donner des indications sur son contenu \xE0 l'internaute. Les moteurs de recherche affichent \xE0 peu pr\xE8s les 130 premiers caract\xE8res."
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          id: "metadescriptiontitleOptimisationCollection3922",
+          className: "w-full flex flex-row justify-start items-center",
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_6__["default"], {
+            label: "M\xE9ta-d\xE9scription de cette collection",
+            css: "shrink-0"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            id: "metadescriptiontitleOptimisationCollection3922",
+            widthTip: 300,
+            children: ["Une m\xE9ta-d\xE9scription est utilis\xE9e pour donner des informations plus pr\xE9cies sur le contenu d'une page. Les moteurs de recherche affichent \xE0 peu pr\xE8s les 130 premiers caract\xE8res. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("a", {
+              href: "http://127.0.0.1:8000",
+              target: "_blank",
+              rel: "noopener noreferrer",
+              className: "mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300",
+              children: "Mon lien"
             })]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("textarea", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("textarea", {
           value: (metaDescriptionProduct === null || metaDescriptionProduct === void 0 ? void 0 : metaDescriptionProduct.length) > 0 ? metaDescriptionProduct : '',
           onChange: handleMetaDescription,
           className: "w-full h-auto p-3 mb-1 min-h-[120px] border border-gray-300 rounded-md resize-none"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "w-full h-auto",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("span", {
             className: "text-blue-800 italic text-sm font-normal",
             children: ["Nombre de caract\xE8res ", (metaDescriptionProduct === null || metaDescriptionProduct === void 0 ? void 0 : metaDescriptionProduct.length) > 0 ? metaDescriptionProduct.length : 0]
-          }), metaDescriptionbiggerThan130Product && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+          }), metaDescriptionbiggerThan130Product && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
             className: "text-red-700 break-words ml-2 italic text-sm font-normal",
             children: "Seuls les 120 \xE0 130 premiers caract\xE8res seront affich\xE9s par les moteurs de recherche"
           })]
@@ -23557,19 +23550,18 @@ var OptimisationProduct = function OptimisationProduct() {
         className: "w-full flex flex-col justify-start items-start mb-5",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
           id: "urlOptimisationProduct2922",
-          className: "w-full flex flex-row justify-start items-center brd-red-1",
+          className: "w-full flex flex-row justify-start items-center",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_5__["default"], {
             label: "Url de la page de cet article",
             css: "shrink-0"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_7__["default"], {
             id: "urlOptimisationProduct2922",
             widthTip: 300,
-            css: "mb-2",
-            children: ["Utilisez des mots cl\xE9s en rapport avec cette collection ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("a", {
+            children: ["Utilisez des mots cl\xE9s en rapport avec cet article ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("a", {
               href: "http://127.0.0.1:8000",
               target: "_blank",
               rel: "noopener noreferrer",
-              className: "text-sm underline underline-offset-1 text-blue-200 font-semibold",
+              className: "mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300",
               children: "Mon lien"
             })]
           })]
@@ -23588,25 +23580,20 @@ var OptimisationProduct = function OptimisationProduct() {
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
         className: "w-full flex flex-col justify-start items-start mb-5",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
-          className: "w-full flex",
+          id: "metaTitleOptimisationProduct2922",
+          className: "w-full flex flex-row justify-start items-center",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_5__["default"], {
             label: "M\xE9ta-titre de la page de cet article",
             css: "shrink-0"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
-            className: "w-4 hover:w-full relative group",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("img", {
-              src: "../images/icons/info-circle.svg",
-              className: "w-4 h-4 ml-2 cursor-help"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_7__["default"], {
-              top: -100,
-              left: -150,
-              children: ["La longueur id\xE9al pour un m\xE9ta-titre se situe entre 30 et 60 caract\xE8res. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("a", {
-                href: "http://127.0.0.1:8000",
-                target: "_blank",
-                rel: "noopener noreferrer",
-                className: "text-sm underline underline-offset-1 text-blue-500 font-semibold",
-                children: "Mon lien"
-              })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_7__["default"], {
+            id: "metaTitleOptimisationProduct2922",
+            widthTip: 300,
+            children: ["La longueur id\xE9al pour un m\xE9ta-titre se situe entre 30 et 60 caract\xE8res. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("a", {
+              href: "http://127.0.0.1:8000",
+              target: "_blank",
+              rel: "noopener noreferrer",
+              className: "text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300",
+              children: "Mon lien"
             })]
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_form_inputText__WEBPACK_IMPORTED_MODULE_6__["default"], {
@@ -23627,25 +23614,20 @@ var OptimisationProduct = function OptimisationProduct() {
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
         className: "w-full flex flex-col justify-start items-start mb-4",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
-          className: "w-full flex",
+          id: "metaDescrriptionOptimisationProduct2922",
+          className: "w-full flex flex-row justify-start items-center",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_5__["default"], {
             label: "M\xE9ta-d\xE9scription de cet article",
             css: "shrink-0"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
-            className: "w-4 hover:w-full relative group",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("img", {
-              src: "../images/icons/info-circle.svg",
-              className: "w-4 h-4 ml-2 cursor-help"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_7__["default"], {
-              top: -100,
-              left: -150,
-              children: ["La longueur id\xE9al pour un m\xE9ta-titre se situe entre 30 et 60 caract\xE8res. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("a", {
-                href: "http://127.0.0.1:8000",
-                target: "_blank",
-                rel: "noopener noreferrer",
-                className: "text-sm underline underline-offset-1 text-blue-500 font-semibold",
-                children: "Mon lien"
-              })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_7__["default"], {
+            id: "metaDescrriptionOptimisationProduct2922",
+            widthTip: 300,
+            children: ["La longueur id\xE9al pour une m\xE9ta-description se situe entre 120 et 130 caract\xE8res. ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("a", {
+              href: "http://127.0.0.1:8000",
+              target: "_blank",
+              rel: "noopener noreferrer",
+              className: "mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300",
+              children: "Mon lien"
             })]
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_form_textarea__WEBPACK_IMPORTED_MODULE_8__["default"], {
@@ -27351,7 +27333,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var Stock = function Stock() {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(String.fromCharCode(0x221E)),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Illimité'),
       _useState2 = _slicedToArray(_useState, 2),
       placeholder = _useState2[0],
       setPlaceholder = _useState2[1];
@@ -27402,7 +27384,7 @@ var Stock = function Stock() {
       inputStock.style.backgroundColor = '#f9fafb';
       setUnlimited(!unlimited);
       setProductStock('');
-      setPlaceholder(String.fromCharCode(0x221E));
+      setPlaceholder('Illimité');
       var stock_star_alert = document.getElementById('stock_star_alert');
       stock_star_alert.style.display = "none";
     } else {
@@ -27453,37 +27435,34 @@ var Stock = function Stock() {
             min: "0",
             max: "9999999999",
             css: "rounded-l-md"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("span", {
-            className: "flex flex-rox justify-center items-center w-14 h-10 border-y border-r  border-gray-300 rounded-r-md px-2.5 cursor-pointer caret-transparent relative group",
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+            className: "flex flex-rox justify-center items-center w-14 h-10 border-y border-r  border-gray-300 rounded-r-md px-2.5 cursor-pointer caret-transparent",
             onClick: handleUnlimitedStock,
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
               className: "w-4 h-4 caret-transparent cursor-pointer",
               id: "unlimitedStockCheckbox",
               type: "checkbox",
               checked: unlimited,
               onChange: handleUnlimitedStock
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_4__["default"], {
-              top: -40,
-              left: -30,
-              children: "Illimit\xE9"
-            })]
+            })
           })]
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
         className: "flex flex-col justify-start items-start mb-[10px]",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-          className: "w-full flex",
+          id: "SKUProduct3922",
+          className: "w-full flex flex-row justify-start items-center",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_6__["default"], {
             label: "SKU"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-            className: "w-4 hover:w-full relative group",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("img", {
-              src: "../images/icons/info-circle.svg",
-              className: "w-4 h-4 ml-2 cursor-help"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_4__["default"], {
-              top: -150,
-              left: -100,
-              children: "Une SKU, (unit\xE9 de gestion des stocks), est un code permettant d'identifier un article de mani\xE8re unique. Si vous ne l'indiquez pas, un code sera g\xE9n\xE9r\xE9 automatiquement."
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            id: "SKUProduct3922",
+            widthTip: 300,
+            children: ["Une SKU, (unit\xE9 de gestion des stocks), est un code permettant d'identifier un article de mani\xE8re unique. Si vous ne l'indiquez pas, un code sera g\xE9n\xE9r\xE9 automatiquement.", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("a", {
+              href: "http://127.0.0.1:8000",
+              target: "_blank",
+              rel: "noopener noreferrer",
+              className: "mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300",
+              children: "Mon lien"
             })]
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_form_inputNumeric__WEBPACK_IMPORTED_MODULE_5__["default"], {
@@ -27498,19 +27477,14 @@ var Stock = function Stock() {
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
         className: "w-full col-span-2 flex flex-col justify-start items-start my-2.5",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-          className: "w-full flex",
+          id: "parcelWeightProduct3922",
+          className: "w-full flex flex-row justify-start items-center",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_6__["default"], {
             label: "Poids"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-            className: " w-4 hover:w-full relative group",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("img", {
-              src: "../images/icons/info-circle.svg",
-              className: "w-4 h-4 ml-2 cursor-help"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_4__["default"], {
-              top: -50,
-              left: -50,
-              children: "Poids de l'article avec son emballage"
-            })]
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_4__["default"], {
+            id: "parcelWeightProduct3922",
+            widthTip: 300,
+            children: "Poids de l'article avec son emballage"
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "w-full flex flex-row justify-start items-center",
@@ -29156,7 +29130,8 @@ var Tooltip = function Tooltip(_ref) {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     top: 0 + 'px',
     left: 0 + 'px',
-    display: 'none'
+    visibility: 'hidden',
+    width: widthTip
   }),
       _useState2 = _slicedToArray(_useState, 2),
       style = _useState2[0],
@@ -29166,98 +29141,127 @@ var Tooltip = function Tooltip(_ref) {
     var tipImg = document.getElementById("".concat(id, "toolTipImg2922"));
     var tipIcon = document.getElementById("".concat(id, "toolTipMessage2922"));
     var parent = document.getElementById(id);
-    var width = 300;
-    var left;
-    var bodyWidth = document.body.offsetWidth,
-        bodyHeight = document.body.offsetHeight,
-        bodyRect = document.body.getBoundingClientRect(),
-        parentRect = parent.getBoundingClientRect(),
-        offsetParentY = parentRect.top - bodyRect.top,
-        offsetParentX = parentRect.left - bodyRect.left,
-        toolTipIconRect = tipIcon.getBoundingClientRect(),
-        offsetToolTipIconY = toolTipIconRect.top - bodyRect.top,
-        offsetToolTipIconX = toolTipIconRect.left - bodyRect.left,
-        toolTipWidth = tipIcon.offsetWidth,
-        tipIconWidth = tipIcon.offsetWidth,
-        tipIconHeight = tipIcon.offsetHeight;
-    parent.addEventListener("mouseover", function () {
+    var tipIconHeight = tipIcon.offsetHeight + 14;
+    tipImg.addEventListener("mouseover", function () {
       tipIcon.style.visibility = "visible";
-      tipIconWidth = tipIcon.offsetWidth;
-      tipIconHeight = tipIcon.offsetHeight + 12;
-
-      if (bodyWidth - parentRect.right < widthTip) {
-        width = bodyWidth;
-        left = toolTipIconRect.left;
-        console.log('toolTipIconRect.left  ', toolTipIconRect.left);
-        console.log('left 1  ', left);
-      } else {
-        width = bodyWidth < widthTip ? "w-full" : widthTip;
-        left = widthTip / 2 - 16;
-        console.log('left 2  ', left);
-      }
-
       setStyle({
         top: "".concat(-tipIconHeight, "px"),
-        left: "".concat(-left, "px"),
-        width: width
-      });
-    });
-    tipIcon.addEventListener("mouseover", function () {
-      tipIcon.style.visibility = "visible";
-      tipIconWidth = tipIcon.offsetWidth;
-      tipIconHeight = tipIcon.offsetHeight + 12;
-
-      if (bodyWidth - parentRect.right < widthTip) {
-        width = bodyWidth;
-        left = toolTipIconRect.left;
-        console.log('toolTipIconRect.left  ', toolTipIconRect.left);
-        console.log('left 1  ', left);
-      } else {
-        width = bodyWidth < widthTip ? "w-full" : widthTip;
-        left = widthTip / 2 - 16;
-        console.log('left 2  ', left);
-      }
-
-      setStyle({
-        top: "".concat(-tipIconHeight, "px"),
-        left: "".concat(-left, "px"),
-        width: width
+        left: "".concat(-(widthTip / 2) + 16, "px"),
+        width: widthTip
       });
     });
     parent.addEventListener("mouseleave", function () {
-      setTimeout(function () {
-        tipIcon.style.visibility = "hidden";
-        ;
-      }, 300);
-    }); // console.log('tipIconHeight  ', tipIconHeight)
-    // console.log('tipIconWidth  ', tipIconWidth)
-    // console.log('tipIconWidth / 2  ', `${-(tipIconWidth / 2)}px`)
-    // console.log('bodyWidth  ' + bodyWidth + ' bodyHeight  ' + bodyHeight);
-    // console.log('offsetParentY  ' + offsetParentY + ' offsetParentX  ' + offsetParentX);
-    // console.log('offsetToolTipIconY  ' + offsetToolTipIconY + ' offsetToolTipIconX  ' + offsetToolTipIconX);
-  }, []); // console.log('style  ', style);
-
+      tipIcon.style.visibility = "hidden";
+    });
+  }, []);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-    className: "w-auto flex flex-row justify-start items-center relative ".concat(css),
+    className: "w-auto flex flex-row justify-start items-center relative mb-2 ".concat(css),
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
       id: "".concat(id, "toolTipImg2922"),
       src: "../images/icons/info-circle.svg",
-      className: "w-4 h-4 ml-2 cursor-help"
+      className: "w-4 h-4 ml-2 cursor-help z-50"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: "w-[200px] absolute top-[-30px] bottom-2 left-[-150px]"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
       id: "".concat(id, "toolTipMessage2922"),
       style: style,
-      className: "w-[300px] absolute invisible whitespace-normal max-w-[370px] px-3 py-2 text-sm text-white bg-indigo-700 z-[100] rounded-md shadow-lg cursor-default after:content-[''] after:ml-[-10px] after:absolute after:top-full after:left-[50%] after:border-[10px] after:border-t-indigo-700 after:border-x-transparent after:border-b-transparent after:z-[100]",
+      className: "w-auto absolute whitespace-normal max-w-[370px] p-3 text-sm text-white bg-indigo-700 z-[100] rounded-md shadow-lg cursor-default after:content-[''] after:ml-[-10px] after:absolute after:top-full after:left-[50%] after:border-[10px] after:border-t-indigo-700 after:border-x-transparent after:border-b-transparent after:z-[100]",
       children: children
     })]
   });
 };
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Tooltip); // ---> how use <---> example in OptionVariantesList <---
-// <parent className="group relative">
-//     {parent.content}
-//     <Tooltip top={-5} left={2}>
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Tooltip); // ---> how use <---
+// <parent id={id du parent}>
+//     <Tooltip css={css}, id={id du parent}, widthTip={width qu'on veut   donner au toolTip}>
 //         {children}
 //     </Tooltip>
+// </parent>
+
+/***/ }),
+
+/***/ "./resources/js/components/elements/tooltipWithoutIcon.jsx":
+/*!*****************************************************************!*\
+  !*** ./resources/js/components/elements/tooltipWithoutIcon.jsx ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+var TooltipWithoutIcon = function TooltipWithoutIcon(_ref) {
+  var children = _ref.children,
+      css = _ref.css,
+      id = _ref.id,
+      idImg = _ref.idImg,
+      widthTip = _ref.widthTip;
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    top: 0 + 'px',
+    left: 0 + 'px',
+    visibility: 'hidden',
+    width: widthTip
+  }),
+      _useState2 = _slicedToArray(_useState, 2),
+      style = _useState2[0],
+      setStyle = _useState2[1];
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    var tipImg = document.getElementById(idImg);
+    var tipIcon = document.getElementById("".concat(id, "toolTipMessage2922"));
+    var parent = document.getElementById(id);
+    var tipIconHeight = tipIcon.offsetHeight + 14;
+    tipImg.addEventListener("mouseover", function () {
+      tipIcon.style.visibility = "visible";
+      setStyle({
+        top: "".concat(-tipIconHeight, "px"),
+        left: "".concat(-(widthTip / 2) - 8, "px"),
+        width: widthTip
+      });
+    });
+    parent.addEventListener("mouseleave", function () {
+      tipIcon.style.visibility = "hidden";
+    });
+  }, []);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+    className: "w-auto flex flex-row justify-start items-center relative mb-2 ".concat(css),
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: "w-[200px] absolute top-[-30px] bottom-2 left-[-150px]"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      id: "".concat(id, "toolTipMessage2922"),
+      style: style,
+      className: "w-auto absolute flex justify-start whitespace-normal max-w-[370px] p-3 text-sm text-white bg-indigo-700 z-[100] rounded-md shadow-lg cursor-default after:content-[''] after:ml-[-10px] after:absolute after:top-full after:left-[50%] after:border-[10px] after:border-t-indigo-700 after:border-x-transparent after:border-b-transparent after:z-[100]",
+      children: children
+    })]
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TooltipWithoutIcon); // ---> how use <---
+// <parent id={id du parent}>
+// <img id="idImg" /> <--- l'image sur laquelle on fait un hover !!!
+//     <TooltipWithoutIcon css={css}, id={id du parent}, widthTip={width qu'on veut   donner au toolTip}>
+//         {children}
+//     </TooltipWithoutIcon>
 // </parent>
 
 /***/ }),
@@ -34278,13 +34282,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _material_ui_styles__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @material-ui/styles */ "./node_modules/@material-ui/styles/makeStyles/makeStyles.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
 /* harmony import */ var _functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../functions/temporaryStorage/saveInTemporaryStorage */ "./resources/js/components/functions/temporaryStorage/saveInTemporaryStorage.js");
 /* harmony import */ var _croppeJs_croppeJs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../croppeJs/croppeJs */ "./resources/js/components/croppeJs/croppeJs.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _elements_tooltipWithoutIcon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../elements/tooltipWithoutIcon */ "./resources/js/components/elements/tooltipWithoutIcon.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -34318,65 +34322,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
-var useStyles = (0,_material_ui_styles__WEBPACK_IMPORTED_MODULE_7__["default"])({
-  wrapperForm: {
-    width: '100%',
-    overflow: 'hidden',
-    border: '#DCDCDB dashed 5px',
-    borderRadius: '5px',
-    height: 'auto',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexWrap: 'nowrap',
-    backgroundColor: '#fff',
-    '&:hover': {
-      border: 'rgba(19, 82, 255, .8) dashed 5px'
-    }
-  },
-  drop_region: {
-    backgroundColor: '#fff',
-    background: 'no-repeat url("../images/icons/backgroundDropZone.png")',
-    backgroundPosition: 'center 90%',
-    borderRadius: '5px',
-    boxShadow: '0 0 35px rgba(0, 0, 0, 0.05)',
-    width: '100%',
-    minHeight: '200px',
-    maxHeight: '200px',
-    height: 'auto',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
-    cursor: 'pointer',
-    transition: '0.3s'
-  },
-  drop_message: {
-    marginTop: '25px',
-    marginBottom: 'auto'
-  },
-  removeImage: {
-    marginTop: '0',
-    padding: '0 10px',
-    width: '100%',
-    height: '35px',
-    textAlign: 'right',
-    textDecoration: 'underline',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    '&:hover': {
-      cursor: 'pointer'
-    }
-  }
-});
 
 var DropZone = function DropZone(props) {
-  var classes = useStyles();
-
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_3__["default"]),
       image = _useContext.image,
       setImage = _useContext.setImage,
@@ -34707,7 +34654,7 @@ var DropZone = function DropZone(props) {
 
     if (imageExist.length > 0) {
       setIsNot_isEdit(true);
-      setWrapIndexcroppe( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_croppeJs_croppeJs__WEBPACK_IMPORTED_MODULE_5__["default"], {}));
+      setWrapIndexcroppe( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_croppeJs_croppeJs__WEBPACK_IMPORTED_MODULE_5__["default"], {}));
     }
   }
 
@@ -34716,44 +34663,52 @@ var DropZone = function DropZone(props) {
     return 'draggable' in div || 'ondragstart' in div && 'ondrop' in div;
   }
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-      className: classes.wrapperForm,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+      className: "w-full overflow-hidden border-4 border-dashed border-gray-300 rounded-md h-auto flex flex-col justify-center items-center flex-nowrap bg-white hover:border-gray-500",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
         id: "drop-region-dropZone",
-        className: classes.drop_region,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-          className: classes.drop_message,
+        className: "bg-white bg-dropZonCollection bg-center rounded-md shadow-sm w-full min-h-[200px] max-h-[200px] h-auto flex flex-col justify-center items-center cursor-pointer transition ease-out duration-300",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          className: "mt-6 mb-auto text-center text-sm font-semibold text-gray-400",
           id: "drop-message-dropZone",
-          children: ["D\xE9posez ici une image ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("br", {}), "ou cliquez pour charger une image"]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+          children: ["D\xE9posez ici une image ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("br", {}), "ou cliquez pour charger une image"]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
           id: "image-preview-dropZone"
         })]
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("span", {
-      className: classes.removeImage,
-      children: [!!imagePath && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("span", {
-        className: "scale-1_15 tooltip_",
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("span", {
+      className: "w-full h-9 flex justify-end items-center cursor-pointer",
+      children: [!!imagePath && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("span", {
+        id: "cropImageCollection3922",
+        className: "flex justify-center",
         onClick: function onClick() {
           return goToCrop();
         },
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("img", {
+          id: "img_cropImageCollection3922",
           src: "../images/icons/crop.svg",
-          className: "w20 h20"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-          className: "tooltiptext",
+          className: "w-5 h-5 hover:scale-110"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_elements_tooltipWithoutIcon__WEBPACK_IMPORTED_MODULE_6__["default"], {
+          id: "cropImageCollection3922",
+          idImg: "img_cropImageCollection3922",
+          widthTip: 184,
           children: "Redimensionner l'image"
         })]
-      }), !!imagePath && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("span", {
-        className: "scale-1_15 tooltip_",
+      }), !!imagePath && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("span", {
+        id: "deleteImageCollection3922",
+        className: "flex justify-center ml-3",
         onClick: function onClick() {
           return removeImagePreview();
         },
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("img", {
+          id: "img_deleteImageCollection3922",
           src: "../images/icons/trash.svg",
-          className: "w20 h20 m-l-15 block"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-          className: "tooltiptext",
+          className: "w-5 h-5 block hover:scale-110"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_elements_tooltipWithoutIcon__WEBPACK_IMPORTED_MODULE_6__["default"], {
+          id: "deleteImageCollection3922",
+          idImg: "img_deleteImageCollection3922",
+          widthTip: 145,
           children: "Supprimer l'image"
         })]
       })]

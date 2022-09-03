@@ -38,15 +38,15 @@ const Image = () => {
                     <div className="w-full flex flex-col justify-start items-start">
                         <div
                             id="altImgCollection2922"
-                            className="w-full flex flex-row justify-start items-center brd-red-1"
+                            className="w-full flex flex-row justify-start items-center"
                         >
                             <Label label="Texte alternatif (optionnel)" />
-                            <Tooltip id="altImgCollection2922" widthTip={300} css="mb-2">
+                            <Tooltip id="altImgCollection2922" widthTip={300}>
                                 Ajouter une brève description de l'image de votre collection. Ceci optimise l'accessibilité et le référencement de votre page de collection. <br></br>
                                 <a href="http://127.0.0.1:8000"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-sm underline underline-offset-1 text-blue-200 font-semibold">Mon lien</a>
+                                    className="mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300">Mon lien</a>
                             </Tooltip>
                         </div>
 
@@ -60,7 +60,7 @@ const Image = () => {
                     <div className="w-full flex flex-col justify-start items-start">
                         <div
                             id="nameImgCollection2922"
-                            className="w-full flex flex-row justify-start items-center my-2.5 brd-red-1"
+                            className="w-full flex flex-row justify-start items-center my-2.5"
                         >
                             <Label label="Modifier le nom de l'image" />
                             <Tooltip id="nameImgCollection2922" widthTip={300}>
@@ -68,7 +68,7 @@ const Image = () => {
                                 <a href="http://127.0.0.1:8000"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-sm underline underline-offset-1 text-blue-200 font-semibold">Mon lien</a>
+                                    className="mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300">Mon lien</a>
                             </Tooltip>
                         </div>
                         <InputText

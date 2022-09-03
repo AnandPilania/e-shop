@@ -9,7 +9,7 @@ import Label from '../form/label';
 
 const Stock = () => {
 
-    const [placeholder, setPlaceholder] = useState(String.fromCharCode(0x221E));
+    const [placeholder, setPlaceholder] = useState('Illimité');
     const [toggleSelect, setToggleSelect] = useState(false);
 
     const { productStock, setProductStock, unlimited, setUnlimited, productCode, setProductCode, productParcelWeight, setProductParcelWeight, productParcelWeightMeasureUnit, setProductParcelWeightMeasureUnit } = useContext(AppContext);
@@ -43,7 +43,7 @@ const Stock = () => {
             inputStock.style.backgroundColor = '#f9fafb';
             setUnlimited(!unlimited);
             setProductStock('');
-            setPlaceholder(String.fromCharCode(0x221E));
+            setPlaceholder('Illimité');
             let stock_star_alert = document.getElementById('stock_star_alert');
             stock_star_alert.style.display = "none";
         } else {
@@ -91,7 +91,7 @@ const Stock = () => {
                         />
 
                         <span
-                            className='flex flex-rox justify-center items-center w-14 h-10 border-y border-r  border-gray-300 rounded-r-md px-2.5 cursor-pointer caret-transparent relative group'
+                            className='flex flex-rox justify-center items-center w-14 h-10 border-y border-r  border-gray-300 rounded-r-md px-2.5 cursor-pointer caret-transparent'
                             onClick={handleUnlimitedStock}
                         >
                             <input
@@ -100,24 +100,25 @@ const Stock = () => {
                                 type="checkbox"
                                 checked={unlimited}
                                 onChange={handleUnlimitedStock} />
-                            <Tooltip top={-40} left={-30}>
-                                Illimité
-                            </Tooltip>
                         </span>
                     </div>
                 </div>
 
                 {/* sku */}
                 <div className='flex flex-col justify-start items-start mb-[10px]'>
-                    <div className='w-full flex'>
+                    <div
+                        id='SKUProduct3922'
+                        className="w-full flex flex-row justify-start items-center"
+                    >
                         <Label label="SKU" />
-                        <div className='w-4 hover:w-full relative group'>
-                            <img src='../images/icons/info-circle.svg'
-                                className="w-4 h-4 ml-2 cursor-help" />
-                            <Tooltip top={-150} left={-100}>
-                                Une SKU, (unité de gestion des stocks), est un code permettant d'identifier un article de manière unique. Si vous ne l'indiquez pas, un code sera généré automatiquement.
-                            </Tooltip>
-                        </div>
+                        <Tooltip id='SKUProduct3922' widthTip={300}>
+                            Une SKU, (unité de gestion des stocks), est un code permettant d'identifier un article de manière unique. Si vous ne l'indiquez pas, un code sera généré automatiquement.
+                            <br></br>
+                            <a href="http://127.0.0.1:8000"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300">Mon lien</a>
+                        </Tooltip>
                     </div>
                     <InputNumeric
                         id='inputSku17822'
@@ -132,15 +133,14 @@ const Stock = () => {
 
                 {/* weight */}
                 <div className='w-full col-span-2 flex flex-col justify-start items-start my-2.5'>
-                    <div className='w-full flex'>
+                    <div
+                        id='parcelWeightProduct3922'
+                        className="w-full flex flex-row justify-start items-center"
+                    >
                         <Label label="Poids" />
-                        <div className=' w-4 hover:w-full relative group'>
-                            <img src='../images/icons/info-circle.svg'
-                                className="w-4 h-4 ml-2 cursor-help" />
-                            <Tooltip top={-50} left={-50}>
-                                Poids de l'article avec son emballage
-                            </Tooltip>
-                        </div>
+                        <Tooltip id='parcelWeightProduct3922' widthTip={300}>
+                            Poids de l'article avec son emballage
+                        </Tooltip>
                     </div>
                     <div
                         className='w-full flex flex-row justify-start items-center'

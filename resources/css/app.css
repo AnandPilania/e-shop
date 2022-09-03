@@ -37,48 +37,6 @@ select:-webkit-autofill:focus {
     background-color: rgb(211, 223, 255);
 }
 
-/* toolTip -------------------------------------------*/
-.tooltip_ {
-    position: relative;
-}
-
-/* Tooltip text */
-.tooltip_ .tooltiptext,
-.listCollections .tooltip_ .tooltiptext {
-    visibility: hidden;
-    bottom: 100%;
-    left: -50%;
-    margin-bottom: 0;
-    color: #111827;
-    text-align: left;
-    padding: 8px 12px;
-    font-weight: normal;
-    letter-spacing: 1px;
-    position: absolute;
-    z-index: 10;
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
-        0 4px 6px -4px rgb(0 0 0 / 0.1);
-    border: solid 1px #e5e7eb;
-    border-radius: 6px;
-    transition-delay: 0.2s;
-    background-color: white;
-}
-
-/* Show the tooltip_ text when you mouse over the tooltip_ container */
-.tooltip_:hover .tooltiptext,
-.listCollections .tooltip_:hover .tooltiptext {
-    visibility: visible;
-    -webkit-animation: scale-in-center 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)
-        both;
-    animation: scale-in-center 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-    transition-delay: 0s;
-    cursor: default;
-}
-
-.tooltip_:hover,
-.listCollections .tooltip_:hover {
-    cursor: pointer;
-}
 
 /* animation link toolTip________________________________________________*/
 .linkInTooltip {

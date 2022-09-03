@@ -1,72 +1,12 @@
-import { React, useEffect, useContext } from 'react';
-import { makeStyles } from '@material-ui/styles';
+import React, { useEffect, useContext } from 'react';
 import Axios from 'axios';
 import AppContext from '../contexts/AppContext';
 import { saveInTemporaryStorage } from '../functions/temporaryStorage/saveInTemporaryStorage';
 import CroppeImage from '../croppeJs/croppeJs';
-
-
-
-const useStyles = makeStyles({
-    wrapperForm: {
-        width: '100%',
-        overflow: 'hidden',
-        border: '#DCDCDB dashed 5px',
-        borderRadius: '5px',
-        height: 'auto',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexWrap: 'nowrap',
-        backgroundColor: '#fff',
-
-        '&:hover': {
-            border: 'rgba(19, 82, 255, .8) dashed 5px',
-        },
-    },
-    drop_region: {
-        backgroundColor: '#fff',
-        background: 'no-repeat url("../images/icons/backgroundDropZone.png")',
-        backgroundPosition: 'center 90%',
-        borderRadius: '5px',
-        boxShadow: '0 0 35px rgba(0, 0, 0, 0.05)',
-        width: '100%',
-        minHeight: '200px',
-        maxHeight: '200px',
-        height: 'auto',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        textAlign: 'center',
-        cursor: 'pointer',
-        transition: '0.3s',
-    },
-    drop_message: {
-        marginTop: '25px',
-        marginBottom: 'auto',
-    },
-    removeImage: {
-        marginTop: '0',
-        padding: '0 10px',
-        width: '100%',
-        height: '35px',
-        textAlign: 'right',
-        textDecoration: 'underline',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        '&:hover': {
-            cursor: 'pointer',
-        },
-    }
-});
+import TooltipWithoutIcon from '../elements/tooltipWithoutIcon';
 
 
 const DropZone = (props) => {
-    const classes = useStyles();
 
     const { image, setImage, imagePath, setImagePath, setImageModal, setShowModalSimpleMessage, setMessageModal, is_Edit, setIs_Edit, idCollection, setWrapIndexcroppe, setIsNot_isEdit, collectionForm, setCollectionForm } = useContext(AppContext);
 
@@ -396,31 +336,47 @@ const DropZone = (props) => {
 
     return (
         <>
-            <div className={classes.wrapperForm}>
-                <div id="drop-region-dropZone" className={classes.drop_region}>
-                    <div className={classes.drop_message} id='drop-message-dropZone'>
+            <div className="w-full overflow-hidden border-4 border-dashed border-gray-300 rounded-md h-auto flex flex-col justify-center items-center flex-nowrap bg-white hover:border-gray-500">
+                <div
+                    id="drop-region-dropZone"
+                    className="bg-white bg-dropZonCollection bg-center rounded-md shadow-sm w-full min-h-[200px] max-h-[200px] h-auto flex flex-col justify-center items-center cursor-pointer transition ease-out duration-300">
+                    <div
+                        className="mt-6 mb-auto text-center text-sm font-semibold text-gray-400"
+                        id='drop-message-dropZone'>
                         Déposez ici une image <br></br>ou cliquez pour charger une image
                     </div>
                     <div id="image-preview-dropZone"></div>
                 </div>
             </div>
-            <span className={classes.removeImage}>
+
+            <span className="w-full h-9 flex justify-end items-center cursor-pointer">
                 {!!imagePath &&
-                    <span className="scale-1_15 tooltip_"
+                    <span
+                        id="cropImageCollection3922"
+                        className="flex justify-center"
                         onClick={() => goToCrop()}>
-                        <img src='../images/icons/crop.svg' className="w20 h20" />
-                        <span className="tooltiptext">
+                        <img
+                            id={"img_cropImageCollection3922"}
+                            src='../images/icons/crop.svg'
+                            className="w-5 h-5 hover:scale-110"
+                        />
+                        <TooltipWithoutIcon id="cropImageCollection3922" idImg="img_cropImageCollection3922" widthTip={184}>
                             Redimensionner l'image
-                        </span>
+                        </TooltipWithoutIcon>
                     </span>
                 }
                 {!!imagePath &&
-                    <span className="scale-1_15 tooltip_"
+                    <span
+                        id="deleteImageCollection3922"
+                        className="flex justify-center ml-3"
                         onClick={() => removeImagePreview()}>
-                        <img src='../images/icons/trash.svg' className="w20 h20 m-l-15 block" />
-                        <span className="tooltiptext">
+                        <img
+                            id={"img_deleteImageCollection3922"}
+                            src='../images/icons/trash.svg' className="w-5 h-5 block hover:scale-110"
+                        />
+                        <TooltipWithoutIcon id="deleteImageCollection3922" idImg="img_deleteImageCollection3922" widthTip={145}>
                             Supprimer l'image
-                        </span>
+                        </TooltipWithoutIcon>
                     </span>
                 }
             </span>

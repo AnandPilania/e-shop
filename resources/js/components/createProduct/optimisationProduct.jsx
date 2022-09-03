@@ -166,15 +166,15 @@ const OptimisationProduct = () => {
                 <div className="w-full flex flex-col justify-start items-start mb-5">
                     <div
                         id="urlOptimisationProduct2922"
-                        className="w-full flex flex-row justify-start items-center brd-red-1"
+                        className="w-full flex flex-row justify-start items-center"
                     >
                         <Label label="Url de la page de cet article" css="shrink-0" />
-                        <Tooltip id="urlOptimisationProduct2922" widthTip={300} css="mb-2">
-                            Utilisez des mots clés en rapport avec cette collection <br></br>
+                        <Tooltip id="urlOptimisationProduct2922" widthTip={300}>
+                            Utilisez des mots clés en rapport avec cet article <br></br>
                             <a href="http://127.0.0.1:8000"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-sm underline underline-offset-1 text-blue-200 font-semibold">Mon lien</a>
+                                className="mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300">Mon lien</a>
                         </Tooltip>
                     </div>
                     <div
@@ -195,19 +195,18 @@ const OptimisationProduct = () => {
                 </div>
                 {/* meta-titre */}
                 <div className="w-full flex flex-col justify-start items-start mb-5">
-                    <div className="w-full flex">
+                    <div
+                        id="metaTitleOptimisationProduct2922"
+                        className="w-full flex flex-row justify-start items-center"
+                    >
                         <Label label="Méta-titre de la page de cet article" css="shrink-0" />
-                        <div className='w-4 hover:w-full relative group'>
-                            <img src='../images/icons/info-circle.svg'
-                                className="w-4 h-4 ml-2 cursor-help" />
-                            <Tooltip top={-100} left={-150}>
-                                La longueur idéal pour un méta-titre se situe entre 30 et 60 caractères. <br></br>
-                                <a href="http://127.0.0.1:8000"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-sm underline underline-offset-1 text-blue-500 font-semibold">Mon lien</a>
-                            </Tooltip>
-                        </div>
+                        <Tooltip id="metaTitleOptimisationProduct2922" widthTip={300}>
+                            La longueur idéal pour un méta-titre se situe entre 30 et 60 caractères. <br></br>
+                            <a href="http://127.0.0.1:8000"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300">Mon lien</a>
+                        </Tooltip>
                     </div>
                     <InputText
                         value={metaTitleProduct?.length > 0 ? metaTitleProduct : ''}
@@ -228,19 +227,18 @@ const OptimisationProduct = () => {
 
                 {/* meta-description */}
                 <div className="w-full flex flex-col justify-start items-start mb-4">
-                    <div className="w-full flex">
+                    <div
+                        id="metaDescrriptionOptimisationProduct2922"
+                        className="w-full flex flex-row justify-start items-center"
+                    >
                         <Label label="Méta-déscription de cet article" css="shrink-0" />
-                        <div className='w-4 hover:w-full relative group'>
-                            <img src='../images/icons/info-circle.svg'
-                                className="w-4 h-4 ml-2 cursor-help" />
-                            <Tooltip top={-100} left={-150}>
-                                La longueur idéal pour un méta-titre se situe entre 30 et 60 caractères. <br></br>
-                                <a href="http://127.0.0.1:8000"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-sm underline underline-offset-1 text-blue-500 font-semibold">Mon lien</a>
-                            </Tooltip>
-                        </div>
+                        <Tooltip id="metaDescrriptionOptimisationProduct2922" widthTip={300}>
+                            La longueur idéal pour une méta-description se situe entre 120 et 130 caractères. <br></br>
+                            <a href="http://127.0.0.1:8000"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300">Mon lien</a>
+                        </Tooltip>
                     </div>
                     <TextArea
                         value={metaDescriptionProduct?.length > 0 ? metaDescriptionProduct : ''}

@@ -2724,14 +2724,6 @@ i.fa-solid .fa-person-biking {
   border-radius: 5px 5px 0 0;
 }
 
-.red-corner {
-  background-color: white;
-  background-image: url("http://127.0.0.1:8000/images/icons/red10px.png");
-  background-size: 20px 20px;
-  background-repeat: no-repeat;
-  background-position: top right;
-}
-
 .relative {
   position: relative;
 }

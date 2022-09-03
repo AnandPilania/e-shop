@@ -426,11 +426,10 @@ const CreateCollection = () => {
     return (
         <div className="min-w-[750px] w-[60%] min-h-[130vh] my-[50px] mx-auto pb-[300px] grid grid-cols-mainContainer gap-[10px]">
             <div className="w-full">
-                <div className="div-vert-align">
-
-                    <div className="w100pct h40 flex justify-s align-c">
+                <div className="w-full h-auto flex flex-col justify-start items-start bg-white p-5 mb-2.5 shadow-sm">
+                    <div className="w-full h-10 flex justify-start items-center">
                         {/* retour */}
-                        <button className="w100 h40 flex-row-c-c brd-gray-light-1 radius5"
+                        <button className="w-24 h-10 flex flex-row justify-center items-center border border-gray-300 rounded-md"
                             onClick={() => {
                                 setConditions([{
                                     id: 0,
@@ -440,15 +439,15 @@ const CreateCollection = () => {
                                 }])
                             }}>
                             <Link to="/collections-list">
-                                <img src='../images/icons/arrow-left.svg' className="w15 h15 inline" />
-                                <span className="m-l-5">
+                                <img src='../images/icons/arrow-left.svg' className="w-4 h-4 inline" />
+                                <span className="ml-1.5">
                                     Retour
                                 </span>
                             </Link>
                         </button>
 
                         {/* réinitialisation */}
-                        {isDirty && (<button className='w100 h40 flex-row-c-c brd-gray-light-1 m-l-auto radius5'
+                        {isDirty && (<button className='w-24 h-10 flex flex-row justify-center items-center border border-gray-300 rounded-md ml-auto'
                             onClick={() => {
                                 setIdCollection(null);
                                 confirmInitCollectionForm();
@@ -458,17 +457,17 @@ const CreateCollection = () => {
                     </div>
 
                     {/* nom */}
-                    <div className="div-label-inputTxt">
+                    <div className="w-full flex flex-col justify-start items-start">
                         <h2>Nom de la collection*</h2>
-                        <input className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1 red-corner" type='text' id='titreCollection'
+                        <input className="w-full h-12 mb-2.5 p-x-5 rounded-md border border-gray-300" type='text' id='titreCollection'
                             value={nameCollection}
                             onChange={handleNameCollection}
                         />
-                        <span className={`fs14 red ${nameCollection.length > 191 ? "block" : "none"}`}>Le nom de la collection ne peut pas dépasser 191 caractères</span>
+                        <span className={`text-sm text-red-600 ${nameCollection.length > 191 ? "block" : "none"}`}>Le nom de la collection ne peut pas dépasser 191 caractères</span>
                     </div>
 
                     {/* description */}
-                    <div className="div-label-inputTxt">
+                    <div className="w-full flex flex-col justify-start items-start">
                         <h2>Description (optionnel)</h2>
                     </div>
                     <TinyEditor />
@@ -479,21 +478,17 @@ const CreateCollection = () => {
                 <Optimisation />
 
                 {/* submit */}
-                <div className="div-label-inputTxt">
-                    <button className="btn-submit" onClick={handleSubmit}>
+                <div className="w-full mt-5 flex justify-start">
+                    <button className="w-auto px-3 py-2 flex justify-center items-center text-base text-white bg-indigo-700 rounded-md" onClick={handleSubmit}>
                         Enregistrer
                     </button>
                 </div>
             </div>
             {/* ----------  side  ---------- */}
-            <div className='form-side-container'>
-
+            <div>
                 <Image />
-
                 <Categories />
-
                 <Activation />
-
                 {/* modal for confirmation */}
                 <ModalConfirm
                     show={showModalConfirm}
@@ -503,7 +498,6 @@ const CreateCollection = () => {
                 >
                     <h2 className="childrenModal">{messageModal}</h2>
                 </ModalConfirm>
-
                 {/* modal for simple message */}
                 <ModalSimpleMessage
                     show={showModalSimpleMessage} // true/false show modal
