@@ -13,7 +13,7 @@ const Toggle = ({ isChecked, change, id, label, labelCss }) => {
                 onChange={change}
             />
             <label
-                className={`m-0 ml-2 p-0 cursor-pointer text-gray-500  hover:text-gray-700 ${labelCss}`}
+                className={`m-0 ml-2 p-0 cursor-pointer text-gray-700 hover:text-gray-900 ${labelCss}`}
                 htmlFor={id}
             >
                 {label}

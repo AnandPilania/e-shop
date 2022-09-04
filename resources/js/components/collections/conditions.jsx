@@ -79,7 +79,7 @@ const Conditions = ({
                             Manuel
                         </label>
                     </div>
-                    <p>Ajouter un produit à la fois dans cette collection</p>
+                    <p>Attribuer manuellement cette collection lors de l'ajout d'articles.</p>
                 </div>
                 <div className="sub-div-vert-align">
                     <div className="div-radio-label">

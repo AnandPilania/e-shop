@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/styles';
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import { saveInTemporaryStorage } from '../functions/temporaryStorage/saveInTemporaryStorage';
-import CreateCollection from '../collections/index';
+import CreateCollection from './index';
 
 
 const useStyles = makeStyles({
@@ -93,7 +93,7 @@ const useStyles = makeStyles({
 });
 
 
-const CroppeImage = () => {
+const CroppeImage = ({ setIsDirtyImageCollection }) => {
 
     const classes = useStyles();
     const [cropper, setCropper] = useState();
@@ -110,6 +110,7 @@ const CroppeImage = () => {
 
                 setImage(blob);
                 setIsNot_isEdit(true);
+                setIsDirtyImageCollection(true);
                 setWrapIndexcroppe(<CreateCollection />)
             });
         }

@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import Flatpickr from "react-flatpickr";
-import "flatpickr/dist/themes/material_blue.css";
+// import "flatpickr/dist/themes/material_blue.css";
+import "flatpickr/dist/themes/material_indigo.css";
+
 
 const Activation = () => {
 

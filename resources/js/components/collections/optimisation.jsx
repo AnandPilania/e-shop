@@ -5,6 +5,8 @@ import Flex_col_s_s from '../elements/container/flex_col_s_s';
 import Toggle from '../elements/toggle/toggle';
 import Tooltip from '../elements/tooltip';
 import Label from '../form/label';
+import InputText from '../form/inputText';
+import TextArea from '../form/textarea';
 
 
 
@@ -58,7 +60,7 @@ const OptimisationProduct = () => {
         // clean fields
         setMetaTitleProduct('');
         setMetaDescriptionProduct('');
-        setMetaUrlProduct(window.location.origin + '/');
+        setMetaUrlProduct('');
     };
 
     useEffect(() => {
@@ -83,16 +85,13 @@ const OptimisationProduct = () => {
     const initOptimisationForm = () => {
         setMetaTitleProduct('');
         setMetaDescriptionProduct('');
-        setMetaUrlProduct(window.location.origin + '/');
+        setMetaUrlProduct('');
     }
 
 
     const handleMetaUrl = (e) => {
-        // limit la taille de l'url à 2047 caracères
-        let urlLength = 2047 - window.location.origin.length;
-        let urlName = normalizUrl(e.target.value.substring(window.location.origin.length, 2047));
-
-        setMetaUrlProduct(window.location.origin + '/' + urlName.substring(0, urlLength));
+        let urlName = normalizUrl(e.target.value);
+        setMetaUrlProduct(urlName.substring(0, 2047));
     };
 
     const handleMetaTitle = (e) => {
@@ -128,14 +127,14 @@ const OptimisationProduct = () => {
     return (
         <Flex_col_s_s>
             <div className='w-full h-auto flex flex-row justify-start items-center'>
-                <div className='w-full h-auto flex flex-row flex-wrap justify-start items-center mb-5'>
+                <div className='w-full h-auto flex flex-row flex-nowrap justify-start items-center mb-5'>
                     <Toggle
+                        id="toggleOptimisationSeoCollection4922"
                         isChecked={isShowOptimisationProduct}
                         change={() => showHideOptimisation()}
+                        label="Optimisation SEO"
+                        labelCss="font-semibold"
                     />
-                    <label className='m-0 ml-2 p-0'>
-                        Optimisation SEO
-                    </label>
                 </div>
 
                 {metaUrlProduct?.length > (window.location.origin.toString() + '/').length ?
@@ -162,16 +161,16 @@ const OptimisationProduct = () => {
             </div>
 
             <div
-                className="flex flex-col justify-start items-center w-full max-h-0 overflow-hidden transition-[max-height] ease-in-out delay-150"
+                className="flex flex-col justify-start items-center w-full max-h-0 overflow-hidden"
                 id="optimisation_product"
             >
                 {/* meta-url */}
-                <div className="w-full flex flex-col justify-start items-start mb-[2px]">
+                <div className="w-full flex flex-col justify-start items-start mb-5">
                     <div
                         id="urlOptimisationCollection3922"
                         className="w-full flex flex-row justify-start items-center"
                     >
-                        <Label label="Url de la page de cette collection" css="shrink-0" />
+                        <Label label="Url" css="shrink-0" />
                         <Tooltip id="urlOptimisationCollection3922" widthTip={300}>
                             Utilisez des mots clés en rapport avec cette collection.<br></br>
                             <a href="http://127.0.0.1:8000"
@@ -180,41 +179,50 @@ const OptimisationProduct = () => {
                                 className="mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300">Mon lien</a>
                         </Tooltip>
                     </div>
-                    <input type='text'
-                        className="w-full h-12 mb-2.5 px-3 rounded-md border border-gray-300"
-                        value={metaUrlProduct?.length > 0 ? metaUrlProduct : ''}
-                        onChange={handleMetaUrl}
-                        placeholder="Url de ce produit"
-                        maxLength="2047"
-                    />
+                    <div
+                        className='w-full flex flex-row justify-start items-center'
+                    >
+                        <span
+                            className='w-auto h-10 px-3 flex justify-start items-center border-y border-l border-gray-300 bg-gray-50 text-gray-500 text-sm font-semibold rounded-l-md'
+                        >
+                            {window.location.origin + '/'}
+                        </span>
+                        <InputText
+                            value={metaUrlProduct?.length > 0 ? metaUrlProduct : ''}
+                            handleChange={handleMetaUrl}
+                            css="rounded-r-md"
+                            maxLength="2047"
+                        />
+                    </div>
                 </div>
 
                 {/* meta-titre */}
-                <div className="w-full flex flex-col justify-start items-start mb-[2px]">
+                <div className="w-full flex flex-col justify-start items-start mb-3">
                     <div
                         id="titleOptimisationCollection3922"
                         className="w-full flex flex-row justify-start items-center"
                     >
-                        <Label label="méta-titre de la page de cette collection" css="shrink-0" />
+                        <Label label="Méta-titre" css="shrink-0" />
                         <Tooltip id="titleOptimisationCollection3922" widthTip={300}>
-                        Le méta-titre est important pour le référencement d'une page web. Sa longueur idéal se situe entre 30 et 60 caractères mais il peut être plus long pour donner plus d'informations sur le contenu de la page. <br></br>
+                            Le méta-titre est important pour le référencement d'une page web. Sa longueur idéal se situe entre 30 et 60 caractères mais il peut être plus long pour donner plus d'informations sur le contenu de la page. <br></br>
                             <a href="http://127.0.0.1:8000"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300">Mon lien</a>
                         </Tooltip>
                     </div>
-                    <input type='text'
-                        className="w-full h-12 mb-1 px-3 rounded-md border border-gray-300"
+                    <InputText
                         value={metaTitleProduct?.length > 0 ? metaTitleProduct : ''}
-                        onChange={handleMetaTitle}
+                        handleChange={handleMetaTitle}
+                        css="rounded-md mb-0"
+                        maxLength="255"
                     />
                     <div className='w-full'>
-                        <span className='text-blue-800 italic text-sm font-normal'>
+                        <span className='text-blue-800 text-xs font-normal'>
                             Nombre de caractères {metaTitleProduct?.length > 0 ? metaTitleProduct.length : 0}
                         </span>
                         {metaTitlebiggerThan50Product &&
-                            <span className="text-red-700 break-words ml-2 italic text-sm font-normal">
+                            <span className="text-red-700 break-words ml-2 text-sm font-normal">
                                 Seuls les 50 à 60 premiers caractères seront affichés par les moteurs de recherche
                             </span>}
                     </div>
@@ -228,24 +236,24 @@ const OptimisationProduct = () => {
                     >
                         <Label label="Méta-déscription de cette collection" css="shrink-0" />
                         <Tooltip id="metadescriptiontitleOptimisationCollection3922" widthTip={300}>
-                        Une méta-déscription est utilisée pour donner des informations plus précies sur le contenu d'une page. Les moteurs de recherche affichent à peu près les 130 premiers caractères. <br></br>
+                            Une méta-déscription est utilisée pour donner des informations plus précies sur le contenu d'une page. Les moteurs de recherche affichent à peu près les 130 premiers caractères. <br></br>
                             <a href="http://127.0.0.1:8000"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300">Mon lien</a>
                         </Tooltip>
                     </div>
-                    <textarea
+                    <TextArea
                         value={metaDescriptionProduct?.length > 0 ? metaDescriptionProduct : ''}
-                        onChange={handleMetaDescription}
-                        className="w-full h-auto p-3 mb-1 min-h-[120px] border border-gray-300 rounded-md resize-none">
-                    </textarea>
+                        handleChange={handleMetaDescription}
+                        maxLength="2047"
+                    />
                     <div className='w-full h-auto'>
-                        <span className='text-blue-800 italic text-sm font-normal'>
+                        <span className='text-blue-800 text-xs font-normal'>
                             Nombre de caractères {metaDescriptionProduct?.length > 0 ? metaDescriptionProduct.length : 0}
                         </span>
                         {metaDescriptionbiggerThan130Product &&
-                            <span className="text-red-700 break-words ml-2 italic text-sm font-normal">
+                            <span className="text-red-700 break-words ml-2 text-sm font-normal">
                                 Seuls les 120 à 130 premiers caractères seront affichés par les moteurs de recherche
                             </span>}
                     </div>

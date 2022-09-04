@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import Axios from 'axios';
 import AppContext from '../contexts/AppContext';
 import { saveInTemporaryStorage } from '../functions/temporaryStorage/saveInTemporaryStorage';
-import CroppeImage from '../croppeJs/croppeJs';
+import CroppeImage from './croppeJs';
 import TooltipWithoutIcon from '../elements/tooltipWithoutIcon';
 
 
@@ -299,6 +299,7 @@ const DropZone = (props) => {
 
             setImage([]);
             setImagePath('');
+            props.setIsDirtyImageCollection(true);
 
             // remet l'image de fond
             document.getElementById('drop-region-dropZone').style.backgroundColor = 'none';
@@ -324,7 +325,7 @@ const DropZone = (props) => {
 
         if (imageExist.length > 0) {
             setIsNot_isEdit(true);
-            setWrapIndexcroppe(<CroppeImage />)
+            setWrapIndexcroppe(<CroppeImage setIsDirtyImageCollection={props.setIsDirtyImageCollection} />)
         }
     }
 
@@ -339,7 +340,7 @@ const DropZone = (props) => {
             <div className="w-full overflow-hidden border-4 border-dashed border-gray-300 rounded-md h-auto flex flex-col justify-center items-center flex-nowrap bg-white hover:border-gray-500">
                 <div
                     id="drop-region-dropZone"
-                    className="bg-white bg-dropZonCollection bg-center rounded-md shadow-sm w-full min-h-[200px] max-h-[200px] h-auto flex flex-col justify-center items-center cursor-pointer transition ease-out duration-300">
+                    className="bg-white bg-dropZonCollection bg-no-repeat   rounded-md shadow-sm w-full min-h-[200px] max-h-[200px] h-auto flex flex-col justify-center items-center cursor-pointer transition ease-out duration-300">
                     <div
                         className="mt-6 mb-auto text-center text-sm font-semibold text-gray-400"
                         id='drop-message-dropZone'>
@@ -360,7 +361,7 @@ const DropZone = (props) => {
                             src='../images/icons/crop.svg'
                             className="w-5 h-5 hover:scale-110"
                         />
-                        <TooltipWithoutIcon id="cropImageCollection3922" idImg="img_cropImageCollection3922" widthTip={184}>
+                        <TooltipWithoutIcon id="cropImageCollection3922" idimg="img_cropImageCollection3922" widthTip={184}>
                             Redimensionner l'image
                         </TooltipWithoutIcon>
                     </span>
@@ -374,7 +375,7 @@ const DropZone = (props) => {
                             id={"img_deleteImageCollection3922"}
                             src='../images/icons/trash.svg' className="w-5 h-5 block hover:scale-110"
                         />
-                        <TooltipWithoutIcon id="deleteImageCollection3922" idImg="img_deleteImageCollection3922" widthTip={145}>
+                        <TooltipWithoutIcon id="deleteImageCollection3922" idimg="img_deleteImageCollection3922" widthTip={145}>
                             Supprimer l'image
                         </TooltipWithoutIcon>
                     </span>

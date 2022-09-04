@@ -62,6 +62,7 @@ const Appcontainer = () => {
         metaDescription: '',
         metaUrl: window.location.origin + '/',
         imageName: '',
+        imagePath: '',
         alt: '',
         categoryName: 'Sans catégorie',
         categoryId: 1,

@@ -159,7 +159,7 @@ const OptimisationProduct = () => {
             </div>
 
             <div
-                className="flex flex-col justify-start items-center w-full max-h-0 overflow-hidden transition-[max-height] ease-in-out delay-150"
+                className="flex flex-col justify-start items-center w-full max-h-0 overflow-hidden"
                 id="optimisation_product"
             >
                 {/* meta-url */}
@@ -215,11 +215,11 @@ const OptimisationProduct = () => {
                         maxLength="2047"
                     />
                     <div className='w-full'>
-                        <span className='text-blue-700 italic text-xs font-normal mb-2'>
+                        <span className='text-blue-700 text-xs font-normal mb-2'>
                             Nombre de caractères {metaTitleProduct?.length > 0 ? metaTitleProduct.length : 0}
                         </span>
                         {metaTitlebiggerThan50Product &&
-                            <span className="text-red-700 break-words ml-2 italic text-sm font-normal">
+                            <span className="text-red-700 break-words ml-2 text-sm font-normal">
                                 Seuls les 50 à 60 premiers caractères seront affichés par les moteurs de recherche
                             </span>}
                     </div>
@@ -246,11 +246,11 @@ const OptimisationProduct = () => {
                         maxLength="2047"
                     />
                     <div className='w-full h-auto'>
-                        <span className='text-blue-700 italic text-xs font-normal'>
+                        <span className='text-blue-700 text-xs font-normal'>
                             Nombre de caractères {metaDescriptionProduct?.length > 0 ? metaDescriptionProduct.length : 0}
                         </span>
                         {metaDescriptionbiggerThan130Product &&
-                            <span className="text-red-700 break-words ml-2 italic text-sm font-normal">
+                            <span className="text-red-700 break-words ml-2 text-sm font-normal">
                                 Seuls les 120 à 130 premiers caractères seront affichés par les moteurs de recherche
                             </span>}
                     </div>

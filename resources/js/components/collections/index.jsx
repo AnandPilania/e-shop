@@ -1,5 +1,5 @@
-import { React, useEffect, useContext } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import AppContext from '../contexts/AppContext';
 import { usePromptCollection } from '../hooks/usePromptCollection';
 import Axios from 'axios';
@@ -10,11 +10,15 @@ import Optimisation from './optimisation';
 import Categories from './categories';
 import Activation from './activation';
 import Image from './image';
-import TinyEditor from './tinyEditor';
 import { handleTinyMceTemporary } from '../functions/temporaryStorage/handleTinyMceTemporary';
 import { getNow, getDateTime } from '../functions/dateTools';
+import NameCollection from './name';
+import DescriptionCollection from './description';
+import HeaderIndex from './headerIndex';
 
 const CreateCollection = () => {
+
+    const [isDirtyImageCollection, setIsDirtyImageCollection] = useState(false);
 
     const {
         image, setImagePath, setFollowThisLink, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage,
@@ -146,7 +150,7 @@ const CreateCollection = () => {
             if (condition.value != '') {
                 conditonDirty = true;
             }
-        })
+        });
         switch (true) {
             case nameCollection.length > 0: setIsDirty(true); break;
             case descriptionCollection.length > 0: setIsDirty(true); break;
@@ -173,6 +177,8 @@ const CreateCollection = () => {
             if (collectionForm.hasBeenChanged !== hasBeenChanged) {
                 return true;
             }
+
+            if (isDirtyImageCollection) return true;
 
             // tinyMCE ajoute des caractères undefined qui ne permettent pas de faire une comparaison alors on compte chaque caractères dans les deux texte et on compare leur nombre pour avoir plus de chances de repérer les textes différents 
             let maxLength = Math.max(collectionForm.descriptionCollection.length, descriptionCollection.length);
@@ -264,21 +270,6 @@ const CreateCollection = () => {
     // demande confirmation avant de quitter le form sans sauvegarder
     usePromptCollection('Quitter sans sauvegarder les changements ?', checkIfIsDirty, setShowModalConfirm, setMessageModal);
 
-
-    const handleNameCollection = (e) => {
-        setNameCollection(e.target.value);
-    };
-
-    // Reset Form---------------------------------------------------------------
-    // confirm reinitialisatio form
-    const confirmInitCollectionForm = () => {
-        setMessageModal('Supprimer tout le contenu de ce formulaire ?')
-        setTextButtonConfirm('Confirmer');
-        setImageModal('../images/icons/trash_dirty.png');
-        setSender('initCollectionForm');
-        setTmp_parameter('');
-        setShowModalConfirm(true);
-    }
 
 
     const validation = () => {
@@ -424,53 +415,18 @@ const CreateCollection = () => {
 
 
     return (
-        <div className="min-w-[750px] w-[60%] min-h-[130vh] my-[50px] mx-auto pb-[300px] grid grid-cols-mainContainer gap-[10px]">
+        // <div className="min-w-[750px] w-[60%] min-h-[130vh] my-[50px] mx-auto pb-[300px] grid grid-cols-mainContainer gap-2.5">
+        <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_33.3333%] gap-4 justify-center items-start lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] min-h-[100vh] mt-[50px] mx-auto pb-48 text-base">
             <div className="w-full">
-                <div className="w-full h-auto flex flex-col justify-start items-start bg-white p-5 mb-2.5 shadow-sm">
-                    <div className="w-full h-10 flex justify-start items-center">
-                        {/* retour */}
-                        <button className="w-24 h-10 flex flex-row justify-center items-center border border-gray-300 rounded-md"
-                            onClick={() => {
-                                setConditions([{
-                                    id: 0,
-                                    parameter: '1',
-                                    operator: '1',
-                                    value: ''
-                                }])
-                            }}>
-                            <Link to="/collections-list">
-                                <img src='../images/icons/arrow-left.svg' className="w-4 h-4 inline" />
-                                <span className="ml-1.5">
-                                    Retour
-                                </span>
-                            </Link>
-                        </button>
+                <div
+                    className="w-full h-auto flex flex-col justify-start items-start bg-white p-5 mb-2.5 shadow-sm"
+                >
+                    <HeaderIndex />
 
-                        {/* réinitialisation */}
-                        {isDirty && (<button className='w-24 h-10 flex flex-row justify-center items-center border border-gray-300 rounded-md ml-auto'
-                            onClick={() => {
-                                setIdCollection(null);
-                                confirmInitCollectionForm();
-                            }}>
-                            Réinitialiser
-                        </button>)}
-                    </div>
+                    <NameCollection />
 
-                    {/* nom */}
-                    <div className="w-full flex flex-col justify-start items-start">
-                        <h2>Nom de la collection*</h2>
-                        <input className="w-full h-12 mb-2.5 p-x-5 rounded-md border border-gray-300" type='text' id='titreCollection'
-                            value={nameCollection}
-                            onChange={handleNameCollection}
-                        />
-                        <span className={`text-sm text-red-600 ${nameCollection.length > 191 ? "block" : "none"}`}>Le nom de la collection ne peut pas dépasser 191 caractères</span>
-                    </div>
+                    <DescriptionCollection />
 
-                    {/* description */}
-                    <div className="w-full flex flex-col justify-start items-start">
-                        <h2>Description (optionnel)</h2>
-                    </div>
-                    <TinyEditor />
                 </div>
 
                 <Conditions />
@@ -479,14 +435,14 @@ const CreateCollection = () => {
 
                 {/* submit */}
                 <div className="w-full mt-5 flex justify-start">
-                    <button className="w-auto px-3 py-2 flex justify-center items-center text-base text-white bg-indigo-700 rounded-md" onClick={handleSubmit}>
+                    <button className="w-auto px-3 py-2 flex justify-center items-center text-base text-white bg-violet-900 rounded-md" onClick={handleSubmit}>
                         Enregistrer
                     </button>
                 </div>
             </div>
             {/* ----------  side  ---------- */}
             <div>
-                <Image />
+                <Image setIsDirtyImageCollection={setIsDirtyImageCollection} />
                 <Categories />
                 <Activation />
                 {/* modal for confirmation */}

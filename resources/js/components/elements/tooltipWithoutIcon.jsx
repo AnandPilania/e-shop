@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const TooltipWithoutIcon = ({ children, css, id, idImg, widthTip }) => {
+const TooltipWithoutIcon = ({ children, css, id, idimg, widthTip }) => {
 
     const [style, setStyle] = useState({
         top: 0 + 'px',
@@ -11,7 +11,7 @@ const TooltipWithoutIcon = ({ children, css, id, idImg, widthTip }) => {
 
 
     useEffect(() => {
-        var tipImg = document.getElementById(idImg);
+        var tipImg = document.getElementById(idimg);
         var tipIcon = document.getElementById(`${id}toolTipMessage2922`);
         var parent = document.getElementById(id);
 
@@ -56,7 +56,7 @@ export default TooltipWithoutIcon;
 
     // ---> how use <---
     // <parent id={id du parent}>
-    // <img id="idImg" /> <--- l'image sur laquelle on fait un hover !!!
+    // <img id="idimg" /> <--- l'image sur laquelle on fait un hover !!!
     //     <TooltipWithoutIcon css={css}, id={id du parent}, widthTip={width qu'on veut   donner au toolTip}>
     //         {children}
     //     </TooltipWithoutIcon>
