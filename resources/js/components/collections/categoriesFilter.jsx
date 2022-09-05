@@ -24,25 +24,25 @@ const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
             dropable.style.borderLeft = 'none';
             dropable.style.borderRight = 'none';
             dropable.style.borderBottom = 'none';
-            document.getElementsByClassName('shadow-l')[0].style.boxShadow = "none";
 
             filterCard.style.maxHeight = null;
             filterCard.style.paddingBottom = '0';
+            filterCard.classList.remove('shadow-lg');
 
             dropable.style.maxHeight = null;
             dropable.style.paddingTop = 0;
 
         } else {
-            filterCard.style.maxHeight = "300px";
-            filterCard.style.width = "300px";
+            filterCard.style.maxHeight = "352px";
+            filterCard.style.width = "352px";
+            filterCard.classList.add('shadow-lg');
             // filterCard.style.minWidth = "250px";
 
-            dropable.style.maxHeight = "300px";
+            dropable.style.maxHeight = "288px";
             // montre les borders quand ouvert seulement
             dropable.style.borderLeft = 'rgb(220, 220, 220) solid 1px';
             dropable.style.borderRight = 'rgb(220, 220, 220) solid 1px';
             dropable.style.borderBottom = 'rgb(220, 220, 220) solid 1px';
-            document.getElementsByClassName('shadow-l')[0].style.boxShadow = "rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px";
         }
     }, [showCategorySelect]);
 
@@ -65,7 +65,7 @@ const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
         };
     }, []);
     // ferme le select de category quand on click en dehors du select
-    function closeDropDownCategory(evt) { 
+    function closeDropDownCategory(evt) {
         const categorySelectElement = document.getElementById("selectId");
         let targetElement = evt.target; // clicked element
 
@@ -83,7 +83,7 @@ const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
     }
 
 
-    function handleCheckBox(e) { 
+    function handleCheckBox(e) {
         // clean input search name collection
         setSearchValue('');
 
@@ -107,29 +107,29 @@ const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
 
 
     return (
-        <div className="w50 p0 bg-gray-light relative" id="selectId">
+        <div className="w-12 p-0 bg-gray-50 relative" id="selectId">
             <button
-                className='flex-row brd-none bg-gray-light'
+                className='flex flex-row justify-center items-center border border-indigo-700 rounded-md p-1 bg-gray-50 cursor-pointer hover:bg-indigo-50'
                 onClick={showHideCategorySelect}>
-                <figure className='h22 w22 m-r-20 cursor'>
-                    <img src={window.location.origin + '/images/icons/filter.svg'} className="h22 w22" />
-                </figure>
+                <img src={window.location.origin + '/images/icons/filter.svg'} className="h-4 w-4" />
             </button>
 
-            <div id="cat-filter-card" className="w300 flex-col justify-s align-s dropable absolute t30 r0 bg-white shadow-l radius5 z5">
-                <div className='w100pct h60 flex-row bg-gray-light p-l-20'>
-                    <span className="w100pct">Filtrer par:</span>
+            <div id="cat-filter-card" className="w-80 flex flex-col justify-start items-start max-h-0 h-auto overflow-hidden absolute top-8 right-0 bg-white shadow-lg rounded-md z-50">
+                <div className='w-full h-16 flex justify-start items-center bg-gray-100 pl-5'>
+                    <span className="w-full text-base font-medium text-gray-700 ">Filtrer par catégorie(s)</span>
                 </div>
 
-                <div id='category_select' className='w100pct flex-row'>
-                    <ul className='ul-category scrolly scroll w100pct h200 bg-white'
+                <div id='category_select' className='w-full'>
+                    <ul className='overflow-y-auto overflow-x-hidden list-none rounded-b-md w-full max-h-72 bg-white scroll'
                     >
                         {arrayList && arrayList.map((item, index) => (
-                            <li className="w100pct h40 p-lr-10 flex-row"
-                                key={index}>
-                                <CheckBox unikId={item.name} handleCheckBox={handleCheckBox} 
+                            <li
+                                className="w-full h-12 px-2.5 flex justify-start items-center border-b border-gray-200 hover:bg-gray-50 cursor-pointer"
+                                key={index}
+                            >
+                                <CheckBox unikId={item.name} handleCheckBox={handleCheckBox}
                                 />
-                                {item.name && <span className='cursor p-lr-10 txt-limit' value={item.name} onClick={handleCheckBox}>{item.name}</span>}
+                                {item.name && <span className='cursor-pointer ml-2.5 truncate h-full grow flex justify-start items-center' value={item.name} onClick={handleCheckBox}>{item.name}</span>}
                             </li>))}
                     </ul>
                 </div>

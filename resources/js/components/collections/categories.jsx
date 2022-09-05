@@ -262,21 +262,21 @@ const Categories = () => {
 
     return (
         <div className='w-full'>
-            <div className="flex flex-col justify-start items-start h-auto w-full bg-white mb-2.5 p-5 shadow-sm">
+            <div className="flex flex-col justify-start items-start h-auto w-full bg-white mb-2.5 p-5 rounded-md shadow-sm">
                 <div className="div-label-inputTxt">
                     <Label label="Catégorie" />
                     <div
                         className="w-full rounded-t-md relative"
                         id="categorySelect">
                         <button
-                            className='w-full h-12 pl-5 pr-2.5 flex flex-row justify-between items-center bg-white text-gray-700 rounded-md border border-gray-300'
+                            className="w-full h-10 pl-5 m-0 flex justify-start items-center border border-gray-300 rounded-md cursor-pointer bg-white hover:border-gray-400  bg-no-repeat bg-right-center bg-chevron-expand caret-transparent"
                             onClick={showHideCategorySelect}>
                             <span className='inline truncate'>
                                 {categoryName}
                             </span>
                         </button>
 
-                        <ul className='absolute top-14 left-0 w-full bg-white overflow-x-hidden overflow-y-scroll list-none rounded-md max-h-0 h-auto border border-gray-300 shadow-md'
+                        <ul className='absolute top-12 left-0 w-full bg-white overflow-x-hidden overflow-y-scroll list-none rounded-md max-h-0 h-auto border border-gray-300 shadow-md'
                             id='category_select'>
                             {/* {categoryName != 'Sans catégorie' &&
                                 <li className="li-category txt-limit"
@@ -356,7 +356,7 @@ const Categories = () => {
                         <InputText
                             value={newCategoryName}
                             handleChange={handleNewCategoryName}
-                            css="rounded-md"
+                            css="rounded-md hover:border-gray-400"
                             maxLength="255"
                             placeholder='Entrez un nom de catégorie'
                         />

@@ -162,18 +162,18 @@
     margin-bottom: 15px;
 
     // for input & span
-    .input-span {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: center;
-    }
-    .typeValue {
-        width: 35px;
-        padding-left: 3px;
-        text-align: center;
-    }
+    // .input-span {
+    //     width: 100%;
+    //     display: flex;
+    //     flex-direction: row;
+    //     justify-content: flex-start;
+    //     align-items: center;
+    // }
+    // .typeValue {
+    //     width: 35px;
+    //     padding-left: 3px;
+    //     text-align: center;
+    // }
 
     .remove-condition {
         width: 30px;
@@ -367,13 +367,13 @@
     border: solid 2px rgb(212, 0, 0);
 }
 
-.inputTypeDate {
-    width: 100%;
-    height: 50px;
-    padding: 0 20px;
-    border-radius: 5px;
-    border: solid 1px rgb(220, 220, 220);
-}
+// .inputTypeDate {
+//     width: 100%;
+//     height: 50px;
+//     padding: 0 20px;
+//     border-radius: 5px;
+//     border: solid 1px rgb(220, 220, 220);
+// }
 
 // .succesMessage {
 //     display: block;
@@ -424,12 +424,12 @@
     border-radius: 0 0 5px 5px;
 }
 
-.dropable {
-    max-height: 0;
-    height: auto;
-    overflow: hidden;
-    transition: max-height 0.05s ease-out;
-}
+// .dropable {
+//     max-height: 0;
+//     height: auto;
+//     overflow: hidden;
+//     transition: max-height 0.05s ease-out;
+// }
 
 // .scroll1::-webkit-scrollbar-track {
 //     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);

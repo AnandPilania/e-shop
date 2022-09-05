@@ -16,9 +16,10 @@ const NameCollection = () => {
         <div className="w-full mb-5 flex flex-col justify-start items-start">
             <Label label="Nom de la collection*" />
             <InputText
+                id='titreCollection'
                 value={nameCollection}
                 handleChange={handleNameCollection}
-                css="rounded-md"
+                css="rounded-md hover:border-gray-400"
                 maxLength="255"
             />
             <span className={`text-sm text-red-600 ${nameCollection.length > 191 ? "block" : "none"}`}>Le nom de la collection ne peut pas dépasser 191 caractères</span>

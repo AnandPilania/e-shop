@@ -190,7 +190,7 @@ const OptimisationProduct = () => {
                         <InputText
                             value={metaUrlProduct?.length > 0 ? metaUrlProduct : ''}
                             handleChange={handleMetaUrl}
-                            css="rounded-r-md"
+                            css="rounded-r-md hover:border-gray-400"
                             maxLength="2047"
                         />
                     </div>
@@ -214,7 +214,7 @@ const OptimisationProduct = () => {
                     <InputText
                         value={metaTitleProduct?.length > 0 ? metaTitleProduct : ''}
                         handleChange={handleMetaTitle}
-                        css="rounded-md mb-0"
+                        css="rounded-md mb-0 hover:border-gray-400"
                         maxLength="255"
                     />
                     <div className='w-full'>
@@ -247,6 +247,7 @@ const OptimisationProduct = () => {
                         value={metaDescriptionProduct?.length > 0 ? metaDescriptionProduct : ''}
                         handleChange={handleMetaDescription}
                         maxLength="2047"
+                        css="hover:border-gray-400"
                     />
                     <div className='w-full h-auto'>
                         <span className='text-blue-800 text-xs font-normal'>

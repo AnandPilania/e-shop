@@ -1,9 +1,11 @@
 import React from 'react';
 
-const Label = ({ label, css }) => {
+const Label = ({ label, id, css }) => {
     return (
+
         <label
-            className={`w-auto text-[15px] font-medium text-gray-700 mb-1 caret-transparent ${css}`}
+            className={`w-auto text-base font-medium text-gray-700 mb-1 caret-transparent ${css}`}
+            htmlFor={id}
         >
             {label}
         </label>

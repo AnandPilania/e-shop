@@ -100,7 +100,7 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
     }
 
     return (
-        <li className='grid grid-cols-[5%_18%_7%_7%_19%_12%_12%_10%_10%] w-full h-auto min-h-[48px] bg-white p-4 border-b border-gray-200'>
+        <li className='grid grid-cols-[5%_18%_7%_7%_19%_12%_12%_10%_10%] w-full h-auto min-h-[48px] bg-white p-4 border-b border-gray-200 last:rounded-b-md'>
             {/* checkBox */}
             <div className='flex-row min-h-[48px]'>
                 {collectionFiltered &&
@@ -128,20 +128,20 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
             <div className={`flex flex-row justify-start items-center min-h-[48px] ${conditions?.length > 1 && "cursor-pointer"}`} onClick={showHideConditions}>
                 {conditions !== null ?
                     conditions[0].value !== '' ?
-                        <div className='relative w-auto flex flex-col justify-start items-start bg-white rounded-md m-r-2.5'>
+                        <div className={`relative w-auto flex flex-col justify-start items-start bg-white m-r-2.5 pl-4 pr-4 py-1 rounded-full border border-gray-300 bg-no-repeat bg-right-center caret-transparent ${conditions?.length > 1 && "bg-chevron-expand pr-12 hover:border-gray-400"}`}>
 
                             {!showConditions ?
                                 <div className='w-full'>
-                                    <span>
+                                    <span className='truncate'>
                                         {getParameter(conditions[0].parameter) + ' ' + getOperator(conditions[0].operator) + ' ' + conditions[0].value}
                                     </span>
                                 </div>
                                 :
                                 conditions.length > 1 ?
-                                    <div className={`flex flex-col justify-start items-start w-72 max-h-[310px] absolute left-0 bg-white shadow-xl rounded-md z-30 ${distanceFromBottom < 300 ? "bottom-0" : "top-0"}`}>
+                                    <div className={`flex flex-col justify-start items-start w-72 max-h-[318px] absolute left-0 bg-white shadow-xl rounded-md z-30 ${distanceFromBottom < 300 ? "bottom-0" : "top-0"}`}>
                                         <div style={cover} onClick={showHideConditions} />
-                                        <div className='w-full h-14 pl-5 flex flex-row justify-start items-center bg-gray-50'>
-                                            <span className="w-8 h-8 rounded-md bg-blue-600 text-white flex flex-row justify-center  items-center text-xs">{conditions.length} </span>  &nbsp; Conditions
+                                        <div className='w-full h-16 pl-5 flex flex-row justify-start items-center bg-gray-100'>
+                                            <span className="w-8 h-8 rounded-md bg-indigo-700 text-white flex flex-row justify-center  items-center text-xs">{conditions.length} </span>  &nbsp; Conditions
                                         </div>
                                         <ul className="flex flex-col justify-start items-start w-72 max-h-[265px] p-5 bg-white list-inside overflow-y-auto">
                                             {conditions.map((item, index) =>
@@ -161,17 +161,13 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
                         </div>
                         : '_'
                     : '_'}
-
-                {conditions?.length > 1 && <div className="w-5 h-5 mr-5 ml-auto min-w-[20px]">
-                    {!showConditions ? <img src={window.location.origin + '/images/icons/chevronDown.png'} className="w17" /> : <img src={window.location.origin + '/images/icons/chevronUp.png'} />}
-                </div>}
             </div>
             {/* category */}
             <div className='flex-row min-h-[48px]'>
                 <span>{category && category.name}</span>
             </div>
             {/* date activation */}
-            <div className='flex min-h[48px]'>
+            <div className='flex justify-start items-center min-h-[48px]'>
                 <span className={`shrink-0 flex flex-row justify-center items-center rounded-l-[16px] rounded-r-md w-32 h-8 pl-2.5 ${collectionFiltered?.status == 1 || collectionFiltered?.status == 2 ? collectionFiltered?.dateActivation <= getNowUs() ? 'bg-green-100' : 'bg-yellow-100' : 'bg-red-100'}`}>
                     {collectionFiltered?.status == 1 || collectionFiltered?.status == 2 ? collectionFiltered?.dateActivation <= getNowUs() ? "On" : `${getOnlyDateShort(collectionFiltered?.dateActivation)}` : "Off"}
                     <button
@@ -187,13 +183,13 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
                 {collectionFiltered && getOnlyDate(collectionFiltered.created_at)}
             </div>
             {/* edit & delete */}
-            <div>
+            <div className='w-full flex justify-start items-center'>
                 <span className="mr-5 cursor-pointer"
                     onClick={() => {
                         editCollection(collectionFiltered.id);
                     }}>
-                    <img src='../images/icons/recycle.svg' 
-                    className="w-5 h-5 inline" />
+                    <img src='../images/icons/pencil.svg'
+                        className="w-5 h-5 inline" />
                 </span>
 
                 <span className="cursor-pointer"

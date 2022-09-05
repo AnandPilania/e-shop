@@ -44,10 +44,10 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
 
 
     // initialise quand on edit
-    useEffect(() => { 
+    useEffect(() => {
         showOnlyUsableOperator(condition.parameter);
-    }, [conditions]);    
-    
+    }, [conditions]);
+
 
     // met hide pour tous les paramètres
     const hideUselessOperatorReset = () => {
@@ -180,19 +180,19 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
             {/* parameters */}
             <div>
                 <select
-                    className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"
+                    className="w-full h-10 mb-2.5 px-5 rounded-md border border-gray-300"
                     value={condition.parameter}
                     onChange={changeParamValue}
                     id="parameterValue">
-                    <option disabled={dsablNamProd && conditions.length > 1} value="1" className={`${dsablNamProd && conditions.length > 1 && "disableColor"}`}>Nom du produit</option>
-                    <option disabled={dsablType && conditions.length > 1} value="2" className={`${dsablType && conditions.length > 1 && "disableColor"}`}>Type du produit</option>
-                    <option disabled={dsablSuppl && conditions.length > 1} value="3" className={`${dsablSuppl && conditions.length > 1 && "disableColor"}`}>Fournisseur</option>
-                    <option disabled={dsablPrice && conditions.length > 1} value="4" className={`${dsablPrice && conditions.length > 1 && "disableColor"}`}>Prix du produit</option>
-                    <option disabled={dsablTag && conditions.length > 1} value="5" className={`${dsablTag && conditions.length > 1 && "disableColor"}`}>Balise du produit</option>
-                    <option disabled={dsablBeforePromo && conditions.length > 1} value="6" className={`${dsablBeforePromo && conditions.length > 1 && "disableColor"}`}>Prix avant réduction</option>
-                    <option disabled={dsablWeight && conditions.length > 1} value="7" className={`${dsablWeight && conditions.length > 1 && "disableColor"}`}>Poids</option>
-                    <option disabled={dsablStock && conditions.length > 1} value="8" className={`${dsablStock && conditions.length > 1 && "disableColor"}`}>Stock</option>
-                    <option disabled={dsablDate && conditions.length > 1} value="9" className={`${dsablDate && conditions.length > 1 && "disableColor"}`}>Date création produit</option>
+                    <option disabled={dsablNamProd && conditions.length > 1} value="1" className={`${dsablNamProd && conditions.length > 1 && "text-gray-300"}`}>Nom du produit</option>
+                    <option disabled={dsablType && conditions.length > 1} value="2" className={`${dsablType && conditions.length > 1 && "text-gray-300"}`}>Type du produit</option>
+                    <option disabled={dsablSuppl && conditions.length > 1} value="3" className={`${dsablSuppl && conditions.length > 1 && "text-gray-300"}`}>Fournisseur</option>
+                    <option disabled={dsablPrice && conditions.length > 1} value="4" className={`${dsablPrice && conditions.length > 1 && "text-gray-300"}`}>Prix du produit</option>
+                    <option disabled={dsablTag && conditions.length > 1} value="5" className={`${dsablTag && conditions.length > 1 && "text-gray-300"}`}>Balise du produit</option>
+                    <option disabled={dsablBeforePromo && conditions.length > 1} value="6" className={`${dsablBeforePromo && conditions.length > 1 && "text-gray-300"}`}>Prix avant réduction</option>
+                    <option disabled={dsablWeight && conditions.length > 1} value="7" className={`${dsablWeight && conditions.length > 1 && "text-gray-300"}`}>Poids</option>
+                    <option disabled={dsablStock && conditions.length > 1} value="8" className={`${dsablStock && conditions.length > 1 && "text-gray-300"}`}>Stock</option>
+                    <option disabled={dsablDate && conditions.length > 1} value="9" className={`${dsablDate && conditions.length > 1 && "text-gray-300"}`}>Date création produit</option>
                 </select>
             </div>
 
@@ -201,65 +201,65 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
                 <Conditionselectoperator condition={condition} hideOp={hideOp} handleChangeOperator={handleChangeOperator} />
             </div> */}
             <div>
-            <select
-                className="w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"
-                value={condition.operator}
-                onChange={(e) => handleChangeOperator(e, condition.id)} >
-                {hideOp1 == 'show' && <option value="1" disabled={condition.disableOperator == 'equal'} className={`${condition.disableOperator == 'equal' && "disableColor"}`}>
-                    est égale à
-                </option>} {/* = */}
-                {hideOp2 == 'show' && <option value="2">
-                    n'est pas égale à
-                </option>} {/* != */}
-                {hideOp3 == 'show' && <option value="3">
-                    est suppérieur à
-                </option>} {/* > */}
-                {hideOp4 == 'show' && <option value="4">
-                    est infèrieur à
-                </option>} {/* < */}
-                {hideOp5 == 'show' && <option value="5">
-                    commence par
-                </option>} {/* %_ */}
-                {hideOp6 == 'show' && <option value="6">
-                    se termine par
-                </option>} {/* _% */}
-                {hideOp7 == 'show' && <option value="7">
-                    contient
-                </option>} {/* %_% */}
-                {hideOp8 == 'show' && <option value="8">
-                    ne contient pas
-                </option>} {/* !%_% */}
-                {hideOp9 == 'show' && <option value="9">
-                    n'est pas vide
-                </option>} {/* !null_empty */}
-                {hideOp10 == 'show' && <option value="10">
-                    est vide
-                </option>} {/* null_empty */}
-            </select>
-        </div>
+                <select
+                    className="w-full h-10 mb-2.5 px-5 rounded-md border border-gray-300"
+                    value={condition.operator}
+                    onChange={(e) => handleChangeOperator(e, condition.id)} >
+                    {hideOp1 == 'show' && <option value="1" disabled={condition.disableOperator == 'equal'} className={`${condition.disableOperator == 'equal' && "text-gray-300"}`}>
+                        est égale à
+                    </option>} {/* = */}
+                    {hideOp2 == 'show' && <option value="2">
+                        n'est pas égale à
+                    </option>} {/* != */}
+                    {hideOp3 == 'show' && <option value="3">
+                        est suppérieur à
+                    </option>} {/* > */}
+                    {hideOp4 == 'show' && <option value="4">
+                        est infèrieur à
+                    </option>} {/* < */}
+                    {hideOp5 == 'show' && <option value="5">
+                        commence par
+                    </option>} {/* %_ */}
+                    {hideOp6 == 'show' && <option value="6">
+                        se termine par
+                    </option>} {/* _% */}
+                    {hideOp7 == 'show' && <option value="7">
+                        contient
+                    </option>} {/* %_% */}
+                    {hideOp8 == 'show' && <option value="8">
+                        ne contient pas
+                    </option>} {/* !%_% */}
+                    {hideOp9 == 'show' && <option value="9">
+                        n'est pas vide
+                    </option>} {/* !null_empty */}
+                    {hideOp10 == 'show' && <option value="10">
+                        est vide
+                    </option>} {/* null_empty */}
+                </select>
+            </div>
 
             {/* value */}
             {!hideFieldValue && inputType == 'date' ? <FlatpickrDate placeholder={condition.value} setFunction={handleChangeValue} id={condition.id} /> :
-                <div className="input-span">
+                <div className="w-full flex flex-row justify-start items-center">
                     <input
-                        className={inputTypeDate + "w100pct h50 m-b-10 p-lr-20 radius5 brd-gray-light-1"}
+                        className={inputTypeDate + "w-full h-10 mb-2.5 px-5 rounded-md border border-gray-300"}
                         type={inputType}
                         step={inputStep}
                         min="0"
                         value={condition.value}
                         onChange={(e) => handleChangeValue(e, condition.id)}
                     />
-                    {typeValue != '' && <span className="typeValue">
+                    {typeValue != '' && <span className="w-9 pl-1 text-center">
                         {typeValue}
                     </span>}
                 </div>
             }
 
             {/* Annuler */}
-            <div className="remove-condition">
-                <span className="trashRemoveCondition"
+            <div className="w-8 h-12 flex justify-center items-center">
+                <span className="inline text-xl text-gray-700 m-0"
                     onClick={() => deleteCondition(condition.id)}>
-                    <img src='../images/icons/trash.svg' className="scale-1_15 w20 h20 cursor" />
+                    <img src='../images/icons/trash.svg' className="scale-110 w-5 h-5 cursor-pointer" />
                 </span>
             </div>
         </div>

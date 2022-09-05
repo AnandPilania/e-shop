@@ -27,7 +27,7 @@ const Image = ({ setIsDirtyImageCollection }) => {
     return (
         <div>
             {/* image */}
-            <div className="flex flex-col justify-start items-start h-auto w-full bg-white mb-2.5 p-5 shadow-sm">
+            <div className="flex flex-col justify-start items-start h-auto w-full bg-white mb-2.5 p-5 rounded-md shadow-sm">
                 <div className="w-full flex flex-col justify-start items-start">
                     <Label label="Image" />
                     <DropZone
@@ -56,7 +56,7 @@ const Image = ({ setIsDirtyImageCollection }) => {
                         <InputText
                             value={alt?.length > 0 ? alt : ''}
                             handleChange={handleAlt}
-                            css="rounded-md"
+                            css="rounded-md hover:border-gray-400"
                             maxLength="255"
                         />
                     </div>
@@ -77,7 +77,7 @@ const Image = ({ setIsDirtyImageCollection }) => {
                         <InputText
                             value={imageName?.length > 0 ? imageName : ''}
                             handleChange={handleImageName}
-                            css="rounded-md"
+                            css="rounded-md hover:border-gray-400"
                             maxLength="255"
                         />
                     </div>

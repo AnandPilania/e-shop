@@ -419,7 +419,7 @@ const CreateCollection = () => {
         <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_33.3333%] gap-4 justify-center items-start lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] min-h-[100vh] mt-[50px] mx-auto pb-48 text-base">
             <div className="w-full">
                 <div
-                    className="w-full h-auto flex flex-col justify-start items-start bg-white p-5 mb-2.5 shadow-sm"
+                    className="w-full h-auto flex flex-col justify-start items-start bg-white p-5 mb-2.5 rounded-md shadow-sm"
                 >
                     <HeaderIndex />
 

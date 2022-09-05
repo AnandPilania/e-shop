@@ -215,7 +215,7 @@ const ListCollections = () => {
         <div className='w-full min-h-[100vh] flex flex-col justify-start items-center'>
             <HeaderListCollections confirmDeleteCollection={confirmDeleteCollection} />
             <section className='flex flex-col justify-start items-start mb-2.5 bg-gray-50 min-h-full w-[90%] rounded-md'>
-                <ul className='w-full flex flex-col justify-start items-start shadow-sm'>
+                <ul className='w-full flex flex-col justify-start items-start shadow-sm rounded-md'>
 
                     <li className='w-full p-4 bg-gray-50 rounded-t-md grid grid-cols-[5%_25%_7%_19%_12%_12%_10%_10%]'>
 
@@ -264,7 +264,12 @@ const ListCollections = () => {
                                 onClick={() => sortList('categoryName')}>
                                 <img src={window.location.origin + '/images/icons/' + imgSort.imgCat} className="h22 w22" />
                             </figure>
-                            {listCategories && <CategoriesFilter arrayList={listCategories} categoriesFilter={categoriesFilter} />}
+                            {listCategories &&
+                                <CategoriesFilter
+                                    arrayList={listCategories} 
+                                    categoriesFilter={categoriesFilter}
+                                />
+                            }
                         </div>
 
                         <div className='h-12 flex-row'>
