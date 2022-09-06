@@ -12,7 +12,7 @@ import CreateProduct from '../createProduct/createProduct';
 // import EditProduct from '../createProduct/editProduct';
 import EditImages from '../createProduct/edit_images';
 import List from '../createProduct/list';
-import ListCollections from '../collections/list';
+import ListCollections from '../collections/list/list';
 import CreateCollection from '../collections/index';
 import WrapIndexcroppe from '../collections/wrap_IndexCroppe';
 import Settings from '../settings/settings';

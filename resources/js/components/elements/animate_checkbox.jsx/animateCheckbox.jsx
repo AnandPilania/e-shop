@@ -1,4 +1,5 @@
 import React from 'react';
+import './animate_checkbox.css';
 
 
 const AnimateCheckbox = ({ id, handlechange, value, checked }) => {

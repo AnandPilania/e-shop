@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react';
-import AppContext from '../contexts/AppContext';
+import AppContext from '../../contexts/AppContext';
 import Axios from 'axios';
 import { makeStyles } from '@material-ui/styles';
-import ConditionsForm from './conditionsForm';
-import ModalConfirmOperations from '../modal/modalConfirmOperations';
+import ConditionsForm from '../conditionsForm';
+import ModalConfirmOperations from '../../modal/modalConfirmOperations';
 
 
 

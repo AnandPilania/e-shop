@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import AppContext from '../contexts/AppContext';
 
 const MainNav = () => {
+
+    const { screenSize } = useContext(AppContext);
+
     return (
         <div
             className="col-span-2 sticky top-0 left-0 w-full h-14 flex flex-row justify-start items-center bg-white z-50 border-b border-gray-300"
@@ -22,6 +26,14 @@ const MainNav = () => {
                     boutique
                 </span>
             </div>
+
+            {/* SCREEN SIZE */}
+            <div>
+                <span className="ml-[15%] text-gray-700 text-base font-semibold">
+                    {screenSize}
+                </span>
+            </div>
+
             <button
                 className="py-2 px-5 bg-blue-500 rounded-md text-white ml-auto mr-10"
             >

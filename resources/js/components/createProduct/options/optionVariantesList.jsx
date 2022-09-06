@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import AppContext from '../../contexts/AppContext';
 import Axios from 'axios';
 import Tooltip from '../../elements/tooltip';
-import AnimateCheckbox from '../../elements/animateCheckbox';
+import AnimateCheckbox from '../../elements/animate_checkbox.jsx/animateCheckbox';
 import ModalImageVariante from './modalImageVariante';
 import SelectionVariantesInList from './selectionVariantesInList';
 import WithHandleSelectionList from './withHandleSelectionList';

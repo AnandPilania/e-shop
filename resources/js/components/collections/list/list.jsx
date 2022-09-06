@@ -1,11 +1,10 @@
 import { React, useState, useEffect, useContext } from 'react';
-import AppContext from '../contexts/AppContext';
+import AppContext from '../../contexts/AppContext';
 import Axios from 'axios';
 import RowListCollections from './RowListCollections';
-import CategoriesFilter from './categoriesFilter';
-import CheckboxListCollection from '../elements/Checkbox_listCollection';
+import CheckboxListCollection from './checkBox_listCollection';
 import HeaderListCollections from './headerListCollections';
-import ModalConfirm from '../modal/modalConfirm';
+import ModalConfirm from '../../modal/modalConfirm';
 
 
 
@@ -26,7 +25,7 @@ const ListCollections = () => {
         created_atSens: true
     });
 
-    const { listCollections, setListCollections, listCollectionsFiltered, setListCollectionsFiltered, listCategories, setListCategories, setCategoriesChecked, searchValue, setSearchValue, is, setIs, messageModal, textButtonConfirm, imageModal, showModalConfirm, handleModalConfirm, handleModalCancel, setShowModalConfirm, setMessageModal, setSender, setTextButtonConfirm, setImageModal, setTmp_parameter, listCollectionsChecked, setListCollectionsChecked } = useContext(AppContext);
+    const { listCollections, setListCollections, listCollectionsFiltered, setListCollectionsFiltered, setListCategories, setCategoriesChecked, setSearchValue, is, setIs, messageModal, textButtonConfirm, imageModal, showModalConfirm, handleModalConfirm, handleModalCancel, setShowModalConfirm, setMessageModal, setSender, setTextButtonConfirm, setImageModal, setTmp_parameter, screenSize, listCollectionsChecked, setListCollectionsChecked } = useContext(AppContext);
 
     useEffect(() => {
         if (listCollectionsFiltered.length === 0) {
@@ -212,49 +211,47 @@ const ListCollections = () => {
 
     return (
 
-        <div className='w-full min-h-[100vh] flex flex-col justify-start items-center'>
-            <HeaderListCollections confirmDeleteCollection={confirmDeleteCollection} />
-            <section className='flex flex-col justify-start items-start mb-2.5 bg-gray-50 min-h-full w-[90%] rounded-md'>
-                <ul className='w-full flex flex-col justify-start items-start shadow-sm rounded-md'>
+        <div className='w-full mx-auto md:w-[98%] lg:w-[96%] 2xl:w-11/12 3xl:w-10/12 min-h-[100vh] flex flex-col justify-start items-center'>
 
-                    <li className='w-full p-4 bg-gray-50 rounded-t-md grid grid-cols-[5%_25%_7%_19%_12%_12%_10%_10%]'>
+            <HeaderListCollections
+                confirmDeleteCollection={confirmDeleteCollection}
+                handleSearch={handleSearch}
+                categoriesFilter={categoriesFilter}
+            />
 
-                        <div className='flex h-12 p-1.5'>
-                            <CheckboxListCollection unikId={'all'} handleCheckboxListCollection={handleCheckboxListCollection} listCollectionsChecked={listCollectionsChecked} />
-                        </div>
+            <ul className='w-full flex flex-col justify-start items-start mb-2.5 bg-gray-50 min-h-full w-[90% shadow-sm rounded-md caret-transparent'>
 
-                        <div className='h12 flex flex-row justify-start items-center'>
+                <li className='w-full p-4 bg-gray-50 rounded-t-md grid  grid-cols-[48px_70px_120px_65px_1fr_80px] sm:grid-cols-[48px_70px_140px_65px_22%_1fr_80px] md:grid-cols-[48px_70px_1fr_65px_17%_1fr_1fr_80px] xl:grid-cols-[48px_70px_1fr_65px_17%_1fr_1fr_1fr_80px] gap-3'>
 
-                            <span
-                                className='cursor-pointer shrink-0 font-semibold'
-                                onClick={() => sortList('name')}>
-                                Nom
-                            </span>
+                    <div className='flex justify-start items-center h-12 p-1.5 min-w-[48px]'>
+                        <CheckboxListCollection unikId={'all'} handleCheckboxListCollection={handleCheckboxListCollection} listCollectionsChecked={listCollectionsChecked} />
+                    </div>
+                    <span></span>
 
-                            <figure className='h-6 w-6 mx-1.5 cursor-pointer shrink-0' onClick={() => sortList('name')}>
-                                <img src={window.location.origin + '/images/icons/' + imgSort.imgName} className="h22 w22" />
-                            </figure>
+                    <div className='h-12 w-auto sm:min-w-[140px] md:w-auto flex flex-row justify-start items-center brd-blue-1'>
+                        <span
+                            className='cursor-pointer font-semibold'
+                            onClick={() => sortList('name')}>
+                            Nom
+                        </span>
+                        <figure className='h-6 w-6 cursor-pointer' onClick={() => sortList('name')}>
+                            <img src={window.location.origin + '/images/icons/' + imgSort.imgName} className="h-6 w-6" />
+                        </figure>
+                    </div>
 
-                            <div className="flex w-[80%] flex-nowrap m-l-2.5">
-
-                                <input className="w-[80%] h-10 p-x-2.5 rounded-l-md brd-gray-50 outline-0" type="text" value={searchValue} onChange={handleSearch} />
-
-                                <figure className="w-10 h-10 flex flex-row justify-center items-center border-y border-r border-gray-300 rounded-r-md">
-                                    <img className='w-4 h-auto' src={window.location.origin + '/images/icons/search.png'} />
-                                </figure>
-
-                            </div>
-                        </div>
-
-                        <div className="h-12 flex flex-row justify-center items-center flex-wrap font-semibold">
+                    {screenSize > 559 &&
+                        <div className="w-full h-12 flex flex-row justify-center items-center flex-wrap font-semibold brd-red-1">
                             Stock
-                        </div>
+                        </div>}
 
-                        <div className="h-12 flex flex-row justify-start items-center font-semibold">
+                    {screenSize > 639 &&
+                        <div className="w-full h-12 flex flex-row justify-start items-center font-semibold">
                             Conditions
-                        </div>
+                        </div>}
 
-                        <div className='h12 flex flex-row justify-start items-center'>
+                    {/* categories */}
+                    {screenSize > 1279
+                        && <div className='w-full h12 flex flex-row justify-start items-center'>
                             <span
                                 className='cursor-pointer shrink-0 font-semibold'
                                 onClick={() => sortList('categoryName')}>Catégories
@@ -262,40 +259,39 @@ const ListCollections = () => {
                             <figure
                                 className='h-6 w-6 ml-1.5 cursor-pointer shrink-0'
                                 onClick={() => sortList('categoryName')}>
-                                <img src={window.location.origin + '/images/icons/' + imgSort.imgCat} className="h22 w22" />
+                                <img src={window.location.origin + '/images/icons/' + imgSort.imgCat} className="h-6 w-6" />
                             </figure>
-                            {listCategories &&
-                                <CategoriesFilter
-                                    arrayList={listCategories} 
-                                    categoriesFilter={categoriesFilter}
-                                />
-                            }
-                        </div>
+                        </div>}
 
-                        <div className='h-12 flex-row'>
-                            <span className='shrink-0 font-semibold'>Statut</span>
-                        </div>
+                    {/* status */}
+                    <div className='h-12 flex-row'>
+                        <span className='shrink-0 font-semibold'>Statut</span>
+                    </div>
 
-                        <div className='h-12 flex flex-row justify-start items-center'>
+                    {/* created at */}
+                    {screenSize > 767 &&
+                        <div className='w-full h-12 flex flex-row justify-start items-center pl-2 xl:pl-0'>
                             <span className='cursor-pointer shrink-0 font-semibold' onClick={() => sortList('created_at')}>Crée le</span>
                             <figure className='h-6 w-6 ml-1.5 cursor-pointer shrink-0' onClick={() => sortList('created_at')}>
                                 <img src={window.location.origin + '/images/icons/' + imgSort.imgDate} className="h-6 w-6" />
                             </figure>
-                        </div>
-                        <div className='h-12 flex flex-row justify-start items-center font-semibold'>
-                            Opérations
-                        </div>
-                    </li>
-                    {!!listCollectionsFiltered && listCollectionsFiltered.map(item =>
-                        <RowListCollections
-                            key={item.id}
-                            collectionFiltered={item}
-                            category={item.category}
-                            handleCheckboxListCollection={handleCheckboxListCollection}
-                            listCollectionsChecked={listCollectionsChecked} confirmDeleteCollection={confirmDeleteCollection} />
-                    )}
-                </ul>
-            </section>
+                        </div>}
+
+                    {/* empty */}
+                    <div className='w-full'></div>
+                </li>
+
+                {/* RowListCollections */}
+                {!!listCollectionsFiltered && listCollectionsFiltered.map(item =>
+                    <RowListCollections
+                        key={item.id}
+                        collectionFiltered={item}
+                        category={item.category}
+                        handleCheckboxListCollection={handleCheckboxListCollection}
+                        listCollectionsChecked={listCollectionsChecked} confirmDeleteCollection={confirmDeleteCollection} />
+                )}
+            </ul>
+
             {/* modal for confirmation */}
             <ModalConfirm
                 show={showModalConfirm} // true/false show modal

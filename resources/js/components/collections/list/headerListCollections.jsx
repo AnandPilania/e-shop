@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
-import AppContext from '../contexts/AppContext';
+import AppContext from '../../contexts/AppContext';
 import { Link } from 'react-router-dom';
 import ModalListOperations from './modalListOperations';
+import CategoriesFilter from '../categoriesFilter';
 
-const HeaderListCollections = ({ confirmDeleteCollection }) => {
+
+const HeaderListCollections = ({ confirmDeleteCollection, handleSearch, categoriesFilter }) => {
 
     const [isShowOperationDrop, setIsShowOperationDrop] = useState(false);
     const [sender, setSender] = useState('');
 
-    const { setIs_Edit, is, setIs, initCollectionForm, listCollectionsChecked, showModalListOperations, setShowModalListOperations } = useContext(AppContext);
+    const { setIs_Edit, is, setIs, initCollectionForm, listCollectionsChecked, showModalListOperations, setShowModalListOperations, searchValue, listCategories } = useContext(AppContext);
 
 
     useEffect(() => {
@@ -52,20 +54,48 @@ const HeaderListCollections = ({ confirmDeleteCollection }) => {
 
     return (
         <div className='flex flex-col w-full'>
-            <div className='w100pct p-lr-5pct flex-row-s-c m-t-50 m-b-30'>
-                <h1 className="fs20 b p-l-5">Collection</h1>
-                <button type="button" className='w200 h40 flex-row-c-c brd-gray-light-1 radius5 m-l-20 bg-white'
-                    onClick={() => {
-                        initCollectionForm();
-                        setIs_Edit(false);
-                        setIs({ ...is, newCollection: true });
-                    }}>
-                    <Link to="/add-collection">Ajouter une collection</Link>
-                </button>
+            <div className='w-full flex flex-col justify-start items-start mt-12 mb-8'>
+                <div className='w-full flex flex-row justify-between items-start'>
+                    <h1 className="text-xl font-bold">
+                        Collection
+                    </h1>
+                    {/* add collection */}
+                    <button
+                        className='w-52 h-10 mr-3 p-0 flex flex-row justify-center items-center flex-nowrap border border-gray-300 rounded-md bg-indigo-500 text-white'
+                        onClick={() => {
+                            initCollectionForm();
+                            setIs_Edit(false);
+                            setIs({ ...is, newCollection: true });
+                        }}
+                    >
+                        <Link to="/add-collection"
+                            className='hover:text-white'>
+                            Ajouter une collection
+                        </Link>
+                    </button>
+                </div>
+
+                <div className='w-full flex flex-row justify-start items-start mt-3'>
+                    <div className='w-full flex flex-row justify-start items-center'>
+                        {/* search */}
+                        <div className="flex w-60 flex-nowrap mr-3">
+                            <input className="w-full h-10 px-2.5 rounded-l-md border-l border-y border-gray-300 outline-0" type="text" value={searchValue} onChange={handleSearch} />
+                            <figure className="w-10 h-10 pr-1 flex flex-row justify-center items-center border-y border-r border-gray-300 rounded-r-md bg-white caret-transparent">
+                                <img className='w-4 h-auto' src={window.location.origin + '/images/icons/search.png'} />
+                            </figure>
+                        </div>
+                        {/* filter */}
+                        {listCategories &&
+                            <CategoriesFilter
+                                arrayList={listCategories}
+                                categoriesFilter={categoriesFilter}
+                            />
+                        }
+                    </div>
+                </div>
 
 
                 {listCollectionsChecked.length > 0 &&
-
                     <div className="w500 h40 flex-row-s-c m-l-auto">
                         <div id="operationsDropDown_Id" className='w250 h40 relative bg-white'>
                             <button className='w250 h40 flex-row-s-c brd-gray-light-1 dius-t-round5-b-square'
@@ -100,8 +130,6 @@ const HeaderListCollections = ({ confirmDeleteCollection }) => {
                                 Supprimer les collections
                             </span>
                         </button>
-
-
                     </div>
 
                 }

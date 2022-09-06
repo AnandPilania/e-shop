@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './animate_checkbox.css';
 
 const CheckboxListCollection = ({ unikId, handleCheckboxListCollection, listCollectionsChecked }) => {
 
