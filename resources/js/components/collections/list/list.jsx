@@ -18,7 +18,7 @@ const ListCollections = () => {
         imgCat: 'az.svg',
     });
     const [allChecked, setAllChecked] = useState(false);
-
+    const [gridCols, setGridCols] = useState('');
     const [toggleSort, setToggleSort] = useState({
         nameSens: true,
         categorySens: true,
@@ -209,9 +209,37 @@ const ListCollections = () => {
         setShowModalConfirm(true);
     }
 
+    useEffect(() => {
+        handleGridCols();
+    }, [screenSize]);
+
+    const handleGridCols = () => {
+        let tmp_grid_cols = '';
+        if (screenSize > 0) {
+            tmp_grid_cols = 'grid-cols-[48px_70px_1fr_1fr]';
+        }
+        if (screenSize > 559) {
+            tmp_grid_cols = 'grid-cols-[48px_70px_1fr_1fr_1fr]';
+        }
+        if (screenSize > 639) {
+            tmp_grid_cols = 'grid-cols-[48px_70px_1fr_65px_1fr_1fr]';
+        }
+        if (screenSize > 839) {
+            tmp_grid_cols = 'grid-cols-[48px_70px_140px_65px_22%_1fr_80px]';
+        }
+        if (screenSize > 1149) {
+            tmp_grid_cols = 'grid-cols-[48px_70px_1fr_65px_17%_1fr_92px_80px]';
+        }
+        if (screenSize > 1279) {
+            tmp_grid_cols = 'grid-cols-[48px_70px_2fr_65px_15%_2fr_1fr_1fr_80px]';
+        }
+        setGridCols(tmp_grid_cols);
+    }
+
+
     return (
 
-        <div className='w-full mx-auto md:w-[98%] lg:w-[96%] 2xl:w-11/12 3xl:w-10/12 min-h-[100vh] flex flex-col justify-start items-center'>
+        <div className='mx-auto w-[96%] lg:w-[94%] 2xl:w-11/12 3xl:w-10/12 min-h-[100vh] pb-48 flex flex-col justify-start items-center'>
 
             <HeaderListCollections
                 confirmDeleteCollection={confirmDeleteCollection}
@@ -219,16 +247,16 @@ const ListCollections = () => {
                 categoriesFilter={categoriesFilter}
             />
 
-            <ul className='w-full flex flex-col justify-start items-start mb-2.5 bg-gray-50 min-h-full w-[90% shadow-sm rounded-md caret-transparent'>
+            <ul className='w-full flex flex-col justify-start items-start mb-2.5 bg-gray-50 min-h-full shadow-sm rounded-md caret-transparent'>
 
-                <li className='w-full p-4 bg-gray-50 rounded-t-md grid  grid-cols-[48px_70px_120px_65px_1fr_80px] sm:grid-cols-[48px_70px_140px_65px_22%_1fr_80px] md:grid-cols-[48px_70px_1fr_65px_17%_1fr_1fr_80px] xl:grid-cols-[48px_70px_1fr_65px_17%_1fr_1fr_1fr_80px] gap-3'>
+                <li className={`w-full py-4 grid ${gridCols} gap-2 bg-gray-50 rounded-t-md`}>
 
-                    <div className='flex justify-start items-center h-12 p-1.5 min-w-[48px]'>
+                    <div className='flex justify-center items-center h-12 min-w-[48px]'>
                         <CheckboxListCollection unikId={'all'} handleCheckboxListCollection={handleCheckboxListCollection} listCollectionsChecked={listCollectionsChecked} />
                     </div>
-                    <span></span>
+                    <span className="flex flex-row justify-center items-center min-h[48px] w-full">{/* thumbnail */}</span>
 
-                    <div className='h-12 w-auto sm:min-w-[140px] md:w-auto flex flex-row justify-start items-center brd-blue-1'>
+                    <div className='h-12 w-full min-w-[130px] flex flex-row justify-start items-center'>
                         <span
                             className='cursor-pointer font-semibold'
                             onClick={() => sortList('name')}>
@@ -239,12 +267,12 @@ const ListCollections = () => {
                         </figure>
                     </div>
 
-                    {screenSize > 559 &&
-                        <div className="w-full h-12 flex flex-row justify-center items-center flex-wrap font-semibold brd-red-1">
+                    {screenSize > 639 &&
+                        <div className="w-full h-12 flex flex-row justify-center items-center flex-wrap font-semibold">
                             Stock
                         </div>}
 
-                    {screenSize > 639 &&
+                    {screenSize > 839 &&
                         <div className="w-full h-12 flex flex-row justify-start items-center font-semibold">
                             Conditions
                         </div>}
@@ -264,12 +292,13 @@ const ListCollections = () => {
                         </div>}
 
                     {/* status */}
-                    <div className='h-12 flex-row'>
+                    {screenSize > 559 &&
+                    <div className='shrink-0 w-32 h-12 flex-row'>
                         <span className='shrink-0 font-semibold'>Statut</span>
-                    </div>
+                    </div>}
 
                     {/* created at */}
-                    {screenSize > 767 &&
+                    {screenSize > 1149 &&
                         <div className='w-full h-12 flex flex-row justify-start items-center pl-2 xl:pl-0'>
                             <span className='cursor-pointer shrink-0 font-semibold' onClick={() => sortList('created_at')}>Crée le</span>
                             <figure className='h-6 w-6 ml-1.5 cursor-pointer shrink-0' onClick={() => sortList('created_at')}>
@@ -278,7 +307,7 @@ const ListCollections = () => {
                         </div>}
 
                     {/* empty */}
-                    <div className='w-full'></div>
+                    <div className='w-auto'>{/* edit & delete */}</div>
                 </li>
 
                 {/* RowListCollections */}
@@ -288,7 +317,10 @@ const ListCollections = () => {
                         collectionFiltered={item}
                         category={item.category}
                         handleCheckboxListCollection={handleCheckboxListCollection}
-                        listCollectionsChecked={listCollectionsChecked} confirmDeleteCollection={confirmDeleteCollection} />
+                        listCollectionsChecked={listCollectionsChecked} confirmDeleteCollection={confirmDeleteCollection}
+                        gridCols={gridCols}
+                        handleGridCols={handleGridCols}
+                    />
                 )}
             </ul>
 

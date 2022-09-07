@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import AppContext from '../../contexts/AppContext';
 import { Link } from 'react-router-dom';
 import ModalListOperations from './modalListOperations';
-import CategoriesFilter from '../categoriesFilter';
+import CategoriesFilter from './categoriesFilter';
 
 
 const HeaderListCollections = ({ confirmDeleteCollection, handleSearch, categoriesFilter }) => {
@@ -56,7 +56,7 @@ const HeaderListCollections = ({ confirmDeleteCollection, handleSearch, categori
         <div className='flex flex-col w-full'>
             <div className='w-full flex flex-col justify-start items-start mt-12 mb-8'>
                 <div className='w-full flex flex-row justify-between items-start'>
-                    <h1 className="text-xl font-bold">
+                    <h1 className="text-xl font-bold caret-transparent">
                         Collection
                     </h1>
                     {/* add collection */}

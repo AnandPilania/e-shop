@@ -17,7 +17,9 @@ module.exports = {
         extend: {
             screens: {
                 '3xl': { 'raw': '(min-width: 1620px)' },
-                '1080px': { 'raw': '(min-width: 1080px)' },
+                '1150px': { 'raw': '(min-width: 1150px)' },
+                '840px': { 'raw': '(min-width: 840px)' },
+                '560px': { 'raw': '(min-width: 560px)' },
             },
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],

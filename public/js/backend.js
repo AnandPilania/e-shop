@@ -17238,201 +17238,6 @@ var Categories = function Categories() {
 
 /***/ }),
 
-/***/ "./resources/js/components/collections/categoriesFilter.jsx":
-/*!******************************************************************!*\
-  !*** ./resources/js/components/collections/categoriesFilter.jsx ***!
-  \******************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
-/* harmony import */ var _elements_checkBox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../elements/checkBox */ "./resources/js/components/elements/checkBox.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-
-
-
-
-
-
-var CategoriesFilter = function CategoriesFilter(_ref) {
-  var arrayList = _ref.arrayList,
-      categoriesFilter = _ref.categoriesFilter;
-
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState2 = _slicedToArray(_useState, 2),
-      showCategorySelect = _useState2[0],
-      setShowCategorySelect = _useState2[1];
-
-  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
-      categoriesChecked = _useContext.categoriesChecked,
-      setCategoriesChecked = _useContext.setCategoriesChecked,
-      searchValue = _useContext.searchValue,
-      setSearchValue = _useContext.setSearchValue; // show hide select menu
-
-
-  var showHideCategorySelect = function showHideCategorySelect() {
-    setShowCategorySelect(!showCategorySelect);
-  };
-
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    // dropDown optimisation
-    var dropable = document.getElementById('category_select');
-    var filterCard = document.getElementById('cat-filter-card');
-
-    if (!showCategorySelect) {
-      // cache borders sinon y a un bout qui reste visible
-      dropable.style.borderLeft = 'none';
-      dropable.style.borderRight = 'none';
-      dropable.style.borderBottom = 'none';
-      filterCard.style.maxHeight = null;
-      filterCard.style.paddingBottom = '0';
-      filterCard.classList.remove('shadow-lg');
-      dropable.style.maxHeight = null;
-      dropable.style.paddingTop = 0;
-    } else {
-      filterCard.style.maxHeight = "352px";
-      filterCard.style.width = "352px";
-      filterCard.classList.add('shadow-lg'); // filterCard.style.minWidth = "250px";
-
-      dropable.style.maxHeight = "288px"; // montre les borders quand ouvert seulement
-
-      dropable.style.borderLeft = 'rgb(220, 220, 220) solid 1px';
-      dropable.style.borderRight = 'rgb(220, 220, 220) solid 1px';
-      dropable.style.borderBottom = 'rgb(220, 220, 220) solid 1px';
-    }
-  }, [showCategorySelect]); // // get id for back-end
-  // const handleCategory = (cat_id) => {
-  //     setCategoryId(cat_id);
-  //     setShowCategorySelect(false);
-  // };
-  // // nom affiché dans le select
-  // const handleCategoryName = (cat_name) => {
-  //     setCategoryName(cat_name);
-  // };
-
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    // empèche l'erreur-> Warning: Can't perform a React state update on an unmounted
-    document.addEventListener('click', closeDropDownCategory);
-    return function () {
-      document.removeEventListener('click', closeDropDownCategory);
-    };
-  }, []); // ferme le select de category quand on click en dehors du select
-
-  function closeDropDownCategory(evt) {
-    var categorySelectElement = document.getElementById("selectId");
-    var targetElement = evt.target; // clicked element
-
-    do {
-      if (targetElement == categorySelectElement) {
-        // click inside
-        return;
-      } // Go up the DOM
-
-
-      targetElement = targetElement.parentNode;
-    } while (targetElement); // click outside.
-
-
-    setShowCategorySelect(false);
-  }
-
-  function handleCheckBox(e) {
-    // clean input search name collection
-    setSearchValue('');
-    var cat = '';
-
-    if (e.target.textContent === '') {
-      cat = e.target.value;
-    } else {
-      cat = e.target.textContent;
-    }
-
-    if (!categoriesChecked.includes(cat)) {
-      setCategoriesChecked([].concat(_toConsumableArray(categoriesChecked), [cat]));
-    } else {
-      setCategoriesChecked(_toConsumableArray(categoriesChecked.filter(function (e) {
-        return e !== cat;
-      })));
-    }
-  }
-
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    // on vérifie que searchValue est vide pour raffraichir categoriesFilter sinon cela empèche la collection list name search bar de fonctionner
-    searchValue.length === 0 && categoriesFilter(categoriesChecked);
-  }, [categoriesChecked]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-    className: "w-12 p-0 bg-gray-50 relative",
-    id: "selectId",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-      className: "flex flex-row justify-center items-center border border-indigo-700 rounded-md p-1 bg-gray-50 cursor-pointer hover:bg-indigo-50",
-      onClick: showHideCategorySelect,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
-        src: window.location.origin + '/images/icons/filter.svg',
-        className: "h-4 w-4"
-      })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-      id: "cat-filter-card",
-      className: "w-80 flex flex-col justify-start items-start max-h-0 h-auto overflow-hidden absolute top-8 right-0 bg-white shadow-lg rounded-md z-50",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        className: "w-full h-16 flex justify-start items-center bg-gray-100 pl-5",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-          className: "w-full text-base font-medium text-gray-700 ",
-          children: "Filtrer par cat\xE9gorie(s)"
-        })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-        id: "category_select",
-        className: "w-full",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
-          className: "overflow-y-auto overflow-x-hidden list-none rounded-b-md w-full max-h-72 bg-white scroll",
-          children: arrayList && arrayList.map(function (item, index) {
-            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
-              className: "w-full h-12 px-2.5 flex justify-start items-center border-b border-gray-200 hover:bg-gray-50 cursor-pointer",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_elements_checkBox__WEBPACK_IMPORTED_MODULE_2__["default"], {
-                unikId: item.name,
-                handleCheckBox: handleCheckBox
-              }), item.name && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
-                className: "cursor-pointer ml-2.5 truncate h-full grow flex justify-start items-center",
-                value: item.name,
-                onClick: handleCheckBox,
-                children: item.name
-              })]
-            }, index);
-          })
-        })
-      })]
-    })]
-  });
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CategoriesFilter);
-
-/***/ }),
-
 /***/ "./resources/js/components/collections/conditionCollection.jsx":
 /*!*********************************************************************!*\
   !*** ./resources/js/components/collections/conditionCollection.jsx ***!
@@ -20113,7 +19918,9 @@ var RowListCollections = function RowListCollections(_ref) {
       category = _ref.category,
       listCollectionsChecked = _ref.listCollectionsChecked,
       handleCheckboxListCollection = _ref.handleCheckboxListCollection,
-      confirmDeleteCollection = _ref.confirmDeleteCollection;
+      confirmDeleteCollection = _ref.confirmDeleteCollection,
+      gridCols = _ref.gridCols,
+      handleGridCols = _ref.handleGridCols;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
@@ -20138,6 +19945,7 @@ var RowListCollections = function RowListCollections(_ref) {
   var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_7__.useNavigate)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     setConditions(JSON.parse(collectionFiltered.objConditions));
+    handleGridCols();
   }, []); // met à jour conditions quand on ajoute de nouvelles conditions dans operations List
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
@@ -20156,10 +19964,10 @@ var RowListCollections = function RowListCollections(_ref) {
 
   var handleActivation = function handleActivation(id, status) {
     var statusData = new FormData();
-    statusData.append('id', id);
-    statusData.append('status', status);
+    statusData.append("id", id);
+    statusData.append("status", status);
     axios__WEBPACK_IMPORTED_MODULE_2___default().post("http://127.0.0.1:8000/handleStatus", statusData).then(function (res) {
-      if (res.data != '' && res.data != null && res.data != undefined) {
+      if (res.data != "" && res.data != null && res.data != undefined) {
         var tmp_arr = _toConsumableArray(listCollectionsFiltered);
 
         var index_arr = tmp_arr.findIndex(function (x) {
@@ -20173,18 +19981,18 @@ var RowListCollections = function RowListCollections(_ref) {
 
 
   var cover = {
-    position: 'fixed',
-    top: '0px',
-    right: '0px',
-    bottom: '0px',
-    left: '-5px',
-    zIndex: '-10',
-    cursor: 'default'
+    position: "fixed",
+    top: "0px",
+    right: "0px",
+    bottom: "0px",
+    left: "-5px",
+    zIndex: "-10",
+    cursor: "default"
   };
 
   var editCollection = function editCollection(id) {
     // isEdit indique qu'on veut éditer la collection
-    navigate('/add-collection', {
+    navigate("/add-collection", {
       state: {
         collectionId: id,
         isEdit: true
@@ -20195,124 +20003,330 @@ var RowListCollections = function RowListCollections(_ref) {
   var figureSize = {
     width: "50px",
     height: "50px",
-    backgroundImage: "url(" + window.location.origin + '/' + collectionFiltered.thumbnail + ")",
+    backgroundImage: "url(" + window.location.origin + "/" + collectionFiltered.thumbnail + ")",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center"
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("li", {
-    className: "grid grid-cols-[48px_70px_120px_65px_1fr_80px]  sm:grid-cols-[48px_70px_140px_65px_22%_1fr_80px]  md:grid-cols-[48px_70px_1fr_65px_17%_1fr_1fr_80px] xl:grid-cols-[48px_70px_1fr_65px_17%_1fr_1fr_1fr_80px] w-full h-auto min-h-[48px] bg-white p-4 border-b border-gray-200 last:rounded-b-md gap-3",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-      className: "flex justify-start items-center h-12 p-1.5 min-w-[48px]",
-      children: collectionFiltered && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_checkBox_listCollection__WEBPACK_IMPORTED_MODULE_5__["default"], {
-        unikId: collectionFiltered.id,
-        handleCheckboxListCollection: handleCheckboxListCollection,
-        listCollectionsChecked: listCollectionsChecked
-      })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-      className: "flex flex-row justify-center items-center min-h[48px] w-12",
-      children: collectionFiltered.thumbnail && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("figure", {
-        className: "h-12 w-12 rounded-full",
-        style: figureSize
-      })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-      className: "h-12 w-auto sm:min-w-[140px] flex flex-row justify-start items-center cursor-pointer text-[15px] lg:text-base brd-red-1",
-      children: collectionFiltered && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-        className: "truncate",
-        children: collectionFiltered.name
-      })
-    }), screenSize > 559 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-      className: "brd-green-1 flex flex-row justify-center items-center w-10 h-10 rounded-full bg-indigo-50 m-auto text-base ".concat(collectionFiltered.products.length > 99 && "text-sm"),
-      children: collectionFiltered.products.length
-    }), screenSize > 639 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-      className: "flex flex-row justify-start items-center min-h-[48px] ".concat((conditions === null || conditions === void 0 ? void 0 : conditions.length) > 1 && "cursor-pointer"),
-      onClick: showHideConditions,
-      children: conditions !== null ? conditions[0].value !== '' ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-        className: "relative w-full max-w-[90%] flex flex-col justify-start items-start bg-white m-r-2.5 pl-4 pr-4 py-1 rounded-full border border-gray-300 bg-no-repeat bg-right-center caret-transparent ".concat((conditions === null || conditions === void 0 ? void 0 : conditions.length) > 1 && "bg-chevron-expand pr-12 hover:border-gray-400"),
-        children: !showConditions ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-          className: "w-full truncate",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-            className: "max-w-full text-[15px] lg:text-base",
-            children: (0,_conditionsFunctions__WEBPACK_IMPORTED_MODULE_4__.getParameter)(conditions[0].parameter) + ' ' + (0,_conditionsFunctions__WEBPACK_IMPORTED_MODULE_4__.getOperator)(conditions[0].operator) + ' ' + conditions[0].value
+  return (
+    /*#__PURE__*/
+    // <li className="flex flex-row justify-between items-center w-full h-auto min-h-[48px] bg-white p-4 border-b border-gray-200 last:rounded-b-md">     
+    (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("li", {
+      className: "grid ".concat(gridCols, " gap-2 w-full h-auto min-h-[48px] bg-white py-4 border-b border-gray-200 last:rounded-b-md"),
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        className: "w-full flex justify-center items-center h-12 min-w-[48px]",
+        children: collectionFiltered && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_checkBox_listCollection__WEBPACK_IMPORTED_MODULE_5__["default"], {
+          unikId: collectionFiltered.id,
+          handleCheckboxListCollection: handleCheckboxListCollection,
+          listCollectionsChecked: listCollectionsChecked
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        className: "flex flex-row justify-center items-center min-h[48px] w-full",
+        children: collectionFiltered.thumbnail && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("figure", {
+          className: "h-12 w-12 rounded-full",
+          style: figureSize
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        className: "w-full min-w-[130px] h-12 flex flex-row justify-start items-center cursor-pointer text-[15px] lg:text-base truncate",
+        children: collectionFiltered && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+          className: "truncate font-semibold",
+          children: collectionFiltered.name
+        })
+      }), screenSize > 639 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        className: "w-full",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+          className: "flex flex-row justify-center items-center w-10 h-10 rounded-full bg-indigo-50 m-auto text-base ".concat(collectionFiltered.products.length > 99 && "text-sm"),
+          children: collectionFiltered.products.length
+        })
+      }), screenSize > 839 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        className: "w-full flex flex-row justify-start items-center min-h-[48px] ".concat((conditions === null || conditions === void 0 ? void 0 : conditions.length) > 1 && "cursor-pointer"),
+        onClick: showHideConditions,
+        children: conditions !== null ? conditions[0].value !== "" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+          className: "relative w-full max-w-[90%] flex flex-col justify-start items-start bg-white pl-4 pr-4 py-1 rounded-full border border-gray-300 bg-no-repeat bg-right-center caret-transparent ".concat((conditions === null || conditions === void 0 ? void 0 : conditions.length) > 1 && "bg-chevron-expand pr-12 hover:border-gray-400"),
+          children: !showConditions ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+            className: "w-full truncate",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+              className: "max-w-full text-[15px] lg:text-base",
+              children: (0,_conditionsFunctions__WEBPACK_IMPORTED_MODULE_4__.getParameter)(conditions[0].parameter) + " " + (0,_conditionsFunctions__WEBPACK_IMPORTED_MODULE_4__.getOperator)(conditions[0].operator) + " " + conditions[0].value
+            })
+          }) : conditions.length > 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+            className: "flex flex-col justify-start items-start w-72 max-h-[330px] absolute left-0 bg-white shadow-xl rounded-md z-30 ".concat(distanceFromBottom < 330 ? "bottom-0" : "top-[-8px]"),
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+              style: cover,
+              onClick: showHideConditions
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+              className: "w-full h-16 min-h-[64px]  pl-5 flex flex-row justify-start items-center bg-gray-100 cursor-default",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("span", {
+                className: "w-8 h-8 rounded-md bg-indigo-700 text-white flex flex-row justify-center  items-center text-xs",
+                children: [conditions.length, " "]
+              }), " ", "\xA0 Conditions"]
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("ul", {
+              className: "flex flex-col justify-start items-start w-72 max-h-[265px] px-5 py-3 bg-white list-inside overflow-y-auto cursor-default",
+              children: conditions.map(function (item, index) {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("li", {
+                  className: "w-full break-all text-[15px] lg:text-base",
+                  children: (0,_conditionsFunctions__WEBPACK_IMPORTED_MODULE_4__.getParameter)(item.parameter) + " " + (0,_conditionsFunctions__WEBPACK_IMPORTED_MODULE_4__.getOperator)(item.operator) + " " + item.value
+                }, index);
+              })
+            })]
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+            className: "w-full truncate",
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+              className: "text-[15px] lg:text-base",
+              children: (0,_conditionsFunctions__WEBPACK_IMPORTED_MODULE_4__.getParameter)(conditions[0].parameter) + " " + (0,_conditionsFunctions__WEBPACK_IMPORTED_MODULE_4__.getOperator)(conditions[0].operator) + " " + conditions[0].value
+            })
           })
-        }) : conditions.length > 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-          className: "flex flex-col justify-start items-start w-72 max-h-[330px] absolute left-0 bg-white shadow-xl rounded-md z-30 ".concat(distanceFromBottom < 330 ? "bottom-0" : "top-[-8px]"),
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-            style: cover,
-            onClick: showHideConditions
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-            className: "w-full h-16 min-h-[64px]  pl-5 flex flex-row justify-start items-center bg-gray-100 cursor-default",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("span", {
-              className: "w-8 h-8 rounded-md bg-indigo-700 text-white flex flex-row justify-center  items-center text-xs",
-              children: [conditions.length, " "]
-            }), "  \xA0 Conditions"]
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("ul", {
-            className: "flex flex-col justify-start items-start w-72 max-h-[265px] px-5 py-3 bg-white list-inside overflow-y-auto cursor-default",
-            children: conditions.map(function (item, index) {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("li", {
-                className: "w-full break-all text-[15px] lg:text-base",
-                children: (0,_conditionsFunctions__WEBPACK_IMPORTED_MODULE_4__.getParameter)(item.parameter) + ' ' + (0,_conditionsFunctions__WEBPACK_IMPORTED_MODULE_4__.getOperator)(item.operator) + ' ' + item.value
-              }, index);
+        }) : "" : ""
+      }), screenSize > 1279 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        className: "w-full flex flex-row justify-start items-center truncate",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+          className: "w-full truncate",
+          children: category && category.name
+        })
+      }), screenSize > 559 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        className: "w-full min-w-[130px] flex justify-start items-center",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("span", {
+          className: "flex flex-row justify-center items-center rounded-l-[16px] rounded-r-md w-32 h-8 pl-2.5 text-[15px] lg:text-base font-semibold ".concat((collectionFiltered === null || collectionFiltered === void 0 ? void 0 : collectionFiltered.status) == 1 || (collectionFiltered === null || collectionFiltered === void 0 ? void 0 : collectionFiltered.status) == 2 ? (collectionFiltered === null || collectionFiltered === void 0 ? void 0 : collectionFiltered.dateActivation) <= (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_3__.getNowUs)() ? "bg-green-100" : "bg-zinc-50" : "bg-red-100"),
+          children: [(collectionFiltered === null || collectionFiltered === void 0 ? void 0 : collectionFiltered.status) == 1 || (collectionFiltered === null || collectionFiltered === void 0 ? void 0 : collectionFiltered.status) == 2 ? (collectionFiltered === null || collectionFiltered === void 0 ? void 0 : collectionFiltered.dateActivation) <= (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_3__.getNowUs)() ? "On" : "".concat((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_3__.getOnlyDateShort)(collectionFiltered === null || collectionFiltered === void 0 ? void 0 : collectionFiltered.dateActivation)) : "Off", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            className: "flex flex-row justify-center items-center w-8 h-8 ml-auto rounded-r-md bg-indigo-50",
+            checked: collectionFiltered.status == 1,
+            onClick: function onClick() {
+              return handleActivation(collectionFiltered.id, collectionFiltered.status);
+            },
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
+              src: "../images/icons/power.PNG",
+              className: "h20"
             })
           })]
-        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-          className: "w-full truncate",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-            className: "text-[15px] lg:text-base",
-            children: (0,_conditionsFunctions__WEBPACK_IMPORTED_MODULE_4__.getParameter)(conditions[0].parameter) + ' ' + (0,_conditionsFunctions__WEBPACK_IMPORTED_MODULE_4__.getOperator)(conditions[0].operator) + ' ' + conditions[0].value
-          })
         })
-      }) : '' : ''
-    }), screenSize > 1279 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-      className: "flex-row min-h-[48px]",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-        children: category && category.name
-      })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-      className: "w-full flex justify-start items-center",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("span", {
-        className: "shrink-0 flex flex-row justify-center items-center rounded-l-[16px] rounded-r-md w-32 h-8 pl-2.5 text-[15px] lg:text-base ".concat((collectionFiltered === null || collectionFiltered === void 0 ? void 0 : collectionFiltered.status) == 1 || (collectionFiltered === null || collectionFiltered === void 0 ? void 0 : collectionFiltered.status) == 2 ? (collectionFiltered === null || collectionFiltered === void 0 ? void 0 : collectionFiltered.dateActivation) <= (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_3__.getNowUs)() ? 'bg-green-100' : 'bg-yellow-100' : 'bg-red-100'),
-        children: [(collectionFiltered === null || collectionFiltered === void 0 ? void 0 : collectionFiltered.status) == 1 || (collectionFiltered === null || collectionFiltered === void 0 ? void 0 : collectionFiltered.status) == 2 ? (collectionFiltered === null || collectionFiltered === void 0 ? void 0 : collectionFiltered.dateActivation) <= (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_3__.getNowUs)() ? "On" : "".concat((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_3__.getOnlyDateShort)(collectionFiltered === null || collectionFiltered === void 0 ? void 0 : collectionFiltered.dateActivation)) : "Off", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
-          className: "flex flex-row justify-center items-center w-8 h-8 ml-auto rounded-r-md bg-blue-50",
-          checked: collectionFiltered.status == 1,
+      }), screenSize > 1149 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        className: "w-full min-w-[90px] flex-row min-h-[48px] pl-2 xl:pl-0 text-[15px] lg:text-base truncate",
+        children: collectionFiltered && (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_3__.getOnlyDate)(collectionFiltered.created_at)
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        className: "w-full flex justify-center items-center",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+          className: "mr-5 cursor-pointer",
           onClick: function onClick() {
-            return handleActivation(collectionFiltered.id, collectionFiltered.status);
+            editCollection(collectionFiltered.id);
           },
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
-            src: "../images/icons/power.PNG",
-            className: "h20"
+            src: "../images/icons/pencil.svg",
+            className: "w-5 h-5 inline"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+          className: "cursor-pointer",
+          onClick: function onClick() {
+            return confirmDeleteCollection(collectionFiltered.id, collectionFiltered.name);
+          },
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
+            src: "../images/icons/trash.svg",
+            className: "w-5 h-5 inline"
           })
         })]
+      })]
+    })
+  );
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RowListCollections);
+
+/***/ }),
+
+/***/ "./resources/js/components/collections/list/categoriesFilter.jsx":
+/*!***********************************************************************!*\
+  !*** ./resources/js/components/collections/list/categoriesFilter.jsx ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
+/* harmony import */ var _elements_checkBox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../elements/checkBox */ "./resources/js/components/elements/checkBox.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+var CategoriesFilter = function CategoriesFilter(_ref) {
+  var arrayList = _ref.arrayList,
+      categoriesFilter = _ref.categoriesFilter;
+
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      showCategorySelect = _useState2[0],
+      setShowCategorySelect = _useState2[1];
+
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
+      categoriesChecked = _useContext.categoriesChecked,
+      setCategoriesChecked = _useContext.setCategoriesChecked,
+      searchValue = _useContext.searchValue,
+      setSearchValue = _useContext.setSearchValue; // show hide select menu
+
+
+  var showHideCategorySelect = function showHideCategorySelect() {
+    setShowCategorySelect(!showCategorySelect);
+  };
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // dropDown optimisation
+    var dropable = document.getElementById('category_select');
+    var filterCard = document.getElementById('cat-filter-card');
+
+    if (!showCategorySelect) {
+      // cache borders sinon y a un bout qui reste visible
+      dropable.style.borderLeft = 'none';
+      dropable.style.borderRight = 'none';
+      dropable.style.borderBottom = 'none';
+      filterCard.style.maxHeight = null;
+      filterCard.style.paddingBottom = '0';
+      filterCard.classList.remove('shadow-lg');
+      dropable.style.maxHeight = null;
+      dropable.style.paddingTop = 0;
+    } else {
+      filterCard.style.maxHeight = "352px";
+      filterCard.style.width = "352px";
+      filterCard.classList.add('shadow-lg'); // filterCard.style.minWidth = "250px";
+
+      dropable.style.maxHeight = "288px"; // montre les borders quand ouvert seulement
+
+      dropable.style.borderLeft = 'rgb(220, 220, 220) solid 1px';
+      dropable.style.borderRight = 'rgb(220, 220, 220) solid 1px';
+      dropable.style.borderBottom = 'rgb(220, 220, 220) solid 1px';
+    }
+  }, [showCategorySelect]); // // get id for back-end
+  // const handleCategory = (cat_id) => {
+  //     setCategoryId(cat_id);
+  //     setShowCategorySelect(false);
+  // };
+  // // nom affiché dans le select
+  // const handleCategoryName = (cat_name) => {
+  //     setCategoryName(cat_name);
+  // };
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // empèche l'erreur-> Warning: Can't perform a React state update on an unmounted
+    document.addEventListener('click', closeDropDownCategory);
+    return function () {
+      document.removeEventListener('click', closeDropDownCategory);
+    };
+  }, []); // ferme le select de category quand on click en dehors du select
+
+  function closeDropDownCategory(evt) {
+    var categorySelectElement = document.getElementById("selectId");
+    var targetElement = evt.target; // clicked element
+
+    do {
+      if (targetElement == categorySelectElement) {
+        // click inside
+        return;
+      } // Go up the DOM
+
+
+      targetElement = targetElement.parentNode;
+    } while (targetElement); // click outside.
+
+
+    setShowCategorySelect(false);
+  }
+
+  function handleCheckBox(e) {
+    // clean input search name collection
+    setSearchValue('');
+    var cat = '';
+
+    if (e.target.textContent === '') {
+      cat = e.target.value;
+    } else {
+      cat = e.target.textContent;
+    }
+
+    if (!categoriesChecked.includes(cat)) {
+      setCategoriesChecked([].concat(_toConsumableArray(categoriesChecked), [cat]));
+    } else {
+      setCategoriesChecked(_toConsumableArray(categoriesChecked.filter(function (e) {
+        return e !== cat;
+      })));
+    }
+  }
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // on vérifie que searchValue est vide pour raffraichir categoriesFilter sinon cela empèche la collection list name search bar de fonctionner
+    searchValue.length === 0 && categoriesFilter(categoriesChecked);
+  }, [categoriesChecked]);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+    className: "w-48 p-0 bg-gray-50 relative caret-transparent",
+    id: "selectId",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+      className: "w-48 h-10 flex flex-row justify-center items-center border border-indigo-700 rounded-md p-1 bg-gray-50 cursor-pointer hover:bg-indigo-50",
+      onClick: showHideCategorySelect,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("span", {
+        className: "w-full text-base font-medium text-gray-700 ",
+        children: ["Cat\xE9gorie  ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+          src: "../images/icons/filter.svg",
+          className: "w-5 h-5 ml-2 inline"
+        })]
       })
-    }), screenSize > 767 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
-      className: "flex-row min-h-[48px] pl-2 xl:pl-0 text-[15px] lg:text-base",
-      children: collectionFiltered && (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_3__.getOnlyDate)(collectionFiltered.created_at)
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-      className: "w-full flex justify-center items-center",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-        className: "mr-5 cursor-pointer",
-        onClick: function onClick() {
-          editCollection(collectionFiltered.id);
-        },
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
-          src: "../images/icons/pencil.svg",
-          className: "w-5 h-5 inline"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      id: "cat-filter-card",
+      className: "w-[352px] flex flex-col justify-start items-start max-h-0 h-auto overflow-hidden absolute top-11 right-[-80px] bg-white shadow-lg rounded-md z-50",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "w-full h-16 flex justify-start items-center bg-gray-50 pl-5",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("span", {
+          className: "w-full text-base font-medium text-gray-700 ",
+          children: [arrayList.length, " cat\xE9gorie", arrayList.length > 1 && "s"]
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
-        className: "cursor-pointer",
-        onClick: function onClick() {
-          return confirmDeleteCollection(collectionFiltered.id, collectionFiltered.name);
-        },
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
-          src: "../images/icons/trash.svg",
-          className: "w-5 h-5 inline"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        id: "category_select",
+        className: "w-full",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
+          className: "overflow-y-auto overflow-x-hidden list-none rounded-b-md w-full max-h-72 bg-white scroll",
+          children: arrayList && arrayList.map(function (item, index) {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("li", {
+              className: "w-full h-12 px-2.5 flex justify-start items-center border-b border-gray-200 hover:bg-gray-50 cursor-pointer",
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_elements_checkBox__WEBPACK_IMPORTED_MODULE_2__["default"], {
+                unikId: item.name,
+                handleCheckBox: handleCheckBox
+              }), item.name && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+                className: "cursor-pointer ml-2.5 truncate h-full grow flex justify-start items-center",
+                value: item.name,
+                onClick: handleCheckBox,
+                children: item.name
+              })]
+            }, index);
+          })
         })
       })]
     })]
   });
 };
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RowListCollections);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CategoriesFilter);
 
 /***/ }),
 
@@ -20388,7 +20402,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
 /* harmony import */ var _modalListOperations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modalListOperations */ "./resources/js/components/collections/list/modalListOperations.jsx");
-/* harmony import */ var _categoriesFilter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../categoriesFilter */ "./resources/js/components/collections/categoriesFilter.jsx");
+/* harmony import */ var _categoriesFilter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./categoriesFilter */ "./resources/js/components/collections/list/categoriesFilter.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
@@ -20486,7 +20500,7 @@ var HeaderListCollections = function HeaderListCollections(_ref) {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "w-full flex flex-row justify-between items-start",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
-          className: "text-xl font-bold",
+          className: "text-xl font-bold caret-transparent",
           children: "Collection"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
           className: "w-52 h-10 mr-3 p-0 flex flex-row justify-center items-center flex-nowrap border border-gray-300 rounded-md bg-indigo-500 text-white",
@@ -20655,14 +20669,19 @@ var ListCollections = function ListCollections() {
       allChecked = _useState4[0],
       setAllChecked = _useState4[1];
 
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState6 = _slicedToArray(_useState5, 2),
+      gridCols = _useState6[0],
+      setGridCols = _useState6[1];
+
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     nameSens: true,
     categorySens: true,
     created_atSens: true
   }),
-      _useState6 = _slicedToArray(_useState5, 2),
-      toggleSort = _useState6[0],
-      setToggleSort = _useState6[1];
+      _useState8 = _slicedToArray(_useState7, 2),
+      toggleSort = _useState8[0],
+      setToggleSort = _useState8[1];
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       listCollections = _useContext.listCollections,
@@ -20944,25 +20963,61 @@ var ListCollections = function ListCollections() {
     setShowModalConfirm(true);
   };
 
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    handleGridCols();
+  }, [screenSize]);
+
+  var handleGridCols = function handleGridCols() {
+    var tmp_grid_cols = '';
+
+    if (screenSize > 0) {
+      tmp_grid_cols = 'grid-cols-[48px_70px_1fr_1fr]';
+    }
+
+    if (screenSize > 559) {
+      tmp_grid_cols = 'grid-cols-[48px_70px_1fr_1fr_1fr]';
+    }
+
+    if (screenSize > 639) {
+      tmp_grid_cols = 'grid-cols-[48px_70px_1fr_65px_1fr_1fr]';
+    }
+
+    if (screenSize > 839) {
+      tmp_grid_cols = 'grid-cols-[48px_70px_140px_65px_22%_1fr_80px]';
+    }
+
+    if (screenSize > 1149) {
+      tmp_grid_cols = 'grid-cols-[48px_70px_1fr_65px_17%_1fr_92px_80px]';
+    }
+
+    if (screenSize > 1279) {
+      tmp_grid_cols = 'grid-cols-[48px_70px_2fr_65px_15%_2fr_1fr_1fr_80px]';
+    }
+
+    setGridCols(tmp_grid_cols);
+  };
+
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-    className: "w-full mx-auto md:w-[98%] lg:w-[96%] 2xl:w-11/12 3xl:w-10/12 min-h-[100vh] flex flex-col justify-start items-center",
+    className: "mx-auto w-[96%] lg:w-[94%] 2xl:w-11/12 3xl:w-10/12 min-h-[100vh] pb-48 flex flex-col justify-start items-center",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_headerListCollections__WEBPACK_IMPORTED_MODULE_5__["default"], {
       confirmDeleteCollection: confirmDeleteCollection,
       handleSearch: handleSearch,
       categoriesFilter: categoriesFilter
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("ul", {
-      className: "w-full flex flex-col justify-start items-start mb-2.5 bg-gray-50 min-h-full w-[90% shadow-sm rounded-md caret-transparent",
+      className: "w-full flex flex-col justify-start items-start mb-2.5 bg-gray-50 min-h-full shadow-sm rounded-md caret-transparent",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("li", {
-        className: "w-full p-4 bg-gray-50 rounded-t-md grid  grid-cols-[48px_70px_120px_65px_1fr_80px] sm:grid-cols-[48px_70px_140px_65px_22%_1fr_80px] md:grid-cols-[48px_70px_1fr_65px_17%_1fr_1fr_80px] xl:grid-cols-[48px_70px_1fr_65px_17%_1fr_1fr_1fr_80px] gap-3",
+        className: "w-full py-4 grid ".concat(gridCols, " gap-2 bg-gray-50 rounded-t-md"),
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-          className: "flex justify-start items-center h-12 p-1.5 min-w-[48px]",
+          className: "flex justify-center items-center h-12 min-w-[48px]",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_checkBox_listCollection__WEBPACK_IMPORTED_MODULE_4__["default"], {
             unikId: 'all',
             handleCheckboxListCollection: handleCheckboxListCollection,
             listCollectionsChecked: listCollectionsChecked
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
-          className: "h-12 w-auto sm:min-w-[140px] md:w-auto flex flex-row justify-start items-center brd-blue-1",
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
+          className: "flex flex-row justify-center items-center min-h[48px] w-full"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+          className: "h-12 w-full min-w-[130px] flex flex-row justify-start items-center",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
             className: "cursor-pointer font-semibold",
             onClick: function onClick() {
@@ -20979,10 +21034,10 @@ var ListCollections = function ListCollections() {
               className: "h-6 w-6"
             })
           })]
-        }), screenSize > 559 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-          className: "w-full h-12 flex flex-row justify-center items-center flex-wrap font-semibold brd-red-1",
-          children: "Stock"
         }), screenSize > 639 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+          className: "w-full h-12 flex flex-row justify-center items-center flex-wrap font-semibold",
+          children: "Stock"
+        }), screenSize > 839 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
           className: "w-full h-12 flex flex-row justify-start items-center font-semibold",
           children: "Conditions"
         }), screenSize > 1279 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
@@ -21003,13 +21058,13 @@ var ListCollections = function ListCollections() {
               className: "h-6 w-6"
             })
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-          className: "h-12 flex-row",
+        }), screenSize > 559 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+          className: "shrink-0 w-32 h-12 flex-row",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
             className: "shrink-0 font-semibold",
             children: "Statut"
           })
-        }), screenSize > 767 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        }), screenSize > 1149 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "w-full h-12 flex flex-row justify-start items-center pl-2 xl:pl-0",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {
             className: "cursor-pointer shrink-0 font-semibold",
@@ -21028,7 +21083,7 @@ var ListCollections = function ListCollections() {
             })
           })]
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-          className: "w-full"
+          className: "w-auto"
         })]
       }), !!listCollectionsFiltered && listCollectionsFiltered.map(function (item) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_RowListCollections__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -21036,7 +21091,9 @@ var ListCollections = function ListCollections() {
           category: item.category,
           handleCheckboxListCollection: handleCheckboxListCollection,
           listCollectionsChecked: listCollectionsChecked,
-          confirmDeleteCollection: confirmDeleteCollection
+          confirmDeleteCollection: confirmDeleteCollection,
+          gridCols: gridCols,
+          handleGridCols: handleGridCols
         }, item.id);
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_modal_modalConfirm__WEBPACK_IMPORTED_MODULE_6__["default"], {

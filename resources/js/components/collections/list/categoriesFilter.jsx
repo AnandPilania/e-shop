@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import AppContext from '../contexts/AppContext';
-import CheckBox from '../elements/checkBox';
+import AppContext from '../../contexts/AppContext';
+import CheckBox from '../../elements/checkBox';
 
 
 
@@ -107,16 +107,21 @@ const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
 
 
     return (
-        <div className="w-12 p-0 bg-gray-50 relative" id="selectId">
+        <div className="w-48 p-0 bg-gray-50 relative caret-transparent" id="selectId">
             <button
-                className='flex flex-row justify-center items-center border border-indigo-700 rounded-md p-1 bg-gray-50 cursor-pointer hover:bg-indigo-50'
-                onClick={showHideCategorySelect}>
-                <img src={window.location.origin + '/images/icons/filter.svg'} className="h-4 w-4" />
+                className='w-48 h-10 flex flex-row justify-center items-center border border-indigo-700 rounded-md p-1 bg-gray-50 cursor-pointer hover:bg-indigo-50'
+                onClick={showHideCategorySelect}
+            >
+                <span className="w-full text-base font-medium text-gray-700 ">Catégorie  <img
+                        src="../images/icons/filter.svg"
+                        className="w-5 h-5 ml-2 inline"
+                    /></span>
             </button>
 
-            <div id="cat-filter-card" className="w-80 flex flex-col justify-start items-start max-h-0 h-auto overflow-hidden absolute top-8 right-0 bg-white shadow-lg rounded-md z-50">
-                <div className='w-full h-16 flex justify-start items-center bg-gray-100 pl-5'>
-                    <span className="w-full text-base font-medium text-gray-700 ">Filtrer par catégorie(s)</span>
+            <div id="cat-filter-card" className="w-[352px] flex flex-col justify-start items-start max-h-0 h-auto overflow-hidden absolute top-11 right-[-80px] bg-white shadow-lg rounded-md z-50">
+                <div className='w-full h-16 flex justify-start items-center bg-gray-50 pl-5'>
+                    <span className="w-full text-base font-medium text-gray-700 ">{arrayList.length} catégorie{arrayList.length > 1 && "s"} 
+                    </span>
                 </div>
 
                 <div id='category_select' className='w-full'>
