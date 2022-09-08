@@ -7,7 +7,7 @@ const MainNav = () => {
 
     return (
         <div
-            className="col-span-2 sticky top-0 left-0 w-full h-14 flex flex-row justify-start items-center bg-white z-50 border-b border-gray-300"
+            className="col-span-2 sticky top-0 left-0 w-full h-14 flex flex-row justify-start items-center bg-white z-[100] border-b border-gray-300"
         >
             <div className='flex flex-row justify-start items-center ml-10'>
                 <span

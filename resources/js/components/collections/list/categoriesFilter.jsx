@@ -16,46 +16,20 @@ const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
 
     useEffect(() => {
         // dropDown optimisation
-        var dropable = document.getElementById('category_select');
         var filterCard = document.getElementById('cat-filter-card');
 
         if (!showCategorySelect) {
-            // cache borders sinon y a un bout qui reste visible
-            dropable.style.borderLeft = 'none';
-            dropable.style.borderRight = 'none';
-            dropable.style.borderBottom = 'none';
-
             filterCard.style.maxHeight = null;
             filterCard.style.paddingBottom = '0';
-            filterCard.classList.remove('shadow-lg');
-
-            dropable.style.maxHeight = null;
-            dropable.style.paddingTop = 0;
+            filterCard.classList.remove('shadow');
 
         } else {
-            filterCard.style.maxHeight = "352px";
-            filterCard.style.width = "352px";
-            filterCard.classList.add('shadow-lg');
-            // filterCard.style.minWidth = "250px";
-
-            dropable.style.maxHeight = "288px";
-            // montre les borders quand ouvert seulement
-            dropable.style.borderLeft = 'rgb(220, 220, 220) solid 1px';
-            dropable.style.borderRight = 'rgb(220, 220, 220) solid 1px';
-            dropable.style.borderBottom = 'rgb(220, 220, 220) solid 1px';
+            filterCard.style.maxHeight = "248px";
+            filterCard.style.width = "248px";
+            filterCard.classList.add('shadow');
         }
     }, [showCategorySelect]);
 
-    // // get id for back-end
-    // const handleCategory = (cat_id) => {
-    //     setCategoryId(cat_id);
-    //     setShowCategorySelect(false);
-    // };
-
-    // // nom affiché dans le select
-    // const handleCategoryName = (cat_name) => {
-    //     setCategoryName(cat_name);
-    // };
 
     useEffect(() => {
         // empèche l'erreur-> Warning: Can't perform a React state update on an unmounted
@@ -107,29 +81,27 @@ const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
 
 
     return (
-        <div className="w-48 p-0 bg-gray-50 relative caret-transparent" id="selectId">
+        <div className="w-full 500px:w-[48%] md:w-auto h-12 500px:h-10 p-0 relative caret-transparent mt-2 500px:mt-0" id="selectId">
             <button
-                className='w-48 h-10 flex flex-row justify-center items-center border border-indigo-700 rounded-md p-1 bg-gray-50 cursor-pointer hover:bg-indigo-50'
+                className='w-full h-full flex flex-row justify-start items-center border border-gray-300 rounded-md px-3 bg-white cursor-pointer hover:border-gray-400'
                 onClick={showHideCategorySelect}
             >
-                <span className="w-full text-base font-medium text-gray-700 ">Catégorie  <img
+                    <img
                         src="../images/icons/filter.svg"
-                        className="w-5 h-5 ml-2 inline"
-                    /></span>
+                        className="w-5 h-5 mr-3 inline"
+                    />
+                    Catégorie
+                    <img src='../images/icons/chevron-expand.svg' className="w-5 h-5 cursor-pointer ml-auto mr-3" />
             </button>
 
-            <div id="cat-filter-card" className="w-[352px] flex flex-col justify-start items-start max-h-0 h-auto overflow-hidden absolute top-11 right-[-80px] bg-white shadow-lg rounded-md z-50">
-                <div className='w-full h-16 flex justify-start items-center bg-gray-50 pl-5'>
-                    <span className="w-full text-base font-medium text-gray-700 ">{arrayList.length} catégorie{arrayList.length > 1 && "s"} 
-                    </span>
-                </div>
-
-                <div id='category_select' className='w-full'>
-                    <ul className='overflow-y-auto overflow-x-hidden list-none rounded-b-md w-full max-h-72 bg-white scroll'
+            <div id="cat-filter-card"
+                className="w-full 500px:w-[248px] flex flex-col justify-start items-start max-h-0 h-auto overflow-hidden absolute top-10 left-0 bg-white rounded-l-md z-50"
+            >
+                    <ul className='overflow-y-auto overflow-x-hidden list-none border border-gray-200 rounded-l-md w-full max-h-72 bg-white shadow'
                     >
                         {arrayList && arrayList.map((item, index) => (
                             <li
-                                className="w-full h-12 px-2.5 flex justify-start items-center border-b border-gray-200 hover:bg-gray-50 cursor-pointer"
+                                className="w-full h-12 px-2.5 flex justify-start items-center border-b border-gray-200 hover:bg-gray-50 cursor-pointer first:rounded-r-md last:rounded-b-md"
                                 key={index}
                             >
                                 <CheckBox unikId={item.name} handleCheckBox={handleCheckBox}
@@ -137,8 +109,6 @@ const CategoriesFilter = ({ arrayList, categoriesFilter }) => {
                                 {item.name && <span className='cursor-pointer ml-2.5 truncate h-full grow flex justify-start items-center' value={item.name} onClick={handleCheckBox}>{item.name}</span>}
                             </li>))}
                     </ul>
-                </div>
-
             </div>
 
         </div>

@@ -53,67 +53,76 @@ const HeaderListCollections = ({ confirmDeleteCollection, handleSearch, categori
 
 
     return (
-        <div className='flex flex-col w-full'>
-            <div className='w-full flex flex-col justify-start items-start mt-12 mb-8'>
-                <div className='w-full flex flex-row justify-between items-start'>
-                    <h1 className="text-xl font-bold caret-transparent">
-                        Collection
-                    </h1>
-                    {/* add collection */}
-                    <button
-                        className='w-52 h-10 mr-3 p-0 flex flex-row justify-center items-center flex-nowrap border border-gray-300 rounded-md bg-indigo-500 text-white'
-                        onClick={() => {
-                            initCollectionForm();
-                            setIs_Edit(false);
-                            setIs({ ...is, newCollection: true });
-                        }}
+        <div className='w-full h-max flex flex-col justify-start items-start mt-12 mb-8'
+        >
+            <div className='w-full flex flex-row justify-between items-start'>
+                <h1 className="text-xl font-bold caret-transparent">
+                    Collection
+                </h1>
+                {/* add collection */}
+                <button
+                    className='w-52 h-10 mr-3 p-0 flex flex-row justify-center items-center flex-nowrap border border-gray-300 rounded-md bg-indigo-500 text-white'
+                    onClick={() => {
+                        initCollectionForm();
+                        setIs_Edit(false);
+                        setIs({ ...is, newCollection: true });
+                    }}
+                >
+                    <Link to="/add-collection"
+                        className='hover:text-white'>
+                        Ajouter une collection
+                    </Link>
+                </button>
+            </div>
+
+            <div
+                className='w-full h-auto flex flex-col justify-start items-around md:flex-row md:justify-start md:items-center mt-6 500px:mt-10'
+            >
+                <div
+                    className='w-full flex flex-col 500px:flex-row justify-start items-center'
+                >
+                    {/* search */}
+                    <div
+                        className="w-full 500px:w-[48%] md:w-60 h-12 500px:h-10 flex flex-nowrap 500px:mr-3 rounded-md group"
                     >
-                        <Link to="/add-collection"
-                            className='hover:text-white'>
-                            Ajouter une collection
-                        </Link>
-                    </button>
-                </div>
-
-                <div className='w-full flex flex-row justify-start items-start mt-3'>
-                    <div className='w-full flex flex-row justify-start items-center'>
-                        {/* search */}
-                        <div className="flex w-60 flex-nowrap mr-3">
-                            <input className="w-full h-10 px-2.5 rounded-l-md border-l border-y border-gray-300 outline-0" type="text" value={searchValue} onChange={handleSearch} />
-                            <figure className="w-10 h-10 pr-1 flex flex-row justify-center items-center border-y border-r border-gray-300 rounded-r-md bg-white caret-transparent">
-                                <img className='w-4 h-auto' src={window.location.origin + '/images/icons/search.png'} />
-                            </figure>
-                        </div>
-                        {/* filter */}
-                        {listCategories &&
-                            <CategoriesFilter
-                                arrayList={listCategories}
-                                categoriesFilter={categoriesFilter}
-                            />
-                        }
+                        <figure className="w-10 h-12 500px:h-10 pl-3 flex flex-row justify-center items-center bg-white caret-transparent border-y border-l border-gray-300 group-hover:border-gray-400 rounded-l-md">
+                            <img className='w-5 h-5' src={window.location.origin + '/images/icons/search.png'} />
+                        </figure>
+                        <input className="w-full md:w-48 h-12 500px:h-10 px-3  outline-0 border-y border-r border-gray-300 group-hover:border-gray-400 rounded-r-md" type="text" value={searchValue} onChange={handleSearch} />
                     </div>
+
+                    {/* filter */}
+                    {listCategories &&
+                        <CategoriesFilter
+                            arrayList={listCategories}
+                            categoriesFilter={categoriesFilter}
+                        />
+                    }
                 </div>
-
-
                 {listCollectionsChecked.length > 0 &&
-                    <div className="w500 h40 flex-row-s-c m-l-auto">
-                        <div id="operationsDropDown_Id" className='w250 h40 relative bg-white'>
-                            <button className='w250 h40 flex-row-s-c brd-gray-light-1 dius-t-round5-b-square'
+                    <div
+                        className="w-full h-auto flex flex-col 500px:flex-row justify-start 500px:justify-around md:justify-end items-center ml-auto mt-3 md:mt-0"
+                    >
+                        <div
+                            id="operationsDropDown_Id"
+                            className='w-full 500px:w-[48%] md:w-40 xl:min-w-[250px] h-12 500px:h-10 500px:mr-3 relative bg-white rounded-md'
+                        >
+                            <button className='w-full h-full px-3 flex flex-row justify-start items-center border border-gray-300 hover:border-gray-400 rounded-md'
                                 onClick={showHideOperationDrop}>
-                                <img src='../images/icons/gear.svg' className="w20 h20 cursor m-l-10 m-r-10" />
+                                <img src='../images/icons/gear.svg' className="w-5 h-5 cursor-pointer mr-3" />
                                 Opérations
-                                <img src='../images/icons/caret-down.svg' className="w20 h20 cursor m-l-auto m-r-10" />
+                                <img src='../images/icons/chevron-expand.svg' className="w-5 h-5 cursor-pointer ml-auto mr-3" />
                             </button>
                             {!!isShowOperationDrop &&
-                                <ul className='w250 h-auto flex-col-s-s brd-gray-light-1 absolute l0 b20 bg-white shadow-s'>
-                                    <li className='w100pct h40 flex-row-s-c p-l-10 brd-b-gray-light-1 cursor' onClick={showModalConditions}>
+                                <ul className='w-full md:min-w-[250px] h-auto flex flex-col justify-start items-start border border-gray-200 rounded-md absolute left-0 top-10 bg-white shadow z-50'>
+                                    <li className='w-full h-12 flex flex-row justify-start items-center pl-2.5 border-b border-gray-200 cursor-pointer rounded-t-md' onClick={showModalConditions}>
                                         {/* <FontAwesomeIcon icon={faHashtag} className="m-r-5" /> */}
                                         <span>Modifier les conditions</span>
                                     </li>
-                                    <li className='w100pct h40 flex-row-s-c p-l-10 brd-b-gray-light-1'>
+                                    <li className='w-full h-10 flex flex-row justify-start items-center pl-2.5 border-b border-gray-200 cursor-pointer'>
                                         Supprimer un tag
                                     </li>
-                                    <li className='w100pct h40 flex-row-s-c p-l-10 brd-b-gray-light-1'>
+                                    <li className='w-full h-10 flex flex-row justify-start items-center pl-2.5 border-b border-gray-200 cursor-pointer rounded-b-md'>
                                         {/* <FontAwesomeIcon icon={faLayerGroup} className="m-r-5" /> */}
                                         Modifier une catégorie
                                     </li>
@@ -121,26 +130,26 @@ const HeaderListCollections = ({ confirmDeleteCollection, handleSearch, categori
                             }
                         </div>
 
-                        <button type="button" className='w250 h40 flex-row-s-c brd-gray-light-1 radius5 m-l-auto bg-white'
+                        <span
+                            className='w-full 500px:w-[48%] md:w-auto min-w-max h-12 500px:h-10 flex flex-row justify-start items-center px-3 border border-gray-300 hover:border-gray-400 rounded-md bg-white cursor-pointer mt-2 500px:mt-0'
                             onClick={() => {
                                 confirmDeleteCollection('from CheckboxListCollection', null);
-                            }}>
-                            <img src='../images/icons/trash.svg' className="w20 h20 cursor m-l-10" />
-                            <span className="m-l-10">
-                                Supprimer les collections
+                            }}
+                        >
+                            <img src='../images/icons/trash.svg' className="w-5 h-5"
+                            />
+                            <span className="ml-3 whitespace-nowrap">
+                                Supprimer
                             </span>
-                        </button>
+                        </span>
                     </div>
-
                 }
             </div>
-
             <ModalListOperations
                 show={showModalListOperations}
                 setShowModalListOperations={setShowModalListOperations}
                 sender={sender}
             />
-
         </div>
     );
 }

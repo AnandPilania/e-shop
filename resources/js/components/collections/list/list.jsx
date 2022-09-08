@@ -222,10 +222,25 @@ const ListCollections = () => {
             tmp_grid_cols = 'grid-cols-[48px_70px_1fr_1fr_1fr]';
         }
         if (screenSize > 639) {
-            tmp_grid_cols = 'grid-cols-[48px_70px_1fr_65px_1fr_1fr]';
+            tmp_grid_cols = 'grid-cols-[48px_70px_1fr_100px_1fr_1fr]';
+        }
+        if (screenSize > 700) {
+            tmp_grid_cols = 'grid-cols-[48px_70px_1fr_145px_1fr_1fr]';
         }
         if (screenSize > 839) {
-            tmp_grid_cols = 'grid-cols-[48px_70px_140px_65px_22%_1fr_80px]';
+            tmp_grid_cols = 'grid-cols-[48px_70px_170px_65px_22%_1fr_80px]';
+        }
+        if (screenSize > 890) {
+            tmp_grid_cols = 'grid-cols-[48px_70px_170px_65px_26%_1fr_100px]';
+        }
+        if (screenSize > 974) {
+            tmp_grid_cols = 'grid-cols-[48px_70px_170px_65px_29%_1fr_140px]';
+        }
+        if (screenSize > 1024) {
+            tmp_grid_cols = 'grid-cols-[48px_70px_140px_65px_22%_1fr_100px]';
+        }
+        if (screenSize > 1070) {
+            tmp_grid_cols = 'grid-cols-[48px_70px_140px_65px_24%_1fr_90px]';
         }
         if (screenSize > 1149) {
             tmp_grid_cols = 'grid-cols-[48px_70px_1fr_65px_17%_1fr_92px_80px]';
@@ -239,7 +254,7 @@ const ListCollections = () => {
 
     return (
 
-        <div className='mx-auto w-[96%] lg:w-[94%] 2xl:w-11/12 3xl:w-10/12 min-h-[100vh] pb-48 flex flex-col justify-start items-center'>
+        <div className='mx-auto w-[96%] lg:w-[94%] 2xl:w-11/12 3xl:w-10/12 h-auto min-h-[100vh] pb-48 flex flex-col justify-start items-center'>
 
             <HeaderListCollections
                 confirmDeleteCollection={confirmDeleteCollection}
@@ -293,9 +308,9 @@ const ListCollections = () => {
 
                     {/* status */}
                     {screenSize > 559 &&
-                    <div className='shrink-0 w-32 h-12 flex-row'>
-                        <span className='shrink-0 font-semibold'>Statut</span>
-                    </div>}
+                        <div className='shrink-0 w-32 h-12 flex-row'>
+                            <span className='shrink-0 font-semibold'>Statut</span>
+                        </div>}
 
                     {/* created at */}
                     {screenSize > 1149 &&

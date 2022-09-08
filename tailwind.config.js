@@ -20,6 +20,7 @@ module.exports = {
                 '1150px': { 'raw': '(min-width: 1150px)' },
                 '840px': { 'raw': '(min-width: 840px)' },
                 '560px': { 'raw': '(min-width: 560px)' },
+                '500px': { 'raw': '(min-width: 501px)' },
             },
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
