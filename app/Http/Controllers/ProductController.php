@@ -29,25 +29,10 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() // A REFAIRE !!!
+    public function index()
     {
-        $products = DB::table('products')
-            ->select('products.id as id', 'images_products.path as image_path', 'products.name as name', 'collections.name as collection', 'categories.name as category', 'products.created_at as created_at')
-            ->join('images_products', function ($join) {
-                $join->on('products.id', '=', 'images_products.product_id')
-                    ->where('images_products.ordre', 1);
-            })
-            ->join('collection_product', 'products.id', '=', 'collection_product.product_id')
-            ->join('collections', 'collections.id', '=', 'collection_product.collection_id')
-            ->join('categories', 'categories.id', '=', 'collections.category_id')
-            ->orderBy('products.id', 'asc')
-            ->get();
-
+        $products = Product::with('collections', 'images_products', 'variantes')->orderBy('name', 'asc')->get();
         return $products;
-
-        // blade
-        // $products = Product::paginate(5);
-        // return view('product.list')->with('products', $products);
     }
 
 

@@ -134,7 +134,7 @@ export default React.createContext({
     setRefresh: () => { },
     nameProduct: '',
     setNameProduct: () => { },
-    ribbonProduct: '', 
+    ribbonProduct: '',
     setRibbonProduct: () => { },
     descriptionProduct: '',
     setDescriptionProduct: () => { },
@@ -215,9 +215,12 @@ export default React.createContext({
     setProductParcelWeight: () => { },
     productParcelWeightMeasureUnit: '',
     setProductParcelWeightMeasureUnit: () => { },
-    screenSize: '', 
-    isInAutoCollection: '', 
+    screenSize: '',
+    isInAutoCollection: '',
     setIsInAutoCollection: () => { },
-    
+    showSideNav: '',
+    setShowSideNav: () => { },
+
+
 
 });

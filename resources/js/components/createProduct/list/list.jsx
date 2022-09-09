@@ -1,16 +1,17 @@
 import { React, useState, useEffect, useContext } from 'react';
 import AppContext from '../../contexts/AppContext';
 import Axios from 'axios';
+import { Link } from 'react-router-dom';
+import InputText from '../../InputText/Input_text';
+
 import RowListCollections from './RowListCollections';
 import CheckboxListCollection from './checkBox_listCollection';
 import HeaderListCollections from './headerListCollections';
 import ModalConfirm from '../../modal/modalConfirm';
 
-
-
-const ListCollections = () => {
-
-
+const List = () => {
+    const [products, setProducts] = useState([]);
+    const [isChecked, setIsChecked] = useState(false);
 
     const [imgSort, setImgSort] = useState({
         imgName: 'az.svg',
@@ -27,41 +28,82 @@ const ListCollections = () => {
 
     const { listCollections, setListCollections, listCollectionsFiltered, setListCollectionsFiltered, setListCategories, setCategoriesChecked, setSearchValue, is, setIs, messageModal, textButtonConfirm, imageModal, showModalConfirm, handleModalConfirm, handleModalCancel, setShowModalConfirm, setMessageModal, setSender, setTextButtonConfirm, setImageModal, setTmp_parameter, screenSize, listCollectionsChecked, setListCollectionsChecked } = useContext(AppContext);
 
-    useEffect(() => {
-        if (listCollectionsFiltered.length === 0) {
-            // chargement des collections
-            Axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
-                .then(res => {
-                    // listCollections permet de garder la liste complète des collections pour certaines fonctions qui ont besoin que toutes les collections soit parcourues ce qui n'est pas toujours le cas avec listCollectionsFiltered qui est principalement utilisé pour afficher les collections avec ou sans filtre
-                    setListCollections(res.data[0]);
-                    setListCollectionsFiltered(res.data[0]);
-                    setListCategories(res.data[1]);
-                }).catch(function (error) {
-                    console.log('error:   ' + error);
-                });
-        }
-    }, []);
 
     useEffect(() => {
-        // re-chargement des collections quand on delete une collection
-        Axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
+        Axios.get(`http://127.0.0.1:8000/getProducts`)
             .then(res => {
-                setListCollections(res.data[0]);
-                setListCollectionsFiltered(res.data[0]);
-                setListCategories(res.data[1]);
-                setIs({ ...is, collectionDeleted: false });
+                console.log(res.data);
+                setProducts(Object.values(res.data));
+
+                // Object.values(res.data).map(element => {
+                //     console.log(element);
+                // });
+
             }).catch(function (error) {
                 console.log('error:   ' + error);
             });
-    }, [is.collectionDeleted]);
+    }, []);
 
 
-    useEffect(() => {
-        // add category name in the new property categoryName
-        listCollections && listCollections.map((item, index) => {
-            listCollections[index].categoryName = item.category ? item.category.name : '';
-        });
-    }, [listCollections]);
+        // confirm delete one collection
+        const confirmDeleteCollection = (id, name) => {
+            if (id === 'from CheckboxListCollection') {
+                var tmp_arr = '';
+                listCollectionsChecked.map(checkedId => {
+                    // if "all" is in listCollectionsChecked then dont take it 
+                    if (checkedId !== 'all') {
+                        let collName = listCollections.filter(item => item.id == checkedId);
+                        tmp_arr += (collName[0].name) + ', ';
+                    }
+                })
+                let names = tmp_arr.toString();
+                names = names.slice(0, (names.length - 2)).replace(/(\,)(?!.*\1)/g, ' et '); // remove last "," and replace last occurence of "," by " et "
+                let article = listCollectionsChecked.length > 1 ? 'les collections' : 'la collection';
+                setMessageModal('Supprimer ' + article + ' ' + names + ' ?');
+                setTmp_parameter(listCollectionsChecked);
+            } else {
+                setMessageModal('Supprimer la collection ' + name + ' ?');
+                setTmp_parameter(id);
+            }
+            setTextButtonConfirm('Confirmer');
+            setImageModal('../images/icons/trash_dirty.png');
+            setSender('deleteCollection');
+            setShowModalConfirm(true);
+        }
+
+
+    // gère listCollectionsChecked -> quand on check les checkBox de la list collections
+    const handleCheckboxListCollection = (id) => {
+        var tmp_arr = [];
+        if (id === 'all') {
+            if (!allChecked) {
+                setAllChecked(true);
+                tmp_arr.push('all');
+                listCollectionsFiltered.forEach(item => tmp_arr.push(item.id));
+                setListCollectionsChecked(tmp_arr);
+            } else {
+                setAllChecked(false);
+                tmp_arr = [];
+                setListCollectionsChecked(tmp_arr);
+            }
+        }
+        else {
+            // remove "all" from listCollectionsChecked if uncheck any checkBox 
+            tmp_arr = listCollectionsChecked;
+            let index = tmp_arr.indexOf('all');
+            if (index !== -1) {
+                tmp_arr.splice(index, 1);
+            }
+            setListCollectionsChecked(tmp_arr);
+            setAllChecked(false);
+            // add or remove checked id from listCollectionsChecked
+            if (!listCollectionsChecked.includes(id)) {
+                setListCollectionsChecked([...listCollectionsChecked, id]);
+            } else {
+                setListCollectionsChecked([...listCollectionsChecked.filter(item => item !== id)]);
+            }
+        }
+    }
 
     // sort router 
     function sortList(sender) {
@@ -135,79 +177,6 @@ const ListCollections = () => {
         setListCollectionsFiltered([].concat(listCollectionsFiltered).sort((b, a) => a[item].localeCompare(b[item])));
     }
 
-    // renvoi les collection correspondantes à ce qui est tapé dans la barre de recherche dans List collection
-    function handleSearch(e) {
-        // uncheck all categoies filter when handleSearch
-        setCategoriesChecked([]);
-
-        setSearchValue(e.target.value);
-        setListCollectionsFiltered(listCollections.filter(item => item.name.toLowerCase().includes(e.target.value.toLowerCase())));
-    }
-
-    function categoriesFilter(categories) {
-        categories.length > 0 ? setListCollectionsFiltered(listCollections.filter(item => categories.includes(item.categoryName))) : setListCollectionsFiltered(listCollections);
-    }
-
-    // gère listCollectionsChecked -> quand on check les checkBox de la list collections
-    const handleCheckboxListCollection = (id) => {
-        var tmp_arr = [];
-        if (id === 'all') {
-            if (!allChecked) {
-                setAllChecked(true);
-                tmp_arr.push('all');
-                listCollectionsFiltered.forEach(item => tmp_arr.push(item.id));
-                setListCollectionsChecked(tmp_arr);
-            } else {
-                setAllChecked(false);
-                tmp_arr = [];
-                setListCollectionsChecked(tmp_arr);
-            }
-        }
-        else {
-            // remove "all" from listCollectionsChecked if uncheck any checkBox 
-            tmp_arr = listCollectionsChecked;
-            let index = tmp_arr.indexOf('all');
-            if (index !== -1) {
-                tmp_arr.splice(index, 1);
-            }
-            setListCollectionsChecked(tmp_arr);
-            setAllChecked(false);
-            // add or remove checked id from listCollectionsChecked
-            if (!listCollectionsChecked.includes(id)) {
-                setListCollectionsChecked([...listCollectionsChecked, id]);
-            } else {
-                setListCollectionsChecked([...listCollectionsChecked.filter(item => item !== id)]);
-            }
-        }
-    }
-
-
-
-    // confirm delete one collection
-    const confirmDeleteCollection = (id, name) => {
-        if (id === 'from CheckboxListCollection') {
-            var tmp_arr = '';
-            listCollectionsChecked.map(checkedId => {
-                // if "all" is in listCollectionsChecked then dont take it 
-                if (checkedId !== 'all') {
-                    let collName = listCollections.filter(item => item.id == checkedId);
-                    tmp_arr += (collName[0].name) + ', ';
-                }
-            })
-            let names = tmp_arr.toString();
-            names = names.slice(0, (names.length - 2)).replace(/(\,)(?!.*\1)/g, ' et '); // remove last "," and replace last occurence of "," by " et "
-            let article = listCollectionsChecked.length > 1 ? 'les collections' : 'la collection';
-            setMessageModal('Supprimer ' + article + ' ' + names + ' ?');
-            setTmp_parameter(listCollectionsChecked);
-        } else {
-            setMessageModal('Supprimer la collection ' + name + ' ?');
-            setTmp_parameter(id);
-        }
-        setTextButtonConfirm('Confirmer');
-        setImageModal('../images/icons/trash_dirty.png');
-        setSender('deleteCollection');
-        setShowModalConfirm(true);
-    }
 
     useEffect(() => {
         handleGridCols();
@@ -252,22 +221,73 @@ const ListCollections = () => {
     }
 
 
+    // return (
+    //     <div className='flex-col justify-s align-s m-b-10 bg-gray-cool w90pct min-h-[100vh]'>
+    //         <h4 className="card-title">Produits</h4>
+    //         <button className="btn btn_ajouter"><a href="/products/create">Ajouter un article</a></button>
+    //         <table className="table">
+
+    //             <thead>
+    //                 <tr className="tr_thead">
+    //                     <th>Image</th>
+    //                     <th>Nom</th>
+    //                     <th>Collection</th>
+    //                     <th>Catégorie</th>
+    //                     <th>Ajouté le</th>
+    //                     <th>--Actions--</th>
+    //                 </tr>
+    //             </thead>
+    //             <tbody>
+    //                 {products.map((product, index) => (
+    //                     <tr key={index}>
+    //                         <td>
+    //                             <img src={window.location.origin + "/" + product.image_path} />
+    //                         </td>
+    //                         <td>
+    //                             {product.name}
+    //                         </td>
+    //                         <td>
+    //                             {product.collection}
+    //                         </td>
+    //                         <td>
+    //                             {product.category}
+    //                         </td>
+    //                         <td>
+    //                             {product.created_at}
+    //                         </td>
+    //                         <td className="td_buton">
+    //                             <button className="btn btn_img">
+    //                                 <Link className="link" to={`/editImagesProduct/${product.id}`}>Image</Link>
+    //                             </button>
+
+
+
+    //                             <button className="btn btn_edit"><Link className="link" to={`/editProduct/${product.id}`}>Modifier</Link></button>
+
+    //                         </td>
+    //                     </tr>
+    //                 ))}
+    //             </tbody>
+    //         </table>
+    //     </div>
+    // );
+
     return (
 
-        <div className='mx-auto w-[96%] lg:w-[94%] 2xl:w-11/12 3xl:w-10/12 h-auto min-h-[100vh] pb-48 flex flex-col justify-start items-center'>
+        <div className='mx-auto w-[96%] lg:w-[94%] 2xl:w-11/12 3xl:w-10/12 h-auto min-h-[100vh] pb-48 flex flex-col justify-start items-center brd-red-1'>
 
-            <HeaderListCollections
+            {/* <HeaderListCollections
                 confirmDeleteCollection={confirmDeleteCollection}
                 handleSearch={handleSearch}
                 categoriesFilter={categoriesFilter}
-            />
+            /> */}
 
-            <ul className='w-full flex flex-col justify-start items-start mb-2.5 bg-gray-50 min-h-full shadow-sm rounded-md caret-transparent'>
+            <ul className='w-full flex flex-col justify-start items-start mb-2.5 bg-gray-50 min-h-full shadow-sm rounded-md caret-transparent brd-green-1'>
 
                 <li className={`w-full py-4 grid ${gridCols} gap-2 bg-gray-50 rounded-t-md`}>
 
                     <div className='flex justify-center items-center h-12 min-w-[48px]'>
-                        <CheckboxListCollection unikId={'all'} handleCheckboxListCollection={handleCheckboxListCollection} listCollectionsChecked={listCollectionsChecked} />
+                        <CheckboxListCollection unikId={'allProducts'} handleCheckboxListCollection={handleCheckboxListCollection} listCollectionsChecked={listCollectionsChecked} />
                     </div>
                     <span className="flex flex-row justify-center items-center min-h[48px] w-full">{/* thumbnail */}</span>
 
@@ -287,17 +307,18 @@ const ListCollections = () => {
                             Stock
                         </div>}
 
+                    {/* type physique ou numérique */}
                     {screenSize > 839 &&
                         <div className="w-full h-12 flex flex-row justify-start items-center font-medium">
-                            Conditions
+                            Type
                         </div>}
 
-                    {/* categories */}
+                    {/* collections */}
                     {screenSize > 1279
                         && <div className='w-full h12 flex flex-row justify-start items-center'>
                             <span
                                 className='cursor-pointer shrink-0 font-medium'
-                                onClick={() => sortList('categoryName')}>Catégories
+                                onClick={() => sortList('categoryName')}>Collections
                             </span>
                             <figure
                                 className='h-6 w-6 ml-1.5 cursor-pointer shrink-0'
@@ -352,5 +373,10 @@ const ListCollections = () => {
     );
 }
 
-export default ListCollections;
+export default List;
+
+
+
+
+
 

@@ -17,6 +17,7 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('name', 255);
             $table->integer('isInAutoCollection')->default(1);
+            $table->tinyInteger('active');
             $table->string('ribbon', 255)->nullable();
             $table->string('link');
             $table->mediumText('description')->nullable();

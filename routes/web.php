@@ -173,7 +173,7 @@ Route::get('/creatFrontIndex', [FrontEndController::class, 'create']);
 
 // store les reviews envoyées par les users
 Route::post('/storeReveiw', [ReviewController::class, 'storeReveiw']);
-
+Route::get('/getProducts', [ProductController::class, 'index']);
 // //sert à rien ??
 // Route::post('/details', [OptionsValueController::class, 'details']);
 

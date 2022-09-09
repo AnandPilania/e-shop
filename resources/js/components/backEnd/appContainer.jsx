@@ -11,7 +11,7 @@ import Navbar from '../navBar/navBar';
 import CreateProduct from '../createProduct/createProduct';
 // import EditProduct from '../createProduct/editProduct';
 import EditImages from '../createProduct/edit_images';
-import List from '../createProduct/list';
+import List from '../createProduct/list/list';
 import ListCollections from '../collections/list/list';
 import CreateCollection from '../collections/index';
 import WrapIndexcroppe from '../collections/wrap_IndexCroppe';
@@ -193,7 +193,7 @@ const Appcontainer = () => {
 
     // GENERAL -----------------------------------------------------------
     const [screenSize, setScreenSize] = useState(window.innerWidth);
-
+    const [showSideNav, setShowSideNav] = useState(true);
 
     useEffect(() => {
         // chargement des collections
@@ -230,7 +230,6 @@ const Appcontainer = () => {
         };
 
     }, []);
-
 
 
     // remove records and images files from folders and temporaryStorage db when unused 
@@ -576,6 +575,8 @@ const Appcontainer = () => {
         productParcelWeightMeasureUnit, setProductParcelWeightMeasureUnit,
         screenSize,
         isInAutoCollection, setIsInAutoCollection,
+        showSideNav, setShowSideNav,
+
 
     }
 

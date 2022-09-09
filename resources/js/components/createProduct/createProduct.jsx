@@ -1,5 +1,6 @@
 import { React, useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
+import ProductContext from '../contexts/ProductContext';
 import Flex_col_s_s from '../elements/container/flex_col_s_s';
 import Options from './options/options';
 import DropZoneProduct from './dropZoneProduct';
@@ -24,6 +25,9 @@ const CreateProduct = () => {
     const [showModalFromPrice, setShowModalFromPrice] = useState(false);
 
     const { descriptionProduct, setListSuppliers, supplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, screenSize, unlimited, isInAutoCollection } = useContext(AppContext);
+
+    const contextValue = {
+    }
 
     useEffect(() => {
         // charge la liste des fournisseurs
@@ -185,68 +189,70 @@ const CreateProduct = () => {
 
 
     return (
-        <div className="w-full px-2.5 lg:p-0">
-            {/* {screenSize > 1023 ? */}
-            <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_33.3333%] gap-4 justify-center items-start lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] min-h-[100vh] mt-[50px] mx-auto  text-base">
-                <div className="w-full grid grid-cols-1 gap-y-4">
-                    <Flex_col_s_s>
-                        <h4 className="mb-5 font-semibold text-xl">
-                            Ajouter un produit
-                        </h4>
-                        <NameAndRibbon />
-                        <Description />
-                    </Flex_col_s_s>
+        <ProductContext.Provider value={contextValue}>
+            <div className="w-full px-2.5 lg:p-0">
+                {/* {screenSize > 1023 ? */}
+                <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_33.3333%] gap-4 justify-center items-start lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] min-h-[100vh] mt-[50px] mx-auto  text-base">
+                    <div className="w-full grid grid-cols-1 gap-y-4">
+                        <Flex_col_s_s>
+                            <h4 className="mb-5 font-semibold text-xl">
+                                Ajouter un produit
+                            </h4>
+                            <NameAndRibbon />
+                            <Description />
+                        </Flex_col_s_s>
 
-                    <DropZoneProduct />
+                        <DropZoneProduct />
 
-                    {screenSize < 1024 &&
-                        <div className='w-full grid grid-cols-1 gap-y-4'>
-                            <Collection />
-                            <Price />
-                            <Stock />
-                            <Shipping />
-                            {activeCalculTva == 1 &&
-                                <Tva />
-                            }
-                            <Supplier />
-                        </div>
-                    }
+                        {screenSize < 1024 &&
+                            <div className='w-full grid grid-cols-1 gap-y-4'>
+                                <Collection />
+                                <Price />
+                                <Stock />
+                                <Shipping />
+                                {activeCalculTva == 1 &&
+                                    <Tva />
+                                }
+                                <Supplier />
+                            </div>
+                        }
 
-                    <Options />
+                        <Options />
 
-                    <OptimisationProduct />
+                        <OptimisationProduct />
+                    </div>
+                    {/* ----------  side  ---------- */}
+                    <div className='w-full grid grid-cols-1 gap-y-4'>
+                        {screenSize > 1023 &&
+                            <div className='w-full grid grid-cols-1 gap-y-4'>
+                                <Collection />
+                                <Price />
+                                <Stock />
+                                <Shipping />
+                                {activeCalculTva == 1 &&
+                                    <Tva />
+                                }
+                                <Supplier />
+                            </div>}
+                    </div>
                 </div>
-                {/* ----------  side  ---------- */}
-                <div className='w-full grid grid-cols-1 gap-y-4'>
-                    {screenSize > 1023 &&
-                        <div className='w-full grid grid-cols-1 gap-y-4'>
-                            <Collection />
-                            <Price />
-                            <Stock />
-                            <Shipping />
-                            {activeCalculTva == 1 &&
-                                <Tva />
-                            }
-                            <Supplier />
-                        </div>}
+                <div className='w-full flex justify-center md:justify-start md:w-[90%] lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] mx-auto mt-5 mb-48'>
+                    <button
+                        className="flex flex-row justify-center items-center w-44 md:w-32 px-3 py-2 rounded-md bg-green-600 text-white"
+                        onClick={handleSubmit}
+                    >
+                        Enregistrer
+                    </button>
                 </div>
-            </div>
-            <div className='w-full flex justify-center md:justify-start md:w-[90%] lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] mx-auto mt-5 mb-48'>
-                <button
-                    className="flex flex-row justify-center items-center w-44 md:w-32 px-3 py-2 rounded-md bg-green-600 text-white"
-                    onClick={handleSubmit}
-                >
-                    Enregistrer
-                </button>
-            </div>
 
-            {/* modal for simple message */}
-            <ModalSimpleMessage
-                show={showModalFromPrice} // true/false show modal
-                handleModalCancel={closelModal}>
-                <h2 className="text-lg font-bold mt-8">{messageModal}</h2>
-            </ModalSimpleMessage>
-        </div>
+                {/* modal for simple message */}
+                <ModalSimpleMessage
+                    show={showModalFromPrice} // true/false show modal
+                    handleModalCancel={closelModal}>
+                    <h2 className="text-lg font-bold mt-8">{messageModal}</h2>
+                </ModalSimpleMessage>
+            </div>
+        </ProductContext.Provider>
     )
 }
 

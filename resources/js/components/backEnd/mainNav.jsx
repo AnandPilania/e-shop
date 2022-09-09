@@ -3,13 +3,33 @@ import AppContext from '../contexts/AppContext';
 
 const MainNav = () => {
 
-    const { screenSize } = useContext(AppContext);
+    const { screenSize, showSideNav, setShowSideNav } = useContext(AppContext);
+
+
+    //  handle hamberguer nav
+    const handleShowSideNav = (e) => {
+        e.target.setAttribute("aria-expanded", showSideNav ? "false" : "true");
+        setShowSideNav(!showSideNav);
+    }
 
     return (
         <div
             className="col-span-2 sticky top-0 left-0 w-full h-14 flex flex-row justify-start items-center bg-white z-[100] border-b border-gray-300"
         >
-            <div className='flex flex-row justify-start items-center ml-10'>
+            <button
+                className="absolute top-2 left-5 w-10 h-10 p-1 cursor-pointer flex flex-col justify-around items-center bg-[#fafafa] rounded-md z-50 hover:bg-slate-200 lg:hidden"
+                type="button"
+                aria-label="Toggle navigation"
+                aria-expanded="false"
+                onClick={handleShowSideNav}
+            >
+                <span className='w-full h-[3px] bg-gray-900 pointer-events-none'></span>
+                <span className='w-full h-[3px] bg-gray-900 pointer-events-none'></span>
+                <span className='w-full h-[3px] bg-gray-900 pointer-events-none'></span>
+            </button>
+
+
+            <div className='flex flex-row justify-start items-center ml-20'>
                 <span
                     className='text-[24px] text-teal-700 font-semibold'
                 >

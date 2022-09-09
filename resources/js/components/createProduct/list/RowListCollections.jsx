@@ -7,7 +7,7 @@ import {
     getOnlyDate,
     getOnlyDateShort,
 } from "../../functions/dateTools";
-import { getParameter, getOperator } from "../conditionsFunctions";
+// import { getParameter, getOperator } from "../conditionsFunctions";
 import CheckboxListCollection from "./checkBox_listCollection";
 
 // affiche les rows dans list.jsx
@@ -147,7 +147,7 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
             )}
 
             {/* conditions */}
-            {screenSize > 839 && (
+            {/* {screenSize > 839 && (
                 <div
                     className={`w-full flex flex-row justify-start items-center min-h-[48px] ${conditions?.length > 1 && "cursor-pointer"
                         }`}
@@ -233,7 +233,7 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
                         ""
                     )}
                 </div>
-            )}
+            )} */}
 
             {/* category */}
             {screenSize > 1279 && (

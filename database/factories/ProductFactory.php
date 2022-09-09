@@ -34,6 +34,7 @@ class ProductFactory extends Factory
         return [
             'name' => $name,
             'isInAutoCollection' => 1,
+            'active' => rand(0, 1),
             'ribbon' => $ribbon,
             'description' => $this->faker->sentence(15, true),
             'link' => $link, 
