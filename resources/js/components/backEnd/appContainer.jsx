@@ -164,7 +164,10 @@ const Appcontainer = () => {
     const [metaTitleProduct, setMetaTitleProduct] = useState('');
     const [metaDescriptionProduct, setMetaDescriptionProduct] = useState('');
     const [metaUrlProduct, setMetaUrlProduct] = useState('');
-
+    const [products, setProducts] = useState([1,2,3]);
+    const [listProductsFiltered, setListProductsFiltered] = useState([]);
+    const [listProductsChecked, setListProductsChecked] = useState([]);
+    const [dateFieldProduct, setDateFieldProduct] = useState(getNow());
 
     //---------------------------------------------------------------PRODUCT
 
@@ -576,6 +579,10 @@ const Appcontainer = () => {
         screenSize,
         isInAutoCollection, setIsInAutoCollection,
         showSideNav, setShowSideNav,
+        products, setProducts, 
+        listProductsFiltered, setListProductsFiltered, 
+        listProductsChecked, setListProductsChecked,
+        dateFieldProduct, setDateFieldProduct
 
 
     }

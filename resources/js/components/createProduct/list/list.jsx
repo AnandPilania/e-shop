@@ -4,13 +4,13 @@ import Axios from 'axios';
 import { Link } from 'react-router-dom';
 import InputText from '../../InputText/Input_text';
 
-import RowListCollections from './RowListCollections';
-import CheckboxListCollection from './checkBox_listCollection';
+import RowListProducts from './rowListProducts';
+import CheckboxListProducts from './checkboxListProducts';
 import HeaderListCollections from './headerListCollections';
 import ModalConfirm from '../../modal/modalConfirm';
 
 const List = () => {
-    const [products, setProducts] = useState([]);
+
     const [isChecked, setIsChecked] = useState(false);
 
     const [imgSort, setImgSort] = useState({
@@ -26,81 +26,75 @@ const List = () => {
         created_atSens: true
     });
 
-    const { listCollections, setListCollections, listCollectionsFiltered, setListCollectionsFiltered, setListCategories, setCategoriesChecked, setSearchValue, is, setIs, messageModal, textButtonConfirm, imageModal, showModalConfirm, handleModalConfirm, handleModalCancel, setShowModalConfirm, setMessageModal, setSender, setTextButtonConfirm, setImageModal, setTmp_parameter, screenSize, listCollectionsChecked, setListCollectionsChecked } = useContext(AppContext);
+    const { setCategoriesChecked, setSearchValue, is, setIs, messageModal, textButtonConfirm, imageModal, showModalConfirm, handleModalConfirm, handleModalCancel, setShowModalConfirm, setMessageModal, setSender, setTextButtonConfirm, setImageModal, setTmp_parameter, screenSize, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked } = useContext(AppContext);
 
 
     useEffect(() => {
         Axios.get(`http://127.0.0.1:8000/getProducts`)
             .then(res => {
-                console.log(res.data);
-                setProducts(Object.values(res.data));
-
-                // Object.values(res.data).map(element => {
-                //     console.log(element);
-                // });
-
+                setProducts(res.data);
+                setListProductsFiltered(res.data);
             }).catch(function (error) {
                 console.log('error:   ' + error);
             });
     }, []);
 
-
-        // confirm delete one collection
-        const confirmDeleteCollection = (id, name) => {
-            if (id === 'from CheckboxListCollection') {
-                var tmp_arr = '';
-                listCollectionsChecked.map(checkedId => {
-                    // if "all" is in listCollectionsChecked then dont take it 
-                    if (checkedId !== 'all') {
-                        let collName = listCollections.filter(item => item.id == checkedId);
-                        tmp_arr += (collName[0].name) + ', ';
-                    }
-                })
-                let names = tmp_arr.toString();
-                names = names.slice(0, (names.length - 2)).replace(/(\,)(?!.*\1)/g, ' et '); // remove last "," and replace last occurence of "," by " et "
-                let article = listCollectionsChecked.length > 1 ? 'les collections' : 'la collection';
-                setMessageModal('Supprimer ' + article + ' ' + names + ' ?');
-                setTmp_parameter(listCollectionsChecked);
-            } else {
-                setMessageModal('Supprimer la collection ' + name + ' ?');
-                setTmp_parameter(id);
-            }
-            setTextButtonConfirm('Confirmer');
-            setImageModal('../images/icons/trash_dirty.png');
-            setSender('deleteCollection');
-            setShowModalConfirm(true);
+    // confirm delete one collection
+    const confirmDeleteProduct = (id, name) => {
+        if (id === 'from CheckboxListProducts') {
+            var tmp_arr = '';
+            listProductsChecked.map(checkedId => {
+                // if "all" is in listProductsChecked then dont take it 
+                if (checkedId !== 'all') {
+                    let collName = products.filter(item => item.id == checkedId);
+                    tmp_arr += (collName[0].name) + ', ';
+                }
+            });
+            let names = tmp_arr.toString();
+            names = names.slice(0, (names.length - 2)).replace(/(\,)(?!.*\1)/g, ' et '); // remove last "," and replace last occurence of "," by " et "
+            let article = listProductsChecked.length > 1 ? 'les collections' : 'la collection';
+            setMessageModal('Supprimer ' + article + ' ' + names + ' ?');
+            setTmp_parameter(listProductsChecked);
+        } else {
+            setMessageModal('Supprimer la collection ' + name + ' ?');
+            setTmp_parameter(id);
         }
+        setTextButtonConfirm('Confirmer');
+        setImageModal('../images/icons/trash_dirty.png');
+        setSender('deleteCollection');
+        setShowModalConfirm(true);
+    }
 
 
-    // gère listCollectionsChecked -> quand on check les checkBox de la list collections
-    const handleCheckboxListCollection = (id) => {
+    // gère listProductsChecked -> quand on check les checkBox de la list collections
+    const handleCheckboxListProduct = (id) => {
         var tmp_arr = [];
         if (id === 'all') {
             if (!allChecked) {
                 setAllChecked(true);
                 tmp_arr.push('all');
-                listCollectionsFiltered.forEach(item => tmp_arr.push(item.id));
-                setListCollectionsChecked(tmp_arr);
+                listProductsFiltered.forEach(item => tmp_arr.push(item.id));
+                setListProductsChecked(tmp_arr);
             } else {
                 setAllChecked(false);
                 tmp_arr = [];
-                setListCollectionsChecked(tmp_arr);
+                setListProductsChecked(tmp_arr);
             }
         }
         else {
-            // remove "all" from listCollectionsChecked if uncheck any checkBox 
-            tmp_arr = listCollectionsChecked;
+            // remove "all" from listProductsChecked if uncheck any checkBox 
+            tmp_arr = listProductsChecked;
             let index = tmp_arr.indexOf('all');
             if (index !== -1) {
                 tmp_arr.splice(index, 1);
             }
-            setListCollectionsChecked(tmp_arr);
+            setListProductsChecked(tmp_arr);
             setAllChecked(false);
-            // add or remove checked id from listCollectionsChecked
-            if (!listCollectionsChecked.includes(id)) {
-                setListCollectionsChecked([...listCollectionsChecked, id]);
+            // add or remove checked id from listProductsChecked
+            if (!listProductsChecked.includes(id)) {
+                setListProductsChecked([...listProductsChecked, id]);
             } else {
-                setListCollectionsChecked([...listCollectionsChecked.filter(item => item !== id)]);
+                setListProductsChecked([...listProductsChecked.filter(item => item !== id)]);
             }
         }
     }
@@ -171,10 +165,10 @@ const List = () => {
     }
     // sort list
     function sortList_AZ(item) {
-        setListCollectionsFiltered([].concat(listCollectionsFiltered).sort((a, b) => a[item].localeCompare(b[item])));
+        setListProductsFiltered([].concat(listProductsFiltered).sort((a, b) => a[item].localeCompare(b[item])));
     }
     function sortList_ZA(item) {
-        setListCollectionsFiltered([].concat(listCollectionsFiltered).sort((b, a) => a[item].localeCompare(b[item])));
+        setListProductsFiltered([].concat(listProductsFiltered).sort((b, a) => a[item].localeCompare(b[item])));
     }
 
 
@@ -221,73 +215,27 @@ const List = () => {
     }
 
 
-    // return (
-    //     <div className='flex-col justify-s align-s m-b-10 bg-gray-cool w90pct min-h-[100vh]'>
-    //         <h4 className="card-title">Produits</h4>
-    //         <button className="btn btn_ajouter"><a href="/products/create">Ajouter un article</a></button>
-    //         <table className="table">
-
-    //             <thead>
-    //                 <tr className="tr_thead">
-    //                     <th>Image</th>
-    //                     <th>Nom</th>
-    //                     <th>Collection</th>
-    //                     <th>Catégorie</th>
-    //                     <th>Ajouté le</th>
-    //                     <th>--Actions--</th>
-    //                 </tr>
-    //             </thead>
-    //             <tbody>
-    //                 {products.map((product, index) => (
-    //                     <tr key={index}>
-    //                         <td>
-    //                             <img src={window.location.origin + "/" + product.image_path} />
-    //                         </td>
-    //                         <td>
-    //                             {product.name}
-    //                         </td>
-    //                         <td>
-    //                             {product.collection}
-    //                         </td>
-    //                         <td>
-    //                             {product.category}
-    //                         </td>
-    //                         <td>
-    //                             {product.created_at}
-    //                         </td>
-    //                         <td className="td_buton">
-    //                             <button className="btn btn_img">
-    //                                 <Link className="link" to={`/editImagesProduct/${product.id}`}>Image</Link>
-    //                             </button>
-
-
-
-    //                             <button className="btn btn_edit"><Link className="link" to={`/editProduct/${product.id}`}>Modifier</Link></button>
-
-    //                         </td>
-    //                     </tr>
-    //                 ))}
-    //             </tbody>
-    //         </table>
-    //     </div>
-    // );
+    console.log('listProductsFiltered  ', listProductsFiltered)
 
     return (
 
-        <div className='mx-auto w-[96%] lg:w-[94%] 2xl:w-11/12 3xl:w-10/12 h-auto min-h-[100vh] pb-48 flex flex-col justify-start items-center brd-red-1'>
+        <div className='mt-10 mx-auto w-[96%] lg:w-[94%] 2xl:w-11/12 3xl:w-10/12 h-auto min-h-[100vh] pb-48 flex flex-col justify-start items-center'>
 
             {/* <HeaderListCollections
-                confirmDeleteCollection={confirmDeleteCollection}
+                confirmDeleteProduct={confirmDeleteProduct}
                 handleSearch={handleSearch}
                 categoriesFilter={categoriesFilter}
             /> */}
 
-            <ul className='w-full flex flex-col justify-start items-start mb-2.5 bg-gray-50 min-h-full shadow-sm rounded-md caret-transparent brd-green-1'>
+            <ul className='w-full flex flex-col justify-start items-start mb-2.5 bg-gray-50 min-h-full shadow-sm rounded-md caret-transparent'>
 
                 <li className={`w-full py-4 grid ${gridCols} gap-2 bg-gray-50 rounded-t-md`}>
 
                     <div className='flex justify-center items-center h-12 min-w-[48px]'>
-                        <CheckboxListCollection unikId={'allProducts'} handleCheckboxListCollection={handleCheckboxListCollection} listCollectionsChecked={listCollectionsChecked} />
+                        <CheckboxListProducts
+                            unikId={'allProducts'}
+                            handleCheckboxListProduct={handleCheckboxListProduct}
+                            listProductsChecked={listProductsChecked} />
                     </div>
                     <span className="flex flex-row justify-center items-center min-h[48px] w-full">{/* thumbnail */}</span>
 
@@ -307,11 +255,6 @@ const List = () => {
                             Stock
                         </div>}
 
-                    {/* type physique ou numérique */}
-                    {screenSize > 839 &&
-                        <div className="w-full h-12 flex flex-row justify-start items-center font-medium">
-                            Type
-                        </div>}
 
                     {/* collections */}
                     {screenSize > 1279
@@ -333,6 +276,12 @@ const List = () => {
                             <span className='shrink-0 font-medium'>Statut</span>
                         </div>}
 
+                    {/* type physique ou numérique */}
+                    {screenSize > 839 &&
+                        <div className="w-full h-12 flex flex-row justify-start items-center font-medium">
+                            Type
+                        </div>}
+
                     {/* created at */}
                     {screenSize > 1149 &&
                         <div className='w-full h-12 flex flex-row justify-start items-center pl-2 xl:pl-0'>
@@ -346,14 +295,14 @@ const List = () => {
                     <div className='w-auto'>{/* edit & delete */}</div>
                 </li>
 
-                {/* RowListCollections */}
-                {!!listCollectionsFiltered && listCollectionsFiltered.map(item =>
-                    <RowListCollections
+                {/* RowListProducts */}
+                {!!listProductsFiltered && listProductsFiltered.map(item =>
+                    <RowListProducts
                         key={item.id}
-                        collectionFiltered={item}
-                        category={item.category}
-                        handleCheckboxListCollection={handleCheckboxListCollection}
-                        listCollectionsChecked={listCollectionsChecked} confirmDeleteCollection={confirmDeleteCollection}
+                        productsFiltered={item}
+                        collections={item.collections}
+                        handleCheckboxListProduct={handleCheckboxListProduct}
+                        listProductsChecked={listProductsChecked} confirmDeleteProduct={confirmDeleteProduct}
                         gridCols={gridCols}
                         handleGridCols={handleGridCols}
                     />

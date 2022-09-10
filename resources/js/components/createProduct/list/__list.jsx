@@ -2,7 +2,7 @@ import { React, useState, useEffect, useContext } from 'react';
 // import AppContext from '../../contexts/AppContext';
 import Axios from 'axios';
 import RowListCollections from './RowListCollections';
-import CheckboxListCollection from './checkBox_listCollection';
+import CheckboxListCollection from './checkboxListProducts';
 import HeaderListCollections from './headerListCollections';
 import ModalConfirm from '../../modal/modalConfirm';
 

@@ -174,8 +174,9 @@ Route::get('/creatFrontIndex', [FrontEndController::class, 'create']);
 // store les reviews envoyées par les users
 Route::post('/storeReveiw', [ReviewController::class, 'storeReveiw']);
 Route::get('/getProducts', [ProductController::class, 'index']);
-// //sert à rien ??
-// Route::post('/details', [OptionsValueController::class, 'details']);
+
+// change le status d'activation d'un produit'
+Route::post('/handleProductStatus', [ProductController::class, 'handleProductStatus']);
 
 // // A SUPPRIMER ? !!!
 // Route::get('/detailCompletion', [OptionsValueController::class, 'detailCompletion']);

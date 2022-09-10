@@ -29,7 +29,7 @@ const Navbar = () => {
     <nav
       className={`sideNav absolute lg:sticky top-14 left-0 w-0 h-[calc(100vh_-_56px)] pt-8 pl-3 bg-slate-800 flex flex-col justify-start items-start z-50 transition ease-in-out delay-150 ${showSideNav ? "translate-x-0 w-60" : "translate-x-[-100%] w-0"} lg:w-60 lg:translate-x-0`}
     >
-      {showSideNav &&
+
         <>
           <div className="w-full py-1 text-base text-white cursor-pointer"
             onClick={() => handleMenu("products")}
@@ -52,7 +52,7 @@ const Navbar = () => {
               <Link className="block visited:text-white hover:text-white text-base text-white cursor-pointer" to="/settings">Paramètres</Link>
               <Link className="block visited:text-white hover:text-white text-base text-white cursor-pointer" to="/cropImage">Crop</Link>
             </div>}
-        </>}
+        </>
     </nav>
   );
 }

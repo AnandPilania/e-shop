@@ -220,7 +220,14 @@ export default React.createContext({
     setIsInAutoCollection: () => { },
     showSideNav: '',
     setShowSideNav: () => { },
-
+    products: [],
+    setProducts: () => { },
+    listProductsFiltered: [], 
+    setListProductsFiltered: () => { },
+    listProductsChecked: [],  
+    setListProductsChecked: () => { },
+    dateFieldProduct: '', 
+    setDateFieldProduct: () => { },
 
 
 });

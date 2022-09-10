@@ -1,6 +1,5 @@
 import { React, useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
-import ProductContext from '../contexts/ProductContext';
 import Flex_col_s_s from '../elements/container/flex_col_s_s';
 import Options from './options/options';
 import DropZoneProduct from './dropZoneProduct';
@@ -17,6 +16,7 @@ import Supplier from './supplier';
 import Tva from './tva';
 import Shipping from './shipping';
 import { v4 as uuidv4 } from 'uuid';
+import Activation from './activation';
 
 
 // props.id = detailx
@@ -24,10 +24,7 @@ const CreateProduct = () => {
 
     const [showModalFromPrice, setShowModalFromPrice] = useState(false);
 
-    const { descriptionProduct, setListSuppliers, supplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, screenSize, unlimited, isInAutoCollection } = useContext(AppContext);
-
-    const contextValue = {
-    }
+    const { descriptionProduct, setListSuppliers, supplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, screenSize, unlimited, isInAutoCollection, dateFieldProduct, setDateFieldProduct, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked } = useContext(AppContext);
 
     useEffect(() => {
         // charge la liste des fournisseurs
@@ -147,6 +144,7 @@ const CreateProduct = () => {
         formData.append('transporter', JSON.stringify(transporter));
         formData.append('tva', JSON.stringify(tva));
         formData.append('supplier', JSON.stringify(supplier));
+        formData.append("dateActivation", dateFieldProduct);
         formData.append('optionsObj', JSON.stringify(optionsObj));
         formData.append('variantes', JSON.stringify(variantes));
         formData.append('metaUrlProduct', metaUrlProduct);
@@ -169,6 +167,7 @@ const CreateProduct = () => {
         console.log('transporter  ', transporter);
         console.log('tva  ', JSON.stringify(tva));
         console.log('supplier  ', supplier);
+        console.log('dateFieldProduct  ', dateFieldProduct);
         console.log('optionsObj  ', optionsObj);
         console.log('variantes  ', variantes);
         console.log('metaUrlProduct   ', metaUrlProduct);
@@ -189,70 +188,69 @@ const CreateProduct = () => {
 
 
     return (
-        <ProductContext.Provider value={contextValue}>
-            <div className="w-full px-2.5 lg:p-0">
-                {/* {screenSize > 1023 ? */}
-                <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_33.3333%] gap-4 justify-center items-start lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] min-h-[100vh] mt-[50px] mx-auto  text-base">
-                    <div className="w-full grid grid-cols-1 gap-y-4">
-                        <Flex_col_s_s>
-                            <h4 className="mb-5 font-semibold text-xl">
-                                Ajouter un produit
-                            </h4>
-                            <NameAndRibbon />
-                            <Description />
-                        </Flex_col_s_s>
+        <div className="w-full px-2.5 lg:p-0">
+            {/* {screenSize > 1023 ? */}
+            <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_33.3333%] gap-4 justify-center items-start lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] min-h-[100vh] mt-[50px] mx-auto  text-base">
+                <div className="w-full grid grid-cols-1 gap-y-4">
+                    <Flex_col_s_s>
+                        <h4 className="mb-5 font-semibold text-xl">
+                            Ajouter un produit
+                        </h4>
+                        <NameAndRibbon />
+                        <Description />
+                    </Flex_col_s_s>
 
-                        <DropZoneProduct />
+                    <DropZoneProduct />
 
-                        {screenSize < 1024 &&
-                            <div className='w-full grid grid-cols-1 gap-y-4'>
-                                <Collection />
-                                <Price />
-                                <Stock />
-                                <Shipping />
-                                {activeCalculTva == 1 &&
-                                    <Tva />
-                                }
-                                <Supplier />
-                            </div>
-                        }
+                    {screenSize < 1024 &&
+                        <div className='w-full grid grid-cols-1 gap-y-4'>
+                            <Collection />
+                            <Price />
+                            <Stock />
+                            <Shipping />
+                            {activeCalculTva == 1 &&
+                                <Tva />
+                            }
+                            <Supplier />
+                        </div>
+                    }
 
-                        <Options />
+                    <Options />
 
-                        <OptimisationProduct />
-                    </div>
-                    {/* ----------  side  ---------- */}
-                    <div className='w-full grid grid-cols-1 gap-y-4'>
-                        {screenSize > 1023 &&
-                            <div className='w-full grid grid-cols-1 gap-y-4'>
-                                <Collection />
-                                <Price />
-                                <Stock />
-                                <Shipping />
-                                {activeCalculTva == 1 &&
-                                    <Tva />
-                                }
-                                <Supplier />
-                            </div>}
-                    </div>
+                    <OptimisationProduct />
                 </div>
-                <div className='w-full flex justify-center md:justify-start md:w-[90%] lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] mx-auto mt-5 mb-48'>
-                    <button
-                        className="flex flex-row justify-center items-center w-44 md:w-32 px-3 py-2 rounded-md bg-green-600 text-white"
-                        onClick={handleSubmit}
-                    >
-                        Enregistrer
-                    </button>
+                {/* ----------  side  ---------- */}
+                <div className='w-full grid grid-cols-1 gap-y-4'>
+                    {screenSize > 1023 &&
+                        <div className='w-full grid grid-cols-1 gap-y-4'>
+                            <Collection />
+                            <Price />
+                            <Stock />
+                            <Shipping />
+                            {activeCalculTva == 1 &&
+                                <Tva />
+                            }
+                            <Supplier />
+                            <Activation />
+                        </div>}
                 </div>
-
-                {/* modal for simple message */}
-                <ModalSimpleMessage
-                    show={showModalFromPrice} // true/false show modal
-                    handleModalCancel={closelModal}>
-                    <h2 className="text-lg font-bold mt-8">{messageModal}</h2>
-                </ModalSimpleMessage>
             </div>
-        </ProductContext.Provider>
+            <div className='w-full flex justify-center md:justify-start md:w-[90%] lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] mx-auto mt-5 mb-48'>
+                <button
+                    className="flex flex-row justify-center items-center w-44 md:w-32 px-3 py-2 rounded-md bg-green-600 text-white"
+                    onClick={handleSubmit}
+                >
+                    Enregistrer
+                </button>
+            </div>
+
+            {/* modal for simple message */}
+            <ModalSimpleMessage
+                show={showModalFromPrice} // true/false show modal
+                handleModalCancel={closelModal}>
+                <h2 className="text-lg font-bold mt-8">{messageModal}</h2>
+            </ModalSimpleMessage>
+        </div>
     )
 }
 

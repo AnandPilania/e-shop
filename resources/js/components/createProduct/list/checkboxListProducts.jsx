@@ -1,8 +1,7 @@
 import React from 'react';
 import './animate_checkbox.css';
 
-const CheckboxListCollection = ({ unikId, handleCheckboxListCollection, listCollectionsChecked }) => {
-
+const CheckboxListProducts = ({ unikId, handleCheckboxListProduct, listProductsChecked }) => {
 
     return (
         <div>
@@ -12,8 +11,8 @@ const CheckboxListCollection = ({ unikId, handleCheckboxListCollection, listColl
                 id={unikId}
                 value={unikId}
                 style={{ display: "none" }}
-                checked={listCollectionsChecked && listCollectionsChecked.includes(unikId)}
-                onChange={(e) => handleCheckboxListCollection(unikId)}
+                checked={listProductsChecked && listProductsChecked.includes(unikId)}
+                onChange={(e) => handleCheckboxListProduct(unikId)}
             />
             <label
                 htmlFor={unikId}
@@ -28,4 +27,4 @@ const CheckboxListCollection = ({ unikId, handleCheckboxListCollection, listColl
     );
 }
 
-export default CheckboxListCollection;
+export default CheckboxListProducts;

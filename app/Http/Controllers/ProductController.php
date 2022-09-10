@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
 use App\Models\Body;
 use App\Models\Product;
 use App\Models\Variante;
@@ -31,14 +32,23 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('collections', 'images_products', 'variantes')->orderBy('name', 'asc')->get();
+        $products = Product::with('collections', 'images_products', 'variantes')->orderBy('id', 'asc')->get();
         return $products;
     }
 
 
     public function store(StoreProductRequest $request)
     {
-        $product =  new Product;
+        // dd(gettype($request->id));
+        // check si on edit ou crée un produit
+        if ($request->id !== null) {
+            // if product is edited
+            $product = Product::find($request->id);
+            $statusHasBeenChanged = $product->statusHasBeenChanged;
+        } else {
+            $product = new Product;
+        }
+
         $product->name = $request->nameProduct;
         $product->isInAutoCollection = $request->isInAutoCollection;
         $product->ribbon = $request->ribbonProduct;
@@ -51,6 +61,18 @@ class ProductController extends Controller
         $product->metaDescription = $request->metaDescriptionProduct;
         $cleanLink = new CleanLink;
         $product->link = $cleanLink->cleanLink($request->nameProduct);
+        // Retourne un nouvel objet DateTime représentant la date et l'heure spécifiées par la string time, qui a été formaté dans le format donné.
+        $date = DateTime::createFromFormat('d-m-Y H:i:s', $request->dateActivation);
+        $product->dateActivation = $date->format('Y-m-d H:i:s');
+        // si $statusHasBeenChanged existe c'est qu'on est en édition et si il est == 0 c'est qu'on a pas encore changé son statut manuellement donc le status dépend de la date d'activation. Le statut 2 c'est quand la date d'activation n'est pas encore arrivée
+        if (isset($statusHasBeenChanged)) {
+            if ($statusHasBeenChanged == 0) {
+                $product->status = $date->format('Y-m-d H:i:s') <= date('Y-m-d H:i:s') ? 1 : 2;
+            }
+        } else {
+            $product->statusHasBeenChanged = 0;
+            $product->status = $date->format('Y-m-d H:i:s') <= date('Y-m-d H:i:s') ? 1 : 2;
+        }
         $product->type = 'no type';
         $product->taxe_id = json_decode($request->tva)->id;
         $product->supplier_id = json_decode($request->supplier) != "" && json_decode($request->supplier)->id;
@@ -497,21 +519,23 @@ class ProductController extends Controller
     }
 
 
-    public function bestSeller(Request $request)
-    {
-        // met le champ best_sell à 1 ou null selon que la checkbox best seller est cochée ou pas
-        $product =  Product::find($request->id);
-
-        $product->best_sell = $request->checked == 1 ? 1 : null;
-
-        $product->save();
-    }
-
     public function fetchImage(Request $request)
     {
-        // dd($request->url);
         $img = file_get_contents($request->url);
         dd($img);
         return $img;
+    }
+
+    // change le status d'activation d'un produit
+    public function handleProductStatus(Request $request)
+    {
+        $product = Product::find($request->id);
+        $product->status = intval($request->status) == 1 ? 0 : 1;
+        $product->statusHasBeenChanged = 1;
+        $product->save();
+
+        $product = Product::where('id', $request->id)->with('collections', 'images_products', 'variantes')->first();
+
+        return $product;
     }
 }
