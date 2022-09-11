@@ -38,6 +38,7 @@ class ProductFactory extends Factory
             'dateActivation' => '2021-02-25 12:00:00',
             'ribbon' => $ribbon,
             'description' => $this->faker->sentence(15, true),
+            'stock' => rand(0, 50),
             'link' => $link, 
             'onlyTheseCarriers' => 0,
             'type' => $type[$random],

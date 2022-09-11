@@ -7,7 +7,7 @@ import InputText from '../../InputText/Input_text';
 import RowListProducts from './rowListProducts';
 import CheckboxListProducts from './checkboxListProducts';
 import HeaderListCollections from './headerListCollections';
-import ModalConfirm from '../../modal/modalConfirm';
+import ModalConfirmation from '../../modal/modalConfirmation';
 
 const List = () => {
 
@@ -19,14 +19,16 @@ const List = () => {
         imgCat: 'az.svg',
     });
     const [allChecked, setAllChecked] = useState(false);
+    const [showModalConfirm, setShowModalConfirm] = useState(false);
     const [gridCols, setGridCols] = useState('');
+    const [productToDelete, setProductToDelete] = useState('');
     const [toggleSort, setToggleSort] = useState({
         nameSens: true,
         categorySens: true,
         created_atSens: true
     });
 
-    const { setCategoriesChecked, setSearchValue, is, setIs, messageModal, textButtonConfirm, imageModal, showModalConfirm, handleModalConfirm, handleModalCancel, setShowModalConfirm, setMessageModal, setSender, setTextButtonConfirm, setImageModal, setTmp_parameter, screenSize, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked } = useContext(AppContext);
+    const { setCategoriesChecked, setSearchValue, is, setIs, messageModal, textButtonConfirm, imageModal, setMessageModal, setSender, setTextButtonConfirm, setImageModal, screenSize, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked } = useContext(AppContext);
 
 
     useEffect(() => {
@@ -39,7 +41,7 @@ const List = () => {
             });
     }, []);
 
-    // confirm delete one collection
+    // confirm delete one product
     const confirmDeleteProduct = (id, name) => {
         if (id === 'from CheckboxListProducts') {
             var tmp_arr = '';
@@ -54,16 +56,37 @@ const List = () => {
             names = names.slice(0, (names.length - 2)).replace(/(\,)(?!.*\1)/g, ' et '); // remove last "," and replace last occurence of "," by " et "
             let article = listProductsChecked.length > 1 ? 'les collections' : 'la collection';
             setMessageModal('Supprimer ' + article + ' ' + names + ' ?');
-            setTmp_parameter(listProductsChecked);
+            setProductToDelete(listProductsChecked);
         } else {
-            setMessageModal('Supprimer la collection ' + name + ' ?');
-            setTmp_parameter(id);
+            setMessageModal('Supprimer le produit ' + name + ' ?');
+            setProductToDelete(id);
         }
         setTextButtonConfirm('Confirmer');
-        setImageModal('../images/icons/trash_dirty.png');
         setSender('deleteCollection');
         setShowModalConfirm(true);
     }
+
+    const deleteProduct = () => {
+        let idToDelete = new FormData;
+        if (Array.isArray(productToDelete)) {
+            var ids_arr = JSON.stringify(productToDelete);
+            idToDelete.append('id', ids_arr);
+        } else {
+            idToDelete.append('id', productToDelete);
+        }
+
+        Axios.post(`http://127.0.0.1:8000/deleteProducts`, idToDelete)
+            .then(res => {
+                setProducts(res.data);
+                // setIdCollection(null);
+                // setIs({ ...is, collectionDeleted: true });
+                setListProductsChecked([]);
+            });
+    }
+
+    const handleModalCancel = () => {
+        setShowModalConfirm(false);
+    };
 
 
     // gère listProductsChecked -> quand on check les checkBox de la list collections
@@ -209,7 +232,7 @@ const List = () => {
             tmp_grid_cols = 'grid-cols-[48px_70px_1fr_65px_17%_1fr_92px_80px]';
         }
         if (screenSize > 1279) {
-            tmp_grid_cols = 'grid-cols-[48px_70px_2fr_65px_15%_2fr_1fr_1fr_80px]';
+            tmp_grid_cols = 'grid-cols-[48px_70px_1fr_1fr_1fr_1fr_1fr_1fr_1fr_80px]';
         }
         setGridCols(tmp_grid_cols);
     }
@@ -252,6 +275,16 @@ const List = () => {
 
                     {screenSize > 639 &&
                         <div className="w-full h-12 flex flex-row justify-center items-center flex-wrap font-medium">
+                            Variantes
+                        </div>}
+
+                    {screenSize > 639 &&
+                        <div className="w-full h-12 flex flex-row justify-center items-center flex-wrap font-medium">
+                            Prix
+                        </div>}
+
+                    {screenSize > 639 &&
+                        <div className="w-full h-12 flex flex-row justify-center items-center flex-wrap font-medium">
                             Stock
                         </div>}
 
@@ -274,12 +307,6 @@ const List = () => {
                     {screenSize > 559 &&
                         <div className='shrink-0 w-32 h-12 flex-row'>
                             <span className='shrink-0 font-medium'>Statut</span>
-                        </div>}
-
-                    {/* type physique ou numérique */}
-                    {screenSize > 839 &&
-                        <div className="w-full h-12 flex flex-row justify-start items-center font-medium">
-                            Type
                         </div>}
 
                     {/* created at */}
@@ -308,16 +335,14 @@ const List = () => {
                     />
                 )}
             </ul>
-
-            {/* modal for confirmation */}
-            <ModalConfirm
-                show={showModalConfirm} // true/false show modal
-                handleModalConfirm={handleModalConfirm}
+ 
+            <ModalConfirmation
+                show={showModalConfirm}  
+                handleModalConfirm={deleteProduct}
                 handleModalCancel={handleModalCancel}
-                textButtonConfirm={textButtonConfirm}
-                image={imageModal}>
+                textButtonConfirm={textButtonConfirm}>
                 <h2 className="childrenModal">{messageModal}</h2>
-            </ModalConfirm>
+            </ModalConfirmation>
         </div>
     );
 }

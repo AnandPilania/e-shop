@@ -274,7 +274,7 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
                                 )
                             }
                         >
-                            <img src="../images/icons/power.PNG" className="h20" />
+                            <img src="../images/icons/power.svg" className="h-5" />
                         </button>
                     </span>
                 </div>}

@@ -13,11 +13,12 @@ import CheckboxListCollection from "./checkboxListProducts";
 // affiche les rows dans list.jsx
 const RowListProducts = ({ productsFiltered, collections, listProductsChecked, handleCheckboxListProduct, confirmDeleteProduct, gridCols, handleGridCols }) => {
 
-    const [showConditions, setShowConditions] = useState(false);
+    const [showCollections, setShowCollections] = useState(false);
     const [distanceFromBottom, setDistanceFromBottom] = useState(null);
     const [mainImgPath, setMainImgPath] = useState('');
     const [stockCount, setStockCount] = useState('');
     const [productCollections, setProductCollections] = useState('');
+    const [availablePrice, setAvailablePrice] = useState('');
 
     const { screenSize, listProductsFiltered, setListProductsFiltered } =
         useContext(AppContext);
@@ -28,8 +29,37 @@ const RowListProducts = ({ productsFiltered, collections, listProductsChecked, h
     useEffect(() => {
         handleGridCols();
         setMainImgPath(productsFiltered.images_products.filter(x => x.ordre == 1)[0]);
-        setStockCount(productsFiltered.variantes.reduce((acc, obj) => { return acc + obj.stock; }, 0));
+
+        let tmp_stockCount = productsFiltered.variantes.reduce((acc, obj) => { return acc + obj.stock; }, 0);
+        setStockCount(tmp_stockCount > 0 ? tmp_stockCount : productsFiltered.stock);
+
         setProductCollections(productsFiltered.collections.map(x => x.name));
+
+        // récupération du ou des prix différentens variantes pour un produit donné
+        let tmp_reducedPrice = productsFiltered.variantes.map(x => x.reduced_price);
+        let tmp_price = productsFiltered.variantes.map(x => x.price);
+
+
+        if (Math.max(...tmp_reducedPrice) > 0) {
+            let tmpMin = Math.min(...tmp_reducedPrice);
+            let tmpMax = Math.max(...tmp_reducedPrice);
+            if (tmpMin != tmpMax) {
+                setAvailablePrice(tmpMin + ' € - ' + tmpMax + ' €');
+            } else {
+                setAvailablePrice(tmpMax);
+            }
+        } else if (Math.max(...tmp_price) > 0) {
+            let tmpMin = Math.min(...tmp_price);
+            let tmpMax = Math.max(...tmp_price);
+            if (tmpMin != tmpMax) {
+                setAvailablePrice(tmpMin + ' € - ' + tmpMax + ' €');
+            } else {
+                setAvailablePrice(tmpMax);
+            }
+        } else {
+            setAvailablePrice('0 €');
+        }
+
     }, []);
 
 
@@ -52,6 +82,17 @@ const RowListProducts = ({ productsFiltered, collections, listProductsChecked, h
                 }
             }
         );
+    };
+
+    const showHideCollections = (e) => {
+        // getBoundingClientRect give position of div, ul or li
+        if (productCollections?.length > 1) {
+            var element = e.target;
+            setDistanceFromBottom(
+                window.innerHeight - element.getBoundingClientRect().bottom
+            );
+            setShowCollections(!showCollections);
+        }
     };
 
     // permet la fermeture du popover quand on clique n'importe où en dehors du popover
@@ -126,6 +167,28 @@ const RowListProducts = ({ productsFiltered, collections, listProductsChecked, h
                 )}
             </div>
 
+            {/* variantes */}
+            {screenSize > 639 && (
+                <div className="w-full">
+                    <span
+                        className={`flex flex-row justify-center items-center w-10 h-10 rounded-full bg-indigo-50 m-auto text-sm`}
+                    >
+                        {productsFiltered.variantes.length}
+                    </span>
+                </div>
+            )}
+
+            {/* price */}
+            {screenSize > 639 && (
+                <div className="w-full">
+                    <span
+                        className={`flex flex-row justify-center items-center w-40 h-10 text-sm`}
+                    >
+                        {availablePrice}
+                    </span>
+                </div>
+            )}
+
             {/* stock */}
             {screenSize > 639 && (
                 <div className="w-full">
@@ -139,11 +202,66 @@ const RowListProducts = ({ productsFiltered, collections, listProductsChecked, h
 
 
             {/* collections */}
-            {screenSize > 1279 && (
-                <div className="w-full flex flex-row justify-start items-center truncate">
-                    <span className="w-full truncate">
-                        {productsFiltered && productCollections}
-                    </span>
+            {screenSize > 839 && (
+                <div
+                    className={`w-full flex flex-row justify-start items-center min-h-[48px] ${productCollections?.length > 1 && "cursor-pointer"
+                        }`}
+                    onClick={showHideCollections}
+                >
+                    {productCollections.length > 0 ? (
+                        productCollections[0] !== "" ? (
+                            <div
+                                className={`relative w-full max-w-[90%] flex flex-col justify-start items-start bg-white pl-4 pr-4 py-1 rounded-full border border-gray-300 bg-no-repeat bg-right-center caret-transparent ${productCollections?.length > 1 &&
+                                    "bg-chevron-expand pr-12 hover:border-gray-400"
+                                    }`}
+                            >
+                                {!showCollections ? (
+                                    <div className="w-full truncate">
+                                        <span className="max-w-full text-[15px] lg:text-base">
+                                            {productCollections[0]}
+                                        </span>
+                                    </div>
+                                ) : productCollections.length > 1 ? (
+                                    <div
+                                        className={`flex flex-col justify-start items-start w-72 max-h-[330px] absolute left-0 bg-white shadow-xl rounded-md z-30 ${distanceFromBottom < 330
+                                            ? "bottom-0"
+                                            : "top-[-8px]"
+                                            }`}
+                                    >
+                                        <div
+                                            style={cover}
+                                            onClick={showHideCollections}
+                                        />
+                                        <div className="w-full h-16 min-h-[64px]  pl-5 flex flex-row justify-start items-center bg-gray-100 cursor-default text-sm">
+                                            <span className="w-4 h-4 rounded-sm bg-indigo-700 text-white flex flex-row justify-center  items-center">
+                                            </span>{" "}
+                                            &nbsp; Cet article est dans {productCollections.length} collection{productCollections.length > 1 && "s"}
+                                        </div>
+                                        <ul className="flex flex-col justify-start items-start w-72 max-h-[265px] px-5 py-3 bg-white list-inside overflow-y-auto cursor-default">
+                                            {productCollections.map((item, index) => (
+                                                <li
+                                                    key={index}
+                                                    className="w-full break-all text-[15px] lg:text-base"
+                                                >
+                                                    {item}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                ) : (
+                                    <div className="w-full truncate">
+                                        <span className="text-[15px] lg:text-base">
+                                            {productCollections[0]}
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
+                            ""
+                        )
+                    ) : (
+                        ""
+                    )}
                 </div>
             )}
 
@@ -178,18 +296,10 @@ const RowListProducts = ({ productsFiltered, collections, listProductsChecked, h
                                 )
                             }
                         >
-                            <img src="../images/icons/power.PNG" className="h20" />
+                            <img src="../images/icons/power.svg" className="h-5" />
                         </button>
                     </span>
                 </div>}
-
-            {/* type */}
-            {screenSize > 1149 && (
-                <div className="w-full min-w-[90px] flex-row min-h-[48px] pl-2 xl:pl-0 text-[15px] lg:text-base truncate">
-                    {productsFiltered &&
-                        productsFiltered.type}
-                </div>
-            )}
 
             {/* created_at */}
             {screenSize > 1149 && (

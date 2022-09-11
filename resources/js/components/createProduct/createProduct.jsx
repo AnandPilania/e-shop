@@ -136,7 +136,7 @@ const CreateProduct = () => {
         formData.append('productPrice', productPrice);
         formData.append('reducedProductPrice', reducedProductPrice);
         formData.append('productCost', productCost);
-        formData.append('productStock', productStock);
+        formData.append('productStock', productStock == '' ? 0 : productStock);
         formData.append('unlimitedStock', unlimited);
         formData.append('productSKU', productCode == '' ? uuidv4() : productCode);
         formData.append('productParcelWeight', productParcelWeight);

@@ -149,7 +149,7 @@ const Appcontainer = () => {
     const [productStock, setProductStock] = useState('');
     const [productCode, setProductCode] = useState('');
     const [optionsObj, setOptionsObj] = useState([]);
-    const [unlimited, setUnlimited] = useState(true);
+    const [unlimited, setUnlimited] = useState(false);
     const [variantes, setVariantes] = useState([]);
     const [checkedVariantesList, setCheckedVariantesList] = useState([]);
     const [selectedVariantesList, setSelectedVariantesList] = useState([]);

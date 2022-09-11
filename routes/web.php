@@ -177,6 +177,8 @@ Route::get('/getProducts', [ProductController::class, 'index']);
 
 // change le status d'activation d'un produit'
 Route::post('/handleProductStatus', [ProductController::class, 'handleProductStatus']);
+// delete on or sevreal products
+Route::post('/deleteProducts', [ProductController::class, 'deleteProducts']);
 
 // // A SUPPRIMER ? !!!
 // Route::get('/detailCompletion', [OptionsValueController::class, 'detailCompletion']);

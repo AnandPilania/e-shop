@@ -5,18 +5,19 @@ import SelectMeasureUnit from './selectMeasureUnit';
 import Tooltip from '../elements/tooltip';
 import InputNumeric from '../form/inputNumeric';
 import Label from '../form/label';
+import TooltipWithoutIcon from '../elements/tooltipWithoutIcon';
 
 
 const Stock = () => {
 
-    const [placeholder, setPlaceholder] = useState('Illimité');
+    const [placeholder, setPlaceholder] = useState('0');
     const [toggleSelect, setToggleSelect] = useState(false);
 
     const { productStock, setProductStock, unlimited, setUnlimited, productCode, setProductCode, productParcelWeight, setProductParcelWeight, productParcelWeightMeasureUnit, setProductParcelWeightMeasureUnit } = useContext(AppContext);
 
     useEffect(() => {
         let inputStock = document.getElementById('inputStock');
-        inputStock.style.backgroundColor = '#f9fafb';
+        inputStock.style.backgroundColor = '#ffffff';
     }, []);
 
     const handleProductStock = (e) => {
@@ -24,16 +25,14 @@ const Stock = () => {
     }
 
     const handleProductStockOnFocus = () => {
-        let unlimitedStockCheckbox = document.getElementById('unlimitedStockCheckbox');
+        let unlimitedStockCheckbox = document.getElementById('unlimitedStockCheckbox11922');
         unlimitedStockCheckbox.checked = false;
 
         if (unlimited) {
-            setUnlimited(!unlimited);
-            setPlaceholder('Entrer le stock');
+            setUnlimited(false);
+            setPlaceholder('0');
             let inputStock = document.getElementById('inputStock');
-            inputStock.style.backgroundColor = 'white';
-            let stock_star_alert = document.getElementById('stock_star_alert');
-            stock_star_alert.style.display = productStock.length == 0 && "inline";
+            inputStock.style.backgroundColor = '#ffffff';
         }
     }
 
@@ -44,16 +43,12 @@ const Stock = () => {
             setUnlimited(!unlimited);
             setProductStock('');
             setPlaceholder('Illimité');
-            let stock_star_alert = document.getElementById('stock_star_alert');
-            stock_star_alert.style.display = "none";
         } else {
             let inputStock = document.getElementById('inputStock');
-            inputStock.style.backgroundColor = 'white';
+            inputStock.style.backgroundColor = '#ffffff';
             setUnlimited(!unlimited);
             setProductStock('');
             setPlaceholder('0');
-            let stock_star_alert = document.getElementById('stock_star_alert');
-            stock_star_alert.style.display = productStock.length == 0 && "inline";
         }
     }
 
@@ -72,10 +67,7 @@ const Stock = () => {
                 <div className='flex flex-col justify-start items-start mb-2.5'
                 >
                     {/* stock */}
-                    <div className='flex'>
-                        <Label label="Stock" />
-                        <span id="stock_star_alert" className='text-red-600 hidden'>*</span>
-                    </div>
+                    <Label label="Stock" />
                     <div
                         className='flex flex-rox justify-start items-center w-full'>
                         <InputNumeric
@@ -91,15 +83,19 @@ const Stock = () => {
                         />
 
                         <span
+                            id="checkboxStockUnlimited11922"
                             className='flex flex-rox justify-center items-center w-14 h-10 border-y border-r  border-gray-300 rounded-r-md px-2.5 cursor-pointer caret-transparent'
                             onClick={handleUnlimitedStock}
                         >
                             <input
                                 className='w-4 h-4 caret-transparent cursor-pointer'
-                                id='unlimitedStockCheckbox'
+                                id='unlimitedStockCheckbox11922'
                                 type="checkbox"
                                 checked={unlimited}
                                 onChange={handleUnlimitedStock} />
+                            <TooltipWithoutIcon id="checkboxStockUnlimited11922" idimg="unlimitedStockCheckbox11922" widthTip={184}>
+                                Mettre le stock à illimité
+                            </TooltipWithoutIcon>
                         </span>
                     </div>
                 </div>

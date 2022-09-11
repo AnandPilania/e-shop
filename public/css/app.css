@@ -1178,6 +1178,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .w-\[90\%\] {
   width: 90%;
 }
+.w-40 {
+  width: 10rem;
+}
 .min-w-\[18px\] {
   min-width: 18px;
 }
@@ -1517,6 +1520,30 @@ Ensure the default browser behavior of the `hidden` attribute.
 .grid-cols-\[25px_100px_1fr_1fr_50px_32px\] {
   grid-template-columns: 25px 100px 1fr 1fr 50px 32px;
 }
+.grid-cols-\[48px_70px_2fr__2fr_1fr_1fr_80px\] {
+  grid-template-columns: 48px 70px 2fr  2fr 1fr 1fr 80px;
+}
+.grid-cols-\[48px_70px_2fr_1fr_1fr_1fr__2fr_1fr_1fr_80px\] {
+  grid-template-columns: 48px 70px 2fr 1fr 1fr 1fr  2fr 1fr 1fr 80px;
+}
+.grid-cols-\[48px_70px_2fr_1fr_1fr_1fr__70px_1fr_1fr_80px\] {
+  grid-template-columns: 48px 70px 2fr 1fr 1fr 1fr  70px 1fr 1fr 80px;
+}
+.grid-cols-\[48px_70px_2fr_1fr_1fr_1fr_70px_1fr_80px\] {
+  grid-template-columns: 48px 70px 2fr 1fr 1fr 1fr 70px 1fr 80px;
+}
+.grid-cols-\[48px_70px_2fr_1fr_1fr_1fr_1fr70px_1fr_80px\] {
+  grid-template-columns: 48px 70px 2fr 1fr 1fr 1fr 1fr70px 1fr 80px;
+}
+.grid-cols-\[48px_70px_2fr_1fr_1fr_1fr_1fr_1fr_70px_1fr_80px\] {
+  grid-template-columns: 48px 70px 2fr 1fr 1fr 1fr 1fr 1fr 70px 1fr 80px;
+}
+.grid-cols-\[48px_70px_2fr_1fr_1fr_1fr_1fr_1fr_1fr_80px\] {
+  grid-template-columns: 48px 70px 2fr 1fr 1fr 1fr 1fr 1fr 1fr 80px;
+}
+.grid-cols-\[48px_70px_1fr_1fr_1fr_1fr_1fr_1fr_1fr_80px\] {
+  grid-template-columns: 48px 70px 1fr 1fr 1fr 1fr 1fr 1fr 1fr 80px;
+}
 .flex-row {
   flex-direction: row;
 }
@@ -1657,6 +1684,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .rounded-\[50\%\] {
   border-radius: 50%;
+}
+.rounded-sm {
+  border-radius: 0.125rem;
 }
 .rounded-l-md {
   border-top-left-radius: 0.375rem;

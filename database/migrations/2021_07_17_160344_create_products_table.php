@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->tinyInteger('statusHasBeenChanged');
             $table->dateTime('dateActivation');
             $table->string('ribbon', 255)->nullable();
+            $table->integer('stock');
             $table->string('link');
             $table->mediumText('description')->nullable();
             $table->text('onlyTheseCarriers')->nullable();

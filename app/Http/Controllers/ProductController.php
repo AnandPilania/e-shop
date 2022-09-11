@@ -39,7 +39,6 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request)
     {
-        // dd(gettype($request->id));
         // check si on edit ou crée un produit
         if ($request->id !== null) {
             // if product is edited
@@ -55,6 +54,7 @@ class ProductController extends Controller
         // remplace dans les src de la description le chemin du dossier temporaryStorage par celui de la destionation finale des images et vidéos. !!! c'est handleTinyMceTemporaryElements qui se charge de déplacer les fichiers dans ces dossiers !!!
         $tmp_description = str_replace('temporaryStorage', 'images', $request->descriptionProduct);
         $product->description = preg_replace('/(<source src=").+(images)/', '<source src="' . url('') . '/videos', $tmp_description);
+        $product->stock = $request->productStock;
         $product->onlyTheseCarriers = $request->transporter;
         $product->metaUrl = $request->metaUrlProduct;
         $product->metaTitle = $request->metaTitleProduct;
@@ -148,10 +148,8 @@ class ProductController extends Controller
 
             if ($item->stock != '') {
                 $variante->stock = $item->stock;
-            } elseif ($request->productStock != '') {
-                $variante->stock = $request->productStock;
             } else {
-                $variante->stock = null;
+                $variante->stock = 0;
             }
             if ($item->unlimited != '') {
                 $variante->unlimitedStock = $item->unlimited;
@@ -412,6 +410,7 @@ class ProductController extends Controller
 
         return back()->with('images_product', $images_products);
     }
+    
 
     /**
      * Update the specified resource in storage.
@@ -513,6 +512,8 @@ class ProductController extends Controller
         Product_sheet::where('product_id', $product->id)->delete();
         // supprime les clés étrangères dans la table pivot entre produit et collection
         DB::table('collection_product')->where('product_id', $product->id)->delete();
+
+        $product->collections()->attach($product->id);
 
         $product->delete();
         return back();
