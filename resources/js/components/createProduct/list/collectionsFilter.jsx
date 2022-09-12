@@ -4,21 +4,22 @@ import CheckBox from '../../elements/checkBox';
 
 
 
-const CategoriesFilter = ({ categoryList, categoriesFilter }) => {
+const CollectionsFilter = ({ collectionList, collectionsFilter}) => {
 
-    const [showCategorySelect, setShowCategorySelect] = useState(false);
-    const { categoriesChecked, setCategoriesChecked, searchValue, setSearchValue } = useContext(AppContext);
+    const [showCollectionSelect, setShowCollectionSelect] = useState(false);
+
+    const { collectionsChecked, setCollectionsChecked, searchValue, setSearchValue } = useContext(AppContext);
 
     // show hide select menu
-    const showHideCategorySelect = () => {
-        setShowCategorySelect(!showCategorySelect);
+    const showHideCollectionSelect = () => {
+        setShowCollectionSelect(!showCollectionSelect);
     }
 
     useEffect(() => {
         // dropDown optimisation
-        var filterCard = document.getElementById('cat-filter-card');
+        var filterCard = document.getElementById('collectionFilterCard12922');
 
-        if (!showCategorySelect) {
+        if (!showCollectionSelect) {
             filterCard.style.maxHeight = 0;
             filterCard.style.paddingBottom = '0';
             filterCard.classList.remove('shadow-md');
@@ -28,23 +29,23 @@ const CategoriesFilter = ({ categoryList, categoriesFilter }) => {
             filterCard.style.width = "100%";
             filterCard.classList.add('shadow-md');
         }
-    }, [showCategorySelect]);
+    }, [showCollectionSelect]);
 
 
     useEffect(() => {
         // empèche l'erreur-> Warning: Can't perform a React state update on an unmounted
-        document.addEventListener('click', closeDropDownCategory);
+        document.addEventListener('click', closeDropDownCollectionFilter);
         return () => {
-            document.removeEventListener('click', closeDropDownCategory);
+            document.removeEventListener('click', closeDropDownCollectionFilter);
         };
     }, []);
     // ferme le select de category quand on click en dehors du select
-    function closeDropDownCategory(evt) {
-        const categorySelectElement = document.getElementById("selectId");
+    function closeDropDownCollectionFilter(evt) {
+        const collectionSelectElement = document.getElementById("selectIdcollectionFilter12922");
         let targetElement = evt.target; // clicked element
 
         do {
-            if (targetElement == categorySelectElement) {
+            if (targetElement == collectionSelectElement) {
                 // click inside
                 return;
             }
@@ -53,7 +54,7 @@ const CategoriesFilter = ({ categoryList, categoriesFilter }) => {
         } while (targetElement);
 
         // click outside.
-        setShowCategorySelect(false);
+        setShowCollectionSelect(false);
     }
 
 
@@ -67,24 +68,41 @@ const CategoriesFilter = ({ categoryList, categoriesFilter }) => {
         } else {
             cat = e.target.textContent;
         }
-        if (!categoriesChecked.includes(cat)) {
-            setCategoriesChecked([...categoriesChecked, cat]);
+        if (!collectionsChecked.includes(cat)) {
+            setCollectionsChecked([...collectionsChecked, cat]);
         } else {
-            setCategoriesChecked([...categoriesChecked.filter(e => e !== cat)]);
+            setCollectionsChecked([...collectionsChecked.filter(e => e !== cat)]);
         }
     }
 
+    // function handleCheckBox(e) {
+    //     // clean input search name collection
+    //     setSearchValue('');
+
+    //     let cat = '';
+    //     if (e.target.textContent === '') {
+    //         cat = e.target.value;
+    //     } else {
+    //         cat = e.target.textContent;
+    //     }
+    //     if (!categoriesChecked.includes(cat)) {
+    //         setCategoriesChecked([...categoriesChecked, cat]);
+    //     } else {
+    //         setCategoriesChecked([...categoriesChecked.filter(e => e !== cat)]);
+    //     }
+    // }
+
     useEffect(() => {
-        // on vérifie que searchValue est vide pour raffraichir categoriesFilter sinon cela empèche la collection list name search bar de fonctionner
-        searchValue.length === 0 && categoriesFilter(categoriesChecked);
-    }, [categoriesChecked]);
+        // on vérifie que searchValue est vide pour raffraichir collectionsFilter sinon cela empèche la collection list name search bar de fonctionner
+        searchValue.length === 0 && collectionsFilter(collectionsChecked);
+    }, [collectionsChecked]);
 
 
     return (
-        <div className="w-full 500px:max-w-[47%] h-12 500px:h-10 relative caret-transparent mt-4 500px:mt-0" id="selectId">
+        <div className="w-full 500px:max-w-[47%] h-12 500px:h-10 relative caret-transparent mt-4 500px:mt-0" id="selectIdcollectionFilter12922">
             <button
                 className='w-full h-full flex flex-row justify-start items-center border border-gray-300 rounded-md px-3 bg-white cursor-pointer hover:border-gray-400'
-                onClick={showHideCategorySelect}
+                onClick={showHideCollectionSelect}
             >
                 <img
                     src="../images/icons/filter.svg"
@@ -96,10 +114,10 @@ const CategoriesFilter = ({ categoryList, categoriesFilter }) => {
 
 
             <ul
-                id="cat-filter-card"
-                className={`w-full flex flex-col justify-start items-start max-h-0 h-auto overflow-hidden absolute top-10 left-0 bg-white z-50 overflow-y-auto overflow-x-hidden list-none border border-gray-200 rounded-l-md shadow-md ${showCategorySelect ? "visible" : "invisible"}`}
+                id="collectionFilterCard12922"
+                className={`w-full flex flex-col justify-start items-start max-h-0 h-auto overflow-hidden absolute top-10 left-0 bg-white z-50 overflow-y-auto overflow-x-hidden list-none border border-gray-200 rounded-l-md shadow-md ${showCollectionSelect ? "visible" : "invisible"}`}
             >
-                {categoryList.length > 0 && categoryList.map((item, index) => (
+                {collectionList.length > 0 && collectionList.map((item, index) => (
                     <li
                         className="w-full min-h-[48px] flex flex-row justify-start items-center pl-2.5 border-b border-gray-200 cursor-pointer first:rounded-r-md last:rounded-b-md truncate"
                         key={index}
@@ -118,4 +136,4 @@ const CategoriesFilter = ({ categoryList, categoriesFilter }) => {
     );
 }
 
-export default CategoriesFilter;
+export default CollectionsFilter;

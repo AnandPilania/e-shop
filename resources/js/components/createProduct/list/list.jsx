@@ -6,7 +6,7 @@ import InputText from '../../InputText/Input_text';
 
 import RowListProducts from './rowListProducts';
 import CheckboxListProducts from './checkboxListProducts';
-import HeaderListCollections from './headerListCollections';
+import HeaderListProducts from './headerListProducts';
 import ModalConfirmation from '../../modal/modalConfirmation';
 
 const List = () => {
@@ -28,18 +28,21 @@ const List = () => {
         created_atSens: true
     });
 
-    const { setCategoriesChecked, setSearchValue, is, setIs, messageModal, textButtonConfirm, imageModal, setMessageModal, setSender, setTextButtonConfirm, setImageModal, screenSize, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked } = useContext(AppContext);
+    const { setCategoriesChecked, setSearchValue, is, setIs, messageModal, textButtonConfirm, imageModal, setMessageModal, setSender, setTextButtonConfirm, setImageModal, screenSize, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked, listCollections, setListCollections } = useContext(AppContext);
 
 
     useEffect(() => {
         Axios.get(`http://127.0.0.1:8000/getProducts`)
             .then(res => {
-                setProducts(res.data);
-                setListProductsFiltered(res.data);
+                // procuts permet de garder la liste complète des products pour certaines fonctions qui ont besoin que toutes les products soit parcourues ce qui n'est pas toujours le cas avec listProductsFiltered qui est principalement utilisé pour afficher les products avec ou sans filtre
+                setProducts(res.data[0]);
+                setListProductsFiltered(res.data[0]);
+                setListCollections(res.data[1]);
             }).catch(function (error) {
                 console.log('error:   ' + error);
             });
     }, []);
+
 
     // confirm delete one product
     const confirmDeleteProduct = (id, name) => {
@@ -77,6 +80,7 @@ const List = () => {
 
         Axios.post(`http://127.0.0.1:8000/deleteProducts`, idToDelete)
             .then(res => {
+                setShowModalConfirm(false);
                 setProducts(res.data);
                 // setIdCollection(null);
                 // setIs({ ...is, collectionDeleted: true });
@@ -92,10 +96,10 @@ const List = () => {
     // gère listProductsChecked -> quand on check les checkBox de la list collections
     const handleCheckboxListProduct = (id) => {
         var tmp_arr = [];
-        if (id === 'all') {
+        if (id === 'allProducts12922') {
             if (!allChecked) {
                 setAllChecked(true);
-                tmp_arr.push('all');
+                tmp_arr.push('allProducts12922');
                 listProductsFiltered.forEach(item => tmp_arr.push(item.id));
                 setListProductsChecked(tmp_arr);
             } else {
@@ -107,7 +111,7 @@ const List = () => {
         else {
             // remove "all" from listProductsChecked if uncheck any checkBox 
             tmp_arr = listProductsChecked;
-            let index = tmp_arr.indexOf('all');
+            let index = tmp_arr.indexOf('allProducts12922');
             if (index !== -1) {
                 tmp_arr.splice(index, 1);
             }
@@ -194,6 +198,19 @@ const List = () => {
         setListProductsFiltered([].concat(listProductsFiltered).sort((b, a) => a[item].localeCompare(b[item])));
     }
 
+    // renvoi les collection correspondantes à ce qui est tapé dans la barre de recherche dans List collection
+    function handleSearch(e) {
+        // uncheck all categoies filter when handleSearch
+        // setCategoriesChecked([]);
+
+        setSearchValue(e.target.value);
+        setListProductsFiltered(products.filter(item => item.name.toLowerCase().includes(e.target.value.toLowerCase())));
+    }
+
+    function collectionsFilter(collections) {
+        collections.length > 0 ? setListProductsFiltered(products.filter(x => collections.some(y => x.collections.indexOf(y) >= 0))) : setListProductsFiltered(products);
+    }
+
 
     useEffect(() => {
         handleGridCols();
@@ -239,16 +256,16 @@ const List = () => {
 
 
     console.log('listProductsFiltered  ', listProductsFiltered)
-
+    console.log('listProductsChecked  ', listProductsChecked)
     return (
 
         <div className='mt-10 mx-auto w-[96%] lg:w-[94%] 2xl:w-11/12 3xl:w-10/12 h-auto min-h-[100vh] pb-48 flex flex-col justify-start items-center'>
 
-            {/* <HeaderListCollections
+            <HeaderListProducts
                 confirmDeleteProduct={confirmDeleteProduct}
                 handleSearch={handleSearch}
-                categoriesFilter={categoriesFilter}
-            /> */}
+                collectionsFilter={collectionsFilter}
+            />
 
             <ul className='w-full flex flex-col justify-start items-start mb-2.5 bg-gray-50 min-h-full shadow-sm rounded-md caret-transparent'>
 
@@ -256,12 +273,13 @@ const List = () => {
 
                     <div className='flex justify-center items-center h-12 min-w-[48px]'>
                         <CheckboxListProducts
-                            unikId={'allProducts'}
+                            unikId={'allProducts12922'}
                             handleCheckboxListProduct={handleCheckboxListProduct}
                             listProductsChecked={listProductsChecked} />
                     </div>
                     <span className="flex flex-row justify-center items-center min-h[48px] w-full">{/* thumbnail */}</span>
 
+                    {/* name */}
                     <div className='h-12 w-full min-w-[130px] flex flex-row justify-start items-center'>
                         <span
                             className='cursor-pointer font-medium'
@@ -273,34 +291,31 @@ const List = () => {
                         </figure>
                     </div>
 
+                    {/* variantes */}
                     {screenSize > 639 &&
                         <div className="w-full h-12 flex flex-row justify-center items-center flex-wrap font-medium">
                             Variantes
                         </div>}
 
+                    {/* price */}
                     {screenSize > 639 &&
                         <div className="w-full h-12 flex flex-row justify-center items-center flex-wrap font-medium">
                             Prix
                         </div>}
 
+                    {/* stock */}
                     {screenSize > 639 &&
                         <div className="w-full h-12 flex flex-row justify-center items-center flex-wrap font-medium">
                             Stock
                         </div>}
 
-
                     {/* collections */}
                     {screenSize > 1279
                         && <div className='w-full h12 flex flex-row justify-start items-center'>
                             <span
-                                className='cursor-pointer shrink-0 font-medium'
-                                onClick={() => sortList('categoryName')}>Collections
+                                className='cursor-pointer shrink-0 font-medium'>
+                                Collections
                             </span>
-                            <figure
-                                className='h-6 w-6 ml-1.5 cursor-pointer shrink-0'
-                                onClick={() => sortList('categoryName')}>
-                                <img src={window.location.origin + '/images/icons/' + imgSort.imgCat} className="h-6 w-6" />
-                            </figure>
                         </div>}
 
                     {/* status */}
@@ -321,7 +336,7 @@ const List = () => {
                     {/* empty */}
                     <div className='w-auto'>{/* edit & delete */}</div>
                 </li>
-
+                {console.log('listProductsFiltered  --> ', listProductsFiltered)}
                 {/* RowListProducts */}
                 {!!listProductsFiltered && listProductsFiltered.map(item =>
                     <RowListProducts
@@ -335,9 +350,9 @@ const List = () => {
                     />
                 )}
             </ul>
- 
+
             <ModalConfirmation
-                show={showModalConfirm}  
+                show={showModalConfirm}
                 handleModalConfirm={deleteProduct}
                 handleModalCancel={handleModalCancel}
                 textButtonConfirm={textButtonConfirm}>

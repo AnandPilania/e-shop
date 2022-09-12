@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { createContext } from 'react';
 
-export default React.createContext({
+export default createContext({
     image: [],
     setImage: () => { },
     imagePath: '',
@@ -228,6 +228,8 @@ export default React.createContext({
     setListProductsChecked: () => { },
     dateFieldProduct: '', 
     setDateFieldProduct: () => { },
+    collectionsChecked: '',
+    setCollectionsChecked: () => { },
 
 
 });

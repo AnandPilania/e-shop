@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Controllers\Functions\CleanLink;
+use DateTimeZone;
 
 
 
@@ -33,7 +34,8 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with('collections', 'images_products', 'variantes')->orderBy('id', 'asc')->get();
-        return $products;
+        $collections = Collection::all('name');
+        return [$products, $collections];
     }
 
 
@@ -226,166 +228,7 @@ class ProductController extends Controller
     }
 
 
-    public function getAliExpressProduct(Request $request)
-    {
-        dd($request);
-        // $url = $request->color;
-        // $contents = file_get_contents($url);
-        $colorTab = (json_decode($request->color));
-        dd($colorTab, json_decode($request->size));
-        $body = new Body;
-        $body->data = $request->body;
-        $body->save();
-
-        // importer image et sauvegarder
-        // $url = "http://www.google.co.in/intl/en_com/images/srpr/logo1w.png";
-        // $contents = file_get_contents($url);
-        // $name = substr($url, strrpos($url, '/') + 1);
-        // Storage::put($name, $contents);
-
-
-
-        // return redirect()->route('collections.index');
-    }
-
-
-    public function editProduct($productId)
-    {
-
-        $product = Product::find($productId);
-        $sheet = $product->product_sheet->text;
-
-
-        $details = $product->product_details;
-        $temp_Array = [];
-        $objDetails = [];
-        $detailName = [];
-
-        foreach ($details as $detail) {
-            $temp_Array['libelle'] = $detail->libelle;
-            $temp_Array['ordre'] = $detail->ordre;
-
-            $detailName = Options_name::find($detail->type_detail_product_id);
-            $temp_Array['type'] = $detailName['name'];
-
-            array_push($objDetails, $temp_Array);
-        }
-        // dd($objDetails);
-
-        return ['product' => $product, 'sheet' => $sheet, 'objDetails' => $objDetails];
-    }
-
-    public function selectCollections($productId)
-    {
-        $collections = Collection::all();
-        $product = Product::find($productId);
-        $productCollections = $product->collections;
-        $prodCol = [];
-        foreach ($productCollections as $col) {
-            array_push($prodCol, $col->name);
-        }
-        return ['collections' => $collections, 'product' => $product, 'productCollections' => $prodCol];
-    }
-
-
-    // pour react edit_images.jsx
-    public function editImagesProduct($id)
-    {
-        $images_product = Images_product::where('product_id', $id)
-            ->orderBy('ordre')
-            ->get();
-
-        return $images_product;
-    }
-
-
-    public function replaceImagesProduct(Request $request)
-    {
-        // dd($request);
-        $image_variante = Images_product::find($request->id);
-
-        if ($request->hasFile('newImage')) {
-
-            File::delete($image_variante->path);
-
-            $image = $request->file('newImage');
-            // on crée une random string pour ajouter au nom de l'image
-            $random = substr(str_shuffle("0123456789abcdefghijklmnopqrstvwxyz"), 0, 10);
-            // on explode pour récuppérer le nom sans l'extention
-            $imageName = explode(".", $image->getClientOriginalName());
-            $imageName[0] = str_replace(" ", "", $imageName[0]);
-
-            // on reconstruit le nom de l'image
-            if ($image->getClientOriginalExtension() == '') {
-                // si l'image a été drag drop d'un autre site elle n'aura peut-être pas d'extention même si c'est un fichier png ou autres
-                $input['image'] = $imageName[0] . '_' .  $random . '.jpg';
-            } else {
-                // ici tout est normale
-                $input['image'] = $imageName[0] . '_' .  $random . '.' .  '.jpg';
-            }
-
-            $destinationPath = public_path('/images');
-            $imgFile = Image::make($image);
-            // $imgFile->resize(400, 400, function ($constraint) {
-            //     $constraint->aspectRatio();
-            // });
-            $imgFile->save($destinationPath . '/' . $input['image']);
-
-            $image_variante->path = 'images/' . $input['image'];
-            $image_variante->save();
-
-            return back();
-        } else {
-            return back();
-        }
-    }
-
-    // Ajoute des images pour un produit donné
-    public function addImagesProduct(Request $request)
-    {
-
-        $product_id = $request->id;
-
-        $images = $request->file('image');
-        foreach ($images as $image) {
-            $image_variante = new Images_product;
-            // on crée une random string pour ajouter au nom de l'image
-            $random = substr(str_shuffle("0123456789abcdefghijklmnopqrstvwxyz"), 0, 10);
-            // on explode pour récuppérer le nom sans l'extention
-            $imageName = explode(".", $image->getClientOriginalName());
-            $imageName[0] = str_replace(" ", "", $imageName[0]);
-
-            // on reconstruit le nom de l'image
-            if ($image->getClientOriginalExtension() == '') {
-                // si l'image a été drag drop d'un autre site elle n'aura peut-être pas d'extention même si c'est un fichier png ou autres
-                $input['image'] = $imageName[0] . '_' .  $random . '.jpg';
-            } else {
-                // ici tout est normale
-                $input['image'] = $imageName[0] . '_' .  $random . '.' .  '.jpg';
-            }
-
-            $destinationPath = public_path('/images');
-            $imgFile = Image::make($image);
-            // $imgFile->resize(400, 400, function ($constraint) {
-            //     $constraint->aspectRatio();
-            // });
-            $imgFile->save($destinationPath . '/' . $input['image']);
-
-
-            // récup max ordre pour déterminer l'ordre à inserer
-            $max = Images_product::where('product_id', $product_id)->max('ordre');
-            $image_variante->ordre = $max + 1;
-            $image_variante->path = 'images/' . $input['image'];
-            $image_variante->product_id = $product_id;
-
-            $image_variante->save();
-        }
-
-        $images_products = Images_product::where('product_id', $product_id)->get();
-
-        return back()->with('images_product', $images_products);
-    }
-
+    // supprime une image à la fois
     public function deleteImagesProduct($id)
     {
         $images_product = Images_product::find($id);
@@ -410,133 +253,98 @@ class ProductController extends Controller
 
         return back()->with('images_product', $images_products);
     }
-    
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request)
+
+    public function deleteProducts(Request $request)
     {
-        // dd($request);
-        $this->validate($request, ['name' => 'required', 'price' => 'required', 'collection' => 'required', 'description' => 'required']);
+        $productId = $request->id;
+        $product = Product::find($productId);
 
-        $product =  Product::find($request->id);
-        $product->name = $request->name;
-        $product->price = $request->price;
-        $product->description = $request->description;
-
-        $link = str_replace(' ', '-', $request->name);
-        $search = array('À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'à', 'á', 'â', 'ã', 'ä', 'å', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ð', 'ò', 'ó', 'ô', 'õ', 'ö', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ');
-        $replace = array('A', 'A', 'A', 'A', 'A', 'A', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y', 'a', 'a', 'a', 'a', 'a', 'a', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y');
-        $cleanLink = str_replace($search, $replace, $link);
-        $product->link = strtolower($cleanLink);
-        $product->ordre = $product->ordre;
-
-        $product->save();
-
-        // collection_product
-        $collections = explode(",", $request->collection);
-        $idCollections = [];
-        foreach ($collections as $collection) {
-            $collection_id = Collection::where('name', $collection)->first('id');
-            array_push($idCollections, $collection_id->id);
-
-            $product->collections()->sync($idCollections);
-        }
-
-        // Product_sheet
-        if (!empty($request->technicalSheet)) {
-            Product_sheet::query()->where('product_id', $request->id)->update(array('text' => $request->technicalSheet));
-        }
-
-        // Options_value
-        // on supprime tous les détails du produit
-        Options_value::where('product_id', $request->id)->delete();
-
-        // Insertion dans product_details - on boucle car chaque détail  correspond à un enregistrement dans la table product_details
-        if ($request->obj) {
-
-            foreach (json_decode($request->obj, true) as $key => $value) {
-                if (array_key_exists('typeOption', $value)) {
-                    $type = $value['typeOption'];
-                } else {
-                    $type = $value['type'];
-                }
-
-                // on récupère le Options_name pour en extraire l'id et l'enregistrer dans $product_detail->type_detail_product_id
-                $id_type_detail_product = Options_name::where('name', $type)->first();
-
-                $ordre = 1;
-                foreach ($value['detail'] as $key => $libelle) {
-                    $product_detail =  new Options_value;
-                    $product_detail->libelle = $libelle;
-                    $product_detail->ordre = $ordre;
-                    $product_detail->product_id = $product->id;
-                    $product_detail->type_detail_product_id = $id_type_detail_product['id'];
-                    $product_detail->save();
-                    $ordre++;
-                }
-            }
-        }
-
-        return redirect('/products')->with('status', 'Product updated!');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Product $product)
-    {
-        dd($product);
-        $images_products = Images_product::where('product_id', $product->id)->get();
-
-        // suppression des fichiers images dans public/images
+        // suppression les fichiers images dans public/images
+        $images_products = Images_product::where('product_id', $productId)->get();
         foreach ($images_products as $image_variante) {
             if (File::exists(public_path($image_variante->path))) {
                 File::delete(public_path($image_variante->path));
             }
         }
+        Images_product::where('product_id', $productId)->delete();
 
-        // supprimer toutes les images d'un produit donné
-        Images_product::where('product_id', $product->id)->delete();
-        // supprimer tous les détails d'un produit donné
-        Options_value::where('product_id', $product->id)->delete();
-        // supprimer fiche produit d'un produit donné
-        Product_sheet::where('product_id', $product->id)->delete();
-        // supprime les clés étrangères dans la table pivot entre produit et collection
-        DB::table('collection_product')->where('product_id', $product->id)->delete();
+        // supprimer toutes les options d'une variante appartenant à un produit donné
+        foreach ($product->variantes as $variante) {
+            $options_values =  $variante->options_values;
+            foreach ($options_values as $options_value) {
+                $variante->options_values()->detach($options_value->id);
+            }
+        }
 
-        $product->collections()->attach($product->id);
+        $collections = $product->collections;
+        foreach ($collections as $collection) {
+            $product->collections()->detach($collection->id);
+        }
+
+        Variante::where('product_id', $productId)->delete();
 
         $product->delete();
-        return back();
-    }
 
-
-    public function fetchImage(Request $request)
-    {
-        $img = file_get_contents($request->url);
-        dd($img);
-        return $img;
+        return 'ok';
     }
 
     // change le status d'activation d'un produit
     public function handleProductStatus(Request $request)
     {
         $product = Product::find($request->id);
-        $product->status = intval($request->status) == 1 ? 0 : 1;
-        $product->statusHasBeenChanged = 1;
-        $product->save();
+        date_default_timezone_set('Europe/Paris');
+        dd( date("Y-m-d h:i:s"));
+        dd($product->dateActivation);
+        if (intval($request->status) != 2) {
+            $product->status = intval($request->status) == 1 ? 0 : 1;
+            $product->statusHasBeenChanged = 1;
+            $product->save();
 
-        $product = Product::where('id', $request->id)->with('collections', 'images_products', 'variantes')->first();
+            return Product::where('id', $request->id)->with('collections', 'images_products', 'variantes')->first();
+        } else {
+            return Product::where('id', $request->id)->with('collections', 'images_products', 'variantes')->first();
+        }
+    }
 
-        return $product;
+
+    public function getAliExpressProduct(Request $request)
+    {
+        dd($request);
+        // $url = $request->color;
+        // $contents = file_get_contents($url);
+        $colorTab = (json_decode($request->color));
+        dd($colorTab, json_decode($request->size));
+        $body = new Body;
+        $body->data = $request->body;
+        $body->save();
+
+        // importer image et sauvegarder
+        // $url = "http://www.google.co.in/intl/en_com/images/srpr/logo1w.png";
+        // $contents = file_get_contents($url);
+        // $name = substr($url, strrpos($url, '/') + 1);
+        // Storage::put($name, $contents);
+
+        // return redirect()->route('collections.index');
+    }
+
+
+    public function selectCollections($productId)
+    {
+        $collections = Collection::all();
+        $product = Product::find($productId);
+        $productCollections = $product->collections;
+        $prodCol = [];
+        foreach ($productCollections as $col) {
+            array_push($prodCol, $col->name);
+        }
+        return ['collections' => $collections, 'product' => $product, 'productCollections' => $prodCol];
+    }
+
+    public function fetchImage(Request $request)
+    {
+        $img = file_get_contents($request->url);
+        dd($img);
+        return $img;
     }
 }

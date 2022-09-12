@@ -257,13 +257,19 @@ class CollectionController extends Controller
     public function handleStatus(Request $request)
     {
         $collection = Collection::find($request->id);
-        $collection->status = intval($request->status) == 1 ? 0 : 1;
-        $collection->statusHasBeenChanged = 1;
-        $collection->save();
+        if (intval($request->status) != 2) {
+            $collection->status = intval($request->status) == 1 ? 0 : 1;
+            $collection->statusHasBeenChanged = 1;
+            $collection->save();
 
-        $collections = Collection::where('id', $request->id)->with('category', 'products')->orderBy('created_at', 'desc')->first();
+            $collections = Collection::where('id', $request->id)->with('category', 'products')->orderBy('created_at', 'desc')->first();
 
-        return json_encode($collections);
+            return json_encode($collections);
+        } else {
+            $collections = Collection::where('id', $request->id)->with('category', 'products')->orderBy('created_at', 'desc')->first();
+
+            return json_encode($collections);
+        }
     }
 
 

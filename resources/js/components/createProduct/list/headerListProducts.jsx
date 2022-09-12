@@ -2,15 +2,15 @@ import React, { useState, useEffect, useContext } from 'react';
 import AppContext from '../../contexts/AppContext';
 import { Link } from 'react-router-dom';
 import ModalListOperations from './modalListOperations';
-import CategoriesFilter from './categoriesFilter';
+import CollectionsFilter from './collectionsFilter';
 
 
-const HeaderListCollections = ({ confirmDeleteCollection, handleSearch, categoriesFilter }) => {
+const HeaderListProducts = ({ confirmDeleteCollection, handleSearch, collectionsFilter }) => {
 
     const [isShowOperationDrop, setIsShowOperationDrop] = useState(false);
     const [sender, setSender] = useState('');
 
-    const { setIs_Edit, is, setIs, initCollectionForm, listCollectionsChecked, showModalListOperations, setShowModalListOperations, searchValue, listCategories } = useContext(AppContext);
+    const { setIs_Edit, is, setIs, initCollectionForm, listCollectionsChecked, showModalListOperations, setShowModalListOperations, searchValue, listCollections } = useContext(AppContext);
 
 
     useEffect(() => {
@@ -57,9 +57,9 @@ const HeaderListCollections = ({ confirmDeleteCollection, handleSearch, categori
         >
             <div className='w-full flex flex-row justify-between items-start'>
                 <h1 className="text-xl font-bold caret-transparent">
-                    Collection
+                    Produits
                 </h1>
-                {/* add collection */}
+                {/* add product */}
                 <button
                     className='w-52 h-10 p-0 flex flex-row justify-center items-center flex-nowrap border border-gray-300 rounded-md bg-indigo-500 text-white'
                     onClick={() => {
@@ -68,13 +68,12 @@ const HeaderListCollections = ({ confirmDeleteCollection, handleSearch, categori
                         setIs({ ...is, newCollection: true });
                     }}
                 >
-                    <Link to="/add-collection"
+                    <Link to="/addProduct"
                         className='hover:text-white'>
-                        Ajouter une collection
+                        Ajouter un produit
                     </Link>
                 </button>
             </div>
-
 
             <div
                 className='w-full h-auto flex flex-col justify-start items-center 500px:flex-row 500px:justify-between flex-wrap mt-6 500px:mt-10'
@@ -93,12 +92,12 @@ const HeaderListCollections = ({ confirmDeleteCollection, handleSearch, categori
                     </div>
 
                     {/* filter */}
-                    {listCategories &&
-                        <CategoriesFilter
-                            categoryList={listCategories}
-                            categoriesFilter={categoriesFilter}
+                    {/* {listCollections &&
+                        <CollectionsFilter
+                            collectionList={listCollections}
+                            collectionsFilter={collectionsFilter}
                         />
-                    }
+                    } */}
                 </div>
 
 
@@ -161,4 +160,4 @@ const HeaderListCollections = ({ confirmDeleteCollection, handleSearch, categori
     );
 }
 
-export default HeaderListCollections;
+export default HeaderListProducts;

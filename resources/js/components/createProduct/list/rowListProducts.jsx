@@ -65,6 +65,7 @@ const RowListProducts = ({ productsFiltered, collections, listProductsChecked, h
 
     // active ou désactive une collection
     const handleActivation = (id, status) => {
+        console.log('id, status  ', id, status)
         let statusData = new FormData();
         statusData.append("id", id);
         statusData.append("status", status);
@@ -127,7 +128,6 @@ const RowListProducts = ({ productsFiltered, collections, listProductsChecked, h
         backgroundPosition: "center",
     };
 
-    console.log('productsFiltered  ', productsFiltered)
 
 
     return (

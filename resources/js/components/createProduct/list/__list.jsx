@@ -27,20 +27,20 @@ const ListCollections = () => {
 
     // const { listCollections, setListCollections, listCollectionsFiltered, setListCollectionsFiltered, setListCategories, setCategoriesChecked, setSearchValue, is, setIs, messageModal, textButtonConfirm, imageModal, showModalConfirm, handleModalConfirm, handleModalCancel, setShowModalConfirm, setMessageModal, setSender, setTextButtonConfirm, setImageModal, setTmp_parameter, screenSize, listCollectionsChecked, setListCollectionsChecked } = useContext(AppContext);
 
-    useEffect(() => {
-        if (listCollectionsFiltered.length === 0) {
-            // chargement des collections
-            Axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
-                .then(res => {
-                    // listCollections permet de garder la liste complète des collections pour certaines fonctions qui ont besoin que toutes les collections soit parcourues ce qui n'est pas toujours le cas avec listCollectionsFiltered qui est principalement utilisé pour afficher les collections avec ou sans filtre
-                    setListCollections(res.data[0]);
-                    setListCollectionsFiltered(res.data[0]);
-                    setListCategories(res.data[1]);
-                }).catch(function (error) {
-                    console.log('error:   ' + error);
-                });
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (listCollectionsFiltered.length === 0) {
+    //         // chargement des collections
+    //         Axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
+    //             .then(res => {
+    //                 // listCollections permet de garder la liste complète des collections pour certaines fonctions qui ont besoin que toutes les collections soit parcourues ce qui n'est pas toujours le cas avec listCollectionsFiltered qui est principalement utilisé pour afficher les collections avec ou sans filtre
+    //                 setListCollections(res.data[0]);
+    //                 setListCollectionsFiltered(res.data[0]);
+    //                 setListCategories(res.data[1]);
+    //             }).catch(function (error) {
+    //                 console.log('error:   ' + error);
+    //             });
+    //     }
+    // }, []);
 
     useEffect(() => {
         // re-chargement des collections quand on delete une collection
@@ -135,18 +135,18 @@ const ListCollections = () => {
     //     setListCollectionsFiltered([].concat(listCollectionsFiltered).sort((b, a) => a[item].localeCompare(b[item])));
     // }
 
-    // renvoi les collection correspondantes à ce qui est tapé dans la barre de recherche dans List collection
-    function handleSearch(e) {
-        // uncheck all categoies filter when handleSearch
-        setCategoriesChecked([]);
+    // // renvoi les collection correspondantes à ce qui est tapé dans la barre de recherche dans List collection
+    // function handleSearch(e) {
+    //     // uncheck all categoies filter when handleSearch
+    //     setCategoriesChecked([]);
 
-        setSearchValue(e.target.value);
-        setListCollectionsFiltered(listCollections.filter(item => item.name.toLowerCase().includes(e.target.value.toLowerCase())));
-    }
+    //     setSearchValue(e.target.value);
+    //     setListCollectionsFiltered(listCollections.filter(item => item.name.toLowerCase().includes(e.target.value.toLowerCase())));
+    // }
 
-    function categoriesFilter(categories) {
-        categories.length > 0 ? setListCollectionsFiltered(listCollections.filter(item => categories.includes(item.categoryName))) : setListCollectionsFiltered(listCollections);
-    }
+    // function categoriesFilter(categories) {
+    //     categories.length > 0 ? setListCollectionsFiltered(listCollections.filter(item => categories.includes(item.categoryName))) : setListCollectionsFiltered(listCollections);
+    // }
 
     // // gère listCollectionsChecked -> quand on check les checkBox de la list collections
     // const handleCheckboxListCollection = (id) => {
