@@ -104,7 +104,10 @@ const CategoriesFilter = ({ categoryList, categoriesFilter }) => {
                         className="w-full min-h-[48px] flex flex-row justify-start items-center pl-2.5 border-b border-gray-200 cursor-pointer first:rounded-r-md last:rounded-b-md truncate"
                         key={index}
                     >
-                        <CheckBox unikId={item.name} handleCheckBox={handleCheckBox}
+                        <CheckBox
+                            unikId={item.name}
+                            handleCheckBox={handleCheckBox}
+                            checked={categoriesChecked}
                         />
                         <span
                             className='w-full cursor-pointer ml-2.5 h-full truncate'

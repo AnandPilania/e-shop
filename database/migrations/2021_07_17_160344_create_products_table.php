@@ -18,7 +18,6 @@ class CreateProductsTable extends Migration
             $table->string('name', 255);
             $table->integer('isInAutoCollection')->default(1);
             $table->tinyInteger('status');
-            $table->tinyInteger('statusHasBeenChanged');
             $table->dateTime('dateActivation');
             $table->string('ribbon', 255)->nullable();
             $table->integer('stock');

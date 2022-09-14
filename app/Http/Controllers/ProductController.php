@@ -26,11 +26,6 @@ use DateTimeZone;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $products = Product::with('collections', 'images_products', 'variantes')->orderBy('id', 'asc')->get();
@@ -38,6 +33,12 @@ class ProductController extends Controller
         return [$products, $collections];
     }
 
+    public function getProduct(Request $request)
+    {
+        $product = Product::where('id', $request->productId)->with('collections', 'images_products', 'variantes')->first();
+        $collections = Collection::all('name');
+        return [$product, $collections];
+    }
 
     public function store(StoreProductRequest $request)
     {
@@ -66,15 +67,8 @@ class ProductController extends Controller
         // Retourne un nouvel objet DateTime représentant la date et l'heure spécifiées par la string time, qui a été formaté dans le format donné.
         $date = DateTime::createFromFormat('d-m-Y H:i:s', $request->dateActivation);
         $product->dateActivation = $date->format('Y-m-d H:i:s');
-        // si $statusHasBeenChanged existe c'est qu'on est en édition et si il est == 0 c'est qu'on a pas encore changé son statut manuellement donc le status dépend de la date d'activation. Le statut 2 c'est quand la date d'activation n'est pas encore arrivée
-        if (isset($statusHasBeenChanged)) {
-            if ($statusHasBeenChanged == 0) {
-                $product->status = $date->format('Y-m-d H:i:s') <= date('Y-m-d H:i:s') ? 1 : 2;
-            }
-        } else {
-            $product->statusHasBeenChanged = 0;
-            $product->status = $date->format('Y-m-d H:i:s') <= date('Y-m-d H:i:s') ? 1 : 2;
-        }
+        $product->status = 1;
+        // $product->status = $date->format('Y-m-d H:i:s') <= date('Y-m-d H:i:s') ? 1 : 2;
         $product->type = 'no type';
         $product->taxe_id = json_decode($request->tva)->id;
         $product->supplier_id = json_decode($request->supplier) != "" && json_decode($request->supplier)->id;
@@ -293,18 +287,12 @@ class ProductController extends Controller
     public function handleProductStatus(Request $request)
     {
         $product = Product::find($request->id);
-        date_default_timezone_set('Europe/Paris');
-        dd( date("Y-m-d h:i:s"));
-        dd($product->dateActivation);
-        if (intval($request->status) != 2) {
-            $product->status = intval($request->status) == 1 ? 0 : 1;
-            $product->statusHasBeenChanged = 1;
-            $product->save();
+        $product->status = intval($request->status) == 1 ? 0 : 1;
+        $product->save();
 
-            return Product::where('id', $request->id)->with('collections', 'images_products', 'variantes')->first();
-        } else {
-            return Product::where('id', $request->id)->with('collections', 'images_products', 'variantes')->first();
-        }
+        $product = Product::where('id', $request->id)->with('collections', 'images_products', 'variantes')->first();
+
+        return $product;
     }
 
 

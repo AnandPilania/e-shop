@@ -4,11 +4,11 @@ import CheckBox from '../../elements/checkBox';
 
 
 
-const CollectionsFilter = ({ collectionList, collectionsFilter}) => {
+const CollectionsFilter = ({ collectionList, collectionsFilter, collectionsSelected, setCollectionsSelected }) => {
 
     const [showCollectionSelect, setShowCollectionSelect] = useState(false);
-
-    const { collectionsChecked, setCollectionsChecked, searchValue, setSearchValue } = useContext(AppContext);
+    
+    const { searchValue, setSearchValue } = useContext(AppContext);
 
     // show hide select menu
     const showHideCollectionSelect = () => {
@@ -61,41 +61,22 @@ const CollectionsFilter = ({ collectionList, collectionsFilter}) => {
     function handleCheckBox(e) {
         // clean input search name collection
         setSearchValue('');
-
-        let cat = '';
+        let target = '';
         if (e.target.textContent === '') {
-            cat = e.target.value;
+            target = e.target.value;
         } else {
-            cat = e.target.textContent;
+            target = e.target.textContent;
         }
-        if (!collectionsChecked.includes(cat)) {
-            setCollectionsChecked([...collectionsChecked, cat]);
+        console.log('target  ', target)
+        if (!collectionsSelected.includes(target)) {
+            setCollectionsSelected([...collectionsSelected, target]);
+            collectionsFilter([...collectionsSelected, target]);
         } else {
-            setCollectionsChecked([...collectionsChecked.filter(e => e !== cat)]);
+            setCollectionsSelected([...collectionsSelected.filter(e => e !== target)]);
+            collectionsFilter([...collectionsSelected.filter(e => e !== target)]);
         }
     }
 
-    // function handleCheckBox(e) {
-    //     // clean input search name collection
-    //     setSearchValue('');
-
-    //     let cat = '';
-    //     if (e.target.textContent === '') {
-    //         cat = e.target.value;
-    //     } else {
-    //         cat = e.target.textContent;
-    //     }
-    //     if (!categoriesChecked.includes(cat)) {
-    //         setCategoriesChecked([...categoriesChecked, cat]);
-    //     } else {
-    //         setCategoriesChecked([...categoriesChecked.filter(e => e !== cat)]);
-    //     }
-    // }
-
-    useEffect(() => {
-        // on vérifie que searchValue est vide pour raffraichir collectionsFilter sinon cela empèche la collection list name search bar de fonctionner
-        searchValue.length === 0 && collectionsFilter(collectionsChecked);
-    }, [collectionsChecked]);
 
 
     return (
@@ -108,7 +89,7 @@ const CollectionsFilter = ({ collectionList, collectionsFilter}) => {
                     src="../images/icons/filter.svg"
                     className="w-5 h-5 mr-3 inline"
                 />
-                Catégorie
+                Collections
                 <img src='../images/icons/chevron-expand.svg' className="w-5 h-5 cursor-pointer ml-auto" />
             </button>
 
@@ -122,7 +103,10 @@ const CollectionsFilter = ({ collectionList, collectionsFilter}) => {
                         className="w-full min-h-[48px] flex flex-row justify-start items-center pl-2.5 border-b border-gray-200 cursor-pointer first:rounded-r-md last:rounded-b-md truncate"
                         key={index}
                     >
-                        <CheckBox unikId={item.name} handleCheckBox={handleCheckBox}
+                        <CheckBox
+                            unikId={item.name}
+                            handleCheckBox={handleCheckBox}
+                            checked={collectionsSelected}
                         />
                         <span
                             className='w-full cursor-pointer ml-2.5 h-full truncate'

@@ -361,7 +361,6 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
     }, [screenSize]);
 
 
-    console.log('variantes ---> ', variantes)
     return (
         <div
             className={`w-full ${variantes?.length > 0 && "border-t border-gray-200 mt-5"}`}

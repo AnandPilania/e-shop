@@ -11,7 +11,7 @@ import ModalConfirmation from '../../modal/modalConfirmation';
 
 const List = () => {
 
-    const [isChecked, setIsChecked] = useState(false);
+    const [collectionsSelected, setCollectionsSelected] = useState('');
 
     const [imgSort, setImgSort] = useState({
         imgName: 'az.svg',
@@ -201,14 +201,27 @@ const List = () => {
     // renvoi les collection correspondantes à ce qui est tapé dans la barre de recherche dans List collection
     function handleSearch(e) {
         // uncheck all categoies filter when handleSearch
-        // setCategoriesChecked([]);
-
+        setCollectionsSelected([]);
         setSearchValue(e.target.value);
         setListProductsFiltered(products.filter(item => item.name.toLowerCase().includes(e.target.value.toLowerCase())));
     }
 
-    function collectionsFilter(collections) {
-        collections.length > 0 ? setListProductsFiltered(products.filter(x => collections.some(y => x.collections.indexOf(y) >= 0))) : setListProductsFiltered(products);
+    // renvoi les collection correspondantes à ce qui a été sélectionné dans le filtre des collections -> collectionsFilter
+    function collectionsFilter(collectionsSelected) {
+        let tmp_products = [];
+        for (let i = 0; i < products.length; i++) {
+            for (let j = 0; j < collectionsSelected.length; j++) {
+                let map_productsNames = products[i].collections.map(obj => obj.name);
+                if (map_productsNames.indexOf(collectionsSelected[j]) > -1) {
+                    if (tmp_products.findIndex(x => x.id == products[i].id) == -1) {
+                        tmp_products.push(products[i]);
+                    } else {
+                        tmp_products
+                    }
+                }
+            }
+        }
+        tmp_products.length > 0 ? setListProductsFiltered([...tmp_products]) : setListProductsFiltered([...products]);
     }
 
 
@@ -255,8 +268,8 @@ const List = () => {
     }
 
 
-    console.log('listProductsFiltered  ', listProductsFiltered)
-    console.log('listProductsChecked  ', listProductsChecked)
+    // console.log('listProductsFiltered  ', listProductsFiltered)
+    // console.log('listProductsChecked  ', listProductsChecked)
     return (
 
         <div className='mt-10 mx-auto w-[96%] lg:w-[94%] 2xl:w-11/12 3xl:w-10/12 h-auto min-h-[100vh] pb-48 flex flex-col justify-start items-center'>
@@ -265,11 +278,15 @@ const List = () => {
                 confirmDeleteProduct={confirmDeleteProduct}
                 handleSearch={handleSearch}
                 collectionsFilter={collectionsFilter}
+                collectionsSelected={collectionsSelected} 
+                setCollectionsSelected={setCollectionsSelected}
             />
 
             <ul className='w-full flex flex-col justify-start items-start mb-2.5 bg-gray-50 min-h-full shadow-sm rounded-md caret-transparent'>
 
-                <li className={`w-full py-4 grid ${gridCols} gap-2 bg-gray-50 rounded-t-md`}>
+                <li
+                    key="firstLi14922"
+                    className={`w-full py-4 grid ${gridCols} gap-2 bg-gray-50 rounded-t-md`}>
 
                     <div className='flex justify-center items-center h-12 min-w-[48px]'>
                         <CheckboxListProducts
@@ -336,9 +353,8 @@ const List = () => {
                     {/* empty */}
                     <div className='w-auto'>{/* edit & delete */}</div>
                 </li>
-                {console.log('listProductsFiltered  --> ', listProductsFiltered)}
                 {/* RowListProducts */}
-                {!!listProductsFiltered && listProductsFiltered.map(item =>
+                {listProductsFiltered.length > 0 && listProductsFiltered.map(item =>
                     <RowListProducts
                         key={item.id}
                         productsFiltered={item}

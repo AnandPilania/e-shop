@@ -5,7 +5,7 @@ import ModalListOperations from './modalListOperations';
 import CollectionsFilter from './collectionsFilter';
 
 
-const HeaderListProducts = ({ confirmDeleteCollection, handleSearch, collectionsFilter }) => {
+const HeaderListProducts = ({ confirmDeleteCollection, handleSearch, collectionsFilter, collectionsSelected, setCollectionsSelected }) => {
 
     const [isShowOperationDrop, setIsShowOperationDrop] = useState(false);
     const [sender, setSender] = useState('');
@@ -92,12 +92,14 @@ const HeaderListProducts = ({ confirmDeleteCollection, handleSearch, collections
                     </div>
 
                     {/* filter */}
-                    {/* {listCollections &&
+                    {listCollections.length > 0 &&
                         <CollectionsFilter
                             collectionList={listCollections}
                             collectionsFilter={collectionsFilter}
+                            collectionsSelected={collectionsSelected} 
+                setCollectionsSelected={setCollectionsSelected}
                         />
-                    } */}
+                    }
                 </div>
 
 

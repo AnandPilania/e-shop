@@ -148,8 +148,8 @@ Route::post('/update-Shipping_mode', [ShippingController::class, 'updateShipping
 // delete shipping mode
 Route::post('/delete-Shipping_mode', [ShippingController::class, 'deleteShipping_mode']);
 
-
-Route::get('/editProduct/{productId}', [ProductController::class, 'editProduct']);
+// recup un produit avec ses relations
+Route::post('/getProduct', [ProductController::class, 'getProduct']);
 
 Route::get('/selectCollections/{productId}', [ProductController::class, 'selectCollections']);
 

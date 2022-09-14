@@ -19,6 +19,8 @@ const RowListProducts = ({ productsFiltered, collections, listProductsChecked, h
     const [stockCount, setStockCount] = useState('');
     const [productCollections, setProductCollections] = useState('');
     const [availablePrice, setAvailablePrice] = useState('');
+    const [statusColor, setStatusColor] = useState('green');
+    const [statusState, setStatusState] = useState('Activé');
 
     const { screenSize, listProductsFiltered, setListProductsFiltered } =
         useContext(AppContext);
@@ -35,11 +37,9 @@ const RowListProducts = ({ productsFiltered, collections, listProductsChecked, h
 
         setProductCollections(productsFiltered.collections.map(x => x.name));
 
-        // récupération du ou des prix différentens variantes pour un produit donné
+        // récupération du ou des prix des différentes variantes pour un produit donné
         let tmp_reducedPrice = productsFiltered.variantes.map(x => x.reduced_price);
         let tmp_price = productsFiltered.variantes.map(x => x.price);
-
-
         if (Math.max(...tmp_reducedPrice) > 0) {
             let tmpMin = Math.min(...tmp_reducedPrice);
             let tmpMax = Math.max(...tmp_reducedPrice);
@@ -60,12 +60,12 @@ const RowListProducts = ({ productsFiltered, collections, listProductsChecked, h
             setAvailablePrice('0 €');
         }
 
+        handleStatusColorAndStatusOnOff();
     }, []);
 
 
     // active ou désactive une collection
     const handleActivation = (id, status) => {
-        console.log('id, status  ', id, status)
         let statusData = new FormData();
         statusData.append("id", id);
         statusData.append("status", status);
@@ -84,6 +84,34 @@ const RowListProducts = ({ productsFiltered, collections, listProductsChecked, h
             }
         );
     };
+
+    const handleStatusColorAndStatusOnOff = () => {
+        // handle status color
+        if (productsFiltered?.status == 1) {
+            if (productsFiltered?.dateActivation <= getNowUs()) {
+                setStatusColor('bg-green-100');
+            } else {
+                setStatusColor('bg-zinc-50');
+            }
+        } else {
+            setStatusColor('bg-red-100');
+        }
+        // handle status state
+        if (productsFiltered?.status == 1) {
+            if (productsFiltered?.dateActivation <= getNowUs()) {
+                setStatusState("Activé");
+            } else {
+                setStatusState(`${getOnlyDateShort(
+                    productsFiltered?.dateActivation)}`);
+            }
+        } else {
+            setStatusState("Désactivé");
+        }
+    }
+    useEffect(() => {
+        handleStatusColorAndStatusOnOff();
+    }, [listProductsFiltered]);
+
 
     const showHideCollections = (e) => {
         // getBoundingClientRect give position of div, ul or li
@@ -270,22 +298,9 @@ const RowListProducts = ({ productsFiltered, collections, listProductsChecked, h
                 <div className="w-full min-w-[130px] flex justify-start items-center">
                     <span
                         className={`flex flex-row justify-center items-center rounded-l-[16px] rounded-r-md w-32 h-8 pl-2.5 text-[15px] lg:text-base font-normal 
-                        ${productsFiltered?.status == 1 ||
-                                productsFiltered?.status == 2
-                                ? productsFiltered?.dateActivation <= getNowUs()
-                                    ? "bg-green-100"
-                                    : "bg-zinc-50"
-                                : "bg-red-100"
-                            }`}
+                        ${statusColor}`}
                     >
-                        {productsFiltered?.status == 1 ||
-                            productsFiltered?.status == 2
-                            ? productsFiltered?.dateActivation <= getNowUs()
-                                ? "On"
-                                : `${getOnlyDateShort(
-                                    productsFiltered?.dateActivation
-                                )}`
-                            : "Off"}
+                        {statusState}
                         <button
                             className="flex flex-row justify-center items-center w-8 h-8 ml-auto rounded-r-md bg-indigo-50"
                             // checked={productsFiltered.status == 1}

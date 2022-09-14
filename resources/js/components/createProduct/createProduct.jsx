@@ -1,4 +1,5 @@
 import { React, useState, useEffect, useContext } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import AppContext from '../contexts/AppContext';
 import Flex_col_s_s from '../elements/container/flex_col_s_s';
 import Options from './options/options';
@@ -22,9 +23,15 @@ import Activation from './activation';
 // props.id = detailx
 const CreateProduct = () => {
 
+    var navigate = useNavigate();
+
     const [showModalFromPrice, setShowModalFromPrice] = useState(false);
 
-    const { descriptionProduct, setListSuppliers, supplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, screenSize, unlimited, isInAutoCollection, dateFieldProduct, setDateFieldProduct, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked } = useContext(AppContext);
+    // when click on edit in collection list it send collection id to db request for make edit collection
+    const { state } = useLocation();
+    const { productId, isEdit } = state !== null ? state : { productId: null, isEdit: false };
+
+    const { descriptionProduct, setListSuppliers, supplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, setRibbonProduct, screenSize, unlimited, isInAutoCollection, dateFieldProduct, setDateFieldProduct, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked, setDescriptionProduct, setCollections, setProductPrice,        setProductParcelWeight, setProductParcelWeightMeasureUnit,        setPromoApplied, setReducedProductPrice, setProductCost,        setProductStock, setProductCode, setOptionsObj, setUnlimited,        setVariantes } = useContext(AppContext);
 
     useEffect(() => {
         // charge la liste des fournisseurs
@@ -49,6 +56,80 @@ const CreateProduct = () => {
             .then((res) => {
                 setOptionsData(Object.values(res.data));
             });
+
+
+        if (isEdit) {
+            let idProduct = new FormData;
+            idProduct.append('productId', productId);
+            Axios.post(`http://127.0.0.1:8000/getProduct`, idProduct)
+                .then(res => {
+                    console.log('res.data   ', res.data)
+                    console.log('productId   ', productId)
+                    let data = res.data[0];
+                    setNameProduct(data.name == null ? '' : data.name);
+                    setRibbonProduct(data.ribbon == null ? '' : data.ribbon);
+
+                    setCollections([...data.collections]); 
+                    setProductPrice('');        
+                    // setProductParcelWeight, setProductParcelWeightMeasureUnit,        
+                    // setPromoApplied, 
+                    // setReducedProductPrice, 
+                    // setProductCost,        
+                    // setProductStock, 
+                    // setProductCode, 
+                    // setOptionsObj, 
+                    // setUnlimited,        
+                    // setVariantes
+
+
+                    // collections[]
+                    // created_at
+                    // dateActivation
+                    // description
+                    // id
+                    // images_products[]
+                    // isInAutoCollection
+                    // link
+                    // metaDescription
+                    // metaTitle
+                    // metaUrl
+                    // name
+                    // onlyTheseCarriers[]
+                    // ribbon
+                    // status
+                    // stock
+                    // supplier_id
+                    // taxe_id
+                    // type
+                    // updated_at
+                    // variantes[]
+
+
+                    // formData.append('nameProduct', nameProduct);
+                    // formData.append('ribbonProduct', ribbonProduct);
+                    // formData.append('descriptionProduct', descriptionProduct);
+                    // formData.append('imageVariantes', JSON.stringify(imageVariantes));
+                    // formData.append('collections', JSON.stringify(collections));
+                    // formData.append('isInAutoCollection', isInAutoCollection);
+                    // formData.append('productPrice', productPrice);
+                    // formData.append('reducedProductPrice', reducedProductPrice);
+                    // formData.append('productCost', productCost);
+                    // formData.append('productStock', productStock == '' ? 0 : productStock);
+                    // formData.append('unlimitedStock', unlimited);
+                    // formData.append('productSKU', productCode == '' ? uuidv4() : productCode);
+                    // formData.append('productParcelWeight', productParcelWeight);
+                    // formData.append('WeightMeasureUnit', productParcelWeightMeasureUnit);
+                    // formData.append('transporter', JSON.stringify(transporter));
+                    // formData.append('tva', JSON.stringify(tva));
+                    // formData.append('supplier', JSON.stringify(supplier));
+                    // formData.append("dateActivation", dateFieldProduct);
+                    // formData.append('optionsObj', JSON.stringify(optionsObj));
+                    // formData.append('variantes', JSON.stringify(variantes));
+                    // formData.append('metaUrlProduct', metaUrlProduct);
+                    // formData.append('metaTitleProduct', metaTitleProduct);
+                    // formData.append('metaDescriptionProduct', metaDescriptionProduct);
+                })
+        }
 
     }, []);
 

@@ -16,6 +16,8 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
     const [conditions, setConditions] = useState(null);
     const [showConditions, setShowConditions] = useState(false);
     const [distanceFromBottom, setDistanceFromBottom] = useState(null);
+    const [statusColor, setStatusColor] = useState('green');
+    const [statusState, setStatusState] = useState('On');
 
     const { listCollectionsFiltered, setListCollectionsFiltered, screenSize } =
         useContext(AppContext);
@@ -25,6 +27,8 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
     useEffect(() => {
         setConditions(JSON.parse(collectionFiltered.objConditions));
         handleGridCols();
+
+        handleStatusColorAndStatusOnOff();
     }, []);
 
     // met à jour conditions quand on ajoute de nouvelles conditions dans operations List
@@ -63,6 +67,34 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
             }
         );
     };
+
+    
+    const handleStatusColorAndStatusOnOff = () => {
+        // handle status color
+        if (collectionFiltered?.status == 1) {
+            if (collectionFiltered?.dateActivation <= getNowUs()) {
+                setStatusColor('bg-green-100');
+            } else {
+                setStatusColor('bg-zinc-50');
+            }
+        } else {
+            setStatusColor('bg-red-100');
+        }
+        // handle status state
+        if (collectionFiltered?.status == 1) {
+            if (collectionFiltered?.dateActivation <= getNowUs()) {
+                setStatusState("On");
+            } else {
+                setStatusState(`${getOnlyDateShort(
+                    collectionFiltered?.dateActivation)}`);
+            }
+        } else {
+            setStatusState("Off");
+        }
+    }
+    useEffect(() => {
+        handleStatusColorAndStatusOnOff();
+    }, [listCollectionsFiltered]);
 
     // permet la fermeture du popover quand on clique n'importe où en dehors du popover
     const cover = {
@@ -248,22 +280,9 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
             {screenSize > 559 &&
                 <div className="w-full min-w-[130px] flex justify-start items-center">
                     <span
-                        className={`flex flex-row justify-center items-center rounded-l-[16px] rounded-r-md w-32 h-8 pl-2.5 text-[15px] lg:text-base font-normal ${collectionFiltered?.status == 1 ||
-                            collectionFiltered?.status == 2
-                            ? collectionFiltered?.dateActivation <= getNowUs()
-                                ? "bg-green-100"
-                                : "bg-zinc-50"
-                            : "bg-red-100"
-                            }`}
+                        className={`flex flex-row justify-center items-center rounded-l-[16px] rounded-r-md w-32 h-8 pl-2.5 text-[15px] lg:text-base font-normal ${statusColor}`}
                     >
-                        {collectionFiltered?.status == 1 ||
-                            collectionFiltered?.status == 2
-                            ? collectionFiltered?.dateActivation <= getNowUs()
-                                ? "On"
-                                : `${getOnlyDateShort(
-                                    collectionFiltered?.dateActivation
-                                )}`
-                            : "Off"}
+                        {statusState}
                         <button
                             className="flex flex-row justify-center items-center w-8 h-8 ml-auto rounded-r-md bg-indigo-50"
                             checked={collectionFiltered.status == 1}

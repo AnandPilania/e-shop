@@ -34,7 +34,7 @@ export default createContext({
     is_Edit: '',
     setIs_Edit: () => { },
     categoriesChecked: '',
-    setCategoriesChecked: '',
+    setCategoriesChecked: () => { },
     searchValue: '',
     setSearchValue: () => { },
     isDirty: '',
@@ -228,8 +228,7 @@ export default createContext({
     setListProductsChecked: () => { },
     dateFieldProduct: '', 
     setDateFieldProduct: () => { },
-    collectionsChecked: '',
-    setCollectionsChecked: () => { },
+
 
 
 });
