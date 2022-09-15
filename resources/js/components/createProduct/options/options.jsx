@@ -41,14 +41,15 @@ const Options = () => {
 
     const addOption = () => {
         // get bigger ordre num
-        const ordres = optionsObj.map(x => { return x.ordre });
+        // const ordres = optionsObj.map(x => { return x.ordre });
         setOptionsObj([
             ...optionsObj,
             {
                 id: Date.now(),
                 name: '',
                 values: [],
-                ordre: ordres.length
+                ordre: optionsObj.length
+                // ordre: ordres.length
             }]);
     }
 
@@ -73,18 +74,6 @@ const Options = () => {
             setOptionsObj([...arr]);
         }
     }
-
-    // const removeOptionValue = (item, optionObj_data) => {
-    //     // whatOptionBeenDeleted est utilisé pour mettre à jour checkedVariantesList dans selectionVariantesList
-    //     setWhatOptionBeenDeleted({ item: item, data: optionObj_data });
-
-    //     let index = optionsObj.values.indexOf(item);
-    //     if (index > -1) {
-    //         let tmp_arr = [...optionsObj.values];
-    //         tmp_arr.splice(index, 1);
-    //         setOptionsObj({ ...optionsObj, values: [...tmp_arr] });
-    //     }
-    // }
 
     // show and hide add options
     const handleShowOptions = () => {

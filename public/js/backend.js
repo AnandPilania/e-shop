@@ -27791,15 +27791,7 @@ var Option = function Option(_ref) {
         }
       }
     }
-  }; // useEffect(() => {
-  //     if (showOptionValues) {
-  //         let inputOptionValues = document.getElementById('inputOptionValues');
-  //         if (inputOptionValues !== null) {
-  //             inputOptionValues.className = `inputOptionValues value${optionObj.id} w-full h-10 pl-[10px] m-0 border border-gray-300 rounded-md  cursor-text bg-no-repeat  ${listOptionValuesNotEmpty && "hover:bg-caret-down"} bg-right-center`;
-  //         }
-  //     }
-  // }, [showOptionValues]);
-
+  };
 
   var removeOptionValue = function removeOptionValue(item) {
     var index = optionObj.values.indexOf(item);
@@ -27993,7 +27985,7 @@ var Option = function Option(_ref) {
                   onClick: function onClick() {
                     handleSelectOptionValues(item.name);
                   },
-                  className: "w-full h-[40px] flex flex-row justify-start items-center pl-[10px] cursor-pointer hover:bg-slate-100",
+                  className: "w-full h-10 flex flex-row justify-start items-center pl-2.5 cursor-pointer hover:bg-slate-100",
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
                     type: "checkbox",
                     value: item.id,
@@ -28209,7 +28201,7 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
   }, [variantes]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // Lorsqu'on ajoute des options après avoir modifié des fields dans la liste des variantes, toutes les modification sont perdues. Ceci car l'ajout d'options duplique les variantes et leur ajoute la nouvelle value sans que les variantes dupliquées reçoivent les mêmes modifications faites précédement, ce qui n'est pas cohérent !!!
-    var allValuesAsString = []; // renvoi un tableau contenant les tableaux des VALEURS des différentes options. Sert à récupérer toutes les combinaisons possible entre les différentes options 
+    var libelles = []; // renvoi un tableau contenant les tableaux des VALEURS des différentes options. Sert à récupérer toutes les combinaisons possible entre les différentes options 
 
     var optionsCombinations = optionsObj.map(function (x) {
       return x.values;
@@ -28225,7 +28217,7 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
 
     function getCombinaisons(ndxTab, comb) {
       if (!ndxTab.length) {
-        allValuesAsString.push(comb);
+        libelles.push(comb);
         return;
       }
 
@@ -28244,13 +28236,13 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
     });
     var tmp_variantesAsString = []; // quand on modifie les params d'une variantes on la copie ici pour conserver ses modifications
 
-    var tmp_changedVariantes = [];
+    var tmp_changedVariantes = _toConsumableArray(changedVariantes);
 
-    for (var _i2 = 0; _i2 < allValuesAsString.length; _i2++) {
-      // tmp_changedVariantes contien les variantes qui ont été modifiées
-      tmp_changedVariantes = _toConsumableArray(changedVariantes); // split les values de optionsObj pour les récupérer séparements et les associer à leur option Name dans un objet "destiné au back-end !" 
+    for (var _i2 = 0; _i2 < libelles.length; _i2++) {
+      // split les values de optionsObj pour les récupérer séparements et les associer à leur option Name dans un objet "destiné au back-end !" 
+      console.log('libelles ', libelles);
 
-      var tmp = allValuesAsString[_i2].split(',');
+      var tmp = libelles[_i2].split(',');
 
       var valuesSplited = tmp[0].split(' - ');
       var variantesOptions = {};
@@ -28263,9 +28255,10 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
 
 
       for (var _j = 0; _j < tmp_changedVariantes.length; _j++) {
-        var tmp2 = tmp_changedVariantes[_j].optionsString.split(',');
+        // let tmp2 = tmp_changedVariantes[j].optionsString.split(',')
+        // let optionsStringSplited = tmp2[0].split(' - ');
+        var optionsStringSplited = tmp_changedVariantes[_j].optionsString.split(' - '); // check si optionsStringSplited, qui est l'ancien libelle de la variante, contien toutes les values de valuesSplited, qui est le nouveau libelle de la variante, pour récupérer la variante qui correspond au libelle d'avant ajout d'une nouvelle option
 
-        var optionsStringSplited = tmp2[0].split(' - '); // check si optionsStringSplited contien toutes les values de valuesSplited
 
         if (valuesSplited.length === optionsStringSplited.length) {
           var isSameValuesInArray = true;
@@ -28274,33 +28267,30 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
             if (!optionsStringSplited.includes(valuesSplited[k])) {
               isSameValuesInArray = false;
             }
-          } // si oui on met à jour tmp_changedVariantes.optionsString avec le allValuesAsString[i] actuelle qui contient l'entièreté de la optionsStringe tmp_changedVariantes sert à conserver les paramètres d'une variante s'ils ont été modifiés. ex. prix, stock,...
+          } // si oui on met à jour tmp_changedVariantes.optionsString avec le libelles[i] actuelle qui contient l'entièreté de la optionsStringe tmp_changedVariantes sert à conserver les paramètres d'une variante s'ils ont été modifiés. ex. prix, stock,...
 
 
           if (isSameValuesInArray) {
-            tmp_changedVariantes[_j].optionsString = allValuesAsString[_i2];
+            tmp_changedVariantes[_j].optionsString = libelles[_i2];
             setChangedVariantes(_toConsumableArray(tmp_changedVariantes));
           }
         }
       } // supprime de tmp_changedVariantes les variantes qui ont encore des options dans leur optionsString qui ont été supprimées. tmp_changedVariantes sert à récupérer les paramètres d'une variante s'ils ont été modifiés. ex. prix, stock,...
+      // tmp_changedVariantes.forEach((item, index) => {
+      //     let ndx = libelles.findIndex(x => x == item.optionsString);
+      //     if (ndx === -1) {
+      //         tmp_changedVariantes.splice(index, 1);
+      //         setChangedVariantes([...tmp_changedVariantes]);
+      //     }
+      // });
+      // crée des variantes vides. le nombre de variantes crées est = à libelles.length
 
 
-      tmp_changedVariantes.forEach(function (item, index) {
-        var ndx = allValuesAsString.findIndex(function (x) {
-          return x == item.optionsString;
-        });
-
-        if (ndx === -1) {
-          tmp_changedVariantes.splice(index, 1);
-          setChangedVariantes(_toConsumableArray(tmp_changedVariantes));
-        }
-      }); // crée des variantes vides. le nombre de variantes crées est = à allValuesAsString.length
-
-      if (allValuesAsString[_i2] != '') {
-        // <--si allValuesAsString est vide alors on ne crée pas de variante vide
+      if (libelles[_i2] != '') {
+        // <--si libelles est vide alors on ne crée pas de variante vide
         tmp_variantesAsString.push({
           id: 'optionVarianteList' + _i2,
-          optionsString: allValuesAsString[_i2],
+          optionsString: libelles[_i2],
           options: variantesOptions,
           price: productPrice,
           reducedPrice: reducedProductPrice,
@@ -28315,13 +28305,15 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
           selectedImage: {}
         });
       }
-    } // remplace les variantes par celles qui leurs correspondent dans tmp_changedVariantes pour récupérer leurs paramètres quand ils ont été modifiés. ex price, stock, ...
+    } // !!! on check ça tmp_changedVariantes.findIndex(x => x.optionsString == tmp_variantesAsString[i].optionsString) ET si ça correspond alors on remplace tmp_variantesAsString par le tmp_changedVariantes qui correspond  !!!
+    // remplace les variantes par celles qui leurs correspondent dans tmp_changedVariantes pour récupérer leurs paramètres quand ils ont été modifiés. ex price, stock, ...
 
 
     var _loop = function _loop(_i3) {
       var ndx = tmp_changedVariantes.findIndex(function (x) {
         return x.optionsString == tmp_variantesAsString[_i3].optionsString;
       });
+      console.log('tmp_changedVariantes[ndx] !!!  ', tmp_changedVariantes[ndx]);
 
       if (ndx > -1) {
         var tmp_id = tmp_variantesAsString[_i3].id;
@@ -28919,14 +28911,13 @@ var Options = function Options() {
 
   var addOption = function addOption() {
     // get bigger ordre num
-    var ordres = optionsObj.map(function (x) {
-      return x.ordre;
-    });
+    // const ordres = optionsObj.map(x => { return x.ordre });
     setOptionsObj([].concat(_toConsumableArray(optionsObj), [{
       id: Date.now(),
       name: '',
       values: [],
-      ordre: ordres.length
+      ordre: optionsObj.length // ordre: ordres.length
+
     }]));
   }; // si il y a une nouvelle option on l'ajoute sinon on retire l'option passée en params
 
@@ -28957,17 +28948,7 @@ var Options = function Options() {
       arr.splice(ndx, 1);
       setOptionsObj(_toConsumableArray(arr));
     }
-  }; // const removeOptionValue = (item, optionObj_data) => {
-  //     // whatOptionBeenDeleted est utilisé pour mettre à jour checkedVariantesList dans selectionVariantesList
-  //     setWhatOptionBeenDeleted({ item: item, data: optionObj_data });
-  //     let index = optionsObj.values.indexOf(item);
-  //     if (index > -1) {
-  //         let tmp_arr = [...optionsObj.values];
-  //         tmp_arr.splice(index, 1);
-  //         setOptionsObj({ ...optionsObj, values: [...tmp_arr] });
-  //     }
-  // }
-  // show and hide add options
+  }; // show and hide add options
 
 
   var handleShowOptions = function handleShowOptions() {

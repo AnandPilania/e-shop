@@ -34,7 +34,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
         // Lorsqu'on ajoute des options après avoir modifié des fields dans la liste des variantes, toutes les modification sont perdues. Ceci car l'ajout d'options duplique les variantes et leur ajoute la nouvelle value sans que les variantes dupliquées reçoivent les mêmes modifications faites précédement, ce qui n'est pas cohérent !!!
 
-        let allValuesAsString = [];
+        let libelles = [];
 
         // renvoi un tableau contenant les tableaux des VALEURS des différentes options. Sert à récupérer toutes les combinaisons possible entre les différentes options 
         let optionsCombinations = optionsObj.map(x => x.values);
@@ -48,7 +48,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         }
         function getCombinaisons(ndxTab, comb) {
             if (!ndxTab.length) {
-                allValuesAsString.push(comb);
+                libelles.push(comb);
                 return;
             }
             for (var i = 0; i < optionsCombinations[ndxTab[0]]?.length; i++) {
@@ -61,14 +61,14 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         // get les noms d'options pour les associer à leur values dans un objet
         let optionsIdValuesNames = optionsObj.map(x => x.idValues_Names);
         let tmp_variantesAsString = [];
-        // quand on modifie les params d'une variantes on la copie ici pour conserver ses modifications
-        let tmp_changedVariantes = [];
 
-        for (let i = 0; i < allValuesAsString.length; i++) {
-            // tmp_changedVariantes contien les variantes qui ont été modifiées
-            tmp_changedVariantes = [...changedVariantes];
+        // quand on modifie les params d'une variantes on la copie ici pour conserver ses modifications
+        let tmp_changedVariantes = [...changedVariantes];
+
+        for (let i = 0; i < libelles.length; i++) {
             // split les values de optionsObj pour les récupérer séparements et les associer à leur option Name dans un objet "destiné au back-end !" 
-            let tmp = allValuesAsString[i].split(',')
+            console.log('libelles ', libelles)
+            let tmp = libelles[i].split(',')
             let valuesSplited = tmp[0].split(' - ');
             let variantesOptions = {};
             for (let j = 0; j < optionsObj.length; j++) {
@@ -80,10 +80,11 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
             // compare deux tableaux 
             for (let j = 0; j < tmp_changedVariantes.length; j++) {
 
-                let tmp2 = tmp_changedVariantes[j].optionsString.split(',')
-                let optionsStringSplited = tmp2[0].split(' - ');
+                // let tmp2 = tmp_changedVariantes[j].optionsString.split(',')
+                // let optionsStringSplited = tmp2[0].split(' - ');
+                let optionsStringSplited = tmp_changedVariantes[j].optionsString.split(' - ')
 
-                // check si optionsStringSplited contien toutes les values de valuesSplited
+                // check si optionsStringSplited, qui est l'ancien libelle de la variante, contien toutes les values de valuesSplited, qui est le nouveau libelle de la variante, pour récupérer la variante qui correspond au libelle d'avant ajout d'une nouvelle option
                 if (valuesSplited.length === optionsStringSplited.length) {
                     let isSameValuesInArray = true;
                     for (let k = 0; k < valuesSplited.length; k++) {
@@ -92,29 +93,29 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                         }
                     }
 
-                    // si oui on met à jour tmp_changedVariantes.optionsString avec le allValuesAsString[i] actuelle qui contient l'entièreté de la optionsStringe tmp_changedVariantes sert à conserver les paramètres d'une variante s'ils ont été modifiés. ex. prix, stock,...
+                    // si oui on met à jour tmp_changedVariantes.optionsString avec le libelles[i] actuelle qui contient l'entièreté de la optionsStringe tmp_changedVariantes sert à conserver les paramètres d'une variante s'ils ont été modifiés. ex. prix, stock,...
                     if (isSameValuesInArray) {
-                        tmp_changedVariantes[j].optionsString = allValuesAsString[i];
+                        tmp_changedVariantes[j].optionsString = libelles[i];
                         setChangedVariantes([...tmp_changedVariantes]);
                     }
                 }
             }
 
             // supprime de tmp_changedVariantes les variantes qui ont encore des options dans leur optionsString qui ont été supprimées. tmp_changedVariantes sert à récupérer les paramètres d'une variante s'ils ont été modifiés. ex. prix, stock,...
-            tmp_changedVariantes.forEach((item, index) => {
-                let ndx = allValuesAsString.findIndex(x => x == item.optionsString);
-                if (ndx === -1) {
-                    tmp_changedVariantes.splice(index, 1);
-                    setChangedVariantes([...tmp_changedVariantes]);
-                }
-            });
+            // tmp_changedVariantes.forEach((item, index) => {
+            //     let ndx = libelles.findIndex(x => x == item.optionsString);
+            //     if (ndx === -1) {
+            //         tmp_changedVariantes.splice(index, 1);
+            //         setChangedVariantes([...tmp_changedVariantes]);
+            //     }
+            // });
 
 
-            // crée des variantes vides. le nombre de variantes crées est = à allValuesAsString.length
-            if (allValuesAsString[i] != '') { // <--si allValuesAsString est vide alors on ne crée pas de variante vide
+            // crée des variantes vides. le nombre de variantes crées est = à libelles.length
+            if (libelles[i] != '') { // <--si libelles est vide alors on ne crée pas de variante vide
                 tmp_variantesAsString.push({
                     id: 'optionVarianteList' + i,
-                    optionsString: allValuesAsString[i],
+                    optionsString: libelles[i],
                     options: variantesOptions,
                     price: productPrice,
                     reducedPrice: reducedProductPrice,
@@ -131,24 +132,26 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
             }
         }
 
+        // !!! on check ça tmp_changedVariantes.findIndex(x => x.optionsString == tmp_variantesAsString[i].optionsString) ET si ça correspond alors on remplace tmp_variantesAsString par le tmp_changedVariantes qui correspond  !!!
+
+
+        
+
         // remplace les variantes par celles qui leurs correspondent dans tmp_changedVariantes pour récupérer leurs paramètres quand ils ont été modifiés. ex price, stock, ...
         for (let i = 0; i < tmp_variantesAsString.length; i++) {
             let ndx = tmp_changedVariantes.findIndex(x => x.optionsString == tmp_variantesAsString[i].optionsString);
-
+            console.log('tmp_changedVariantes[ndx] !!!  ', tmp_changedVariantes[ndx])
             if (ndx > -1) {
                 let tmp_id = tmp_variantesAsString[i].id;
                 tmp_variantesAsString[i] = tmp_changedVariantes[ndx];
                 tmp_variantesAsString[i].id = tmp_id;
             }
         }
-
         setVariantes(tmp_variantesAsString);
 
         // ferme "ajouter des options quand on supprime toutes les options"
         optionsObj.length === 0 && setShowOptions(false);
     }, [optionsObj]);
-
-
 
 
 
@@ -161,13 +164,11 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         // sauvegarde les variantes avec des paramètres modifiés ex. price, stock,... pour ne pas perdre ces modifiactions quand on ajoute ou supprime des options
         let tmp_changedVariantes = [...changedVariantes];
         let index = tmp_changedVariantes.findIndex(x => x.id == tmp_variantes[ndx].id);
-
         if (index > -1) {
             tmp_changedVariantes[index] = tmp_variantes[ndx];
         } else {
             tmp_changedVariantes.push(tmp_variantes[ndx]);
         }
-
         setChangedVariantes([...tmp_changedVariantes]);
         setVariantes([...tmp_variantes]);
     }

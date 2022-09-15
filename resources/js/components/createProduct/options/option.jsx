@@ -199,16 +199,6 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
         }
     };
 
-
-    // useEffect(() => {
-    //     if (showOptionValues) {
-    //         let inputOptionValues = document.getElementById('inputOptionValues');
-    //         if (inputOptionValues !== null) {
-    //             inputOptionValues.className = `inputOptionValues value${optionObj.id} w-full h-10 pl-[10px] m-0 border border-gray-300 rounded-md  cursor-text bg-no-repeat  ${listOptionValuesNotEmpty && "hover:bg-caret-down"} bg-right-center`;
-    //         }
-    //     }
-    // }, [showOptionValues]);
-
     const removeOptionValue = (item) => {
         let index = optionObj.values.indexOf(item);
         if (index > -1) {
@@ -412,7 +402,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
                                             onClick={() => {
                                                 handleSelectOptionValues(item.name);
                                             }}
-                                            className="w-full h-[40px] flex flex-row justify-start items-center pl-[10px] cursor-pointer hover:bg-slate-100"
+                                            className="w-full h-10 flex flex-row justify-start items-center pl-2.5 cursor-pointer hover:bg-slate-100"
                                         >
                                             <input type='checkbox'
                                                 value={item.id}
