@@ -28,8 +28,8 @@ const List = () => {
         created_atSens: true
     });
 
-    const { setCategoriesChecked, setSearchValue, is, setIs, messageModal, textButtonConfirm, imageModal, setMessageModal, setSender, setTextButtonConfirm, setImageModal, screenSize, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked, listCollections, setListCollections } = useContext(AppContext);
-
+    const { setSearchValue, messageModal, textButtonConfirm, setMessageModal, setSender, setTextButtonConfirm, screenSize, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked, setListCollectionNames } = useContext(AppContext);
+    
 
     useEffect(() => {
         Axios.get(`http://127.0.0.1:8000/getProducts`)
@@ -37,7 +37,7 @@ const List = () => {
                 // procuts permet de garder la liste complète des products pour certaines fonctions qui ont besoin que toutes les products soit parcourues ce qui n'est pas toujours le cas avec listProductsFiltered qui est principalement utilisé pour afficher les products avec ou sans filtre
                 setProducts(res.data[0]);
                 setListProductsFiltered(res.data[0]);
-                setListCollections(res.data[1]);
+                setListCollectionNames(res.data[1]);
             }).catch(function (error) {
                 console.log('error:   ' + error);
             });
@@ -268,8 +268,6 @@ const List = () => {
     }
 
 
-    // console.log('listProductsFiltered  ', listProductsFiltered)
-    // console.log('listProductsChecked  ', listProductsChecked)
     return (
 
         <div className='mt-10 mx-auto w-[96%] lg:w-[94%] 2xl:w-11/12 3xl:w-10/12 h-auto min-h-[100vh] pb-48 flex flex-col justify-start items-center'>

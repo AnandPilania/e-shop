@@ -168,6 +168,7 @@ const Appcontainer = () => {
     const [listProductsFiltered, setListProductsFiltered] = useState([]);
     const [listProductsChecked, setListProductsChecked] = useState([]);
     const [dateFieldProduct, setDateFieldProduct] = useState(getNow());
+    const [listCollectionNames, setListCollectionNames] = useState([]);
  
 
     //---------------------------------------------------------------PRODUCT
@@ -584,7 +585,7 @@ const Appcontainer = () => {
         listProductsFiltered, setListProductsFiltered, 
         listProductsChecked, setListProductsChecked,
         dateFieldProduct, setDateFieldProduct,
-
+        listCollectionNames, setListCollectionNames,
 
     }
 

@@ -41,6 +41,7 @@ class CollectionController extends Controller
     {
         $categories = Category::all('name');
         $collections = Collection::with('category', 'products')->orderBy('created_at', 'desc')->get();
+
         return json_encode([$collections, $categories]);
     }
 

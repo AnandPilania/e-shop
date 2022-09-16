@@ -264,7 +264,9 @@ const ListCollections = () => {
 
             <ul className='w-full flex flex-col justify-start items-start mb-2.5 bg-gray-50 min-h-full shadow-sm rounded-md caret-transparent'>
 
-                <li className={`w-full py-4 grid ${gridCols} gap-2 bg-gray-50 rounded-t-md`}>
+                <li 
+                key="listCollectionsKey16922"
+                className={`w-full py-4 grid ${gridCols} gap-2 bg-gray-50 rounded-t-md`}>
 
                     <div className='flex justify-center items-center h-12 min-w-[48px]'>
                         <CheckboxListCollection unikId={'all'} handleCheckboxListCollection={handleCheckboxListCollection} listCollectionsChecked={listCollectionsChecked} />
@@ -326,7 +328,7 @@ const ListCollections = () => {
                 </li>
 
                 {/* RowListCollections */}
-                {!!listCollectionsFiltered && listCollectionsFiltered.map(item =>
+                {listCollectionsFiltered.length > 0 && listCollectionsFiltered.map(item =>
                     <RowListCollections
                         key={item.id}
                         collectionFiltered={item}

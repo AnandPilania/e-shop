@@ -113,29 +113,33 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
             // crée des variantes vides. le nombre de variantes crées est = à libelles.length
             if (libelles[i] != '') { // <--si libelles est vide alors on ne crée pas de variante vide
-                tmp_variantesAsString.push({
-                    id: 'optionVarianteList' + i,
-                    optionsString: libelles[i],
-                    options: variantesOptions,
-                    price: productPrice,
-                    reducedPrice: reducedProductPrice,
-                    stock: '',
-                    productCode: productCode == '' ? uuidv4() : productCode,
-                    cost: productCost,
-                    parcelWeight: productParcelWeight,
-                    parcelWeightMeasureUnit: productParcelWeightMeasureUnit,
-                    unlimited: false,
-                    placeholderStock: '0',
-                    deleted: false,
-                    selectedImage: {},
-                })
+                if (match) {
+
+                } else {
+                    tmp_variantesAsString.push({
+                        id: 'optionVarianteList' + i,
+                        optionsString: libelles[i],
+                        options: variantesOptions,
+                        price: productPrice,
+                        reducedPrice: reducedProductPrice,
+                        stock: '',
+                        productCode: productCode == '' ? uuidv4() : productCode,
+                        cost: productCost,
+                        parcelWeight: productParcelWeight,
+                        parcelWeightMeasureUnit: productParcelWeightMeasureUnit,
+                        unlimited: false,
+                        placeholderStock: '0',
+                        deleted: false,
+                        selectedImage: {},
+                    })
+                }
             }
         }
 
         // !!! on check ça tmp_changedVariantes.findIndex(x => x.optionsString == tmp_variantesAsString[i].optionsString) ET si ça correspond alors on remplace tmp_variantesAsString par le tmp_changedVariantes qui correspond  !!!
 
 
-        
+
 
         // remplace les variantes par celles qui leurs correspondent dans tmp_changedVariantes pour récupérer leurs paramètres quand ils ont été modifiés. ex price, stock, ...
         for (let i = 0; i < tmp_variantesAsString.length; i++) {

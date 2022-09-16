@@ -129,8 +129,6 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
     };
 
     return (
-        // <li className="flex flex-row justify-between items-center w-full h-auto min-h-[48px] bg-white p-4 border-b border-gray-200 last:rounded-b-md">     
-
         <li className={`grid ${gridCols} gap-2 w-full h-auto min-h-[48px] bg-white py-4 border-b border-gray-200 last:rounded-b-md`}
         >
             {/* checkBox */}

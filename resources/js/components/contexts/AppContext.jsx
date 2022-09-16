@@ -228,7 +228,8 @@ export default createContext({
     setListProductsChecked: () => { },
     dateFieldProduct: '', 
     setDateFieldProduct: () => { },
-
+    listCollectionNames: '', 
+    setListCollectionNames: () => { },
 
 
 });

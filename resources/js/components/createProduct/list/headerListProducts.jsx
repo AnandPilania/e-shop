@@ -10,7 +10,7 @@ const HeaderListProducts = ({ confirmDeleteCollection, handleSearch, collections
     const [isShowOperationDrop, setIsShowOperationDrop] = useState(false);
     const [sender, setSender] = useState('');
 
-    const { setIs_Edit, is, setIs, initCollectionForm, listCollectionsChecked, showModalListOperations, setShowModalListOperations, searchValue, listCollections } = useContext(AppContext);
+    const { setIs_Edit, is, setIs, initCollectionForm, listCollectionsChecked, showModalListOperations, setShowModalListOperations, searchValue, listCollectionNames } = useContext(AppContext);
 
 
     useEffect(() => {
@@ -92,9 +92,9 @@ const HeaderListProducts = ({ confirmDeleteCollection, handleSearch, collections
                     </div>
 
                     {/* filter */}
-                    {listCollections.length > 0 &&
+                    {listCollectionNames.length > 0 &&
                         <CollectionsFilter
-                            collectionList={listCollections}
+                            collectionList={listCollectionNames}
                             collectionsFilter={collectionsFilter}
                             collectionsSelected={collectionsSelected} 
                 setCollectionsSelected={setCollectionsSelected}

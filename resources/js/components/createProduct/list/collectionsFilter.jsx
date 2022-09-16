@@ -8,7 +8,7 @@ const CollectionsFilter = ({ collectionList, collectionsFilter, collectionsSelec
 
     const [showCollectionSelect, setShowCollectionSelect] = useState(false);
     
-    const { searchValue, setSearchValue } = useContext(AppContext);
+    const { setSearchValue } = useContext(AppContext);
 
     // show hide select menu
     const showHideCollectionSelect = () => {
@@ -67,7 +67,7 @@ const CollectionsFilter = ({ collectionList, collectionsFilter, collectionsSelec
         } else {
             target = e.target.textContent;
         }
-        console.log('target  ', target)
+
         if (!collectionsSelected.includes(target)) {
             setCollectionsSelected([...collectionsSelected, target]);
             collectionsFilter([...collectionsSelected, target]);
