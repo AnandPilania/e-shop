@@ -25257,25 +25257,24 @@ var List = function List() {
     setListProductsFiltered(products.filter(function (item) {
       return item.name.toLowerCase().includes(e.target.value.toLowerCase());
     }));
-  } // renvoi les collection correspondantes à ce qui a été sélectionné dans le filtre des collections -> collectionsFilter
+  }
 
+  console.log('collectionsSelected  ', collectionsSelected); // renvoi les collection correspondantes à ce qui a été sélectionné dans le filtre des collections -> collectionsFilter
 
   function collectionsFilter(collectionsSelected) {
     var tmp_products = [];
 
     var _loop = function _loop(i) {
-      for (var j = 0; j < collectionsSelected.length; j++) {
-        var map_productsNames = products[i].collections.map(function (obj) {
-          return obj.name;
-        });
+      var map_productsNames = products[i].collections.map(function (obj) {
+        return obj.name;
+      });
 
+      for (var j = 0; j < collectionsSelected.length; j++) {
         if (map_productsNames.indexOf(collectionsSelected[j]) > -1) {
           if (tmp_products.findIndex(function (x) {
             return x.id == products[i].id;
           }) == -1) {
             tmp_products.push(products[i]);
-          } else {
-            tmp_products;
           }
         }
       }
@@ -25285,7 +25284,8 @@ var List = function List() {
       _loop(i);
     }
 
-    tmp_products.length > 0 ? setListProductsFiltered([].concat(tmp_products)) : setListProductsFiltered(_toConsumableArray(products));
+    collectionsSelected.length > 0 && setListProductsFiltered([].concat(tmp_products));
+    collectionsSelected.length === 0 && setListProductsFiltered(_toConsumableArray(products));
   }
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
@@ -28090,8 +28090,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modalImageVariante__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modalImageVariante */ "./resources/js/components/createProduct/options/modalImageVariante.jsx");
 /* harmony import */ var _selectionVariantesInList__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./selectionVariantesInList */ "./resources/js/components/createProduct/options/selectionVariantesInList.jsx");
 /* harmony import */ var _withHandleSelectionList__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./withHandleSelectionList */ "./resources/js/components/createProduct/options/withHandleSelectionList.jsx");
-/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony import */ var _elements_tooltipWithoutIcon__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../elements/tooltipWithoutIcon */ "./resources/js/components/elements/tooltipWithoutIcon.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -28111,6 +28112,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -28234,8 +28236,6 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
 
     for (var _i2 = 0; _i2 < libelles.length; _i2++) {
       // split les values de optionsObj pour les récupérer séparements et les associer à leur option Name dans un objet "destiné au back-end !" 
-      console.log('libelles ', libelles);
-
       var tmp = libelles[_i2].split(',');
 
       var valuesSplited = tmp[0].split(' - ');
@@ -28249,77 +28249,90 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
 
 
       for (var _j = 0; _j < tmp_changedVariantes.length; _j++) {
-        // let tmp2 = tmp_changedVariantes[j].optionsString.split(',')
-        // let optionsStringSplited = tmp2[0].split(' - ');
         var optionsStringSplited = tmp_changedVariantes[_j].optionsString.split(' - '); // check si optionsStringSplited, qui est l'ancien libelle de la variante, contien toutes les values de valuesSplited, qui est le nouveau libelle de la variante, pour récupérer la variante qui correspond au libelle d'avant ajout d'une nouvelle option
 
 
-        if (valuesSplited.length === optionsStringSplited.length) {
-          var isSameValuesInArray = true;
-
-          for (var k = 0; k < valuesSplited.length; k++) {
-            if (!optionsStringSplited.includes(valuesSplited[k])) {
-              isSameValuesInArray = false;
-            }
-          } // si oui on met à jour tmp_changedVariantes.optionsString avec le libelles[i] actuelle qui contient l'entièreté de la optionsStringe tmp_changedVariantes sert à conserver les paramètres d'une variante s'ils ont été modifiés. ex. prix, stock,...
-
-
-          if (isSameValuesInArray) {
-            tmp_changedVariantes[_j].optionsString = libelles[_i2];
-            setChangedVariantes(_toConsumableArray(tmp_changedVariantes));
-          }
-        }
-      } // supprime de tmp_changedVariantes les variantes qui ont encore des options dans leur optionsString qui ont été supprimées. tmp_changedVariantes sert à récupérer les paramètres d'une variante s'ils ont été modifiés. ex. prix, stock,...
-      // tmp_changedVariantes.forEach((item, index) => {
-      //     let ndx = libelles.findIndex(x => x == item.optionsString);
-      //     if (ndx === -1) {
-      //         tmp_changedVariantes.splice(index, 1);
-      //         setChangedVariantes([...tmp_changedVariantes]);
-      //     }
-      // });
-      // crée des variantes vides. le nombre de variantes crées est = à libelles.length
+        console.log('valuesSplited  ', valuesSplited);
+        console.log('optionsStringSplited  ', optionsStringSplited);
+        console.log('libelles[i]  ', libelles[_i2]); // let isSameValuesInArray = true;
+        // for (let k = 0; k < valuesSplited.length; k++) {
+        //     if (!optionsStringSplited.includes(valuesSplited[k])) {
+        //         isSameValuesInArray = false;
+        //     }
+        // }
+        // // si oui on met à jour tmp_changedVariantes.optionsString avec le libelles[i] actuelle qui contient l'entièreté de la optionsStringe tmp_changedVariantes sert à conserver les paramètres d'une variante s'ils ont été modifiés. ex. prix, stock,...
+        // if (isSameValuesInArray) {  console.log('ok---------------')
+        //     tmp_changedVariantes[j].optionsString = libelles[i];
+        //     setChangedVariantes([...tmp_changedVariantes]);
+        // }
+      } // crée des variantes vides. le nombre de variantes crées est = à libelles.length
 
 
       if (libelles[_i2] != '') {
-        // <--si libelles est vide alors on ne crée pas de variante vide
-        if (match) {} else {
-          tmp_variantesAsString.push({
-            id: 'optionVarianteList' + _i2,
-            optionsString: libelles[_i2],
-            options: variantesOptions,
-            price: productPrice,
-            reducedPrice: reducedProductPrice,
-            stock: '',
-            productCode: productCode == '' ? (0,uuid__WEBPACK_IMPORTED_MODULE_9__["default"])() : productCode,
-            cost: productCost,
-            parcelWeight: productParcelWeight,
-            parcelWeightMeasureUnit: productParcelWeightMeasureUnit,
-            unlimited: false,
-            placeholderStock: '0',
-            deleted: false,
-            selectedImage: {}
-          });
+        // <--si libelles est vide alors on ne 
+        tmp_variantesAsString.push({
+          id: 'optionVarianteList' + _i2,
+          optionsString: libelles[_i2],
+          options: variantesOptions,
+          price: productPrice,
+          reducedPrice: reducedProductPrice,
+          stock: '',
+          productCode: productCode == '' ? (0,uuid__WEBPACK_IMPORTED_MODULE_10__["default"])() : productCode,
+          cost: productCost,
+          parcelWeight: productParcelWeight,
+          parcelWeightMeasureUnit: productParcelWeightMeasureUnit,
+          unlimited: false,
+          placeholderStock: '0',
+          deleted: false,
+          selectedImage: {}
+        });
+      }
+    }
+
+    if (tmp_variantesAsString.length > 0 && tmp_changedVariantes.length > 0) {
+      for (var _i3 = 0; _i3 < tmp_variantesAsString.length; _i3++) {
+        var _loop = function _loop(_j2) {
+          var newOptions = Object.values(tmp_variantesAsString[_i3].options);
+          var changedOptions = Object.values(tmp_changedVariantes[_j2].options);
+          console.log('newOptions  ', newOptions);
+          console.log('changedOptions  ', changedOptions);
+
+          if (newOptions.every(function (x) {
+            return changedOptions.includes(x);
+          })) {
+            var tmp_id = tmp_variantesAsString[_i3].id;
+            var tmp_optionsString = tmp_variantesAsString[_i3].optionsString;
+            tmp_variantesAsString[_i3] = tmp_changedVariantes[_j2];
+            tmp_variantesAsString[_i3].id = tmp_id;
+            tmp_variantesAsString[_i3].optionsString = tmp_optionsString; // tmp_changedVariantes.splice(j, 1);
+          }
+        };
+
+        for (var _j2 = 0; _j2 < tmp_changedVariantes.length; _j2++) {
+          _loop(_j2);
         }
       }
-    } // !!! on check ça tmp_changedVariantes.findIndex(x => x.optionsString == tmp_variantesAsString[i].optionsString) ET si ça correspond alors on remplace tmp_variantesAsString par le tmp_changedVariantes qui correspond  !!!
-    // remplace les variantes par celles qui leurs correspondent dans tmp_changedVariantes pour récupérer leurs paramètres quand ils ont été modifiés. ex price, stock, ...
+    } // remplace les variantes par celles qui leurs correspondent dans tmp_changedVariantes pour récupérer leurs paramètres quand ils ont été modifiés. ex price, stock, ...
 
 
-    var _loop = function _loop(_i3) {
+    var _loop2 = function _loop2(_i4) {
       var ndx = tmp_changedVariantes.findIndex(function (x) {
-        return x.optionsString == tmp_variantesAsString[_i3].optionsString;
+        return x.optionsString == tmp_variantesAsString[_i4].optionsString;
       });
-      console.log('tmp_changedVariantes[ndx] !!!  ', tmp_changedVariantes[ndx]);
+      console.log('tmp_changedVariantes  ', tmp_changedVariantes);
+      console.log('tmp_variantesAsString  ', tmp_variantesAsString);
 
       if (ndx > -1) {
-        var tmp_id = tmp_variantesAsString[_i3].id;
-        tmp_variantesAsString[_i3] = tmp_changedVariantes[ndx];
-        tmp_variantesAsString[_i3].id = tmp_id;
+        var tmp_id = tmp_variantesAsString[_i4].id;
+        var tmp_optionsString = tmp_variantesAsString[_i4].optionsString;
+        tmp_variantesAsString[_i4] = tmp_changedVariantes[ndx];
+        tmp_variantesAsString[_i4].id = tmp_id;
+        tmp_variantesAsString[_i4].optionsString = tmp_optionsString;
       }
     };
 
-    for (var _i3 = 0; _i3 < tmp_variantesAsString.length; _i3++) {
-      _loop(_i3);
+    for (var _i4 = 0; _i4 < tmp_variantesAsString.length; _i4++) {
+      _loop2(_i4);
     }
 
     setVariantes(tmp_variantesAsString); // ferme "ajouter des options quand on supprime toutes les options"
@@ -28546,67 +28559,67 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
 
     screenSize < 768 && handleChangeShowedFields('previous');
   }, [screenSize]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
     className: "w-full ".concat((variantes === null || variantes === void 0 ? void 0 : variantes.length) > 0 && "border-t border-gray-200 mt-5"),
-    children: [(variantes === null || variantes === void 0 ? void 0 : variantes.length) > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("h3", {
+    children: [(variantes === null || variantes === void 0 ? void 0 : variantes.length) > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("h3", {
       className: "w-full text-left mb-5 mt-6 font-semibold text-[16px]",
       children: "Variantes"
-    }), (variantes === null || variantes === void 0 ? void 0 : variantes.length) > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_selectionVariantesInList__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    }), (variantes === null || variantes === void 0 ? void 0 : variantes.length) > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_selectionVariantesInList__WEBPACK_IMPORTED_MODULE_6__["default"], {
       variantes: variantes,
       checkedVariantesList: checkedVariantesList,
       setCheckedVariantesList: setCheckedVariantesList
-    }), (variantes === null || variantes === void 0 ? void 0 : variantes.length) > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+    }), (variantes === null || variantes === void 0 ? void 0 : variantes.length) > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
       className: "w-full h-auto grid gap-x-2 grid-cols-[25px_100px_1fr_1fr_82px] md:grid-cols-[25px_100px_1fr_1fr_1fr_82px] xl:grid-cols-[25px_140px_1fr_1fr_1fr_82px] justify-start items-center border-b border-gray-200 mb-5",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
         className: "w-full h-8 flex flex-row justify-start items-center pt-2 pl-[1px]",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_elements_animate_checkbox_jsx_animateCheckbox__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_elements_animate_checkbox_jsx_animateCheckbox__WEBPACK_IMPORTED_MODULE_4__["default"], {
           id: "_unUsedId",
           value: "",
           checked: isAllSelectedCheckbox,
           handlechange: selectAllCheckbox
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
         className: "font-semibold text-base bg-white z-10",
         children: "Variantes"
-      }), ((_visiblesFields$index = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index === void 0 ? void 0 : _visiblesFields$index.includes('price')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+      }), ((_visiblesFields$index = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index === void 0 ? void 0 : _visiblesFields$index.includes('price')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
         className: "w-full overflow-hidden font-semibold text-base ".concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight"),
         children: "Prix"
-      }), ((_visiblesFields$index2 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index2 === void 0 ? void 0 : _visiblesFields$index2.includes('reducedPrice')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+      }), ((_visiblesFields$index2 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index2 === void 0 ? void 0 : _visiblesFields$index2.includes('reducedPrice')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
         className: "w-full overflow-hidden font-semibold text-base ".concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight"),
         children: "Prix r\xE9duit"
-      }), ((_visiblesFields$index3 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index3 === void 0 ? void 0 : _visiblesFields$index3.includes('stock')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+      }), ((_visiblesFields$index3 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index3 === void 0 ? void 0 : _visiblesFields$index3.includes('stock')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
         className: "w-full overflow-hidden font-semibold text-base ".concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight"),
         children: "Stock"
-      }), ((_visiblesFields$index4 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index4 === void 0 ? void 0 : _visiblesFields$index4.includes('cost')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+      }), ((_visiblesFields$index4 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index4 === void 0 ? void 0 : _visiblesFields$index4.includes('cost')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
         className: "w-full overflow-hidden font-semibold text-base ".concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight"),
         children: "Prix d'achat"
-      }), ((_visiblesFields$index5 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index5 === void 0 ? void 0 : _visiblesFields$index5.includes('sku')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+      }), ((_visiblesFields$index5 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index5 === void 0 ? void 0 : _visiblesFields$index5.includes('sku')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
         className: "w-full overflow-hidden font-semibold text-base ".concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight"),
         children: "SKU"
-      }), ((_visiblesFields$index6 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index6 === void 0 ? void 0 : _visiblesFields$index6.includes('weight')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+      }), ((_visiblesFields$index6 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index6 === void 0 ? void 0 : _visiblesFields$index6.includes('weight')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
         className: "w-full overflow-hidden font-semibold text-base ".concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight"),
         children: "Poids Colis"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
         className: "w-full flex justify-start items-center bg-white z-10",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
           className: "w-6 h-6 mr-2 flex justify-center items-center rounded-md border ".concat(indexOfVisiblesFields == 0 ? "bg-gray-100 border-gray-300" : "bg-white border-gray-800 hover:border-2"),
           onClick: function onClick() {
             return handleChangeShowedFields('previous');
           },
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("svg", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("svg", {
             className: "h-4 w-4 ".concat(indexOfVisiblesFields == 0 ? "fill-gray-300 cursor-not-allowed" : "fill-gray-900 cursor-pointer", " bi bi-caret-left-fill\" viewBox=\"0 0 16 16"),
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("path", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("path", {
               d: "m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"
             })
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
           className: "w-6 h-6 flex justify-center items-center rounded-md bg-white border ".concat(indexOfVisiblesFields == visiblesFields.length - 1 ? "bg-gray-100 border-gray-300" : "bg-white border-gray-800 hover:border-2"),
           onClick: function onClick() {
             return handleChangeShowedFields('next');
           },
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("svg", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("svg", {
             className: "h-4 w-4 ".concat(indexOfVisiblesFields == visiblesFields.length - 1 ? "fill-gray-300 cursor-not-allowed" : "fill-gray-900 cursor-pointer", " bi bi-caret-right-fill\" viewBox=\"0 0 16 1"),
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("path", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("path", {
               d: "m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"
             })
           })
@@ -28615,26 +28628,31 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
     }), (variantes === null || variantes === void 0 ? void 0 : variantes.length) > 0 && variantes.map(function (item, index) {
       var _visiblesFields$index7, _visiblesFields$index8, _visiblesFields$index9, _visiblesFields$index10, _visiblesFields$index11, _visiblesFields$index12;
 
-      return isHideDeletedVariantes && item.deleted === true ? '' : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+      return isHideDeletedVariantes && item.deleted === true ? '' : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
         className: "w-full h-auto grid gap-x-2 grid-cols-[25px_100px_1fr_1fr_50px_32px] md:grid-cols-[25px_80px_1fr_1fr_1fr_50px_32px] xl:grid-cols-[25px_140px_1fr_1fr_1fr_50px_32px] justify-start items-center py-2 relative bg-white  hover:bg-gray-50 ".concat(checkedVariantesList.includes(item.id) && "bg-blue-50"),
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
           className: "w-6 h-8 flex flex-row justify-start items-center pt-2 pl-[1px]",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_elements_animate_checkbox_jsx_animateCheckbox__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_elements_animate_checkbox_jsx_animateCheckbox__WEBPACK_IMPORTED_MODULE_4__["default"], {
             id: item.id,
             value: "",
             checked: checkedVariantesList.includes(item.id),
             handlechange: handleChangeCheckbox
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("span", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
+          id: "options_String_Variantes_17922",
           className: "w-full h-8 pt-1 rounded-md whitespace-nowrap text-ellipsis overflow-hidden cursor-default group ".concat(item.deleted ? "text-gray-400" : "text-gray-500", " ").concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50"),
-          children: [item === null || item === void 0 ? void 0 : item.optionsString, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_3__["default"], {
-            top: -20,
-            left: 20,
-            children: item === null || item === void 0 ? void 0 : item.optionsString
-          })]
-        }), ((_visiblesFields$index7 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index7 === void 0 ? void 0 : _visiblesFields$index7.includes('price')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("span", {
+            id: "optionsStringVariantes17922",
+            children: [item === null || item === void 0 ? void 0 : item.optionsString, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_elements_tooltipWithoutIcon__WEBPACK_IMPORTED_MODULE_8__["default"], {
+              id: "options_String_Variantes_17922",
+              idimg: "optionsStringVariantes17922",
+              widthTip: 184,
+              children: item === null || item === void 0 ? void 0 : item.optionsString
+            })]
+          })
+        }), ((_visiblesFields$index7 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index7 === void 0 ? void 0 : _visiblesFields$index7.includes('price')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
           className: "w-full overflow-hidden",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
             id: item === null || item === void 0 ? void 0 : item.id,
             type: "number",
             step: ".01",
@@ -28645,9 +28663,9 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
             max: "9999999999",
             className: "w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50", " ").concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight")
           })
-        }), ((_visiblesFields$index8 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index8 === void 0 ? void 0 : _visiblesFields$index8.includes('reducedPrice')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+        }), ((_visiblesFields$index8 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index8 === void 0 ? void 0 : _visiblesFields$index8.includes('reducedPrice')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
           className: "w-full overflow-hidden",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
             id: "inputPrevPrice".concat(item === null || item === void 0 ? void 0 : item.id),
             type: "number",
             step: ".01",
@@ -28660,11 +28678,11 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
             max: "9999999999",
             className: "w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50", " ").concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight")
           })
-        }), ((_visiblesFields$index9 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index9 === void 0 ? void 0 : _visiblesFields$index9.includes('stock')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+        }), ((_visiblesFields$index9 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index9 === void 0 ? void 0 : _visiblesFields$index9.includes('stock')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
           className: "w-full",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
             className: "w-full flex flex-rox justify-start items-center",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
               type: "number",
               id: "inputStock".concat(item === null || item === void 0 ? void 0 : item.id),
               onChange: function onChange(e) {
@@ -28678,12 +28696,12 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
                 return handleStockProductOnFocus(item);
               },
               className: "w-full h-8 border border-gray-300 rounded-l-md pl-2 text-sm leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50", " ").concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight")
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("span", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("span", {
               className: "flex flex-rox justify-start items-center h-8 border-y border-r border-gray-300 rounded-r-md xl:px-2.5 cursor-pointer caret-transparent group relative ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50", " ").concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight"),
               onClick: function onClick() {
                 return handleUnlimitedStockProduct(item);
               },
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
                 className: "caret-transparent cursor-pointer bg-red-500",
                 id: "unlimitedStockCheckbox".concat(item === null || item === void 0 ? void 0 : item.id),
                 type: "checkbox" // placeholder="Illimité"
@@ -28691,7 +28709,7 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
                 checked: (item === null || item === void 0 ? void 0 : item.stock) != '' ? false : item === null || item === void 0 ? void 0 : item.unlimited // pour pas avoir de warning "input checkbox non controlé"
                 ,
                 onChange: function onChange() {}
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_3__["default"], {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_3__["default"], {
                 top: -40,
                 left: -100,
                 css: "whitespace-nowrap",
@@ -28699,9 +28717,9 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
               })]
             })]
           })
-        }), ((_visiblesFields$index10 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index10 === void 0 ? void 0 : _visiblesFields$index10.includes('cost')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+        }), ((_visiblesFields$index10 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index10 === void 0 ? void 0 : _visiblesFields$index10.includes('cost')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
           className: "w-full overflow-hidden",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
             id: "inputPrevPrice".concat(item === null || item === void 0 ? void 0 : item.id),
             type: "number",
             step: ".01",
@@ -28714,9 +28732,9 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
             max: "9999999999",
             className: "w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50", " ").concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight")
           })
-        }), ((_visiblesFields$index11 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index11 === void 0 ? void 0 : _visiblesFields$index11.includes('sku')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+        }), ((_visiblesFields$index11 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index11 === void 0 ? void 0 : _visiblesFields$index11.includes('sku')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
           className: "w-full overflow-hidden",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
             id: "inputPrevPrice".concat(item === null || item === void 0 ? void 0 : item.id),
             type: "text",
             onChange: function onChange(e) {
@@ -28726,9 +28744,9 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
             placeholder: "",
             className: "w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50", " ").concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight")
           })
-        }), ((_visiblesFields$index12 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index12 === void 0 ? void 0 : _visiblesFields$index12.includes('weight')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+        }), ((_visiblesFields$index12 = visiblesFields[indexOfVisiblesFields]) === null || _visiblesFields$index12 === void 0 ? void 0 : _visiblesFields$index12.includes('weight')) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
           className: "w-full overflow-hidden flex flex-row justify-start items-center",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("input", {
             id: "inputPrevPrice".concat(item === null || item === void 0 ? void 0 : item.id),
             type: "number",
             step: ".01",
@@ -28740,60 +28758,60 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
             min: "0",
             max: "9999999999",
             className: "w-full h-8 border border-gray-300 rounded-l-md pl-2 text-sm leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50", " ").concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight")
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("select", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("select", {
             id: "ulVarianteParcelWeightMeasureUnit28822",
             className: "w-16 h-8 flex justify-center items-center border-y border-r border-gray-300 bg-white text-gray-500 text-sm font-semibold rounded-r-md ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50", " ").concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight"),
             value: item === null || item === void 0 ? void 0 : item.parcelWeightMeasureUnit,
             onChange: function onChange(e) {
               return handleVarianteWeightMeasureUnit(e, item);
             },
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("option", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("option", {
               value: "gr",
               children: "gr"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("option", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("option", {
               value: "kg",
               children: "kg"
             })]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
           className: "w-full h-8 border border-gray-300 flex justify-center items-center cursor-pointer ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50"),
           onClick: function onClick() {
             return loadImagesVariantes(item);
           },
-          children: item.selectedImage !== undefined && item.selectedImage !== null && Object.keys(item.selectedImage).length !== 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("img", {
+          children: item.selectedImage !== undefined && item.selectedImage !== null && Object.keys(item.selectedImage).length !== 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("img", {
             className: "w-auto max-h-[28px]",
             src: window.location.origin + '/' + item.selectedImage.value
-          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("img", {
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("img", {
             className: "w-6 h-auto",
             src: "../images/icons/image.svg"
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
           className: "group flex justify-center items-center w-full h-8 p-0 m-0 cursor-pointer",
-          children: !item.deleted ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("span", {
+          children: !item.deleted ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("span", {
             onClick: function onClick() {
               return toggleDeleteUndeleteVariante(item.id);
             },
             className: "flex justify-center items-center w-8 h-8 p-0 m-0 cursor-pointer hover:bg-red-500 rounded-md",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("img", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("img", {
               src: window.location.origin + '/images/icons/trash.svg',
               className: "h-5 w-5 group-hover:hidden"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("img", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("img", {
               src: window.location.origin + '/images/icons/x-white.svg',
               className: "h-6 w-6 hidden group-hover:block"
             })]
-          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("span", {
             onClick: function onClick() {
               return toggleDeleteUndeleteVariante(item.id);
             },
             className: "flex justify-center items-center w-8 h-8 p-0 m-0 cursor-pointer hover:bg-blue-200 rounded-md",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("img", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("img", {
               src: window.location.origin + '/images/icons/arrow-back.svg',
               className: "h-5 w-5"
             })
           })
         })]
       }, index);
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_modalImageVariante__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_modalImageVariante__WEBPACK_IMPORTED_MODULE_5__["default"], {
       show: showModalImageVariante,
       handleConfirm: handleConfirm,
       handleModalCancel: handleModalCancel,

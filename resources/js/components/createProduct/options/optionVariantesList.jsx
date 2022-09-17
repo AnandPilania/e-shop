@@ -7,6 +7,7 @@ import ModalImageVariante from './modalImageVariante';
 import SelectionVariantesInList from './selectionVariantesInList';
 import WithHandleSelectionList from './withHandleSelectionList';
 import { v4 as uuidv4 } from 'uuid';
+import TooltipWithoutIcon from '../../elements/tooltipWithoutIcon';
 
 
 
@@ -67,7 +68,6 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
         for (let i = 0; i < libelles.length; i++) {
             // split les values de optionsObj pour les récupérer séparements et les associer à leur option Name dans un objet "destiné au back-end !" 
-            console.log('libelles ', libelles)
             let tmp = libelles[i].split(',')
             let valuesSplited = tmp[0].split(' - ');
             let variantesOptions = {};
@@ -80,75 +80,82 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
             // compare deux tableaux 
             for (let j = 0; j < tmp_changedVariantes.length; j++) {
 
-                // let tmp2 = tmp_changedVariantes[j].optionsString.split(',')
-                // let optionsStringSplited = tmp2[0].split(' - ');
                 let optionsStringSplited = tmp_changedVariantes[j].optionsString.split(' - ')
 
                 // check si optionsStringSplited, qui est l'ancien libelle de la variante, contien toutes les values de valuesSplited, qui est le nouveau libelle de la variante, pour récupérer la variante qui correspond au libelle d'avant ajout d'une nouvelle option
-                if (valuesSplited.length === optionsStringSplited.length) {
-                    let isSameValuesInArray = true;
-                    for (let k = 0; k < valuesSplited.length; k++) {
-                        if (!optionsStringSplited.includes(valuesSplited[k])) {
-                            isSameValuesInArray = false;
-                        }
-                    }
+                console.log('valuesSplited  ', valuesSplited)
+                console.log('optionsStringSplited  ', optionsStringSplited)
+                console.log('libelles[i]  ', libelles[i])
 
-                    // si oui on met à jour tmp_changedVariantes.optionsString avec le libelles[i] actuelle qui contient l'entièreté de la optionsStringe tmp_changedVariantes sert à conserver les paramètres d'une variante s'ils ont été modifiés. ex. prix, stock,...
-                    if (isSameValuesInArray) {
-                        tmp_changedVariantes[j].optionsString = libelles[i];
-                        setChangedVariantes([...tmp_changedVariantes]);
-                    }
-                }
+                // let isSameValuesInArray = true;
+                // for (let k = 0; k < valuesSplited.length; k++) {
+                //     if (!optionsStringSplited.includes(valuesSplited[k])) {
+                //         isSameValuesInArray = false;
+                //     }
+                // }
+
+                // // si oui on met à jour tmp_changedVariantes.optionsString avec le libelles[i] actuelle qui contient l'entièreté de la optionsStringe tmp_changedVariantes sert à conserver les paramètres d'une variante s'ils ont été modifiés. ex. prix, stock,...
+                // if (isSameValuesInArray) {  console.log('ok---------------')
+                //     tmp_changedVariantes[j].optionsString = libelles[i];
+                //     setChangedVariantes([...tmp_changedVariantes]);
+                // }
             }
 
-            // supprime de tmp_changedVariantes les variantes qui ont encore des options dans leur optionsString qui ont été supprimées. tmp_changedVariantes sert à récupérer les paramètres d'une variante s'ils ont été modifiés. ex. prix, stock,...
-            // tmp_changedVariantes.forEach((item, index) => {
-            //     let ndx = libelles.findIndex(x => x == item.optionsString);
-            //     if (ndx === -1) {
-            //         tmp_changedVariantes.splice(index, 1);
-            //         setChangedVariantes([...tmp_changedVariantes]);
-            //     }
-            // });
-
-
             // crée des variantes vides. le nombre de variantes crées est = à libelles.length
-            if (libelles[i] != '') { // <--si libelles est vide alors on ne crée pas de variante vide
-                if (match) {
-
-                } else {
-                    tmp_variantesAsString.push({
-                        id: 'optionVarianteList' + i,
-                        optionsString: libelles[i],
-                        options: variantesOptions,
-                        price: productPrice,
-                        reducedPrice: reducedProductPrice,
-                        stock: '',
-                        productCode: productCode == '' ? uuidv4() : productCode,
-                        cost: productCost,
-                        parcelWeight: productParcelWeight,
-                        parcelWeightMeasureUnit: productParcelWeightMeasureUnit,
-                        unlimited: false,
-                        placeholderStock: '0',
-                        deleted: false,
-                        selectedImage: {},
-                    })
-                }
+            if (libelles[i] != '') { // <--si libelles est vide alors on ne 
+                tmp_variantesAsString.push({
+                    id: 'optionVarianteList' + i,
+                    optionsString: libelles[i],
+                    options: variantesOptions,
+                    price: productPrice,
+                    reducedPrice: reducedProductPrice,
+                    stock: '',
+                    productCode: productCode == '' ? uuidv4() : productCode,
+                    cost: productCost,
+                    parcelWeight: productParcelWeight,
+                    parcelWeightMeasureUnit: productParcelWeightMeasureUnit,
+                    unlimited: false,
+                    placeholderStock: '0',
+                    deleted: false,
+                    selectedImage: {},
+                })
             }
         }
 
-        // !!! on check ça tmp_changedVariantes.findIndex(x => x.optionsString == tmp_variantesAsString[i].optionsString) ET si ça correspond alors on remplace tmp_variantesAsString par le tmp_changedVariantes qui correspond  !!!
 
+        if (tmp_variantesAsString.length > 0 && tmp_changedVariantes.length > 0) {
+            for (let i = 0; i < tmp_variantesAsString.length; i++) {
+                for (let j = 0; j < tmp_changedVariantes.length; j++) {
+                    let newOptions = Object.values(tmp_variantesAsString[i].options);
+                    let changedOptions = Object.values(tmp_changedVariantes[j].options);
 
+                    console.log('newOptions  ', newOptions)
+                    console.log('changedOptions  ', changedOptions)
+
+                    if (newOptions.every(x => changedOptions.includes(x))) {
+                        let tmp_id = tmp_variantesAsString[i].id;
+                        let tmp_optionsString = tmp_variantesAsString[i].optionsString;
+                        tmp_variantesAsString[i] = tmp_changedVariantes[j];
+                        tmp_variantesAsString[i].id = tmp_id;
+                        tmp_variantesAsString[i].optionsString = tmp_optionsString;
+                        // tmp_changedVariantes.splice(j, 1);
+                    }
+                }
+            }
+        }
 
 
         // remplace les variantes par celles qui leurs correspondent dans tmp_changedVariantes pour récupérer leurs paramètres quand ils ont été modifiés. ex price, stock, ...
         for (let i = 0; i < tmp_variantesAsString.length; i++) {
             let ndx = tmp_changedVariantes.findIndex(x => x.optionsString == tmp_variantesAsString[i].optionsString);
-            console.log('tmp_changedVariantes[ndx] !!!  ', tmp_changedVariantes[ndx])
+            console.log('tmp_changedVariantes  ', tmp_changedVariantes)
+            console.log('tmp_variantesAsString  ', tmp_variantesAsString)
             if (ndx > -1) {
                 let tmp_id = tmp_variantesAsString[i].id;
+                let tmp_optionsString = tmp_variantesAsString[i].optionsString;
                 tmp_variantesAsString[i] = tmp_changedVariantes[ndx];
                 tmp_variantesAsString[i].id = tmp_id;
+                tmp_variantesAsString[i].optionsString = tmp_optionsString;
             }
         }
         setVariantes(tmp_variantesAsString);
@@ -464,12 +471,15 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
                             {/* variante */}
                             <span
+                                id="options_String_Variantes_17922"
                                 className={`w-full h-8 pt-1 rounded-md whitespace-nowrap text-ellipsis overflow-hidden cursor-default group ${item.deleted ? "text-gray-400" : "text-gray-500"} ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
                             >
-                                {item?.optionsString}
-                                <Tooltip top={-20} left={20}>
+                                {<span id="optionsStringVariantes17922">
                                     {item?.optionsString}
-                                </Tooltip>
+                                    <TooltipWithoutIcon id="options_String_Variantes_17922" idimg="optionsStringVariantes17922" widthTip={184}>
+                                        {item?.optionsString}
+                                    </TooltipWithoutIcon>
+                                </span>}
                             </span>
 
                             {/* price */}

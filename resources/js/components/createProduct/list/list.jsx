@@ -29,7 +29,7 @@ const List = () => {
     });
 
     const { setSearchValue, messageModal, textButtonConfirm, setMessageModal, setSender, setTextButtonConfirm, screenSize, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked, setListCollectionNames } = useContext(AppContext);
-    
+
 
     useEffect(() => {
         Axios.get(`http://127.0.0.1:8000/getProducts`)
@@ -206,22 +206,23 @@ const List = () => {
         setListProductsFiltered(products.filter(item => item.name.toLowerCase().includes(e.target.value.toLowerCase())));
     }
 
+    console.log('collectionsSelected  ', collectionsSelected)
+
     // renvoi les collection correspondantes à ce qui a été sélectionné dans le filtre des collections -> collectionsFilter
     function collectionsFilter(collectionsSelected) {
         let tmp_products = [];
         for (let i = 0; i < products.length; i++) {
+            let map_productsNames = products[i].collections.map(obj => obj.name);
             for (let j = 0; j < collectionsSelected.length; j++) {
-                let map_productsNames = products[i].collections.map(obj => obj.name);
                 if (map_productsNames.indexOf(collectionsSelected[j]) > -1) {
                     if (tmp_products.findIndex(x => x.id == products[i].id) == -1) {
                         tmp_products.push(products[i]);
-                    } else {
-                        tmp_products
-                    }
+                    } 
                 }
             }
         }
-        tmp_products.length > 0 ? setListProductsFiltered([...tmp_products]) : setListProductsFiltered([...products]);
+        collectionsSelected.length > 0 && setListProductsFiltered([...tmp_products]);
+        collectionsSelected.length === 0 && setListProductsFiltered([...products]);
     }
 
 
@@ -276,7 +277,7 @@ const List = () => {
                 confirmDeleteProduct={confirmDeleteProduct}
                 handleSearch={handleSearch}
                 collectionsFilter={collectionsFilter}
-                collectionsSelected={collectionsSelected} 
+                collectionsSelected={collectionsSelected}
                 setCollectionsSelected={setCollectionsSelected}
             />
 
