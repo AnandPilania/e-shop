@@ -1,14 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import AppContext from '../../contexts/AppContext';
 import Axios from 'axios';
-import Tooltip from '../../elements/tooltip';
 import AnimateCheckbox from '../../elements/animate_checkbox.jsx/animateCheckbox';
 import ModalImageVariante from './modalImageVariante';
 import SelectionVariantesInList from './selectionVariantesInList';
 import WithHandleSelectionList from './withHandleSelectionList';
 import { v4 as uuidv4 } from 'uuid';
-import TooltipWithoutIcon from '../../elements/tooltipWithoutIcon';
-
 
 
 const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelectedCheckbox, setIsAllSelectedCheckbox, setShowOptions }) => {
@@ -32,8 +29,6 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
 
     useEffect(() => {
-
-        // Lorsqu'on ajoute des options après avoir modifié des fields dans la liste des variantes, toutes les modification sont perdues. Ceci car l'ajout d'options duplique les variantes et leur ajoute la nouvelle value sans que les variantes dupliquées reçoivent les mêmes modifications faites précédement, ce qui n'est pas cohérent !!!
 
         let libelles = [];
 
@@ -77,30 +72,6 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                 }
             }
 
-            // compare deux tableaux 
-            for (let j = 0; j < tmp_changedVariantes.length; j++) {
-
-                let optionsStringSplited = tmp_changedVariantes[j].optionsString.split(' - ')
-
-                // check si optionsStringSplited, qui est l'ancien libelle de la variante, contien toutes les values de valuesSplited, qui est le nouveau libelle de la variante, pour récupérer la variante qui correspond au libelle d'avant ajout d'une nouvelle option
-                console.log('valuesSplited  ', valuesSplited)
-                console.log('optionsStringSplited  ', optionsStringSplited)
-                console.log('libelles[i]  ', libelles[i])
-
-                // let isSameValuesInArray = true;
-                // for (let k = 0; k < valuesSplited.length; k++) {
-                //     if (!optionsStringSplited.includes(valuesSplited[k])) {
-                //         isSameValuesInArray = false;
-                //     }
-                // }
-
-                // // si oui on met à jour tmp_changedVariantes.optionsString avec le libelles[i] actuelle qui contient l'entièreté de la optionsStringe tmp_changedVariantes sert à conserver les paramètres d'une variante s'ils ont été modifiés. ex. prix, stock,...
-                // if (isSameValuesInArray) {  console.log('ok---------------')
-                //     tmp_changedVariantes[j].optionsString = libelles[i];
-                //     setChangedVariantes([...tmp_changedVariantes]);
-                // }
-            }
-
             // crée des variantes vides. le nombre de variantes crées est = à libelles.length
             if (libelles[i] != '') { // <--si libelles est vide alors on ne 
                 tmp_variantesAsString.push({
@@ -122,40 +93,22 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
             }
         }
 
-
+        // remplace les variantes de tmp_variantesAsString par celles qui ont été modifiées et qui leur correspondent
         if (tmp_variantesAsString.length > 0 && tmp_changedVariantes.length > 0) {
             for (let i = 0; i < tmp_variantesAsString.length; i++) {
                 for (let j = 0; j < tmp_changedVariantes.length; j++) {
                     let newOptions = Object.values(tmp_variantesAsString[i].options);
                     let changedOptions = Object.values(tmp_changedVariantes[j].options);
 
-                    console.log('newOptions  ', newOptions)
-                    console.log('changedOptions  ', changedOptions)
-
-                    if (newOptions.every(x => changedOptions.includes(x))) {
+                    if (changedOptions.every(x => newOptions.includes(x))) {
                         let tmp_id = tmp_variantesAsString[i].id;
                         let tmp_optionsString = tmp_variantesAsString[i].optionsString;
                         tmp_variantesAsString[i] = tmp_changedVariantes[j];
                         tmp_variantesAsString[i].id = tmp_id;
                         tmp_variantesAsString[i].optionsString = tmp_optionsString;
-                        // tmp_changedVariantes.splice(j, 1);
+                        tmp_changedVariantes.splice(j, 1);
                     }
                 }
-            }
-        }
-
-
-        // remplace les variantes par celles qui leurs correspondent dans tmp_changedVariantes pour récupérer leurs paramètres quand ils ont été modifiés. ex price, stock, ...
-        for (let i = 0; i < tmp_variantesAsString.length; i++) {
-            let ndx = tmp_changedVariantes.findIndex(x => x.optionsString == tmp_variantesAsString[i].optionsString);
-            console.log('tmp_changedVariantes  ', tmp_changedVariantes)
-            console.log('tmp_variantesAsString  ', tmp_variantesAsString)
-            if (ndx > -1) {
-                let tmp_id = tmp_variantesAsString[i].id;
-                let tmp_optionsString = tmp_variantesAsString[i].optionsString;
-                tmp_variantesAsString[i] = tmp_changedVariantes[ndx];
-                tmp_variantesAsString[i].id = tmp_id;
-                tmp_variantesAsString[i].optionsString = tmp_optionsString;
             }
         }
         setVariantes(tmp_variantesAsString);
@@ -456,6 +409,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                 variantes?.length > 0 && variantes.map((item, index) =>
                     (isHideDeletedVariantes && item.deleted === true) ? '' :
                         <div
+                            id={`${index}options_String_Variantes_17922`}
                             key={index}
                             className={`w-full h-auto grid gap-x-2 grid-cols-[25px_100px_1fr_1fr_50px_32px] md:grid-cols-[25px_80px_1fr_1fr_1fr_50px_32px] xl:grid-cols-[25px_140px_1fr_1fr_1fr_50px_32px] justify-start items-center py-2 relative bg-white  hover:bg-gray-50 ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
                         >
@@ -471,15 +425,14 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
                             {/* variante */}
                             <span
-                                id="options_String_Variantes_17922"
-                                className={`w-full h-8 pt-1 rounded-md whitespace-nowrap text-ellipsis overflow-hidden cursor-default group ${item.deleted ? "text-gray-400" : "text-gray-500"} ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
+                                className={`w-auto h-8 pt-1 rounded-md truncate cursor-default group ${item.deleted ? "text-gray-400" : "text-gray-500"} ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
                             >
-                                {<span id="optionsStringVariantes17922">
+                                {item?.optionsString}
+                                <span
+                                    className="absolute top-[-40px] left-0  h-auto truncate invisible group-hover:visible w-auto flex justify-start max-w-[370px] p-3 text-sm text-gray-700 bg-white z-[100] rounded-md shadow-md cursor-default border border-gray-300"
+                                >
                                     {item?.optionsString}
-                                    <TooltipWithoutIcon id="options_String_Variantes_17922" idimg="optionsStringVariantes17922" widthTip={184}>
-                                        {item?.optionsString}
-                                    </TooltipWithoutIcon>
-                                </span>}
+                                </span>
                             </span>
 
                             {/* price */}
@@ -516,7 +469,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
                             {/* stock */}
                             {visiblesFields[indexOfVisiblesFields]?.includes('stock') &&
-                                <div className='w-full'>
+                                <div className='w-full relative'>
                                     <div
                                         className='w-full flex flex-rox justify-start items-center'
                                     >
@@ -531,7 +484,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                             className={`w-full h-8 border border-gray-300 rounded-l-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
                                         />
                                         <span
-                                            className={`flex flex-rox justify-start items-center h-8 border-y border-r border-gray-300 rounded-r-md xl:px-2.5 cursor-pointer caret-transparent group relative ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
+                                            className={`flex flex-rox justify-start items-center h-8 border-y border-r border-gray-300 rounded-r-md xl:px-2.5 cursor-pointer caret-transparent group ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
                                             onClick={() => handleUnlimitedStockProduct(item)}>
                                             <input
                                                 className='caret-transparent cursor-pointer bg-red-500'
@@ -542,9 +495,11 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                                 // pour pas avoir de warning "input checkbox non controlé"
                                                 onChange={() => { }}
                                             />
-                                            <Tooltip top={-40} left={-100} css='whitespace-nowrap'>
+                                            <span
+                                                className="absolute top-[-50px] left-0 h-auto truncate  invisible group-hover:visible w-auto flex justify-start p-3 text-sm text-gray-700 bg-white z-[100] rounded-md shadow-md cursor-default border border-gray-300"
+                                            >
                                                 {item?.unlimited ? 'Stock illimité' : 'Entrer une quantité'}
-                                            </Tooltip>
+                                            </span>
                                         </span>
                                     </div>
                                 </div>}

@@ -565,6 +565,45 @@ Ensure the default browser behavior of the `hidden` attribute.
 .top-\[30px\] {
   top: 30px;
 }
+.top-\[-80px\] {
+  top: -80px;
+}
+.top-\[-70px\] {
+  top: -70px;
+}
+.top-\[-5px\] {
+  top: -5px;
+}
+.top-\[-15px\] {
+  top: -15px;
+}
+.top-\[-25px\] {
+  top: -25px;
+}
+.top-\[-45px\] {
+  top: -45px;
+}
+.top-\[-35px\] {
+  top: -35px;
+}
+.top-\[-40px\] {
+  top: -40px;
+}
+.left-\[-120px\] {
+  left: -120px;
+}
+.left-\[-0px\] {
+  left: -0px;
+}
+.top-\[-50px\] {
+  top: -50px;
+}
+.left-\[-70px\] {
+  left: -70px;
+}
+.left-\[-100px\] {
+  left: -100px;
+}
 .z-0 {
   z-index: 0;
 }
