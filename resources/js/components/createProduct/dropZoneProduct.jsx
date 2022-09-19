@@ -6,7 +6,7 @@ import Axios from 'axios';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import Label from '../form/label';
 
-const DropZoneProduct = () => {
+const DropZoneProduct = ({ isEditProduct, productId }) => {
 
     const dropRegionRef = useRef();
 
@@ -56,8 +56,40 @@ const DropZoneProduct = () => {
         }
 
         setDropRegion();
-
     }, []);
+
+
+    useEffect(() => {
+        console.log('isEditProduct   ', isEditProduct)
+        if (isEditProduct) {
+            alert('ok')
+            let idProduct = new FormData;
+            idProduct.append('productId', productId);
+            Axios.post(`http://127.0.0.1:8000/getProduct`, idProduct)
+                .then(res => {
+
+                    let tmp_data = [[]];
+                    let tmp = [];
+                    let imagesProduct = res.data[0].images_products;
+                    console.log('imagesProduct   ', imagesProduct)
+                    for (let i = 0; i < imagesProduct.length; i++) {
+                        if (tmp.length < 4) {
+                            tmp.push(imagesProduct[i]);
+                            tmp_data.splice(-1, 1, tmp);
+                        } else {
+                            tmp_data.splice(-1, 1, tmp);
+                            tmp = [];
+                            tmp.push(imagesProduct[i]);
+                            tmp_data.push(tmp);
+                        }
+                    };
+                    setImageVariantes(tmp_data);
+                })
+                .catch(error => {
+                    console.log('Error get Product Images failed : ' + error.status);
+                });
+        }
+    }, [isEditProduct])
 
 
     function preventDefault(e) {
@@ -149,7 +181,7 @@ const DropZoneProduct = () => {
                 let name = item.name;
                 tmp_Data.append('value', item, name);
 
-                Axios.post(`http://127.0.0.1:8000/temporaryStoreImages`, tmp_Data,
+                Axios.post(`http://127.0.0.1:8000/storeImages`, tmp_Data,
                     {
                         headers: {
                             'Content-Type': 'multipart/form-data'
@@ -451,7 +483,7 @@ const DropZoneProduct = () => {
                                     className='w-full text-center text-[12px] mt-0 pb-2.5'>Image principale</span>
                                 <img
                                     className='m-0 object-contain max-h-[200px]'
-                                    src={window.location.origin + '/' + imageVariantes[0][0]?.value}
+                                    src={window.location.origin + '/' + imageVariantes[0][0]?.path}
                                 />
                             </div>
                         }
@@ -505,7 +537,7 @@ const DropZoneProduct = () => {
                                                     )}
                                                 >
                                                     <img className='imgClass max-w-3/12 max-h-32'
-                                                        src={window.location.origin + '/' + item.value}
+                                                        src={window.location.origin + '/' + item.path}
                                                     />
                                                     <button id="removeImg"
                                                         className="invisible group-hover:visible absolute top-1.5 right-1.5 w-6 h-6 bg-[#d23e44] rounded"

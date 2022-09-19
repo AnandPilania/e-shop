@@ -26,12 +26,13 @@ const CreateProduct = () => {
     var navigate = useNavigate();
 
     const [showModalFromPrice, setShowModalFromPrice] = useState(false);
+    const [isEditProduct, setIsEditProduct] = useState(false);
 
     // when click on edit in collection list it send collection id to db request for make edit collection
     const { state } = useLocation();
     const { productId, isEdit } = state !== null ? state : { productId: null, isEdit: false };
 
-    const { descriptionProduct, setListSuppliers, supplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, setRibbonProduct, screenSize, unlimited, isInAutoCollection, dateFieldProduct, setDateFieldProduct, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked, setDescriptionProduct, setCollections, setProductPrice,        setProductParcelWeight, setProductParcelWeightMeasureUnit,        setPromoApplied, setReducedProductPrice, setProductCost,        setProductStock, setProductCode, setOptionsObj, setUnlimited,        setVariantes } = useContext(AppContext);
+    const { descriptionProduct, setListSuppliers, supplier, setSupplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, setTva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, setRibbonProduct, screenSize, unlimited, isInAutoCollection, dateFieldProduct, setDateFieldProduct, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked, setDescriptionProduct, setCollections, setProductPrice, promoApplied, promoType, setPromoType, setProductParcelWeight, setProductParcelWeightMeasureUnit, setPromoApplied, setReducedProductPrice, setProductCost, setProductStock, setProductCode, setOptionsObj, setUnlimited, setVariantes, setTransporter, setMetaTitleProduct, setMetaDescriptionProduct, setMetaUrlProduct, setImageVariantes } = useContext(AppContext);
 
     useEffect(() => {
         // charge la liste des fournisseurs
@@ -59,6 +60,7 @@ const CreateProduct = () => {
 
 
         if (isEdit) {
+            setIsEditProduct(true);
             let idProduct = new FormData;
             idProduct.append('productId', productId);
             Axios.post(`http://127.0.0.1:8000/getProduct`, idProduct)
@@ -67,20 +69,31 @@ const CreateProduct = () => {
                     console.log('productId   ', productId)
                     let data = res.data[0];
                     setNameProduct(data.name == null ? '' : data.name);
+                    // isInAutoCollection
                     setRibbonProduct(data.ribbon == null ? '' : data.ribbon);
-
+                    setDescriptionProduct(data.description)
                     setCollections([...data.collections]); 
-                    setProductPrice('');        
-                    // setProductParcelWeight, setProductParcelWeightMeasureUnit,        
-                    // setPromoApplied, 
-                    // setReducedProductPrice, 
-                    // setProductCost,        
-                    // setProductStock, 
-                    // setProductCode, 
-                    // setOptionsObj, 
-                    // setUnlimited,        
-                    // setVariantes
+                    setProductPrice(data.price); 
+                    setReducedProductPrice(data.reduced_price);  
+                    setPromoApplied(data.reduction);      
+                    setPromoType(data.reductionType);   
+                    setProductCost(data.cost);        
+                    setProductStock(data.stock);
+                    setUnlimited(data.unlimitedStock);  
+                    setProductParcelWeight(data.weight);setProductParcelWeightMeasureUnit(data.weightMeasure);        
+                    setProductCode(data.sku); 
+                    setTransporter(JSON.parse(data.onlyTheseCarriers));
+                    setMetaUrlProduct(data.metaUrl); 
+                    setMetaTitleProduct(data.metaTitle); 
+                    setMetaDescriptionProduct(data.metaDescription); 
+                    setDateFieldProduct(data.dateActivation); 
+                    setTva(data.taxe_id); 
+                    setSupplier(data.supplier_id);     
+                    setVariantes(data.variantes);
+                    setImageVariantes(data.images_products);
 
+
+                    // setOptionsObj(data.variantes); 
 
                     // collections[]
                     // created_at
@@ -216,6 +229,8 @@ const CreateProduct = () => {
         formData.append('isInAutoCollection', isInAutoCollection);
         formData.append('productPrice', productPrice);
         formData.append('reducedProductPrice', reducedProductPrice);
+        formData.append('promoApplied', promoApplied);
+        formData.append('promoType', promoType);
         formData.append('productCost', productCost);
         formData.append('productStock', productStock == '' ? 0 : productStock);
         formData.append('unlimitedStock', unlimited);
@@ -232,6 +247,7 @@ const CreateProduct = () => {
         formData.append('metaTitleProduct', metaTitleProduct);
         formData.append('metaDescriptionProduct', metaDescriptionProduct);
 
+        
         console.log('nameProduct  ', nameProduct);
         console.log('ribbonProduct  ', ribbonProduct);
         console.log('descriptionProduct  ', descriptionProduct);
@@ -267,7 +283,7 @@ const CreateProduct = () => {
             });
     }
 
-
+    console.log('isEditProduct create   ', isEditProduct)
     return (
         <div className="w-full px-2.5 lg:p-0">
             {/* {screenSize > 1023 ? */}
@@ -281,7 +297,10 @@ const CreateProduct = () => {
                         <Description />
                     </Flex_col_s_s>
 
-                    <DropZoneProduct />
+                    <DropZoneProduct 
+                        isEditProduct={isEditProduct}
+                        productId={productId}
+                    />
 
                     {screenSize < 1024 &&
                         <div className='w-full grid grid-cols-1 gap-y-4'>

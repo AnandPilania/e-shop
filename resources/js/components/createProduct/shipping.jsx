@@ -5,7 +5,6 @@ import Label from '../form/label';
 import SelectWithCheckboxProduct from './selectWithCheckboxProduct';
 
 const Shipping = () => {
-
     const [toggleSelectWithCheckboxTransporter, setToggleSelectWithCheckboxTransporter] = useState(false);
 
     const { listTransporters, transporter, setTransporter } = useContext(AppContext);
@@ -33,7 +32,7 @@ const Shipping = () => {
                         setToggleSelectWithCheckbox={setToggleSelectWithCheckboxTransporter}
                     />
                     <div className={`flex flex-wrap ${transporter.length > 0 && "pt-4"} w-full`}>
-                        {transporter.map(item =>
+                        {transporter.length > 0 && transporter.map(item =>
                             <div key={item.modeId}
                                 className="flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-2 pr-1.5 py-1 mb-1 mr-2">
                                 <span

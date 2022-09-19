@@ -31,7 +31,7 @@ const RowListProducts = ({ productsFiltered, collections, listProductsChecked, h
     useEffect(() => {
         handleGridCols();
         setMainImgPath(productsFiltered.images_products.filter(x => x.ordre == 1)[0]);
-
+console.log('productsFiltered   ', productsFiltered)
         let tmp_stockCount = productsFiltered.variantes.reduce((acc, obj) => { return acc + obj.stock; }, 0);
         setStockCount(tmp_stockCount > 0 ? tmp_stockCount : productsFiltered.stock);
 
@@ -175,6 +175,7 @@ const RowListProducts = ({ productsFiltered, collections, listProductsChecked, h
                     />
                 )}
             </div>
+            
             {/* thumbnail */}
             <div className="flex flex-row justify-center items-center min-h[48px] w-full">
                 {mainImgPath?.path != undefined &&

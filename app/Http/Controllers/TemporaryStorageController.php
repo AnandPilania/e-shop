@@ -95,13 +95,13 @@ class TemporaryStorageController extends Controller
 
     public function reOrderImagesProducts(Request $request)
     {
-        // dd($request);
+        // dd($request->image);
         $imagesProducts = json_decode($request->image);
         $ndx = 1;
 
         foreach ($imagesProducts as $values) {
             foreach ($values as $item) {
-                $tmp_productImage = Temporary_storage::where('id', $item->id)->first();
+                $tmp_productImage = Temporary_storage::where('value', $item->path)->first();
 
                 $tmp_productImage->ordre = $ndx;
                 $tmp_productImage->save();

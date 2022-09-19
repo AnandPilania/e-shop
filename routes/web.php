@@ -167,6 +167,7 @@ Route::post('/addImagesProduct', [ProductController::class, 'addImagesProduct'])
 Route::get('/deleteImagesProduct/{id}', [ProductController::class, 'deleteImagesProduct']);
 
 Route::post('/updateProduct', [ProductController::class, 'update']);
+Route::post('/storeImages', [ProductController::class, 'storeImages']);
 
 Route::get('/creatFrontIndex', [FrontEndController::class, 'create']);
 // Route::get('/jumbos', [JumbosController::class, 'index']);

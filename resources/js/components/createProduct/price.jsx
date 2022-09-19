@@ -8,11 +8,10 @@ import Flex_col_s_s from '../elements/container/flex_col_s_s';
 const Price = () => {
 
     const [isShowPromoProduct, setIsShowPromoProduct] = useState(false);
-    const [promoType, setPromoType] = useState('%');
     const [productProfit, setProductProfit] = useState('');
     const [productMargin, setProductMargin] = useState('');
 
-    const { productPrice, setProductPrice, promoApplied, setPromoApplied, productCost, setProductCost, reducedProductPrice, setReducedProductPrice } = useContext(AppContext);
+    const { productPrice, setProductPrice, promoApplied, setPromoApplied, productCost, setProductCost, reducedProductPrice, setReducedProductPrice, promoType, setPromoType } = useContext(AppContext);
 
 
     const handleProductPrice = (e) => {
@@ -208,10 +207,10 @@ const Price = () => {
                 <div className='w-full'>
                     <Label label="Bénéfice" />
                     <div className='w-full flex flex-row justify-start items-center'>
-                        <span className="flex flex-row justify-start items-center bg-gray-50 w-full h-10 pl-2 border border-gray-300 text-gray-500 text-sm rounded-l-md caret-transparent">
+                        <span className="flex flex-row justify-start items-center bg-gray-50 w-full h-10 pl-2 border border-gray-300 text-gray-500 text-sm rounded-l-md caret-transparent font-semibold">
                             {productProfit}
                         </span>
-                        <span className='min-w-[40px] h-10 flex flex-row justify-center items-center border-y border-r border-gray-300 rounded-r-md bg-gray-50 text-gray-700 font-semibold caret-transparent'>
+                        <span className='min-w-[40px] h-10 flex flex-row justify-center items-center border-y border-r border-gray-300 rounded-r-md bg-gray-50 text-gray-700 caret-transparent font-semibold'>
                             €
                         </span>
                     </div>
@@ -220,10 +219,10 @@ const Price = () => {
                 <div className='w-full'>
                     <Label label="Marge" />
                     <div className='w-full flex flex-row justify-start items-center'>
-                        <span className="flex flex-row justify-start items-center bg-gray-50 w-full h-10 pl-2 border border-gray-300 text-gray-500 text-sm rounded-l-md caret-transparent">
+                        <span className="flex flex-row justify-start items-center bg-gray-50 w-full h-10 pl-2 border border-gray-300 text-gray-500 text-sm rounded-l-md caret-transparent font-semibold">
                             {productCost != '' && productMargin}
                         </span>
-                        <span className='min-w-[40px] h-10 flex flex-row justify-center items-center border-y border-r border-gray-300 rounded-r-md bg-gray-50 text-gray-700 font-semibold caret-transparent'>
+                        <span className='min-w-[40px] h-10 flex flex-row justify-center items-center border-y border-r border-gray-300 rounded-r-md bg-gray-50 text-gray-700  caret-transparent font-semibold'>
                             %
                         </span>
                     </div>

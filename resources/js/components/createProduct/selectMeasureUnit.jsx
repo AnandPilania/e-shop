@@ -17,7 +17,6 @@ export default function SelectMeasureUnit({ list, itemSelected, setItemSelected,
 
     const showSelectMenu = () => {
         let ul = document.getElementById(ulUnikId);
-        console.log('ul  ', ul)
         if (!toggleSelect) {
             ul.style.height = 'auto';
             ul.classList.add('border-b');

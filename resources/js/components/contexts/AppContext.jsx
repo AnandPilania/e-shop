@@ -163,6 +163,8 @@ export default createContext({
     setProductPrice: () => { },
     promoApplied: '',
     setPromoApplied: () => { },
+    promoType: '',  
+    setPromoType: () => { },
     reducedProductPrice: '',
     setReducedProductPrice: () => { },
     productCost: '',
@@ -230,6 +232,7 @@ export default createContext({
     setDateFieldProduct: () => { },
     listCollectionNames: '', 
     setListCollectionNames: () => { },
+
 
 
 });

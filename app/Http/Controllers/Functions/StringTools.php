@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Functions;
 
+use Illuminate\Support\Str;
+
 
 class StringTools
 {
@@ -19,7 +21,7 @@ class StringTools
     public function nameGeneratorFromFile($file)
     {
         $str = $this->cleanCaracters($file->getClientOriginalName());
-        $str = str_replace(strrchr($str, '.'), '', $str);
+        $str = str_replace(strrchr($str, '.'), '', $str); // delete extension
 
         $pattern = '/(-\d+\.[a-zA-Z]{2,4})$/';
         $str = preg_replace($pattern, '', $str);
@@ -37,7 +39,7 @@ class StringTools
         }
         
         // remplace all specials caracteres and lowerCase
-        $newName = $this->cleanCaracters($str) . '-' . time() . '.' . $ext;
+        $newName = $this->cleanCaracters($str) . '-' . Str::uuid() . '.' . $ext;
 
         return $newName;
     }

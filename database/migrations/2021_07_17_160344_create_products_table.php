@@ -20,7 +20,16 @@ class CreateProductsTable extends Migration
             $table->tinyInteger('status');
             $table->dateTime('dateActivation');
             $table->string('ribbon', 255)->nullable();
+            $table->float('price', 8, 2);
+            $table->float('reduced_price', 8, 2)->nullable();
+            $table->float('reduction', 8, 2)->nullable();
+            $table->string('reductionType')->nullable();
+            $table->float('cost', 8, 2)->nullable();
             $table->integer('stock');
+            $table->tinyInteger('unlimitedStock');
+            $table->float('weight', 8, 2)->nullable();
+            $table->string('weightMeasure')->nullable();
+            $table->string('sku', 100);
             $table->string('link');
             $table->mediumText('description')->nullable();
             $table->text('onlyTheseCarriers')->nullable();

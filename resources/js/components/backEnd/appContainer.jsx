@@ -145,6 +145,7 @@ const Appcontainer = () => {
     const [productParcelWeightMeasureUnit, setProductParcelWeightMeasureUnit] = useState('gr');
     const [promoApplied, setPromoApplied] = useState('');
     const [reducedProductPrice, setReducedProductPrice] = useState('');
+    const [promoType, setPromoType] = useState('%');
     const [productCost, setProductCost] = useState('');
     const [productStock, setProductStock] = useState('');
     const [productCode, setProductCode] = useState('');
@@ -164,12 +165,12 @@ const Appcontainer = () => {
     const [metaTitleProduct, setMetaTitleProduct] = useState('');
     const [metaDescriptionProduct, setMetaDescriptionProduct] = useState('');
     const [metaUrlProduct, setMetaUrlProduct] = useState('');
-    const [products, setProducts] = useState([1,2,3]);
+    const [products, setProducts] = useState([1, 2, 3]);
     const [listProductsFiltered, setListProductsFiltered] = useState([]);
     const [listProductsChecked, setListProductsChecked] = useState([]);
     const [dateFieldProduct, setDateFieldProduct] = useState(getNow());
     const [listCollectionNames, setListCollectionNames] = useState([]);
- 
+
 
     //---------------------------------------------------------------PRODUCT
 
@@ -552,6 +553,7 @@ const Appcontainer = () => {
         collections, setCollections,
         productPrice, setProductPrice,
         promoApplied, setPromoApplied,
+        promoType, setPromoType,
         reducedProductPrice, setReducedProductPrice,
         productCost, setProductCost,
         productStock, setProductStock,
@@ -581,8 +583,8 @@ const Appcontainer = () => {
         screenSize,
         isInAutoCollection, setIsInAutoCollection,
         showSideNav, setShowSideNav,
-        products, setProducts, 
-        listProductsFiltered, setListProductsFiltered, 
+        products, setProducts,
+        listProductsFiltered, setListProductsFiltered,
         listProductsChecked, setListProductsChecked,
         dateFieldProduct, setDateFieldProduct,
         listCollectionNames, setListCollectionNames,

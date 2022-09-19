@@ -206,7 +206,6 @@ const List = () => {
         setListProductsFiltered(products.filter(item => item.name.toLowerCase().includes(e.target.value.toLowerCase())));
     }
 
-    console.log('collectionsSelected  ', collectionsSelected)
 
     // renvoi les collection correspondantes à ce qui a été sélectionné dans le filtre des collections -> collectionsFilter
     function collectionsFilter(collectionsSelected) {

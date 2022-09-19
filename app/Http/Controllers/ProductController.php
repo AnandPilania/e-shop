@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use DateTime;
+use DateTimeZone;
 use App\Models\Body;
 use App\Models\Product;
 use App\Models\Variante;
@@ -19,7 +20,7 @@ use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Controllers\Functions\CleanLink;
-use DateTimeZone;
+use App\Http\Controllers\Functions\StringTools;
 
 
 
@@ -57,7 +58,16 @@ class ProductController extends Controller
         // remplace dans les src de la description le chemin du dossier temporaryStorage par celui de la destionation finale des images et vidéos. !!! c'est handleTinyMceTemporaryElements qui se charge de déplacer les fichiers dans ces dossiers !!!
         $tmp_description = str_replace('temporaryStorage', 'images', $request->descriptionProduct);
         $product->description = preg_replace('/(<source src=").+(images)/', '<source src="' . url('') . '/videos', $tmp_description);
+        $product->price = $request->productPrice;
+        $product->reduced_price = $request->reducedProductPrice;
+        $product->reduction = $request->promoApplied;
+        $product->reductionType = $request->promoType;
+        $product->cost = $request->productCost;
         $product->stock = $request->productStock;
+        $product->unlimitedStock = $request->unlimitedStock;
+        $product->weight = $request->productParcelWeight;
+        $product->weightMeasure = $request->WeightMeasureUnit;
+        $product->sku = $request->productSKU != '' ? $request->productSKU : Str::uuid();
         $product->onlyTheseCarriers = $request->transporter;
         $product->metaUrl = $request->metaUrlProduct;
         $product->metaTitle = $request->metaTitleProduct;
@@ -73,6 +83,7 @@ class ProductController extends Controller
         $product->taxe_id = json_decode($request->tva)->id;
         $product->supplier_id = json_decode($request->supplier) != "" && json_decode($request->supplier)->id;
         $product->save();
+
 
         // save in collection_product table <---
         foreach (json_decode($request->collections) as $collection) {
@@ -203,14 +214,14 @@ class ProductController extends Controller
         $images = array_merge(...json_decode($request->imageVariantes));
         foreach ($images as $image) {
             if (File::exists(public_path($image->value))) {
-                $imageName = str_replace('temporaryStorage/', '', $image->value);
-                File::move(public_path($image->value), public_path('images/' . $imageName));
-                File::delete(public_path($image->value));
-
+                // $imageName = str_replace('temporaryStorage/', '', $image->value);
+                // File::move(public_path($image->value), public_path('images/' . $imageName));
+                // File::delete(public_path($image->value));
+                $imageName = $image->value;
                 Temporary_storage::destroy($image->id);
 
                 $image_product = new Images_product;
-                $image_product->path = 'images/' . $imageName;
+                $image_product->path = $imageName;
                 $image_product->alt = $imageName;
                 $image_product->ordre = $image->ordre;
                 $image_product->product_id = $product->id;
@@ -219,6 +230,45 @@ class ProductController extends Controller
         }
 
         return 'ok';
+    }
+
+    public function storeImages(Request $request)
+    {
+        if ($request->hasFile('value')) {
+
+            $file = $request->file('value');
+            $mimeType = $file->getClientMimeType();
+            $mimeType_videos_array = array('video/webm', 'video/ogg', 'video/avi', 'video/mp4', 'video/mpeg');
+            $mimeType_images_array = array('image/gif', 'image/png', 'image/jpeg', 'image/webp');
+
+            $tmp_storage = new Temporary_storage;
+            $tools = new StringTools;
+            $newName = $tools->nameGeneratorFromFile($file);
+
+            if (in_array($mimeType, $mimeType_images_array)) {
+                $Path = public_path('images/');
+                $imgFile = Image::make($file);
+                $imgFile->save($Path . $newName, 80, 'jpg');
+
+                $tmp_storage->key = $request->key;
+                $tmp_storage->value = 'images/' . $newName;
+                $tmp_storage->ordre = Temporary_storage::where('key', $request->key)->max('ordre') + 1;
+                $tmp_storage->save();
+
+                return $tmp_storage->value;
+            } else if (in_array($mimeType, $mimeType_videos_array)) {
+                $path = 'images/';
+                $file->move($path, $newName);
+
+                $tmp_storage->key = $request->key;
+                $tmp_storage->value = $path . $newName;
+                $tmp_storage->save();
+
+                return $path . $newName;
+            } else {
+                return 'This file type is not allowed';
+            }
+        }
     }
 
 

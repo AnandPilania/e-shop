@@ -38,14 +38,14 @@ const OptimisationProduct = () => {
         }
 
         // affiche en rouge un avertissement sur la longeur du méta title
-        if (metaTitleProduct.length > 50) {
+        if (metaTitleProduct?.length > 50) {
             setMetaTitleBiggerThan50Product(true);
         } else {
             setMetaTitleBiggerThan50Product(false);
         }
 
         // affiche en rouge un avertissement sur la longeur de la méta description
-        if (metaDescriptionProduct.length > 130) {
+        if (metaDescriptionProduct?.length > 130) {
             setMetaDescriptionbiggerThan130Product(true);
         } else {
             setMetaDescriptionbiggerThan130Product(false);
@@ -216,7 +216,7 @@ const OptimisationProduct = () => {
                     />
                     <div className='w-full'>
                         <span className='text-blue-700 text-xs font-normal mb-2'>
-                            Nombre de caractères {metaTitleProduct?.length > 0 ? metaTitleProduct.length : 0}
+                            Nombre de caractères {metaTitleProduct?.length > 0 ? metaTitleProduct?.length : 0}
                         </span>
                         {metaTitlebiggerThan50Product &&
                             <span className="text-red-700 break-words ml-2 text-sm font-normal">
@@ -247,7 +247,7 @@ const OptimisationProduct = () => {
                     />
                     <div className='w-full h-auto'>
                         <span className='text-blue-700 text-xs font-normal'>
-                            Nombre de caractères {metaDescriptionProduct?.length > 0 ? metaDescriptionProduct.length : 0}
+                            Nombre de caractères {metaDescriptionProduct?.length > 0 ? metaDescriptionProduct?.length : 0}
                         </span>
                         {metaDescriptionbiggerThan130Product &&
                             <span className="text-red-700 break-words ml-2 text-sm font-normal">
