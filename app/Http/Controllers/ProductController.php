@@ -232,41 +232,92 @@ class ProductController extends Controller
         return 'ok';
     }
 
+    public function reOrderImagesProducts(Request $request)
+    {
+
+        $imagesProducts = json_decode($request->image);
+        dd($imagesProducts);
+        $ndx = 1;
+
+        foreach ($imagesProducts as $values) {
+            foreach ($values as $item) {
+                $tmp_productImage = Images_product::where('id', $item->id)->first();
+
+                $tmp_productImage->ordre = $ndx;
+                $tmp_productImage->save();
+
+                $ndx++;
+            }
+        }
+    }
+
+    // use Illuminate\Database\Eloquent\ModelNotFoundException;
+    // public function show($id)
+    // {
+    //     try {
+    //         return Book::findOrFail($id);
+    //     } catch (ModelNotFoundException $e) {
+    //         return response()->json([
+    //             'error' => [
+    //                 'message' => 'Book not found'
+    //             ]
+    //         ], 404);
+    //     }
+    // }
+
+    public function getImagesProduct($path)
+    {
+        $images = Temporary_storage::where('value', $path)
+            ->orderBy('ordre')
+            ->get();
+
+        return $images;
+    }
+
     public function storeImages(Request $request)
     {
         if ($request->hasFile('value')) {
+            $imagesArr = [];
+            $videosArr = [];
+            foreach ($request->value as $file) {
+                // $file = $request->file('value');
+                $mimeType = $file->getClientMimeType();
+                $mimeType_videos_array = array('video/webm', 'video/ogg', 'video/avi', 'video/mp4', 'video/mpeg');
+                $mimeType_images_array = array('image/gif', 'image/png', 'image/jpeg', 'image/webp');
 
-            $file = $request->file('value');
-            $mimeType = $file->getClientMimeType();
-            $mimeType_videos_array = array('video/webm', 'video/ogg', 'video/avi', 'video/mp4', 'video/mpeg');
-            $mimeType_images_array = array('image/gif', 'image/png', 'image/jpeg', 'image/webp');
+                $tmp_storage = new Temporary_storage;
+                $tools = new StringTools;
+                $newName = $tools->nameGeneratorFromFile($file);
 
-            $tmp_storage = new Temporary_storage;
-            $tools = new StringTools;
-            $newName = $tools->nameGeneratorFromFile($file);
+                if (in_array($mimeType, $mimeType_images_array)) {
+                    $Path = public_path('images/');
+                    $imgFile = Image::make($file);
+                    $imgFile->save($Path . $newName, 80, 'jpg');
 
-            if (in_array($mimeType, $mimeType_images_array)) {
-                $Path = public_path('images/');
-                $imgFile = Image::make($file);
-                $imgFile->save($Path . $newName, 80, 'jpg');
+                    $tmp_storage->key = $request->key;
+                    $tmp_storage->value = 'images/' . $newName;
+                    $tmp_storage->ordre = Temporary_storage::where('key', $request->key)->max('ordre') + 1;
+                    $tmp_storage->save();
 
-                $tmp_storage->key = $request->key;
-                $tmp_storage->value = 'images/' . $newName;
-                $tmp_storage->ordre = Temporary_storage::where('key', $request->key)->max('ordre') + 1;
-                $tmp_storage->save();
+                    array_push($imagesArr, $tmp_storage->value);
+                } else if (in_array($mimeType, $mimeType_videos_array)) {
+                    $path = 'images/';
+                    $file->move($path, $newName);
 
-                return $tmp_storage->value;
-            } else if (in_array($mimeType, $mimeType_videos_array)) {
-                $path = 'images/';
-                $file->move($path, $newName);
+                    $tmp_storage->key = $request->key;
+                    $tmp_storage->value = $path . $newName;
+                    $tmp_storage->save();
 
-                $tmp_storage->key = $request->key;
-                $tmp_storage->value = $path . $newName;
-                $tmp_storage->save();
-
-                return $path . $newName;
-            } else {
-                return 'This file type is not allowed';
+                    array_push($videosArr, $tmp_storage->value);
+                } else {
+                    return 'This file type is not allowed';
+                }
+            }
+            if (count($imagesArr) > 0) {
+                return $imagesArr;
+            }
+            if (count($videosArr) > 0) {
+                return $videosArr;
             }
         }
     }

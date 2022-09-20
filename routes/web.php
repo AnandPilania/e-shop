@@ -80,8 +80,8 @@ Route::get('/collections-list-back-end', [CollectionController::class, 'collecti
 Route::post('/temporaryStoreImages', [TemporaryStorageController::class, 'temporaryStoreImages']);
 
 
-// change order of images when drag and drop images products on create product form
-Route::post('/reOrderImagesProducts', [TemporaryStorageController::class, 'reOrderImagesProducts']);
+// // change order of images when drag and drop images products on create product form
+// Route::post('/reOrderImagesProducts', [TemporaryStorageController::class, 'reOrderImagesProducts']);
 
 // get temporary collection image
 Route::get('/getSingleTemporaryImage/{id}', [TemporaryStorageController::class, 'getSingleTemporaryImage']);
@@ -162,12 +162,17 @@ Route::post('/fetchImage', [ProductController::class, 'fetchImage']);
 
 // pour react edit_images.jsx
 Route::get('/editImagesProduct/{id}', [ProductController::class, 'editImagesProduct']);
+
 Route::post('/replaceImagesProduct', [ProductController::class, 'replaceImagesProduct']);
 Route::post('/addImagesProduct', [ProductController::class, 'addImagesProduct']);
 Route::get('/deleteImagesProduct/{id}', [ProductController::class, 'deleteImagesProduct']);
 
 Route::post('/updateProduct', [ProductController::class, 'update']);
 Route::post('/storeImages', [ProductController::class, 'storeImages']);
+
+// change order of images when drag and drop images products in create product form
+Route::post('/reOrderImagesProducts', [ProductController::class, 'reOrderImagesProducts']);
+Route::post('/getImagesProduct', [ProductController::class, 'getImagesProduct']);
 
 Route::get('/creatFrontIndex', [FrontEndController::class, 'create']);
 // Route::get('/jumbos', [JumbosController::class, 'index']);

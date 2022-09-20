@@ -17,7 +17,7 @@ const Stock = () => {
 
     useEffect(() => {
         let inputStock = document.getElementById('inputStock');
-        inputStock.style.backgroundColor = '#ffffff';
+        if (inputStock != null) inputStock.style.backgroundColor = '#ffffff';
     }, []);
 
     const handleProductStock = (e) => {
@@ -32,20 +32,20 @@ const Stock = () => {
             setUnlimited(false);
             setPlaceholder('0');
             let inputStock = document.getElementById('inputStock');
-            inputStock.style.backgroundColor = '#ffffff';
+            if (inputStock != null) inputStock.style.backgroundColor = '#ffffff';
         }
     }
 
     const handleUnlimitedStock = () => {
         if (!unlimited) {
             let inputStock = document.getElementById('inputStock');
-            inputStock.style.backgroundColor = '#f9fafb';
+            if (inputStock != null) inputStock.style.backgroundColor = '#f9fafb';
             setUnlimited(!unlimited);
             setProductStock('');
             setPlaceholder('Illimité');
         } else {
             let inputStock = document.getElementById('inputStock');
-            inputStock.style.backgroundColor = '#ffffff';
+            if (inputStock != null) inputStock.style.backgroundColor = '#ffffff';
             setUnlimited(!unlimited);
             setProductStock('');
             setPlaceholder('0');
@@ -70,17 +70,17 @@ const Stock = () => {
                     <Label label="Stock" />
                     <div
                         className='flex flex-rox justify-start items-center w-full'>
-                        <InputNumeric
-                            id='inputStock'
-                            value={productStock}
-                            handleChange={handleProductStock}
-                            handleClick={handleProductStockOnFocus}
-                            placeholder={placeholder}
-                            step="1"
-                            min="0"
-                            max="9999999999"
-                            css="rounded-l-md"
-                        />
+                            <InputNumeric
+                                id='inputStock'
+                                value={productStock}
+                                handleChange={handleProductStock}
+                                handleClick={handleProductStockOnFocus}
+                                placeholder={placeholder}
+                                step="1"
+                                min="0"
+                                max="9999999999"
+                                css="rounded-l-md"
+                            />
 
                         <span
                             id="checkboxStockUnlimited11922"
@@ -116,15 +116,15 @@ const Stock = () => {
                                 className="mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300">Mon lien</a>
                         </Tooltip>
                     </div>
-                    <InputNumeric
-                        id='inputSku17822'
-                        value={productCode}
-                        handleChange={handleCodeProduct}
-                        placeholder=""
-                        step="1"
-                        min="0"
-                        css="rounded-md"
-                    />
+                        <InputNumeric
+                            id='inputSku17822'
+                            value={productCode}
+                            handleChange={handleCodeProduct}
+                            placeholder=""
+                            step="1"
+                            min="0"
+                            css="rounded-md"
+                        />
                 </div>
 
                 {/* weight */}
@@ -141,15 +141,15 @@ const Stock = () => {
                     <div
                         className='w-full flex flex-row justify-start items-center'
                     >
-                        <InputNumeric
-                            value={productParcelWeight}
-                            handleChange={handleProductParcelWeight}
-                            placeholder="Poids du colis"
-                            step={productParcelWeightMeasureUnit == 'kg' ? "1" : "0.01"}
-                            min="0"
-                            max="9999999999"
-                            css="rounded-l-md"
-                        />
+                            <InputNumeric
+                                value={productParcelWeight}
+                                handleChange={handleProductParcelWeight}
+                                placeholder="Poids du colis"
+                                step={productParcelWeightMeasureUnit == 'kg' ? "1" : "0.01"}
+                                min="0"
+                                max="9999999999"
+                                css="rounded-l-md"
+                            />
                         <span
                             className='w-16 h-10 flex justify-center items-center border-y border-r border-gray-300 bg-white text-gray-500 text-sm font-semibold rounded-r-md'
                         >

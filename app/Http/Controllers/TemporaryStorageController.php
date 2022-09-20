@@ -93,23 +93,23 @@ class TemporaryStorageController extends Controller
         }
     }
 
-    public function reOrderImagesProducts(Request $request)
-    {
-        // dd($request->image);
-        $imagesProducts = json_decode($request->image);
-        $ndx = 1;
+    // public function reOrderImagesProducts(Request $request)
+    // {
+    //     // dd($request->image);
+    //     $imagesProducts = json_decode($request->image);
+    //     $ndx = 1;
 
-        foreach ($imagesProducts as $values) {
-            foreach ($values as $item) {
-                $tmp_productImage = Temporary_storage::where('value', $item->path)->first();
+    //     foreach ($imagesProducts as $values) {
+    //         foreach ($values as $item) {
+    //             $tmp_productImage = Temporary_storage::where('value', $item->path)->first();
 
-                $tmp_productImage->ordre = $ndx;
-                $tmp_productImage->save();
+    //             $tmp_productImage->ordre = $ndx;
+    //             $tmp_productImage->save();
 
-                $ndx++;
-            }
-        }
-    }
+    //             $ndx++;
+    //         }
+    //     }
+    // }
 
 
     // delete all images which have the provided key from Temporary_storage

@@ -5,6 +5,7 @@ import Flex_col_s_s from '../elements/container/flex_col_s_s';
 import Axios from 'axios';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import Label from '../form/label';
+import { forEach } from 'lodash';
 
 const DropZoneProduct = ({ isEditProduct, productId }) => {
 
@@ -62,7 +63,6 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
     useEffect(() => {
         console.log('isEditProduct   ', isEditProduct)
         if (isEditProduct) {
-            alert('ok')
             let idProduct = new FormData;
             idProduct.append('productId', productId);
             Axios.post(`http://127.0.0.1:8000/getProduct`, idProduct)
@@ -158,71 +158,54 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
 
     // affiche et sauvegarde les images dans temporaryStorage
     function handleFiles(files) {
-        let tmp_tab = imageVariantes;
-        let four_items_tab = [];
-        Object.values(files).map((item, index, arr) => {
-            // crée des tableaux de 4 images
-            if (validateImage(item)) {
-                if ([tmp_tab.length - 1].length < 4) {
-                    four_items_tab = [tmp_tab.length - 1];
-                    four_items_tab.push(item);
-                    tmp_tab.splice(-1, 1, four_items_tab);
-                } else {
-                    four_items_tab = [];
-                    four_items_tab.push(item);
-                    tmp_tab.push(four_items_tab);
-                }
+        let count_files = [];
+        let images_tab = [];
+        let form_Data = new FormData;
+        form_Data.append('key', 'tmp_productImage');
+        
+        Object.values(files).forEach((file, index) => {
+            if (validateImage(file)) {
+                count_files.push(index);
+                form_Data.append('value[]', file);
+            }
+        });
 
+        if (count_files.length > 0) {
+            Axios.post(`http://127.0.0.1:8000/storeImages`, form_Data,
+                { headers: { 'Content-Type': 'multipart/form-data' } })
+                .then((res) => { 
+                    console.log('res.data  ', res.data)
+                    if (res.data.length > 0) {
+                        res.data.forEach((imgPath, ndx) => {
+                            images_tab.push({ id: ndx, path: imgPath });
+                        });
 
-                // save images in temporayStorage
-                var tmp_Data = new FormData;
-                tmp_Data.append('key', 'tmp_productImage');
-
-                let name = item.name;
-                tmp_Data.append('value', item, name);
-
-                Axios.post(`http://127.0.0.1:8000/storeImages`, tmp_Data,
-                    {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    })
-                    .then(() => {
-                        console.log('ok');
                         // cancel --> open files explorator when click on dropRegion
                         dropRegionRef.current.removeEventListener('click', runFakeInputClick);
 
-                        if ((arr.length - 1) == index) {
-                            Axios.get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage')
-                                .then(res => {
-                                    let tmp_data = [[]];
-                                    let tmp = [];
-                                    for (let i = 0; i < res.data.length; i++) {
-                                        if (tmp.length < 4) {
-                                            tmp.push(res.data[i]);
-                                            tmp_data.splice(-1, 1, tmp);
-                                        } else {
-                                            tmp_data.splice(-1, 1, tmp);
-                                            tmp = [];
-                                            tmp.push(res.data[i]);
-                                            tmp_data.push(tmp);
-                                        }
-                                    };
-                                    setImageVariantes(tmp_data);
-                                })
-                                .catch(error => {
-                                    console.log('Error get Product Images failed : ' + error.status);
-                                });
+                        // crée des tableaux de 4 images 
+                        if (images_tab.length > 0) {
+                            let tmp_data = [[]];
+                            let tmp = [];
+                            for (let i = 0; i < images_tab.length; i++) {
+                                if (tmp.length < 4) {
+                                    tmp.push(images_tab[i]);
+                                    tmp_data.splice(-1, 1, tmp);
+                                } else {
+                                    tmp = [];
+                                    tmp.push(images_tab[i]);
+                                    tmp_data.push(tmp);
+                                }
+                            };
+                            setImageVariantes(tmp_data);
                         }
-                    })
-                    .catch(error => {
-                        console.log('Error Image upload failed : ' + error.status);
-                    });
-            }
-        });
+                    }
+                })
+        }
+
     }
 
-
+    console.log('imageVariantes  ', imageVariantes)
     useEffect(() => {
         if (imageVariantes[0]?.length > 0) {
             // cancel --> open files explorator when click on dropRegion
@@ -483,7 +466,7 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
                                     className='w-full text-center text-[12px] mt-0 pb-2.5'>Image principale</span>
                                 <img
                                     className='m-0 object-contain max-h-[200px]'
-                                    src={window.location.origin + '/' + imageVariantes[0][0]?.path}
+                                    src={window.location.origin + '/' + imageVariantes[0][0].path}
                                 />
                             </div>
                         }
