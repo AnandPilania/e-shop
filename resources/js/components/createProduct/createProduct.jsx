@@ -224,7 +224,13 @@ const CreateProduct = () => {
         formData.append('nameProduct', nameProduct);
         formData.append('ribbonProduct', ribbonProduct);
         formData.append('descriptionProduct', descriptionProduct);
-        formData.append('imageVariantes', JSON.stringify(imageVariantes));
+        var arrayOfImages = [];
+        imageVariantes.forEach(imgArr => { 
+            imgArr.forEach(img => { 
+                arrayOfImages.push(img);
+            });   
+        });      
+        formData.append('imageVariantes', JSON.stringify(arrayOfImages));
         formData.append('collections', JSON.stringify(collections));
         formData.append('isInAutoCollection', isInAutoCollection);
         formData.append('productPrice', productPrice);

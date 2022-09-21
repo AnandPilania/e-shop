@@ -211,45 +211,12 @@ class ProductController extends Controller
         }
 
         // save images
-        $images = array_merge(...json_decode($request->imageVariantes));
-        foreach ($images as $image) {
-            if (File::exists(public_path($image->value))) {
-                // $imageName = str_replace('temporaryStorage/', '', $image->value);
-                // File::move(public_path($image->value), public_path('images/' . $imageName));
-                // File::delete(public_path($image->value));
-                $imageName = $image->value;
-                Temporary_storage::destroy($image->id);
-
-                $image_product = new Images_product;
-                $image_product->path = $imageName;
-                $image_product->alt = $imageName;
-                $image_product->ordre = $image->ordre;
-                $image_product->product_id = $product->id;
-                $image_product->save();
-            }
-        }
+        $images = json_decode($request->imageVariantes);
+        $this->storeImages($images, $product->id);
 
         return 'ok';
     }
 
-    public function reOrderImagesProducts(Request $request)
-    {
-
-        $imagesProducts = json_decode($request->image);
-        dd($imagesProducts);
-        $ndx = 1;
-
-        foreach ($imagesProducts as $values) {
-            foreach ($values as $item) {
-                $tmp_productImage = Images_product::where('id', $item->id)->first();
-
-                $tmp_productImage->ordre = $ndx;
-                $tmp_productImage->save();
-
-                $ndx++;
-            }
-        }
-    }
 
     // use Illuminate\Database\Eloquent\ModelNotFoundException;
     // public function show($id)
@@ -274,51 +241,55 @@ class ProductController extends Controller
         return $images;
     }
 
-    public function storeImages(Request $request)
+    public function storeImages($files, $productId)
     {
-        if ($request->hasFile('value')) {
-            $imagesArr = [];
-            $videosArr = [];
-            foreach ($request->value as $file) {
-                // $file = $request->file('value');
-                $mimeType = $file->getClientMimeType();
-                $mimeType_videos_array = array('video/webm', 'video/ogg', 'video/avi', 'video/mp4', 'video/mpeg');
-                $mimeType_images_array = array('image/gif', 'image/png', 'image/jpeg', 'image/webp');
+        // dd($files[0]->path);
+        foreach ($files as $file) {
+            
+            if (preg_match('/^data:image\/(\w+);base64,/', $file->path, $type)) {
+                $data = substr($file->path, strpos($file->path, ',') + 1);
+                $type = strtolower($type[1]); // jpg, png, gif
 
-                $tmp_storage = new Temporary_storage;
-                $tools = new StringTools;
-                $newName = $tools->nameGeneratorFromFile($file);
-
-                if (in_array($mimeType, $mimeType_images_array)) {
-                    $Path = public_path('images/');
-                    $imgFile = Image::make($file);
-                    $imgFile->save($Path . $newName, 80, 'jpg');
-
-                    $tmp_storage->key = $request->key;
-                    $tmp_storage->value = 'images/' . $newName;
-                    $tmp_storage->ordre = Temporary_storage::where('key', $request->key)->max('ordre') + 1;
-                    $tmp_storage->save();
-
-                    array_push($imagesArr, $tmp_storage->value);
-                } else if (in_array($mimeType, $mimeType_videos_array)) {
-                    $path = 'images/';
-                    $file->move($path, $newName);
-
-                    $tmp_storage->key = $request->key;
-                    $tmp_storage->value = $path . $newName;
-                    $tmp_storage->save();
-
-                    array_push($videosArr, $tmp_storage->value);
-                } else {
-                    return 'This file type is not allowed';
+                if (!in_array($type, [ 'jpg', 'jpeg', 'gif', 'png' ])) {
+                    throw new \Exception('invalid image type');
                 }
+                $data = str_replace( ' ', '+', $data );
+                $data = base64_decode($data);
+                // dd($data);
+                if ($data === false) {
+                    throw new \Exception('base64_decode failed');
+                } else {
+
+                }
+            } else {
+                throw new \Exception('did not match data URI with image data');
             }
-            if (count($imagesArr) > 0) {
-                return $imagesArr;
+
+            // file_put_contents("img.{$type}", $data);
+
+            $mimeType = $file->getClientMimeType();
+            $mimeType_videos_array = array('video/webm', 'video/ogg', 'video/avi', 'video/mp4', 'video/mpeg');
+            $mimeType_images_array = array('image/gif', 'image/png', 'image/jpeg', 'image/webp');
+
+            $tools = new StringTools;
+            $newName = $tools->nameGeneratorFromFile($file->name);
+
+            if (in_array($mimeType, $mimeType_images_array)) {
+                $Path = public_path('images/');
+                $imgFile = Image::make($file->path);
+                // $imgFile = Image::make(file_get_contents($file->path->base64_image));
+                $imgFile->save($Path . $newName, 80, 'jpg');
+            } else if (in_array($mimeType, $mimeType_videos_array)) {
+                $path = public_path('videos/');
+                $file->path->move($path, $newName);
             }
-            if (count($videosArr) > 0) {
-                return $videosArr;
-            }
+
+            $image_product = new Images_product;
+            $image_product->path = $newName;
+            $image_product->alt = $newName;
+            $image_product->ordre = $file->id;
+            $image_product->product_id = $productId;
+            $image_product->save();
         }
     }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback, useContext } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import ModalInput from '../elements/modalInput';
 import Flex_col_s_s from '../elements/container/flex_col_s_s';
@@ -10,6 +10,8 @@ import { forEach } from 'lodash';
 const DropZoneProduct = ({ isEditProduct, productId }) => {
 
     const dropRegionRef = useRef();
+
+    const [refresh, setRefresh] = useState(false);
 
     const { imageVariantes, setImageVariantes } = useContext(AppContext);
 
@@ -39,7 +41,8 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
 
         fakeInput.addEventListener("change", function () {
             var files = fakeInput.files;
-            handleFiles(files);
+            // handleFiles(files);
+            handleFileSelect(files)
         });
     }
 
@@ -116,7 +119,8 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
         var dt = e.dataTransfer,
             files = dt.files;
         if (files.length) {
-            handleFiles(files);
+            // handleFiles(files);
+            handleFileSelect(files)
         } else {
             // check for img
             var html = dt.getData('text/html'),
@@ -145,7 +149,8 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
                     type: "image/*",
                 });
 
-                handleFiles([file]);
+                // handleFiles([file]);
+                handleFileSelect(files)
             }, 'image/*', 0.95);
         };
         img.onerror = function () {
@@ -156,13 +161,40 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
     }
 
 
+
+    function handleFileSelect(files) {
+        let tmp_data = [[]];
+        let tmp = [];
+        for (let i = 0; i < files.length; i++) {
+            if (validateImage(files[i])) {
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    if (tmp.length < 4) {
+                        tmp.push({ id: i, name: files[i].name, path: e.target.result });
+                        tmp_data.splice(-1, 1, tmp);
+                        setImageVariantes([...tmp_data]);
+                    } else {
+                        tmp = [];
+                        tmp.push({ id: i, name: files[i].name, path: e.target.result });
+                        tmp_data.push(tmp);
+                        setImageVariantes([...tmp_data]);
+                    }
+                }
+                reader.readAsDataURL(files[i]);
+            }
+        }
+    }
+
+
+
+
     // affiche et sauvegarde les images dans temporaryStorage
     function handleFiles(files) {
         let count_files = [];
         let images_tab = [];
         let form_Data = new FormData;
         form_Data.append('key', 'tmp_productImage');
-        
+
         Object.values(files).forEach((file, index) => {
             if (validateImage(file)) {
                 count_files.push(index);
@@ -173,7 +205,7 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
         if (count_files.length > 0) {
             Axios.post(`http://127.0.0.1:8000/storeImages`, form_Data,
                 { headers: { 'Content-Type': 'multipart/form-data' } })
-                .then((res) => { 
+                .then((res) => {
                     console.log('res.data  ', res.data)
                     if (res.data.length > 0) {
                         res.data.forEach((imgPath, ndx) => {
@@ -189,11 +221,11 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
                             let tmp = [];
                             for (let i = 0; i < images_tab.length; i++) {
                                 if (tmp.length < 4) {
-                                    tmp.push(images_tab[i]);
+                                    tmp.push({ id: i, path: images_tab[i] });
                                     tmp_data.splice(-1, 1, tmp);
                                 } else {
                                     tmp = [];
-                                    tmp.push(images_tab[i]);
+                                    tmp.push({ id: i, path: images_tab[i] });
                                     tmp_data.push(tmp);
                                 }
                             };
@@ -466,7 +498,7 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
                                     className='w-full text-center text-[12px] mt-0 pb-2.5'>Image principale</span>
                                 <img
                                     className='m-0 object-contain max-h-[200px]'
-                                    src={window.location.origin + '/' + imageVariantes[0][0].path}
+                                    src={imageVariantes[0][0].path}
                                 />
                             </div>
                         }
@@ -502,6 +534,7 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
                                     {...provided.droppableProps}
                                     ref={provided.innerRef}
                                 >
+                                    {console.log('imageVariantes ---> ', imageVariantes)}
                                     {item_tab.map((item, index) => (
                                         <Draggable
                                             key={item.id}
@@ -520,7 +553,7 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
                                                     )}
                                                 >
                                                     <img className='imgClass max-w-3/12 max-h-32'
-                                                        src={window.location.origin + '/' + item.path}
+                                                        src={item.path}
                                                     />
                                                     <button id="removeImg"
                                                         className="invisible group-hover:visible absolute top-1.5 right-1.5 w-6 h-6 bg-[#d23e44] rounded"
