@@ -289,7 +289,7 @@ const CreateProduct = () => {
             });
     }
 
-    console.log('isEditProduct create   ', isEditProduct)
+
     return (
         <div className="w-full px-2.5 lg:p-0">
             {/* {screenSize > 1023 ? */}

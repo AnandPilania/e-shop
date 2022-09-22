@@ -158,7 +158,7 @@ const Appcontainer = () => {
     const [isHideDeletedVariantes, setIsHideDeletedVariantes] = useState(false);
     const [isInAutoCollection, setIsInAutoCollection] = useState(true);
     const [variante, setVariante] = useState({});
-    const [imageVariantes, setImageVariantes] = useState([]);
+    const [imageVariantes, setImageVariantes] = useState([[]]);
     const [listType, setListType] = useState([]);
     const [optionsData, setOptionsData] = useState([]);
     const [changedVariantes, setChangedVariantes] = useState([]);

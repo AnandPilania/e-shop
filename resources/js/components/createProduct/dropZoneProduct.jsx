@@ -5,16 +5,14 @@ import Flex_col_s_s from '../elements/container/flex_col_s_s';
 import Axios from 'axios';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import Label from '../form/label';
-import { forEach } from 'lodash';
+import { v4 as uuidv4 } from 'uuid';
+
 
 const DropZoneProduct = ({ isEditProduct, productId }) => {
 
     const dropRegionRef = useRef();
 
-    const [refresh, setRefresh] = useState(false);
-
     const { imageVariantes, setImageVariantes } = useContext(AppContext);
-
 
     var fakeInput = null;
     var mainImageProduct = null;
@@ -41,8 +39,7 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
 
         fakeInput.addEventListener("change", function () {
             var files = fakeInput.files;
-            // handleFiles(files);
-            handleFileSelect(files)
+            handleFiles(files)
         });
     }
 
@@ -63,36 +60,35 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
     }, []);
 
 
-    useEffect(() => {
-        console.log('isEditProduct   ', isEditProduct)
-        if (isEditProduct) {
-            let idProduct = new FormData;
-            idProduct.append('productId', productId);
-            Axios.post(`http://127.0.0.1:8000/getProduct`, idProduct)
-                .then(res => {
+    // useEffect(() => {
+    //     console.log('isEditProduct   ', isEditProduct)
+    //     if (isEditProduct) {
+    //         let idProduct = new FormData;
+    //         idProduct.append('productId', productId);
+    //         Axios.post(`http://127.0.0.1:8000/getProduct`, idProduct)
+    //             .then(res => {
 
-                    let tmp_data = [[]];
-                    let tmp = [];
-                    let imagesProduct = res.data[0].images_products;
-                    console.log('imagesProduct   ', imagesProduct)
-                    for (let i = 0; i < imagesProduct.length; i++) {
-                        if (tmp.length < 4) {
-                            tmp.push(imagesProduct[i]);
-                            tmp_data.splice(-1, 1, tmp);
-                        } else {
-                            tmp_data.splice(-1, 1, tmp);
-                            tmp = [];
-                            tmp.push(imagesProduct[i]);
-                            tmp_data.push(tmp);
-                        }
-                    };
-                    setImageVariantes(tmp_data);
-                })
-                .catch(error => {
-                    console.log('Error get Product Images failed : ' + error.status);
-                });
-        }
-    }, [isEditProduct])
+    //                 let tmp_data = [[]];
+    //                 let tmp = [];
+    //                 let imagesProduct = res.data[0].images_products;
+    //                 for (let i = 0; i < imagesProduct.length; i++) {
+    //                     if (tmp.length < 4) {
+    //                         tmp.push(imagesProduct[i]);
+    //                         tmp_data.splice(-1, 1, tmp);
+    //                     } else {
+    //                         tmp_data.splice(-1, 1, tmp);
+    //                         tmp = [];
+    //                         tmp.push(imagesProduct[i]);
+    //                         tmp_data.push(tmp);
+    //                     }
+    //                 };
+    //                 setImageVariantes(tmp_data);
+    //             })
+    //             .catch(error => {
+    //                 console.log('Error get Product Images failed : ' + error.status);
+    //             });
+    //     }
+    // }, [isEditProduct])
 
 
     function preventDefault(e) {
@@ -119,8 +115,7 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
         var dt = e.dataTransfer,
             files = dt.files;
         if (files.length) {
-            // handleFiles(files);
-            handleFileSelect(files)
+            handleFiles(files)
         } else {
             // check for img
             var html = dt.getData('text/html'),
@@ -148,9 +143,7 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
                 var file = new File([blob], "myImageName", {
                     type: "image/*",
                 });
-
-                // handleFiles([file]);
-                handleFileSelect(files)
+                handleFiles(files)
             }, 'image/*', 0.95);
         };
         img.onerror = function () {
@@ -161,21 +154,20 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
     }
 
 
-
-    function handleFileSelect(files) {
-        let tmp_data = [[]];
-        let tmp = [];
+    var tmp_data = [[]];
+    var tmp = [];
+    function handleFiles(files) {
         for (let i = 0; i < files.length; i++) {
             if (validateImage(files[i])) {
                 let reader = new FileReader();
                 reader.onload = function (e) {
                     if (tmp.length < 4) {
-                        tmp.push({ id: i, name: files[i].name, path: e.target.result });
+                        tmp.push({ id: uuidv4(), name: files[i].name, path: e.target.result });
                         tmp_data.splice(-1, 1, tmp);
                         setImageVariantes([...tmp_data]);
                     } else {
                         tmp = [];
-                        tmp.push({ id: i, name: files[i].name, path: e.target.result });
+                        tmp.push({ id: uuidv4(), name: files[i].name, path: e.target.result });
                         tmp_data.push(tmp);
                         setImageVariantes([...tmp_data]);
                     }
@@ -184,58 +176,27 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
             }
         }
     }
+useEffect(() => {
+console.log('imageVariantes______>   ', imageVariantes)
+}, [imageVariantes]);
 
-
-
-
-    // affiche et sauvegarde les images dans temporaryStorage
-    function handleFiles(files) {
-        let count_files = [];
-        let images_tab = [];
-        let form_Data = new FormData;
-        form_Data.append('key', 'tmp_productImage');
-
-        Object.values(files).forEach((file, index) => {
-            if (validateImage(file)) {
-                count_files.push(index);
-                form_Data.append('value[]', file);
+    function removeOneImage(id) {
+        const newState = [...imageVariantes];
+        let newImage = [].concat.apply([], newState.filter(group => group.length));
+        newImage = newImage.filter(x => x.id != id);
+        for (let i = 0; i < newImage.length; i++) {
+            if (tmp.length < 4) {
+                tmp.push(newImage[i]);
+                tmp_data.splice(-1, 1, tmp);
+            } else {
+                tmp = [];
+                tmp.push(newImage[i]);
+                tmp_data.push(tmp);
             }
-        });
-
-        if (count_files.length > 0) {
-            Axios.post(`http://127.0.0.1:8000/storeImages`, form_Data,
-                { headers: { 'Content-Type': 'multipart/form-data' } })
-                .then((res) => {
-                    console.log('res.data  ', res.data)
-                    if (res.data.length > 0) {
-                        res.data.forEach((imgPath, ndx) => {
-                            images_tab.push({ id: ndx, path: imgPath });
-                        });
-
-                        // cancel --> open files explorator when click on dropRegion
-                        dropRegionRef.current.removeEventListener('click', runFakeInputClick);
-
-                        // crée des tableaux de 4 images 
-                        if (images_tab.length > 0) {
-                            let tmp_data = [[]];
-                            let tmp = [];
-                            for (let i = 0; i < images_tab.length; i++) {
-                                if (tmp.length < 4) {
-                                    tmp.push({ id: i, path: images_tab[i] });
-                                    tmp_data.splice(-1, 1, tmp);
-                                } else {
-                                    tmp = [];
-                                    tmp.push({ id: i, path: images_tab[i] });
-                                    tmp_data.push(tmp);
-                                }
-                            };
-                            setImageVariantes(tmp_data);
-                        }
-                    }
-                })
-        }
-
+        };
+        setImageVariantes(tmp_data);
     }
+
 
     console.log('imageVariantes  ', imageVariantes)
     useEffect(() => {
@@ -253,7 +214,7 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
             mainImageProduct.style.cursor = 'default';
 
             firstImage = document.getElementById("firstImage");
-            firstImage.className = 'w-full h-full flex flex-row justify-center items-center p-0 border border-gray-300 rounded-md';
+            firstImage.className = 'w-full h-full flex flex-row justify-center items-center pb-4 border border-gray-300 rounded-md';
 
             txtImgPrincipale = document.getElementById("txtImgPrincipale");
             txtImgPrincipale.className = 'w-full text-center text-[12px] pb-[5px]';
@@ -280,8 +241,6 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
 
         }
     }, [imageVariantes])
-
-
 
 
     function validateImage(image) {
@@ -311,57 +270,10 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
         return true;
     }
 
-
-    function removeOneImage(id, droppableIndex, draggableIndex) {
-
-        const newState = [...imageVariantes];
-        newState[droppableIndex].splice(draggableIndex, 1);
-
-        let tmp_data = [[]];
-        let tmp = [];
-
-        let newImage = [].concat.apply([], newState.filter(group => group.length));
-
-        for (let i = 0; i < newImage.length; i++) {
-            if (tmp.length < 4) {
-                tmp.push(newImage[i]);
-                tmp_data.splice(-1, 1, tmp);
-            } else {
-                tmp_data.splice(-1, 1, tmp);
-                tmp = [];
-                tmp.push(newImage[i]);
-                tmp_data.push(tmp);
-            }
-        };
-        setImageVariantes(tmp_data);
-
-        Axios.get(`http://127.0.0.1:8000/deleteOneElementById/${id}`)
-            .then(res => {
-                console.log('res.data  --->  ok');
-            })
-            .catch(error => {
-                console.log('Error delete Product Image failed : ' + error.status);
-            });
-
-        handleReOrderInTemporaryStorage(tmp_data);
-
-    }
-
-
     function detectDragDrop() {
         var div = document.createElement('div');
         return ('draggable' in div) || ('ondragstart' in div && 'ondrop' in div)
     }
-
-    // function ModalConfirm() {
-    //     uploadImageFromURL(urlValue);
-    // }
-
-    // function hideModal() {
-    //     setShowModal(false);
-    // }
-
-
 
     const getItemStyle = (isDragging, draggableStyle) => ({
         // some basic styles to make the items look a bit nicer
@@ -374,25 +286,6 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
         ...draggableStyle,
     });
 
-
-    // change order of images in db temporary_storage when drag and drop images products on create product form
-    const handleReOrderInTemporaryStorage = (imagesToReOrder) => {
-        var im = new FormData;
-        im.append('image', JSON.stringify(imagesToReOrder));
-
-        Axios.post(`http://127.0.0.1:8000/reOrderImagesProducts`, im,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-            .then(() => {
-                console.log('ok');
-            })
-            .catch(error => {
-                console.log('Error Image upload failed : ' + error.status);
-            });
-    };
 
     // handle move image in drop region
     const move = (source, destination, droppableSource, droppableDestination) => {
@@ -435,23 +328,18 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
 
             let tmp_data = [[]];
             let tmp = [];
-
-
             let newImage = [].concat.apply([], newState);
-
             for (let i = 0; i < newImage.length; i++) {
                 if (tmp.length < 4) {
                     tmp.push(newImage[i]);
                     tmp_data.splice(-1, 1, tmp);
                 } else {
-                    tmp_data.splice(-1, 1, tmp);
                     tmp = [];
                     tmp.push(newImage[i]);
                     tmp_data.push(tmp);
                 }
             };
             setImageVariantes(tmp_data);
-            handleReOrderInTemporaryStorage(tmp_data);
 
         } else {
             const result = move(imageVariantes[sInd], imageVariantes[dInd], source, destination);
@@ -461,23 +349,18 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
 
             let tmp_data = [[]];
             let tmp = [];
-
-
-            // crée un tableau contenant des tableaux de 4 images
             let newImage = [].concat.apply([], newState.filter(group => group.length));
             for (let i = 0; i < newImage.length; i++) {
                 if (tmp.length < 4) {
                     tmp.push(newImage[i]);
                     tmp_data.splice(-1, 1, tmp);
                 } else {
-                    tmp_data.splice(-1, 1, tmp);
                     tmp = [];
                     tmp.push(newImage[i]);
                     tmp_data.push(tmp);
                 }
             };
             setImageVariantes(tmp_data);
-            handleReOrderInTemporaryStorage(tmp_data);
         }
     };
 
@@ -495,7 +378,7 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
                         {imageVariantes[0]?.length > 0 &&
                             <div className='flex flex-col justify-start items-center flex-nowrap'>
                                 <span id="txtImgPrincipale"
-                                    className='w-full text-center text-[12px] mt-0 pb-2.5'>Image principale</span>
+                                    className='w-full text-center text-xs mt-0 pb-2.5'>Image principale</span>
                                 <img
                                     className='m-0 object-contain max-h-[200px]'
                                     src={imageVariantes[0][0].path}
@@ -534,7 +417,6 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
                                     {...provided.droppableProps}
                                     ref={provided.innerRef}
                                 >
-                                    {console.log('imageVariantes ---> ', imageVariantes)}
                                     {item_tab.map((item, index) => (
                                         <Draggable
                                             key={item.id}
@@ -543,7 +425,7 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
                                         >
                                             {(provided, snapshot) => (
                                                 <div
-                                                    className="image-view flex flex-row justify-center items-center mb-5 relative border border-gray-300 rounded bg-white group"
+                                                    className="image-view flex flex-row justify-center items-center mb-5 relative border border-gray-300 rounded bg-white group z-[100]"
                                                     ref={provided.innerRef}
                                                     {...provided.draggableProps}
                                                     {...provided.dragHandleProps}
@@ -558,7 +440,7 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
                                                     <button id="removeImg"
                                                         className="invisible group-hover:visible absolute top-1.5 right-1.5 w-6 h-6 bg-[#d23e44] rounded"
                                                         onClick={() => {
-                                                            removeOneImage(item.id, ndx, index);
+                                                            removeOneImage(item.id);
                                                         }}
                                                     >
                                                         <img className='w-6 h-6 rounded'
