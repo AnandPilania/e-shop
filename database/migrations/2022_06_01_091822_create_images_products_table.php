@@ -17,6 +17,7 @@ class CreateImagesProductsTable extends Migration
             $table->id();
             $table->string('path');
             $table->string('alt')->nullable();
+            $table->string('status')->nullable();
             $table->integer('ordre');
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');

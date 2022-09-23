@@ -169,6 +169,8 @@ Route::get('/deleteImagesProduct/{id}', [ProductController::class, 'deleteImages
 
 Route::post('/updateProduct', [ProductController::class, 'update']);
 Route::post('/storeImages', [ProductController::class, 'storeImages']);
+Route::post('/storeTmpImages', [ProductController::class, 'storeTmpImages']);
+Route::post('/clean_Images_product_table', [ProductController::class, 'clean_Images_product_table']);
 
 // change order of images when drag and drop images products in create product form
 Route::post('/reOrderImagesProducts', [ProductController::class, 'reOrderImagesProducts']);

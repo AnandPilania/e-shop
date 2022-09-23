@@ -57,6 +57,9 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
         }
 
         setDropRegion();
+
+        // nettoie la table images_products des images temporaires
+        Axios.post(`http://127.0.0.1:8000/clean_Images_product_table`);
     }, []);
 
 
@@ -154,33 +157,51 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
     }
 
 
-    var tmp_data = [[]];
-    var tmp = [];
+    // affiche et sauvegarde les images dans temporaryStorage
     function handleFiles(files) {
-        for (let i = 0; i < files.length; i++) {
-            if (validateImage(files[i])) {
-                let reader = new FileReader();
-                reader.onload = function (e) {
-                    if (tmp.length < 4) {
-                        tmp.push({ id: uuidv4(), name: files[i].name, path: e.target.result });
-                        tmp_data.splice(-1, 1, tmp);
-                        setImageVariantes([...tmp_data]);
-                    } else {
-                        tmp = [];
-                        tmp.push({ id: uuidv4(), name: files[i].name, path: e.target.result });
-                        tmp_data.push(tmp);
-                        setImageVariantes([...tmp_data]);
-                    }
-                }
-                reader.readAsDataURL(files[i]);
+        let count_files = [];
+        let images_tab = [];
+        let form_Data = new FormData;
+
+        Object.values(files).forEach((file, index) => {
+            if (validateImage(file)) {
+                count_files.push(index);
+                form_Data.append('files[]', file);
             }
+        });
+
+        if (count_files.length > 0) {
+            Axios.post(`http://127.0.0.1:8000/storeTmpImages`, form_Data,
+                { headers: { 'Content-Type': 'multipart/form-data' } })
+                .then((res) => {
+                    if (res.data.length > 0) {
+                        images_tab = res.data;
+                        // cancel --> open files explorator when click on dropRegion
+                        dropRegionRef.current.removeEventListener('click', runFakeInputClick);
+                        // crée des tableaux de 4 images 
+                        if (images_tab.length > 0) {
+                            let tmp_data = [[]];
+                            let tmp = [];
+                            for (let i = 0; i < images_tab.length; i++) {
+                                if (tmp.length < 4) {
+                                    tmp.push(images_tab[i]);
+                                    tmp_data.splice(-1, 1, tmp);
+                                } else {
+                                    tmp = [];
+                                    tmp.push(images_tab[i]);
+                                    tmp_data.push(tmp);
+                                }
+                            };
+                            setImageVariantes(tmp_data);
+                        }
+                    }
+                })
         }
     }
-useEffect(() => {
-console.log('imageVariantes______>   ', imageVariantes)
-}, [imageVariantes]);
 
     function removeOneImage(id) {
+        let tmp_data = [[]];
+        let tmp = [];
         const newState = [...imageVariantes];
         let newImage = [].concat.apply([], newState.filter(group => group.length));
         newImage = newImage.filter(x => x.id != id);
@@ -196,6 +217,7 @@ console.log('imageVariantes______>   ', imageVariantes)
         };
         setImageVariantes(tmp_data);
     }
+
 
 
     console.log('imageVariantes  ', imageVariantes)
@@ -381,7 +403,7 @@ console.log('imageVariantes______>   ', imageVariantes)
                                     className='w-full text-center text-xs mt-0 pb-2.5'>Image principale</span>
                                 <img
                                     className='m-0 object-contain max-h-[200px]'
-                                    src={imageVariantes[0][0].path}
+                                    src={window.location.origin + '/' + imageVariantes[0][0].path}
                                 />
                             </div>
                         }
@@ -435,7 +457,7 @@ console.log('imageVariantes______>   ', imageVariantes)
                                                     )}
                                                 >
                                                     <img className='imgClass max-w-3/12 max-h-32'
-                                                        src={item.path}
+                                                        src={window.location.origin + '/' + item.path}
                                                     />
                                                     <button id="removeImg"
                                                         className="invisible group-hover:visible absolute top-1.5 right-1.5 w-6 h-6 bg-[#d23e44] rounded"

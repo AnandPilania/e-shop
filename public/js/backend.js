@@ -23605,9 +23605,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../elements/container/flex_col_s_s */ "./resources/js/components/elements/container/flex_col_s_s.jsx");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
+/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
 /* harmony import */ var _form_label__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../form/label */ "./resources/js/components/form/label.jsx");
-/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -23696,7 +23695,9 @@ var DropZoneProduct = function DropZoneProduct(_ref) {
       document.getElementsByClassName("drop-header")[0].innerHTML = 'Click to upload';
     }
 
-    setDropRegion();
+    setDropRegion(); // nettoie la table images_products des images temporaires
+
+    axios__WEBPACK_IMPORTED_MODULE_4___default().post("http://127.0.0.1:8000/clean_Images_product_table");
   }, []); // useEffect(() => {
   //     console.log('isEditProduct   ', isEditProduct)
   //     if (isEditProduct) {
@@ -23790,51 +23791,58 @@ var DropZoneProduct = function DropZoneProduct(_ref) {
     img.crossOrigin = ""; // if from different origin
 
     img.src = url;
-  }
+  } // affiche et sauvegarde les images dans temporaryStorage
 
-  var tmp_data = [[]];
-  var tmp = [];
 
   function handleFiles(files) {
-    var _loop = function _loop(i) {
-      if (validateImage(files[i])) {
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-          if (tmp.length < 4) {
-            tmp.push({
-              id: (0,uuid__WEBPACK_IMPORTED_MODULE_7__["default"])(),
-              name: files[i].name,
-              path: e.target.result
-            });
-            tmp_data.splice(-1, 1, tmp);
-            setImageVariantes([].concat(tmp_data));
-          } else {
-            tmp = [];
-            tmp.push({
-              id: (0,uuid__WEBPACK_IMPORTED_MODULE_7__["default"])(),
-              name: files[i].name,
-              path: e.target.result
-            });
-            tmp_data.push(tmp);
-            setImageVariantes([].concat(tmp_data));
-          }
-        };
-
-        reader.readAsDataURL(files[i]);
+    var count_files = [];
+    var images_tab = [];
+    var form_Data = new FormData();
+    Object.values(files).forEach(function (file, index) {
+      if (validateImage(file)) {
+        count_files.push(index);
+        form_Data.append('files[]', file);
       }
-    };
+    });
 
-    for (var i = 0; i < files.length; i++) {
-      _loop(i);
+    if (count_files.length > 0) {
+      axios__WEBPACK_IMPORTED_MODULE_4___default().post("http://127.0.0.1:8000/storeTmpImages", form_Data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (res) {
+        if (res.data.length > 0) {
+          images_tab = res.data; // cancel --> open files explorator when click on dropRegion
+
+          dropRegionRef.current.removeEventListener('click', runFakeInputClick); // crée des tableaux de 4 images 
+
+          if (images_tab.length > 0) {
+            var tmp_data = [[]];
+            var tmp = [];
+
+            for (var i = 0; i < images_tab.length; i++) {
+              if (tmp.length < 4) {
+                tmp.push(images_tab[i]);
+                tmp_data.splice(-1, 1, tmp);
+              } else {
+                tmp = [];
+                tmp.push(images_tab[i]);
+                tmp_data.push(tmp);
+              }
+            }
+
+            ;
+            setImageVariantes(tmp_data);
+          }
+        }
+      });
     }
   }
 
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    console.log('imageVariantes______>   ', imageVariantes);
-  }, [imageVariantes]);
-
   function removeOneImage(id) {
+    var tmp_data = [[]];
+    var tmp = [];
+
     var newState = _toConsumableArray(imageVariantes);
 
     var newImage = [].concat.apply([], newState.filter(function (group) {
@@ -23983,26 +23991,23 @@ var DropZoneProduct = function DropZoneProduct(_ref) {
       var newState = _toConsumableArray(imageVariantes);
 
       newState[sInd] = items;
-      var _tmp_data = [[]];
-      var _tmp = [];
+      var tmp_data = [[]];
+      var tmp = [];
       var newImage = [].concat.apply([], newState);
 
       for (var i = 0; i < newImage.length; i++) {
-        if (_tmp.length < 4) {
-          _tmp.push(newImage[i]);
-
-          _tmp_data.splice(-1, 1, _tmp);
+        if (tmp.length < 4) {
+          tmp.push(newImage[i]);
+          tmp_data.splice(-1, 1, tmp);
         } else {
-          _tmp = [];
-
-          _tmp.push(newImage[i]);
-
-          _tmp_data.push(_tmp);
+          tmp = [];
+          tmp.push(newImage[i]);
+          tmp_data.push(tmp);
         }
       }
 
       ;
-      setImageVariantes(_tmp_data);
+      setImageVariantes(tmp_data);
     } else {
       var _result = move(imageVariantes[sInd], imageVariantes[dInd], source, destination);
 
@@ -24010,29 +24015,29 @@ var DropZoneProduct = function DropZoneProduct(_ref) {
 
       _newState[sInd] = _result[sInd];
       _newState[dInd] = _result[dInd];
-      var _tmp_data2 = [[]];
-      var _tmp2 = [];
+      var _tmp_data = [[]];
+      var _tmp = [];
 
       var _newImage = [].concat.apply([], _newState.filter(function (group) {
         return group.length;
       }));
 
       for (var _i2 = 0; _i2 < _newImage.length; _i2++) {
-        if (_tmp2.length < 4) {
-          _tmp2.push(_newImage[_i2]);
+        if (_tmp.length < 4) {
+          _tmp.push(_newImage[_i2]);
 
-          _tmp_data2.splice(-1, 1, _tmp2);
+          _tmp_data.splice(-1, 1, _tmp);
         } else {
-          _tmp2 = [];
+          _tmp = [];
 
-          _tmp2.push(_newImage[_i2]);
+          _tmp.push(_newImage[_i2]);
 
-          _tmp_data2.push(_tmp2);
+          _tmp_data.push(_tmp);
         }
       }
 
       ;
-      setImageVariantes(_tmp_data2);
+      setImageVariantes(_tmp_data);
     }
   };
 
@@ -24058,7 +24063,7 @@ var DropZoneProduct = function DropZoneProduct(_ref) {
               children: "Image principale"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
               className: "m-0 object-contain max-h-[200px]",
-              src: imageVariantes[0][0].path
+              src: window.location.origin + '/' + imageVariantes[0][0].path
             })]
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
@@ -24079,10 +24084,10 @@ var DropZoneProduct = function DropZoneProduct(_ref) {
             })
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_8__.DragDropContext, {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_7__.DragDropContext, {
         onDragEnd: onDragEnd,
         children: ((_imageVariantes$3 = imageVariantes[0]) === null || _imageVariantes$3 === void 0 ? void 0 : _imageVariantes$3.length) > 0 && imageVariantes.map(function (item_tab, ndx) {
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_8__.Droppable, {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_7__.Droppable, {
             droppableId: "".concat(ndx),
             direction: "horizontal",
             children: function children(provided, snapshot) {
@@ -24091,7 +24096,7 @@ var DropZoneProduct = function DropZoneProduct(_ref) {
               }, provided.droppableProps), {}, {
                 ref: provided.innerRef,
                 children: [item_tab.map(function (item, index) {
-                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_8__.Draggable, {
+                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_7__.Draggable, {
                     draggableId: "".concat(item.id),
                     index: index,
                     children: function children(provided, snapshot) {
@@ -24102,7 +24107,7 @@ var DropZoneProduct = function DropZoneProduct(_ref) {
                         style: getItemStyle(snapshot.isDragging, provided.draggableProps.style),
                         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
                           className: "imgClass max-w-3/12 max-h-32",
-                          src: item.path
+                          src: window.location.origin + '/' + item.path
                         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
                           id: "removeImg",
                           className: "invisible group-hover:visible absolute top-1.5 right-1.5 w-6 h-6 bg-[#d23e44] rounded",

@@ -245,21 +245,20 @@ class ProductController extends Controller
     {
         // dd($files[0]->path);
         foreach ($files as $file) {
-            
+
             if (preg_match('/^data:image\/(\w+);base64,/', $file->path, $type)) {
                 $data = substr($file->path, strpos($file->path, ',') + 1);
                 $type = strtolower($type[1]); // jpg, png, gif
 
-                if (!in_array($type, [ 'jpg', 'jpeg', 'gif', 'png' ])) {
+                if (!in_array($type, ['jpg', 'jpeg', 'gif', 'png'])) {
                     throw new \Exception('invalid image type');
                 }
-                $data = str_replace( ' ', '+', $data );
+                $data = str_replace(' ', '+', $data);
                 $data = base64_decode($data);
                 // dd($data);
                 if ($data === false) {
                     throw new \Exception('base64_decode failed');
                 } else {
-
                 }
             } else {
                 throw new \Exception('did not match data URI with image data');
@@ -293,6 +292,53 @@ class ProductController extends Controller
         }
     }
 
+
+    public function clean_Images_product_table()
+    {
+        // delete temporary images products
+        $images_products = Images_product::where('status', 'tmp')->get();
+        foreach ($images_products as $images_product) {
+            File::delete(public_path($images_product->path));
+            Images_product::destroy($images_product->id);
+        }
+    }
+
+    public function storeTmpImages(Request $request)
+    {
+        if ($request->hasFile('files')) {
+            $files = $request->file('files');
+            foreach ($files as $file) {
+                $mimeType = Image::make($file)->mime();
+                $mimeType_videos_array = array('video/webm', 'video/ogg', 'video/avi', 'video/mp4', 'video/mpeg');
+                $mimeType_images_array = array('image/gif', 'image/png', 'image/jpeg', 'image/webp');
+                $tools = new StringTools;
+                $newName = $tools->nameGeneratorFromFile($file);
+
+                if (in_array($mimeType, $mimeType_images_array)) {
+                    $path = public_path('images/');
+                    $imgFile = Image::make($file);
+                    $imgFile->save($path . $newName, 80, 'jpg');
+                } else if (in_array($mimeType, $mimeType_videos_array)) {
+                    $path = public_path('videos/');
+                    $file->move($path, $newName);
+                } else {
+                    return 'This file type is not allowed';
+                }
+
+                $max = Images_product::where('status', 'tmp')->get();
+                $image_product = new Images_product;
+                $image_product->path = 'images/' . $newName;
+                $image_product->alt = $newName;
+                $image_product->status = 'tmp';
+                $image_product->ordre = count($max) + 1;
+                $image_product->product_id = 0;
+                $image_product->save();
+            }
+
+            $images = Images_product::where('status', 'tmp')->orderBy('ordre')->get();
+            return $images;
+        }
+    }
 
     // supprime une image à la fois
     public function deleteImagesProduct($id)
