@@ -165,8 +165,9 @@ Route::get('/editImagesProduct/{id}', [ProductController::class, 'editImagesProd
 
 Route::post('/replaceImagesProduct', [ProductController::class, 'replaceImagesProduct']);
 Route::post('/addImagesProduct', [ProductController::class, 'addImagesProduct']);
-Route::get('/deleteImagesProduct/{id}', [ProductController::class, 'deleteImagesProduct']);
-
+Route::get('/deleteImageProduct/{id}', [ProductController::class, 'deleteImageProduct']);
+// get images by prodcut id
+Route::get('/getTemporaryImagesProduct/{productId}', [ProductController::class, 'getTemporaryImagesProduct']);
 Route::post('/updateProduct', [ProductController::class, 'update']);
 Route::post('/storeImages', [ProductController::class, 'storeImages']);
 Route::post('/storeTmpImages', [ProductController::class, 'storeTmpImages']);
@@ -174,7 +175,7 @@ Route::post('/clean_Images_product_table', [ProductController::class, 'clean_Ima
 
 // change order of images when drag and drop images products in create product form
 Route::post('/reOrderImagesProducts', [ProductController::class, 'reOrderImagesProducts']);
-Route::post('/getImagesProduct', [ProductController::class, 'getImagesProduct']);
+// Route::post('/getImagesProduct', [ProductController::class, 'getImagesProduct']);
 
 Route::get('/creatFrontIndex', [FrontEndController::class, 'create']);
 // Route::get('/jumbos', [JumbosController::class, 'index']);

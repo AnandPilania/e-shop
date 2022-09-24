@@ -193,7 +193,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
     const loadImagesVariantes = (item) => {
         setVariante(item);
-        Axios.get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage')
+        Axios.get('http://127.0.0.1:8000/getTemporaryImagesProduct/0')
             .then(res => {
                 setImageVariante(res.data);
                 setIdVariante(item.id);
@@ -218,7 +218,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         setIdVariante(null);
 
         // refresh dropZoneProduct
-        Axios.get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage')
+        Axios.get(`http://127.0.0.1:8000/getTemporaryImagesProduct/${selectedImage.product_id}`)
             .then(res => {
                 let tmp_data = [[]];
                 let tmp = [];
@@ -227,7 +227,6 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                         tmp.push(res.data[i]);
                         tmp_data.splice(-1, 1, tmp);
                     } else {
-                        tmp_data.splice(-1, 1, tmp);
                         tmp = [];
                         tmp.push(res.data[i]);
                         tmp_data.push(tmp);
@@ -325,7 +324,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         screenSize < 768 && handleChangeShowedFields('previous');
     }, [screenSize]);
 
-
+console.log('variantes --> ', variantes)
     return (
         <div
             className={`w-full ${variantes?.length > 0 && "border-t border-gray-200 mt-5"}`}
@@ -565,7 +564,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                 {
                                     item.selectedImage !== undefined && item.selectedImage !== null && Object.keys(item.selectedImage).length !== 0 ?
                                         <img className='w-auto max-h-[28px]'
-                                            src={window.location.origin + '/' + item.selectedImage.value}
+                                            src={window.location.origin + '/' + item.selectedImage.path}
                                         />
                                         :
                                         <img className='w-6 h-auto'

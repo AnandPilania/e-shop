@@ -189,7 +189,7 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
             handleModalCancel();
         }
     }
-
+console.log('selectedImage  ', selectedImage)
 
     return (
         <div className={` ${show ? "block" : "hidden"} fixed top-0 left-0 bg-bg-modal z-40 w-full h-[100%]  flex flex-col justify-start items-center`}>
@@ -219,7 +219,7 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
                                 className="flex flex-row justify-center items-center mb[20px] w-full h-[100px] relative border border-slate-300 rounded cursor-pointer hover:border-slate-400 "
                             >
                                 <img className='max-w-[(calc(100% / 4) - 12px] max-h-[98px]'
-                                    src={window.location.origin + '/' + item.value}
+                                    src={window.location.origin + '/' + item.path}
                                 />
                                 <button
                                     id={`checkedButton${item.id}`}
@@ -275,7 +275,6 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
                             onChange={handleFiles}
                             multiple={false}
                             className="hidden"
-                        // onChange={handleinputTextModify}
                         />
                         <img className='w-[15px] h-[15px] mr-[10px]'
                             src='../images/icons/download.svg'

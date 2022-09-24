@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
+import React, { useEffect, useRef, useCallback, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import ModalInput from '../elements/modalInput';
 import Flex_col_s_s from '../elements/container/flex_col_s_s';
 import Axios from 'axios';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import Label from '../form/label';
-import { v4 as uuidv4 } from 'uuid';
 
 
 const DropZoneProduct = ({ isEditProduct, productId }) => {
@@ -199,28 +198,54 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
         }
     }
 
+
     function removeOneImage(id) {
-        let tmp_data = [[]];
-        let tmp = [];
-        const newState = [...imageVariantes];
-        let newImage = [].concat.apply([], newState.filter(group => group.length));
-        newImage = newImage.filter(x => x.id != id);
-        for (let i = 0; i < newImage.length; i++) {
-            if (tmp.length < 4) {
-                tmp.push(newImage[i]);
-                tmp_data.splice(-1, 1, tmp);
-            } else {
-                tmp = [];
-                tmp.push(newImage[i]);
-                tmp_data.push(tmp);
-            }
-        };
-        setImageVariantes(tmp_data);
+        Axios.get(`http://127.0.0.1:8000/deleteImageProduct/${id}`)
+            .then(res => {
+                if (res.data === 'empty') {
+                    setImageVariantes([]);
+                    dropRegionRef.current.addEventListener('click', runFakeInputClick);
+                } else {
+                    // crée des tableaux de 4 images 
+                    if (res.data.length > 0) {
+                        let tmp_data = [[]];
+                        let tmp = [];
+                        for (let i = 0; i < res.data.length; i++) {
+                            if (tmp.length < 4) {
+                                tmp.push(res.data[i]);
+                                tmp_data.splice(-1, 1, tmp);
+                            } else {
+                                tmp = [];
+                                tmp.push(res.data[i]);
+                                tmp_data.push(tmp);
+                            }
+                        };
+                        setImageVariantes(tmp_data);
+                        handleReOrderInTemporaryStorage(tmp_data);
+                    }
+                }
+            })
+            .catch(error => {
+                console.log('Error delete Product Image failed : ' + error.status);
+            });
     }
 
 
+    // change order of images in db images_product when drag and drop images products in drop zone
+    const handleReOrderInTemporaryStorage = (images_ReOrdered) => {
+        var imagesToReOrder = new FormData;
+        imagesToReOrder.append('images', JSON.stringify(images_ReOrdered));
 
-    console.log('imageVariantes  ', imageVariantes)
+        Axios.post(`http://127.0.0.1:8000/reOrderImagesProducts`, imagesToReOrder)
+            .then(() => {
+                console.log('ok');
+            })
+            .catch(error => {
+                console.log('Error Image upload failed : ' + error.status);
+            });
+    };
+
+
     useEffect(() => {
         if (imageVariantes[0]?.length > 0) {
             // cancel --> open files explorator when click on dropRegion
@@ -362,6 +387,7 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
                 }
             };
             setImageVariantes(tmp_data);
+            handleReOrderInTemporaryStorage(tmp_data);
 
         } else {
             const result = move(imageVariantes[sInd], imageVariantes[dInd], source, destination);
@@ -383,6 +409,7 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
                 }
             };
             setImageVariantes(tmp_data);
+            handleReOrderInTemporaryStorage(tmp_data);
         }
     };
 

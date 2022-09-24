@@ -23608,9 +23608,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
 /* harmony import */ var _form_label__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../form/label */ "./resources/js/components/form/label.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
@@ -23621,19 +23633,6 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 
 
 
@@ -23840,34 +23839,48 @@ var DropZoneProduct = function DropZoneProduct(_ref) {
   }
 
   function removeOneImage(id) {
-    var tmp_data = [[]];
-    var tmp = [];
-
-    var newState = _toConsumableArray(imageVariantes);
-
-    var newImage = [].concat.apply([], newState.filter(function (group) {
-      return group.length;
-    }));
-    newImage = newImage.filter(function (x) {
-      return x.id != id;
-    });
-
-    for (var i = 0; i < newImage.length; i++) {
-      if (tmp.length < 4) {
-        tmp.push(newImage[i]);
-        tmp_data.splice(-1, 1, tmp);
+    axios__WEBPACK_IMPORTED_MODULE_4___default().get("http://127.0.0.1:8000/deleteImageProduct/".concat(id)).then(function (res) {
+      if (res.data === 'empty') {
+        setImageVariantes([]);
+        dropRegionRef.current.addEventListener('click', runFakeInputClick);
       } else {
-        tmp = [];
-        tmp.push(newImage[i]);
-        tmp_data.push(tmp);
+        // crée des tableaux de 4 images 
+        if (res.data.length > 0) {
+          var tmp_data = [[]];
+          var tmp = [];
+
+          for (var i = 0; i < res.data.length; i++) {
+            if (tmp.length < 4) {
+              tmp.push(res.data[i]);
+              tmp_data.splice(-1, 1, tmp);
+            } else {
+              tmp = [];
+              tmp.push(res.data[i]);
+              tmp_data.push(tmp);
+            }
+          }
+
+          ;
+          setImageVariantes(tmp_data);
+          handleReOrderInTemporaryStorage(tmp_data);
+        }
       }
-    }
+    })["catch"](function (error) {
+      console.log('Error delete Product Image failed : ' + error.status);
+    });
+  } // change order of images in db images_product when drag and drop images products in drop zone
 
-    ;
-    setImageVariantes(tmp_data);
-  }
 
-  console.log('imageVariantes  ', imageVariantes);
+  var handleReOrderInTemporaryStorage = function handleReOrderInTemporaryStorage(images_ReOrdered) {
+    var imagesToReOrder = new FormData();
+    imagesToReOrder.append('images', JSON.stringify(images_ReOrdered));
+    axios__WEBPACK_IMPORTED_MODULE_4___default().post("http://127.0.0.1:8000/reOrderImagesProducts", imagesToReOrder).then(function () {
+      console.log('ok');
+    })["catch"](function (error) {
+      console.log('Error Image upload failed : ' + error.status);
+    });
+  };
+
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var _imageVariantes$;
 
@@ -24008,6 +24021,7 @@ var DropZoneProduct = function DropZoneProduct(_ref) {
 
       ;
       setImageVariantes(tmp_data);
+      handleReOrderInTemporaryStorage(tmp_data);
     } else {
       var _result = move(imageVariantes[sInd], imageVariantes[dInd], source, destination);
 
@@ -24038,6 +24052,7 @@ var DropZoneProduct = function DropZoneProduct(_ref) {
 
       ;
       setImageVariantes(_tmp_data);
+      handleReOrderInTemporaryStorage(_tmp_data);
     }
   };
 
@@ -27266,6 +27281,7 @@ var ModalImageVariante = function ModalImageVariante(_ref) {
     }
   };
 
+  console.log('selectedImage  ', selectedImage);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
     className: " ".concat(show ? "block" : "hidden", " fixed top-0 left-0 bg-bg-modal z-40 w-full h-[100%]  flex flex-col justify-start items-center"),
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
@@ -27295,7 +27311,7 @@ var ModalImageVariante = function ModalImageVariante(_ref) {
             className: "flex flex-row justify-center items-center mb[20px] w-full h-[100px] relative border border-slate-300 rounded cursor-pointer hover:border-slate-400 ",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
               className: "max-w-[(calc(100% / 4) - 12px] max-h-[98px]",
-              src: window.location.origin + '/' + item.value
+              src: window.location.origin + '/' + item.path
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
               id: "checkedButton".concat(item.id),
               className: "invisible absolute top-[5px] left-[5px] w-[25px] h-[25px] rounded-[50%] bg-white",
@@ -27340,8 +27356,7 @@ var ModalImageVariante = function ModalImageVariante(_ref) {
             type: "file",
             onChange: handleFiles,
             multiple: false,
-            className: "hidden" // onChange={handleinputTextModify}
-
+            className: "hidden"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
             className: "w-[15px] h-[15px] mr-[10px]",
             src: "../images/icons/download.svg"
@@ -28411,7 +28426,7 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
 
   var loadImagesVariantes = function loadImagesVariantes(item) {
     setVariante(item);
-    axios__WEBPACK_IMPORTED_MODULE_2___default().get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage').then(function (res) {
+    axios__WEBPACK_IMPORTED_MODULE_2___default().get('http://127.0.0.1:8000/getTemporaryImagesProduct/0').then(function (res) {
       setImageVariante(res.data);
       setIdVariante(item.id);
       setShowModalImageVariante(true);
@@ -28432,7 +28447,7 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
     handleVariantes(idVariante, 'selectedImage', selectedImage);
     setIdVariante(null); // refresh dropZoneProduct
 
-    axios__WEBPACK_IMPORTED_MODULE_2___default().get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage').then(function (res) {
+    axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getTemporaryImagesProduct/".concat(selectedImage.product_id)).then(function (res) {
       var tmp_data = [[]];
       var tmp = [];
 
@@ -28441,7 +28456,6 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
           tmp.push(res.data[i]);
           tmp_data.splice(-1, 1, tmp);
         } else {
-          tmp_data.splice(-1, 1, tmp);
           tmp = [];
           tmp.push(res.data[i]);
           tmp_data.push(tmp);
@@ -28549,6 +28563,7 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
 
     screenSize < 768 && handleChangeShowedFields('previous');
   }, [screenSize]);
+  console.log('variantes --> ', variantes);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
     className: "w-full ".concat((variantes === null || variantes === void 0 ? void 0 : variantes.length) > 0 && "border-t border-gray-200 mt-5"),
     children: [(variantes === null || variantes === void 0 ? void 0 : variantes.length) > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("h3", {
@@ -28763,7 +28778,7 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
           },
           children: item.selectedImage !== undefined && item.selectedImage !== null && Object.keys(item.selectedImage).length !== 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("img", {
             className: "w-auto max-h-[28px]",
-            src: window.location.origin + '/' + item.selectedImage.value
+            src: window.location.origin + '/' + item.selectedImage.path
           }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("img", {
             className: "w-6 h-auto",
             src: "../images/icons/image.svg"

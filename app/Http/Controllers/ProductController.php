@@ -232,14 +232,24 @@ class ProductController extends Controller
     //     }
     // }
 
-    public function getImagesProduct($path)
-    {
-        $images = Temporary_storage::where('value', $path)
-            ->orderBy('ordre')
-            ->get();
+    // public function getImagesProduct($path)
+    // {
+    //     $images = Temporary_storage::where('value', $path)
+    //         ->orderBy('ordre')
+    //         ->get();
 
-        return $images;
-    }
+    //     return $images;
+    // }
+
+        // récupère toutes les image temporaires
+        public function getTemporaryImagesProduct($productId)
+        {
+            $images = Images_product::where('product_id', $productId)
+                ->orderBy('ordre')
+                ->get();
+    
+            return $images;
+        }
 
     public function storeImages($files, $productId)
     {
@@ -340,31 +350,55 @@ class ProductController extends Controller
         }
     }
 
-    // supprime une image à la fois
-    public function deleteImagesProduct($id)
-    {
-        $images_product = Images_product::find($id);
-        $images_products = Images_product::where('product_id', $images_product->product_id)->get();
 
-        File::delete($images_product->path);
+    public function reOrderImagesProducts(Request $request)
+    {
+        $imagesToReorder = json_decode($request->images);
+        $ndx = 1;
+        // imagesToReorder are arrays in array
+        foreach ($imagesToReorder as $images) {
+            foreach ($images as $image) {
+                $image_product = Images_product::where('id', $image->id)->first();
+                $image_product->ordre = $ndx;
+                $image_product->save();
+                $ndx++;
+            }
+        }
+        return Images_product::where('product_id', $imagesToReorder[0][0]->product_id)->get();
+    }
+
+
+    // supprime une image à la fois
+    public function deleteImageProduct($id)
+    {
+        $image_product = Images_product::find($id);
+        $product_id = $image_product->product_id;
+        File::delete($image_product->path);
         Images_product::destroy($id);
 
-        // réctifie si besoin les valeurs de ordre
-        // pour garder la continuité et supprimer les trous
-        // dans le champ ordre
-        $images_products = Images_product::where('product_id', $images_product->product_id)
+        // test $images_products not null
+        $images_products = Images_product::where('product_id', $image_product->product_id)
             ->orderBy('ordre', 'asc')
-            ->get();
+            ->first();
 
-        $i = 1;
-        foreach ($images_products  as $image_variante) {
-            $image_variante->ordre = $i;
-            $image_variante->save();
-            $i++;
+        if ($images_products) {
+            $images_products = Images_product::where('product_id', $image_product->product_id)
+                ->orderBy('ordre', 'asc')
+                ->get();
+            // réorganise les valeurs de ordre
+            $i = 1;
+            foreach ($images_products  as $image) {
+                $image->ordre = $i;
+                $image->save();
+                $i++;
+            }
+            return Images_product::where('product_id', $product_id)->get();
+        } else {
+            return 'empty';
         }
-
-        return back()->with('images_product', $images_products);
     }
+
+
 
 
     public function deleteProducts(Request $request)
