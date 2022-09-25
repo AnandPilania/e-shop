@@ -7,12 +7,23 @@ import Flex_col_s_s from '../elements/container/flex_col_s_s';
 
 const Price = () => {
 
-    const [isShowPromoProduct, setIsShowPromoProduct] = useState(false);
     const [productProfit, setProductProfit] = useState('');
     const [productMargin, setProductMargin] = useState('');
 
-    const { productPrice, setProductPrice, promoApplied, setPromoApplied, productCost, setProductCost, reducedProductPrice, setReducedProductPrice, promoType, setPromoType } = useContext(AppContext);
+    const { productPrice, setProductPrice, promoApplied, setPromoApplied, productCost, setProductCost, reducedProductPrice, setReducedProductPrice, promoType, setPromoType, isEditProduct, isShowPromoProduct, setIsShowPromoProduct } = useContext(AppContext);
 
+
+    // useEffect(() => {
+    //     if (isEditProduct) {
+    //         setPromoType(promoType);
+    //         setPromoApplied(promoApplied);
+    //         setReducedProductPrice(reducedProductPrice);
+    //         setIsShowPromoProduct(true);
+    //     }
+    // }, [isEditProduct, promoApplied, reducedProductPrice]);
+    console.log('isEditProduct--------', isEditProduct)
+    console.log('promoApplied--------', promoApplied)
+    console.log('reducedProductPrice--------', reducedProductPrice)
 
     const handleProductPrice = (e) => {
         setProductPrice(e.target.value);
@@ -103,7 +114,7 @@ const Price = () => {
                     <div className={`w-full rounded-md ${isShowPromoProduct && productPrice == '' && "border-2 border-red-600"}`}>
                         <InputNumeric
                             id="inputPriceProduct19822"
-                            value={productPrice}
+                            value={!!productPrice ? productPrice : ''}
                             handleChange={handleProductPrice}
                             placeholder=""
                             step=".01"
@@ -138,7 +149,7 @@ const Price = () => {
                                 <div className='w-6/12 flex justify-start items-center'>
                                     <InputNumeric
                                         id="inputReduction19822"
-                                        value={promoApplied}
+                                        value={!!promoApplied ? promoApplied : ''}
                                         handleChange={handlePromoProductPrice}
                                         placeholder=""
                                         step=".01"
@@ -173,7 +184,7 @@ const Price = () => {
                             <Label label="Prix après réduction" />
                             <InputNumeric
                                 id="inputReducedPrice19822"
-                                value={reducedProductPrice}
+                                value={!!reducedProductPrice ? reducedProductPrice : ''}
                                 handleChange={handleReducedProductPrice}
                                 placeholder=""
                                 step=".01"
@@ -191,7 +202,7 @@ const Price = () => {
                     <div className='w-full'>
                         <InputNumeric
                             id="inputCost19822"
-                            value={productCost}
+                            value={!!productCost ? productCost : ''}
                             handleChange={handleProductCost}
                             placeholder=""
                             step=".01"

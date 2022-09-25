@@ -36,22 +36,14 @@ class ProductController extends Controller
 
     public function getProduct(Request $request)
     {
-        $product = Product::where('id', $request->productId)->with('collections', 'images_products', 'variantes')->first();
+        $product = Product::where('id', $request->productId)->with('collections', 'images_products', 'variantes', 'supplier')->first();
         $collections = Collection::all('name');
         return [$product, $collections];
     }
 
     public function store(StoreProductRequest $request)
     {
-        // check si on edit ou crée un produit
-        if ($request->id !== null) {
-            // if product is edited
-            $product = Product::find($request->id);
-            $statusHasBeenChanged = $product->statusHasBeenChanged;
-        } else {
-            $product = new Product;
-        }
-
+        $product = new Product;
         $product->name = $request->nameProduct;
         $product->isInAutoCollection = $request->isInAutoCollection;
         $product->ribbon = $request->ribbonProduct;
@@ -180,14 +172,13 @@ class ProductController extends Controller
                 $variante->deleted = false;
             }
 
-            if (property_exists($item->selectedImage, 'value')) {
-                $variante->image_path = $item->selectedImage->value;
+            if (property_exists($item->selectedImage, 'path')) {
+                $variante->image_path = $item->selectedImage->path;
             } else {
                 $variante->image_path = null;
             }
 
             $variante->product_id = $product->id;
-
             $variante->save();
 
             // si la value de l'option existe alors on l'attache sinon on la crée d'abord puis on l'attache
@@ -211,8 +202,18 @@ class ProductController extends Controller
         }
 
         // save images
-        $images = json_decode($request->imageVariantes);
-        $this->storeImages($images, $product->id);
+        if (count(json_decode($request->imageVariantes)) > 0) {
+            $images_products = Images_product::where('status', 'tmp')
+                ->orWhere('product_id', 0)
+                ->get();
+            if ($images_products->first()) {
+                foreach ($images_products as $image_product) {
+                    $image_product->status = '';
+                    $image_product->product_id = $product->id;
+                    $image_product->save();
+                }
+            }
+        }
 
         return 'ok';
     }
@@ -232,76 +233,16 @@ class ProductController extends Controller
     //     }
     // }
 
-    // public function getImagesProduct($path)
-    // {
-    //     $images = Temporary_storage::where('value', $path)
-    //         ->orderBy('ordre')
-    //         ->get();
 
-    //     return $images;
-    // }
-
-        // récupère toutes les image temporaires
-        public function getTemporaryImagesProduct($productId)
-        {
-            $images = Images_product::where('product_id', $productId)
-                ->orderBy('ordre')
-                ->get();
-    
-            return $images;
-        }
-
-    public function storeImages($files, $productId)
+    // récupère toutes les image temporaires d'un product donné
+    public function getTemporaryImagesProduct($productId)
     {
-        // dd($files[0]->path);
-        foreach ($files as $file) {
+        $images = Images_product::where('product_id', $productId)
+            ->orderBy('ordre')
+            ->get();
 
-            if (preg_match('/^data:image\/(\w+);base64,/', $file->path, $type)) {
-                $data = substr($file->path, strpos($file->path, ',') + 1);
-                $type = strtolower($type[1]); // jpg, png, gif
-
-                if (!in_array($type, ['jpg', 'jpeg', 'gif', 'png'])) {
-                    throw new \Exception('invalid image type');
-                }
-                $data = str_replace(' ', '+', $data);
-                $data = base64_decode($data);
-                // dd($data);
-                if ($data === false) {
-                    throw new \Exception('base64_decode failed');
-                } else {
-                }
-            } else {
-                throw new \Exception('did not match data URI with image data');
-            }
-
-            // file_put_contents("img.{$type}", $data);
-
-            $mimeType = $file->getClientMimeType();
-            $mimeType_videos_array = array('video/webm', 'video/ogg', 'video/avi', 'video/mp4', 'video/mpeg');
-            $mimeType_images_array = array('image/gif', 'image/png', 'image/jpeg', 'image/webp');
-
-            $tools = new StringTools;
-            $newName = $tools->nameGeneratorFromFile($file->name);
-
-            if (in_array($mimeType, $mimeType_images_array)) {
-                $Path = public_path('images/');
-                $imgFile = Image::make($file->path);
-                // $imgFile = Image::make(file_get_contents($file->path->base64_image));
-                $imgFile->save($Path . $newName, 80, 'jpg');
-            } else if (in_array($mimeType, $mimeType_videos_array)) {
-                $path = public_path('videos/');
-                $file->path->move($path, $newName);
-            }
-
-            $image_product = new Images_product;
-            $image_product->path = $newName;
-            $image_product->alt = $newName;
-            $image_product->ordre = $file->id;
-            $image_product->product_id = $productId;
-            $image_product->save();
-        }
+        return $images;
     }
-
 
     public function clean_Images_product_table()
     {
@@ -317,13 +258,14 @@ class ProductController extends Controller
     {
         if ($request->hasFile('files')) {
             $files = $request->file('files');
+            // dd($files);
             foreach ($files as $file) {
                 $mimeType = Image::make($file)->mime();
                 $mimeType_videos_array = array('video/webm', 'video/ogg', 'video/avi', 'video/mp4', 'video/mpeg');
                 $mimeType_images_array = array('image/gif', 'image/png', 'image/jpeg', 'image/webp');
                 $tools = new StringTools;
                 $newName = $tools->nameGeneratorFromFile($file);
-
+                // dd($newName);
                 if (in_array($mimeType, $mimeType_images_array)) {
                     $path = public_path('images/');
                     $imgFile = Image::make($file);
@@ -347,6 +289,8 @@ class ProductController extends Controller
 
             $images = Images_product::where('status', 'tmp')->orderBy('ordre')->get();
             return $images;
+        } else {
+            return 'error';
         }
     }
 
@@ -365,6 +309,23 @@ class ProductController extends Controller
             }
         }
         return Images_product::where('product_id', $imagesToReorder[0][0]->product_id)->get();
+    }
+
+    // ModalImageVariante: delete "countFile"  tmp images 
+    public function deleteModalImageHasBeenCanceled(Request $request)
+    {
+        $tmp_storage = Images_product::where('status', $request->key)
+            ->orderBy('id', 'desc')
+            ->limit($request->countFile)
+            ->get();
+        if (isset($tmp_storage) && count($tmp_storage) > 0) {
+            foreach ($tmp_storage as $toDelete) {
+                File::delete(public_path($toDelete->path));
+                Images_product::destroy($toDelete->id);
+            }
+        }
+        $images = Images_product::where('status', 'tmp')->orderBy('ordre')->get();
+        return $images;
     }
 
 

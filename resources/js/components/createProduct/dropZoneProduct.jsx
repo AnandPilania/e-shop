@@ -62,35 +62,35 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
     }, []);
 
 
-    // useEffect(() => {
-    //     console.log('isEditProduct   ', isEditProduct)
-    //     if (isEditProduct) {
-    //         let idProduct = new FormData;
-    //         idProduct.append('productId', productId);
-    //         Axios.post(`http://127.0.0.1:8000/getProduct`, idProduct)
-    //             .then(res => {
-
-    //                 let tmp_data = [[]];
-    //                 let tmp = [];
-    //                 let imagesProduct = res.data[0].images_products;
-    //                 for (let i = 0; i < imagesProduct.length; i++) {
-    //                     if (tmp.length < 4) {
-    //                         tmp.push(imagesProduct[i]);
-    //                         tmp_data.splice(-1, 1, tmp);
-    //                     } else {
-    //                         tmp_data.splice(-1, 1, tmp);
-    //                         tmp = [];
-    //                         tmp.push(imagesProduct[i]);
-    //                         tmp_data.push(tmp);
-    //                     }
-    //                 };
-    //                 setImageVariantes(tmp_data);
-    //             })
-    //             .catch(error => {
-    //                 console.log('Error get Product Images failed : ' + error.status);
-    //             });
-    //     }
-    // }, [isEditProduct])
+    useEffect(() => {
+        console.log('isEditProduct   ', isEditProduct)
+        console.log('productId   ', productId)
+        if (isEditProduct) {
+            let idProduct = new FormData;
+            idProduct.append('productId', productId);
+            Axios.post(`http://127.0.0.1:8000/getProduct`, idProduct)
+                .then(res => {
+                    console.log('res-->data  ', res.data)
+                    let tmp_data = [[]];
+                    let tmp = [];
+                    let imagesProduct = res.data[0].images_products;
+                    for (let i = 0; i < imagesProduct.length; i++) {
+                        if (tmp.length < 4) {
+                            tmp.push(imagesProduct[i]);
+                            tmp_data.splice(-1, 1, tmp);
+                        } else {
+                            tmp = [];
+                            tmp.push(imagesProduct[i]);
+                            tmp_data.push(tmp);
+                        }
+                    };
+                    setImageVariantes(tmp_data);
+                })
+                .catch(error => {
+                    console.log('Error get Product Images failed : ' + error.status);
+                });
+        }
+    }, [isEditProduct])
 
 
     function preventDefault(e) {

@@ -26,13 +26,12 @@ const CreateProduct = () => {
     var navigate = useNavigate();
 
     const [showModalFromPrice, setShowModalFromPrice] = useState(false);
-    const [isEditProduct, setIsEditProduct] = useState(false);
-
+   
     // when click on edit in collection list it send collection id to db request for make edit collection
     const { state } = useLocation();
     const { productId, isEdit } = state !== null ? state : { productId: null, isEdit: false };
 
-    const { descriptionProduct, setListSuppliers, supplier, setSupplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, setTva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, setRibbonProduct, screenSize, unlimited, isInAutoCollection, dateFieldProduct, setDateFieldProduct, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked, setDescriptionProduct, setCollections, setProductPrice, promoApplied, promoType, setPromoType, setProductParcelWeight, setProductParcelWeightMeasureUnit, setPromoApplied, setReducedProductPrice, setProductCost, setProductStock, setProductCode, setOptionsObj, setUnlimited, setVariantes, setTransporter, setMetaTitleProduct, setMetaDescriptionProduct, setMetaUrlProduct, setImageVariantes } = useContext(AppContext);
+    const { descriptionProduct, setListSuppliers, supplier, setSupplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, setTva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, setRibbonProduct, screenSize, unlimited, isInAutoCollection, dateFieldProduct, setDateFieldProduct, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked, setDescriptionProduct, setCollections, setProductPrice, promoApplied, promoType, setPromoType, setProductParcelWeight, setProductParcelWeightMeasureUnit, setPromoApplied, setReducedProductPrice, setProductCost, setProductStock, setProductCode, setOptionsObj, setUnlimited, setVariantes, setTransporter, setMetaTitleProduct, setMetaDescriptionProduct, setMetaUrlProduct, setImageVariantes, isEditProduct, setIsEditProduct, setIsShowPromoProduct } = useContext(AppContext);
 
     useEffect(() => {
         // charge la liste des fournisseurs
@@ -59,14 +58,14 @@ const CreateProduct = () => {
             });
 
 
-        if (isEdit) {
-            setIsEditProduct(true);
+        if (isEdit) { 
             let idProduct = new FormData;
             idProduct.append('productId', productId);
             Axios.post(`http://127.0.0.1:8000/getProduct`, idProduct)
                 .then(res => {
                     console.log('res.data   ', res.data)
                     console.log('productId   ', productId)
+                    // console.log('listSuppliers  ', res.data)
                     let data = res.data[0];
                     setNameProduct(data.name == null ? '' : data.name);
                     // isInAutoCollection
@@ -88,9 +87,15 @@ const CreateProduct = () => {
                     setMetaDescriptionProduct(data.metaDescription); 
                     setDateFieldProduct(data.dateActivation); 
                     setTva(data.taxe_id); 
-                    setSupplier(data.supplier_id);     
+                    setSupplier(data.supplier);     
                     setVariantes(data.variantes);
                     setImageVariantes(data.images_products);
+
+                    // affiche la partie promo dans price
+                    if (data.reduction != null || data.reduced_price != null) {
+                        setIsShowPromoProduct(true);
+                    }
+
 
 
                     // setOptionsObj(data.variantes); 
@@ -142,6 +147,7 @@ const CreateProduct = () => {
                     // formData.append('metaTitleProduct', metaTitleProduct);
                     // formData.append('metaDescriptionProduct', metaDescriptionProduct);
                 })
+                setIsEditProduct(true);
         }
 
     }, []);

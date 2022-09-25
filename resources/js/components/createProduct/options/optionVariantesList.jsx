@@ -324,7 +324,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         screenSize < 768 && handleChangeShowedFields('previous');
     }, [screenSize]);
 
-console.log('variantes --> ', variantes)
+
     return (
         <div
             className={`w-full ${variantes?.length > 0 && "border-t border-gray-200 mt-5"}`}
@@ -562,9 +562,9 @@ console.log('variantes --> ', variantes)
                                 onClick={() => loadImagesVariantes(item)}
                             >
                                 {
-                                    item.selectedImage !== undefined && item.selectedImage !== null && Object.keys(item.selectedImage).length !== 0 ?
+                                    item.image_path != undefined && item.image_path != null && Object.keys(item.image_path).length != 0 ?
                                         <img className='w-auto max-h-[28px]'
-                                            src={window.location.origin + '/' + item.selectedImage.path}
+                                            src={window.location.origin + '/' + item.image_path}
                                         />
                                         :
                                         <img className='w-6 h-auto'

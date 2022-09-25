@@ -232,7 +232,10 @@ export default createContext({
     setDateFieldProduct: () => { },
     listCollectionNames: '', 
     setListCollectionNames: () => { },
-
+    isEditProduct: '', 
+    setIsEditProduct: () => { },
+    isShowPromoProduct: '',  
+    setIsShowPromoProduct: () => { },
 
 
 });

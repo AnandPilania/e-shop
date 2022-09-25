@@ -128,18 +128,18 @@ export default function Select({ list, itemSelected, setItemSelected, toggleSele
             <div
                 id={buttonUnikId}
                 className={`grid grid-cols-[30px_1fr_44px] gap-2 justify-start items-center w-full max-w-[100%] h-10 px-2 m-0 border border-gray-300 rounded-md cursor-pointer  hover:border-gray-400 bg-white bg-no-repeat 
-                bg-right-center ${itemSelected.name == undefined && "bg-chevron-expand"}`}
+                bg-right-center ${itemSelected?.name == undefined && "bg-chevron-expand"}`}
                 onClick={() => {
                     showSelectMenu();
                 }}
             >
-                <span className={`rounded-full h-4 w-4 ml-2.5 ${selectValueColor}`}></span>
+                <span className={`rounded-full h-4 w-4 ml-2.5 ${selectValueColor == '' ? colorArr[0] : selectValueColor}`}></span>
                 <span className='truncate'>
-                    {itemSelected.name}
+                    {itemSelected?.name}
                 </span>
                 <span className='w-[44px] ml-auto flex justify-center '>
                     {/* espace pour le bg-caret-down ou le cancel button*/}
-                    {itemSelected.name != undefined &&
+                    {itemSelected?.name != undefined &&
                         <span
                             onClick={() => cancelSelected()}
                             className='flex justify-center items-center w-6 h-6 p-0 m-0 cursor-pointer hover:bg-red-500 rounded-md group'
@@ -156,7 +156,7 @@ export default function Select({ list, itemSelected, setItemSelected, toggleSele
                 className="absolute top-[46px] left-0 w-full h-0 bg-white mb-4 transition-height duration-150 ease-in-out overflow-auto z-10 border-gray-100 border-l border-r shadow-lg rounded-md">
                 {
                     list.length > 0 && list.map((item, ndx) => (
-                        itemSelected.id != item.id &&
+                        itemSelected?.id != item.id &&
                         <li
                             key={item.id}
                             className="grid grid-cols-[30px_1fr] gap-2 justify-start items-center p-2 w-full  text-gray-700 text-base hover:cursor-pointer hover:bg-indigo-600 group"

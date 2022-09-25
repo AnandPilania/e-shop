@@ -20,12 +20,8 @@ import Settings from '../settings/settings';
 
 const Appcontainer = () => {
 
-    //----------------------------------------------------------------------
     //COLLECTION------------------------------------------------------------
-    //----------------------------------------------------------------------
-
-    // collection form----------------------------------------------------------
-    const [conditions, setConditions] = useState([{
+      const [conditions, setConditions] = useState([{
         id: 0,
         parameter: '1',
         operator: '1',
@@ -170,7 +166,8 @@ const Appcontainer = () => {
     const [listProductsChecked, setListProductsChecked] = useState([]);
     const [dateFieldProduct, setDateFieldProduct] = useState(getNow());
     const [listCollectionNames, setListCollectionNames] = useState([]);
-
+    const [isEditProduct, setIsEditProduct] = useState(false);
+    const [isShowPromoProduct, setIsShowPromoProduct] = useState(false);
 
     //---------------------------------------------------------------PRODUCT
 
@@ -588,6 +585,8 @@ const Appcontainer = () => {
         listProductsChecked, setListProductsChecked,
         dateFieldProduct, setDateFieldProduct,
         listCollectionNames, setListCollectionNames,
+        isEditProduct, setIsEditProduct,
+        isShowPromoProduct, setIsShowPromoProduct,
 
     }
 

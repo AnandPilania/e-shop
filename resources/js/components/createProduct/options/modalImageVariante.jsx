@@ -79,62 +79,40 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
         });
     }
 
-
+    // save image as temporayStorage
     const saveImage = (file) => {
-        // save image in temporayStorage
         var tmp_Data = new FormData;
-        tmp_Data.append('key', 'tmp_productImage');
-        let name = file.name;
-        tmp_Data.append('value', file, name);
-
-        Axios.post(`http://127.0.0.1:8000/temporaryStoreImages`, tmp_Data,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
+        tmp_Data.append('files[]', file);
+        Axios.post(`http://127.0.0.1:8000/storeTmpImages`, tmp_Data,
+            { headers: { 'Content-Type': 'multipart/form-data' } })
+            .then((res) => {
+                if (res.data.length > 0) {
+                    setImageVariante(res.data);
+                    // sélectionne l'image qui vient d'être téléchargée
+                    handleSelectImage(res.data[res.data.length - 1]);
+                    scrollDown();
                 }
-            })
-            .then(() => {
-                Axios.get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage')
-                    .then(res => {
-                        setImageVariante(res.data);
-                        // sélectionne l'image qui vient d'être téléchargée
-                        handleSelectImage(res.data[res.data.length - 1]);
-                        scrollDown();
-                    })
-                    .catch(error => {
-                        console.log('Error get Product Images failed : ' + error.status);
-                    });
             })
             .catch(error => {
                 console.log('Error Image upload failed : ' + error.status);
             });
     }
 
-
     // suprime les images chargées si on annule
     const removeImageFromTemprayStorage = () => {
         var tmp_Data = new FormData;
-        tmp_Data.append('key', 'tmp_productImage');
+        tmp_Data.append('key', 'tmp');
         tmp_Data.append('countFile', countFile);
 
-        Axios.post(`http://127.0.0.1:8000/deleteModalImageVariantes`, tmp_Data,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-            .then(() => {
+        Axios.post(`http://127.0.0.1:8000/deleteModalImageHasBeenCanceled`, tmp_Data)
+            .then((res) => {
                 setCountFile(0);
-                Axios.get('http://127.0.0.1:8000/getTemporaryImages/tmp_productImage')
-                    .then(res => {
+                if (res.data.length > 0) {
                         setImageVariante(res.data);
-                    })
-                    .catch(error => {
-                        console.log('Error get Product Images failed : ' + error.status);
-                    });
+                    }
             })
             .catch(error => {
-                console.log('Error Image upload failed : ' + error.status);
+                console.log('Error: Delete Image failed : ' + error.status);
             });
     }
 
@@ -189,7 +167,7 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
             handleModalCancel();
         }
     }
-console.log('selectedImage  ', selectedImage)
+
 
     return (
         <div className={` ${show ? "block" : "hidden"} fixed top-0 left-0 bg-bg-modal z-40 w-full h-[100%]  flex flex-col justify-start items-center`}>
@@ -244,13 +222,13 @@ console.log('selectedImage  ', selectedImage)
                     <div className='h-8 w-full'></div>}
 
                 {/* bouton retirer l'image */}
-                {variante.hasOwnProperty("selectedImage") && variante.selectedImage.hasOwnProperty("value") &&
+                {variante.hasOwnProperty("selectedImage") && variante.selectedImage.hasOwnProperty("path") &&
                     <div className='w-full flex flex-row justify-start items-center pb-8 mb-3'>
                         <div
                             className="flex flex-row justify-start items-center p-3 border border-gray-300 rounded"
                         >
                             <img className='w-auto h-[100px]'
-                                src={window.location.origin + '/' + variante.selectedImage.value}
+                                src={window.location.origin + '/' + variante.selectedImage.path}
                             />
                             <button
                                 className="w-auto flex justify-center items-center px-3 py-2 ml-3 rounded bg-red-700 hover:bg-red-800 text-white cursor-pointer"

@@ -72,7 +72,7 @@ const Stock = () => {
                         className='flex flex-rox justify-start items-center w-full'>
                             <InputNumeric
                                 id='inputStock'
-                                value={productStock}
+                                value={!!productStock ? productStock : ''}
                                 handleChange={handleProductStock}
                                 handleClick={handleProductStockOnFocus}
                                 placeholder={placeholder}
@@ -118,7 +118,7 @@ const Stock = () => {
                     </div>
                         <InputNumeric
                             id='inputSku17822'
-                            value={productCode}
+                            value={!!productCode ? productCode : ''}
                             handleChange={handleCodeProduct}
                             placeholder=""
                             step="1"
@@ -142,7 +142,7 @@ const Stock = () => {
                         className='w-full flex flex-row justify-start items-center'
                     >
                             <InputNumeric
-                                value={productParcelWeight}
+                                value={!!productParcelWeight ? productParcelWeight : ''}
                                 handleChange={handleProductParcelWeight}
                                 placeholder="Poids du colis"
                                 step={productParcelWeightMeasureUnit == 'kg' ? "1" : "0.01"}
@@ -155,7 +155,7 @@ const Stock = () => {
                         >
                             <SelectMeasureUnit
                                 list={['gr', 'kg']}
-                                itemSelected={productParcelWeightMeasureUnit}
+                                itemSelected={!!productParcelWeightMeasureUnit ? productParcelWeightMeasureUnit : 'gr'}
                                 setItemSelected={setProductParcelWeightMeasureUnit}
                                 toggleSelect={toggleSelect}
                                 setToggleSelect={setToggleSelect}
