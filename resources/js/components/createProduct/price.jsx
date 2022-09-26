@@ -13,18 +13,6 @@ const Price = () => {
     const { productPrice, setProductPrice, promoApplied, setPromoApplied, productCost, setProductCost, reducedProductPrice, setReducedProductPrice, promoType, setPromoType, isEditProduct, isShowPromoProduct, setIsShowPromoProduct } = useContext(AppContext);
 
 
-    // useEffect(() => {
-    //     if (isEditProduct) {
-    //         setPromoType(promoType);
-    //         setPromoApplied(promoApplied);
-    //         setReducedProductPrice(reducedProductPrice);
-    //         setIsShowPromoProduct(true);
-    //     }
-    // }, [isEditProduct, promoApplied, reducedProductPrice]);
-    console.log('isEditProduct--------', isEditProduct)
-    console.log('promoApplied--------', promoApplied)
-    console.log('reducedProductPrice--------', reducedProductPrice)
-
     const handleProductPrice = (e) => {
         setProductPrice(e.target.value);
     }

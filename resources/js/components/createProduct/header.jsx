@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 import TooltipWithoutIcon from '../elements/tooltipWithoutIcon';
 
 
-const HeaderIndex = () => {
+const Header = ({ initCreateProduct, isDirtyCreateProduct }) => {
 
-    const { setShowModalConfirm, setMessageModal, setSender, isDirty, setTextButtonConfirm, setConditions, setIdCollection, setTmp_parameter } = useContext(AppContext);
+    const { setShowModalConfirm, setMessageModal, setSender, setTextButtonConfirm, setConditions, setTmp_parameter } = useContext(AppContext);
 
     // confirm reinitialisatio form
     const confirmInitCollectionForm = () => {
@@ -28,9 +28,10 @@ const HeaderIndex = () => {
                         parameter: '1',
                         operator: '1',
                         value: ''
-                    }])
+                    }]);
+                    initCreateProduct();
                 }}>
-                <Link to="/collections-list">
+                <Link to="/listProduct">
                     <img
                         src='../images/icons/arrow-left.svg'
                         className="w-4 h-4 inline"
@@ -42,13 +43,12 @@ const HeaderIndex = () => {
             </button>
 
             {/* réinitialisation */}
-            {isDirty && (
+            {isDirtyCreateProduct && (
                 <button
                     id="resetButtonCollection4922"
                     className='w-auto h-10 px-4 flex flex-row justify-center items-center border border-indigo-700 bg-white text-gray-700 font-medium hover:border-2 rounded-md ml-auto'
                     onClick={() => {
-                        setIdCollection(null);
-                        confirmInitCollectionForm();
+                        initCreateProduct();
                     }}
                 >
                     <span
@@ -68,4 +68,4 @@ const HeaderIndex = () => {
     );
 }
 
-export default HeaderIndex;
+export default Header;

@@ -73,7 +73,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
             }
 
             // crée des variantes vides. le nombre de variantes crées est = à libelles.length
-            if (libelles[i] != '') { // <--si libelles est vide alors on ne 
+            if (libelles[i] != '') { 
                 tmp_variantesAsString.push({
                     id: 'optionVarianteList' + i,
                     optionsString: libelles[i],
@@ -454,11 +454,11 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                             {visiblesFields[indexOfVisiblesFields]?.includes('reducedPrice') &&
                                 <div className='w-full overflow-hidden'>
                                     <input
-                                        id={`inputPrevPrice${item?.id}`}
+                                        id={`inputReducedPrice${item?.id}`}
                                         type="number"
                                         step=".01"
                                         onChange={(e) => handleVarianteReducedPrice(e, item)}
-                                        value={item?.reducedPrice}
+                                        value={item?.reducedPrice == null ? '' : item?.reducedPrice}
                                         placeholder="0.00"
                                         min="0"
                                         max="9999999999"
@@ -476,7 +476,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                             type="number"
                                             id={`inputStock${item?.id}`}
                                             onChange={(e) => handleStockProduct(e, item)}
-                                            value={item?.stock}
+                                            value={item?.stock == null ? '' : item?.stock}
                                             placeholder={screenSize > 1350 ? item.placeholderStock : String.fromCharCode(0x221E)}
                                             min="0" max="9999999999"
                                             onClick={(() => handleStockProductOnFocus(item))}
@@ -507,11 +507,11 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                             {visiblesFields[indexOfVisiblesFields]?.includes('cost') &&
                                 <div className='w-full overflow-hidden'>
                                     <input
-                                        id={`inputPrevPrice${item?.id}`}
+                                        id={`inputCostPrice${item?.id}`}
                                         type="number"
                                         step=".01"
                                         onChange={(e) => handleVarianteCost(e, item)}
-                                        value={item?.cost}
+                                        value={item?.cost == null ? '' : item?.cost}
                                         placeholder="0.00"
                                         min="0"
                                         max="9999999999"
@@ -523,10 +523,10 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                             {visiblesFields[indexOfVisiblesFields]?.includes('sku') &&
                                 <div className='w-full overflow-hidden'>
                                     <input
-                                        id={`inputPrevPrice${item?.id}`}
+                                        id={`inputSku${item?.id}`}
                                         type="text"
                                         onChange={(e) => handleVarianteProductCode(e, item)}
-                                        value={item?.productCode}
+                                        value={item?.sku == null ? '' : item?.sku}
                                         placeholder=""
                                         className={`w-full h-8 border border-gray-300 rounded-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
                                     />
@@ -536,11 +536,11 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                             {visiblesFields[indexOfVisiblesFields]?.includes('weight') &&
                                 <div className='w-full overflow-hidden flex flex-row justify-start items-center'>
                                     <input
-                                        id={`inputPrevPrice${item?.id}`}
+                                        id={`inputWeight${item?.id}`}
                                         type="number"
                                         step=".01"
                                         onChange={(e) => handleVarianteParcelWeight(e, item)}
-                                        value={item?.parcelWeight}
+                                        value={item?.weight == null ? '' : item?.weight}
                                         placeholder="0.00"
                                         min="0"
                                         max="9999999999"
@@ -548,7 +548,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                     />
                                     <select id="ulVarianteParcelWeightMeasureUnit28822"
                                         className={`w-16 h-8 flex justify-center items-center border-y border-r border-gray-300 bg-white text-gray-500 text-sm font-semibold rounded-r-md ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
-                                        value={item?.parcelWeightMeasureUnit}
+                                        value={item?.weightMeasure}
                                         onChange={(e) => handleVarianteWeightMeasureUnit(e, item)}
                                     >
                                         <option value="gr">gr</option>

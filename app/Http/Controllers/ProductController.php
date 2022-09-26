@@ -42,10 +42,10 @@ class ProductController extends Controller
     }
 
     public function store(StoreProductRequest $request)
-    {
+    { 
         $product = new Product;
         $product->name = $request->nameProduct;
-        $product->isInAutoCollection = $request->isInAutoCollection;
+        $product->isInAutoCollection = $request->isInAutoCollection == 'true' ? 1 : 0;
         $product->ribbon = $request->ribbonProduct;
         // remplace dans les src de la description le chemin du dossier temporaryStorage par celui de la destionation finale des images et vidéos. !!! c'est handleTinyMceTemporaryElements qui se charge de déplacer les fichiers dans ces dossiers !!!
         $tmp_description = str_replace('temporaryStorage', 'images', $request->descriptionProduct);
@@ -86,6 +86,7 @@ class ProductController extends Controller
         $variantes = json_decode($request->variantes);
         if (count($variantes) == 0) {
             $emptyVariante = (object) [
+                'optionsString' => '',
                 'cost' => '',
                 'price' => '',
                 'reducedPrice' => '',
@@ -105,6 +106,12 @@ class ProductController extends Controller
         foreach ($variantes as $item) {
             $variante = new Variante;
 
+            if ($item->optionsString != '') {
+                $variante->optionsString = $item->optionsString;
+            } else {
+                $variante->optionsString = '';
+            }            
+            
             if ($item->cost != '') {
                 $variante->cost = $item->cost;
             } elseif ($request->productCost != '') {
@@ -122,11 +129,11 @@ class ProductController extends Controller
             }
 
             if ($item->reducedPrice != '') {
-                $variante->reduced_price = $item->reducedPrice;
+                $variante->reducedPrice = $item->reducedPrice;
             } elseif ($request->reducedProductPrice != '') {
-                $variante->reduced_price = $request->reducedProductPrice;
+                $variante->reducedPrice = $request->reducedProductPrice;
             } else {
-                $variante->reduced_price = null;
+                $variante->reducedPrice = null;
             }
 
             if ($item->parcelWeight != '') {
@@ -150,6 +157,7 @@ class ProductController extends Controller
             } else {
                 $variante->stock = 0;
             }
+            
             if ($item->unlimited != '') {
                 $variante->unlimitedStock = $item->unlimited;
             } elseif ($request->unlimitedStock != '') {
@@ -175,7 +183,7 @@ class ProductController extends Controller
             if (property_exists($item->selectedImage, 'path')) {
                 $variante->image_path = $item->selectedImage->path;
             } else {
-                $variante->image_path = null;
+                $variante->image_path = '';
             }
 
             $variante->product_id = $product->id;

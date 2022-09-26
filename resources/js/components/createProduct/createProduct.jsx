@@ -18,6 +18,8 @@ import Tva from './tva';
 import Shipping from './shipping';
 import { v4 as uuidv4 } from 'uuid';
 import Activation from './activation';
+import Header from './header';
+import { getNow } from '../functions/dateTools';
 
 
 // props.id = detailx
@@ -26,12 +28,13 @@ const CreateProduct = () => {
     var navigate = useNavigate();
 
     const [showModalFromPrice, setShowModalFromPrice] = useState(false);
-   
+    const [isDirtyCreateProduct, setIsDirtyCreateProduct] = useState(false);
+
     // when click on edit in collection list it send collection id to db request for make edit collection
     const { state } = useLocation();
     const { productId, isEdit } = state !== null ? state : { productId: null, isEdit: false };
 
-    const { descriptionProduct, setListSuppliers, supplier, setSupplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, setTva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, setRibbonProduct, screenSize, unlimited, isInAutoCollection, dateFieldProduct, setDateFieldProduct, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked, setDescriptionProduct, setCollections, setProductPrice, promoApplied, promoType, setPromoType, setProductParcelWeight, setProductParcelWeightMeasureUnit, setPromoApplied, setReducedProductPrice, setProductCost, setProductStock, setProductCode, setOptionsObj, setUnlimited, setVariantes, setTransporter, setMetaTitleProduct, setMetaDescriptionProduct, setMetaUrlProduct, setImageVariantes, isEditProduct, setIsEditProduct, setIsShowPromoProduct } = useContext(AppContext);
+    const { descriptionProduct, setListSuppliers, supplier, setSupplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, setTva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, setRibbonProduct, screenSize, unlimited, isInAutoCollection, setIsInAutoCollection, dateFieldProduct, setDateFieldProduct, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked, setDescriptionProduct, setCollections, setProductPrice, promoApplied, promoType, setPromoType, setProductParcelWeight, setProductParcelWeightMeasureUnit, setPromoApplied, setReducedProductPrice, setProductCost, setProductStock, setProductCode, setOptionsObj, setUnlimited, setVariantes, setTransporter, setMetaTitleProduct, setMetaDescriptionProduct, setMetaUrlProduct, setImageVariantes, isEditProduct, setIsEditProduct, isShowPromoProduct, setIsShowPromoProduct } = useContext(AppContext);
 
     useEffect(() => {
         // charge la liste des fournisseurs
@@ -58,36 +61,37 @@ const CreateProduct = () => {
             });
 
 
-        if (isEdit) { 
+        if (isEdit) {
             let idProduct = new FormData;
             idProduct.append('productId', productId);
             Axios.post(`http://127.0.0.1:8000/getProduct`, idProduct)
                 .then(res => {
                     console.log('res.data   ', res.data)
-                    console.log('productId   ', productId)
+                    // console.log('productId   ', productId)
                     // console.log('listSuppliers  ', res.data)
                     let data = res.data[0];
+                    console.log('data.variantes  ', data.variantes)
                     setNameProduct(data.name == null ? '' : data.name);
-                    // isInAutoCollection
+                    setIsInAutoCollection(data.isInAutoCollection == 1 ? true : false);
                     setRibbonProduct(data.ribbon == null ? '' : data.ribbon);
                     setDescriptionProduct(data.description)
-                    setCollections([...data.collections]); 
-                    setProductPrice(data.price); 
-                    setReducedProductPrice(data.reduced_price);  
-                    setPromoApplied(data.reduction);      
-                    setPromoType(data.reductionType);   
-                    setProductCost(data.cost);        
-                    setProductStock(data.stock);
-                    setUnlimited(data.unlimitedStock);  
-                    setProductParcelWeight(data.weight);setProductParcelWeightMeasureUnit(data.weightMeasure);        
-                    setProductCode(data.sku); 
+                    setCollections([...data.collections]);
+                    setProductPrice(data.price);
+                    setReducedProductPrice(data.reduced_price == null ? '' : data.reduced_price);
+                    setPromoApplied(data.reduction == null ? '' : data.reduction);
+                    setPromoType(data.reductionType);
+                    setProductCost(data.cost == null ? '' : data.cost);
+                    setProductStock(data.stock == null ? '' : data.stock);
+                    setUnlimited(data.unlimitedStock);
+                    setProductParcelWeight(data.weight == null ? '' : data.weight); setProductParcelWeightMeasureUnit(data.weightMeasure);
+                    setProductCode(data.sku == null ? '' : data.sku);
                     setTransporter(JSON.parse(data.onlyTheseCarriers));
-                    setMetaUrlProduct(data.metaUrl); 
-                    setMetaTitleProduct(data.metaTitle); 
-                    setMetaDescriptionProduct(data.metaDescription); 
-                    setDateFieldProduct(data.dateActivation); 
-                    setTva(data.taxe_id); 
-                    setSupplier(data.supplier);     
+                    setMetaUrlProduct(data.metaUrl);
+                    setMetaTitleProduct(data.metaTitle);
+                    setMetaDescriptionProduct(data.metaDescription);
+                    setDateFieldProduct(data.dateActivation);
+                    setTva(data.taxe_id);
+                    setSupplier(data.supplier);
                     setVariantes(data.variantes);
                     setImageVariantes(data.images_products);
 
@@ -96,63 +100,80 @@ const CreateProduct = () => {
                         setIsShowPromoProduct(true);
                     }
 
-
-
                     // setOptionsObj(data.variantes); 
-
-                    // collections[]
-                    // created_at
-                    // dateActivation
-                    // description
-                    // id
-                    // images_products[]
-                    // isInAutoCollection
-                    // link
-                    // metaDescription
-                    // metaTitle
-                    // metaUrl
-                    // name
-                    // onlyTheseCarriers[]
-                    // ribbon
-                    // status
-                    // stock
-                    // supplier_id
-                    // taxe_id
-                    // type
-                    // updated_at
-                    // variantes[]
-
-
-                    // formData.append('nameProduct', nameProduct);
-                    // formData.append('ribbonProduct', ribbonProduct);
-                    // formData.append('descriptionProduct', descriptionProduct);
-                    // formData.append('imageVariantes', JSON.stringify(imageVariantes));
-                    // formData.append('collections', JSON.stringify(collections));
-                    // formData.append('isInAutoCollection', isInAutoCollection);
-                    // formData.append('productPrice', productPrice);
-                    // formData.append('reducedProductPrice', reducedProductPrice);
-                    // formData.append('productCost', productCost);
-                    // formData.append('productStock', productStock == '' ? 0 : productStock);
-                    // formData.append('unlimitedStock', unlimited);
-                    // formData.append('productSKU', productCode == '' ? uuidv4() : productCode);
-                    // formData.append('productParcelWeight', productParcelWeight);
-                    // formData.append('WeightMeasureUnit', productParcelWeightMeasureUnit);
-                    // formData.append('transporter', JSON.stringify(transporter));
-                    // formData.append('tva', JSON.stringify(tva));
-                    // formData.append('supplier', JSON.stringify(supplier));
-                    // formData.append("dateActivation", dateFieldProduct);
-                    // formData.append('optionsObj', JSON.stringify(optionsObj));
-                    // formData.append('variantes', JSON.stringify(variantes));
-                    // formData.append('metaUrlProduct', metaUrlProduct);
-                    // formData.append('metaTitleProduct', metaTitleProduct);
-                    // formData.append('metaDescriptionProduct', metaDescriptionProduct);
                 })
-                setIsEditProduct(true);
+            setIsEditProduct(true);
         }
 
     }, []);
 
+    const initCreateProduct = () => {
+        setNameProduct('');
+        setIsInAutoCollection(true);
+        setRibbonProduct('');
+        setDescriptionProduct('')
+        setCollections([]);
+        setProductPrice('');
+        setReducedProductPrice('');
+        setPromoApplied('');
+        setPromoType('%');
+        setProductCost('');
+        setProductStock('');
+        setUnlimited(false);
+        setProductParcelWeight('');
+        setProductParcelWeightMeasureUnit('gr');
+        setProductCode('');
+        setTransporter([]);
+        setMetaUrlProduct('');
+        setMetaTitleProduct('');
+        setMetaDescriptionProduct('');
+        setDateFieldProduct(getNow());
+        setTva('');
+        setSupplier('');
+        setVariantes([]);
+        setImageVariantes([[]]);
+        setIsShowPromoProduct(false);
+        setIsDirtyCreateProduct(false);
+    }
 
+    const checkIfCreateProductIsDirty = () => {
+        if (
+            nameProduct != '' ||
+            isInAutoCollection != true ||
+            ribbonProduct != '' ||
+            descriptionProduct != '' ||
+            collections != [] ||
+            productPrice != '' ||
+            reducedProductPrice != '' ||
+            promoApplied != '' ||
+            promoType != '%' ||
+            productCost != '' ||
+            productStock != '' ||
+            unlimited != false ||
+            productParcelWeight != '' ||
+            productParcelWeightMeasureUnit != 'gr' ||
+            productCode != '' ||
+            transporter != [] ||
+            metaUrlProduct != '' ||
+            metaTitleProduct != '' ||
+            metaDescriptionProduct != '' ||
+            Date.now() > (Date.parse(dateFieldProduct) + 30000) ||
+            tva != '' ||
+            supplier != '' ||
+            variantes != [] ||
+            imageVariantes != [[]] ||
+            isShowPromoProduct != false
+        ) {
+            setIsDirtyCreateProduct(false);
+        }
+    }
+
+
+
+    console.log('isDirtyCreateProduct  ', isDirtyCreateProduct)
+    console.log('Date.parse  ', Date.parse(dateFieldProduct) / 1000)
+    console.log('Date.now()  ', Date.now() / 1000)
+    console.log('variantes  ', variantes)
     // récupère la liste des tva et setTva avec la tva par défaut
     useEffect(() => {
         activeCalculTva == 1 &&
@@ -231,11 +252,11 @@ const CreateProduct = () => {
         formData.append('ribbonProduct', ribbonProduct);
         formData.append('descriptionProduct', descriptionProduct);
         var arrayOfImages = [];
-        imageVariantes.forEach(imgArr => { 
-            imgArr.forEach(img => { 
+        imageVariantes.forEach(imgArr => {
+            imgArr.forEach(img => {
                 arrayOfImages.push(img);
-            });   
-        });      
+            });
+        });
         formData.append('imageVariantes', JSON.stringify(arrayOfImages));
         formData.append('collections', JSON.stringify(collections));
         formData.append('isInAutoCollection', isInAutoCollection);
@@ -259,7 +280,7 @@ const CreateProduct = () => {
         formData.append('metaTitleProduct', metaTitleProduct);
         formData.append('metaDescriptionProduct', metaDescriptionProduct);
 
-        
+
         console.log('nameProduct  ', nameProduct);
         console.log('ribbonProduct  ', ribbonProduct);
         console.log('descriptionProduct  ', descriptionProduct);
@@ -299,9 +320,14 @@ const CreateProduct = () => {
     return (
         <div className="w-full px-2.5 lg:p-0">
             {/* {screenSize > 1023 ? */}
+
             <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_33.3333%] gap-4 justify-center items-start lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] min-h-[100vh] mt-[50px] mx-auto  text-base">
                 <div className="w-full grid grid-cols-1 gap-y-4">
                     <Flex_col_s_s>
+                        <Header
+                            initCreateProduct={initCreateProduct}
+                            isDirtyCreateProduct={isDirtyCreateProduct}
+                        />
                         <h4 className="mb-5 font-semibold text-xl">
                             Ajouter un produit
                         </h4>
@@ -309,7 +335,7 @@ const CreateProduct = () => {
                         <Description />
                     </Flex_col_s_s>
 
-                    <DropZoneProduct 
+                    <DropZoneProduct
                         isEditProduct={isEditProduct}
                         productId={productId}
                     />

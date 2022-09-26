@@ -15,9 +15,10 @@ class CreateVariantesTable extends Migration
     {
         Schema::create('variantes', function (Blueprint $table) {
             $table->id();
+            $table->string('optionsString', 255);
             $table->float('cost', 8, 2)->nullable();
             $table->float('price', 8, 2);
-            $table->float('reduced_price', 8, 2)->nullable();
+            $table->float('reducedPrice', 8, 2)->nullable();
             $table->float('weight', 8, 2)->nullable();
             $table->string('weightMeasure');
             $table->integer('stock')->nullable();

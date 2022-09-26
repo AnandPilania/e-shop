@@ -31,16 +31,16 @@ class VarianteFactory extends Factory
         $amount = rand(1,50);
 
         return [
+            'optionsString' => $name, 
             'cost' => $amount, 
             'price'=> $amount * 1.5, 
-            'reduced_price'=> $amount * 2, 
+            'reducedPrice'=> $amount * 2, 
             'weight' => rand(1,3), 
             'weightMeasure' => 'gr', 
             'stock' => rand(0,50),
             'unlimitedStock' => rand(0,1),
             'sku' => '123456789', 
             'deleted' => 0,
-            'ordre' => self::$ordre++, 
             'options' => "['color' => 'red', 'size' => 'm']", 
             'image_path' => "image path", 
             // 'product_id' => self::$prod_id++, <--- est géré dans le seeder !!

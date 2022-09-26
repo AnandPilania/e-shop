@@ -78,7 +78,6 @@ export default function SelectWithCheckboxProduct({ unikId, list, selected, setS
     }
 
 
-
     return (
         <div className="w-full relative">
             <label className='block text-sm font-medium text-gray-700 mb-1'>
@@ -116,7 +115,7 @@ export default function SelectWithCheckboxProduct({ unikId, list, selected, setS
                                                 type='checkbox'
                                                 value={mode.id}
                                                 id={mode.id + zone.id + "shippinModes"}
-                                                checked={selected.findIndex(x => x.zoneId == zone.id && x.modeId == mode.id) > -1}
+                                                checked={selected?.findIndex(x => x.zoneId == zone.id && x.modeId == mode.id) > -1}
                                                 onChange={() => handleChange(zone, mode)}
                                                 className="w-4 h-4 ml-3 mr-2 cursor-pointer"
                                             />
