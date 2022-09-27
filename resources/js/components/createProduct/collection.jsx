@@ -21,6 +21,10 @@ const Collection = () => {
             }).catch(function (error) {
                 console.log('error:   ' + error);
             });
+
+            return () => {
+                setCollectionsRelations([]);
+            }
     }, []);
 
     const removeCollection = (item) => {

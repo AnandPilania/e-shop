@@ -17,12 +17,13 @@ export default function Select({ list, itemSelected, setItemSelected, toggleSele
             setItemSelected(list[ndx]);
         }
         let ul = document.querySelector('#' + ulUnikId);
-        ul.style.height = 0;
-        ul.style.maxHeight = 0;
-        ul.classList.remove('border-b');
-        ul.classList.remove('border-t');
-        setToggleSelect(false);
-
+        if (ul != null) {
+            ul.style.height = 0;
+            ul.style.maxHeight = 0;
+            ul.classList.remove('border-b');
+            ul.classList.remove('border-t');
+            setToggleSelect(false);
+        }
     }, [list]);
 
 
@@ -46,18 +47,20 @@ export default function Select({ list, itemSelected, setItemSelected, toggleSele
 
     const showSelectMenu = () => {
         let ul = document.querySelector('#' + ulUnikId);
-        if (!toggleSelect) {
-            ul.style.height = 'auto';
-            ul.style.maxHeight = '240px';
-            ul.classList.add('border-b');
-            ul.classList.add('border-t');
-            setToggleSelect(true);
-        } else {
-            ul.style.height = 0;
-            ul.style.maxHeight = 0;
-            ul.classList.remove('border-b');
-            ul.classList.remove('border-t');
-            setToggleSelect(false);
+        if (ul != null) {
+            if (!toggleSelect) {
+                ul.style.height = 'auto';
+                ul.style.maxHeight = '240px';
+                ul.classList.add('border-b');
+                ul.classList.add('border-t');
+                setToggleSelect(true);
+            } else {
+                ul.style.height = 0;
+                ul.style.maxHeight = 0;
+                ul.classList.remove('border-b');
+                ul.classList.remove('border-t');
+                setToggleSelect(false);
+            }
         }
     }
 
@@ -74,22 +77,23 @@ export default function Select({ list, itemSelected, setItemSelected, toggleSele
         const ulSelect = document.getElementById(ulUnikId);
         const buttonSelect = document.getElementById(buttonUnikId);
         let targetElement = e.target; // clicked element
+        if (ulSelect != null && buttonSelect != null) {
+            do {
+                if (targetElement == ulSelect || targetElement == buttonSelect) {
+                    // click inside
+                    return;
+                }
+                // Go up the DOM
+                targetElement = targetElement.parentNode;
+            } while (targetElement);
 
-        do {
-            if (targetElement == ulSelect || targetElement == buttonSelect) {
-                // click inside
-                return;
-            }
-            // Go up the DOM
-            targetElement = targetElement.parentNode;
-        } while (targetElement);
-
-        // click outside.
-        ulSelect.style.height = 0;
-        ulSelect.style.maxHeight = 0;
-        ulSelect.classList.remove('border-b');
-        ulSelect.classList.remove('border-t');
-        setToggleSelect(false);
+            // click outside.
+            ulSelect.style.height = 0;
+            ulSelect.style.maxHeight = 0;
+            ulSelect.classList.remove('border-b');
+            ulSelect.classList.remove('border-t');
+            setToggleSelect(false);
+        }
     }
 
 

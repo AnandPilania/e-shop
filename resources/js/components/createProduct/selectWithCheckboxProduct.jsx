@@ -17,27 +17,29 @@ export default function SelectWithCheckboxProduct({ unikId, list, selected, setS
             tmp_arr.splice(index, 1);
             setSelected([...tmp_arr]);
         } else {
-            setSelected([...selected, {zoneId: zone.id, zoneName: zone.zone_name, modeId: mode.id, modeName: mode.mode_name}]);
+            setSelected([...selected, { zoneId: zone.id, zoneName: zone.zone_name, modeId: mode.id, modeName: mode.mode_name }]);
         }
     };
 
     const showDropDown = () => {
         let ul = document.getElementById('ul' + unikId);
         let button = document.getElementById('button' + unikId);
-        if (!toggleSelectWithCheckbox) {
-            ul.style.height = 'auto';
-            ul.style.maxHeight = '240px';
-            ul.classList.add('border-b');
-            button.classList.remove('rounded-md');
-            button.classList.add('rounded-t-md');
-            setToggleSelectWithCheckbox(true);
-        } else {
-            ul.style.height = 0;
-            ul.style.maxHeight = 0;
-            ul.classList.remove('border-b');
-            button.classList.remove('rounded-t-md');
-            button.classList.add('rounded-md');
-            setToggleSelectWithCheckbox(false);
+        if (ul != null && button != null) {
+            if (!toggleSelectWithCheckbox) {
+                ul.style.height = 'auto';
+                ul.style.maxHeight = '240px';
+                ul.classList.add('border-b');
+                button.classList.remove('rounded-md');
+                button.classList.add('rounded-t-md');
+                setToggleSelectWithCheckbox(true);
+            } else {
+                ul.style.height = 0;
+                ul.style.maxHeight = 0;
+                ul.classList.remove('border-b');
+                button.classList.remove('rounded-t-md');
+                button.classList.add('rounded-md');
+                setToggleSelectWithCheckbox(false);
+            }
         }
     }
 
@@ -54,26 +56,28 @@ export default function SelectWithCheckboxProduct({ unikId, list, selected, setS
             let ulSelectWithCheckbox = document.getElementById("ul" + unikId);
             let ButtonSelectDropDown = document.getElementById("button" + unikId);
             let targetElement = e.target; // clicked element
-            do {
-                if (targetElement == ulSelectWithCheckbox || targetElement == ButtonSelectDropDown) {
-                    // click inside
-                    return;
-                }
-                // Go up the DOM
-                targetElement = targetElement.parentNode;
-            } while (targetElement);
+            if (ulSelectWithCheckbox != null && ButtonSelectDropDown != null) {
+                do {
+                    if (targetElement == ulSelectWithCheckbox || targetElement == ButtonSelectDropDown) {
+                        // click inside
+                        return;
+                    }
+                    // Go up the DOM
+                    targetElement = targetElement.parentNode;
+                } while (targetElement);
 
-            // click outside.
-            if (ulSelectWithCheckbox != null) {
-                ulSelectWithCheckbox.style.height = 0;
-                ulSelectWithCheckbox.style.maxHeight = 0;
-                ulSelectWithCheckbox.classList.remove('border-b');
+                // click outside.
+                if (ulSelectWithCheckbox != null) {
+                    ulSelectWithCheckbox.style.height = 0;
+                    ulSelectWithCheckbox.style.maxHeight = 0;
+                    ulSelectWithCheckbox.classList.remove('border-b');
+                }
+                if (ButtonSelectDropDown != null) {
+                    ButtonSelectDropDown.classList.remove('rounded-t-md');
+                    ButtonSelectDropDown.classList.add('rounded-md');
+                }
+                setToggleSelectWithCheckbox(false);
             }
-            if (ButtonSelectDropDown != null) {
-                ButtonSelectDropDown.classList.remove('rounded-t-md');
-                ButtonSelectDropDown.classList.add('rounded-md');
-            }
-            setToggleSelectWithCheckbox(false);
         }
     }
 
@@ -111,7 +115,7 @@ export default function SelectWithCheckboxProduct({ unikId, list, selected, setS
                                             key={mode.id + Date.now()}
                                             className="flex items-center w-full h-10 text-gray-700 text-base hover:cursor-pointer hover:bg-indigo-600 group"
                                         >
-                                            <input 
+                                            <input
                                                 type='checkbox'
                                                 value={mode.id}
                                                 id={mode.id + zone.id + "shippinModes"}

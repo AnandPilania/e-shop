@@ -23,12 +23,6 @@ const Header = ({ initCreateProduct, isDirtyCreateProduct }) => {
             {/* retour */}
             <button className="w-24 h-10 px-2 flex flex-row justify-center items-center border border-indigo-700 hover:border-2 rounded-md"
                 onClick={() => {
-                    setConditions([{
-                        id: 0,
-                        parameter: '1',
-                        operator: '1',
-                        value: ''
-                    }]);
                     initCreateProduct();
                 }}>
                 <Link to="/listProduct">

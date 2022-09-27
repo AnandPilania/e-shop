@@ -23061,6 +23061,9 @@ var Collection = function Collection() {
     })["catch"](function (error) {
       console.log('error:   ' + error);
     });
+    return function () {
+      setCollectionsRelations([]);
+    };
   }, []);
 
   var removeCollection = function removeCollection(item) {
@@ -23144,7 +23147,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/index.js");
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
 /* harmony import */ var _elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../elements/container/flex_col_s_s */ "./resources/js/components/elements/container/flex_col_s_s.jsx");
 /* harmony import */ var _options_options__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./options/options */ "./resources/js/components/createProduct/options/options.jsx");
@@ -23162,11 +23165,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _supplier__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./supplier */ "./resources/js/components/createProduct/supplier.jsx");
 /* harmony import */ var _tva__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./tva */ "./resources/js/components/createProduct/tva.jsx");
 /* harmony import */ var _shipping__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./shipping */ "./resources/js/components/createProduct/shipping.jsx");
-/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v4.js");
 /* harmony import */ var _activation__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./activation */ "./resources/js/components/createProduct/activation.jsx");
 /* harmony import */ var _header__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./header */ "./resources/js/components/createProduct/header.jsx");
 /* harmony import */ var _functions_dateTools__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../functions/dateTools */ "./resources/js/components/functions/dateTools.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _hooks_usePromptCollection__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../hooks/usePromptCollection */ "./resources/js/components/hooks/usePromptCollection.jsx");
+/* harmony import */ var _modal_modalConfirmation__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../modal/modalConfirmation */ "./resources/js/components/modal/modalConfirmation.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -23208,13 +23213,15 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
+
  // props.id = detailx
 
 
 
 
 var CreateProduct = function CreateProduct() {
-  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_21__.useNavigate)();
+  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_23__.useNavigate)();
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
@@ -23224,10 +23231,25 @@ var CreateProduct = function CreateProduct() {
   var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState4 = _slicedToArray(_useState3, 2),
       isDirtyCreateProduct = _useState4[0],
-      setIsDirtyCreateProduct = _useState4[1]; // when click on edit in collection list it send collection id to db request for make edit collection
+      setIsDirtyCreateProduct = _useState4[1];
+
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState6 = _slicedToArray(_useState5, 2),
+      hooksComparation = _useState6[0],
+      setHooksComparation = _useState6[1];
+
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState8 = _slicedToArray(_useState7, 2),
+      showModalLeaveWithoutSave = _useState8[0],
+      setShowModalLeaveWithoutSave = _useState8[1];
+
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState10 = _slicedToArray(_useState9, 2),
+      tvaComparation = _useState10[0],
+      setTvaComparation = _useState10[1]; // when click on edit in collection list it send collection id to db request for make edit collection
 
 
-  var _useLocation = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_21__.useLocation)(),
+  var _useLocation = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_23__.useLocation)(),
       state = _useLocation.state;
 
   var _ref = state !== null ? state : {
@@ -23323,15 +23345,23 @@ var CreateProduct = function CreateProduct() {
 
     axios__WEBPACK_IMPORTED_MODULE_9___default().get("http://127.0.0.1:8000/getOptionValues").then(function (res) {
       setOptionsData(Object.values(res.data));
+    }); // récup la tva default pour comparaison if dirty
+
+    axios__WEBPACK_IMPORTED_MODULE_9___default().get("http://127.0.0.1:8000/getTaxes").then(function (res) {
+      var tmpTva = res.data.filter(function (x) {
+        return x.is_default == 1;
+      });
+      setTvaComparation(tmpTva[0]);
+      console.log('tmpTva  ', tmpTva[0]);
+    })["catch"](function (error) {
+      console.log('Error : ' + error.status);
     });
 
     if (isEdit) {
       var idProduct = new FormData();
       idProduct.append('productId', productId);
       axios__WEBPACK_IMPORTED_MODULE_9___default().post("http://127.0.0.1:8000/getProduct", idProduct).then(function (res) {
-        console.log('res.data   ', res.data); // console.log('productId   ', productId)
-        // console.log('listSuppliers  ', res.data)
-
+        console.log('res.data   ', res.data);
         var data = res.data[0];
         console.log('data.variantes  ', data.variantes);
         setNameProduct(data.name == null ? '' : data.name);
@@ -23361,8 +23391,90 @@ var CreateProduct = function CreateProduct() {
 
         if (data.reduction != null || data.reduced_price != null) {
           setIsShowPromoProduct(true);
-        } // setOptionsObj(data.variantes); 
+        } // tableau de comparaison pour checker if isDirty
 
+
+        setHooksComparation([].concat(_toConsumableArray(hooksComparation), [{
+          nameProduct: data.name == null ? '' : data.name
+        }]));
+        setHooksComparation([].concat(_toConsumableArray(hooksComparation), [{
+          isInAutoCollection: data.isInAutoCollection == 1 ? true : false
+        }]));
+        setHooksComparation([].concat(_toConsumableArray(hooksComparation), [{
+          ribbonProduct: data.ribbon == null ? '' : data.ribbon
+        }]));
+        setHooksComparation([].concat(_toConsumableArray(hooksComparation), [{
+          descriptionProduct: data.description
+        }]));
+        setHooksComparation([].concat(_toConsumableArray(hooksComparation), [{
+          collections: _toConsumableArray(data.collections)
+        }]));
+        setHooksComparation([].concat(_toConsumableArray(hooksComparation), [{
+          productPrice: data.price
+        }]));
+        setHooksComparation([].concat(_toConsumableArray(hooksComparation), [{
+          reducedProductPrice: data.reduced_price == null ? '' : data.reduced_price
+        }]));
+        setHooksComparation([].concat(_toConsumableArray(hooksComparation), [{
+          promoApplied: data.reduction == null ? '' : data.reduction
+        }]));
+        setHooksComparation([].concat(_toConsumableArray(hooksComparation), [{
+          promoApplied: data.reduction == null ? '' : data.reduction
+        }]));
+        setHooksComparation([].concat(_toConsumableArray(hooksComparation), [{
+          promoType: data.reductionType
+        }]));
+        setHooksComparation([].concat(_toConsumableArray(hooksComparation), [{
+          productCost: data.cost == null ? '' : data.cost
+        }]));
+        setHooksComparation([].concat(_toConsumableArray(hooksComparation), [{
+          productStock: data.stock == null ? '' : data.stock
+        }]));
+        setHooksComparation([].concat(_toConsumableArray(hooksComparation), [{
+          unlimited: data.unlimitedStock
+        }]));
+        setHooksComparation([].concat(_toConsumableArray(hooksComparation), [{
+          productParcelWeight: data.weight == null ? '' : data.weight
+        }]));
+        setHooksComparation([].concat(_toConsumableArray(hooksComparation), [{
+          productParcelWeightMeasureUnit: data.weightMeasure
+        }]));
+        setHooksComparation([].concat(_toConsumableArray(hooksComparation), [{
+          productCode: data.sku == null ? '' : data.sku
+        }]));
+        setHooksComparation([].concat(_toConsumableArray(hooksComparation), [{
+          transporter: JSON.parse(data.onlyTheseCarriers)
+        }]));
+        setHooksComparation([].concat(_toConsumableArray(hooksComparation), [{
+          metaUrlProduct: data.metaUrl
+        }]));
+        setHooksComparation([].concat(_toConsumableArray(hooksComparation), [{
+          metaTitleProduct: data.metaTitle
+        }]));
+        setHooksComparation([].concat(_toConsumableArray(hooksComparation), [{
+          metaDescriptionProduct: data.metaDescription
+        }]));
+        setHooksComparation([].concat(_toConsumableArray(hooksComparation), [{
+          dateFieldProduct: data.dateActivation
+        }]));
+        setHooksComparation([].concat(_toConsumableArray(hooksComparation), [{
+          tva: data.taxe_id
+        }]));
+        setHooksComparation([].concat(_toConsumableArray(hooksComparation), [{
+          supplier: data.supplier
+        }]));
+        setHooksComparation([].concat(_toConsumableArray(hooksComparation), [{
+          variantes: data.variantes
+        }]));
+        setHooksComparation([].concat(_toConsumableArray(hooksComparation), [{
+          imageVariantes: data.images_products
+        }])); // affiche la partie promo dans price
+
+        if (data.reduction != null || data.reduced_price != null) {
+          setHooksComparation([].concat(_toConsumableArray(hooksComparation), [{
+            isShowPromoProduct: true
+          }]));
+        }
       });
       setIsEditProduct(true);
     }
@@ -23395,18 +23507,30 @@ var CreateProduct = function CreateProduct() {
     setImageVariantes([[]]);
     setIsShowPromoProduct(false);
     setIsDirtyCreateProduct(false);
+    checkIfCreateProductIsDirty();
   };
 
   var checkIfCreateProductIsDirty = function checkIfCreateProductIsDirty() {
-    if (nameProduct != '' || isInAutoCollection != true || ribbonProduct != '' || descriptionProduct != '' || collections != [] || productPrice != '' || reducedProductPrice != '' || promoApplied != '' || promoType != '%' || productCost != '' || productStock != '' || unlimited != false || productParcelWeight != '' || productParcelWeightMeasureUnit != 'gr' || productCode != '' || transporter != [] || metaUrlProduct != '' || metaTitleProduct != '' || metaDescriptionProduct != '' || Date.now() > Date.parse(dateFieldProduct) + 30000 || tva != '' || supplier != '' || variantes != [] || imageVariantes != [[]] || isShowPromoProduct != false) {
-      setIsDirtyCreateProduct(false);
+    if (nameProduct != '' || isInAutoCollection != true || ribbonProduct != '' || descriptionProduct != '' || collections.length > 0 || productPrice != '' || reducedProductPrice != '' || promoApplied != '' || promoType != '%' || productCost != '' || productStock != '' || unlimited != false || productParcelWeight != '' || productParcelWeightMeasureUnit != 'gr' || productCode != '' || transporter.length > 0 || metaUrlProduct != '' || metaTitleProduct != '' || metaDescriptionProduct != '' || // // dateFieldProduct
+    tva.id != tvaComparation.id || supplier != '' || variantes.length > 0 || imageVariantes.length > 1 || imageVariantes[0].length > 0 || isShowPromoProduct != false) {
+      setIsDirtyCreateProduct(true);
+      console.log('isDirtyCreateProduct in true  ', isDirtyCreateProduct);
+      return true;
+    } else {
+      console.log('isDirtyCreateProduct in  ', isDirtyCreateProduct);
+      return false;
     }
-  };
+  }; // demande confirmation avant de quitter le form sans sauvegarder
 
+
+  (0,_hooks_usePromptCollection__WEBPACK_IMPORTED_MODULE_20__.usePromptCollection)('Quitter sans sauvegarder les changements ?', checkIfCreateProductIsDirty, setShowModalLeaveWithoutSave, setMessageModal);
   console.log('isDirtyCreateProduct  ', isDirtyCreateProduct);
-  console.log('Date.parse  ', Date.parse(dateFieldProduct) / 1000);
-  console.log('Date.now()  ', Date.now() / 1000);
-  console.log('variantes  ', variantes); // récupère la liste des tva et setTva avec la tva par défaut
+  console.log('variantes  ', variantes);
+  console.log('tva --  ', tva);
+  console.log('tvaComparation --  ', tvaComparation);
+
+  var handleModalConfirm = function handleModalConfirm() {}; // récupère la liste des tva et setTva avec la tva par défaut
+
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     activeCalculTva == 1 && axios__WEBPACK_IMPORTED_MODULE_9___default().get("http://127.0.0.1:8000/getTaxes").then(function (res) {
@@ -23460,7 +23584,34 @@ var CreateProduct = function CreateProduct() {
 
   var closelModal = function closelModal() {
     setShowModalFromPrice(false);
-  }; // console.log('uuidv4  ', uuidv4());
+    setShowModalLeaveWithoutSave(false);
+  };
+
+  var consolelog = function consolelog() {
+    console.log('nameProduct  ', nameProduct);
+    console.log('ribbonProduct  ', ribbonProduct);
+    console.log('descriptionProduct  ', descriptionProduct);
+    console.log('imageVariantes', JSON.stringify(imageVariantes));
+    console.log('collections  ', collections);
+    console.log('isInAutoCollection  ', isInAutoCollection);
+    console.log('productPrice  ', productPrice);
+    console.log('reducedProductPrice  ', reducedProductPrice);
+    console.log('productCost  ', productCost);
+    console.log('productStock  ', productStock);
+    console.log('productSKU  ', productCode == '' ? (0,uuid__WEBPACK_IMPORTED_MODULE_24__["default"])() : productCode);
+    console.log('productParcelWeight  ', productParcelWeight);
+    console.log('productParcelWeightMeasureUnit  ', productParcelWeightMeasureUnit);
+    console.log('transporter  ', transporter);
+    console.log('tva  ', JSON.stringify(tva));
+    console.log('supplier  ', supplier);
+    console.log('dateFieldProduct  ', dateFieldProduct);
+    console.log('optionsObj  ', optionsObj);
+    console.log('variantes  ', variantes);
+    console.log('metaUrlProduct   ', metaUrlProduct);
+    console.log('metaTitleProduct   ', metaTitleProduct);
+    console.log('metaDescriptionProduct   ', metaDescriptionProduct);
+    console.log('isDirtyCreateProduct   ', isDirtyCreateProduct);
+  }; // consolelog();
 
 
   function handleSubmit(e) {
@@ -23488,7 +23639,7 @@ var CreateProduct = function CreateProduct() {
     formData.append('productCost', productCost);
     formData.append('productStock', productStock == '' ? 0 : productStock);
     formData.append('unlimitedStock', unlimited);
-    formData.append('productSKU', productCode == '' ? (0,uuid__WEBPACK_IMPORTED_MODULE_22__["default"])() : productCode);
+    formData.append('productSKU', productCode == '' ? (0,uuid__WEBPACK_IMPORTED_MODULE_24__["default"])() : productCode);
     formData.append('productParcelWeight', productParcelWeight);
     formData.append('WeightMeasureUnit', productParcelWeightMeasureUnit);
     formData.append('transporter', JSON.stringify(transporter));
@@ -23500,28 +23651,7 @@ var CreateProduct = function CreateProduct() {
     formData.append('metaUrlProduct', metaUrlProduct);
     formData.append('metaTitleProduct', metaTitleProduct);
     formData.append('metaDescriptionProduct', metaDescriptionProduct);
-    console.log('nameProduct  ', nameProduct);
-    console.log('ribbonProduct  ', ribbonProduct);
-    console.log('descriptionProduct  ', descriptionProduct);
-    console.log('imageVariantes', JSON.stringify(imageVariantes));
-    console.log('collections  ', collections);
-    console.log('isInAutoCollection  ', isInAutoCollection);
-    console.log('productPrice  ', productPrice);
-    console.log('reducedProductPrice  ', reducedProductPrice);
-    console.log('productCost  ', productCost);
-    console.log('productStock  ', productStock);
-    console.log('productSKU  ', productCode == '' ? (0,uuid__WEBPACK_IMPORTED_MODULE_22__["default"])() : productCode);
-    console.log('productParcelWeight  ', productParcelWeight);
-    console.log('productParcelWeightMeasureUnit  ', productParcelWeightMeasureUnit);
-    console.log('transporter  ', transporter);
-    console.log('tva  ', JSON.stringify(tva));
-    console.log('supplier  ', supplier);
-    console.log('dateFieldProduct  ', dateFieldProduct);
-    console.log('optionsObj  ', optionsObj);
-    console.log('variantes  ', variantes);
-    console.log('metaUrlProduct   ', metaUrlProduct);
-    console.log('metaTitleProduct   ', metaTitleProduct);
-    console.log('metaDescriptionProduct   ', metaDescriptionProduct);
+    consolelog();
     axios__WEBPACK_IMPORTED_MODULE_9___default().post("http://127.0.0.1:8000/products", formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -23531,47 +23661,55 @@ var CreateProduct = function CreateProduct() {
     });
   }
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsxs)("div", {
     className: "w-full px-2.5 lg:p-0",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsxs)("div", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsxs)("div", {
       className: "w-full grid grid-cols-1 lg:grid-cols-[1fr_33.3333%] gap-4 justify-center items-start lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] min-h-[100vh] mt-[50px] mx-auto  text-base",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsxs)("div", {
         className: "w-full grid grid-cols-1 gap-y-4",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsxs)(_elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsx)(_header__WEBPACK_IMPORTED_MODULE_18__["default"], {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsxs)(_elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)(_header__WEBPACK_IMPORTED_MODULE_18__["default"], {
             initCreateProduct: initCreateProduct,
             isDirtyCreateProduct: isDirtyCreateProduct
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsx)("h4", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)("h4", {
             className: "mb-5 font-semibold text-xl",
             children: "Ajouter un produit"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsx)(_name__WEBPACK_IMPORTED_MODULE_12__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsx)(_description__WEBPACK_IMPORTED_MODULE_13__["default"], {})]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsx)(_dropZoneProduct__WEBPACK_IMPORTED_MODULE_4__["default"], {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)(_name__WEBPACK_IMPORTED_MODULE_12__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)(_description__WEBPACK_IMPORTED_MODULE_13__["default"], {})]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)(_dropZoneProduct__WEBPACK_IMPORTED_MODULE_4__["default"], {
           isEditProduct: isEditProduct,
           productId: productId
-        }), screenSize < 1024 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsxs)("div", {
+        }), screenSize < 1024 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsxs)("div", {
           className: "w-full grid grid-cols-1 gap-y-4",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsx)(_collection__WEBPACK_IMPORTED_MODULE_7__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsx)(_price__WEBPACK_IMPORTED_MODULE_5__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsx)(_stock__WEBPACK_IMPORTED_MODULE_6__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsx)(_shipping__WEBPACK_IMPORTED_MODULE_16__["default"], {}), activeCalculTva == 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsx)(_tva__WEBPACK_IMPORTED_MODULE_15__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsx)(_supplier__WEBPACK_IMPORTED_MODULE_14__["default"], {})]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsx)(_options_options__WEBPACK_IMPORTED_MODULE_3__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsx)(_optimisationProduct__WEBPACK_IMPORTED_MODULE_8__["default"], {})]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsx)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)(_collection__WEBPACK_IMPORTED_MODULE_7__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)(_price__WEBPACK_IMPORTED_MODULE_5__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)(_stock__WEBPACK_IMPORTED_MODULE_6__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)(_shipping__WEBPACK_IMPORTED_MODULE_16__["default"], {}), activeCalculTva == 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)(_tva__WEBPACK_IMPORTED_MODULE_15__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)(_supplier__WEBPACK_IMPORTED_MODULE_14__["default"], {})]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)(_options_options__WEBPACK_IMPORTED_MODULE_3__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)(_optimisationProduct__WEBPACK_IMPORTED_MODULE_8__["default"], {})]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)("div", {
         className: "w-full grid grid-cols-1 gap-y-4",
-        children: screenSize > 1023 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsxs)("div", {
+        children: screenSize > 1023 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsxs)("div", {
           className: "w-full grid grid-cols-1 gap-y-4",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsx)(_collection__WEBPACK_IMPORTED_MODULE_7__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsx)(_price__WEBPACK_IMPORTED_MODULE_5__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsx)(_stock__WEBPACK_IMPORTED_MODULE_6__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsx)(_shipping__WEBPACK_IMPORTED_MODULE_16__["default"], {}), activeCalculTva == 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsx)(_tva__WEBPACK_IMPORTED_MODULE_15__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsx)(_supplier__WEBPACK_IMPORTED_MODULE_14__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsx)(_activation__WEBPACK_IMPORTED_MODULE_17__["default"], {})]
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)(_collection__WEBPACK_IMPORTED_MODULE_7__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)(_price__WEBPACK_IMPORTED_MODULE_5__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)(_stock__WEBPACK_IMPORTED_MODULE_6__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)(_shipping__WEBPACK_IMPORTED_MODULE_16__["default"], {}), activeCalculTva == 1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)(_tva__WEBPACK_IMPORTED_MODULE_15__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)(_supplier__WEBPACK_IMPORTED_MODULE_14__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)(_activation__WEBPACK_IMPORTED_MODULE_17__["default"], {})]
         })
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)("div", {
       className: "w-full flex justify-center md:justify-start md:w-[90%] lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] mx-auto mt-5 mb-48",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsx)("button", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)("button", {
         className: "flex flex-row justify-center items-center w-44 md:w-32 px-3 py-2 rounded-md bg-green-600 text-white",
         onClick: handleSubmit,
         children: "Enregistrer"
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsx)(_modal_modalSimpleMessage__WEBPACK_IMPORTED_MODULE_11__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)(_modal_modalSimpleMessage__WEBPACK_IMPORTED_MODULE_11__["default"], {
       show: showModalFromPrice // true/false show modal
       ,
       handleModalCancel: closelModal,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_20__.jsx)("h2", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)("h2", {
         className: "text-lg font-bold mt-8",
+        children: messageModal
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)(_modal_modalConfirmation__WEBPACK_IMPORTED_MODULE_21__["default"], {
+      show: showModalLeaveWithoutSave,
+      handleModalConfirm: handleModalConfirm,
+      handleModalCancel: closelModal,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)("h2", {
+        className: "childrenModal",
         children: messageModal
       })
     })]
@@ -24593,12 +24731,6 @@ var Header = function Header(_ref) {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
       className: "w-24 h-10 px-2 flex flex-row justify-center items-center border border-indigo-700 hover:border-2 rounded-md",
       onClick: function onClick() {
-        setConditions([{
-          id: 0,
-          parameter: '1',
-          operator: '1',
-          value: ''
-        }]);
         initCreateProduct();
       },
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
@@ -30047,16 +30179,18 @@ function SelectMeasureUnit(_ref) {
   var showSelectMenu = function showSelectMenu() {
     var ul = document.getElementById(ulUnikId);
 
-    if (!toggleSelect) {
-      ul.style.height = 'auto';
-      ul.classList.add('border-b');
-      ul.classList.add('border-t');
-      setToggleSelect(true);
-    } else {
-      ul.style.height = 0;
-      ul.classList.remove('border-b');
-      ul.classList.remove('border-t');
-      setToggleSelect(false);
+    if (ul != null) {
+      if (!toggleSelect) {
+        ul.style.height = 'auto';
+        ul.classList.add('border-b');
+        ul.classList.add('border-t');
+        setToggleSelect(true);
+      } else {
+        ul.style.height = 0;
+        ul.classList.remove('border-b');
+        ul.classList.remove('border-t');
+        setToggleSelect(false);
+      }
     }
   };
 
@@ -30073,21 +30207,23 @@ function SelectMeasureUnit(_ref) {
     var buttonSelect = document.getElementById(buttonUnikId);
     var targetElement = e.target; // clicked element
 
-    do {
-      if (targetElement == ulSelect || targetElement == buttonSelect) {
-        // click inside
-        return;
-      } // Go up the DOM
+    if (ulSelect != null && buttonSelect != null) {
+      do {
+        if (targetElement == ulSelect || targetElement == buttonSelect) {
+          // click inside
+          return;
+        } // Go up the DOM
 
 
-      targetElement = targetElement.parentNode;
-    } while (targetElement); // click outside.
+        targetElement = targetElement.parentNode;
+      } while (targetElement); // click outside.
 
 
-    ulSelect.style.height = 0;
-    ulSelect.classList.remove('border-b');
-    ulSelect.classList.remove('border-t');
-    setToggleSelect(false);
+      ulSelect.style.height = 0;
+      ulSelect.classList.remove('border-b');
+      ulSelect.classList.remove('border-t');
+      setToggleSelect(false);
+    }
   }
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
@@ -30190,20 +30326,22 @@ function SelectWithCheckboxProduct(_ref) {
     var ul = document.getElementById('ul' + unikId);
     var button = document.getElementById('button' + unikId);
 
-    if (!toggleSelectWithCheckbox) {
-      ul.style.height = 'auto';
-      ul.style.maxHeight = '240px';
-      ul.classList.add('border-b');
-      button.classList.remove('rounded-md');
-      button.classList.add('rounded-t-md');
-      setToggleSelectWithCheckbox(true);
-    } else {
-      ul.style.height = 0;
-      ul.style.maxHeight = 0;
-      ul.classList.remove('border-b');
-      button.classList.remove('rounded-t-md');
-      button.classList.add('rounded-md');
-      setToggleSelectWithCheckbox(false);
+    if (ul != null && button != null) {
+      if (!toggleSelectWithCheckbox) {
+        ul.style.height = 'auto';
+        ul.style.maxHeight = '240px';
+        ul.classList.add('border-b');
+        button.classList.remove('rounded-md');
+        button.classList.add('rounded-t-md');
+        setToggleSelectWithCheckbox(true);
+      } else {
+        ul.style.height = 0;
+        ul.style.maxHeight = 0;
+        ul.classList.remove('border-b');
+        button.classList.remove('rounded-t-md');
+        button.classList.add('rounded-md');
+        setToggleSelectWithCheckbox(false);
+      }
     }
   };
 
@@ -30221,29 +30359,31 @@ function SelectWithCheckboxProduct(_ref) {
       var ButtonSelectDropDown = document.getElementById("button" + unikId);
       var targetElement = e.target; // clicked element
 
-      do {
-        if (targetElement == ulSelectWithCheckbox || targetElement == ButtonSelectDropDown) {
-          // click inside
-          return;
-        } // Go up the DOM
+      if (ulSelectWithCheckbox != null && ButtonSelectDropDown != null) {
+        do {
+          if (targetElement == ulSelectWithCheckbox || targetElement == ButtonSelectDropDown) {
+            // click inside
+            return;
+          } // Go up the DOM
 
 
-        targetElement = targetElement.parentNode;
-      } while (targetElement); // click outside.
+          targetElement = targetElement.parentNode;
+        } while (targetElement); // click outside.
 
 
-      if (ulSelectWithCheckbox != null) {
-        ulSelectWithCheckbox.style.height = 0;
-        ulSelectWithCheckbox.style.maxHeight = 0;
-        ulSelectWithCheckbox.classList.remove('border-b');
+        if (ulSelectWithCheckbox != null) {
+          ulSelectWithCheckbox.style.height = 0;
+          ulSelectWithCheckbox.style.maxHeight = 0;
+          ulSelectWithCheckbox.classList.remove('border-b');
+        }
+
+        if (ButtonSelectDropDown != null) {
+          ButtonSelectDropDown.classList.remove('rounded-t-md');
+          ButtonSelectDropDown.classList.add('rounded-md');
+        }
+
+        setToggleSelectWithCheckbox(false);
       }
-
-      if (ButtonSelectDropDown != null) {
-        ButtonSelectDropDown.classList.remove('rounded-t-md');
-        ButtonSelectDropDown.classList.add('rounded-md');
-      }
-
-      setToggleSelectWithCheckbox(false);
     }
   }
 
@@ -31474,11 +31614,14 @@ function Select(_ref) {
     }
 
     var ul = document.querySelector('#' + ulUnikId);
-    ul.style.height = 0;
-    ul.style.maxHeight = 0;
-    ul.classList.remove('border-b');
-    ul.classList.remove('border-t');
-    setToggleSelect(false);
+
+    if (ul != null) {
+      ul.style.height = 0;
+      ul.style.maxHeight = 0;
+      ul.classList.remove('border-b');
+      ul.classList.remove('border-t');
+      setToggleSelect(false);
+    }
   }, [list]);
 
   var handleChangeSelect = function handleChangeSelect(item, index) {
@@ -31504,18 +31647,20 @@ function Select(_ref) {
   var showSelectMenu = function showSelectMenu() {
     var ul = document.querySelector('#' + ulUnikId);
 
-    if (!toggleSelect) {
-      ul.style.height = 'auto';
-      ul.style.maxHeight = '240px';
-      ul.classList.add('border-b');
-      ul.classList.add('border-t');
-      setToggleSelect(true);
-    } else {
-      ul.style.height = 0;
-      ul.style.maxHeight = 0;
-      ul.classList.remove('border-b');
-      ul.classList.remove('border-t');
-      setToggleSelect(false);
+    if (ul != null) {
+      if (!toggleSelect) {
+        ul.style.height = 'auto';
+        ul.style.maxHeight = '240px';
+        ul.classList.add('border-b');
+        ul.classList.add('border-t');
+        setToggleSelect(true);
+      } else {
+        ul.style.height = 0;
+        ul.style.maxHeight = 0;
+        ul.classList.remove('border-b');
+        ul.classList.remove('border-t');
+        setToggleSelect(false);
+      }
     }
   };
 
@@ -31532,22 +31677,24 @@ function Select(_ref) {
     var buttonSelect = document.getElementById(buttonUnikId);
     var targetElement = e.target; // clicked element
 
-    do {
-      if (targetElement == ulSelect || targetElement == buttonSelect) {
-        // click inside
-        return;
-      } // Go up the DOM
+    if (ulSelect != null && buttonSelect != null) {
+      do {
+        if (targetElement == ulSelect || targetElement == buttonSelect) {
+          // click inside
+          return;
+        } // Go up the DOM
 
 
-      targetElement = targetElement.parentNode;
-    } while (targetElement); // click outside.
+        targetElement = targetElement.parentNode;
+      } while (targetElement); // click outside.
 
 
-    ulSelect.style.height = 0;
-    ulSelect.style.maxHeight = 0;
-    ulSelect.classList.remove('border-b');
-    ulSelect.classList.remove('border-t');
-    setToggleSelect(false);
+      ulSelect.style.height = 0;
+      ulSelect.style.maxHeight = 0;
+      ulSelect.classList.remove('border-b');
+      ulSelect.classList.remove('border-t');
+      setToggleSelect(false);
+    }
   }
 
   var colorTab = ["bg-fuchsia-600", "bg-blue-600", "bg-orange-600", "bg-pink-400", "bg-green-600", "bg-blue-500", "bg-fuchsia-400", "bg-blue-400", "bg-cyan-400", "bg-neutral-400", "bg-lime-600", "bg-red-500", "bg-green-400", "bg-sky-400", "bg-amber-500", "bg-violet-500", "bg-teal-500", "bg-zinc-500", "bg-yellow-500", "bg-pink-500", "bg-lime-700", "bg-stone-500", "bg-sky-500", "bg-green-500", "bg-slate-500", "bg-sky-700", "bg-slate-400", "bg-emerald-400", "bg-red-400", "bg-indigo-400", "bg-lime-400", "bg-orange-400", "bg-stone-400", "bg-violet-400", "bg-yellow-400", "bg-zinc-400", "bg-cyan-600", "bg-neutral-600", "bg-gray-600", "bg-fuchsia-500", "bg-teal-600", "bg-emerald-600", "bg-purple-400", "bg-blue-700", "bg-indigo-700", "bg-gray-700", "bg-fuchsia-700", "bg-teal-400", "bg-neutral-700", "bg-green-700", "bg-slate-700", "bg-red-700", "bg-teal-700", "bg-stone-700", "bg-indigo-600", "bg-purple-700", "bg-orange-700", "bg-sky-600", "bg-amber-600", "bg-yellow-600", "bg-zinc-600", "bg-emerald-700", "bg-cyan-700", "bg-gray-500", "bg-purple-500", "bg-orange-500", "bg-neutral-500", "bg-emerald-500", "bg-cyan-500", "bg-slate-600", "bg-amber-700", "bg-violet-700", "bg-stone-600", "bg-zinc-700", "bg-yellow-700", "bg-pink-700", "bg-gray-400", "bg-amber-400", "bg-violet-600", "bg-pink-600", "bg-purple-600", "bg-red-600", "bg-lime-500", "bg-indigo-500", "bg-white"];

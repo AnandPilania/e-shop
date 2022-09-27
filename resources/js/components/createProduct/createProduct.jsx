@@ -20,6 +20,8 @@ import { v4 as uuidv4 } from 'uuid';
 import Activation from './activation';
 import Header from './header';
 import { getNow } from '../functions/dateTools';
+import { usePromptCollection } from '../hooks/usePromptCollection';
+import ModalConfirmation from '../modal/modalConfirmation';
 
 
 // props.id = detailx
@@ -29,6 +31,9 @@ const CreateProduct = () => {
 
     const [showModalFromPrice, setShowModalFromPrice] = useState(false);
     const [isDirtyCreateProduct, setIsDirtyCreateProduct] = useState(false);
+    const [hooksComparation, setHooksComparation] = useState([]);
+    const [showModalLeaveWithoutSave, setShowModalLeaveWithoutSave] = useState(false);
+    const [tvaComparation, setTvaComparation] = useState('');
 
     // when click on edit in collection list it send collection id to db request for make edit collection
     const { state } = useLocation();
@@ -53,11 +58,21 @@ const CreateProduct = () => {
                 console.log('error:   ' + error);
             });
 
-
         // charge les données des types d'options et leurs valeurs ex. Couleurs, rouge, vert, ...
         Axios.get(`http://127.0.0.1:8000/getOptionValues`)
             .then((res) => {
                 setOptionsData(Object.values(res.data));
+            });
+
+        // récup la tva default pour comparaison if dirty
+        Axios.get("http://127.0.0.1:8000/getTaxes")
+            .then(res => {
+                let tmpTva = res.data.filter(x => x.is_default == 1);
+                setTvaComparation(tmpTva[0]);
+                console.log('tmpTva  ', tmpTva[0])
+            })
+            .catch(error => {
+                console.log('Error : ' + error.status);
             });
 
 
@@ -67,14 +82,12 @@ const CreateProduct = () => {
             Axios.post(`http://127.0.0.1:8000/getProduct`, idProduct)
                 .then(res => {
                     console.log('res.data   ', res.data)
-                    // console.log('productId   ', productId)
-                    // console.log('listSuppliers  ', res.data)
                     let data = res.data[0];
                     console.log('data.variantes  ', data.variantes)
                     setNameProduct(data.name == null ? '' : data.name);
                     setIsInAutoCollection(data.isInAutoCollection == 1 ? true : false);
                     setRibbonProduct(data.ribbon == null ? '' : data.ribbon);
-                    setDescriptionProduct(data.description)
+                    setDescriptionProduct(data.description);
                     setCollections([...data.collections]);
                     setProductPrice(data.price);
                     setReducedProductPrice(data.reduced_price == null ? '' : data.reduced_price);
@@ -83,7 +96,8 @@ const CreateProduct = () => {
                     setProductCost(data.cost == null ? '' : data.cost);
                     setProductStock(data.stock == null ? '' : data.stock);
                     setUnlimited(data.unlimitedStock);
-                    setProductParcelWeight(data.weight == null ? '' : data.weight); setProductParcelWeightMeasureUnit(data.weightMeasure);
+                    setProductParcelWeight(data.weight == null ? '' : data.weight);
+                    setProductParcelWeightMeasureUnit(data.weightMeasure);
                     setProductCode(data.sku == null ? '' : data.sku);
                     setTransporter(JSON.parse(data.onlyTheseCarriers));
                     setMetaUrlProduct(data.metaUrl);
@@ -100,8 +114,39 @@ const CreateProduct = () => {
                         setIsShowPromoProduct(true);
                     }
 
-                    // setOptionsObj(data.variantes); 
+
+                    // tableau de comparaison pour checker if isDirty
+                    setHooksComparation([...hooksComparation, { nameProduct: data.name == null ? '' : data.name }]);
+                    setHooksComparation([...hooksComparation, { isInAutoCollection: data.isInAutoCollection == 1 ? true : false }]);
+                    setHooksComparation([...hooksComparation, { ribbonProduct: data.ribbon == null ? '' : data.ribbon }]);
+                    setHooksComparation([...hooksComparation, { descriptionProduct: data.description }]);
+                    setHooksComparation([...hooksComparation, { collections: [...data.collections] }]);
+                    setHooksComparation([...hooksComparation, { productPrice: data.price }]);
+                    setHooksComparation([...hooksComparation, { reducedProductPrice: data.reduced_price == null ? '' : data.reduced_price }]);
+                    setHooksComparation([...hooksComparation, { promoApplied: data.reduction == null ? '' : data.reduction }]);
+                    setHooksComparation([...hooksComparation, { promoApplied: data.reduction == null ? '' : data.reduction }]);
+                    setHooksComparation([...hooksComparation, { promoType: data.reductionType }]);
+                    setHooksComparation([...hooksComparation, { productCost: data.cost == null ? '' : data.cost }]);
+                    setHooksComparation([...hooksComparation, { productStock: data.stock == null ? '' : data.stock }]);
+                    setHooksComparation([...hooksComparation, { unlimited: data.unlimitedStock }]);
+                    setHooksComparation([...hooksComparation, { productParcelWeight: data.weight == null ? '' : data.weight }]);
+                    setHooksComparation([...hooksComparation, { productParcelWeightMeasureUnit: data.weightMeasure }]);
+                    setHooksComparation([...hooksComparation, { productCode: data.sku == null ? '' : data.sku }]);
+                    setHooksComparation([...hooksComparation, { transporter: JSON.parse(data.onlyTheseCarriers) }]);
+                    setHooksComparation([...hooksComparation, { metaUrlProduct: data.metaUrl }]);
+                    setHooksComparation([...hooksComparation, { metaTitleProduct: data.metaTitle }]);
+                    setHooksComparation([...hooksComparation, { metaDescriptionProduct: data.metaDescription }]);
+                    setHooksComparation([...hooksComparation, { dateFieldProduct: data.dateActivation }]);
+                    setHooksComparation([...hooksComparation, { tva: data.taxe_id }]);
+                    setHooksComparation([...hooksComparation, { supplier: data.supplier }]);
+                    setHooksComparation([...hooksComparation, { variantes: data.variantes }]);
+                    setHooksComparation([...hooksComparation, { imageVariantes: data.images_products }]);
+                    // affiche la partie promo dans price
+                    if (data.reduction != null || data.reduced_price != null) {
+                        setHooksComparation([...hooksComparation, { isShowPromoProduct: true }]);
+                    }
                 })
+
             setIsEditProduct(true);
         }
 
@@ -134,7 +179,9 @@ const CreateProduct = () => {
         setImageVariantes([[]]);
         setIsShowPromoProduct(false);
         setIsDirtyCreateProduct(false);
+        checkIfCreateProductIsDirty();
     }
+
 
     const checkIfCreateProductIsDirty = () => {
         if (
@@ -142,7 +189,7 @@ const CreateProduct = () => {
             isInAutoCollection != true ||
             ribbonProduct != '' ||
             descriptionProduct != '' ||
-            collections != [] ||
+            collections.length > 0 ||
             productPrice != '' ||
             reducedProductPrice != '' ||
             promoApplied != '' ||
@@ -153,27 +200,40 @@ const CreateProduct = () => {
             productParcelWeight != '' ||
             productParcelWeightMeasureUnit != 'gr' ||
             productCode != '' ||
-            transporter != [] ||
+            transporter.length > 0 ||
             metaUrlProduct != '' ||
             metaTitleProduct != '' ||
             metaDescriptionProduct != '' ||
-            Date.now() > (Date.parse(dateFieldProduct) + 30000) ||
-            tva != '' ||
+            // // dateFieldProduct
+            tva.id != tvaComparation.id ||
             supplier != '' ||
-            variantes != [] ||
-            imageVariantes != [[]] ||
+            variantes.length > 0 ||
+            (imageVariantes.length > 1 || imageVariantes[0].length > 0) ||
             isShowPromoProduct != false
         ) {
-            setIsDirtyCreateProduct(false);
+            setIsDirtyCreateProduct(true);
+            console.log('isDirtyCreateProduct in true  ', isDirtyCreateProduct)
+            return true;
+        } else {
+            console.log('isDirtyCreateProduct in  ', isDirtyCreateProduct)
+            return false;
         }
     }
 
-
+    // demande confirmation avant de quitter le form sans sauvegarder
+    usePromptCollection('Quitter sans sauvegarder les changements ?', checkIfCreateProductIsDirty, setShowModalLeaveWithoutSave, setMessageModal);
 
     console.log('isDirtyCreateProduct  ', isDirtyCreateProduct)
-    console.log('Date.parse  ', Date.parse(dateFieldProduct) / 1000)
-    console.log('Date.now()  ', Date.now() / 1000)
+
     console.log('variantes  ', variantes)
+    console.log('tva --  ', tva)
+    console.log('tvaComparation --  ', tvaComparation)
+
+    const handleModalConfirm = () => {
+
+    }
+
+
     // récupère la liste des tva et setTva avec la tva par défaut
     useEffect(() => {
         activeCalculTva == 1 &&
@@ -233,9 +293,35 @@ const CreateProduct = () => {
 
     const closelModal = () => {
         setShowModalFromPrice(false);
+        setShowModalLeaveWithoutSave(false);
     }
 
-    // console.log('uuidv4  ', uuidv4());
+    const consolelog = () => {
+        console.log('nameProduct  ', nameProduct);
+        console.log('ribbonProduct  ', ribbonProduct);
+        console.log('descriptionProduct  ', descriptionProduct);
+        console.log('imageVariantes', JSON.stringify(imageVariantes));
+        console.log('collections  ', collections);
+        console.log('isInAutoCollection  ', isInAutoCollection);
+        console.log('productPrice  ', productPrice);
+        console.log('reducedProductPrice  ', reducedProductPrice);
+        console.log('productCost  ', productCost);
+        console.log('productStock  ', productStock);
+        console.log('productSKU  ', productCode == '' ? uuidv4() : productCode);
+        console.log('productParcelWeight  ', productParcelWeight);
+        console.log('productParcelWeightMeasureUnit  ', productParcelWeightMeasureUnit);
+        console.log('transporter  ', transporter);
+        console.log('tva  ', JSON.stringify(tva));
+        console.log('supplier  ', supplier);
+        console.log('dateFieldProduct  ', dateFieldProduct);
+        console.log('optionsObj  ', optionsObj);
+        console.log('variantes  ', variantes);
+        console.log('metaUrlProduct   ', metaUrlProduct);
+        console.log('metaTitleProduct   ', metaTitleProduct);
+        console.log('metaDescriptionProduct   ', metaDescriptionProduct);
+        console.log('isDirtyCreateProduct   ', isDirtyCreateProduct);
+    }
+    // consolelog();
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -280,29 +366,7 @@ const CreateProduct = () => {
         formData.append('metaTitleProduct', metaTitleProduct);
         formData.append('metaDescriptionProduct', metaDescriptionProduct);
 
-
-        console.log('nameProduct  ', nameProduct);
-        console.log('ribbonProduct  ', ribbonProduct);
-        console.log('descriptionProduct  ', descriptionProduct);
-        console.log('imageVariantes', JSON.stringify(imageVariantes));
-        console.log('collections  ', collections);
-        console.log('isInAutoCollection  ', isInAutoCollection);
-        console.log('productPrice  ', productPrice);
-        console.log('reducedProductPrice  ', reducedProductPrice);
-        console.log('productCost  ', productCost);
-        console.log('productStock  ', productStock);
-        console.log('productSKU  ', productCode == '' ? uuidv4() : productCode);
-        console.log('productParcelWeight  ', productParcelWeight);
-        console.log('productParcelWeightMeasureUnit  ', productParcelWeightMeasureUnit);
-        console.log('transporter  ', transporter);
-        console.log('tva  ', JSON.stringify(tva));
-        console.log('supplier  ', supplier);
-        console.log('dateFieldProduct  ', dateFieldProduct);
-        console.log('optionsObj  ', optionsObj);
-        console.log('variantes  ', variantes);
-        console.log('metaUrlProduct   ', metaUrlProduct);
-        console.log('metaTitleProduct   ', metaTitleProduct);
-        console.log('metaDescriptionProduct   ', metaDescriptionProduct);
+        consolelog();
 
         Axios.post(`http://127.0.0.1:8000/products`, formData,
             {
@@ -388,6 +452,13 @@ const CreateProduct = () => {
                 handleModalCancel={closelModal}>
                 <h2 className="text-lg font-bold mt-8">{messageModal}</h2>
             </ModalSimpleMessage>
+            <ModalConfirmation
+                show={showModalLeaveWithoutSave}
+                handleModalConfirm={handleModalConfirm}
+                handleModalCancel={closelModal}
+            >
+                <h2 className="childrenModal">{messageModal}</h2>
+            </ModalConfirmation>
         </div>
     )
 }
