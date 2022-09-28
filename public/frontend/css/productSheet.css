@@ -287,16 +287,6 @@
 }
 
 /* Add Animation */
-@-webkit-keyframes animatetop_cart {
-  from {
-    top: -300px;
-    opacity: 0;
-  }
-  to {
-    top: 0;
-    opacity: 1;
-  }
-}
 @keyframes animatetop_cart {
   from {
     top: -300px;
@@ -364,16 +354,6 @@
 }
 
 /* Add Animation */
-@-webkit-keyframes animatetop_cart {
-  from {
-    top: -300px;
-    opacity: 0;
-  }
-  to {
-    top: 0;
-    opacity: 1;
-  }
-}
 @keyframes animatetop_cart {
   from {
     top: -300px;
@@ -754,16 +734,6 @@
 }
 
 /* Add Animation */
-@-webkit-keyframes animatetop {
-  from {
-    top: -300px;
-    opacity: 0;
-  }
-  to {
-    top: 0;
-    opacity: 1;
-  }
-}
 @keyframes animatetop {
   from {
     top: -300px;
@@ -836,7 +806,6 @@ img.mySlides {
   border: solid 1px #6e6e6e;
   -webkit-user-select: none;
      -moz-user-select: none;
-      -ms-user-select: none;
           user-select: none;
 }
 
@@ -869,15 +838,6 @@ img.mySlides {
   -webkit-animation-duration: 1.5s;
   animation-name: fade;
   animation-duration: 1.5s;
-}
-
-@-webkit-keyframes fade {
-  from {
-    opacity: 0.4;
-  }
-  to {
-    opacity: 1;
-  }
 }
 @keyframes fade {
   from {
@@ -1016,16 +976,6 @@ img.mySlides {
 }
 
 /* Add Animation */
-@-webkit-keyframes animatetop {
-  from {
-    top: -300px;
-    opacity: 0;
-  }
-  to {
-    top: 0;
-    opacity: 1;
-  }
-}
 @keyframes animatetop {
   from {
     top: -300px;
@@ -1240,8 +1190,7 @@ img.mySlides {
 .reviewsSlides {
   display: flex;
   overflow-x: hidden;
-  -ms-scroll-snap-type: x mandatory;
-      scroll-snap-type: x mandatory;
+  scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   /*

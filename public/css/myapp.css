@@ -397,10 +397,6 @@ legend + * {
   padding: 0;
 }
 
-::-webkit-file-upload-button {
-  font: inherit;
-}
-
 ::file-selector-button {
   font: inherit;
 }
@@ -1139,7 +1135,6 @@ i.fa-solid .fa-person-biking {
   border-top-color: #0d4dc2;
   border-left-color: #0b3b94;
   border-radius: 50%;
-  -webkit-animation: nprogress-spinner 400ms linear infinite;
   animation: nprogress-spinner 400ms linear infinite;
 }
 
@@ -1151,15 +1146,6 @@ i.fa-solid .fa-person-biking {
 .nprogress-custom-parent #nprogress .spinner,
 .nprogress-custom-parent #nprogress .bar {
   position: absolute;
-}
-
-@-webkit-keyframes nprogress-spinner {
-  0% {
-    -webkit-transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-  }
 }
 @keyframes nprogress-spinner {
   0% {
@@ -2495,7 +2481,6 @@ i.fa-solid .fa-person-biking {
   /* Non standard for webkit */
   word-break: break-word;
   -webkit-hyphens: auto;
-  -ms-hyphens: auto;
   hyphens: auto;
 }
 
@@ -2684,7 +2669,6 @@ i.fa-solid .fa-person-biking {
 }
 
 .sticky {
-  position: -webkit-sticky;
   position: sticky;
 }
 
@@ -2953,7 +2937,6 @@ i.fa-solid .fa-person-biking {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 

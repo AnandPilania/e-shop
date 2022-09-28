@@ -12,7 +12,6 @@
 .nav-frontend {
   width: 100%;
   font-size: 18px;
-  position: -webkit-sticky;
   position: sticky;
   top: 0;
   line-height: 18px;
@@ -88,18 +87,7 @@
 }
 
 .menu-deroulant:hover + .sous-menu, .sous-menu:hover {
-  -webkit-animation: apparitionSousMenu 1s forwards;
-          animation: apparitionSousMenu 1s forwards;
-}
-
-@-webkit-keyframes apparitionSousMenu {
-  0% {
-    border-top: 1px solid #2169EC;
-  }
-  100% {
-    max-height: 50em;
-    border-top: 1px solid #2169EC;
-  }
+  animation: apparitionSousMenu 1s forwards;
 }
 
 @keyframes apparitionSousMenu {

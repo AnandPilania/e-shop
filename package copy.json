@@ -1,0 +1,64 @@
+{
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "mix",
+        "watch": "mix watch",
+        "watch-poll": "mix watch -- --watch-options-poll=1000",
+        "hot": "mix watch --hot",
+        "prod": "npm run production",
+        "production": "mix --production"
+    },
+    "devDependencies": {
+        "@babel/preset-react": "^7.16.7",
+        "alpinejs": "^3.8.1",
+        "autoprefixer": "^10.4.7",
+        "axios": "^0.24.0",
+        "generate-export-aliases": "^1.2.0",
+        "jest": "^28.1.1",
+        "jquery": "^3.6",
+        "laravel-mix": "^6.0.39",
+        "lodash": "^4.17.21",
+        "popper.js": "^1.16.1",
+        "postcss": "^8.4.14",
+        "postcss-import": "^14.0.2",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "resolve-url-loader": "^4.0.0",
+        "sass": "^1.48.0",
+        "sass-loader": "^12.4.0",
+        "tailwindcss": "^3.0.24"
+    },
+    "dependencies": {
+        "@emotion/react": "^11.8.2",
+        "@emotion/styled": "^11.8.1",
+        "@material-ui/core": "^5.0.0-beta.4",
+        "@material-ui/icons": "^4.11.2",
+        "@material-ui/styled-engine-sc": "^5.0.0-beta.1",
+        "@material-ui/styles": "^5.0.0-beta.4",
+        "@mui/material": "^5.5.3",
+        "@mui/styles": "^5.2.3",
+        "@tinymce/tinymce-react": "^3.13.0",
+        "axios-progress-bar": "^1.2.0",
+        "html-react-parser": "^1.4.10",
+        "material-ui": "^0.15.0",
+        "npm-check-updates": "^16.3.3",
+        "react-beautiful-dnd": "^13.1.0",
+        "react-color": "^2.19.3",
+        "react-cropper": "^2.1.8",
+        "react-datetime-picker": "^3.4.3",
+        "react-dropzone": "^11.5.1",
+        "react-flatpickr": "^3.10.7",
+        "react-router": "^6.2.1",
+        "react-router-dom": "^6.2.1",
+        "styled-components": "^5.3.3",
+        "uniqueid": "^1.0.0",
+        "use-state-if-mounted": "^1.0.7",
+        "uuid": "^8.3.2"
+    },
+    "config": {
+        "exportAliases": {
+            "@modalConfirmation": "./modal/modalConfirmation"
+        }
+    }
+}

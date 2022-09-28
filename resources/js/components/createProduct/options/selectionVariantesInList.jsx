@@ -16,12 +16,14 @@ const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
 
     const showDropDownSelectionVariantesList = (id) => {
         let ul = document.getElementById(id);
-        if (ul.offsetHeight == 0) {
-            ul.style.height = 'auto';
-            ul.className = 'absolute top-[30px] left-0 w-full h-0 max-h-[300px] bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border border-gray-300 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-l rounded-r-sm';
-        } else if (ul.offsetHeight > 0) {
-            ul.style.height = 0;
-            ul.className = 'absolute top-[30px] left-0 w-full h-0 max-h-[300px] bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-0 border-gray-300 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-l rounded-r-sm';
+        if (ul != null) {
+            if (ul.offsetHeight == 0) {
+                ul.style.height = 'auto';
+                ul.className = 'absolute top-[30px] left-0 w-full h-0 max-h-[300px] bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border border-gray-300 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-l rounded-r-sm';
+            } else if (ul.offsetHeight > 0) {
+                ul.style.height = 0;
+                ul.className = 'absolute top-[30px] left-0 w-full h-0 max-h-[300px] bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-0 border-gray-300 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-l rounded-r-sm';
+            }
         }
     }
 
@@ -38,31 +40,34 @@ const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
         const ulSelectionVariantesList = document.getElementById("ul" + unikIdSelectionVariantesList);
         const ButtonSelectDropDown = document.getElementById("Button" + unikIdSelectionVariantesList);
         let targetElement = e.target; // clicked element
+        if (ulSelectionVariantesList != null && ButtonSelectDropDown != null) {
+            do {
+                if (targetElement == ulSelectionVariantesList || targetElement == ButtonSelectDropDown) {
+                    // click inside
+                    return;
+                }
+                // Go up the DOM
+                targetElement = targetElement.parentNode;
+            } while (targetElement);
 
-        do {
-            if (targetElement == ulSelectionVariantesList || targetElement == ButtonSelectDropDown) {
-                // click inside
-                return;
-            }
-            // Go up the DOM
-            targetElement = targetElement.parentNode;
-        } while (targetElement);
-
-        // click outside.
-        ulSelectionVariantesList.style.height = 0;
-        ulSelectionVariantesList.className = 'absolute top-[30px] left-0 w-full h-0 max-h-[300px] bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-0 border-gray-300 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-l rounded-r-sm';
+            // click outside.
+            ulSelectionVariantesList.style.height = 0;
+            ulSelectionVariantesList.className = 'absolute top-[30px] left-0 w-full h-0 max-h-[300px] bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-0 border-gray-300 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-l rounded-r-sm';
+        }
     }
 
 
 
     const showDropDownSelectionVariantesList2 = (id) => {
         let ul = document.getElementById(id);
-        if (ul.offsetHeight == 0) {
-            ul.style.height = 'auto';
-            ul.className = 'absolute top-[30px] left-0 w-[130px] h-0 max-h-[300px] bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border border-gray-300 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-md';
-        } else if (ul.offsetHeight > 0) {
-            ul.style.height = 0;
-            ul.className = 'absolute top-[30px] left-0 w-full h-0 max-h-[300px] bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-0 border-gray-300 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-md';
+        if (ul != null) {
+            if (ul.offsetHeight == 0) {
+                ul.style.height = 'auto';
+                ul.className = 'absolute top-[30px] left-0 w-[130px] h-0 max-h-[300px] bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border border-gray-300 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-md';
+            } else if (ul.offsetHeight > 0) {
+                ul.style.height = 0;
+                ul.className = 'absolute top-[30px] left-0 w-full h-0 max-h-[300px] bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-0 border-gray-300 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-md';
+            }
         }
     }
 
@@ -78,19 +83,20 @@ const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
         const ulSelectionVariantesList2 = document.getElementById("ul2" + unikIdSelectionVariantesList);
         const ButtonSelectDropDown2 = document.getElementById("Button2" + unikIdSelectionVariantesList);
         let targetElement2 = e.target; // clicked element
+        if (ulSelectionVariantesList2 != null && ButtonSelectDropDown2 != null) {
+            do {
+                if (targetElement2 == ulSelectionVariantesList2 || targetElement2 == ButtonSelectDropDown2) {
+                    // click inside
+                    return;
+                }
+                // Go up the DOM
+                targetElement2 = targetElement2.parentNode;
+            } while (targetElement2);
 
-        do {
-            if (targetElement2 == ulSelectionVariantesList2 || targetElement2 == ButtonSelectDropDown2) {
-                // click inside
-                return;
-            }
-            // Go up the DOM
-            targetElement2 = targetElement2.parentNode;
-        } while (targetElement2);
-
-        // click outside.
-        ulSelectionVariantesList2.style.height = 0;
-        ulSelectionVariantesList2.className = 'absolute top-[30px] left-0 w-[130px] h-0 max-h-[300px] bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-0 border-gray-300 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-md';
+            // click outside.
+            ulSelectionVariantesList2.style.height = 0;
+            ulSelectionVariantesList2.className = 'absolute top-[30px] left-0 w-[130px] h-0 max-h-[300px] bg-white mb-[15px] transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-0 border-gray-300 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-md';
+        }
     }
 
 

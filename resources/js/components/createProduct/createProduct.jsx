@@ -20,8 +20,9 @@ import { v4 as uuidv4 } from 'uuid';
 import Activation from './activation';
 import Header from './header';
 import { getNow } from '../functions/dateTools';
-import { usePromptCollection } from '../hooks/usePromptCollection';
-import ModalConfirmation from '../modal/modalConfirmation';
+import { usePromptProduct } from './usePromptProduct';
+// import ModalConfirmation from '../modal/modalConfirmation';
+import ModalConfirmation from '@modalConfirmation';
 
 
 // props.id = detailx
@@ -31,9 +32,10 @@ const CreateProduct = () => {
 
     const [showModalFromPrice, setShowModalFromPrice] = useState(false);
     const [isDirtyCreateProduct, setIsDirtyCreateProduct] = useState(false);
-    const [hooksComparation, setHooksComparation] = useState([]);
+    const [hooksComparation, setHooksComparation] = useState({});
     const [showModalLeaveWithoutSave, setShowModalLeaveWithoutSave] = useState(false);
     const [tvaComparation, setTvaComparation] = useState('');
+    const [leaveProductFormWithoutSaveChange, setLeaveProductFormWithoutSaveChange] = useState(false);
 
     // when click on edit in collection list it send collection id to db request for make edit collection
     const { state } = useLocation();
@@ -105,7 +107,7 @@ const CreateProduct = () => {
                     setMetaDescriptionProduct(data.metaDescription);
                     setDateFieldProduct(data.dateActivation);
                     setTva(data.taxe_id);
-                    setSupplier(data.supplier);
+                    setSupplier(data.supplier == null ? '' : data.supplier);
                     setVariantes(data.variantes);
                     setImageVariantes(data.images_products);
 
@@ -116,35 +118,39 @@ const CreateProduct = () => {
 
 
                     // tableau de comparaison pour checker if isDirty
-                    setHooksComparation([...hooksComparation, { nameProduct: data.name == null ? '' : data.name }]);
-                    setHooksComparation([...hooksComparation, { isInAutoCollection: data.isInAutoCollection == 1 ? true : false }]);
-                    setHooksComparation([...hooksComparation, { ribbonProduct: data.ribbon == null ? '' : data.ribbon }]);
-                    setHooksComparation([...hooksComparation, { descriptionProduct: data.description }]);
-                    setHooksComparation([...hooksComparation, { collections: [...data.collections] }]);
-                    setHooksComparation([...hooksComparation, { productPrice: data.price }]);
-                    setHooksComparation([...hooksComparation, { reducedProductPrice: data.reduced_price == null ? '' : data.reduced_price }]);
-                    setHooksComparation([...hooksComparation, { promoApplied: data.reduction == null ? '' : data.reduction }]);
-                    setHooksComparation([...hooksComparation, { promoApplied: data.reduction == null ? '' : data.reduction }]);
-                    setHooksComparation([...hooksComparation, { promoType: data.reductionType }]);
-                    setHooksComparation([...hooksComparation, { productCost: data.cost == null ? '' : data.cost }]);
-                    setHooksComparation([...hooksComparation, { productStock: data.stock == null ? '' : data.stock }]);
-                    setHooksComparation([...hooksComparation, { unlimited: data.unlimitedStock }]);
-                    setHooksComparation([...hooksComparation, { productParcelWeight: data.weight == null ? '' : data.weight }]);
-                    setHooksComparation([...hooksComparation, { productParcelWeightMeasureUnit: data.weightMeasure }]);
-                    setHooksComparation([...hooksComparation, { productCode: data.sku == null ? '' : data.sku }]);
-                    setHooksComparation([...hooksComparation, { transporter: JSON.parse(data.onlyTheseCarriers) }]);
-                    setHooksComparation([...hooksComparation, { metaUrlProduct: data.metaUrl }]);
-                    setHooksComparation([...hooksComparation, { metaTitleProduct: data.metaTitle }]);
-                    setHooksComparation([...hooksComparation, { metaDescriptionProduct: data.metaDescription }]);
-                    setHooksComparation([...hooksComparation, { dateFieldProduct: data.dateActivation }]);
-                    setHooksComparation([...hooksComparation, { tva: data.taxe_id }]);
-                    setHooksComparation([...hooksComparation, { supplier: data.supplier }]);
-                    setHooksComparation([...hooksComparation, { variantes: data.variantes }]);
-                    setHooksComparation([...hooksComparation, { imageVariantes: data.images_products }]);
+                    let hooksCompar = [];
+                    hooksCompar.nameProduct = data.name == null ? '' : data.name;
+                    hooksCompar.isInAutoCollection = data.isInAutoCollection == 1 ? true : false;
+                    hooksCompar.ribbonProduct = data.ribbon == null ? '' : data.ribbon;
+                    hooksCompar.descriptionProduct = data.description;
+                    hooksCompar.collections = [...data.collections];
+                    hooksCompar.productPrice = data.price;
+                    hooksCompar.reducedProductPrice = data.reduced_price == null ? '' : data.reduced_price;
+                    hooksCompar.promoApplied = data.reduction == null ? '' : data.reduction;
+                    // hooksCompar.promoApplied = data.reduction == null ? '' : data.reduction;
+                    hooksCompar.promoType = data.reductionType;
+                    hooksCompar.productCost = data.cost == null ? '' : data.cost;
+                    hooksCompar.productStock = data.stock == null ? '' : data.stock;
+                    hooksCompar.unlimited = data.unlimitedStock;
+                    hooksCompar.productParcelWeight = data.weight == null ? '' : data.weight;
+                    hooksCompar.productParcelWeightMeasureUnit = data.weightMeasure;
+                    hooksCompar.productCode = data.sku == null ? '' : data.sku;
+                    hooksCompar.transporter = JSON.parse(data.onlyTheseCarriers);
+                    hooksCompar.metaUrlProduct = data.metaUrl == null ? '' : data.metaUrl;
+                    hooksCompar.metaTitleProduct = data.metaTitle == null ? '' : data.metaTitle;
+                    hooksCompar.metaDescriptionProduct = data.metaDescription == null ? '' : data.metaDescription;
+                    hooksCompar.dateFieldProduct = data.dateActivation;
+                    hooksCompar.tva = data.taxe_id;
+                    hooksCompar.supplier = data.supplier == null ? '' : data.supplier;
+                    hooksCompar.variantes = data.variantes;
+                    hooksCompar.imageVariantes = data.images_products;
                     // affiche la partie promo dans price
                     if (data.reduction != null || data.reduced_price != null) {
-                        setHooksComparation([...hooksComparation, { isShowPromoProduct: true }]);
+                        hooksCompar.isShowPromoProduct = true;
+                    } else {
+                        hooksCompar.isShowPromoProduct = false;
                     }
+                    setHooksComparation(hooksCompar);
                 })
 
             setIsEditProduct(true);
@@ -173,7 +179,7 @@ const CreateProduct = () => {
         setMetaTitleProduct('');
         setMetaDescriptionProduct('');
         setDateFieldProduct(getNow());
-        setTva('');
+        setTva(tvaComparation);
         setSupplier('');
         setVariantes([]);
         setImageVariantes([[]]);
@@ -182,55 +188,99 @@ const CreateProduct = () => {
         checkIfCreateProductIsDirty();
     }
 
+    console.log('isEditProduct  ', isEditProduct)
+    console.warn('isEditProduct warn ', isEditProduct)
+    console.log('hooksComparation   ', hooksComparation)
 
     const checkIfCreateProductIsDirty = () => {
-        if (
-            nameProduct != '' ||
-            isInAutoCollection != true ||
-            ribbonProduct != '' ||
-            descriptionProduct != '' ||
-            collections.length > 0 ||
-            productPrice != '' ||
-            reducedProductPrice != '' ||
-            promoApplied != '' ||
-            promoType != '%' ||
-            productCost != '' ||
-            productStock != '' ||
-            unlimited != false ||
-            productParcelWeight != '' ||
-            productParcelWeightMeasureUnit != 'gr' ||
-            productCode != '' ||
-            transporter.length > 0 ||
-            metaUrlProduct != '' ||
-            metaTitleProduct != '' ||
-            metaDescriptionProduct != '' ||
-            // // dateFieldProduct
-            tva.id != tvaComparation.id ||
-            supplier != '' ||
-            variantes.length > 0 ||
-            (imageVariantes.length > 1 || imageVariantes[0].length > 0) ||
-            isShowPromoProduct != false
-        ) {
-            setIsDirtyCreateProduct(true);
-            console.log('isDirtyCreateProduct in true  ', isDirtyCreateProduct)
-            return true;
+        if (isEditProduct) {
+            if (
+                hooksComparation.nameProduct != nameProduct ||
+                hooksComparation.isInAutoCollection != isInAutoCollection ||
+                hooksComparation.ribbonProduct != ribbonProduct ||
+                hooksComparation.descriptionProduct != descriptionProduct ||
+                // hooksComparation.collections != collections ||
+                hooksComparation.productPrice != productPrice ||
+                hooksComparation.reducedProductPrice != reducedProductPrice ||
+                hooksComparation.promoApplied != promoApplied ||
+                hooksComparation.promoType != promoType ||
+                hooksComparation.productCost != productCost ||
+                hooksComparation.productStock != productStock ||
+                hooksComparation.unlimited != unlimited ||
+                hooksComparation.productParcelWeight != productParcelWeight ||
+                hooksComparation.productParcelWeightMeasureUnit != productParcelWeightMeasureUnit ||
+                hooksComparation.productCode != productCode ||
+                // hooksComparation.transporter != transporter ||
+                hooksComparation.metaUrlProduct != metaUrlProduct 
+                // hooksComparation.metaTitleProduct != metaTitleProduct ||
+                // hooksComparation.metaDescriptionProduct != metaDescriptionProduct 
+                // // hooksComparation.// // dateFieldProduct
+                // hooksComparation.tva != tva ||
+                // hooksComparation.supplier != supplier ||
+                // hooksComparation.variantes != variantes ||
+                // hooksComparation.imageVariantes != imageVariantes ||
+                // hooksComparation.isShowPromoProduct != isShowPromoProduct
+            ) {
+                setIsDirtyCreateProduct(true);
+                console.log('isDirtyCreateProduct in true  ', isDirtyCreateProduct)
+                return true;
+            } else {
+                setIsDirtyCreateProduct(false);
+                console.log('isDirtyCreateProduct in  ', isDirtyCreateProduct)
+                return false;
+            }
         } else {
-            console.log('isDirtyCreateProduct in  ', isDirtyCreateProduct)
-            return false;
+            if (
+                nameProduct != '' ||
+                isInAutoCollection != true ||
+                ribbonProduct != '' ||
+                descriptionProduct != '' ||
+                collections.length > 0 ||
+                productPrice != '' ||
+                reducedProductPrice != '' ||
+                promoApplied != '' ||
+                promoType != '%' ||
+                productCost != '' ||
+                productStock != '' ||
+                unlimited != false ||
+                productParcelWeight != '' ||
+                productParcelWeightMeasureUnit != 'gr' ||
+                productCode != '' ||
+                transporter.length > 0 ||
+                metaUrlProduct != '' ||
+                metaTitleProduct != '' ||
+                metaDescriptionProduct != '' ||
+                // // dateFieldProduct
+                tva.id != tvaComparation.id ||
+                supplier != '' ||
+                variantes.length > 0 ||
+                (imageVariantes.length > 1 || imageVariantes[0].length > 0) ||
+                isShowPromoProduct != false
+            ) {
+                setIsDirtyCreateProduct(true);
+                console.log('isDirtyCreateProduct in true  ', isDirtyCreateProduct)
+                return true;
+            } else {
+                setIsDirtyCreateProduct(false);
+                console.log('isDirtyCreateProduct in  ', isDirtyCreateProduct)
+                return false;
+            }
         }
     }
 
     // demande confirmation avant de quitter le form sans sauvegarder
-    usePromptCollection('Quitter sans sauvegarder les changements ?', checkIfCreateProductIsDirty, setShowModalLeaveWithoutSave, setMessageModal);
+    usePromptProduct('Quitter sans sauvegarder les changements ?', checkIfCreateProductIsDirty, setShowModalLeaveWithoutSave, setMessageModal, leaveProductFormWithoutSaveChange, setLeaveProductFormWithoutSaveChange);
 
-    console.log('isDirtyCreateProduct  ', isDirtyCreateProduct)
+    // console.log('isDirtyCreateProduct  ', isDirtyCreateProduct)
 
-    console.log('variantes  ', variantes)
-    console.log('tva --  ', tva)
-    console.log('tvaComparation --  ', tvaComparation)
+    // console.log('variantes  ', variantes)
+    // console.log('tva --  ', tva)
+    // console.log('tvaComparation --  ', tvaComparation)
 
     const handleModalConfirm = () => {
-
+        setShowModalLeaveWithoutSave(false)
+        setLeaveProductFormWithoutSaveChange(true);
+        initCreateProduct();
     }
 
 
@@ -307,7 +357,7 @@ const CreateProduct = () => {
         console.log('reducedProductPrice  ', reducedProductPrice);
         console.log('productCost  ', productCost);
         console.log('productStock  ', productStock);
-        console.log('productSKU  ', productCode == '' ? uuidv4() : productCode);
+        console.log('productSKU  ', productCode);
         console.log('productParcelWeight  ', productParcelWeight);
         console.log('productParcelWeightMeasureUnit  ', productParcelWeightMeasureUnit);
         console.log('transporter  ', transporter);
@@ -321,7 +371,7 @@ const CreateProduct = () => {
         console.log('metaDescriptionProduct   ', metaDescriptionProduct);
         console.log('isDirtyCreateProduct   ', isDirtyCreateProduct);
     }
-    // consolelog();
+    consolelog();
 
     function handleSubmit(e) {
         e.preventDefault();
