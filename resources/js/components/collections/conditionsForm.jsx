@@ -5,10 +5,10 @@ import withHandleConditions from './withHandleConditions';
 import ConditionCollection from './conditionCollection';
 import ModalSimpleMessage from '../modal/modalSimpleMessage';
 import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
-import { SyncDisabled } from '@material-ui/icons';
+// import Tabs from '@mui/material/Tabs';
+// import Tab from '@mui/material/Tab';
+// import Box from '@mui/material/Box';
+
 
 
 
@@ -24,9 +24,9 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <div sx={{ p: 3 }}>
           <div>{children}</div>
-        </Box>
+        </div>
       )}
     </div>
   );
@@ -70,14 +70,14 @@ const ConditionsForm = ({
 
   return (
     <>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider', width: '100%' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="modifications des conditions">
-          <Tab label="Ajouter" {...a11yProps(0)} />
-          <Tab label="Supprimer" {...a11yProps(1)} />
-        </Tabs>
-      </Box>
+      <div sx={{ borderBottom: 1, borderColor: 'divider', width: '100%' }}>
+        <div value={value} onChange={handleChange} aria-label="modifications des conditions">
+          <div label="Ajouter" {...a11yProps(0)} />
+          <div label="Supprimer" {...a11yProps(1)} />
+        </div>
+      </div>
 
-      <TabPanel value={value} index={0} sx={{ width: '100%' }}>
+      <div value={value} index={0} sx={{ width: '100%' }}>
         <div className="sub-div-vert-align w100pct">
           <div className="block-select-conditions">
             <span className="m-l-10">Paramètre</span>
@@ -101,7 +101,7 @@ const ConditionsForm = ({
             <img src='../images/icons/add_icon.svg' alt=" bouton ajouter une condition" height="30px" width="30px" />
           </button>
         </div>
-      </TabPanel>
+      </div>
 
       <TabPanel value={value} index={1}>
         Gérer la suppression des conditions

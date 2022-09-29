@@ -61,7 +61,7 @@ const DropZone = (props) => {
         if (!is_Edit) {
             try {
                 Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage/${"pas_besoin_de_id"}`)
-                    .then(res => {
+                    .then(res => { 
                         if (res.data !== undefined && res.data != '') {
                             // get --> image path <-- for croppe
                             setImagePath('/' + res.data);
@@ -84,10 +84,10 @@ const DropZone = (props) => {
 
     // when collection is edited
     useEffect(() => {
-        if (is_Edit) {
+        if (is_Edit) { console.log('idCollection  ' + idCollection);
             try {
                 Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage/${idCollection}`)
-                    .then(res => {
+                    .then(res => { 
                         if (res.data !== undefined && res.data != '') {
                             // get --> image path <-- for croppe
                             setImagePath('/' + res.data);
@@ -290,9 +290,9 @@ const DropZone = (props) => {
     }
 
     function removeImagePreview() {
-        var imagesToRemove = document.getElementsByClassName('image-view-dropZone') && document.getElementsByClassName('image-view-dropZone');
+        var imagesToRemove = document.getElementsByClassName('image-view-dropZone');
 
-        if (imagesToRemove.length > 0) {
+        if (imagesToRemove[0] != undefined) {
             for (let i = 0; i < imagesToRemove.length; i++) {
                 imagesToRemove[i].remove();
             }
@@ -321,11 +321,13 @@ const DropZone = (props) => {
 
     function goToCrop() {
         // check if there is image
-        var imageExist = document.getElementsByClassName('image-view-dropZone') && document.getElementsByClassName('image-view-dropZone');
+        var imageExist = document.getElementsByClassName('image-view-dropZone');
 
-        if (imageExist.length > 0) {
+        if (imageExist[0] != undefined) {
             setIsNot_isEdit(true);
-            setWrapIndexcroppe(<CroppeImage setIsDirtyImageCollection={props.setIsDirtyImageCollection} />)
+            setWrapIndexcroppe(
+                <CroppeImage setIsDirtyImageCollection={props.setIsDirtyImageCollection} />
+            )
         }
     }
 

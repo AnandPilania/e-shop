@@ -9,6 +9,7 @@ import {
 } from "../../functions/dateTools";
 import { getParameter, getOperator } from "../conditionsFunctions";
 import CheckboxListCollection from "./checkBox_listCollection";
+import CreateCollection from "..";
 
 // affiche les rows dans list.jsx
 const RowListCollections = ({ collectionFiltered, category, listCollectionsChecked, handleCheckboxListCollection, confirmDeleteCollection, gridCols, handleGridCols }) => {
@@ -19,7 +20,7 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
     const [statusColor, setStatusColor] = useState('green');
     const [statusState, setStatusState] = useState('On');
 
-    const { listCollectionsFiltered, setListCollectionsFiltered, screenSize } =
+    const { listCollectionsFiltered, setListCollectionsFiltered, screenSize, wrapIndexcroppe, setWrapIndexcroppe } =
         useContext(AppContext);
 
     var navigate = useNavigate();
@@ -68,7 +69,7 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
         );
     };
 
-    
+
     const handleStatusColorAndStatusOnOff = () => {
         // handle status color
         if (collectionFiltered?.status == 1) {
@@ -108,6 +109,8 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
     };
 
     const editCollection = (id) => {
+        // initialise WrapIndexcroppe pour que Route path="/add-collection" ne reste pas callé sur croppe 
+        wrapIndexcroppe != <CreateCollection /> &&  setWrapIndexcroppe(<CreateCollection />);
         // isEdit indique qu'on veut éditer la collection
         navigate("/add-collection", {
             state: { collectionId: id, isEdit: true },

@@ -1,101 +1,13 @@
 import React, { useState, useContext } from "react";
 import AppContext from '../contexts/AppContext';
-import { makeStyles } from '@material-ui/styles';
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import { saveInTemporaryStorage } from '../functions/temporaryStorage/saveInTemporaryStorage';
 import CreateCollection from './index';
 
 
-const useStyles = makeStyles({
-    main: {
-        background: 'white',
-        width: 'calc(100vw - 450px)',
-        height: 'calc(100vh - 180px)',
-        minHeight: '500px',
-        minWidth: '300px',
-        padding: '25px 25px 10px 25px',
-        margin: '20px auto',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        borderRadius: '5px',
-        zindex: '20',
-        gridColumnStart: 2,
-        gridColumnEnd: 3,
-    },
-    bottom_panel: {
-        width: '100%',
-        margin: '10px 0',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-end',
-        flex: 1,
-    },
-    btnSubmit: {
-        width: '150px',
-        height: '50px',
-        padding: '0 25px',
-        margin: '10px 10px 0 0',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgb(52, 115, 252)',
-        color: 'white',
-        fontSize: '20px',
-        borderRadius: '5px',
-        border: 'solid 1px rgb(220, 220, 220)',
-        transition: 'ease-in-out 0.15s',
-        '&:hover': {
-            cursor: 'pointer',
-            fontWeight: 'bold'
-        },
-    },
-    divFormat: {
-        width: 'auto',
-        marginLeft: '20px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        flex: 1,
-    },
-    divBtnFormat: {
-        width: 'auto',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-end',
-        flex: 1,
-    },
-    btnRatio: {
-        width: '70px',
-        height: '50px',
-        margin: '10px 5px 0 0',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
-        color: '#222222',
-        fontSize: '20px',
-        borderRadius: '5px',
-        border: 'solid 2px rgb(52, 115, 252)',
-        transition: 'ease-in-out 0.15s',
-        '&:hover': {
-            cursor: 'pointer',
-            fontWeight: 'bold'
-        },
-    },
-});
-
-
 const CroppeImage = ({ setIsDirtyImageCollection }) => {
 
-    const classes = useStyles();
     const [cropper, setCropper] = useState();
     const { setImage, imagePath, collectionForm, setCollectionForm, setWrapIndexcroppe, setIsNot_isEdit } = useContext(AppContext);
 
@@ -124,7 +36,7 @@ const CroppeImage = ({ setIsDirtyImageCollection }) => {
 
     return (
         <>
-            <section className={classes.main}>
+            <section className="bg-white w-[calc(100vw_-_450px)] h-[calc(100vh_-_180px)] miin-h-[500px] min-w-[300px] p-6 my-5 flex flex-col justify-start items-center rounded-md z-20 col-start-2 col-end-3">
                 <Cropper
                     style={{ height: "calc(100vh - 350px)", width: "100%", border: "solid 1px gray" }}
                     zoomTo={0}
@@ -144,9 +56,9 @@ const CroppeImage = ({ setIsDirtyImageCollection }) => {
                     }}
                     guides={true}
                 />
-                <div className={classes.bottom_panel}>
+                <div className="w-full my-2.5 flex flex-row justify-start items-end flex-1">
                     <button
-                        className={classes.btnSubmit}
+                        className="w-32 h-12 flex justify-center items-center border border-gray-300 rounded-md bg-green-700 text-white hover:font-semibold"
                         onClick={() => {
                             // permet à checkIfIsDirty dans index de bloquer la navigation lorsqu'on croppe sans sauvegarder
                             setCollectionForm({ ...collectionForm, hasBeenChanged: true });
@@ -155,7 +67,7 @@ const CroppeImage = ({ setIsDirtyImageCollection }) => {
                         Recadrer
                     </button>
                     <button
-                        className={classes.btnSubmit}
+                        className="w-32 h-12 flex justify-center items-center border border-gray-300 rounded-md bg-green-700 text-white hover:font-semibold"
                         onClick={() => {
                             // empèche le rechargement des datas quand on annule le croppe. est utilisé dans inedx useeffect
                             setIsNot_isEdit(true);
@@ -164,41 +76,50 @@ const CroppeImage = ({ setIsDirtyImageCollection }) => {
                         }}>
                         Annuler
                     </button>
-                    <div className={classes.divFormat}>
+
+                    <div className="w-auto ml-5 flex -flex-col justify-end items-center flex-1">
                         <span style={{ marginBottm: "15px", width: "auto", border: "none", fontSize: "22px" }}>Format</span>
 
-                        <div className={classes.divBtnFormat}>
-                            <button className={classes.btnRatio} onClick={() => handleRatio(1)}>
+                        <div className="w-auto flex flex-row justify-start items-end flex-1">
+                            <button className="w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold" onClick={() => handleRatio(1)}>
                                 1:1
                             </button>
-                            <button className={classes.btnRatio} onClick={() => handleRatio(2 / 3)}>
+                            <button className="w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold"
+                                onClick={() => handleRatio(2 / 3)}>
                                 2:3
                             </button>
-                            <button className={classes.btnRatio} onClick={() => handleRatio(3 / 2)}>
+                            <button className="w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold"
+                                onClick={() => handleRatio(3 / 2)}>
                                 3:2
                             </button>
-                            <button className={classes.btnRatio} onClick={() => handleRatio(4 / 3)}>
+                            <button className="w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold"
+                                onClick={() => handleRatio(4 / 3)}>
                                 4:3
                             </button>
-                            <button className={classes.btnRatio} onClick={() => handleRatio(9 / 16)}>
+                            <button className="w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold"
+                                onClick={() => handleRatio(9 / 16)}>
                                 9:16
                             </button>
-                            <button className={classes.btnRatio} onClick={() => handleRatio(16 / 9)}>
+                            <button className="w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold"
+                                onClick={() => handleRatio(16 / 9)}>
                                 16:9
                             </button>
-                            <button className={classes.btnRatio} onClick={() => handleRatio(NaN)}>
+                            <button className="w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold"
+                                onClick={() => handleRatio(NaN)}>
                                 Free
                             </button>
                         </div>
                     </div>
-                    <div className={classes.divFormat}>
+                    <div className="w-auto ml-5 flex -flex-col justify-end items-center flex-1">
                         <span style={{ marginBottm: "15px", width: "auto", border: "none", fontSize: "22px" }}>Zoom</span>
 
-                        <div className={classes.divBtnFormat}>
-                            <button className={classes.btnRatio} onClick={() => cropper.zoom(0.1)}>
+                        <div className="w-auto flex flex-row justify-start items-end flex-1">
+                            <button className="w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold"
+                                onClick={() => cropper.zoom(0.1)}>
                                 <span style={{ fontSize: "40px" }}>+</span>
                             </button>
-                            <button className={classes.btnRatio} onClick={() => cropper.zoom(-0.1)}>
+                            <button className="w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold"
+                                onClick={() => cropper.zoom(-0.1)}>
                                 <span style={{ fontSize: "40px" }}>-</span>
                             </button>
                         </div>

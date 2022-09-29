@@ -14,7 +14,6 @@
         "alpinejs": "^3.8.1",
         "autoprefixer": "^10.4.7",
         "axios": "^0.24.0",
-        "generate-export-aliases": "^1.2.0",
         "jest": "^28.1.1",
         "jquery": "^3.6",
         "laravel-mix": "^6.0.39",
@@ -46,10 +45,5 @@
         "uniqueid": "^1.0.0",
         "use-state-if-mounted": "^1.0.7",
         "uuid": "^8.3.2"
-    },
-    "config": {
-        "exportAliases": {
-            "@modalConfirmation": "./modal/modalConfirmation"
-        }
     }
 }

@@ -21,11 +21,9 @@ import Activation from './activation';
 import Header from './header';
 import { getNow } from '../functions/dateTools';
 import { usePromptProduct } from './usePromptProduct';
-// import ModalConfirmation from '../modal/modalConfirmation';
-import ModalConfirmation from '@modalConfirmation';
+import ModalConfirmation from '../modal/modalConfirmation';
 
 
-// props.id = detailx
 const CreateProduct = () => {
 
     var navigate = useNavigate();

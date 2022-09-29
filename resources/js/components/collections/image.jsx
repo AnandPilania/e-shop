@@ -6,7 +6,7 @@ import Tooltip from '../elements/tooltip';
 import InputText from '../form/inputText';
 
 
-const Image = ({ setIsDirtyImageCollection }) => {
+const Image = ({ setIsDirtyImageCollection, state }) => {
 
 
     const {
@@ -33,6 +33,7 @@ const Image = ({ setIsDirtyImageCollection }) => {
                     <DropZone
                         multiple={false}
                         setIsDirtyImageCollection={setIsDirtyImageCollection}
+                        state={state}
                     />
                 </div>
 

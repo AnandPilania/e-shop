@@ -32,6 +32,8 @@ const CreateCollection = () => {
     const { state } = useLocation();
     const { collectionId, isEdit } = state !== null ? state : { collectionId: null, isEdit: false };
 
+    console.log('state  ', state);
+
     useEffect(() => {
 
         // set l'URL de cette page
@@ -442,7 +444,10 @@ const CreateCollection = () => {
             </div>
             {/* ----------  side  ---------- */}
             <div>
-                <Image setIsDirtyImageCollection={setIsDirtyImageCollection} />
+                <Image
+                    setIsDirtyImageCollection={setIsDirtyImageCollection}
+                    state={state}
+                />
                 <Categories />
                 <Activation />
                 {/* modal for confirmation */}

@@ -1,126 +1,12 @@
 import React, { useState, useContext } from 'react';
 import AppContext from '../../contexts/AppContext';
 import Axios from 'axios';
-import { makeStyles } from '@material-ui/styles';
 // import ConditionsForm from './conditionsForm';
 import ModalConfirmOperations from '../../modal/modalConfirmOperations';
 
 
-
-const useStyles = makeStyles({
-    modal: {
-        position: 'fixed',
-        top: '0',
-        left: '0',
-        width: '100%',
-        height: ' 100%',
-        background: 'rgba(255, 255, 255, 0.75)',
-        zIndex: '1',
-    },
-
-    modalMain: {
-        position: 'fixed',
-        background: 'white',
-        width: '60%',
-        minWidth: '300px',
-        minHeight: '500px',
-        padding: '100px 0 0 0',
-        top: ' 50%',
-        left: '50%',
-        transform: 'translate(-50%,-50%)',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        borderRadius: '5px',
-        boxShadow: 'rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px',
-        zIndex: '1',
-    },
-
-    BlockButtons: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: '30px',
-    },
-
-    btnModal: {
-        width: '150px',
-        height: '50px',
-        padding: '0 25px',
-        margin: '10px 0',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgb(52, 115, 252)',
-        color: 'white',
-        fontSize: '20px',
-        borderRadius: '5px',
-        border: 'solid 1px rgb(220, 220, 220)',
-        transition: 'ease-in-out 0.15s',
-        '&:hover': {
-            cursor: 'pointer',
-            color: '#eeeeee',
-        },
-    },
-
-    close: {
-        position: 'absolute',
-        top: '0px',
-        right: '0px',
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'space-between',
-        padding: '25px 35px 25px 50px',
-        marginBottom: '50px',
-        borderBottom: 'solid 1px rgb(220, 220, 220)',
-    },
-
-    image: {
-        margin: '20px 0',
-    },
-
-    faTimes: {
-        width: '26px',
-        height: '20px',
-        transition: 'ease-in-out .15s',
-        color: '#333333',
-        '&:hover': {
-            cursor: 'pointer',
-            transform: 'scale(1.15)',
-        },
-    },
-
-    inputTextModify: {
-        width: '100%',
-        height: '50px',
-        padding: '0 20px',
-        margin: '20px 0 0 0',
-        borderRadius: '5px',
-        border: 'solid 1px rgb(220, 220, 220)',
-    },
-
-    displayBlock: {
-        visibility: 'visible',
-        width: '100%',
-        height: '100%',
-    },
-
-    displayNone: {
-        visibility: 'hidden',
-        width: '0',
-        height: '0',
-    }
-});
-
-
 const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
 
-    const classes = useStyles();
-    const showHideClassName = show ? classes.displayBlock : classes.displayNone;
-
-    const [messageModalListOperations, setMessageModalListOperations] = useState('');
     const [textButtonConfirmOperations, setTextButtonConfirmOperations] = useState('');
     const [messageHeader, setMessageHeader] = useState('');
 
@@ -290,28 +176,34 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
 
 
     return (
-        <div className={classes.modal + ' ' + showHideClassName}>
+        <div className={` ${show ? "block" : "hidden"} fixed top-0 left-0 bg-bg-modal z-40 w-full h-full  flex flex-col justify-start items-center`}>
 
-            <section className={classes.modalMain}>
+            <section
+                className="fixed w-auto max-h-[90vh] max-w-[650px] min-w-[350] px-8 pt-5 pb-8 top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] flex flex-col justify-start items-start rounded-md bg-white z-50">
 
-                <div className={classes.close}>
-                    <h1 className="fs25 b">Conditions</h1>
-                    <img src='../images/icons/x.svg' className="w20 h20 cursor"
-                        onClick={() => setShowModalListOperations(false)}
-                    />
+                <div
+                    className="w-full flex flex-row justify-end items-center pr-2">
+                    <h1 className="text-lg font-semibold">Conditions</h1>
+                    <img src='../images/icons/x-white.svg'
+                        className="w-8 h-8 bg-red-600 rounded-md cursor-pointer"
+                        onClick={() => setShowModalListOperations(false)} />
                 </div>
 
                 {sender === 'conditions' &&
-                    <div className="w100pct p-lr-50">
+                    <div className="w-full px-12">
                         {/* <ConditionsForm /> */}
                     </div>}
 
-                <div className="flex-row-s-c w100pct p-l-50 m-t-40">
+                <div className="flex flex-row justify-start items-center w-full pl-12 mt-10">
                     {conditions?.findIndex(c => c?.value.length === 0) == -1 &&
-                        <button className="btn-bcknd mb15 m-r-20" onClick={handleSave}>
+                        <button
+                            className="w-32 h-12 flex justify-center items-center border border-gray-300 rounded-md bg-green-700 text-white hover:font-semibold"
+                            onClick={handleSave}>
                             {textButton}
                         </button>}
-                    <button className="btn-bcknd mb15" onClick={handleModalCancel}>
+                    <button
+                        className="w-32 h-12 flex justify-center items-center border border-gray-300 rounded-md bg-green-700 text-white hover:font-semibold"
+                        onClick={handleModalCancel}>
                         Annuler
                     </button>
                 </div>
