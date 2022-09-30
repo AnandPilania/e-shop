@@ -2,11 +2,10 @@ import React, { useState, useContext } from "react";
 import AppContext from '../contexts/AppContext';
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
-import { saveInTemporaryStorage } from '../functions/temporaryStorage/saveInTemporaryStorage';
 import CreateCollection from './index';
 
 
-const CroppeImage = ({ setIsDirtyImageCollection }) => {
+const CroppeImage = ({ setIsDirtyImageCollection, previewImage }) => {
 
     const [cropper, setCropper] = useState();
     const { setImage, imagePath, collectionForm, setCollectionForm, setWrapIndexcroppe, setIsNot_isEdit } = useContext(AppContext);
@@ -15,18 +14,27 @@ const CroppeImage = ({ setIsDirtyImageCollection }) => {
     const getCropData = () => {
         if (typeof cropper !== "undefined") {
             cropper.getCroppedCanvas().toBlob((blob) => {
-
-                let imageName = imagePath.replace('/temporaryStorage/', '');
-
-                saveInTemporaryStorage('tmp_imageCollection', blob, imageName);
-
                 setImage(blob);
                 setIsNot_isEdit(true);
                 setIsDirtyImageCollection(true);
                 setWrapIndexcroppe(<CreateCollection />)
+                previewImage(blob);
             });
         }
     };
+
+    const handleCancel = () => { 
+        if (typeof cropper !== "undefined") {
+            cropper.reset();
+            cropper.getCroppedCanvas().toBlob((blob) => {
+                setImage(blob);
+                setIsNot_isEdit(true);
+                setIsDirtyImageCollection(true);
+                setWrapIndexcroppe(<CreateCollection />)
+                previewImage(blob);
+            });
+        }
+    }
 
     const handleRatio = (ratio) => {
         cropper.setAspectRatio(ratio);
@@ -50,6 +58,7 @@ const CroppeImage = ({ setIsDirtyImageCollection }) => {
                     background={false}
                     responsive={true}
                     autoCropArea={1}
+                    checkCrossOrigin={false}
                     checkOrientation={false}
                     onInitialized={(instance) => {
                         setCropper(instance);
@@ -71,8 +80,7 @@ const CroppeImage = ({ setIsDirtyImageCollection }) => {
                         onClick={() => {
                             // empèche le rechargement des datas quand on annule le croppe. est utilisé dans inedx useeffect
                             setIsNot_isEdit(true);
-                            // affiche <CreateCollection /> dans wrap_indexCroppe.jsx
-                            setWrapIndexcroppe(<CreateCollection />)
+                            handleCancel();
                         }}>
                         Annuler
                     </button>

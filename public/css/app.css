@@ -2206,9 +2206,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .bg-chevron-expand {
   background-image: url('/images/icons/chevron-expand.svg');
 }
-.bg-dropZonCollection {
-  background-image: url('/images/icons/image.svg');
-}
 .bg-caret-down {
   background-image: url('/images/icons/caret-down.svg');
 }

@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('name', 255);
             $table->integer('isInAutoCollection')->default(1);
-            $table->tinyInteger('status');
+            $table->tinyInteger('tmp');
             $table->dateTime('dateActivation');
             $table->string('ribbon', 255)->nullable();
             $table->float('price', 8, 2);

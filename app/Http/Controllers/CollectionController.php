@@ -74,6 +74,26 @@ class CollectionController extends Controller
         }
     }
 
+    public function getCollectionTmpImage()
+    {
+        $tmp_img = Collection::where('tmp', 'tmp')->first();
+
+        if ($tmp_img !== null) {
+            return $tmp_img->value;
+        } else {
+            return "image not found";
+        }
+        // else {
+        //     // if is edit collection get image path from collection table with id
+        //     $tmp_img = Collection::where('id', $id)->first();
+        //     if ($tmp_img !== null) {
+        //         return $tmp_img->image;
+        //     } else {
+        //         return '';
+        //     }
+        // }
+    }
+
     // stockage
     public function storeAndAssign(StoreCollectionRequest $request)
     {

@@ -313,25 +313,31 @@ const Appcontainer = () => {
         })
         setIsNot_isEdit(false);
 
+        // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
+        // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
+        // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
+        // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
+        // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
+        // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
         // gére le netoyage des images et vidéos dans  temporayStorage 
         let keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection']
         cleanTemporayStorage(keys_toDelete);
+        // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
+        // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
+        // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
+        // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
+        // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
+        // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
 
         // éfface l'image de la dropZone
-        var imagesToRemove = document.getElementsByClassName('image-view-dropZone') && document.getElementsByClassName('image-view-dropZone');
-        if (imagesToRemove.length > 0) {
-            for (let i = 0; i < imagesToRemove.length; i++) {
-                imagesToRemove[i].remove();
-            }
-        }
+        let img = document.getElementById("imageZone");
+        img.src = null;
+        img.style.display = "none";
+
         // remet l'image de fond
-        let checkDropZoneExist = document.getElementById('drop-region-dropZone');
-        if (document.body.contains(checkDropZoneExist)) {
-            document.getElementById('drop-region-dropZone').style.backgroundColor = 'none';
-            document.getElementById('drop-region-dropZone').style.background = 'no-repeat url("../images/icons/backgroundDropZone.png")';
-            document.getElementById('drop-region-dropZone').style.backgroundPosition = 'center 90%';
-            document.getElementById("drop-message-dropZone").style.display = 'block';
-        }
+        let containerDropZone = document.getElementById('drop-region-dropZone');
+        containerDropZone.style.backgroundColor = '#FFFFFF';
+        document.getElementById("drop-message-dropZone").style.display = 'block';
 
 
     }

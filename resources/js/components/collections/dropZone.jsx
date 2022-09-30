@@ -12,8 +12,6 @@ const DropZone = (props) => {
 
 
     var dropRegion = null;
-    var imagePreviewRegion = null;
-    var tab = [];
 
     useEffect(() => {
         dropRegion = document.getElementById("drop-region-dropZone");
@@ -59,35 +57,36 @@ const DropZone = (props) => {
 
         // init preview image !!! à GARDER !!! permet de recharger l'image collection quand on crop ou qu'on annulle le crop 
         if (!is_Edit) {
-            try {
-                Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage/${"pas_besoin_de_id"}`)
-                    .then(res => { 
-                        if (res.data !== undefined && res.data != '') {
-                            // get --> image path <-- for croppe
-                            setImagePath('/' + res.data);
-                            // get --> image <-- for preview
-                            fetch('/' + res.data)
-                                .then(function (response) {
-                                    return response.blob();
-                                })
-                                .then(function (BlobImage) {
-                                    previewImage(BlobImage);
-                                    setImage(BlobImage);
-                                })
-                        }
-                    });
-            } catch (error) {
-                console.error('error  ' + error);
-            }
+            // try {
+            //     Axios.get(`http://127.0.0.1:8000/getCollectionTmpImage`)
+            //         .then(res => {
+            //             if (res.data !== undefined && res.data != '') {
+            //                 // get --> image path <-- for croppe
+            //                 setImagePath('/' + res.data);
+            //                 // get --> image <-- for preview
+            //                 fetch('/' + res.data)
+            //                     .then(function (response) {
+            //                         return response.blob();
+            //                     })
+            //                     .then(function (BlobImage) {
+            //                         previewImage(BlobImage);
+            //                         setImage(BlobImage);
+            //                     })
+            //             }
+            //         });
+            // } catch (error) {
+            //     console.error('error  ' + error);
+            // }
         }
     }, []);
 
     // when collection is edited
     useEffect(() => {
-        if (is_Edit) { console.log('idCollection  ' + idCollection);
+        if (is_Edit) {
+            console.log('idCollection  ' + idCollection);
             try {
-                Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage/${idCollection}`)
-                    .then(res => { 
+                Axios.get(`http://127.0.0.1:8000/getCollectionTmpImage`)
+                    .then(res => {
                         if (res.data !== undefined && res.data != '') {
                             // get --> image path <-- for croppe
                             setImagePath('/' + res.data);
@@ -110,14 +109,43 @@ const DropZone = (props) => {
         }
     }, [is_Edit]);
 
-    // when image is changed, save it in temporaryStorage before load it and setImagePath with  
+
     const handleChangeImage = (imageFile) => {
+        // var tmp_Data = new FormData;
+        // tmp_Data.append('key', 'tmp');
+
+        // let name = value.name !== undefined ? value.name : blobImageName;
+
+        // if (Array.isArray(value)) {
+        //     tmp_Data.append('value', imageFile[0], name);
+        // } else {
+        //     tmp_Data.append('value', imageFile, name);
+        // }
+
+        // Axios.post(`http://127.0.0.1:8000/temporaryStoreImages`, tmp_Data,
+        //     { headers: { 'Content-Type': 'multipart/form-data' } })
+        //     .then(
+        //         Axios.get(`http://127.0.0.1:8000/getCollectionTmpImage`)
+        //             .then(res => {
+        //                 if (res.data !== undefined) {
+        //                     // get --> image path <-- for croppe
+        //                     setImagePath('/' + res.data);
+        //                 }
+        //             })
+        //     )
+        //     .catch(error => {
+        //         console.log('Error Image upload failed : ' + error.status);
+        //     });
+
+
+
+
         let response = async () => {
             return saveInTemporaryStorage('tmp_imageCollection', imageFile)
         }
         response().then(() => {
             try {
-                Axios.get(`http://127.0.0.1:8000/getSingleTemporaryImage/${idCollection}`)
+                Axios.get(`http://127.0.0.1:8000/getCollectionTmpImage`)
                     .then(res => {
                         if (res.data !== undefined) {
                             // get --> image path <-- for croppe
@@ -187,20 +215,12 @@ const DropZone = (props) => {
 
 
     // affiche et sauvegarde les images
-    function handleFiles(files) {
-        if (props.multiple === false) {
-            tab = files;
-        }
-        if (props.multiple === true) {
-            tab.push(...files);
-        }
-
-        for (var i = 0; i < files.length; i++) {
-            if (validateImage(files[i])) {
-                setImage(tab);
-                handleChangeImage(files[i]);
-                previewImage(files[i]);
-            }
+    function handleFiles(file) {
+        file = file[0];
+        if (validateImage(file)) {
+            setImage(file);
+            // handleChangeImage(file);
+            previewImage(file);
         }
         // permet à checkIfIsDirty dans index de bloquer la navigation lorsqu'on ajoute ou change une image sans sauvegarder
         setCollectionForm({ ...collectionForm, hasBeenChanged: true });
@@ -209,10 +229,10 @@ const DropZone = (props) => {
 
     function validateImage(image) {
         // check the type
+        console.log('validateImage  ', image)
         var validTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'];
         if (validTypes.indexOf(image.type) === -1) {
-            setMessageModal('Ce type de fichier est non valide')
-            setImageModal('../images/icons/trash_dirty.png');
+            setMessageModal('Ce type de fichier n\'est pas valide')
             setShowModalSimpleMessage(true);
             return false;
         }
@@ -221,7 +241,6 @@ const DropZone = (props) => {
         var maxSizeInBytes = 10e6; // 10MB
         if (image.size > maxSizeInBytes) {
             setMessageModal('Votre fichier est trop grand')
-            setImageModal('../images/icons/trash_dirty.png');
             setShowModalSimpleMessage(true);
             return false;
         }
@@ -232,39 +251,14 @@ const DropZone = (props) => {
 
     function previewImage(image) {
 
-        imagePreviewRegion = document.getElementById("image-preview-dropZone");
-
         // retire l'image de fond
-        document.getElementById('drop-region-dropZone').style.background = 'none';
-        document.getElementById('drop-region-dropZone').style.backgroundColor = '#FFFFFF';
+        let containerDropZone = document.getElementById('drop-region-dropZone');
+        containerDropZone.style.backgroundColor = '#FFFFFF';
 
-        let checkImgViewExist = document.getElementsByClassName('image-view-dropZone');
-        // if multiple == true or is first preview
-        if (props.multiple === true || (props.multiple === false && checkImgViewExist.length == 0)) {
-            // container
-            var imgView = document.createElement("div");
-            imgView.className = "image-view-dropZone";
-            imagePreviewRegion.appendChild(imgView);
-
-            // previewing image
-            var img = document.createElement("img");
-            img.className = 'imagesPreview-dropZone';
-            imgView.appendChild(img);
-
-        }
-
-        // if multiple == false
-        if (props.multiple === false) {
-            // container
-            var imgView = document.getElementsByClassName('image-view-dropZone')[0];
-
-            // previewing image
-            var img = document.getElementsByClassName('imagesPreview-dropZone')[0];
-            imgView.appendChild(img);
-
-
-            document.getElementById("drop-message-dropZone").style.display = 'none';
-        }
+        // previewing image
+        let img = document.getElementById("imageZone");
+        img.style.display = "block";
+        document.getElementById("drop-message-dropZone").style.display = 'none';
 
         // cadrage de l'image
         img.onload = () => {
@@ -280,55 +274,36 @@ const DropZone = (props) => {
             }
         }
 
-        // read the image...
+        // read image
         var reader = new FileReader();
         reader.onload = function (e) {
             img.src = e.target.result;
+            setImagePath(e.target.result);
         }
         reader.readAsDataURL(image);
-
     }
 
+
     function removeImagePreview() {
-        var imagesToRemove = document.getElementsByClassName('image-view-dropZone');
+        let img = document.getElementById("imageZone");
+        img.src = null;
+        img.style.display = "none";
+        setImagePath('');
 
-        if (imagesToRemove[0] != undefined) {
-            for (let i = 0; i < imagesToRemove.length; i++) {
-                imagesToRemove[i].remove();
-            }
-
-            setImage([]);
-            setImagePath('');
-            props.setIsDirtyImageCollection(true);
-
-            // remet l'image de fond
-            document.getElementById('drop-region-dropZone').style.backgroundColor = 'none';
-            document.getElementById('drop-region-dropZone').style.background = 'no-repeat url("../images/icons/backgroundDropZone.png")';
-            document.getElementById('drop-region-dropZone').style.backgroundPosition = 'center 90%';
-
-            document.getElementById("drop-message-dropZone").style.display = 'block';
-
-            // supprime l'image temporaire dans la db et dans le dossier temporaire OU DANS LE DOSSIER IMAGE ET DANS LA DB COLLECTION CHAMP -> IMAGE
-            var formData = new FormData;
-            formData.append('key', 'tmp_imageCollection');
-            formData.append('idCollection', idCollection);
-            Axios.post(`http://127.0.0.1:8000/deleteTemporayStoredElements`, formData)
-                .then(res => {
-                    console.log('res.data  --->  ok');
-                });
-        }
+        // remet l'image de fond
+        let containerDropZone = document.getElementById('drop-region-dropZone');
+        containerDropZone.style.backgroundColor = '#FFFFFF';
+        document.getElementById("drop-message-dropZone").style.display = 'block';
     }
 
     function goToCrop() {
-        // check if there is image
-        var imageExist = document.getElementsByClassName('image-view-dropZone');
-
-        if (imageExist[0] != undefined) {
-            setIsNot_isEdit(true);
-            setWrapIndexcroppe(
-                <CroppeImage setIsDirtyImageCollection={props.setIsDirtyImageCollection} />
-            )
-        }
+        setIsNot_isEdit(true);
+        setWrapIndexcroppe(
+            <CroppeImage
+                setIsDirtyImageCollection={props.setIsDirtyImageCollection}
+                previewImage={previewImage}
+            />
+        )
     }
 
     function detectDragDrop() {
@@ -339,16 +314,23 @@ const DropZone = (props) => {
 
     return (
         <>
-            <div className="w-full overflow-hidden border-4 border-dashed border-gray-300 rounded-md h-auto flex flex-col justify-center items-center flex-nowrap bg-white hover:border-gray-500">
+            <div className="w-full overflow-hidden border-4 border-dashed border-gray-300 rounded-md h-auto flex flex-col justify-center items-center flex-nowrap bg-white hover:border-gray-500"
+            >
                 <div
                     id="drop-region-dropZone"
-                    className="bg-white bg-dropZonCollection bg-no-repeat   rounded-md shadow-sm w-full min-h-[200px] max-h-[200px] h-auto flex flex-col justify-center items-center cursor-pointer transition ease-out duration-300">
+                    className="rounded-md shadow-sm w-full min-h-[200px] max-h-[200px] h-auto flex flex-col justify-center items-center cursor-pointer transition ease-out duration-300"
+                >
                     <div
                         className="mt-6 mb-auto text-center text-sm font-semibold text-gray-400"
-                        id='drop-message-dropZone'>
-                        Déposez ici une image <br></br>ou cliquez pour charger une image
+                        id='drop-message-dropZone'
+                    >
+                        Déposez une image <br></br>ou cliquez pour charger une image
+                        <img
+                            src='../images/icons/image.svg'
+                            className="w-24 h-auto mt-5 mx-auto"
+                        />
                     </div>
-                    <div id="image-preview-dropZone"></div>
+                    <img id="imageZone" className='hidden' />
                 </div>
             </div>
 

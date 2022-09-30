@@ -142,6 +142,14 @@ const CreateCollection = () => {
                     console.log('error:   ' + error);
                 });
         }
+
+        return setConditions([{
+            id: 0,
+            parameter: '1',
+            operator: '1',
+            value: '',
+            disableOperator: '',
+        }]);
     }, []);
 
 

@@ -211,12 +211,12 @@ class ProductController extends Controller
 
         // save images
         if (count(json_decode($request->imageVariantes)) > 0) {
-            $images_products = Images_product::where('status', 'tmp')
+            $images_products = Images_product::where('tmp', 'tmp')
                 ->orWhere('product_id', 0)
                 ->get();
             if ($images_products->first()) {
                 foreach ($images_products as $image_product) {
-                    $image_product->status = '';
+                    $image_product->tmp = '';
                     $image_product->product_id = $product->id;
                     $image_product->save();
                 }
@@ -255,7 +255,7 @@ class ProductController extends Controller
     public function clean_Images_product_table()
     {
         // delete temporary images products
-        $images_products = Images_product::where('status', 'tmp')->get();
+        $images_products = Images_product::where('tmp', 'tmp')->get();
         foreach ($images_products as $images_product) {
             File::delete(public_path($images_product->path));
             Images_product::destroy($images_product->id);
@@ -285,17 +285,17 @@ class ProductController extends Controller
                     return 'This file type is not allowed';
                 }
 
-                $max = Images_product::where('status', 'tmp')->get();
+                $max = Images_product::where('tmp', 'tmp')->get();
                 $image_product = new Images_product;
                 $image_product->path = 'images/' . $newName;
                 $image_product->alt = $newName;
-                $image_product->status = 'tmp';
+                $image_product->tmp = 'tmp';
                 $image_product->ordre = count($max) + 1;
                 $image_product->product_id = 0;
                 $image_product->save();
             }
 
-            $images = Images_product::where('status', 'tmp')->orderBy('ordre')->get();
+            $images = Images_product::where('tmp', 'tmp')->orderBy('ordre')->get();
             return $images;
         } else {
             return 'error';
@@ -322,7 +322,7 @@ class ProductController extends Controller
     // ModalImageVariante: delete "countFile"  tmp images 
     public function deleteModalImageHasBeenCanceled(Request $request)
     {
-        $tmp_storage = Images_product::where('status', $request->key)
+        $tmp_storage = Images_product::where('tmp', $request->key)
             ->orderBy('id', 'desc')
             ->limit($request->countFile)
             ->get();
@@ -332,7 +332,7 @@ class ProductController extends Controller
                 Images_product::destroy($toDelete->id);
             }
         }
-        $images = Images_product::where('status', 'tmp')->orderBy('ordre')->get();
+        $images = Images_product::where('tmp', 'tmp')->orderBy('ordre')->get();
         return $images;
     }
 

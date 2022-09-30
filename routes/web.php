@@ -111,6 +111,8 @@ Route::get('/getCollections', [CollectionController::class, 'getCollections']);
 
 // récupère une collection pour l'éditer
 Route::get('/getCollectionById/{id}', [CollectionController::class, 'getCollectionById']);
+Route::get('/getCollectionTmpImage', [CollectionController::class, 'getCollectionTmpImage']);
+Route::post('/saveTemporaryImage', [CollectionController::class, 'saveTemporaryImage']);
 
 // supprime une collection
 Route::post('/deleteCollection', [CollectionController::class, 'deleteCollection']);

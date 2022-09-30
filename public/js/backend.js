@@ -4383,28 +4383,30 @@ var Appcontainer = function Appcontainer() {
       allConditionsNeeded: localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1,
       hasBeenChanged: false
     });
-    setIsNot_isEdit(false); // gére le netoyage des images et vidéos dans  temporayStorage 
+    setIsNot_isEdit(false); // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
+    // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
+    // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
+    // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
+    // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
+    // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
+    // gére le netoyage des images et vidéos dans  temporayStorage 
 
     var keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection'];
-    cleanTemporayStorage(keys_toDelete); // éfface l'image de la dropZone
+    cleanTemporayStorage(keys_toDelete); // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
+    // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
+    // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
+    // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
+    // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
+    // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
+    // éfface l'image de la dropZone
 
-    var imagesToRemove = document.getElementsByClassName('image-view-dropZone') && document.getElementsByClassName('image-view-dropZone');
+    var img = document.getElementById("imageZone");
+    img.src = null;
+    img.style.display = "none"; // remet l'image de fond
 
-    if (imagesToRemove.length > 0) {
-      for (var i = 0; i < imagesToRemove.length; i++) {
-        imagesToRemove[i].remove();
-      }
-    } // remet l'image de fond
-
-
-    var checkDropZoneExist = document.getElementById('drop-region-dropZone');
-
-    if (document.body.contains(checkDropZoneExist)) {
-      document.getElementById('drop-region-dropZone').style.backgroundColor = 'none';
-      document.getElementById('drop-region-dropZone').style.background = 'no-repeat url("../images/icons/backgroundDropZone.png")';
-      document.getElementById('drop-region-dropZone').style.backgroundPosition = 'center 90%';
-      document.getElementById("drop-message-dropZone").style.display = 'block';
-    }
+    var containerDropZone = document.getElementById('drop-region-dropZone');
+    containerDropZone.style.backgroundColor = '#FFFFFF';
+    document.getElementById("drop-message-dropZone").style.display = 'block';
   }; //----------------------------------------------------Reset collection Form
   // reset supplier form ----------------------------------------------------
 
@@ -6416,9 +6418,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
 /* harmony import */ var react_cropper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-cropper */ "./node_modules/react-cropper/dist/react-cropper.es.js");
 /* harmony import */ var cropperjs_dist_cropper_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! cropperjs/dist/cropper.css */ "./node_modules/cropperjs/dist/cropper.css");
-/* harmony import */ var _functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../functions/temporaryStorage/saveInTemporaryStorage */ "./resources/js/components/functions/temporaryStorage/saveInTemporaryStorage.js");
-/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./index */ "./resources/js/components/collections/index.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./index */ "./resources/js/components/collections/index.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -6446,9 +6447,9 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
 var CroppeImage = function CroppeImage(_ref) {
-  var setIsDirtyImageCollection = _ref.setIsDirtyImageCollection;
+  var setIsDirtyImageCollection = _ref.setIsDirtyImageCollection,
+      previewImage = _ref.previewImage;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
       _useState2 = _slicedToArray(_useState, 2),
@@ -6466,12 +6467,24 @@ var CroppeImage = function CroppeImage(_ref) {
   var getCropData = function getCropData() {
     if (typeof cropper !== "undefined") {
       cropper.getCroppedCanvas().toBlob(function (blob) {
-        var imageName = imagePath.replace('/temporaryStorage/', '');
-        (0,_functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_4__.saveInTemporaryStorage)('tmp_imageCollection', blob, imageName);
         setImage(blob);
         setIsNot_isEdit(true);
         setIsDirtyImageCollection(true);
-        setWrapIndexcroppe( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_index__WEBPACK_IMPORTED_MODULE_5__["default"], {}));
+        setWrapIndexcroppe( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_index__WEBPACK_IMPORTED_MODULE_4__["default"], {}));
+        previewImage(blob);
+      });
+    }
+  };
+
+  var handleCancel = function handleCancel() {
+    if (typeof cropper !== "undefined") {
+      cropper.reset();
+      cropper.getCroppedCanvas().toBlob(function (blob) {
+        setImage(blob);
+        setIsNot_isEdit(true);
+        setIsDirtyImageCollection(true);
+        setWrapIndexcroppe( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_index__WEBPACK_IMPORTED_MODULE_4__["default"], {}));
+        previewImage(blob);
       });
     }
   };
@@ -6480,10 +6493,10 @@ var CroppeImage = function CroppeImage(_ref) {
     cropper.setAspectRatio(ratio); // console.log(cropper.cropBoxData.width)
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("section", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("section", {
       className: "bg-white w-[calc(100vw_-_450px)] h-[calc(100vh_-_180px)] miin-h-[500px] min-w-[300px] p-6 my-5 flex flex-col justify-start items-center rounded-md z-20 col-start-2 col-end-3",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_cropper__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_cropper__WEBPACK_IMPORTED_MODULE_2__["default"], {
         style: {
           height: "calc(100vh - 350px)",
           width: "100%",
@@ -6500,14 +6513,15 @@ var CroppeImage = function CroppeImage(_ref) {
         background: false,
         responsive: true,
         autoCropArea: 1,
+        checkCrossOrigin: false,
         checkOrientation: false,
         onInitialized: function onInitialized(instance) {
           setCropper(instance);
         },
         guides: true
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
         className: "w-full my-2.5 flex flex-row justify-start items-end flex-1",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
           className: "w-32 h-12 flex justify-center items-center border border-gray-300 rounded-md bg-green-700 text-white hover:font-semibold",
           onClick: function onClick() {
             // permet à checkIfIsDirty dans index de bloquer la navigation lorsqu'on croppe sans sauvegarder
@@ -6517,18 +6531,17 @@ var CroppeImage = function CroppeImage(_ref) {
             getCropData();
           },
           children: "Recadrer"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
           className: "w-32 h-12 flex justify-center items-center border border-gray-300 rounded-md bg-green-700 text-white hover:font-semibold",
           onClick: function onClick() {
             // empèche le rechargement des datas quand on annule le croppe. est utilisé dans inedx useeffect
-            setIsNot_isEdit(true); // affiche <CreateCollection /> dans wrap_indexCroppe.jsx
-
-            setWrapIndexcroppe( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_index__WEBPACK_IMPORTED_MODULE_5__["default"], {}));
+            setIsNot_isEdit(true);
+            handleCancel();
           },
           children: "Annuler"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
           className: "w-auto ml-5 flex -flex-col justify-end items-center flex-1",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
             style: {
               marginBottm: "15px",
               width: "auto",
@@ -6536,45 +6549,45 @@ var CroppeImage = function CroppeImage(_ref) {
               fontSize: "22px"
             },
             children: "Format"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
             className: "w-auto flex flex-row justify-start items-end flex-1",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
               className: "w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold",
               onClick: function onClick() {
                 return handleRatio(1);
               },
               children: "1:1"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
               className: "w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold",
               onClick: function onClick() {
                 return handleRatio(2 / 3);
               },
               children: "2:3"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
               className: "w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold",
               onClick: function onClick() {
                 return handleRatio(3 / 2);
               },
               children: "3:2"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
               className: "w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold",
               onClick: function onClick() {
                 return handleRatio(4 / 3);
               },
               children: "4:3"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
               className: "w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold",
               onClick: function onClick() {
                 return handleRatio(9 / 16);
               },
               children: "9:16"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
               className: "w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold",
               onClick: function onClick() {
                 return handleRatio(16 / 9);
               },
               children: "16:9"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
               className: "w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold",
               onClick: function onClick() {
                 return handleRatio(NaN);
@@ -6582,9 +6595,9 @@ var CroppeImage = function CroppeImage(_ref) {
               children: "Free"
             })]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
           className: "w-auto ml-5 flex -flex-col justify-end items-center flex-1",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
             style: {
               marginBottm: "15px",
               width: "auto",
@@ -6592,25 +6605,25 @@ var CroppeImage = function CroppeImage(_ref) {
               fontSize: "22px"
             },
             children: "Zoom"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
             className: "w-auto flex flex-row justify-start items-end flex-1",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
               className: "w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold",
               onClick: function onClick() {
                 return cropper.zoom(0.1);
               },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
                 style: {
                   fontSize: "40px"
                 },
                 children: "+"
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
               className: "w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold",
               onClick: function onClick() {
                 return cropper.zoom(-0.1);
               },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
                 style: {
                   fontSize: "40px"
                 },
@@ -6689,18 +6702,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -6735,8 +6736,6 @@ var DropZone = function DropZone(props) {
       setCollectionForm = _useContext.setCollectionForm;
 
   var dropRegion = null;
-  var imagePreviewRegion = null;
-  var tab = [];
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
     dropRegion = document.getElementById("drop-region-dropZone"); // open file selector when clicked on the drop region
 
@@ -6773,24 +6772,26 @@ var DropZone = function DropZone(props) {
     dropRegion.addEventListener('dragleave', unhighlight, false);
     dropRegion.addEventListener('drop', unhighlight, false); // init preview image !!! à GARDER !!! permet de recharger l'image collection quand on crop ou qu'on annulle le crop 
 
-    if (!is_Edit) {
-      try {
-        axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getSingleTemporaryImage/".concat("pas_besoin_de_id")).then(function (res) {
-          if (res.data !== undefined && res.data != '') {
-            // get --> image path <-- for croppe
-            setImagePath('/' + res.data); // get --> image <-- for preview
-
-            fetch('/' + res.data).then(function (response) {
-              return response.blob();
-            }).then(function (BlobImage) {
-              previewImage(BlobImage);
-              setImage(BlobImage);
-            });
-          }
-        });
-      } catch (error) {
-        console.error('error  ' + error);
-      }
+    if (!is_Edit) {// try {
+      //     Axios.get(`http://127.0.0.1:8000/getCollectionTmpImage`)
+      //         .then(res => {
+      //             if (res.data !== undefined && res.data != '') {
+      //                 // get --> image path <-- for croppe
+      //                 setImagePath('/' + res.data);
+      //                 // get --> image <-- for preview
+      //                 fetch('/' + res.data)
+      //                     .then(function (response) {
+      //                         return response.blob();
+      //                     })
+      //                     .then(function (BlobImage) {
+      //                         previewImage(BlobImage);
+      //                         setImage(BlobImage);
+      //                     })
+      //             }
+      //         });
+      // } catch (error) {
+      //     console.error('error  ' + error);
+      // }
     }
   }, []); // when collection is edited
 
@@ -6799,7 +6800,7 @@ var DropZone = function DropZone(props) {
       console.log('idCollection  ' + idCollection);
 
       try {
-        axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getSingleTemporaryImage/".concat(idCollection)).then(function (res) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getCollectionTmpImage").then(function (res) {
           if (res.data !== undefined && res.data != '') {
             // get --> image path <-- for croppe
             setImagePath('/' + res.data); // get --> image <-- for preview
@@ -6819,9 +6820,31 @@ var DropZone = function DropZone(props) {
 
       setIs_Edit(false);
     }
-  }, [is_Edit]); // when image is changed, save it in temporaryStorage before load it and setImagePath with  
+  }, [is_Edit]);
 
   var handleChangeImage = function handleChangeImage(imageFile) {
+    // var tmp_Data = new FormData;
+    // tmp_Data.append('key', 'tmp');
+    // let name = value.name !== undefined ? value.name : blobImageName;
+    // if (Array.isArray(value)) {
+    //     tmp_Data.append('value', imageFile[0], name);
+    // } else {
+    //     tmp_Data.append('value', imageFile, name);
+    // }
+    // Axios.post(`http://127.0.0.1:8000/temporaryStoreImages`, tmp_Data,
+    //     { headers: { 'Content-Type': 'multipart/form-data' } })
+    //     .then(
+    //         Axios.get(`http://127.0.0.1:8000/getCollectionTmpImage`)
+    //             .then(res => {
+    //                 if (res.data !== undefined) {
+    //                     // get --> image path <-- for croppe
+    //                     setImagePath('/' + res.data);
+    //                 }
+    //             })
+    //     )
+    //     .catch(error => {
+    //         console.log('Error Image upload failed : ' + error.status);
+    //     });
     var response = /*#__PURE__*/function () {
       var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
@@ -6845,7 +6868,7 @@ var DropZone = function DropZone(props) {
 
     response().then(function () {
       try {
-        axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getSingleTemporaryImage/".concat(idCollection)).then(function (res) {
+        axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getCollectionTmpImage").then(function (res) {
           if (res.data !== undefined) {
             // get --> image path <-- for croppe
             setImagePath('/' + res.data);
@@ -6917,23 +6940,13 @@ var DropZone = function DropZone(props) {
   } // affiche et sauvegarde les images
 
 
-  function handleFiles(files) {
-    if (props.multiple === false) {
-      tab = files;
-    }
+  function handleFiles(file) {
+    file = file[0];
 
-    if (props.multiple === true) {
-      var _tab;
+    if (validateImage(file)) {
+      setImage(file); // handleChangeImage(file);
 
-      (_tab = tab).push.apply(_tab, _toConsumableArray(files));
-    }
-
-    for (var i = 0; i < files.length; i++) {
-      if (validateImage(files[i])) {
-        setImage(tab);
-        handleChangeImage(files[i]);
-        previewImage(files[i]);
-      }
+      previewImage(file);
     } // permet à checkIfIsDirty dans index de bloquer la navigation lorsqu'on ajoute ou change une image sans sauvegarder
 
 
@@ -6944,11 +6957,11 @@ var DropZone = function DropZone(props) {
 
   function validateImage(image) {
     // check the type
+    console.log('validateImage  ', image);
     var validTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'];
 
     if (validTypes.indexOf(image.type) === -1) {
-      setMessageModal('Ce type de fichier est non valide');
-      setImageModal('../images/icons/trash_dirty.png');
+      setMessageModal('Ce type de fichier n\'est pas valide');
       setShowModalSimpleMessage(true);
       return false;
     } // check the size
@@ -6958,7 +6971,6 @@ var DropZone = function DropZone(props) {
 
     if (image.size > maxSizeInBytes) {
       setMessageModal('Votre fichier est trop grand');
-      setImageModal('../images/icons/trash_dirty.png');
       setShowModalSimpleMessage(true);
       return false;
     }
@@ -6967,33 +6979,13 @@ var DropZone = function DropZone(props) {
   }
 
   function previewImage(image) {
-    imagePreviewRegion = document.getElementById("image-preview-dropZone"); // retire l'image de fond
+    // retire l'image de fond
+    var containerDropZone = document.getElementById('drop-region-dropZone');
+    containerDropZone.style.backgroundColor = '#FFFFFF'; // previewing image
 
-    document.getElementById('drop-region-dropZone').style.background = 'none';
-    document.getElementById('drop-region-dropZone').style.backgroundColor = '#FFFFFF';
-    var checkImgViewExist = document.getElementsByClassName('image-view-dropZone'); // if multiple == true or is first preview
-
-    if (props.multiple === true || props.multiple === false && checkImgViewExist.length == 0) {
-      // container
-      var imgView = document.createElement("div");
-      imgView.className = "image-view-dropZone";
-      imagePreviewRegion.appendChild(imgView); // previewing image
-
-      var img = document.createElement("img");
-      img.className = 'imagesPreview-dropZone';
-      imgView.appendChild(img);
-    } // if multiple == false
-
-
-    if (props.multiple === false) {
-      // container
-      var imgView = document.getElementsByClassName('image-view-dropZone')[0]; // previewing image
-
-      var img = document.getElementsByClassName('imagesPreview-dropZone')[0];
-      imgView.appendChild(img);
-      document.getElementById("drop-message-dropZone").style.display = 'none';
-    } // cadrage de l'image
-
+    var img = document.getElementById("imageZone");
+    img.style.display = "block";
+    document.getElementById("drop-message-dropZone").style.display = 'none'; // cadrage de l'image
 
     img.onload = function () {
       var width = img.clientWidth;
@@ -7007,54 +6999,36 @@ var DropZone = function DropZone(props) {
         img.style.height = '100%';
         img.style.maxHeight = '200px';
       }
-    }; // read the image...
+    }; // read image
 
 
     var reader = new FileReader();
 
     reader.onload = function (e) {
       img.src = e.target.result;
+      setImagePath(e.target.result);
     };
 
     reader.readAsDataURL(image);
   }
 
   function removeImagePreview() {
-    var imagesToRemove = document.getElementsByClassName('image-view-dropZone');
+    var img = document.getElementById("imageZone");
+    img.src = null;
+    img.style.display = "none";
+    setImagePath(''); // remet l'image de fond
 
-    if (imagesToRemove[0] != undefined) {
-      for (var i = 0; i < imagesToRemove.length; i++) {
-        imagesToRemove[i].remove();
-      }
-
-      setImage([]);
-      setImagePath('');
-      props.setIsDirtyImageCollection(true); // remet l'image de fond
-
-      document.getElementById('drop-region-dropZone').style.backgroundColor = 'none';
-      document.getElementById('drop-region-dropZone').style.background = 'no-repeat url("../images/icons/backgroundDropZone.png")';
-      document.getElementById('drop-region-dropZone').style.backgroundPosition = 'center 90%';
-      document.getElementById("drop-message-dropZone").style.display = 'block'; // supprime l'image temporaire dans la db et dans le dossier temporaire OU DANS LE DOSSIER IMAGE ET DANS LA DB COLLECTION CHAMP -> IMAGE
-
-      var formData = new FormData();
-      formData.append('key', 'tmp_imageCollection');
-      formData.append('idCollection', idCollection);
-      axios__WEBPACK_IMPORTED_MODULE_2___default().post("http://127.0.0.1:8000/deleteTemporayStoredElements", formData).then(function (res) {
-        console.log('res.data  --->  ok');
-      });
-    }
+    var containerDropZone = document.getElementById('drop-region-dropZone');
+    containerDropZone.style.backgroundColor = '#FFFFFF';
+    document.getElementById("drop-message-dropZone").style.display = 'block';
   }
 
   function goToCrop() {
-    // check if there is image
-    var imageExist = document.getElementsByClassName('image-view-dropZone');
-
-    if (imageExist[0] != undefined) {
-      setIsNot_isEdit(true);
-      setWrapIndexcroppe( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_croppeJs__WEBPACK_IMPORTED_MODULE_5__["default"], {
-        setIsDirtyImageCollection: props.setIsDirtyImageCollection
-      }));
-    }
+    setIsNot_isEdit(true);
+    setWrapIndexcroppe( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_croppeJs__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      setIsDirtyImageCollection: props.setIsDirtyImageCollection,
+      previewImage: previewImage
+    }));
   }
 
   function detectDragDrop() {
@@ -7067,13 +7041,17 @@ var DropZone = function DropZone(props) {
       className: "w-full overflow-hidden border-4 border-dashed border-gray-300 rounded-md h-auto flex flex-col justify-center items-center flex-nowrap bg-white hover:border-gray-500",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
         id: "drop-region-dropZone",
-        className: "bg-white bg-dropZonCollection bg-no-repeat   rounded-md shadow-sm w-full min-h-[200px] max-h-[200px] h-auto flex flex-col justify-center items-center cursor-pointer transition ease-out duration-300",
+        className: "rounded-md shadow-sm w-full min-h-[200px] max-h-[200px] h-auto flex flex-col justify-center items-center cursor-pointer transition ease-out duration-300",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "mt-6 mb-auto text-center text-sm font-semibold text-gray-400",
           id: "drop-message-dropZone",
-          children: ["D\xE9posez ici une image ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("br", {}), "ou cliquez pour charger une image"]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
-          id: "image-preview-dropZone"
+          children: ["D\xE9posez une image ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("br", {}), "ou cliquez pour charger une image", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("img", {
+            src: "../images/icons/image.svg",
+            className: "w-24 h-auto mt-5 mx-auto"
+          })]
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("img", {
+          id: "imageZone",
+          className: "hidden"
         })]
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("span", {
@@ -7266,7 +7244,6 @@ var Image = function Image(_ref) {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_3__["default"], {
           label: "Image"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_dropZone__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          multiple: false,
           setIsDirtyImageCollection: setIsDirtyImageCollection,
           state: state
         })]
@@ -7617,6 +7594,14 @@ var CreateCollection = function CreateCollection() {
         console.log('error:   ' + error);
       });
     }
+
+    return setConditions([{
+      id: 0,
+      parameter: '1',
+      operator: '1',
+      value: '',
+      disableOperator: ''
+    }]);
   }, []); // show or hide reset button
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {

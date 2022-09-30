@@ -31,7 +31,6 @@ const Image = ({ setIsDirtyImageCollection, state }) => {
                 <div className="w-full flex flex-col justify-start items-start">
                     <Label label="Image" />
                     <DropZone
-                        multiple={false}
                         setIsDirtyImageCollection={setIsDirtyImageCollection}
                         state={state}
                     />
