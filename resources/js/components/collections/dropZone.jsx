@@ -2,13 +2,13 @@ import React, { useEffect, useContext } from 'react';
 import Axios from 'axios';
 import AppContext from '../contexts/AppContext';
 import { saveInTemporaryStorage } from '../functions/temporaryStorage/saveInTemporaryStorage';
-import CroppeImage from './croppeJs';
+import CroppeImage from '../croppeJs/croppeJs';
 import TooltipWithoutIcon from '../elements/tooltipWithoutIcon';
 
 
 const DropZone = (props) => {
 
-    const { image, setImage, imagePath, setImagePath, setImageModal, setShowModalSimpleMessage, setMessageModal, is_Edit, setIs_Edit, idCollection, setWrapIndexcroppe, setIsNot_isEdit, collectionForm, setCollectionForm } = useContext(AppContext);
+    const { image, setImage, imagePath, setImagePath, setImageModal, setShowModalSimpleMessage, setMessageModal, is_Edit, setIs_Edit, idCollection, wrapIndexcroppe, setWrapIndexcroppe, setIsNot_isEdit, collectionForm, setCollectionForm } = useContext(AppContext);
 
 
     var dropRegion = null;
@@ -78,6 +78,35 @@ const DropZone = (props) => {
             //     console.error('error  ' + error);
             // }
         }
+
+        if (wrapIndexcroppe.blob !== null) {
+            previewImage(wrapIndexcroppe.blob);
+        }
+
+        return () => {
+            dropRegion.removeEventListener('click', function () {
+                fakeInput.click();
+            });
+    
+            fakeInput.removeEventListener("click", function (e) {
+                e.target.value = '';
+            });
+    
+            fakeInput.removeEventListener("change", function () {
+                var files = fakeInput.files;
+                handleFiles(files);
+            });
+            dropRegion.removeEventListener('dragenter', preventDefault, false);
+            dropRegion.removeEventListener('dragleave', preventDefault, false);
+            dropRegion.removeEventListener('dragover', preventDefault, false);
+            dropRegion.removeEventListener('drop', preventDefault, false);
+            dropRegion.removeEventListener('drop', handleDrop, false);   
+            dropRegion.removeEventListener('dragenter', highlight, false);
+            dropRegion.removeEventListener('dragover', highlight, false);
+            dropRegion.removeEventListener('dragleave', unhighlight, false);
+            dropRegion.removeEventListener('drop', unhighlight, false);
+        }
+ 
     }, []);
 
     // when collection is edited
@@ -85,13 +114,14 @@ const DropZone = (props) => {
         if (is_Edit) {
             console.log('idCollection  ' + idCollection);
             try {
-                Axios.get(`http://127.0.0.1:8000/getCollectionTmpImage`)
+                Axios.get(`http://127.0.0.1:8000/getCollectionById/${idCollection}`)
                     .then(res => {
-                        if (res.data !== undefined && res.data != '') {
+                        if (res.data !== undefined && res.data != '' && res.data !== null) {
                             // get --> image path <-- for croppe
-                            setImagePath('/' + res.data);
+                            console.log('res.data--->  ', res.data.image)
+                            setImagePath('/' + res.data.image);
                             // get --> image <-- for preview
-                            fetch('/' + res.data)
+                            fetch('/' + res.data.image)
                                 .then(function (response) {
                                     return response.blob();
                                 })
@@ -107,6 +137,7 @@ const DropZone = (props) => {
             }
             setIs_Edit(false);
         }
+        return setIs_Edit(false);
     }, [is_Edit]);
 
 
@@ -145,11 +176,11 @@ const DropZone = (props) => {
         }
         response().then(() => {
             try {
-                Axios.get(`http://127.0.0.1:8000/getCollectionTmpImage`)
+                Axios.get(`http://127.0.0.1:8000/getCollectionById/${idCollection}`)
                     .then(res => {
                         if (res.data !== undefined) {
                             // get --> image path <-- for croppe
-                            setImagePath('/' + res.data);
+                            setImagePath('/' + res.data.image);
                         }
                     });
             } catch (error) {
@@ -298,12 +329,13 @@ const DropZone = (props) => {
 
     function goToCrop() {
         setIsNot_isEdit(true);
-        setWrapIndexcroppe(
-            <CroppeImage
-                setIsDirtyImageCollection={props.setIsDirtyImageCollection}
-                previewImage={previewImage}
-            />
-        )
+        setWrapIndexcroppe({ component: 'CroppeImage', blob: null, setIsDirtyImageCollection: true });
+        // setWrapIndexcroppe(
+        //     <CroppeImage
+        //         setIsDirtyImageCollection={props.setIsDirtyImageCollection}
+        //         previewImage={previewImage}
+        //     />
+        // )
     }
 
     function detectDragDrop() {

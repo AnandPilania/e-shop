@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import AppContext from '../contexts/AppContext';
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
-import CreateCollection from './index';
+import CreateCollection from '../collections/index';
 
 
 const CroppeImage = ({ setIsDirtyImageCollection, previewImage }) => {
@@ -16,22 +16,18 @@ const CroppeImage = ({ setIsDirtyImageCollection, previewImage }) => {
             cropper.getCroppedCanvas().toBlob((blob) => {
                 setImage(blob);
                 setIsNot_isEdit(true);
-                setIsDirtyImageCollection(true);
-                setWrapIndexcroppe(<CreateCollection />)
-                previewImage(blob);
+                setWrapIndexcroppe({ component: 'CreateCollection', blob: blob, setIsDirtyImageCollection: true });
             });
         }
     };
 
-    const handleCancel = () => { 
+    const handleCancel = () => {
         if (typeof cropper !== "undefined") {
             cropper.reset();
             cropper.getCroppedCanvas().toBlob((blob) => {
                 setImage(blob);
                 setIsNot_isEdit(true);
-                setIsDirtyImageCollection(true);
-                setWrapIndexcroppe(<CreateCollection />)
-                previewImage(blob);
+                setWrapIndexcroppe({ component: 'CreateCollection', blob: blob, setIsDirtyImageCollection: true });
             });
         }
     }

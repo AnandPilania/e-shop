@@ -14,7 +14,7 @@ import EditImages from '../createProduct/edit_images';
 import List from '../createProduct/list/list';
 import ListCollections from '../collections/list/list';
 import CreateCollection from '../collections/index';
-import WrapIndexcroppe from '../collections/wrap_IndexCroppe';
+import ShowCreateCollectionOrCroppeImage from '../collections/showCreateCollectionOrCroppeImage';
 import Settings from '../settings/settings';
 
 
@@ -73,7 +73,7 @@ const Appcontainer = () => {
     })
     const [hasBeenChanged, setHasBeenChanged] = useState(false);
     const [isNot_isEdit, setIsNot_isEdit] = useState(false);
-    const [wrapIndexcroppe, setWrapIndexcroppe] = useState(<CreateCollection />);
+    const [wrapIndexcroppe, setWrapIndexcroppe] = useState({ component: 'CreateCollection', blob: null, setIsDirtyImageCollection: false });
     //---------------------------------------------------------- collection Form
 
     const [warningIdCondition, setWarningIdCondition] = useState([]);
@@ -331,14 +331,15 @@ const Appcontainer = () => {
 
         // éfface l'image de la dropZone
         let img = document.getElementById("imageZone");
-        img.src = null;
-        img.style.display = "none";
-
-        // remet l'image de fond
-        let containerDropZone = document.getElementById('drop-region-dropZone');
-        containerDropZone.style.backgroundColor = '#FFFFFF';
-        document.getElementById("drop-message-dropZone").style.display = 'block';
-
+        if (img != null) {
+            img.src = null;
+            img.style.display = "none";
+    
+            // remet l'image de fond
+            let containerDropZone = document.getElementById('drop-region-dropZone');
+            containerDropZone.style.backgroundColor = '#FFFFFF';
+            document.getElementById("drop-message-dropZone").style.display = 'block';
+        }
 
     }
     //----------------------------------------------------Reset collection Form
@@ -614,7 +615,7 @@ const Appcontainer = () => {
 
 
                         <Route path="/collections-list" element={<ListCollections />} />
-                        <Route path="/add-collection" element={<WrapIndexcroppe />} />
+                        <Route path="/add-collection" element={<ShowCreateCollectionOrCroppeImage />} />
                         <Route path="/settings" element={<Settings />} />
                         {/* <Route path="/cropImage" element={<CroppeImage />} /> */}
                         <Route

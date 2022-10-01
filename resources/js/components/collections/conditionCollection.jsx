@@ -28,7 +28,7 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
     // initialise à show les operators qui correspondent à "Nom du produit"
     useEffect(() => {
         // met dabord à hide partout
-        hideUselessOperatorReset();
+        hideAllOperators();
 
         setHideOp1('show'); // est égale à
         setHideOp2('show'); // n'est pas égale à
@@ -49,8 +49,7 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
     }, [conditions]);
 
 
-    // met hide pour tous les paramètres
-    const hideUselessOperatorReset = () => {
+    const hideAllOperators = () => {
         setHideOp1('hide');
         setHideOp2('hide');
         setHideOp3('hide');
@@ -68,7 +67,7 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
     const showOnlyUsableOperator = (param) => {
 
         // met dabord à hide partout
-        hideUselessOperatorReset();
+        hideAllOperators();
 
         setTypeValue('')
         // Nom du produit / Type du produit / Fournisseur

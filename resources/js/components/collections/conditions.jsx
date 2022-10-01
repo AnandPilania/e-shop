@@ -19,13 +19,15 @@ const Conditions = ({
         allConditionsNeeded, setAllConditionsNeeded, notIncludePrevProduct, setNotIncludePrevProduct, warningIdCondition } = useContext(AppContext);
 
     useEffect(() => {
-        // détermine si on montre le block conditions
-        setIsAutoConditions(localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 1);
-        // détermine si toutes les conditions doivent être remplies
-        setAllConditionsNeeded(localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1);
-        // détermine si toutes les conditions doivent être remplies
-        setNotIncludePrevProduct(localStorage.getItem('notIncludePrevProduct') ? localStorage.getItem('notIncludePrevProduct') : 1);
+
+            // détermine si on montre le block conditions
+            setIsAutoConditions(localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 0);
+            // détermine si toutes les conditions doivent être remplies
+            setAllConditionsNeeded(localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1);
+            // détermine si toutes les conditions doivent être remplies
+            setNotIncludePrevProduct(localStorage.getItem('notIncludePrevProduct') ? localStorage.getItem('notIncludePrevProduct') : 1);
     }, []);
+
 
     // show / hide conditions
     const showHideConditions = (value) => {
