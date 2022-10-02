@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import AppContext from '../contexts/AppContext';
 import { usePromptCollection } from '../hooks/usePromptCollection';
@@ -18,29 +18,19 @@ import HeaderIndex from './headerIndex';
 
 const CreateCollection = () => {
 
-    const [isDirtyImageCollection, setIsDirtyImageCollection] = useState(false);
-
-    const {
-        image, setImagePath, setFollowThisLink, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage,
-        messageModal, setMessageModal, setSender, textButtonConfirm, setTextButtonConfirm, imageModal, setImageModal, setIs_Edit, listCollections, setListCollections, setListCollectionsFiltered, setListCategories, isDirty, setIsDirty, nameCollection, setNameCollection, descriptionCollection, setDescriptionCollection, descriptionCollectionForMeta, setDescriptionCollectionForMeta, conditions, setConditions, isAutoConditions, setIsAutoConditions, allConditionsNeeded, setAllConditionsNeeded, notIncludePrevProduct, setNotIncludePrevProduct, setWarningIdCondition, normalizUrl, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, imageName, setImageName, imagePath, alt, setAlt, categoryName, setCategoryName, categoryId, setCategoryId, dateField, setDateField, setTinyLanguage, idCollection, setIdCollection, setTmp_parameter, handleModalConfirm, handleModalCancel, initCollectionForm, is, setIs, collectionForm, setCollectionForm, hasBeenChanged, isNot_isEdit
+     const {
+        image, setImagePath, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage,
+        messageModal, setMessageModal, textButtonConfirm, imageModal, setImageModal, setIs_Edit, listCollections, setListCollections, setListCollectionsFiltered, setListCategories, isDirty, setIsDirty, nameCollection, setNameCollection, descriptionCollection, setDescriptionCollection, descriptionCollectionForMeta, setDescriptionCollectionForMeta, conditions, setConditions, isAutoConditions, setIsAutoConditions, allConditionsNeeded, setAllConditionsNeeded, notIncludePrevProduct, setNotIncludePrevProduct, setWarningIdCondition, normalizUrl, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, imageName, setImageName, imagePath, alt, setAlt, categoryName, setCategoryName, categoryId, setCategoryId, dateField, setDateField, setTinyLanguage, idCollection, setIdCollection,  handleModalConfirm, handleModalCancel, initCollectionForm, collectionForm, setCollectionForm, wrapIndexcroppe, setShowInitButton
     } = useContext(AppContext);
 
     var navigate = useNavigate();
     var formData = new FormData;
 
-    // when click on edit in collection list it send collection id to db request for make edit collection
+    // collectionId from collection list
     const { state } = useLocation();
     const { collectionId, isEdit } = state !== null ? state : { collectionId: null, isEdit: false };
 
-    console.log('state  ', state);
-
     useEffect(() => {
-
-        // set l'URL de cette page
-        let path = window.location.pathname.replace('admin/', '');
-        setFollowThisLink(path);
-
-
         // detection navigator language
         var userLang = navigator.language || navigator.userLanguage;
         switch (userLang) {
@@ -75,12 +65,9 @@ const CreateCollection = () => {
                 setTinyLanguage('fr_FR');
         }
 
-
-        if (isEdit && !isNot_isEdit) {
+        if (isEdit) {
             initCollectionForm();
-            setIs({ ...is, newCollection: false });
-            // pour afficher le bouton initialisation quand on edit
-            setIsDirty(true);
+            setShowInitButton(true);
             Axios.get(`http://127.0.0.1:8000/getCollectionById/${collectionId}`)
                 .then(res => {
                     res.data.objConditions?.length > 0 ? setConditions(JSON.parse(res.data.objConditions)) : setConditions([{ id: 0, parameter: '1', operator: '1', value: '' }]);
@@ -133,7 +120,6 @@ const CreateCollection = () => {
                         isAutoConditions: res.data.automatise,
                         notIncludePrevProduct: res.data.notIncludePrevProduct,
                         allConditionsNeeded: res.data.allConditionsNeeded,
-                        hasBeenChanged: collectionForm.hasBeenChanged,
                     })
 
                     setIs_Edit(true);
@@ -160,35 +146,31 @@ const CreateCollection = () => {
             if (condition.value != '') {
                 conditonDirty = true;
             }
-        });
-        switch (true) {
-            case nameCollection.length > 0: setIsDirty(true); break;
-            case descriptionCollection.length > 0: setIsDirty(true); break;
-            case alt.length > 0: setIsDirty(true); break;
-            case imageName.length > 0: setIsDirty(true); break;
-            case metaTitle.length > 0: setIsDirty(true); break;
-            case metaDescription.length > 0: setIsDirty(true); break;
-            case metaUrl != window.location.origin + '/': setIsDirty(true); break;
-            case image.length > 0: setIsDirty(true); break;
-            case categoryName != 'Sans catégorie': setIsDirty(true); break;
-            case categoryId != 1: setIsDirty(true); break;
-            case dateField != getNow(): setIsDirty(true); break;
-            case conditonDirty == true: setIsDirty(true); break;
-            default: setIsDirty(false);
+        });  
+        switch (true) { 
+            case nameCollection.length > 0: setShowInitButton(true); break;
+            case descriptionCollection.length > 0: setShowInitButton(true); break;
+            case alt.length > 0: setShowInitButton(true); break;
+            case imageName.length > 0: setShowInitButton(true); break;
+            case metaTitle.length > 0: setShowInitButton(true); break;
+            case metaDescription.length > 0: setShowInitButton(true); break;
+            case metaUrl != window.location.origin + '/': setShowInitButton(true); break;
+            case image.length > 0: setShowInitButton(true); break;
+            case imagePath.length > 0: setShowInitButton(true); break;
+            case categoryName != 'Sans catégorie': setShowInitButton(true); break;
+            case categoryId != 1: setShowInitButton(true); break;
+            case dateField != getNow(): setShowInitButton(true); break;
+            case conditonDirty == true: setShowInitButton(true); break;
+            default: setShowInitButton(false);
         }
-    }, [nameCollection, descriptionCollection, alt, imageName, metaTitle, metaDescription, metaUrl, image, categoryName, categoryId, dateField, conditions]);
-
+    }, [nameCollection, descriptionCollection, alt, imageName, metaTitle, metaDescription, metaUrl, image, imagePath, categoryName, categoryId, dateField, conditions]);
 
 
     const checkIfIsDirty = () => {
 
-        if (!is.newCollection) {
-
-            if (collectionForm.hasBeenChanged !== hasBeenChanged) {
-                return true;
-            }
-
-            if (isDirtyImageCollection) return true;
+        if (isEdit) {
+console.log('! isEdit')
+            if (wrapIndexcroppe.blob !== null) return true;
 
             // tinyMCE ajoute des caractères undefined qui ne permettent pas de faire une comparaison alors on compte chaque caractères dans les deux texte et on compare leur nombre pour avoir plus de chances de repérer les textes différents 
             let maxLength = Math.max(collectionForm.descriptionCollection.length, descriptionCollection.length);
@@ -246,14 +228,13 @@ const CreateCollection = () => {
             }
         }
 
-        if (is.newCollection) {
-            setIs({ ...is, newCollection: false });
+        if (!isEdit) {  
             var conditonDirty = false;
             conditions.forEach(condition => {
                 if (condition.value != '') {
                     conditonDirty = true;
                 }
-            })
+            });
             if (
                 nameCollection != '' ||
                 descriptionCollection != '' ||
@@ -265,8 +246,9 @@ const CreateCollection = () => {
                 image != '' ||
                 categoryName != 'Sans catégorie' ||
                 categoryId != 1 ||
-                dateField != getNow() ||
-                conditonDirty == true
+                // dateField != getNow() ||
+                conditonDirty == true ||
+                imagePath !== ''
             ) {
                 return true;
             } else {
@@ -278,7 +260,7 @@ const CreateCollection = () => {
 
 
     // demande confirmation avant de quitter le form sans sauvegarder
-    usePromptCollection('Quitter sans sauvegarder les changements ?', checkIfIsDirty, setShowModalConfirm, setMessageModal);
+    usePromptCollection('Quitter sans sauvegarder les changements !#^?*$', checkIfIsDirty, setShowModalConfirm, setMessageModal);
 
 
 
@@ -404,7 +386,6 @@ const CreateCollection = () => {
                     if (res.data === 'ok') {
                         initCollectionForm();
                         setIdCollection(null);
-                        // chargement des collections
                         // refresh data after save new collection
                         Axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
                             .then(res => {
@@ -425,24 +406,15 @@ const CreateCollection = () => {
 
 
     return (
-        // <div className="min-w-[750px] w-[60%] min-h-[130vh] my-[50px] mx-auto pb-[300px] grid grid-cols-mainContainer gap-2.5">
         <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_33.3333%] gap-4 justify-center items-start lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] min-h-[100vh] mt-[50px] mx-auto pb-48 text-base">
             <div className="w-full">
-                <div
-                    className="w-full h-auto flex flex-col justify-start items-start bg-white p-5 mb-2.5 rounded-md shadow-sm"
-                >
+                <div className="w-full h-auto flex flex-col justify-start items-start bg-white p-5 mb-2.5 rounded-md shadow-sm">
                     <HeaderIndex />
-
                     <NameCollection />
-
                     <DescriptionCollection />
-
                 </div>
-
                 <Conditions />
-
                 <Optimisation />
-
                 {/* submit */}
                 <div className="w-full mt-5 flex justify-start">
                     <button className="w-auto px-3 py-2 flex justify-center items-center text-base text-white bg-violet-900 rounded-md" onClick={handleSubmit}>
@@ -450,15 +422,12 @@ const CreateCollection = () => {
                     </button>
                 </div>
             </div>
+
             {/* ----------  side  ---------- */}
             <div>
-                <Image
-                    setIsDirtyImageCollection={setIsDirtyImageCollection}
-                    state={state}
-                />
+                <Image state={state} />
                 <Categories />
                 <Activation />
-                {/* modal for confirmation */}
                 <ModalConfirm
                     show={showModalConfirm}
                     handleModalConfirm={handleModalConfirm}
@@ -467,7 +436,6 @@ const CreateCollection = () => {
                 >
                     <h2 className="childrenModal">{messageModal}</h2>
                 </ModalConfirm>
-                {/* modal for simple message */}
                 <ModalSimpleMessage
                     show={showModalSimpleMessage} // true/false show modal
                     handleModalCancel={handleModalCancel}

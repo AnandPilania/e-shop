@@ -110,7 +110,7 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
 
     const editCollection = (id) => {
         // initialise WrapIndexcroppe pour que Route path="/add-collection" ne reste pas callé sur croppe 
-        wrapIndexcroppe != <CreateCollection /> &&  setWrapIndexcroppe(<CreateCollection />);
+        wrapIndexcroppe.component != 'CreateCollection' &&  setWrapIndexcroppe({ component: 'CreateCollection', blob: null });
         // isEdit indique qu'on veut éditer la collection
         navigate("/add-collection", {
             state: { collectionId: id, isEdit: true },

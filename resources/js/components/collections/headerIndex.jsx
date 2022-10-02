@@ -6,7 +6,7 @@ import TooltipWithoutIcon from '../elements/tooltipWithoutIcon';
 
 const HeaderIndex = () => {
 
-    const { setShowModalConfirm, setMessageModal, setSender, isDirty, setTextButtonConfirm, setConditions, setIdCollection, setTmp_parameter } = useContext(AppContext);
+    const { setShowModalConfirm, setMessageModal, setSender, showInitButton, setTextButtonConfirm, setConditions, setIdCollection, setTmp_parameter, setWrapIndexcroppe } = useContext(AppContext);
 
     // confirm reinitialisatio form
     const confirmInitCollectionForm = () => {
@@ -28,7 +28,8 @@ const HeaderIndex = () => {
                         parameter: '1',
                         operator: '1',
                         value: ''
-                    }])
+                    }]);
+                    setWrapIndexcroppe({ component: 'CreateCollection', blob: null });
                 }}>
                 <Link to="/collections-list">
                     <img
@@ -42,7 +43,7 @@ const HeaderIndex = () => {
             </button>
 
             {/* réinitialisation */}
-            {isDirty && (
+            {showInitButton && (
                 <button
                     id="resetButtonCollection4922"
                     className='w-auto h-10 px-4 flex flex-row justify-center items-center border border-indigo-700 bg-white text-gray-700 font-medium hover:border-2 rounded-md ml-auto'

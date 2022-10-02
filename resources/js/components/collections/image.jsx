@@ -6,14 +6,10 @@ import Tooltip from '../elements/tooltip';
 import InputText from '../form/inputText';
 
 
-const Image = ({ setIsDirtyImageCollection, state }) => {
+const Image = ({ state }) => {
 
 
-    const {
-        imageName, setImageName,
-        alt, setAlt,
-    } = useContext(AppContext);
-
+    const {imageName, setImageName, alt, setAlt } = useContext(AppContext);
 
     const handleAlt = (e) => {
         setAlt(e.target.value);
@@ -22,8 +18,6 @@ const Image = ({ setIsDirtyImageCollection, state }) => {
         setImageName(e.target.value);
     };
 
-
-
     return (
         <div>
             {/* image */}
@@ -31,7 +25,6 @@ const Image = ({ setIsDirtyImageCollection, state }) => {
                 <div className="w-full flex flex-col justify-start items-start">
                     <Label label="Image" />
                     <DropZone
-                        setIsDirtyImageCollection={setIsDirtyImageCollection}
                         state={state}
                     />
                 </div>

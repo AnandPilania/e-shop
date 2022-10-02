@@ -10,7 +10,7 @@ const HeaderListCollections = ({ confirmDeleteCollection, handleSearch, categori
     const [isShowOperationDrop, setIsShowOperationDrop] = useState(false);
     const [sender, setSender] = useState('');
 
-    const { setIs_Edit, is, setIs, initCollectionForm, listCollectionsChecked, showModalListOperations, setShowModalListOperations, searchValue, listCategories } = useContext(AppContext);
+    const { setIs_Edit, initCollectionForm, listCollectionsChecked, showModalListOperations, setShowModalListOperations, searchValue, listCategories } = useContext(AppContext);
 
 
     useEffect(() => {
@@ -65,7 +65,6 @@ const HeaderListCollections = ({ confirmDeleteCollection, handleSearch, categori
                     onClick={() => {
                         initCollectionForm();
                         setIs_Edit(false);
-                        setIs({ ...is, newCollection: true });
                     }}
                 >
                     <Link to="/add-collection"

@@ -3657,8 +3657,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var Appcontainer = function Appcontainer() {
-  var _useState37;
-
   //COLLECTION------------------------------------------------------------
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([{
     id: 0,
@@ -3751,7 +3749,7 @@ var Appcontainer = function Appcontainer() {
       allConditionsNeeded = _useState34[0],
       setAllConditionsNeeded = _useState34[1];
 
-  var _useState35 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)((_useState37 = {
+  var _useState35 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     conditions: [{
       id: 0,
       parameter: '1',
@@ -3770,518 +3768,510 @@ var Appcontainer = function Appcontainer() {
     categoryName: 'Sans catégorie',
     categoryId: 1,
     dateField: (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_4__.getNow)(),
-    descriptionCollectionForMeta: ''
-  }, _defineProperty(_useState37, "imagePath", ''), _defineProperty(_useState37, "image", []), _defineProperty(_useState37, "isAutoConditions", localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 1), _defineProperty(_useState37, "notIncludePrevProduct", localStorage.getItem('notIncludePrevProduct') ? localStorage.getItem('notIncludePrevProduct') : 1), _defineProperty(_useState37, "allConditionsNeeded", localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1), _defineProperty(_useState37, "hasBeenChanged", false), _useState37)),
+    descriptionCollectionForMeta: '',
+    image: [],
+    isAutoConditions: localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 1,
+    notIncludePrevProduct: localStorage.getItem('notIncludePrevProduct') ? localStorage.getItem('notIncludePrevProduct') : 1,
+    allConditionsNeeded: localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1
+  }),
       _useState36 = _slicedToArray(_useState35, 2),
       collectionForm = _useState36[0],
       setCollectionForm = _useState36[1];
 
-  var _useState38 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState39 = _slicedToArray(_useState38, 2),
-      hasBeenChanged = _useState39[0],
-      setHasBeenChanged = _useState39[1];
-
-  var _useState40 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState41 = _slicedToArray(_useState40, 2),
-      isNot_isEdit = _useState41[0],
-      setIsNot_isEdit = _useState41[1];
-
-  var _useState42 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState37 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     component: 'CreateCollection',
-    blob: null,
-    setIsDirtyImageCollection: false
+    blob: null
   }),
-      _useState43 = _slicedToArray(_useState42, 2),
-      wrapIndexcroppe = _useState43[0],
-      setWrapIndexcroppe = _useState43[1]; //---------------------------------------------------------- collection Form
+      _useState38 = _slicedToArray(_useState37, 2),
+      wrapIndexcroppe = _useState38[0],
+      setWrapIndexcroppe = _useState38[1];
+
+  var _useState39 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState40 = _slicedToArray(_useState39, 2),
+      showInitButton = _useState40[0],
+      setShowInitButton = _useState40[1]; //---------------------------------------------------------- collection Form
 
 
-  var _useState44 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState45 = _slicedToArray(_useState44, 2),
-      warningIdCondition = _useState45[0],
-      setWarningIdCondition = _useState45[1];
+  var _useState41 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState42 = _slicedToArray(_useState41, 2),
+      warningIdCondition = _useState42[0],
+      setWarningIdCondition = _useState42[1];
 
-  var _useState46 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('fr_FR'),
-      _useState47 = _slicedToArray(_useState46, 2),
-      tinyLanguage = _useState47[0],
-      setTinyLanguage = _useState47[1];
+  var _useState43 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('fr_FR'),
+      _useState44 = _slicedToArray(_useState43, 2),
+      tinyLanguage = _useState44[0],
+      setTinyLanguage = _useState44[1];
 
-  var _useState48 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
-      _useState49 = _slicedToArray(_useState48, 2),
-      idCollection = _useState49[0],
-      setIdCollection = _useState49[1]; // ------------------------------------------------------------- collection 
-
-
-  var _useLocalStorage = (0,_hooks_useLocalStorage__WEBPACK_IMPORTED_MODULE_2__.useLocalStorage)("followThisLink", ""),
-      _useLocalStorage2 = _slicedToArray(_useLocalStorage, 2),
-      followThisLink = _useLocalStorage2[0],
-      setFollowThisLink = _useLocalStorage2[1];
-
-  var _useState50 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState51 = _slicedToArray(_useState50, 2),
-      showModalConfirm = _useState51[0],
-      setShowModalConfirm = _useState51[1];
-
-  var _useState52 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState53 = _slicedToArray(_useState52, 2),
-      showModalSimpleMessage = _useState53[0],
-      setShowModalSimpleMessage = _useState53[1];
-
-  var _useState54 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState55 = _slicedToArray(_useState54, 2),
-      showModalCroppeImage = _useState55[0],
-      setShowModalCroppeImage = _useState55[1];
-
-  var _useState56 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState57 = _slicedToArray(_useState56, 2),
-      showModalInput = _useState57[0],
-      setShowModalInput = _useState57[1];
-
-  var _useState58 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState59 = _slicedToArray(_useState58, 2),
-      showModalListOperations = _useState59[0],
-      setShowModalListOperations = _useState59[1];
-
-  var _useState60 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState61 = _slicedToArray(_useState60, 2),
-      showModalConfirmOperations = _useState61[0],
-      setShowModalConfirmOperations = _useState61[1];
-
-  var _useState62 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState63 = _slicedToArray(_useState62, 2),
-      messageModal = _useState63[0],
-      setMessageModal = _useState63[1];
-
-  var _useState64 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState65 = _slicedToArray(_useState64, 2),
-      messageArray = _useState65[0],
-      setMessageArray = _useState65[1];
-
-  var _useState66 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState67 = _slicedToArray(_useState66, 2),
-      sender = _useState67[0],
-      setSender = _useState67[1]; // for modal
+  var _useState45 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      _useState46 = _slicedToArray(_useState45, 2),
+      idCollection = _useState46[0],
+      setIdCollection = _useState46[1]; // ------------------------------------------------------------- collection 
 
 
-  var _useState68 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState69 = _slicedToArray(_useState68, 2),
-      senderCancel = _useState69[0],
-      setSenderCancel = _useState69[1];
+  var _useState47 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState48 = _slicedToArray(_useState47, 2),
+      showModalConfirm = _useState48[0],
+      setShowModalConfirm = _useState48[1];
 
-  var _useState70 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState71 = _slicedToArray(_useState70, 2),
-      inputTextModify = _useState71[0],
-      setInputTextModify = _useState71[1];
+  var _useState49 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState50 = _slicedToArray(_useState49, 2),
+      showModalSimpleMessage = _useState50[0],
+      setShowModalSimpleMessage = _useState50[1];
 
-  var _useState72 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
-      _useState73 = _slicedToArray(_useState72, 2),
-      textButtonConfirm = _useState73[0],
-      setTextButtonConfirm = _useState73[1];
+  var _useState51 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState52 = _slicedToArray(_useState51, 2),
+      showModalCroppeImage = _useState52[0],
+      setShowModalCroppeImage = _useState52[1];
 
-  var _useState74 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState75 = _slicedToArray(_useState74, 2),
-      imageModal = _useState75[0],
-      setImageModal = _useState75[1];
+  var _useState53 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState54 = _slicedToArray(_useState53, 2),
+      showModalInput = _useState54[0],
+      setShowModalInput = _useState54[1];
 
-  var _useState76 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('#4A90E2'),
-      _useState77 = _slicedToArray(_useState76, 2),
-      selectedColor = _useState77[0],
-      setSelectedColor = _useState77[1];
+  var _useState55 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState56 = _slicedToArray(_useState55, 2),
+      showModalListOperations = _useState56[0],
+      setShowModalListOperations = _useState56[1];
 
-  var _useState78 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState79 = _slicedToArray(_useState78, 2),
-      listCollections = _useState79[0],
-      setListCollections = _useState79[1];
+  var _useState57 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState58 = _slicedToArray(_useState57, 2),
+      showModalConfirmOperations = _useState58[0],
+      setShowModalConfirmOperations = _useState58[1];
 
-  var _useState80 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState81 = _slicedToArray(_useState80, 2),
-      listCollectionsFiltered = _useState81[0],
-      setListCollectionsFiltered = _useState81[1];
+  var _useState59 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState60 = _slicedToArray(_useState59, 2),
+      messageModal = _useState60[0],
+      setMessageModal = _useState60[1];
 
-  var _useState82 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState83 = _slicedToArray(_useState82, 2),
-      listCategories = _useState83[0],
-      setListCategories = _useState83[1];
+  var _useState61 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState62 = _slicedToArray(_useState61, 2),
+      messageArray = _useState62[0],
+      setMessageArray = _useState62[1];
 
-  var _useState84 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState85 = _slicedToArray(_useState84, 2),
-      is_Edit = _useState85[0],
-      setIs_Edit = _useState85[1]; // -->  dropZone
-
-
-  var _useState86 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState87 = _slicedToArray(_useState86, 2),
-      categoriesChecked = _useState87[0],
-      setCategoriesChecked = _useState87[1];
-
-  var _useState88 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState89 = _slicedToArray(_useState88, 2),
-      searchValue = _useState89[0],
-      setSearchValue = _useState89[1];
-
-  var _useState90 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState91 = _slicedToArray(_useState90, 2),
-      isDirty = _useState91[0],
-      setIsDirty = _useState91[1];
-
-  var _useState92 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
-      _useState93 = _slicedToArray(_useState92, 2),
-      tmp_parameter = _useState93[0],
-      setTmp_parameter = _useState93[1]; // pour stocker provisoirement une variable
+  var _useState63 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState64 = _slicedToArray(_useState63, 2),
+      sender = _useState64[0],
+      setSender = _useState64[1]; // for modal
 
 
-  var _useState94 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
-      _useState95 = _slicedToArray(_useState94, 2),
-      deleteThisCategory = _useState95[0],
-      setDeleteThisCategory = _useState95[1];
+  var _useState65 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState66 = _slicedToArray(_useState65, 2),
+      senderCancel = _useState66[0],
+      setSenderCancel = _useState66[1];
 
-  var _useState96 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
-      _useState97 = _slicedToArray(_useState96, 2),
-      deleteThisCollection = _useState97[0],
-      setDeleteThisCollection = _useState97[1];
+  var _useState67 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState68 = _slicedToArray(_useState67, 2),
+      inputTextModify = _useState68[0],
+      setInputTextModify = _useState68[1];
 
-  var _useState98 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+  var _useState69 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('Confirmer'),
+      _useState70 = _slicedToArray(_useState69, 2),
+      textButtonConfirm = _useState70[0],
+      setTextButtonConfirm = _useState70[1];
+
+  var _useState71 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState72 = _slicedToArray(_useState71, 2),
+      imageModal = _useState72[0],
+      setImageModal = _useState72[1];
+
+  var _useState73 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('#4A90E2'),
+      _useState74 = _slicedToArray(_useState73, 2),
+      selectedColor = _useState74[0],
+      setSelectedColor = _useState74[1];
+
+  var _useState75 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState76 = _slicedToArray(_useState75, 2),
+      listCollections = _useState76[0],
+      setListCollections = _useState76[1];
+
+  var _useState77 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState78 = _slicedToArray(_useState77, 2),
+      listCollectionsFiltered = _useState78[0],
+      setListCollectionsFiltered = _useState78[1];
+
+  var _useState79 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState80 = _slicedToArray(_useState79, 2),
+      listCategories = _useState80[0],
+      setListCategories = _useState80[1];
+
+  var _useState81 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState82 = _slicedToArray(_useState81, 2),
+      is_Edit = _useState82[0],
+      setIs_Edit = _useState82[1]; // -->  dropZone
+
+
+  var _useState83 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState84 = _slicedToArray(_useState83, 2),
+      categoriesChecked = _useState84[0],
+      setCategoriesChecked = _useState84[1];
+
+  var _useState85 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState86 = _slicedToArray(_useState85, 2),
+      searchValue = _useState86[0],
+      setSearchValue = _useState86[1];
+
+  var _useState87 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState88 = _slicedToArray(_useState87, 2),
+      isDirty = _useState88[0],
+      setIsDirty = _useState88[1];
+
+  var _useState89 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
+      _useState90 = _slicedToArray(_useState89, 2),
+      tmp_parameter = _useState90[0],
+      setTmp_parameter = _useState90[1]; // pour stocker provisoirement une variable
+
+
+  var _useState91 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
+      _useState92 = _slicedToArray(_useState91, 2),
+      deleteThisCategory = _useState92[0],
+      setDeleteThisCategory = _useState92[1];
+
+  var _useState93 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+      _useState94 = _slicedToArray(_useState93, 2),
+      deleteThisCollection = _useState94[0],
+      setDeleteThisCollection = _useState94[1];
+
+  var _useState95 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
     leaveEditCollectionWithoutSaveChange: false,
-    newCollection: false,
     collectionDeleted: false
   }),
-      _useState99 = _slicedToArray(_useState98, 2),
-      is = _useState99[0],
-      setIs = _useState99[1];
+      _useState96 = _slicedToArray(_useState95, 2),
+      is = _useState96[0],
+      setIs = _useState96[1];
 
-  var _useState100 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState101 = _slicedToArray(_useState100, 2),
-      listCollectionsChecked = _useState101[0],
-      setListCollectionsChecked = _useState101[1];
+  var _useState97 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState98 = _slicedToArray(_useState97, 2),
+      listCollectionsChecked = _useState98[0],
+      setListCollectionsChecked = _useState98[1];
 
-  var _useState102 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
-      _useState103 = _slicedToArray(_useState102, 2),
-      typeOperationListCollections = _useState103[0],
-      setTypeOperationListCollections = _useState103[1];
+  var _useState99 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+      _useState100 = _slicedToArray(_useState99, 2),
+      typeOperationListCollections = _useState100[0],
+      setTypeOperationListCollections = _useState100[1];
 
-  var _useState104 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState105 = _slicedToArray(_useState104, 2),
-      notThisId = _useState105[0],
-      setNotThisId = _useState105[1];
+  var _useState101 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState102 = _slicedToArray(_useState101, 2),
+      notThisId = _useState102[0],
+      setNotThisId = _useState102[1];
 
-  var _useState106 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState107 = _slicedToArray(_useState106, 2),
-      refresh = _useState107[0],
-      setRefresh = _useState107[1]; //Handle options in coonditionsCollections---------------------------
+  var _useState103 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState104 = _slicedToArray(_useState103, 2),
+      refresh = _useState104[0],
+      setRefresh = _useState104[1]; //Handle options in coonditionsCollections---------------------------
 
 
-  var _useState108 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState109 = _slicedToArray(_useState108, 2),
-      dsablNamProd = _useState109[0],
-      setDsablNamProd = _useState109[1];
+  var _useState105 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState106 = _slicedToArray(_useState105, 2),
+      dsablNamProd = _useState106[0],
+      setDsablNamProd = _useState106[1];
 
-  var _useState110 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState111 = _slicedToArray(_useState110, 2),
-      dsablType = _useState111[0],
-      setDsablType = _useState111[1];
+  var _useState107 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState108 = _slicedToArray(_useState107, 2),
+      dsablType = _useState108[0],
+      setDsablType = _useState108[1];
 
-  var _useState112 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState113 = _slicedToArray(_useState112, 2),
-      dsablSuppl = _useState113[0],
-      setDsablSuppl = _useState113[1];
+  var _useState109 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState110 = _slicedToArray(_useState109, 2),
+      dsablSuppl = _useState110[0],
+      setDsablSuppl = _useState110[1];
 
-  var _useState114 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState115 = _slicedToArray(_useState114, 2),
-      dsablPrice = _useState115[0],
-      setDsablPrice = _useState115[1];
+  var _useState111 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState112 = _slicedToArray(_useState111, 2),
+      dsablPrice = _useState112[0],
+      setDsablPrice = _useState112[1];
 
-  var _useState116 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState117 = _slicedToArray(_useState116, 2),
-      dsablTag = _useState117[0],
-      setDsablTag = _useState117[1];
+  var _useState113 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState114 = _slicedToArray(_useState113, 2),
+      dsablTag = _useState114[0],
+      setDsablTag = _useState114[1];
 
-  var _useState118 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState119 = _slicedToArray(_useState118, 2),
-      dsablBeforePromo = _useState119[0],
-      setDsablBeforePromo = _useState119[1];
+  var _useState115 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState116 = _slicedToArray(_useState115, 2),
+      dsablBeforePromo = _useState116[0],
+      setDsablBeforePromo = _useState116[1];
 
-  var _useState120 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState121 = _slicedToArray(_useState120, 2),
-      dsablWeight = _useState121[0],
-      setDsablWeight = _useState121[1];
+  var _useState117 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState118 = _slicedToArray(_useState117, 2),
+      dsablWeight = _useState118[0],
+      setDsablWeight = _useState118[1];
 
-  var _useState122 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState123 = _slicedToArray(_useState122, 2),
-      dsablStock = _useState123[0],
-      setDsablStock = _useState123[1];
+  var _useState119 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState120 = _slicedToArray(_useState119, 2),
+      dsablStock = _useState120[0],
+      setDsablStock = _useState120[1];
 
-  var _useState124 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState125 = _slicedToArray(_useState124, 2),
-      dsablDate = _useState125[0],
-      setDsablDate = _useState125[1]; //----------------------------Handle options in coonditionsCollections
+  var _useState121 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState122 = _slicedToArray(_useState121, 2),
+      dsablDate = _useState122[0],
+      setDsablDate = _useState122[1]; //----------------------------Handle options in coonditionsCollections
   //------------------------------------------------------------COLLECTION
   //PRODUCT---------------------------------------------------------------
 
 
-  var _useState126 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState127 = _slicedToArray(_useState126, 2),
-      nameProduct = _useState127[0],
-      setNameProduct = _useState127[1];
+  var _useState123 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState124 = _slicedToArray(_useState123, 2),
+      nameProduct = _useState124[0],
+      setNameProduct = _useState124[1];
 
-  var _useState128 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState129 = _slicedToArray(_useState128, 2),
-      ribbonProduct = _useState129[0],
-      setRibbonProduct = _useState129[1];
+  var _useState125 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState126 = _slicedToArray(_useState125, 2),
+      ribbonProduct = _useState126[0],
+      setRibbonProduct = _useState126[1];
 
-  var _useState130 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState131 = _slicedToArray(_useState130, 2),
-      descriptionProduct = _useState131[0],
-      setDescriptionProduct = _useState131[1];
+  var _useState127 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState128 = _slicedToArray(_useState127, 2),
+      descriptionProduct = _useState128[0],
+      setDescriptionProduct = _useState128[1];
 
-  var _useState132 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState133 = _slicedToArray(_useState132, 2),
-      collections = _useState133[0],
-      setCollections = _useState133[1];
+  var _useState129 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState130 = _slicedToArray(_useState129, 2),
+      collections = _useState130[0],
+      setCollections = _useState130[1];
 
-  var _useState134 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState135 = _slicedToArray(_useState134, 2),
-      productPrice = _useState135[0],
-      setProductPrice = _useState135[1];
+  var _useState131 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState132 = _slicedToArray(_useState131, 2),
+      productPrice = _useState132[0],
+      setProductPrice = _useState132[1];
 
-  var _useState136 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState137 = _slicedToArray(_useState136, 2),
-      productParcelWeight = _useState137[0],
-      setProductParcelWeight = _useState137[1];
+  var _useState133 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState134 = _slicedToArray(_useState133, 2),
+      productParcelWeight = _useState134[0],
+      setProductParcelWeight = _useState134[1];
 
-  var _useState138 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('gr'),
-      _useState139 = _slicedToArray(_useState138, 2),
-      productParcelWeightMeasureUnit = _useState139[0],
-      setProductParcelWeightMeasureUnit = _useState139[1];
+  var _useState135 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('gr'),
+      _useState136 = _slicedToArray(_useState135, 2),
+      productParcelWeightMeasureUnit = _useState136[0],
+      setProductParcelWeightMeasureUnit = _useState136[1];
 
-  var _useState140 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState141 = _slicedToArray(_useState140, 2),
-      promoApplied = _useState141[0],
-      setPromoApplied = _useState141[1];
+  var _useState137 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState138 = _slicedToArray(_useState137, 2),
+      promoApplied = _useState138[0],
+      setPromoApplied = _useState138[1];
 
-  var _useState142 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState143 = _slicedToArray(_useState142, 2),
-      reducedProductPrice = _useState143[0],
-      setReducedProductPrice = _useState143[1];
+  var _useState139 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState140 = _slicedToArray(_useState139, 2),
+      reducedProductPrice = _useState140[0],
+      setReducedProductPrice = _useState140[1];
 
-  var _useState144 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('%'),
-      _useState145 = _slicedToArray(_useState144, 2),
-      promoType = _useState145[0],
-      setPromoType = _useState145[1];
+  var _useState141 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('%'),
+      _useState142 = _slicedToArray(_useState141, 2),
+      promoType = _useState142[0],
+      setPromoType = _useState142[1];
 
-  var _useState146 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState147 = _slicedToArray(_useState146, 2),
-      productCost = _useState147[0],
-      setProductCost = _useState147[1];
+  var _useState143 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState144 = _slicedToArray(_useState143, 2),
+      productCost = _useState144[0],
+      setProductCost = _useState144[1];
 
-  var _useState148 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState149 = _slicedToArray(_useState148, 2),
-      productStock = _useState149[0],
-      setProductStock = _useState149[1];
+  var _useState145 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState146 = _slicedToArray(_useState145, 2),
+      productStock = _useState146[0],
+      setProductStock = _useState146[1];
 
-  var _useState150 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState151 = _slicedToArray(_useState150, 2),
-      productCode = _useState151[0],
-      setProductCode = _useState151[1];
+  var _useState147 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState148 = _slicedToArray(_useState147, 2),
+      productCode = _useState148[0],
+      setProductCode = _useState148[1];
 
-  var _useState152 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState153 = _slicedToArray(_useState152, 2),
-      optionsObj = _useState153[0],
-      setOptionsObj = _useState153[1];
+  var _useState149 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState150 = _slicedToArray(_useState149, 2),
+      optionsObj = _useState150[0],
+      setOptionsObj = _useState150[1];
 
-  var _useState154 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState155 = _slicedToArray(_useState154, 2),
-      unlimited = _useState155[0],
-      setUnlimited = _useState155[1];
+  var _useState151 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState152 = _slicedToArray(_useState151, 2),
+      unlimited = _useState152[0],
+      setUnlimited = _useState152[1];
 
-  var _useState156 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState157 = _slicedToArray(_useState156, 2),
-      variantes = _useState157[0],
-      setVariantes = _useState157[1];
+  var _useState153 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState154 = _slicedToArray(_useState153, 2),
+      variantes = _useState154[0],
+      setVariantes = _useState154[1];
 
-  var _useState158 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState159 = _slicedToArray(_useState158, 2),
-      checkedVariantesList = _useState159[0],
-      setCheckedVariantesList = _useState159[1];
+  var _useState155 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState156 = _slicedToArray(_useState155, 2),
+      checkedVariantesList = _useState156[0],
+      setCheckedVariantesList = _useState156[1];
 
-  var _useState160 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState161 = _slicedToArray(_useState160, 2),
-      selectedVariantesList = _useState161[0],
-      setSelectedVariantesList = _useState161[1];
+  var _useState157 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState158 = _slicedToArray(_useState157, 2),
+      selectedVariantesList = _useState158[0],
+      setSelectedVariantesList = _useState158[1];
 
-  var _useState162 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
-      _useState163 = _slicedToArray(_useState162, 2),
-      allOptionsVariantesNeeded = _useState163[0],
-      setAllOptionsVariantesNeeded = _useState163[1];
+  var _useState159 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+      _useState160 = _slicedToArray(_useState159, 2),
+      allOptionsVariantesNeeded = _useState160[0],
+      setAllOptionsVariantesNeeded = _useState160[1];
 
-  var _useState164 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState165 = _slicedToArray(_useState164, 2),
-      isHideDeletedVariantes = _useState165[0],
-      setIsHideDeletedVariantes = _useState165[1];
+  var _useState161 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState162 = _slicedToArray(_useState161, 2),
+      isHideDeletedVariantes = _useState162[0],
+      setIsHideDeletedVariantes = _useState162[1];
 
-  var _useState166 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
-      _useState167 = _slicedToArray(_useState166, 2),
-      isInAutoCollection = _useState167[0],
-      setIsInAutoCollection = _useState167[1];
+  var _useState163 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+      _useState164 = _slicedToArray(_useState163, 2),
+      isInAutoCollection = _useState164[0],
+      setIsInAutoCollection = _useState164[1];
 
-  var _useState168 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
-      _useState169 = _slicedToArray(_useState168, 2),
-      variante = _useState169[0],
-      setVariante = _useState169[1];
+  var _useState165 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+      _useState166 = _slicedToArray(_useState165, 2),
+      variante = _useState166[0],
+      setVariante = _useState166[1];
 
-  var _useState170 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([[]]),
-      _useState171 = _slicedToArray(_useState170, 2),
-      imageVariantes = _useState171[0],
-      setImageVariantes = _useState171[1];
+  var _useState167 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([[]]),
+      _useState168 = _slicedToArray(_useState167, 2),
+      imageVariantes = _useState168[0],
+      setImageVariantes = _useState168[1];
 
-  var _useState172 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState173 = _slicedToArray(_useState172, 2),
-      listType = _useState173[0],
-      setListType = _useState173[1];
+  var _useState169 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState170 = _slicedToArray(_useState169, 2),
+      listType = _useState170[0],
+      setListType = _useState170[1];
 
-  var _useState174 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState175 = _slicedToArray(_useState174, 2),
-      optionsData = _useState175[0],
-      setOptionsData = _useState175[1];
+  var _useState171 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState172 = _slicedToArray(_useState171, 2),
+      optionsData = _useState172[0],
+      setOptionsData = _useState172[1];
 
-  var _useState176 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState177 = _slicedToArray(_useState176, 2),
-      changedVariantes = _useState177[0],
-      setChangedVariantes = _useState177[1];
+  var _useState173 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState174 = _slicedToArray(_useState173, 2),
+      changedVariantes = _useState174[0],
+      setChangedVariantes = _useState174[1];
 
-  var _useState178 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState179 = _slicedToArray(_useState178, 2),
-      metaTitleProduct = _useState179[0],
-      setMetaTitleProduct = _useState179[1];
+  var _useState175 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState176 = _slicedToArray(_useState175, 2),
+      metaTitleProduct = _useState176[0],
+      setMetaTitleProduct = _useState176[1];
 
-  var _useState180 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState181 = _slicedToArray(_useState180, 2),
-      metaDescriptionProduct = _useState181[0],
-      setMetaDescriptionProduct = _useState181[1];
+  var _useState177 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState178 = _slicedToArray(_useState177, 2),
+      metaDescriptionProduct = _useState178[0],
+      setMetaDescriptionProduct = _useState178[1];
 
-  var _useState182 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState183 = _slicedToArray(_useState182, 2),
-      metaUrlProduct = _useState183[0],
-      setMetaUrlProduct = _useState183[1];
+  var _useState179 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState180 = _slicedToArray(_useState179, 2),
+      metaUrlProduct = _useState180[0],
+      setMetaUrlProduct = _useState180[1];
 
-  var _useState184 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([1, 2, 3]),
-      _useState185 = _slicedToArray(_useState184, 2),
-      products = _useState185[0],
-      setProducts = _useState185[1];
+  var _useState181 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([1, 2, 3]),
+      _useState182 = _slicedToArray(_useState181, 2),
+      products = _useState182[0],
+      setProducts = _useState182[1];
 
-  var _useState186 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState187 = _slicedToArray(_useState186, 2),
-      listProductsFiltered = _useState187[0],
-      setListProductsFiltered = _useState187[1];
+  var _useState183 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState184 = _slicedToArray(_useState183, 2),
+      listProductsFiltered = _useState184[0],
+      setListProductsFiltered = _useState184[1];
 
-  var _useState188 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState189 = _slicedToArray(_useState188, 2),
-      listProductsChecked = _useState189[0],
-      setListProductsChecked = _useState189[1];
+  var _useState185 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState186 = _slicedToArray(_useState185, 2),
+      listProductsChecked = _useState186[0],
+      setListProductsChecked = _useState186[1];
 
-  var _useState190 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_4__.getNow)()),
-      _useState191 = _slicedToArray(_useState190, 2),
-      dateFieldProduct = _useState191[0],
-      setDateFieldProduct = _useState191[1];
+  var _useState187 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_4__.getNow)()),
+      _useState188 = _slicedToArray(_useState187, 2),
+      dateFieldProduct = _useState188[0],
+      setDateFieldProduct = _useState188[1];
 
-  var _useState192 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState193 = _slicedToArray(_useState192, 2),
-      listCollectionNames = _useState193[0],
-      setListCollectionNames = _useState193[1];
+  var _useState189 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState190 = _slicedToArray(_useState189, 2),
+      listCollectionNames = _useState190[0],
+      setListCollectionNames = _useState190[1];
 
-  var _useState194 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState195 = _slicedToArray(_useState194, 2),
-      isEditProduct = _useState195[0],
-      setIsEditProduct = _useState195[1];
+  var _useState191 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState192 = _slicedToArray(_useState191, 2),
+      isEditProduct = _useState192[0],
+      setIsEditProduct = _useState192[1];
 
-  var _useState196 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState197 = _slicedToArray(_useState196, 2),
-      isShowPromoProduct = _useState197[0],
-      setIsShowPromoProduct = _useState197[1]; //---------------------------------------------------------------PRODUCT
+  var _useState193 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState194 = _slicedToArray(_useState193, 2),
+      isShowPromoProduct = _useState194[0],
+      setIsShowPromoProduct = _useState194[1]; //---------------------------------------------------------------PRODUCT
   // supplier-------------------------------------------------------------
 
 
-  var _useState198 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState199 = _slicedToArray(_useState198, 2),
-      nameSupplier = _useState199[0],
-      setNameSupplier = _useState199[1];
+  var _useState195 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState196 = _slicedToArray(_useState195, 2),
+      nameSupplier = _useState196[0],
+      setNameSupplier = _useState196[1];
 
-  var _useState200 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState201 = _slicedToArray(_useState200, 2),
-      emailSupplier = _useState201[0],
-      setEmailSupplier = _useState201[1];
+  var _useState197 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState198 = _slicedToArray(_useState197, 2),
+      emailSupplier = _useState198[0],
+      setEmailSupplier = _useState198[1];
 
-  var _useState202 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState203 = _slicedToArray(_useState202, 2),
-      phoneSupplier = _useState203[0],
-      setPhoneSupplier = _useState203[1];
+  var _useState199 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState200 = _slicedToArray(_useState199, 2),
+      phoneSupplier = _useState200[0],
+      setPhoneSupplier = _useState200[1];
 
-  var _useState204 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState205 = _slicedToArray(_useState204, 2),
-      webSiteSupplier = _useState205[0],
-      setWebSiteSupplier = _useState205[1];
+  var _useState201 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState202 = _slicedToArray(_useState201, 2),
+      webSiteSupplier = _useState202[0],
+      setWebSiteSupplier = _useState202[1];
 
-  var _useState206 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState207 = _slicedToArray(_useState206, 2),
-      adressSupplier = _useState207[0],
-      setAdressSupplier = _useState207[1];
+  var _useState203 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState204 = _slicedToArray(_useState203, 2),
+      adressSupplier = _useState204[0],
+      setAdressSupplier = _useState204[1];
 
-  var _useState208 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState209 = _slicedToArray(_useState208, 2),
-      citySupplier = _useState209[0],
-      setCitySupplier = _useState209[1];
+  var _useState205 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState206 = _slicedToArray(_useState205, 2),
+      citySupplier = _useState206[0],
+      setCitySupplier = _useState206[1];
 
-  var _useState210 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState211 = _slicedToArray(_useState210, 2),
-      countrySupplier = _useState211[0],
-      setCountrySupplier = _useState211[1];
+  var _useState207 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState208 = _slicedToArray(_useState207, 2),
+      countrySupplier = _useState208[0],
+      setCountrySupplier = _useState208[1];
 
-  var _useState212 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState213 = _slicedToArray(_useState212, 2),
-      listSuppliers = _useState213[0],
-      setListSuppliers = _useState213[1];
+  var _useState209 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState210 = _slicedToArray(_useState209, 2),
+      listSuppliers = _useState210[0],
+      setListSuppliers = _useState210[1];
 
-  var _useState214 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState215 = _slicedToArray(_useState214, 2),
-      supplier = _useState215[0],
-      setSupplier = _useState215[1]; // TVA---------------------------------------------------------------
-
-
-  var _useState216 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
-      _useState217 = _slicedToArray(_useState216, 2),
-      activeCalculTva = _useState217[0],
-      setActiveCalculTva = _useState217[1];
-
-  var _useState218 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState219 = _slicedToArray(_useState218, 2),
-      tvaRateList = _useState219[0],
-      setTvaRateList = _useState219[1];
-
-  var _useState220 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState221 = _slicedToArray(_useState220, 2),
-      tva = _useState221[0],
-      setTva = _useState221[1]; // Shipping ---------------------------------------------------------
+  var _useState211 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState212 = _slicedToArray(_useState211, 2),
+      supplier = _useState212[0],
+      setSupplier = _useState212[1]; // TVA---------------------------------------------------------------
 
 
-  var _useState222 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState223 = _slicedToArray(_useState222, 2),
-      listTransporters = _useState223[0],
-      setListTransporters = _useState223[1];
+  var _useState213 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+      _useState214 = _slicedToArray(_useState213, 2),
+      activeCalculTva = _useState214[0],
+      setActiveCalculTva = _useState214[1];
 
-  var _useState224 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
-      _useState225 = _slicedToArray(_useState224, 2),
-      transporter = _useState225[0],
-      setTransporter = _useState225[1]; // GENERAL -----------------------------------------------------------
+  var _useState215 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState216 = _slicedToArray(_useState215, 2),
+      tvaRateList = _useState216[0],
+      setTvaRateList = _useState216[1];
+
+  var _useState217 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState218 = _slicedToArray(_useState217, 2),
+      tva = _useState218[0],
+      setTva = _useState218[1]; // Shipping ---------------------------------------------------------
 
 
-  var _useState226 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.innerWidth),
-      _useState227 = _slicedToArray(_useState226, 2),
-      screenSize = _useState227[0],
-      setScreenSize = _useState227[1];
+  var _useState219 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState220 = _slicedToArray(_useState219, 2),
+      listTransporters = _useState220[0],
+      setListTransporters = _useState220[1];
 
-  var _useState228 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
-      _useState229 = _slicedToArray(_useState228, 2),
-      showSideNav = _useState229[0],
-      setShowSideNav = _useState229[1];
+  var _useState221 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+      _useState222 = _slicedToArray(_useState221, 2),
+      transporter = _useState222[0],
+      setTransporter = _useState222[1]; // GENERAL -----------------------------------------------------------
+
+
+  var _useState223 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.innerWidth),
+      _useState224 = _slicedToArray(_useState223, 2),
+      screenSize = _useState224[0],
+      setScreenSize = _useState224[1];
+
+  var _useState225 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+      _useState226 = _slicedToArray(_useState225, 2),
+      showSideNav = _useState226[0],
+      setShowSideNav = _useState226[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // chargement des collections
@@ -4360,7 +4350,6 @@ var Appcontainer = function Appcontainer() {
     setAllConditionsNeeded(localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1);
     setNotIncludePrevProduct(localStorage.getItem('notIncludePrevProduct') ? localStorage.getItem('notIncludePrevProduct') : 1);
     setDateField((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_4__.getNow)());
-    setHasBeenChanged(false);
     setCollectionForm({
       conditions: [{
         id: 0,
@@ -4384,10 +4373,13 @@ var Appcontainer = function Appcontainer() {
       image: [],
       isAutoConditions: localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 1,
       notIncludePrevProduct: localStorage.getItem('notIncludePrevProduct') ? localStorage.getItem('notIncludePrevProduct') : 1,
-      allConditionsNeeded: localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1,
-      hasBeenChanged: false
+      allConditionsNeeded: localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1
     });
-    setIsNot_isEdit(false); // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
+    setWrapIndexcroppe({
+      component: 'CreateCollection',
+      blob: null
+    });
+    setShowInitButton(false); // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
     // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
     // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
     // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
@@ -4491,9 +4483,6 @@ var Appcontainer = function Appcontainer() {
       case 'leaveEditCollectionWithoutSaveChange':
         setIs(_objectSpread(_objectSpread({}, is), {}, {
           leaveEditCollectionWithoutSaveChange: true
-        }));
-        setCollectionForm(_objectSpread(_objectSpread({}, collectionForm), {}, {
-          hasBeenChanged: false
         })); // vider form creat collection quand on edit sans rien changer
 
         setIs_Edit(false);
@@ -4561,8 +4550,6 @@ var Appcontainer = function Appcontainer() {
     setImage: setImage,
     imagePath: imagePath,
     setImagePath: setImagePath,
-    followThisLink: followThisLink,
-    setFollowThisLink: setFollowThisLink,
     showModalConfirm: showModalConfirm,
     setShowModalConfirm: setShowModalConfirm,
     showModalSimpleMessage: showModalSimpleMessage,
@@ -4646,12 +4633,8 @@ var Appcontainer = function Appcontainer() {
     setCollectionForm: setCollectionForm,
     deleteThisCollection: deleteThisCollection,
     setDeleteThisCollection: setDeleteThisCollection,
-    hasBeenChanged: hasBeenChanged,
-    setHasBeenChanged: setHasBeenChanged,
     wrapIndexcroppe: wrapIndexcroppe,
     setWrapIndexcroppe: setWrapIndexcroppe,
-    isNot_isEdit: isNot_isEdit,
-    setIsNot_isEdit: setIsNot_isEdit,
     listCollectionsChecked: listCollectionsChecked,
     setListCollectionsChecked: setListCollectionsChecked,
     listCollectionsFiltered: listCollectionsFiltered,
@@ -4791,7 +4774,9 @@ var Appcontainer = function Appcontainer() {
     isEditProduct: isEditProduct,
     setIsEditProduct: setIsEditProduct,
     isShowPromoProduct: isShowPromoProduct,
-    setIsShowPromoProduct: setIsShowPromoProduct
+    setIsShowPromoProduct: setIsShowPromoProduct,
+    showInitButton: showInitButton,
+    setShowInitButton: setShowInitButton
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"].Provider, {
     value: contextValue,
@@ -6455,28 +6440,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
-/* harmony import */ var _functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../functions/temporaryStorage/saveInTemporaryStorage */ "./resources/js/components/functions/temporaryStorage/saveInTemporaryStorage.js");
-/* harmony import */ var _croppeJs_croppeJs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../croppeJs/croppeJs */ "./resources/js/components/croppeJs/croppeJs.jsx");
-/* harmony import */ var _elements_tooltipWithoutIcon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../elements/tooltipWithoutIcon */ "./resources/js/components/elements/tooltipWithoutIcon.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
+/* harmony import */ var _functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../functions/temporaryStorage/saveInTemporaryStorage */ "./resources/js/components/functions/temporaryStorage/saveInTemporaryStorage.js");
+/* harmony import */ var _croppeJs_croppeJs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../croppeJs/croppeJs */ "./resources/js/components/croppeJs/croppeJs.jsx");
+/* harmony import */ var _elements_tooltipWithoutIcon__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../elements/tooltipWithoutIcon */ "./resources/js/components/elements/tooltipWithoutIcon.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 
@@ -6488,12 +6459,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 var DropZone = function DropZone(props) {
-  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_3__["default"]),
+  var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_2__["default"]),
       image = _useContext.image,
       setImage = _useContext.setImage,
       imagePath = _useContext.imagePath,
       setImagePath = _useContext.setImagePath,
-      setImageModal = _useContext.setImageModal,
       setShowModalSimpleMessage = _useContext.setShowModalSimpleMessage,
       setMessageModal = _useContext.setMessageModal,
       is_Edit = _useContext.is_Edit,
@@ -6501,28 +6471,27 @@ var DropZone = function DropZone(props) {
       idCollection = _useContext.idCollection,
       wrapIndexcroppe = _useContext.wrapIndexcroppe,
       setWrapIndexcroppe = _useContext.setWrapIndexcroppe,
-      setIsNot_isEdit = _useContext.setIsNot_isEdit,
       collectionForm = _useContext.collectionForm,
       setCollectionForm = _useContext.setCollectionForm;
 
   var dropRegion = null;
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
-    dropRegion = document.getElementById("drop-region-dropZone"); // open file selector when clicked on the drop region
-
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // open file selector when clicked on the drop region
     var fakeInput = document.createElement("input");
     fakeInput.type = "file";
     fakeInput.accept = "image/*";
-    fakeInput.multiple = props.multiple; // open files exploratore when click on dropRegion
-
-    dropRegion.addEventListener('click', function () {
-      fakeInput.click();
-    });
+    fakeInput.multiple = props.multiple;
     fakeInput.addEventListener("click", function (e) {
       e.target.value = '';
     });
     fakeInput.addEventListener("change", function () {
       var files = fakeInput.files;
       handleFiles(files);
+    });
+    dropRegion = document.getElementById("drop-region-dropZone"); // open files exploratore when click on dropRegion
+
+    dropRegion.addEventListener('click', function () {
+      fakeInput.click();
     }); // empèche le comportement par défault et la propagation
 
     dropRegion.addEventListener('dragenter', preventDefault, false);
@@ -6534,38 +6503,15 @@ var DropZone = function DropZone(props) {
     var dragSupported = detectDragDrop();
 
     if (!dragSupported) {
-      document.getElementById("drop-message-dropZone").innerHTML = 'Click to upload';
-    }
-
-    dropRegion.addEventListener('dragenter', highlight, false);
-    dropRegion.addEventListener('dragover', highlight, false);
-    dropRegion.addEventListener('dragleave', unhighlight, false);
-    dropRegion.addEventListener('drop', unhighlight, false); // init preview image !!! à GARDER !!! permet de recharger l'image collection quand on crop ou qu'on annulle le crop 
-
-    if (!is_Edit) {// try {
-      //     Axios.get(`http://127.0.0.1:8000/getCollectionTmpImage`)
-      //         .then(res => {
-      //             if (res.data !== undefined && res.data != '') {
-      //                 // get --> image path <-- for croppe
-      //                 setImagePath('/' + res.data);
-      //                 // get --> image <-- for preview
-      //                 fetch('/' + res.data)
-      //                     .then(function (response) {
-      //                         return response.blob();
-      //                     })
-      //                     .then(function (BlobImage) {
-      //                         previewImage(BlobImage);
-      //                         setImage(BlobImage);
-      //                     })
-      //             }
-      //         });
-      // } catch (error) {
-      //     console.error('error  ' + error);
-      // }
+      document.getElementById("drop-message-dropZone").innerHTML = 'Cliquer pour télécharger';
     }
 
     if (wrapIndexcroppe.blob !== null) {
       previewImage(wrapIndexcroppe.blob);
+      setWrapIndexcroppe({
+        component: 'CreateCollection',
+        blob: null
+      });
     }
 
     return function () {
@@ -6584,19 +6530,21 @@ var DropZone = function DropZone(props) {
       dropRegion.removeEventListener('dragover', preventDefault, false);
       dropRegion.removeEventListener('drop', preventDefault, false);
       dropRegion.removeEventListener('drop', handleDrop, false);
-      dropRegion.removeEventListener('dragenter', highlight, false);
-      dropRegion.removeEventListener('dragover', highlight, false);
-      dropRegion.removeEventListener('dragleave', unhighlight, false);
-      dropRegion.removeEventListener('drop', unhighlight, false);
     };
-  }, []); // when collection is edited
+  }, []);
 
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(function () {
+  function detectDragDrop() {
+    var div = document.createElement('div');
+    return 'draggable' in div || 'ondragstart' in div && 'ondrop' in div;
+  } // when collection is edited
+
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (is_Edit) {
       console.log('idCollection  ' + idCollection);
 
       try {
-        axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getCollectionById/".concat(idCollection)).then(function (res) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default().get("http://127.0.0.1:8000/getCollectionById/".concat(idCollection)).then(function (res) {
           if (res.data !== undefined && res.data != '' && res.data !== null) {
             // get --> image path <-- for croppe
             console.log('res.data--->  ', res.data.image);
@@ -6607,7 +6555,6 @@ var DropZone = function DropZone(props) {
             }).then(function (BlobImage) {
               previewImage(BlobImage);
               setImage(BlobImage);
-              handleChangeImage(BlobImage);
             });
           }
         });
@@ -6621,77 +6568,10 @@ var DropZone = function DropZone(props) {
     return setIs_Edit(false);
   }, [is_Edit]);
 
-  var handleChangeImage = function handleChangeImage(imageFile) {
-    // var tmp_Data = new FormData;
-    // tmp_Data.append('key', 'tmp');
-    // let name = value.name !== undefined ? value.name : blobImageName;
-    // if (Array.isArray(value)) {
-    //     tmp_Data.append('value', imageFile[0], name);
-    // } else {
-    //     tmp_Data.append('value', imageFile, name);
-    // }
-    // Axios.post(`http://127.0.0.1:8000/temporaryStoreImages`, tmp_Data,
-    //     { headers: { 'Content-Type': 'multipart/form-data' } })
-    //     .then(
-    //         Axios.get(`http://127.0.0.1:8000/getCollectionTmpImage`)
-    //             .then(res => {
-    //                 if (res.data !== undefined) {
-    //                     // get --> image path <-- for croppe
-    //                     setImagePath('/' + res.data);
-    //                 }
-    //             })
-    //     )
-    //     .catch(error => {
-    //         console.log('Error Image upload failed : ' + error.status);
-    //     });
-    var response = /*#__PURE__*/function () {
-      var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                return _context.abrupt("return", (0,_functions_temporaryStorage_saveInTemporaryStorage__WEBPACK_IMPORTED_MODULE_4__.saveInTemporaryStorage)('tmp_imageCollection', imageFile));
-
-              case 1:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }));
-
-      return function response() {
-        return _ref.apply(this, arguments);
-      };
-    }();
-
-    response().then(function () {
-      try {
-        axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/getCollectionById/".concat(idCollection)).then(function (res) {
-          if (res.data !== undefined) {
-            // get --> image path <-- for croppe
-            setImagePath('/' + res.data.image);
-          }
-        });
-      } catch (error) {
-        console.error('error  ' + error);
-      }
-    });
-  };
-
-  function highlight() {
-    dropRegion.classList.add('highlighted');
-  }
-
-  function unhighlight() {
-    dropRegion.classList.remove("highlighted");
-  }
-
   function preventDefault(e) {
     e.preventDefault();
     e.stopPropagation();
-  } // récupère les files quand on drop et les envoi à handleFiles
-
+  }
 
   function handleDrop(e) {
     var dt = e.dataTransfer,
@@ -6736,35 +6616,25 @@ var DropZone = function DropZone(props) {
 
       img.src = url;
     }
-  } // affiche et sauvegarde les images
-
+  }
 
   function handleFiles(file) {
     file = file[0];
 
     if (validateImage(file)) {
-      setImage(file); // handleChangeImage(file);
-
+      setImage(file);
       previewImage(file);
-    } // permet à checkIfIsDirty dans index de bloquer la navigation lorsqu'on ajoute ou change une image sans sauvegarder
-
-
-    setCollectionForm(_objectSpread(_objectSpread({}, collectionForm), {}, {
-      hasBeenChanged: true
-    }));
+    }
   }
 
   function validateImage(image) {
-    // check the type
-    console.log('validateImage  ', image);
     var validTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'];
 
     if (validTypes.indexOf(image.type) === -1) {
       setMessageModal('Ce type de fichier n\'est pas valide');
       setShowModalSimpleMessage(true);
       return false;
-    } // check the size
-
+    }
 
     var maxSizeInBytes = 10e6; // 10MB
 
@@ -6815,7 +6685,8 @@ var DropZone = function DropZone(props) {
     var img = document.getElementById("imageZone");
     img.src = null;
     img.style.display = "none";
-    setImagePath(''); // remet l'image de fond
+    setImagePath('');
+    setImage(''); // remet l'image de fond
 
     var containerDropZone = document.getElementById('drop-region-dropZone');
     containerDropZone.style.backgroundColor = '#FFFFFF';
@@ -6823,71 +6694,60 @@ var DropZone = function DropZone(props) {
   }
 
   function goToCrop() {
-    setIsNot_isEdit(true);
     setWrapIndexcroppe({
       component: 'CroppeImage',
       blob: null,
-      setIsDirtyImageCollection: true
-    }); // setWrapIndexcroppe(
-    //     <CroppeImage
-    //         setIsDirtyImageCollection={props.setIsDirtyImageCollection}
-    //         previewImage={previewImage}
-    //     />
-    // )
+      setIsDirtyImageCollection: false
+    });
   }
 
-  function detectDragDrop() {
-    var div = document.createElement('div');
-    return 'draggable' in div || 'ondragstart' in div && 'ondrop' in div;
-  }
-
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
       className: "w-full overflow-hidden border-4 border-dashed border-gray-300 rounded-md h-auto flex flex-col justify-center items-center flex-nowrap bg-white hover:border-gray-500",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         id: "drop-region-dropZone",
         className: "rounded-md shadow-sm w-full min-h-[200px] max-h-[200px] h-auto flex flex-col justify-center items-center cursor-pointer transition ease-out duration-300",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
           className: "mt-6 mb-auto text-center text-sm font-semibold text-gray-400",
           id: "drop-message-dropZone",
-          children: ["D\xE9posez une image ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("br", {}), "ou cliquez pour charger une image", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("img", {
+          children: ["D\xE9posez une image ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("br", {}), "ou cliquez pour charger une image", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
             src: "../images/icons/image.svg",
             className: "w-24 h-auto mt-5 mx-auto"
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("img", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
           id: "imageZone",
           className: "hidden"
         })]
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("span", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("span", {
       className: "w-full h-9 flex justify-end items-center cursor-pointer",
-      children: [!!imagePath && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("span", {
+      children: [!!imagePath && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("span", {
         id: "cropImageCollection3922",
         className: "flex justify-center",
         onClick: function onClick() {
           return goToCrop();
         },
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("img", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
           id: "img_cropImageCollection3922",
           src: "../images/icons/crop.svg",
           className: "w-5 h-5 hover:scale-110"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_elements_tooltipWithoutIcon__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_elements_tooltipWithoutIcon__WEBPACK_IMPORTED_MODULE_5__["default"], {
           id: "cropImageCollection3922",
           idimg: "img_cropImageCollection3922",
           widthTip: 184,
           children: "Redimensionner l'image"
         })]
-      }), !!imagePath && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("span", {
+      }), !!imagePath && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("span", {
         id: "deleteImageCollection3922",
         className: "flex justify-center ml-3",
         onClick: function onClick() {
           return removeImagePreview();
         },
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("img", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
           id: "img_deleteImageCollection3922",
           src: "../images/icons/trash.svg",
           className: "w-5 h-5 block hover:scale-110"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_elements_tooltipWithoutIcon__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_elements_tooltipWithoutIcon__WEBPACK_IMPORTED_MODULE_5__["default"], {
           id: "deleteImageCollection3922",
           idimg: "img_deleteImageCollection3922",
           widthTip: 145,
@@ -6930,11 +6790,12 @@ var HeaderIndex = function HeaderIndex() {
       setShowModalConfirm = _useContext.setShowModalConfirm,
       setMessageModal = _useContext.setMessageModal,
       setSender = _useContext.setSender,
-      isDirty = _useContext.isDirty,
+      showInitButton = _useContext.showInitButton,
       setTextButtonConfirm = _useContext.setTextButtonConfirm,
       setConditions = _useContext.setConditions,
       setIdCollection = _useContext.setIdCollection,
-      setTmp_parameter = _useContext.setTmp_parameter; // confirm reinitialisatio form
+      setTmp_parameter = _useContext.setTmp_parameter,
+      setWrapIndexcroppe = _useContext.setWrapIndexcroppe; // confirm reinitialisatio form
 
 
   var confirmInitCollectionForm = function confirmInitCollectionForm() {
@@ -6956,6 +6817,10 @@ var HeaderIndex = function HeaderIndex() {
           operator: '1',
           value: ''
         }]);
+        setWrapIndexcroppe({
+          component: 'CreateCollection',
+          blob: null
+        });
       },
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
         to: "/collections-list",
@@ -6967,7 +6832,7 @@ var HeaderIndex = function HeaderIndex() {
           children: "Retour"
         })]
       })
-    }), isDirty && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
+    }), showInitButton && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
       id: "resetButtonCollection4922",
       className: "w-auto h-10 px-4 flex flex-row justify-center items-center border border-indigo-700 bg-white text-gray-700 font-medium hover:border-2 rounded-md ml-auto",
       onClick: function onClick() {
@@ -7024,8 +6889,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Image = function Image(_ref) {
-  var setIsDirtyImageCollection = _ref.setIsDirtyImageCollection,
-      state = _ref.state;
+  var state = _ref.state;
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       imageName = _useContext.imageName,
@@ -7049,7 +6913,6 @@ var Image = function Image(_ref) {
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_3__["default"], {
           label: "Image"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_dropZone__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          setIsDirtyImageCollection: setIsDirtyImageCollection,
           state: state
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
@@ -7146,29 +7009,15 @@ function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableTo
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 
 
@@ -7191,24 +7040,16 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var CreateCollection = function CreateCollection() {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState2 = _slicedToArray(_useState, 2),
-      isDirtyImageCollection = _useState2[0],
-      setIsDirtyImageCollection = _useState2[1];
-
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       image = _useContext.image,
       setImagePath = _useContext.setImagePath,
-      setFollowThisLink = _useContext.setFollowThisLink,
       showModalConfirm = _useContext.showModalConfirm,
       setShowModalConfirm = _useContext.setShowModalConfirm,
       showModalSimpleMessage = _useContext.showModalSimpleMessage,
       setShowModalSimpleMessage = _useContext.setShowModalSimpleMessage,
       messageModal = _useContext.messageModal,
       setMessageModal = _useContext.setMessageModal,
-      setSender = _useContext.setSender,
       textButtonConfirm = _useContext.textButtonConfirm,
-      setTextButtonConfirm = _useContext.setTextButtonConfirm,
       imageModal = _useContext.imageModal,
       setImageModal = _useContext.setImageModal,
       setIs_Edit = _useContext.setIs_Edit,
@@ -7254,19 +7095,16 @@ var CreateCollection = function CreateCollection() {
       setTinyLanguage = _useContext.setTinyLanguage,
       idCollection = _useContext.idCollection,
       setIdCollection = _useContext.setIdCollection,
-      setTmp_parameter = _useContext.setTmp_parameter,
       handleModalConfirm = _useContext.handleModalConfirm,
       handleModalCancel = _useContext.handleModalCancel,
       initCollectionForm = _useContext.initCollectionForm,
-      is = _useContext.is,
-      setIs = _useContext.setIs,
       collectionForm = _useContext.collectionForm,
       setCollectionForm = _useContext.setCollectionForm,
-      hasBeenChanged = _useContext.hasBeenChanged,
-      isNot_isEdit = _useContext.isNot_isEdit;
+      wrapIndexcroppe = _useContext.wrapIndexcroppe,
+      setShowInitButton = _useContext.setShowInitButton;
 
   var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_17__.useNavigate)();
-  var formData = new FormData(); // when click on edit in collection list it send collection id to db request for make edit collection
+  var formData = new FormData(); // collectionId from collection list
 
   var _useLocation = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_17__.useLocation)(),
       state = _useLocation.state;
@@ -7278,12 +7116,8 @@ var CreateCollection = function CreateCollection() {
       collectionId = _ref.collectionId,
       isEdit = _ref.isEdit;
 
-  console.log('state  ', state);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    // set l'URL de cette page
-    var path = window.location.pathname.replace('admin/', '');
-    setFollowThisLink(path); // detection navigator language
-
+    // detection navigator language
     var userLang = navigator.language || navigator.userLanguage;
 
     switch (userLang) {
@@ -7327,13 +7161,9 @@ var CreateCollection = function CreateCollection() {
         setTinyLanguage('fr_FR');
     }
 
-    if (isEdit && !isNot_isEdit) {
+    if (isEdit) {
       initCollectionForm();
-      setIs(_objectSpread(_objectSpread({}, is), {}, {
-        newCollection: false
-      })); // pour afficher le bouton initialisation quand on edit
-
-      setIsDirty(true);
+      setShowInitButton(true);
       axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/getCollectionById/".concat(collectionId)).then(function (res) {
         var _res$data$objConditio, _res$data$objConditio2, _res$data$image, _res$data$category;
 
@@ -7391,8 +7221,7 @@ var CreateCollection = function CreateCollection() {
           imagePath: res.data.image,
           isAutoConditions: res.data.automatise,
           notIncludePrevProduct: res.data.notIncludePrevProduct,
-          allConditionsNeeded: res.data.allConditionsNeeded,
-          hasBeenChanged: collectionForm.hasBeenChanged
+          allConditionsNeeded: res.data.allConditionsNeeded
         });
         setIs_Edit(true);
       })["catch"](function (error) {
@@ -7419,65 +7248,66 @@ var CreateCollection = function CreateCollection() {
 
     switch (true) {
       case nameCollection.length > 0:
-        setIsDirty(true);
+        setShowInitButton(true);
         break;
 
       case descriptionCollection.length > 0:
-        setIsDirty(true);
+        setShowInitButton(true);
         break;
 
       case alt.length > 0:
-        setIsDirty(true);
+        setShowInitButton(true);
         break;
 
       case imageName.length > 0:
-        setIsDirty(true);
+        setShowInitButton(true);
         break;
 
       case metaTitle.length > 0:
-        setIsDirty(true);
+        setShowInitButton(true);
         break;
 
       case metaDescription.length > 0:
-        setIsDirty(true);
+        setShowInitButton(true);
         break;
 
       case metaUrl != window.location.origin + '/':
-        setIsDirty(true);
+        setShowInitButton(true);
         break;
 
       case image.length > 0:
-        setIsDirty(true);
+        setShowInitButton(true);
+        break;
+
+      case imagePath.length > 0:
+        setShowInitButton(true);
         break;
 
       case categoryName != 'Sans catégorie':
-        setIsDirty(true);
+        setShowInitButton(true);
         break;
 
       case categoryId != 1:
-        setIsDirty(true);
+        setShowInitButton(true);
         break;
 
       case dateField != (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_12__.getNow)():
-        setIsDirty(true);
+        setShowInitButton(true);
         break;
 
       case conditonDirty == true:
-        setIsDirty(true);
+        setShowInitButton(true);
         break;
 
       default:
-        setIsDirty(false);
+        setShowInitButton(false);
     }
-  }, [nameCollection, descriptionCollection, alt, imageName, metaTitle, metaDescription, metaUrl, image, categoryName, categoryId, dateField, conditions]);
+  }, [nameCollection, descriptionCollection, alt, imageName, metaTitle, metaDescription, metaUrl, image, imagePath, categoryName, categoryId, dateField, conditions]);
 
   var checkIfIsDirty = function checkIfIsDirty() {
-    if (!is.newCollection) {
-      if (collectionForm.hasBeenChanged !== hasBeenChanged) {
-        return true;
-      }
-
-      if (isDirtyImageCollection) return true; // tinyMCE ajoute des caractères undefined qui ne permettent pas de faire une comparaison alors on compte chaque caractères dans les deux texte et on compare leur nombre pour avoir plus de chances de repérer les textes différents 
+    if (isEdit) {
+      console.log('! isEdit');
+      if (wrapIndexcroppe.blob !== null) return true; // tinyMCE ajoute des caractères undefined qui ne permettent pas de faire une comparaison alors on compte chaque caractères dans les deux texte et on compare leur nombre pour avoir plus de chances de repérer les textes différents 
 
       var maxLength = Math.max(collectionForm.descriptionCollection.length, descriptionCollection.length);
       var a = descriptionCollection;
@@ -7493,13 +7323,13 @@ var CreateCollection = function CreateCollection() {
       var occurenceA = 0;
       var occurenceB = 0;
 
-      var _loop = function _loop(_i2) {
-        if (tab[_i2] !== undefined && tab[_i2].charCodeAt(0) !== 13) {
+      var _loop = function _loop(_i) {
+        if (tab[_i] !== undefined && tab[_i].charCodeAt(0) !== 13) {
           occurenceA = _toConsumableArray(a).filter(function (item) {
-            return item === tab[_i2];
+            return item === tab[_i];
           }).length;
           occurenceB = _toConsumableArray(b).filter(function (item) {
-            return item === tab[_i2];
+            return item === tab[_i];
           }).length;
 
           if (occurenceA !== occurenceB) {
@@ -7510,8 +7340,8 @@ var CreateCollection = function CreateCollection() {
         }
       };
 
-      for (var _i2 = 0; _i2 < tab.length; _i2++) {
-        var _ret = _loop(_i2);
+      for (var _i = 0; _i < tab.length; _i++) {
+        var _ret = _loop(_i);
 
         if (_typeof(_ret) === "object") return _ret.v;
       }
@@ -7563,10 +7393,7 @@ var CreateCollection = function CreateCollection() {
       }
     }
 
-    if (is.newCollection) {
-      setIs(_objectSpread(_objectSpread({}, is), {}, {
-        newCollection: false
-      }));
+    if (!isEdit) {
       var conditonDirty = false;
       conditions.forEach(function (condition) {
         if (condition.value != '') {
@@ -7574,7 +7401,8 @@ var CreateCollection = function CreateCollection() {
         }
       });
 
-      if (nameCollection != '' || descriptionCollection != '' || alt != '' || imageName != '' || metaTitle != '' || metaDescription != '' || metaUrl != window.location.origin + '/' || image != '' || categoryName != 'Sans catégorie' || categoryId != 1 || dateField != (0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_12__.getNow)() || conditonDirty == true) {
+      if (nameCollection != '' || descriptionCollection != '' || alt != '' || imageName != '' || metaTitle != '' || metaDescription != '' || metaUrl != window.location.origin + '/' || image != '' || categoryName != 'Sans catégorie' || categoryId != 1 || // dateField != getNow() ||
+      conditonDirty == true || imagePath !== '') {
         return true;
       } else {
         setIdCollection(null);
@@ -7584,7 +7412,7 @@ var CreateCollection = function CreateCollection() {
   }; // demande confirmation avant de quitter le form sans sauvegarder
 
 
-  (0,_hooks_usePromptCollection__WEBPACK_IMPORTED_MODULE_2__.usePromptCollection)('Quitter sans sauvegarder les changements ?', checkIfIsDirty, setShowModalConfirm, setMessageModal);
+  (0,_hooks_usePromptCollection__WEBPACK_IMPORTED_MODULE_2__.usePromptCollection)('Quitter sans sauvegarder les changements !#^?*$', checkIfIsDirty, setShowModalConfirm, setMessageModal);
 
   var validation = function validation() {
     // !!!! CHECK AUSSI LES CONDITIONS !!!!
@@ -7707,8 +7535,7 @@ var CreateCollection = function CreateCollection() {
 
         if (res.data === 'ok') {
           initCollectionForm();
-          setIdCollection(null); // chargement des collections
-          // refresh data after save new collection
+          setIdCollection(null); // refresh data after save new collection
 
           axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/collections-list-back-end").then(function (res) {
             // listCollections -> liste complète des collections pour handleSearch
@@ -7726,50 +7553,45 @@ var CreateCollection = function CreateCollection() {
     }
   }
 
-  return (
-    /*#__PURE__*/
-    // <div className="min-w-[750px] w-[60%] min-h-[130vh] my-[50px] mx-auto pb-[300px] grid grid-cols-mainContainer gap-2.5">
-    (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)("div", {
-      className: "w-full grid grid-cols-1 lg:grid-cols-[1fr_33.3333%] gap-4 justify-center items-start lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] min-h-[100vh] mt-[50px] mx-auto pb-48 text-base",
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)("div", {
+    className: "w-full grid grid-cols-1 lg:grid-cols-[1fr_33.3333%] gap-4 justify-center items-start lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] min-h-[100vh] mt-[50px] mx-auto pb-48 text-base",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)("div", {
+      className: "w-full",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)("div", {
-        className: "w-full",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)("div", {
-          className: "w-full h-auto flex flex-col justify-start items-start bg-white p-5 mb-2.5 rounded-md shadow-sm",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_headerIndex__WEBPACK_IMPORTED_MODULE_15__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_name__WEBPACK_IMPORTED_MODULE_13__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_description__WEBPACK_IMPORTED_MODULE_14__["default"], {})]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_conditions__WEBPACK_IMPORTED_MODULE_6__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_optimisation__WEBPACK_IMPORTED_MODULE_7__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("div", {
-          className: "w-full mt-5 flex justify-start",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("button", {
-            className: "w-auto px-3 py-2 flex justify-center items-center text-base text-white bg-violet-900 rounded-md",
-            onClick: handleSubmit,
-            children: "Enregistrer"
-          })
-        })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)("div", {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_image__WEBPACK_IMPORTED_MODULE_10__["default"], {
-          setIsDirtyImageCollection: setIsDirtyImageCollection,
-          state: state
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_categories__WEBPACK_IMPORTED_MODULE_8__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_activation__WEBPACK_IMPORTED_MODULE_9__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_modal_modalConfirm__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          show: showModalConfirm,
-          handleModalConfirm: handleModalConfirm,
-          handleModalCancel: handleModalCancel,
-          textButtonConfirm: textButtonConfirm,
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("h2", {
-            className: "childrenModal",
-            children: messageModal
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_modal_modalSimpleMessage__WEBPACK_IMPORTED_MODULE_5__["default"], {
-          show: showModalSimpleMessage // true/false show modal
-          ,
-          handleModalCancel: handleModalCancel,
-          image: imageModal,
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("h2", {
-            className: "childrenModal",
-            children: messageModal
-          })
-        })]
+        className: "w-full h-auto flex flex-col justify-start items-start bg-white p-5 mb-2.5 rounded-md shadow-sm",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_headerIndex__WEBPACK_IMPORTED_MODULE_15__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_name__WEBPACK_IMPORTED_MODULE_13__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_description__WEBPACK_IMPORTED_MODULE_14__["default"], {})]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_conditions__WEBPACK_IMPORTED_MODULE_6__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_optimisation__WEBPACK_IMPORTED_MODULE_7__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("div", {
+        className: "w-full mt-5 flex justify-start",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("button", {
+          className: "w-auto px-3 py-2 flex justify-center items-center text-base text-white bg-violet-900 rounded-md",
+          onClick: handleSubmit,
+          children: "Enregistrer"
+        })
       })]
-    })
-  );
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_image__WEBPACK_IMPORTED_MODULE_10__["default"], {
+        state: state
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_categories__WEBPACK_IMPORTED_MODULE_8__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_activation__WEBPACK_IMPORTED_MODULE_9__["default"], {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_modal_modalConfirm__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        show: showModalConfirm,
+        handleModalConfirm: handleModalConfirm,
+        handleModalCancel: handleModalCancel,
+        textButtonConfirm: textButtonConfirm,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("h2", {
+          className: "childrenModal",
+          children: messageModal
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)(_modal_modalSimpleMessage__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        show: showModalSimpleMessage // true/false show modal
+        ,
+        handleModalCancel: handleModalCancel,
+        image: imageModal,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_16__.jsx)("h2", {
+          className: "childrenModal",
+          children: messageModal
+        })
+      })]
+    })]
+  });
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CreateCollection);
@@ -7948,7 +7770,10 @@ var RowListCollections = function RowListCollections(_ref) {
 
   var editCollection = function editCollection(id) {
     // initialise WrapIndexcroppe pour que Route path="/add-collection" ne reste pas callé sur croppe 
-    wrapIndexcroppe != /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(___WEBPACK_IMPORTED_MODULE_6__["default"], {}) && setWrapIndexcroppe( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(___WEBPACK_IMPORTED_MODULE_6__["default"], {})); // isEdit indique qu'on veut éditer la collection
+    wrapIndexcroppe.component != 'CreateCollection' && setWrapIndexcroppe({
+      component: 'CreateCollection',
+      blob: null
+    }); // isEdit indique qu'on veut éditer la collection
 
     navigate("/add-collection", {
       state: {
@@ -8327,12 +8152,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modalListOperations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modalListOperations */ "./resources/js/components/collections/list/modalListOperations.jsx");
 /* harmony import */ var _categoriesFilter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./categoriesFilter */ "./resources/js/components/collections/list/categoriesFilter.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -8370,8 +8189,6 @@ var HeaderListCollections = function HeaderListCollections(_ref) {
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       setIs_Edit = _useContext.setIs_Edit,
-      is = _useContext.is,
-      setIs = _useContext.setIs,
       initCollectionForm = _useContext.initCollectionForm,
       listCollectionsChecked = _useContext.listCollectionsChecked,
       showModalListOperations = _useContext.showModalListOperations,
@@ -8428,9 +8245,6 @@ var HeaderListCollections = function HeaderListCollections(_ref) {
         onClick: function onClick() {
           initCollectionForm();
           setIs_Edit(false);
-          setIs(_objectSpread(_objectSpread({}, is), {}, {
-            newCollection: true
-          }));
         },
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
           to: "/add-collection",
@@ -10409,8 +10223,6 @@ __webpack_require__.r(__webpack_exports__);
   setImage: function setImage() {},
   imagePath: '',
   setImagePath: function setImagePath() {},
-  followThisLink: '',
-  setFollowThisLink: function setFollowThisLink() {},
   showModalConfirm: '',
   setShowModalConfirm: function setShowModalConfirm() {},
   showModalSimpleMessage: '',
@@ -10494,12 +10306,8 @@ __webpack_require__.r(__webpack_exports__);
   setCollectionForm: function setCollectionForm() {},
   deleteThisCollection: '',
   setDeleteThisCollection: function setDeleteThisCollection() {},
-  hasBeenChanged: '',
-  setHasBeenChanged: function setHasBeenChanged() {},
   wrapIndexcroppe: '',
   setWrapIndexcroppe: function setWrapIndexcroppe() {},
-  isNot_isEdit: '',
-  setIsNot_isEdit: function setIsNot_isEdit() {},
   listCollectionsChecked: '',
   setListCollectionsChecked: function setListCollectionsChecked() {},
   listCollectionsFiltered: '',
@@ -10639,7 +10447,9 @@ __webpack_require__.r(__webpack_exports__);
   isEditProduct: '',
   setIsEditProduct: function setIsEditProduct() {},
   isShowPromoProduct: '',
-  setIsShowPromoProduct: function setIsShowPromoProduct() {}
+  setIsShowPromoProduct: function setIsShowPromoProduct() {},
+  showInitButton: '',
+  setShowInitButton: function setShowInitButton() {}
 }));
 
 /***/ }),
@@ -18836,8 +18646,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
 /* harmony import */ var react_cropper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-cropper */ "./node_modules/react-cropper/dist/react-cropper.es.js");
 /* harmony import */ var cropperjs_dist_cropper_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! cropperjs/dist/cropper.css */ "./node_modules/cropperjs/dist/cropper.css");
-/* harmony import */ var _collections_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../collections/index */ "./resources/js/components/collections/index.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -18864,11 +18673,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
-var CroppeImage = function CroppeImage(_ref) {
-  var setIsDirtyImageCollection = _ref.setIsDirtyImageCollection,
-      previewImage = _ref.previewImage;
-
+var CroppeImage = function CroppeImage() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(),
       _useState2 = _slicedToArray(_useState, 2),
       cropper = _useState2[0],
@@ -18880,17 +18685,16 @@ var CroppeImage = function CroppeImage(_ref) {
       collectionForm = _useContext.collectionForm,
       setCollectionForm = _useContext.setCollectionForm,
       setWrapIndexcroppe = _useContext.setWrapIndexcroppe,
-      setIsNot_isEdit = _useContext.setIsNot_isEdit;
+      setIsDirty = _useContext.setIsDirty;
 
   var getCropData = function getCropData() {
     if (typeof cropper !== "undefined") {
       cropper.getCroppedCanvas().toBlob(function (blob) {
         setImage(blob);
-        setIsNot_isEdit(true);
+        setIsDirty(true);
         setWrapIndexcroppe({
           component: 'CreateCollection',
-          blob: blob,
-          setIsDirtyImageCollection: true
+          blob: blob
         });
       });
     }
@@ -18901,11 +18705,10 @@ var CroppeImage = function CroppeImage(_ref) {
       cropper.reset();
       cropper.getCroppedCanvas().toBlob(function (blob) {
         setImage(blob);
-        setIsNot_isEdit(true);
+        setIsDirty(false);
         setWrapIndexcroppe({
           component: 'CreateCollection',
-          blob: blob,
-          setIsDirtyImageCollection: true
+          blob: blob
         });
       });
     }
@@ -18915,10 +18718,10 @@ var CroppeImage = function CroppeImage(_ref) {
     cropper.setAspectRatio(ratio); // console.log(cropper.cropBoxData.width)
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.Fragment, {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("section", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.Fragment, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("section", {
       className: "bg-white w-[calc(100vw_-_450px)] h-[calc(100vh_-_180px)] miin-h-[500px] min-w-[300px] p-6 my-5 flex flex-col justify-start items-center rounded-md z-20 col-start-2 col-end-3",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_cropper__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_cropper__WEBPACK_IMPORTED_MODULE_2__["default"], {
         style: {
           height: "calc(100vh - 350px)",
           width: "100%",
@@ -18941,9 +18744,9 @@ var CroppeImage = function CroppeImage(_ref) {
           setCropper(instance);
         },
         guides: true
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
         className: "w-full my-2.5 flex flex-row justify-start items-end flex-1",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
           className: "w-32 h-12 flex justify-center items-center border border-gray-300 rounded-md bg-green-700 text-white hover:font-semibold",
           onClick: function onClick() {
             // permet à checkIfIsDirty dans index de bloquer la navigation lorsqu'on croppe sans sauvegarder
@@ -18953,17 +18756,16 @@ var CroppeImage = function CroppeImage(_ref) {
             getCropData();
           },
           children: "Recadrer"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
           className: "w-32 h-12 flex justify-center items-center border border-gray-300 rounded-md bg-green-700 text-white hover:font-semibold",
           onClick: function onClick() {
             // empèche le rechargement des datas quand on annule le croppe. est utilisé dans inedx useeffect
-            setIsNot_isEdit(true);
             handleCancel();
           },
           children: "Annuler"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
           className: "w-auto ml-5 flex -flex-col justify-end items-center flex-1",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
             style: {
               marginBottm: "15px",
               width: "auto",
@@ -18971,45 +18773,45 @@ var CroppeImage = function CroppeImage(_ref) {
               fontSize: "22px"
             },
             children: "Format"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
             className: "w-auto flex flex-row justify-start items-end flex-1",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
               className: "w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold",
               onClick: function onClick() {
                 return handleRatio(1);
               },
               children: "1:1"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
               className: "w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold",
               onClick: function onClick() {
                 return handleRatio(2 / 3);
               },
               children: "2:3"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
               className: "w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold",
               onClick: function onClick() {
                 return handleRatio(3 / 2);
               },
               children: "3:2"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
               className: "w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold",
               onClick: function onClick() {
                 return handleRatio(4 / 3);
               },
               children: "4:3"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
               className: "w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold",
               onClick: function onClick() {
                 return handleRatio(9 / 16);
               },
               children: "9:16"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
               className: "w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold",
               onClick: function onClick() {
                 return handleRatio(16 / 9);
               },
               children: "16:9"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
               className: "w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold",
               onClick: function onClick() {
                 return handleRatio(NaN);
@@ -19017,9 +18819,9 @@ var CroppeImage = function CroppeImage(_ref) {
               children: "Free"
             })]
           })]
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
           className: "w-auto ml-5 flex -flex-col justify-end items-center flex-1",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
             style: {
               marginBottm: "15px",
               width: "auto",
@@ -19027,25 +18829,25 @@ var CroppeImage = function CroppeImage(_ref) {
               fontSize: "22px"
             },
             children: "Zoom"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
             className: "w-auto flex flex-row justify-start items-end flex-1",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
               className: "w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold",
               onClick: function onClick() {
                 return cropper.zoom(0.1);
               },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
                 style: {
                   fontSize: "40px"
                 },
                 children: "+"
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
               className: "w-16 h-12 mt-2.5 mr-1.5 flex flex-row justify-center items-center bg-white text-gray-700 text-lg rounded-md border-2 border-gray-300 transition ease-in-out duration-150 cursor-pointer hover:font-semibold",
               onClick: function onClick() {
                 return cropper.zoom(-0.1);
               },
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
                 style: {
                   fontSize: "40px"
                 },

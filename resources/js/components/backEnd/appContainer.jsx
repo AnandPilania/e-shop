@@ -64,16 +64,13 @@ const Appcontainer = () => {
         categoryId: 1,
         dateField: getNow(),
         descriptionCollectionForMeta: '',
-        imagePath: '',
         image: [],
         isAutoConditions: localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 1,
         notIncludePrevProduct: localStorage.getItem('notIncludePrevProduct') ? localStorage.getItem('notIncludePrevProduct') : 1,
         allConditionsNeeded: localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1,
-        hasBeenChanged: false,
     })
-    const [hasBeenChanged, setHasBeenChanged] = useState(false);
-    const [isNot_isEdit, setIsNot_isEdit] = useState(false);
-    const [wrapIndexcroppe, setWrapIndexcroppe] = useState({ component: 'CreateCollection', blob: null, setIsDirtyImageCollection: false });
+    const [wrapIndexcroppe, setWrapIndexcroppe] = useState({ component: 'CreateCollection', blob: null });
+    const [showInitButton, setShowInitButton] = useState(false);
     //---------------------------------------------------------- collection Form
 
     const [warningIdCondition, setWarningIdCondition] = useState([]);
@@ -81,7 +78,6 @@ const Appcontainer = () => {
     const [idCollection, setIdCollection] = useState(null);
     // ------------------------------------------------------------- collection 
 
-    const [followThisLink, setFollowThisLink] = useLocalStorage("followThisLink", "");
     const [showModalConfirm, setShowModalConfirm] = useState(false);
     const [showModalSimpleMessage, setShowModalSimpleMessage] = useState(false);
     const [showModalCroppeImage, setShowModalCroppeImage] = useState(false);
@@ -108,7 +104,6 @@ const Appcontainer = () => {
     const [deleteThisCollection, setDeleteThisCollection] = useState(0);
     const [is, setIs] = useState({
         leaveEditCollectionWithoutSaveChange: false,
-        newCollection: false,
         collectionDeleted: false,
     });
     const [listCollectionsChecked, setListCollectionsChecked] = useState([]);
@@ -284,7 +279,6 @@ const Appcontainer = () => {
         setAllConditionsNeeded(localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1);
         setNotIncludePrevProduct(localStorage.getItem('notIncludePrevProduct') ? localStorage.getItem('notIncludePrevProduct') : 1);
         setDateField(getNow());
-        setHasBeenChanged(false);
         setCollectionForm({
             conditions: [{
                 id: 0,
@@ -309,9 +303,10 @@ const Appcontainer = () => {
             isAutoConditions: localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 1,
             notIncludePrevProduct: localStorage.getItem('notIncludePrevProduct') ? localStorage.getItem('notIncludePrevProduct') : 1,
             allConditionsNeeded: localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1,
-            hasBeenChanged: false,
-        })
-        setIsNot_isEdit(false);
+        });
+        setWrapIndexcroppe({ component: 'CreateCollection', blob: null });
+        setShowInitButton(false);
+
 
         // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
         // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
@@ -412,7 +407,6 @@ const Appcontainer = () => {
                 break;
             case 'leaveEditCollectionWithoutSaveChange':
                 setIs({ ...is, leaveEditCollectionWithoutSaveChange: true });
-                setCollectionForm({ ...collectionForm, hasBeenChanged: false });
                 // vider form creat collection quand on edit sans rien changer
                 setIs_Edit(false);
                 setIdCollection(null);
@@ -475,7 +469,6 @@ const Appcontainer = () => {
     const contextValue = {
         image, setImage,
         imagePath, setImagePath,
-        followThisLink, setFollowThisLink,
         showModalConfirm, setShowModalConfirm,
         showModalSimpleMessage, setShowModalSimpleMessage,
         showModalCroppeImage, setShowModalCroppeImage,
@@ -520,9 +513,7 @@ const Appcontainer = () => {
         is, setIs,
         collectionForm, setCollectionForm,
         deleteThisCollection, setDeleteThisCollection,
-        hasBeenChanged, setHasBeenChanged,
-        wrapIndexcroppe, setWrapIndexcroppe,
-        isNot_isEdit, setIsNot_isEdit,
+           wrapIndexcroppe, setWrapIndexcroppe,
         listCollectionsChecked, setListCollectionsChecked,
         listCollectionsFiltered, setListCollectionsFiltered,
         showModalListOperations, setShowModalListOperations,
@@ -594,6 +585,7 @@ const Appcontainer = () => {
         listCollectionNames, setListCollectionNames,
         isEditProduct, setIsEditProduct,
         isShowPromoProduct, setIsShowPromoProduct,
+        showInitButton, setShowInitButton,
 
     }
 

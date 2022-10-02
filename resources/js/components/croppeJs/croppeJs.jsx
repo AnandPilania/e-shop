@@ -2,21 +2,20 @@ import React, { useState, useContext } from "react";
 import AppContext from '../contexts/AppContext';
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
-import CreateCollection from '../collections/index';
 
 
-const CroppeImage = ({ setIsDirtyImageCollection, previewImage }) => {
+const CroppeImage = () => {
 
     const [cropper, setCropper] = useState();
-    const { setImage, imagePath, collectionForm, setCollectionForm, setWrapIndexcroppe, setIsNot_isEdit } = useContext(AppContext);
+    const { setImage, imagePath, collectionForm, setCollectionForm, setWrapIndexcroppe, setIsDirty } = useContext(AppContext);
 
 
     const getCropData = () => {
         if (typeof cropper !== "undefined") {
             cropper.getCroppedCanvas().toBlob((blob) => {
                 setImage(blob);
-                setIsNot_isEdit(true);
-                setWrapIndexcroppe({ component: 'CreateCollection', blob: blob, setIsDirtyImageCollection: true });
+                setIsDirty(true);
+                setWrapIndexcroppe({ component: 'CreateCollection', blob: blob });
             });
         }
     };
@@ -26,8 +25,8 @@ const CroppeImage = ({ setIsDirtyImageCollection, previewImage }) => {
             cropper.reset();
             cropper.getCroppedCanvas().toBlob((blob) => {
                 setImage(blob);
-                setIsNot_isEdit(true);
-                setWrapIndexcroppe({ component: 'CreateCollection', blob: blob, setIsDirtyImageCollection: true });
+                setIsDirty(false);
+                setWrapIndexcroppe({ component: 'CreateCollection', blob: blob });
             });
         }
     }
@@ -75,7 +74,6 @@ const CroppeImage = ({ setIsDirtyImageCollection, previewImage }) => {
                         className="w-32 h-12 flex justify-center items-center border border-gray-300 rounded-md bg-green-700 text-white hover:font-semibold"
                         onClick={() => {
                             // empèche le rechargement des datas quand on annule le croppe. est utilisé dans inedx useeffect
-                            setIsNot_isEdit(true);
                             handleCancel();
                         }}>
                         Annuler

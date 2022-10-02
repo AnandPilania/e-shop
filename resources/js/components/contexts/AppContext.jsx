@@ -5,8 +5,6 @@ export default createContext({
     setImage: () => { },
     imagePath: '',
     setImagePath: () => { },
-    followThisLink: '',
-    setFollowThisLink: () => { },
     showModalConfirm: '',
     setShowModalConfirm: () => { },
     showModalSimpleMessage: '',
@@ -90,12 +88,8 @@ export default createContext({
     setCollectionForm: () => { },
     deleteThisCollection: '',
     setDeleteThisCollection: () => { },
-    hasBeenChanged: '',
-    setHasBeenChanged: () => { },
     wrapIndexcroppe: '',
     setWrapIndexcroppe: () => { },
-    isNot_isEdit: '',
-    setIsNot_isEdit: () => { },
     listCollectionsChecked: '',
     setListCollectionsChecked: () => { },
     listCollectionsFiltered: '',
@@ -236,6 +230,8 @@ export default createContext({
     setIsEditProduct: () => { },
     isShowPromoProduct: '',  
     setIsShowPromoProduct: () => { },
+    showInitButton: '', 
+    setShowInitButton: () => { },
 
 
 });
