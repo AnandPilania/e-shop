@@ -5,7 +5,7 @@ import TinyEditor from './tinyEditor';
 const DescriptionCollection = () => {
     return (
         <div className="w-full flex flex-col justify-start items-start">
-            <Label label="Description (optionnel)" />
+            <Label label="Description" />
             <TinyEditor />
         </div>
     );

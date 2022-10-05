@@ -232,6 +232,7 @@ export default createContext({
     setIsShowPromoProduct: () => { },
     showInitButton: '', 
     setShowInitButton: () => { },
-
+    imageHasBeenChanged: '', 
+    setImageHasBeenChanged: () => { },
 
 });

@@ -7,7 +7,7 @@ import "cropperjs/dist/cropper.css";
 const CroppeImage = () => {
 
     const [cropper, setCropper] = useState();
-    const { setImage, imagePath, collectionForm, setCollectionForm, setWrapIndexcroppe, setIsDirty } = useContext(AppContext);
+    const { setImage, imagePath, collectionForm, setCollectionForm, setWrapIndexcroppe, setIsDirty, setImageHasBeenChanged } = useContext(AppContext);
 
 
     const getCropData = () => {
@@ -15,6 +15,7 @@ const CroppeImage = () => {
             cropper.getCroppedCanvas().toBlob((blob) => {
                 setImage(blob);
                 setIsDirty(true);
+                setImageHasBeenChanged(true);
                 setWrapIndexcroppe({ component: 'CreateCollection', blob: blob });
             });
         }

@@ -110,6 +110,7 @@ const Appcontainer = () => {
     const [typeOperationListCollections, setTypeOperationListCollections] = useState(0);
     const [notThisId, setNotThisId] = useState([]);
     const [refresh, setRefresh] = useState('');
+    const [imageHasBeenChanged, setImageHasBeenChanged] = useState(false);
 
     //Handle options in coonditionsCollections---------------------------
     const [dsablNamProd, setDsablNamProd] = useState(false);
@@ -586,6 +587,7 @@ const Appcontainer = () => {
         isEditProduct, setIsEditProduct,
         isShowPromoProduct, setIsShowPromoProduct,
         showInitButton, setShowInitButton,
+        imageHasBeenChanged, setImageHasBeenChanged,
 
     }
 

@@ -18,9 +18,9 @@ import HeaderIndex from './headerIndex';
 
 const CreateCollection = () => {
 
-     const {
+    const {
         image, setImagePath, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage,
-        messageModal, setMessageModal, textButtonConfirm, imageModal, setImageModal, setIs_Edit, listCollections, setListCollections, setListCollectionsFiltered, setListCategories, isDirty, setIsDirty, nameCollection, setNameCollection, descriptionCollection, setDescriptionCollection, descriptionCollectionForMeta, setDescriptionCollectionForMeta, conditions, setConditions, isAutoConditions, setIsAutoConditions, allConditionsNeeded, setAllConditionsNeeded, notIncludePrevProduct, setNotIncludePrevProduct, setWarningIdCondition, normalizUrl, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, imageName, setImageName, imagePath, alt, setAlt, categoryName, setCategoryName, categoryId, setCategoryId, dateField, setDateField, setTinyLanguage, idCollection, setIdCollection,  handleModalConfirm, handleModalCancel, initCollectionForm, collectionForm, setCollectionForm, wrapIndexcroppe, setShowInitButton
+        messageModal, setMessageModal, textButtonConfirm, imageModal, setImageModal, setIs_Edit, listCollections, setListCollections, setListCollectionsFiltered, setListCategories, isDirty, setIsDirty, nameCollection, setNameCollection, descriptionCollection, setDescriptionCollection, descriptionCollectionForMeta, setDescriptionCollectionForMeta, conditions, setConditions, isAutoConditions, setIsAutoConditions, allConditionsNeeded, setAllConditionsNeeded, notIncludePrevProduct, setNotIncludePrevProduct, setWarningIdCondition, normalizUrl, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, imageName, setImageName, imagePath, alt, setAlt, categoryName, setCategoryName, categoryId, setCategoryId, dateField, setDateField, setTinyLanguage, idCollection, setIdCollection, handleModalConfirm, handleModalCancel, initCollectionForm, collectionForm, setCollectionForm, wrapIndexcroppe, setShowInitButton, imageHasBeenChanged, setImageHasBeenChanged
     } = useContext(AppContext);
 
     var navigate = useNavigate();
@@ -117,6 +117,7 @@ const CreateCollection = () => {
                         categoryId: res.data.category_id !== null ? res.data.category_id : 1,
                         dateField: getDateTime(new Date(res.data.dateActivation)),
                         imagePath: res.data.image,
+                        image: res.data.image,
                         isAutoConditions: res.data.automatise,
                         notIncludePrevProduct: res.data.notIncludePrevProduct,
                         allConditionsNeeded: res.data.allConditionsNeeded,
@@ -138,6 +139,8 @@ const CreateCollection = () => {
         }]);
     }, []);
 
+    console.log('isEdit  ', isEdit)
+
 
     // show or hide reset button
     useEffect(() => {
@@ -146,8 +149,8 @@ const CreateCollection = () => {
             if (condition.value != '') {
                 conditonDirty = true;
             }
-        });  
-        switch (true) { 
+        });
+        switch (true) {
             case nameCollection.length > 0: setShowInitButton(true); break;
             case descriptionCollection.length > 0: setShowInitButton(true); break;
             case alt.length > 0: setShowInitButton(true); break;
@@ -165,11 +168,11 @@ const CreateCollection = () => {
         }
     }, [nameCollection, descriptionCollection, alt, imageName, metaTitle, metaDescription, metaUrl, image, imagePath, categoryName, categoryId, dateField, conditions]);
 
+    console.log(' imageHasBeenChanged   ', imageHasBeenChanged)
 
     const checkIfIsDirty = () => {
 
         if (isEdit) {
-console.log('! isEdit')
             if (wrapIndexcroppe.blob !== null) return true;
 
             // tinyMCE ajoute des caractères undefined qui ne permettent pas de faire une comparaison alors on compte chaque caractères dans les deux texte et on compare leur nombre pour avoir plus de chances de repérer les textes différents 
@@ -221,6 +224,8 @@ console.log('! isEdit')
                     return true;
                 case collectionForm.allConditionsNeeded != allConditionsNeeded:
                     return true;
+                case imageHasBeenChanged === true:
+                    return true;
                 default:
                     setIs_Edit(false);
                     setIdCollection(null);
@@ -228,7 +233,7 @@ console.log('! isEdit')
             }
         }
 
-        if (!isEdit) {  
+        if (!isEdit) {
             var conditonDirty = false;
             conditions.forEach(condition => {
                 if (condition.value != '') {
@@ -425,7 +430,10 @@ console.log('! isEdit')
 
             {/* ----------  side  ---------- */}
             <div>
-                <Image state={state} />
+                <Image
+                    state={state}
+                    setImageHasBeenChanged={setImageHasBeenChanged}
+                />
                 <Categories />
                 <Activation />
                 <ModalConfirm

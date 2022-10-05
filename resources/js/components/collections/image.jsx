@@ -9,7 +9,7 @@ import InputText from '../form/inputText';
 const Image = ({ state }) => {
 
 
-    const {imageName, setImageName, alt, setAlt } = useContext(AppContext);
+    const {imageName, setImageName, alt, setAlt, setImageHasBeenChanged } = useContext(AppContext);
 
     const handleAlt = (e) => {
         setAlt(e.target.value);
@@ -26,6 +26,7 @@ const Image = ({ state }) => {
                     <Label label="Image" />
                     <DropZone
                         state={state}
+                        setImageHasBeenChanged={setImageHasBeenChanged}
                     />
                 </div>
 
@@ -36,7 +37,7 @@ const Image = ({ state }) => {
                             id="altImgCollection2922"
                             className="w-full flex flex-row justify-start items-center"
                         >
-                            <Label label="Texte alternatif (optionnel)" />
+                            <Label label="Texte alternatif" />
                             <Tooltip id="altImgCollection2922" widthTip={300}>
                                 Ajouter une brève description de l'image de votre collection. Ceci optimise l'accessibilité et le référencement de votre page de collection. <br></br>
                                 <a href="http://127.0.0.1:8000"

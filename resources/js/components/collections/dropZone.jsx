@@ -8,7 +8,7 @@ import TooltipWithoutIcon from '../elements/tooltipWithoutIcon';
 
 const DropZone = (props) => {
 
-    const { image, setImage, imagePath, setImagePath, setShowModalSimpleMessage, setMessageModal, is_Edit, setIs_Edit, idCollection, wrapIndexcroppe, setWrapIndexcroppe, collectionForm, setCollectionForm } = useContext(AppContext);
+    const { image, setImage, imagePath, setImagePath, setShowModalSimpleMessage, setMessageModal, is_Edit, setIs_Edit, idCollection, wrapIndexcroppe, setWrapIndexcroppe, setImageHasBeenChanged, collectionForm, setCollectionForm } = useContext(AppContext);
 
 
     var dropRegion = null;
@@ -25,6 +25,7 @@ const DropZone = (props) => {
         fakeInput.addEventListener("change", function () {
             var files = fakeInput.files;
             handleFiles(files);
+            setImageHasBeenChanged(true);
         });
 
         dropRegion = document.getElementById("drop-region-dropZone");
@@ -47,7 +48,7 @@ const DropZone = (props) => {
         if (wrapIndexcroppe.blob !== null) {
             previewImage(wrapIndexcroppe.blob);
             setWrapIndexcroppe({ component: 'CreateCollection', blob: null });
-        } 
+        }
 
         return () => {
             dropRegion.removeEventListener('click', function () {
@@ -64,7 +65,7 @@ const DropZone = (props) => {
             dropRegion.removeEventListener('dragleave', preventDefault, false);
             dropRegion.removeEventListener('dragover', preventDefault, false);
             dropRegion.removeEventListener('drop', preventDefault, false);
-            dropRegion.removeEventListener('drop', handleDrop, false);   
+            dropRegion.removeEventListener('drop', handleDrop, false);
         }
     }, []);
 
@@ -179,7 +180,9 @@ const DropZone = (props) => {
 
         // retire l'image de fond
         let containerDropZone = document.getElementById('drop-region-dropZone');
-        containerDropZone.style.backgroundColor = '#FFFFFF';
+        if (containerDropZone !== null) {
+            containerDropZone.style.backgroundColor = '#FFFFFF';
+        }
 
         // previewing image
         let img = document.getElementById("imageZone");
@@ -216,10 +219,13 @@ const DropZone = (props) => {
         img.style.display = "none";
         setImagePath('');
         setImage('')
+        setImageHasBeenChanged(true);
 
         // remet l'image de fond
         let containerDropZone = document.getElementById('drop-region-dropZone');
-        containerDropZone.style.backgroundColor = '#FFFFFF';
+        if (containerDropZone !== null) {
+            containerDropZone.style.backgroundColor = '#FFFFFF';
+        }
         document.getElementById("drop-message-dropZone").style.display = 'block';
     }
 

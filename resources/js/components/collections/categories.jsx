@@ -30,6 +30,10 @@ const Categories = () => {
             deleteCategory(deleteThisCategory);
             setDeleteThisCategory(null);
         }
+        return () => {
+            setDeleteThisCategory(null);
+            setCategoriesList([]);
+        }
     }, [deleteThisCategory]);
 
     useEffect(() => {
@@ -40,6 +44,7 @@ const Categories = () => {
             }).catch(function (error) {
                 console.log('error:   ' + error);
             });
+        return setCategoriesList([]);
     }, []);
 
 
@@ -221,18 +226,19 @@ const Categories = () => {
     function closeDropDownCategory(evt) {
         const categorySelectElement = document.getElementById("categorySelect");
         let targetElement = evt.target; // clicked element
+        if (categorySelectElement !== null && targetElement !== null) {
+            do {
+                if (targetElement == categorySelectElement) {
+                    // click inside
+                    return;
+                }
+                // Go up the DOM
+                targetElement = targetElement.parentNode;
+            } while (targetElement);
 
-        do {
-            if (targetElement == categorySelectElement) {
-                // click inside
-                return;
-            }
-            // Go up the DOM
-            targetElement = targetElement.parentNode;
-        } while (targetElement);
-
-        // click outside.
-        setShowCategorySelect(false);
+            // click outside.
+            setShowCategorySelect(false);
+        }
     }
 
 

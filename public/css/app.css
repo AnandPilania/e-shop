@@ -638,10 +638,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-top: 1.25rem;
   margin-bottom: 1.25rem;
 }
-.my-\[50px\] {
-  margin-top: 50px;
-  margin-bottom: 50px;
-}
 .my-1\.5 {
   margin-top: 0.375rem;
   margin-bottom: 0.375rem;
@@ -1030,9 +1026,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .min-h-\[200px\] {
   min-height: 200px;
 }
-.min-h-\[130vh\] {
-  min-height: 130vh;
-}
 .min-h-\[100vh\] {
   min-height: 100vh;
 }
@@ -1090,9 +1083,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .w-24 {
   width: 6rem;
 }
-.w-\[60\%\] {
-  width: 60%;
-}
 .w-44 {
   width: 11rem;
 }
@@ -1107,9 +1097,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .w-16 {
   width: 4rem;
-}
-.w-\[100px\] {
-  width: 100px;
 }
 .w-\[calc\(100vw_-_450px\)\] {
   width: calc(100vw - 450px);
@@ -1197,9 +1184,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .min-w-\[18px\] {
   min-width: 18px;
-}
-.min-w-\[750px\] {
-  min-width: 750px;
 }
 .min-w-\[40px\] {
   min-width: 40px;
@@ -1399,9 +1383,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .grid-cols-\[80\%_1fr_5px\] {
   grid-template-columns: 80% 1fr 5px;
 }
-.grid-cols-mainContainer {
-  grid-template-columns: calc(66.6666% - 10px) calc(33.3333% - 10px);
-}
 .grid-cols-2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
@@ -1528,14 +1509,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 .justify-around {
   justify-content: space-around;
 }
+.gap-4 {
+  gap: 1rem;
+}
 .gap-2\.5 {
   gap: 0.625rem;
 }
 .gap-2 {
   gap: 0.5rem;
-}
-.gap-4 {
-  gap: 1rem;
 }
 .gap-3 {
   gap: 0.75rem;
@@ -2397,9 +2378,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .pl-1 {
   padding-left: 0.25rem;
-}
-.pb-\[300px\] {
-  padding-bottom: 300px;
 }
 .pb-48 {
   padding-bottom: 12rem;
