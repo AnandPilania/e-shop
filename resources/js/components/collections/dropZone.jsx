@@ -1,14 +1,12 @@
 import React, { useEffect, useContext } from 'react';
 import Axios from 'axios';
 import AppContext from '../contexts/AppContext';
-import { saveInTemporaryStorage } from '../functions/temporaryStorage/saveInTemporaryStorage';
-import CroppeImage from '../croppeJs/croppeJs';
 import TooltipWithoutIcon from '../elements/tooltipWithoutIcon';
 
 
 const DropZone = (props) => {
 
-    const { image, setImage, imagePath, setImagePath, setShowModalSimpleMessage, setMessageModal, is_Edit, setIs_Edit, idCollection, wrapIndexcroppe, setWrapIndexcroppe, setImageHasBeenChanged, collectionForm, setCollectionForm } = useContext(AppContext);
+    const { setImage, imagePath, setImagePath, setShowModalSimpleMessage, setMessageModal, is_Edit, setIs_Edit, idCollection, wrapIndexcroppe, setWrapIndexcroppe, setImageHasBeenChanged } = useContext(AppContext);
 
 
     var dropRegion = null;

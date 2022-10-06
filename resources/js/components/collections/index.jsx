@@ -20,7 +20,7 @@ const CreateCollection = () => {
 
     const {
         image, setImagePath, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage,
-        messageModal, setMessageModal, textButtonConfirm, imageModal, setImageModal, setIs_Edit, listCollections, setListCollections, setListCollectionsFiltered, setListCategories, isDirty, setIsDirty, nameCollection, setNameCollection, descriptionCollection, setDescriptionCollection, descriptionCollectionForMeta, setDescriptionCollectionForMeta, conditions, setConditions, isAutoConditions, setIsAutoConditions, allConditionsNeeded, setAllConditionsNeeded, notIncludePrevProduct, setNotIncludePrevProduct, setWarningIdCondition, normalizUrl, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, imageName, setImageName, imagePath, alt, setAlt, categoryName, setCategoryName, categoryId, setCategoryId, dateField, setDateField, setTinyLanguage, idCollection, setIdCollection, handleModalConfirm, handleModalCancel, initCollectionForm, collectionForm, setCollectionForm, wrapIndexcroppe, setShowInitButton, imageHasBeenChanged, setImageHasBeenChanged
+        messageModal, setMessageModal, textButtonConfirm, imageModal, setImageModal, setIs_Edit, listCollections, setListCollections, setListCollectionsFiltered, setListCategories, nameCollection, setNameCollection, descriptionCollection, setDescriptionCollection, descriptionCollectionForMeta, setDescriptionCollectionForMeta, conditions, setConditions, isAutoConditions, setIsAutoConditions, allConditionsNeeded, setAllConditionsNeeded, notIncludePrevProduct, setNotIncludePrevProduct, setWarningIdCondition, normalizUrl, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, imageName, setImageName, imagePath, alt, setAlt, categoryName, setCategoryName, categoryId, setCategoryId, dateField, setDateField, setTinyLanguage, idCollection, setIdCollection, handleModalConfirm, handleModalCancel, initCollectionForm, collectionForm, setCollectionForm, wrapIndexcroppe, setShowInitButton, imageHasBeenChanged, setImageHasBeenChanged
     } = useContext(AppContext);
 
     var navigate = useNavigate();
@@ -168,8 +168,7 @@ const CreateCollection = () => {
         }
     }, [nameCollection, descriptionCollection, alt, imageName, metaTitle, metaDescription, metaUrl, image, imagePath, categoryName, categoryId, dateField, conditions]);
 
-    console.log(' imageHasBeenChanged   ', imageHasBeenChanged)
-
+  
     const checkIfIsDirty = () => {
 
         if (isEdit) {
@@ -265,7 +264,7 @@ const CreateCollection = () => {
 
 
     // demande confirmation avant de quitter le form sans sauvegarder
-    usePromptCollection('Quitter sans sauvegarder les changements !#^?*$', checkIfIsDirty, setShowModalConfirm, setMessageModal);
+    usePromptCollection('Quitter sans sauvegarder les changements ?', checkIfIsDirty, setShowModalConfirm, setMessageModal);
 
 
 

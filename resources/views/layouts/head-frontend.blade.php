@@ -19,14 +19,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,300;1,400&display=swap" rel="stylesheet">
 
-    <!-- fontawesome -->
-    <script src="https://kit.fontawesome.com/ef36e77939.js" crossorigin="anonymous"></script>
-    
-    <!-- Roboto pour Material-UI -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Font pour Material-UI -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
+
+
 
 
     <!-- my css -->
@@ -36,6 +35,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/cart.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/authentification.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/payment.css') }}" />
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}" />
 
     <script src="bundle.js"></script>
 

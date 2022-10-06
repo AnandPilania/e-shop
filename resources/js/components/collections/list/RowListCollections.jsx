@@ -2,14 +2,10 @@ import React, { useState, useEffect, useContext } from "react";
 import AppContext from "../../contexts/AppContext";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
-import {
-    getNowUs,
-    getOnlyDate,
-    getOnlyDateShort,
-} from "../../functions/dateTools";
+import { getNowUs, getOnlyDate, getOnlyDateShort } from "../../functions/dateTools";
 import { getParameter, getOperator } from "../conditionsFunctions";
 import CheckboxListCollection from "./checkBox_listCollection";
-import CreateCollection from "..";
+
 
 // affiche les rows dans list.jsx
 const RowListCollections = ({ collectionFiltered, category, listCollectionsChecked, handleCheckboxListCollection, confirmDeleteCollection, gridCols, handleGridCols }) => {

@@ -32,7 +32,7 @@ const Appcontainer = () => {
     const [descriptionCollection, setDescriptionCollection] = useState('');
     const [metaTitle, setMetaTitle] = useState('');
     const [metaDescription, setMetaDescription] = useState('');
-    const [metaUrl, setMetaUrl] = useState(window.location.origin + '/');
+    const [metaUrl, setMetaUrl] = useState('');
     const [imageName, setImageName] = useState('');
     const [alt, setAlt] = useState('');
     const [categoryName, setCategoryName] = useState('Sans catégorie');

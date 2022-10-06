@@ -134,9 +134,9 @@ const CreateProduct = () => {
                     hooksCompar.productParcelWeightMeasureUnit = data.weightMeasure;
                     hooksCompar.productCode = data.sku == null ? '' : data.sku;
                     hooksCompar.transporter = JSON.parse(data.onlyTheseCarriers);
-                    hooksCompar.metaUrlProduct = data.metaUrl == null ? '' : data.metaUrl;
-                    hooksCompar.metaTitleProduct = data.metaTitle == null ? '' : data.metaTitle;
-                    hooksCompar.metaDescriptionProduct = data.metaDescription == null ? '' : data.metaDescription;
+                    hooksCompar.metaUrlProduct = data.metaUrl;
+                    hooksCompar.metaTitleProduct = data.metaTitle;
+                    hooksCompar.metaDescriptionProduct = data.metaDescription;
                     hooksCompar.dateFieldProduct = data.dateActivation;
                     hooksCompar.tva = data.taxe_id;
                     hooksCompar.supplier = data.supplier == null ? '' : data.supplier;
@@ -186,10 +186,6 @@ const CreateProduct = () => {
         checkIfCreateProductIsDirty();
     }
 
-    console.log('isEditProduct  ', isEditProduct)
-    console.warn('isEditProduct warn ', isEditProduct)
-    console.log('hooksComparation   ', hooksComparation)
-
     const checkIfCreateProductIsDirty = () => {
         if (isEditProduct) {
             if (
@@ -209,9 +205,9 @@ const CreateProduct = () => {
                 hooksComparation.productParcelWeightMeasureUnit != productParcelWeightMeasureUnit ||
                 hooksComparation.productCode != productCode ||
                 // hooksComparation.transporter != transporter ||
-                hooksComparation.metaUrlProduct != metaUrlProduct 
-                // hooksComparation.metaTitleProduct != metaTitleProduct ||
-                // hooksComparation.metaDescriptionProduct != metaDescriptionProduct 
+                hooksComparation.metaUrlProduct != metaUrlProduct ||
+                hooksComparation.metaTitleProduct != metaTitleProduct ||
+                hooksComparation.metaDescriptionProduct != metaDescriptionProduct 
                 // // hooksComparation.// // dateFieldProduct
                 // hooksComparation.tva != tva ||
                 // hooksComparation.supplier != supplier ||
@@ -220,11 +216,9 @@ const CreateProduct = () => {
                 // hooksComparation.isShowPromoProduct != isShowPromoProduct
             ) {
                 setIsDirtyCreateProduct(true);
-                console.log('isDirtyCreateProduct in true  ', isDirtyCreateProduct)
                 return true;
             } else {
                 setIsDirtyCreateProduct(false);
-                console.log('isDirtyCreateProduct in  ', isDirtyCreateProduct)
                 return false;
             }
         } else {
@@ -256,11 +250,9 @@ const CreateProduct = () => {
                 isShowPromoProduct != false
             ) {
                 setIsDirtyCreateProduct(true);
-                console.log('isDirtyCreateProduct in true  ', isDirtyCreateProduct)
                 return true;
             } else {
                 setIsDirtyCreateProduct(false);
-                console.log('isDirtyCreateProduct in  ', isDirtyCreateProduct)
                 return false;
             }
         }

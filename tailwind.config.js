@@ -5,6 +5,7 @@ module.exports = {
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
+        './resources/views/**/**/*.blade.php',
 
         "./resources/**/*.blade.php",
         "./resources/**/*.js",
@@ -24,6 +25,8 @@ module.exports = {
             },
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+                Poppins: ['Poppins'],
+                Comfortaa: ['Comfortaa'],
             },
             transitionProperty: {
                 'height': 'height',
