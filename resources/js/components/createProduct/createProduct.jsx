@@ -77,6 +77,7 @@ const CreateProduct = () => {
 
 
         if (isEdit) {
+            console.log('editttttttt')
             let idProduct = new FormData;
             idProduct.append('productId', productId);
             Axios.post(`http://127.0.0.1:8000/getProduct`, idProduct)
@@ -84,6 +85,8 @@ const CreateProduct = () => {
                     console.log('res.data   ', res.data)
                     let data = res.data[0];
                     console.log('data.variantes  ', data.variantes)
+                    console.log('data.images_products  ', data.images_products)
+                    console.log('imageVariantes  ', imageVariantes)
                     setNameProduct(data.name == null ? '' : data.name);
                     setIsInAutoCollection(data.isInAutoCollection == 1 ? true : false);
                     setRibbonProduct(data.ribbon == null ? '' : data.ribbon);
@@ -186,7 +189,18 @@ const CreateProduct = () => {
         checkIfCreateProductIsDirty();
     }
 
+
     const checkIfCreateProductIsDirty = () => {
+        let isImagesVariantesModified = true;
+        if (hooksComparation.imageVariantes && imageVariantes[0].length > 0) {
+            let imgV = imageVariantes[0].map(x => x.id);
+            let hooksImgV = hooksComparation.imageVariantes.map(x => x.id);
+            isImagesVariantesModified = hooksImgV.every(id => imgV.indexOf(id) !== -1);
+            console.log('imgV  ', imgV)
+            console.log('hooksImgV  ', hooksImgV)
+            console.log('isImagesVariantesModified  ', isImagesVariantesModified)
+        }
+
         if (isEditProduct) {
             if (
                 hooksComparation.nameProduct != nameProduct ||
@@ -207,12 +221,12 @@ const CreateProduct = () => {
                 // hooksComparation.transporter != transporter ||
                 hooksComparation.metaUrlProduct != metaUrlProduct ||
                 hooksComparation.metaTitleProduct != metaTitleProduct ||
-                hooksComparation.metaDescriptionProduct != metaDescriptionProduct 
+                hooksComparation.metaDescriptionProduct != metaDescriptionProduct ||
                 // // hooksComparation.// // dateFieldProduct
-                // hooksComparation.tva != tva ||
-                // hooksComparation.supplier != supplier ||
-                // hooksComparation.variantes != variantes ||
-                // hooksComparation.imageVariantes != imageVariantes ||
+                hooksComparation.tva != tva.id ||
+                hooksComparation.supplier != supplier ||
+                hooksComparation.variantes != variantes ||
+                isImagesVariantesModified === false
                 // hooksComparation.isShowPromoProduct != isShowPromoProduct
             ) {
                 setIsDirtyCreateProduct(true);
@@ -361,7 +375,7 @@ const CreateProduct = () => {
         console.log('metaDescriptionProduct   ', metaDescriptionProduct);
         console.log('isDirtyCreateProduct   ', isDirtyCreateProduct);
     }
-    consolelog();
+    // consolelog();
 
     function handleSubmit(e) {
         e.preventDefault();

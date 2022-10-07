@@ -10939,12 +10939,15 @@ var CreateProduct = function CreateProduct() {
     });
 
     if (isEdit) {
+      console.log('editttttttt');
       var idProduct = new FormData();
       idProduct.append('productId', productId);
       axios__WEBPACK_IMPORTED_MODULE_9___default().post("http://127.0.0.1:8000/getProduct", idProduct).then(function (res) {
         console.log('res.data   ', res.data);
         var data = res.data[0];
         console.log('data.variantes  ', data.variantes);
+        console.log('data.images_products  ', data.images_products);
+        console.log('imageVariantes  ', imageVariantes);
         setNameProduct(data.name == null ? '' : data.name);
         setIsInAutoCollection(data.isInAutoCollection == 1 ? true : false);
         setRibbonProduct(data.ribbon == null ? '' : data.ribbon);
@@ -11045,15 +11048,28 @@ var CreateProduct = function CreateProduct() {
   };
 
   var checkIfCreateProductIsDirty = function checkIfCreateProductIsDirty() {
+    var isImagesVariantesModified = true;
+
+    if (hooksComparation.imageVariantes && imageVariantes[0].length > 0) {
+      var imgV = imageVariantes[0].map(function (x) {
+        return x.id;
+      });
+      var hooksImgV = hooksComparation.imageVariantes.map(function (x) {
+        return x.id;
+      });
+      isImagesVariantesModified = hooksImgV.every(function (id) {
+        return imgV.indexOf(id) !== -1;
+      });
+      console.log('imgV  ', imgV);
+      console.log('hooksImgV  ', hooksImgV);
+      console.log('isImagesVariantesModified  ', isImagesVariantesModified);
+    }
+
     if (isEditProduct) {
       if (hooksComparation.nameProduct != nameProduct || hooksComparation.isInAutoCollection != isInAutoCollection || hooksComparation.ribbonProduct != ribbonProduct || hooksComparation.descriptionProduct != descriptionProduct || // hooksComparation.collections != collections ||
       hooksComparation.productPrice != productPrice || hooksComparation.reducedProductPrice != reducedProductPrice || hooksComparation.promoApplied != promoApplied || hooksComparation.promoType != promoType || hooksComparation.productCost != productCost || hooksComparation.productStock != productStock || hooksComparation.unlimited != unlimited || hooksComparation.productParcelWeight != productParcelWeight || hooksComparation.productParcelWeightMeasureUnit != productParcelWeightMeasureUnit || hooksComparation.productCode != productCode || // hooksComparation.transporter != transporter ||
-      hooksComparation.metaUrlProduct != metaUrlProduct || hooksComparation.metaTitleProduct != metaTitleProduct || hooksComparation.metaDescriptionProduct != metaDescriptionProduct // // hooksComparation.// // dateFieldProduct
-      // hooksComparation.tva != tva ||
-      // hooksComparation.supplier != supplier ||
-      // hooksComparation.variantes != variantes ||
-      // hooksComparation.imageVariantes != imageVariantes ||
-      // hooksComparation.isShowPromoProduct != isShowPromoProduct
+      hooksComparation.metaUrlProduct != metaUrlProduct || hooksComparation.metaTitleProduct != metaTitleProduct || hooksComparation.metaDescriptionProduct != metaDescriptionProduct || // // hooksComparation.// // dateFieldProduct
+      hooksComparation.tva != tva.id || hooksComparation.supplier != supplier || hooksComparation.variantes != variantes || isImagesVariantesModified === false // hooksComparation.isShowPromoProduct != isShowPromoProduct
       ) {
         setIsDirtyCreateProduct(true);
         return true;
@@ -11165,9 +11181,8 @@ var CreateProduct = function CreateProduct() {
     console.log('metaTitleProduct   ', metaTitleProduct);
     console.log('metaDescriptionProduct   ', metaDescriptionProduct);
     console.log('isDirtyCreateProduct   ', isDirtyCreateProduct);
-  };
+  }; // consolelog();
 
-  consolelog();
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -11322,13 +11337,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
-/* harmony import */ var _elements_modalInput__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../elements/modalInput */ "./resources/js/components/elements/modalInput.jsx");
-/* harmony import */ var _elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../elements/container/flex_col_s_s */ "./resources/js/components/elements/container/flex_col_s_s.jsx");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
-/* harmony import */ var _form_label__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../form/label */ "./resources/js/components/form/label.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../elements/container/flex_col_s_s */ "./resources/js/components/elements/container/flex_col_s_s.jsx");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
+/* harmony import */ var _form_label__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../form/label */ "./resources/js/components/form/label.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -11364,9 +11378,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-
 var DropZoneProduct = function DropZoneProduct(_ref) {
-  var _imageVariantes$2, _imageVariantes$3;
+  var _imageVariantes$3, _imageVariantes$4;
 
   var isEditProduct = _ref.isEditProduct,
       productId = _ref.productId;
@@ -11417,17 +11430,16 @@ var DropZoneProduct = function DropZoneProduct(_ref) {
 
     setDropRegion(); // nettoie la table images_products des images temporaires
 
-    axios__WEBPACK_IMPORTED_MODULE_4___default().post("http://127.0.0.1:8000/clean_Images_product_table");
+    axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/clean_Images_product_table");
+    console.log('useEffect[]---------');
   }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    console.log('isEditProduct   ', isEditProduct);
-    console.log('productId   ', productId);
-
     if (isEditProduct) {
+      console.log('dropzone is edit');
+      console.log('productId---   ', productId);
       var idProduct = new FormData();
       idProduct.append('productId', productId);
-      axios__WEBPACK_IMPORTED_MODULE_4___default().post("http://127.0.0.1:8000/getProduct", idProduct).then(function (res) {
-        console.log('res-->data  ', res.data);
+      axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/getProduct", idProduct).then(function (res) {
         var tmp_data = [[]];
         var tmp = [];
         var imagesProduct = res.data[0].images_products;
@@ -11449,6 +11461,8 @@ var DropZoneProduct = function DropZoneProduct(_ref) {
         console.log('Error get Product Images failed : ' + error.status);
       });
     }
+
+    console.log('useEffect[edit]---------');
   }, [isEditProduct]);
 
   function preventDefault(e) {
@@ -11530,7 +11544,7 @@ var DropZoneProduct = function DropZoneProduct(_ref) {
     });
 
     if (count_files.length > 0) {
-      axios__WEBPACK_IMPORTED_MODULE_4___default().post("http://127.0.0.1:8000/storeTmpImages", form_Data, {
+      axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/storeTmpImages", form_Data, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -11564,7 +11578,7 @@ var DropZoneProduct = function DropZoneProduct(_ref) {
   }
 
   function removeOneImage(id) {
-    axios__WEBPACK_IMPORTED_MODULE_4___default().get("http://127.0.0.1:8000/deleteImageProduct/".concat(id)).then(function (res) {
+    axios__WEBPACK_IMPORTED_MODULE_3___default().get("http://127.0.0.1:8000/deleteImageProduct/".concat(id)).then(function (res) {
       if (res.data === 'empty') {
         setImageVariantes([]);
         dropRegionRef.current.addEventListener('click', runFakeInputClick);
@@ -11599,7 +11613,7 @@ var DropZoneProduct = function DropZoneProduct(_ref) {
   var handleReOrderInTemporaryStorage = function handleReOrderInTemporaryStorage(images_ReOrdered) {
     var imagesToReOrder = new FormData();
     imagesToReOrder.append('images', JSON.stringify(images_ReOrdered));
-    axios__WEBPACK_IMPORTED_MODULE_4___default().post("http://127.0.0.1:8000/reOrderImagesProducts", imagesToReOrder).then(function () {
+    axios__WEBPACK_IMPORTED_MODULE_3___default().post("http://127.0.0.1:8000/reOrderImagesProducts", imagesToReOrder).then(function () {
       console.log('ok');
     })["catch"](function (error) {
       console.log('Error Image upload failed : ' + error.status);
@@ -11607,9 +11621,11 @@ var DropZoneProduct = function DropZoneProduct(_ref) {
   };
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    var _imageVariantes$;
+    var _imageVariantes$, _imageVariantes$2;
 
-    if (((_imageVariantes$ = imageVariantes[0]) === null || _imageVariantes$ === void 0 ? void 0 : _imageVariantes$.length) > 0) {
+    console.log('imageVariantes[0]?.length  ici  ', (_imageVariantes$ = imageVariantes[0]) === null || _imageVariantes$ === void 0 ? void 0 : _imageVariantes$.length);
+
+    if (((_imageVariantes$2 = imageVariantes[0]) === null || _imageVariantes$2 === void 0 ? void 0 : _imageVariantes$2.length) > 0) {
       // cancel --> open files explorator when click on dropRegion
       dropRegionRef.current.removeEventListener('click', runFakeInputClick); // met en blanc la dashed border de la dropRegion pour simuler sa disparition
 
@@ -11781,40 +11797,40 @@ var DropZoneProduct = function DropZoneProduct(_ref) {
     }
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_2__["default"], {
     id: "main-image-product",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_4__["default"], {
       label: "Images"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
       id: "drop-region_product",
       className: "w-full h-auto flex-col justify-start items-center bg-white rounded-md py-10 px-2.5 border-dashed border-2 border-gray-300 hover:bg-gray-50 cursor-pointer",
       ref: dropRegionRef,
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
         id: "drop-header",
         className: "w-full h-auto flex flex-row justify-center items-center pb-2.5 mb-2.5",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
           id: "firstImage",
           className: "hidden",
-          children: ((_imageVariantes$2 = imageVariantes[0]) === null || _imageVariantes$2 === void 0 ? void 0 : _imageVariantes$2.length) > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          children: ((_imageVariantes$3 = imageVariantes[0]) === null || _imageVariantes$3 === void 0 ? void 0 : _imageVariantes$3.length) > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
             className: "flex flex-col justify-start items-center flex-nowrap",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
               id: "txtImgPrincipale",
               className: "w-full text-center text-xs mt-0 pb-2.5",
               children: "Image principale"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
               className: "m-0 object-contain max-h-[200px]",
               src: window.location.origin + '/' + imageVariantes[0][0].path
             })]
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
           className: "w-full h-full flex flex-col justify-center items-center",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
             className: "text-center",
             children: "D\xE9posez vos images ou cliquez pour t\xE9l\xE9charger"
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
             id: "drop-card",
             className: "w-full h-auto mt-4",
-            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
+            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
               id: "addImageDropZoneProduct",
               src: "../images/icons/add-square-dotted.svg",
               className: "w-[50px] h-[50px] mx-auto hover:bg-gray-50 cursor-pointer",
@@ -11824,37 +11840,37 @@ var DropZoneProduct = function DropZoneProduct(_ref) {
             })
           })]
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_7__.DragDropContext, {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_6__.DragDropContext, {
         onDragEnd: onDragEnd,
-        children: ((_imageVariantes$3 = imageVariantes[0]) === null || _imageVariantes$3 === void 0 ? void 0 : _imageVariantes$3.length) > 0 && imageVariantes.map(function (item_tab, ndx) {
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_7__.Droppable, {
+        children: ((_imageVariantes$4 = imageVariantes[0]) === null || _imageVariantes$4 === void 0 ? void 0 : _imageVariantes$4.length) > 0 && imageVariantes.map(function (item_tab, ndx) {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_6__.Droppable, {
             droppableId: "".concat(ndx),
             direction: "horizontal",
             children: function children(provided, snapshot) {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", _objectSpread(_objectSpread({
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", _objectSpread(_objectSpread({
                 className: "grid gap-2.5 grid-cols-4 justify-center my-1.5 w-full h-32"
               }, provided.droppableProps), {}, {
                 ref: provided.innerRef,
                 children: [item_tab.map(function (item, index) {
-                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_7__.Draggable, {
+                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_6__.Draggable, {
                     draggableId: "".concat(item.id),
                     index: index,
                     children: function children(provided, snapshot) {
-                      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", _objectSpread(_objectSpread(_objectSpread({
+                      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", _objectSpread(_objectSpread(_objectSpread({
                         className: "image-view flex flex-row justify-center items-center mb-5 relative border border-gray-300 rounded bg-white group z-[100]",
                         ref: provided.innerRef
                       }, provided.draggableProps), provided.dragHandleProps), {}, {
                         style: getItemStyle(snapshot.isDragging, provided.draggableProps.style),
-                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
                           className: "imgClass max-w-3/12 max-h-32",
                           src: window.location.origin + '/' + item.path
-                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
                           id: "removeImg",
                           className: "invisible group-hover:visible absolute top-1.5 right-1.5 w-6 h-6 bg-[#d23e44] rounded",
                           onClick: function onClick() {
                             removeOneImage(item.id);
                           },
-                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
+                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
                             className: "w-6 h-6 rounded",
                             src: "../images/icons/x-white.svg"
                           })
@@ -12284,10 +12300,10 @@ var Header = function Header(_ref) {
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
     className: "w-full h-10 flex justify-start items-center mb-5",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-      className: "w-24 h-10 px-2 flex flex-row justify-center items-center border border-indigo-700 hover:border-2 rounded-md",
-      onClick: function onClick() {
-        initCreateProduct();
-      },
+      className: "w-24 h-10 px-2 flex flex-row justify-center items-center border border-indigo-700 hover:border-2 rounded-md" // onClick={() => {
+      //     initCreateProduct();
+      // }}
+      ,
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
         to: "/listProduct",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
@@ -16672,8 +16688,7 @@ var Options = function Options() {
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
       className: "w-full",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_optionVariantesList__WEBPACK_IMPORTED_MODULE_3__["default"] // listType={listType}
-      , {
+      children: showOptions && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_optionVariantesList__WEBPACK_IMPORTED_MODULE_3__["default"], {
         setShowOptions: setShowOptions
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_modalconfirmCancelWithoutSapveOptions__WEBPACK_IMPORTED_MODULE_6__["default"], {
@@ -19123,71 +19138,6 @@ var Flexbox_row_s_c_wrap = function Flexbox_row_s_c_wrap(props) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Flexbox_row_s_c_wrap);
-
-/***/ }),
-
-/***/ "./resources/js/components/elements/modalInput.jsx":
-/*!*********************************************************!*\
-  !*** ./resources/js/components/elements/modalInput.jsx ***!
-  \*********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-
-
-
-
-var ModalInput = function ModalInput(_ref) {
-  var inputValue = _ref.inputValue,
-      setInputValue = _ref.setInputValue,
-      handleModalCancel = _ref.handleModalCancel,
-      ModalConfirm = _ref.ModalConfirm,
-      show = _ref.show,
-      children = _ref.children;
-
-  var handleInputValue = function handleInputValue(e) {
-    setInputValue(e.target.value);
-  };
-
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-    className: " ".concat(show ? "block" : "hidden", " fixed top-0 left-0 bg-bg-modal z-40 w-full h-full  flex flex-col justify-start items-center"),
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("section", {
-      className: "fixed w-auto max-h-[90vh] max-w-[650px] min-w-[350] px-8 pt-5 pb-8 top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] flex flex-col justify-start items-start rounded-md bg-white z-50",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-        className: "w-full flex flex-row justify-end items-center pr-2",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
-          src: "../images/icons/x-white.svg",
-          className: "w-8 h-8 bg-red-600 rounded-md cursor-pointer",
-          onClick: handleModalCancel
-        })
-      }), children, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
-        type: "text",
-        className: "w-full h-12 px-5 rounded-md border border-gray-300",
-        value: inputValue,
-        onChange: handleInputValue
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-        className: "w-full flex flex-row justify-start items-center mt-8",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-          className: "w-32 h-12 flex justify-center items-center border border-gray-300 rounded-md bg-green-700 text-white hover:font-semibold",
-          onClick: ModalConfirm,
-          children: "Confirmer"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
-          className: "w-32 h-12 ml-5 flex justify-center items-center border border-gray-300 rounded-md bg-red-700 text-white hover:font-semibold",
-          onClick: handleModalCancel,
-          children: "Annuler"
-        })]
-      })]
-    })
-  });
-};
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ModalInput);
 
 /***/ }),
 

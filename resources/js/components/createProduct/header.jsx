@@ -22,9 +22,10 @@ const Header = ({ initCreateProduct, isDirtyCreateProduct }) => {
         <div className="w-full h-10 flex justify-start items-center mb-5">
             {/* retour */}
             <button className="w-24 h-10 px-2 flex flex-row justify-center items-center border border-indigo-700 hover:border-2 rounded-md"
-                onClick={() => {
-                    initCreateProduct();
-                }}>
+            // onClick={() => {
+            //     initCreateProduct();
+            // }}
+            >
                 <Link to="/listProduct">
                     <img
                         src='../images/icons/arrow-left.svg'

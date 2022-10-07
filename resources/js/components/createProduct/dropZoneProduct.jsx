@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useCallback, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
-import ModalInput from '../elements/modalInput';
 import Flex_col_s_s from '../elements/container/flex_col_s_s';
 import Axios from 'axios';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
@@ -59,18 +58,18 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
 
         // nettoie la table images_products des images temporaires
         Axios.post(`http://127.0.0.1:8000/clean_Images_product_table`);
+        console.log('useEffect[]---------')
     }, []);
 
 
     useEffect(() => {
-        console.log('isEditProduct   ', isEditProduct)
-        console.log('productId   ', productId)
         if (isEditProduct) {
+            console.log('dropzone is edit')
+            console.log('productId---   ', productId)
             let idProduct = new FormData;
             idProduct.append('productId', productId);
             Axios.post(`http://127.0.0.1:8000/getProduct`, idProduct)
                 .then(res => {
-                    console.log('res-->data  ', res.data)
                     let tmp_data = [[]];
                     let tmp = [];
                     let imagesProduct = res.data[0].images_products;
@@ -90,6 +89,7 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
                     console.log('Error get Product Images failed : ' + error.status);
                 });
         }
+        console.log('useEffect[edit]---------')
     }, [isEditProduct])
 
 
@@ -246,7 +246,8 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
     };
 
 
-    useEffect(() => {
+    useEffect(() => { 
+        console.log('imageVariantes[0]?.length  ici  ', imageVariantes[0]?.length)
         if (imageVariantes[0]?.length > 0) {
             // cancel --> open files explorator when click on dropRegion
             dropRegionRef.current.removeEventListener('click', runFakeInputClick);
@@ -513,15 +514,6 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
 
 
             </div>
-            {/* <ModalInput
-                show={showModal}
-                handleModalCancel={hideModal}
-                setInputValue={setUrlValue}
-                inputValue={urlValue}
-                ModalConfirm={ModalConfirm}
-              >
-                <h2 className="childrenModal">Entrez l'URL de l'image</h2>
-            </ModalInput> */}
         </Flex_col_s_s>
     )
 }

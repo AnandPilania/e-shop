@@ -195,10 +195,10 @@ const Options = () => {
             </DragDropContext>
 
             <div className='w-full'>
-                <OptionVariantesList
-                    // listType={listType}
-                    setShowOptions={setShowOptions}
-                />
+                {showOptions &&
+                    <OptionVariantesList
+                        setShowOptions={setShowOptions}
+                    />}
             </div>
 
 
