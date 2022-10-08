@@ -1,20 +1,25 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import { Link } from 'react-router-dom';
 import TooltipWithoutIcon from '../elements/tooltipWithoutIcon';
-
+import ModalConfirmation from '../modal/modalConfirmation';
 
 const Header = ({ initCreateProduct, isDirtyCreateProduct }) => {
+
+    const [show, setShow] = useState(false);
+    const [message, setMessage] = useState('');
 
     const { setShowModalConfirm, setMessageModal, setSender, setTextButtonConfirm, setConditions, setTmp_parameter } = useContext(AppContext);
 
     // confirm reinitialisatio form
     const confirmInitCollectionForm = () => {
-        setMessageModal('Supprimer tout le contenu de ce formulaire ?')
-        setTextButtonConfirm('Confirmer');
-        setSender('initCollectionForm');
-        setTmp_parameter('');
-        setShowModalConfirm(true);
+        setMessage('Supprimer tout le contenu de ce formulaire ?')
+        setShow(true);
+    }
+
+    const handleCancelShow = () => {
+        setMessage('');
+        setShow(false);
     }
 
 
@@ -22,9 +27,9 @@ const Header = ({ initCreateProduct, isDirtyCreateProduct }) => {
         <div className="w-full h-10 flex justify-start items-center mb-5">
             {/* retour */}
             <button className="w-24 h-10 px-2 flex flex-row justify-center items-center border border-indigo-700 hover:border-2 rounded-md"
-            // onClick={() => {
-            //     initCreateProduct();
-            // }}
+                // onClick={() => {
+                  
+                // }}
             >
                 <Link to="/listProduct">
                     <img
@@ -43,7 +48,7 @@ const Header = ({ initCreateProduct, isDirtyCreateProduct }) => {
                     id="resetButtonCollection4922"
                     className='w-auto h-10 px-4 flex flex-row justify-center items-center border border-indigo-700 bg-white text-gray-700 font-medium hover:border-2 rounded-md ml-auto'
                     onClick={() => {
-                        initCreateProduct();
+                        confirmInitCollectionForm();
                     }}
                 >
                     <span
@@ -59,6 +64,13 @@ const Header = ({ initCreateProduct, isDirtyCreateProduct }) => {
                         Réinitialiser le formulaire
                     </TooltipWithoutIcon>
                 </button>)}
+            <ModalConfirmation
+                show={show}
+                handleModalConfirm={initCreateProduct}
+                handleModalCancel={handleCancelShow}
+            >
+                <h2 className="childrenModal">{message}</h2>
+            </ModalConfirmation>
         </div>
     );
 }

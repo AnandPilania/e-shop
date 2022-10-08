@@ -110,7 +110,7 @@ const CreateProduct = () => {
                     setTva(data.taxe_id);
                     setSupplier(data.supplier == null ? '' : data.supplier);
                     setVariantes(data.variantes);
-                    setImageVariantes(data.images_products);
+                    // setImageVariantes(data.images_products);
 
                     // affiche la partie promo dans price
                     if (data.reduction != null || data.reduced_price != null) {
@@ -187,15 +187,21 @@ const CreateProduct = () => {
         setIsShowPromoProduct(false);
         setIsDirtyCreateProduct(false);
         checkIfCreateProductIsDirty();
+        setIsEditProduct(false);
     }
 
 
     const checkIfCreateProductIsDirty = () => {
         let isImagesVariantesModified = true;
         if (hooksComparation.imageVariantes && imageVariantes[0].length > 0) {
-            let imgV = imageVariantes[0].map(x => x.id);
+            let imgV = [];
+            imageVariantes.forEach(x => {
+                imgV.push(...x);
+            });
+            imgV = imgV.map(x => x.id);
             let hooksImgV = hooksComparation.imageVariantes.map(x => x.id);
-            isImagesVariantesModified = hooksImgV.every(id => imgV.indexOf(id) !== -1);
+            isImagesVariantesModified = hooksImgV.every(id => imgV.indexOf(id) > -1);
+            console.log('imageVariantes comp ', imageVariantes)
             console.log('imgV  ', imgV)
             console.log('hooksImgV  ', hooksImgV)
             console.log('isImagesVariantesModified  ', isImagesVariantesModified)

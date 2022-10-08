@@ -3962,321 +3962,326 @@ var Appcontainer = function Appcontainer() {
   var _useState105 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState106 = _slicedToArray(_useState105, 2),
       imageHasBeenChanged = _useState106[0],
-      setImageHasBeenChanged = _useState106[1]; //Handle options in coonditionsCollections---------------------------
+      setImageHasBeenChanged = _useState106[1];
 
-
-  var _useState107 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState107 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState108 = _slicedToArray(_useState107, 2),
-      dsablNamProd = _useState108[0],
-      setDsablNamProd = _useState108[1];
+      imagesVariantesToDelete = _useState108[0],
+      setImagesVariantesToDelete = _useState108[1]; //Handle options in coonditionsCollections---------------------------
+
 
   var _useState109 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState110 = _slicedToArray(_useState109, 2),
-      dsablType = _useState110[0],
-      setDsablType = _useState110[1];
+      dsablNamProd = _useState110[0],
+      setDsablNamProd = _useState110[1];
 
   var _useState111 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState112 = _slicedToArray(_useState111, 2),
-      dsablSuppl = _useState112[0],
-      setDsablSuppl = _useState112[1];
+      dsablType = _useState112[0],
+      setDsablType = _useState112[1];
 
   var _useState113 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState114 = _slicedToArray(_useState113, 2),
-      dsablPrice = _useState114[0],
-      setDsablPrice = _useState114[1];
+      dsablSuppl = _useState114[0],
+      setDsablSuppl = _useState114[1];
 
   var _useState115 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState116 = _slicedToArray(_useState115, 2),
-      dsablTag = _useState116[0],
-      setDsablTag = _useState116[1];
+      dsablPrice = _useState116[0],
+      setDsablPrice = _useState116[1];
 
   var _useState117 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState118 = _slicedToArray(_useState117, 2),
-      dsablBeforePromo = _useState118[0],
-      setDsablBeforePromo = _useState118[1];
+      dsablTag = _useState118[0],
+      setDsablTag = _useState118[1];
 
   var _useState119 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState120 = _slicedToArray(_useState119, 2),
-      dsablWeight = _useState120[0],
-      setDsablWeight = _useState120[1];
+      dsablBeforePromo = _useState120[0],
+      setDsablBeforePromo = _useState120[1];
 
   var _useState121 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState122 = _slicedToArray(_useState121, 2),
-      dsablStock = _useState122[0],
-      setDsablStock = _useState122[1];
+      dsablWeight = _useState122[0],
+      setDsablWeight = _useState122[1];
 
   var _useState123 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState124 = _slicedToArray(_useState123, 2),
-      dsablDate = _useState124[0],
-      setDsablDate = _useState124[1]; //----------------------------Handle options in coonditionsCollections
+      dsablStock = _useState124[0],
+      setDsablStock = _useState124[1];
+
+  var _useState125 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState126 = _slicedToArray(_useState125, 2),
+      dsablDate = _useState126[0],
+      setDsablDate = _useState126[1]; //----------------------------Handle options in coonditionsCollections
   //------------------------------------------------------------COLLECTION
   //PRODUCT---------------------------------------------------------------
 
 
-  var _useState125 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState126 = _slicedToArray(_useState125, 2),
-      nameProduct = _useState126[0],
-      setNameProduct = _useState126[1];
-
   var _useState127 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState128 = _slicedToArray(_useState127, 2),
-      ribbonProduct = _useState128[0],
-      setRibbonProduct = _useState128[1];
+      nameProduct = _useState128[0],
+      setNameProduct = _useState128[1];
 
   var _useState129 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState130 = _slicedToArray(_useState129, 2),
-      descriptionProduct = _useState130[0],
-      setDescriptionProduct = _useState130[1];
+      ribbonProduct = _useState130[0],
+      setRibbonProduct = _useState130[1];
 
-  var _useState131 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState131 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState132 = _slicedToArray(_useState131, 2),
-      collections = _useState132[0],
-      setCollections = _useState132[1];
+      descriptionProduct = _useState132[0],
+      setDescriptionProduct = _useState132[1];
 
-  var _useState133 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState133 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState134 = _slicedToArray(_useState133, 2),
-      productPrice = _useState134[0],
-      setProductPrice = _useState134[1];
+      collections = _useState134[0],
+      setCollections = _useState134[1];
 
   var _useState135 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState136 = _slicedToArray(_useState135, 2),
-      productParcelWeight = _useState136[0],
-      setProductParcelWeight = _useState136[1];
+      productPrice = _useState136[0],
+      setProductPrice = _useState136[1];
 
-  var _useState137 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('gr'),
+  var _useState137 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState138 = _slicedToArray(_useState137, 2),
-      productParcelWeightMeasureUnit = _useState138[0],
-      setProductParcelWeightMeasureUnit = _useState138[1];
+      productParcelWeight = _useState138[0],
+      setProductParcelWeight = _useState138[1];
 
-  var _useState139 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState139 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('gr'),
       _useState140 = _slicedToArray(_useState139, 2),
-      promoApplied = _useState140[0],
-      setPromoApplied = _useState140[1];
+      productParcelWeightMeasureUnit = _useState140[0],
+      setProductParcelWeightMeasureUnit = _useState140[1];
 
   var _useState141 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState142 = _slicedToArray(_useState141, 2),
-      reducedProductPrice = _useState142[0],
-      setReducedProductPrice = _useState142[1];
+      promoApplied = _useState142[0],
+      setPromoApplied = _useState142[1];
 
-  var _useState143 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('%'),
+  var _useState143 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState144 = _slicedToArray(_useState143, 2),
-      promoType = _useState144[0],
-      setPromoType = _useState144[1];
+      reducedProductPrice = _useState144[0],
+      setReducedProductPrice = _useState144[1];
 
-  var _useState145 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState145 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('%'),
       _useState146 = _slicedToArray(_useState145, 2),
-      productCost = _useState146[0],
-      setProductCost = _useState146[1];
+      promoType = _useState146[0],
+      setPromoType = _useState146[1];
 
   var _useState147 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState148 = _slicedToArray(_useState147, 2),
-      productStock = _useState148[0],
-      setProductStock = _useState148[1];
+      productCost = _useState148[0],
+      setProductCost = _useState148[1];
 
   var _useState149 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState150 = _slicedToArray(_useState149, 2),
-      productCode = _useState150[0],
-      setProductCode = _useState150[1];
+      productStock = _useState150[0],
+      setProductStock = _useState150[1];
 
-  var _useState151 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState151 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState152 = _slicedToArray(_useState151, 2),
-      optionsObj = _useState152[0],
-      setOptionsObj = _useState152[1];
+      productCode = _useState152[0],
+      setProductCode = _useState152[1];
 
-  var _useState153 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState153 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState154 = _slicedToArray(_useState153, 2),
-      unlimited = _useState154[0],
-      setUnlimited = _useState154[1];
+      optionsObj = _useState154[0],
+      setOptionsObj = _useState154[1];
 
-  var _useState155 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState155 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState156 = _slicedToArray(_useState155, 2),
-      variantes = _useState156[0],
-      setVariantes = _useState156[1];
+      unlimited = _useState156[0],
+      setUnlimited = _useState156[1];
 
   var _useState157 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState158 = _slicedToArray(_useState157, 2),
-      checkedVariantesList = _useState158[0],
-      setCheckedVariantesList = _useState158[1];
+      variantes = _useState158[0],
+      setVariantes = _useState158[1];
 
   var _useState159 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState160 = _slicedToArray(_useState159, 2),
-      selectedVariantesList = _useState160[0],
-      setSelectedVariantesList = _useState160[1];
+      checkedVariantesList = _useState160[0],
+      setCheckedVariantesList = _useState160[1];
 
-  var _useState161 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+  var _useState161 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState162 = _slicedToArray(_useState161, 2),
-      allOptionsVariantesNeeded = _useState162[0],
-      setAllOptionsVariantesNeeded = _useState162[1];
+      selectedVariantesList = _useState162[0],
+      setSelectedVariantesList = _useState162[1];
 
-  var _useState163 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState163 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
       _useState164 = _slicedToArray(_useState163, 2),
-      isHideDeletedVariantes = _useState164[0],
-      setIsHideDeletedVariantes = _useState164[1];
+      allOptionsVariantesNeeded = _useState164[0],
+      setAllOptionsVariantesNeeded = _useState164[1];
 
-  var _useState165 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState165 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState166 = _slicedToArray(_useState165, 2),
-      isInAutoCollection = _useState166[0],
-      setIsInAutoCollection = _useState166[1];
+      isHideDeletedVariantes = _useState166[0],
+      setIsHideDeletedVariantes = _useState166[1];
 
-  var _useState167 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+  var _useState167 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState168 = _slicedToArray(_useState167, 2),
-      variante = _useState168[0],
-      setVariante = _useState168[1];
+      isInAutoCollection = _useState168[0],
+      setIsInAutoCollection = _useState168[1];
 
-  var _useState169 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([[]]),
+  var _useState169 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
       _useState170 = _slicedToArray(_useState169, 2),
-      imageVariantes = _useState170[0],
-      setImageVariantes = _useState170[1];
+      variante = _useState170[0],
+      setVariante = _useState170[1];
 
-  var _useState171 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState171 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([[]]),
       _useState172 = _slicedToArray(_useState171, 2),
-      listType = _useState172[0],
-      setListType = _useState172[1];
+      imageVariantes = _useState172[0],
+      setImageVariantes = _useState172[1];
 
   var _useState173 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState174 = _slicedToArray(_useState173, 2),
-      optionsData = _useState174[0],
-      setOptionsData = _useState174[1];
+      listType = _useState174[0],
+      setListType = _useState174[1];
 
   var _useState175 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState176 = _slicedToArray(_useState175, 2),
-      changedVariantes = _useState176[0],
-      setChangedVariantes = _useState176[1];
+      optionsData = _useState176[0],
+      setOptionsData = _useState176[1];
 
-  var _useState177 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState177 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState178 = _slicedToArray(_useState177, 2),
-      metaTitleProduct = _useState178[0],
-      setMetaTitleProduct = _useState178[1];
+      changedVariantes = _useState178[0],
+      setChangedVariantes = _useState178[1];
 
   var _useState179 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState180 = _slicedToArray(_useState179, 2),
-      metaDescriptionProduct = _useState180[0],
-      setMetaDescriptionProduct = _useState180[1];
+      metaTitleProduct = _useState180[0],
+      setMetaTitleProduct = _useState180[1];
 
   var _useState181 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState182 = _slicedToArray(_useState181, 2),
-      metaUrlProduct = _useState182[0],
-      setMetaUrlProduct = _useState182[1];
+      metaDescriptionProduct = _useState182[0],
+      setMetaDescriptionProduct = _useState182[1];
 
-  var _useState183 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([1, 2, 3]),
+  var _useState183 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState184 = _slicedToArray(_useState183, 2),
-      products = _useState184[0],
-      setProducts = _useState184[1];
+      metaUrlProduct = _useState184[0],
+      setMetaUrlProduct = _useState184[1];
 
-  var _useState185 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState185 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([1, 2, 3]),
       _useState186 = _slicedToArray(_useState185, 2),
-      listProductsFiltered = _useState186[0],
-      setListProductsFiltered = _useState186[1];
+      products = _useState186[0],
+      setProducts = _useState186[1];
 
   var _useState187 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState188 = _slicedToArray(_useState187, 2),
-      listProductsChecked = _useState188[0],
-      setListProductsChecked = _useState188[1];
+      listProductsFiltered = _useState188[0],
+      setListProductsFiltered = _useState188[1];
 
-  var _useState189 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_4__.getNow)()),
+  var _useState189 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState190 = _slicedToArray(_useState189, 2),
-      dateFieldProduct = _useState190[0],
-      setDateFieldProduct = _useState190[1];
+      listProductsChecked = _useState190[0],
+      setListProductsChecked = _useState190[1];
 
-  var _useState191 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState191 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_4__.getNow)()),
       _useState192 = _slicedToArray(_useState191, 2),
-      listCollectionNames = _useState192[0],
-      setListCollectionNames = _useState192[1];
+      dateFieldProduct = _useState192[0],
+      setDateFieldProduct = _useState192[1];
 
-  var _useState193 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState193 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState194 = _slicedToArray(_useState193, 2),
-      isEditProduct = _useState194[0],
-      setIsEditProduct = _useState194[1];
+      listCollectionNames = _useState194[0],
+      setListCollectionNames = _useState194[1];
 
   var _useState195 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState196 = _slicedToArray(_useState195, 2),
-      isShowPromoProduct = _useState196[0],
-      setIsShowPromoProduct = _useState196[1]; //---------------------------------------------------------------PRODUCT
+      isEditProduct = _useState196[0],
+      setIsEditProduct = _useState196[1];
+
+  var _useState197 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState198 = _slicedToArray(_useState197, 2),
+      isShowPromoProduct = _useState198[0],
+      setIsShowPromoProduct = _useState198[1]; //---------------------------------------------------------------PRODUCT
   // supplier-------------------------------------------------------------
 
 
-  var _useState197 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState198 = _slicedToArray(_useState197, 2),
-      nameSupplier = _useState198[0],
-      setNameSupplier = _useState198[1];
-
   var _useState199 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState200 = _slicedToArray(_useState199, 2),
-      emailSupplier = _useState200[0],
-      setEmailSupplier = _useState200[1];
+      nameSupplier = _useState200[0],
+      setNameSupplier = _useState200[1];
 
   var _useState201 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState202 = _slicedToArray(_useState201, 2),
-      phoneSupplier = _useState202[0],
-      setPhoneSupplier = _useState202[1];
+      emailSupplier = _useState202[0],
+      setEmailSupplier = _useState202[1];
 
   var _useState203 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState204 = _slicedToArray(_useState203, 2),
-      webSiteSupplier = _useState204[0],
-      setWebSiteSupplier = _useState204[1];
+      phoneSupplier = _useState204[0],
+      setPhoneSupplier = _useState204[1];
 
   var _useState205 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState206 = _slicedToArray(_useState205, 2),
-      adressSupplier = _useState206[0],
-      setAdressSupplier = _useState206[1];
+      webSiteSupplier = _useState206[0],
+      setWebSiteSupplier = _useState206[1];
 
   var _useState207 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState208 = _slicedToArray(_useState207, 2),
-      citySupplier = _useState208[0],
-      setCitySupplier = _useState208[1];
+      adressSupplier = _useState208[0],
+      setAdressSupplier = _useState208[1];
 
   var _useState209 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState210 = _slicedToArray(_useState209, 2),
-      countrySupplier = _useState210[0],
-      setCountrySupplier = _useState210[1];
+      citySupplier = _useState210[0],
+      setCitySupplier = _useState210[1];
 
-  var _useState211 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState211 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState212 = _slicedToArray(_useState211, 2),
-      listSuppliers = _useState212[0],
-      setListSuppliers = _useState212[1];
+      countrySupplier = _useState212[0],
+      setCountrySupplier = _useState212[1];
 
-  var _useState213 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState213 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState214 = _slicedToArray(_useState213, 2),
-      supplier = _useState214[0],
-      setSupplier = _useState214[1]; // TVA---------------------------------------------------------------
+      listSuppliers = _useState214[0],
+      setListSuppliers = _useState214[1];
 
-
-  var _useState215 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+  var _useState215 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState216 = _slicedToArray(_useState215, 2),
-      activeCalculTva = _useState216[0],
-      setActiveCalculTva = _useState216[1];
+      supplier = _useState216[0],
+      setSupplier = _useState216[1]; // TVA---------------------------------------------------------------
 
-  var _useState217 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+
+  var _useState217 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
       _useState218 = _slicedToArray(_useState217, 2),
-      tvaRateList = _useState218[0],
-      setTvaRateList = _useState218[1];
+      activeCalculTva = _useState218[0],
+      setActiveCalculTva = _useState218[1];
 
-  var _useState219 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState219 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState220 = _slicedToArray(_useState219, 2),
-      tva = _useState220[0],
-      setTva = _useState220[1]; // Shipping ---------------------------------------------------------
+      tvaRateList = _useState220[0],
+      setTvaRateList = _useState220[1];
 
-
-  var _useState221 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState221 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState222 = _slicedToArray(_useState221, 2),
-      listTransporters = _useState222[0],
-      setListTransporters = _useState222[1];
+      tva = _useState222[0],
+      setTva = _useState222[1]; // Shipping ---------------------------------------------------------
+
 
   var _useState223 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState224 = _slicedToArray(_useState223, 2),
-      transporter = _useState224[0],
-      setTransporter = _useState224[1]; // GENERAL -----------------------------------------------------------
+      listTransporters = _useState224[0],
+      setListTransporters = _useState224[1];
 
-
-  var _useState225 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.innerWidth),
+  var _useState225 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState226 = _slicedToArray(_useState225, 2),
-      screenSize = _useState226[0],
-      setScreenSize = _useState226[1];
+      transporter = _useState226[0],
+      setTransporter = _useState226[1]; // GENERAL -----------------------------------------------------------
 
-  var _useState227 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+
+  var _useState227 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.innerWidth),
       _useState228 = _slicedToArray(_useState227, 2),
-      showSideNav = _useState228[0],
-      setShowSideNav = _useState228[1];
+      screenSize = _useState228[0],
+      setScreenSize = _useState228[1];
+
+  var _useState229 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+      _useState230 = _slicedToArray(_useState229, 2),
+      showSideNav = _useState230[0],
+      setShowSideNav = _useState230[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // chargement des collections
@@ -10970,8 +10975,8 @@ var CreateProduct = function CreateProduct() {
         setDateFieldProduct(data.dateActivation);
         setTva(data.taxe_id);
         setSupplier(data.supplier == null ? '' : data.supplier);
-        setVariantes(data.variantes);
-        setImageVariantes(data.images_products); // affiche la partie promo dans price
+        setVariantes(data.variantes); // setImageVariantes(data.images_products);
+        // affiche la partie promo dans price
 
         if (data.reduction != null || data.reduced_price != null) {
           setIsShowPromoProduct(true);
@@ -11045,21 +11050,29 @@ var CreateProduct = function CreateProduct() {
     setIsShowPromoProduct(false);
     setIsDirtyCreateProduct(false);
     checkIfCreateProductIsDirty();
+    setIsEditProduct(false);
   };
 
   var checkIfCreateProductIsDirty = function checkIfCreateProductIsDirty() {
     var isImagesVariantesModified = true;
 
     if (hooksComparation.imageVariantes && imageVariantes[0].length > 0) {
-      var imgV = imageVariantes[0].map(function (x) {
+      var imgV = [];
+      imageVariantes.forEach(function (x) {
+        var _imgV;
+
+        (_imgV = imgV).push.apply(_imgV, _toConsumableArray(x));
+      });
+      imgV = imgV.map(function (x) {
         return x.id;
       });
       var hooksImgV = hooksComparation.imageVariantes.map(function (x) {
         return x.id;
       });
       isImagesVariantesModified = hooksImgV.every(function (id) {
-        return imgV.indexOf(id) !== -1;
+        return imgV.indexOf(id) > -1;
       });
+      console.log('imageVariantes comp ', imageVariantes);
       console.log('imgV  ', imgV);
       console.log('hooksImgV  ', hooksImgV);
       console.log('isImagesVariantesModified  ', isImagesVariantesModified);
@@ -12266,9 +12279,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/index.js");
 /* harmony import */ var _elements_tooltipWithoutIcon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../elements/tooltipWithoutIcon */ "./resources/js/components/elements/tooltipWithoutIcon.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _modal_modalConfirmation__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../modal/modalConfirmation */ "./resources/js/components/modal/modalConfirmation.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
 
 
 
@@ -12280,6 +12307,16 @@ var Header = function Header(_ref) {
   var initCreateProduct = _ref.initCreateProduct,
       isDirtyCreateProduct = _ref.isDirtyCreateProduct;
 
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState2 = _slicedToArray(_useState, 2),
+      show = _useState2[0],
+      setShow = _useState2[1];
+
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState4 = _slicedToArray(_useState3, 2),
+      message = _useState4[0],
+      setMessage = _useState4[1];
+
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       setShowModalConfirm = _useContext.setShowModalConfirm,
       setMessageModal = _useContext.setMessageModal,
@@ -12290,50 +12327,59 @@ var Header = function Header(_ref) {
 
 
   var confirmInitCollectionForm = function confirmInitCollectionForm() {
-    setMessageModal('Supprimer tout le contenu de ce formulaire ?');
-    setTextButtonConfirm('Confirmer');
-    setSender('initCollectionForm');
-    setTmp_parameter('');
-    setShowModalConfirm(true);
+    setMessage('Supprimer tout le contenu de ce formulaire ?');
+    setShow(true);
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+  var handleCancelShow = function handleCancelShow() {
+    setMessage('');
+    setShow(false);
+  };
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
     className: "w-full h-10 flex justify-start items-center mb-5",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
       className: "w-24 h-10 px-2 flex flex-row justify-center items-center border border-indigo-700 hover:border-2 rounded-md" // onClick={() => {
-      //     initCreateProduct();
       // }}
       ,
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
         to: "/listProduct",
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
           src: "../images/icons/arrow-left.svg",
           className: "w-4 h-4 inline"
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
           className: "ml-1.5 font-medium text-gray-700",
           children: "Retour"
         })]
       })
-    }), isDirtyCreateProduct && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("button", {
+    }), isDirtyCreateProduct && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("button", {
       id: "resetButtonCollection4922",
       className: "w-auto h-10 px-4 flex flex-row justify-center items-center border border-indigo-700 bg-white text-gray-700 font-medium hover:border-2 rounded-md ml-auto",
       onClick: function onClick() {
-        initCreateProduct();
+        confirmInitCollectionForm();
       },
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("span", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
         id: "img_resetButtonCollection4922",
         className: "w-full h-full flex items-center",
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
           src: "../images/icons/arrow-counterclockwise.svg",
           className: "w-5 h-5"
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_elements_tooltipWithoutIcon__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_elements_tooltipWithoutIcon__WEBPACK_IMPORTED_MODULE_2__["default"], {
         id: "resetButtonCollection4922",
         idimg: "img_resetButtonCollection4922",
         widthTip: 190,
         css: "mb-8",
         children: "R\xE9initialiser le formulaire"
       })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_modal_modalConfirmation__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      show: show,
+      handleModalConfirm: initCreateProduct,
+      handleModalCancel: handleCancelShow,
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h2", {
+        className: "childrenModal",
+        children: message
+      })
     })]
   });
 };

@@ -111,6 +111,7 @@ const Appcontainer = () => {
     const [notThisId, setNotThisId] = useState([]);
     const [refresh, setRefresh] = useState('');
     const [imageHasBeenChanged, setImageHasBeenChanged] = useState(false);
+    const [imagesVariantesToDelete, setImagesVariantesToDelete] = useState([]);
 
     //Handle options in coonditionsCollections---------------------------
     const [dsablNamProd, setDsablNamProd] = useState(false);
