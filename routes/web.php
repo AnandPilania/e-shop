@@ -167,7 +167,7 @@ Route::get('/editImagesProduct/{id}', [ProductController::class, 'editImagesProd
 
 Route::post('/replaceImagesProduct', [ProductController::class, 'replaceImagesProduct']);
 Route::post('/addImagesProduct', [ProductController::class, 'addImagesProduct']);
-Route::get('/deleteImageProduct/{id}', [ProductController::class, 'deleteImageProduct']);
+Route::post('/deleteImageProduct', [ProductController::class, 'deleteImageProduct']);
 // get images by prodcut id
 Route::get('/getTemporaryImagesProduct/{productId}', [ProductController::class, 'getTemporaryImagesProduct']);
 Route::post('/updateProduct', [ProductController::class, 'update']);
@@ -179,6 +179,7 @@ Route::post('/deleteModalImageHasBeenCanceled', [ProductController::class, 'dele
 
 // change order of images when drag and drop images products in create product form
 Route::post('/reOrderImagesProducts', [ProductController::class, 'reOrderImagesProducts']);
+Route::get('/reOrderImagesProductById/{productId}', [ProductController::class, 'reOrderImagesProductById']);
 // Route::post('/getImagesProduct', [ProductController::class, 'getImagesProduct']);
 
 Route::get('/creatFrontIndex', [FrontEndController::class, 'create']);
@@ -186,7 +187,7 @@ Route::get('/creatFrontIndex', [FrontEndController::class, 'create']);
 
 // store les reviews envoyées par les users
 Route::post('/storeReveiw', [ReviewController::class, 'storeReveiw']);
-Route::get('/getProducts', [ProductController::class, 'index']);
+Route::get('/getProducts', [ProductController::class, 'getProducts']);
 
 // change le status d'activation d'un produit'
 Route::post('/handleProductStatus', [ProductController::class, 'handleProductStatus']);

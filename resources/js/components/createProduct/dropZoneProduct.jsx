@@ -58,14 +58,11 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
 
         // nettoie la table images_products des images temporaires
         Axios.post(`http://127.0.0.1:8000/clean_Images_product_table`);
-        console.log('useEffect[]---------')
     }, []);
 
 
     useEffect(() => {
         if (isEditProduct) {
-            console.log('dropzone is edit')
-            console.log('productId---   ', productId)
             let idProduct = new FormData;
             idProduct.append('productId', productId);
             Axios.post(`http://127.0.0.1:8000/getProduct`, idProduct)
@@ -89,7 +86,6 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
                     console.log('Error get Product Images failed : ' + error.status);
                 });
         }
-        console.log('useEffect[edit]---------')
     }, [isEditProduct])
 
 
@@ -168,7 +164,7 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
                 form_Data.append('files[]', file);
             }
         });
-
+        form_Data.append('productId', productId);
         if (count_files.length > 0) {
             Axios.post(`http://127.0.0.1:8000/storeTmpImages`, form_Data,
                 { headers: { 'Content-Type': 'multipart/form-data' } })
@@ -195,12 +191,16 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
                         }
                     }
                 })
+                .catch((error) => console.log('error: ', error));
         }
     }
 
 
     function removeOneImage(id) {
-        Axios.get(`http://127.0.0.1:8000/deleteImageProduct/${id}`)
+        let form_Data = new FormData;
+        form_Data.append('id', id);
+        form_Data.append('productId', productId);
+        Axios.post(`http://127.0.0.1:8000/deleteImageProduct`, form_Data)
             .then(res => {
                 if (res.data === 'empty') {
                     setImageVariantes([]);
@@ -232,22 +232,18 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
 
 
     // change order of images in db images_product when drag and drop images products in drop zone
-    const handleReOrderInTemporaryStorage = (images_ReOrdered) => {
+    const handleReOrderInTemporaryStorage = (images_ReOrdered) => { 
         var imagesToReOrder = new FormData;
         imagesToReOrder.append('images', JSON.stringify(images_ReOrdered));
 
         Axios.post(`http://127.0.0.1:8000/reOrderImagesProducts`, imagesToReOrder)
-            .then(() => {
-                console.log('ok');
-            })
             .catch(error => {
                 console.log('Error Image upload failed : ' + error.status);
             });
     };
 
 
-    useEffect(() => { 
-        console.log('imageVariantes[0]?.length  ici  ', imageVariantes[0]?.length)
+    useEffect(() => {
         if (imageVariantes[0]?.length > 0) {
             // cancel --> open files explorator when click on dropRegion
             dropRegionRef.current.removeEventListener('click', runFakeInputClick);

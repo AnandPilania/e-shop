@@ -1,15 +1,16 @@
 import React, { useState, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import { Link } from 'react-router-dom';
+import Axios from 'axios';
 import TooltipWithoutIcon from '../elements/tooltipWithoutIcon';
 import ModalConfirmation from '../modal/modalConfirmation';
 
-const Header = ({ initCreateProduct, isDirtyCreateProduct }) => {
+const Header = ({ initCreateProduct, isDirtyCreateProduct, productId }) => {
 
     const [show, setShow] = useState(false);
     const [message, setMessage] = useState('');
 
-    const { setShowModalConfirm, setMessageModal, setSender, setTextButtonConfirm, setConditions, setTmp_parameter } = useContext(AppContext);
+    const { setImageVariantes, setIsEditProduct } = useContext(AppContext);
 
     // confirm reinitialisatio form
     const confirmInitCollectionForm = () => {
@@ -27,9 +28,13 @@ const Header = ({ initCreateProduct, isDirtyCreateProduct }) => {
         <div className="w-full h-10 flex justify-start items-center mb-5">
             {/* retour */}
             <button className="w-24 h-10 px-2 flex flex-row justify-center items-center border border-indigo-700 hover:border-2 rounded-md"
-                // onClick={() => {
-                  
-                // }}
+                onClick={() => {
+                    // nettoie images_products images temporaires
+                    Axios.post(`http://127.0.0.1:8000/clean_Images_product_table`);
+                    Axios.get(`http://127.0.0.1:8000/reOrderImagesProductById/${productId}`);
+                    setIsEditProduct(false);
+                    setImageVariantes([[]]);
+                }}
             >
                 <Link to="/listProduct">
                     <img

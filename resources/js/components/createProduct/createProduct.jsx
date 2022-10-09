@@ -69,7 +69,6 @@ const CreateProduct = () => {
             .then(res => {
                 let tmpTva = res.data.filter(x => x.is_default == 1);
                 setTvaComparation(tmpTva[0]);
-                console.log('tmpTva  ', tmpTva[0])
             })
             .catch(error => {
                 console.log('Error : ' + error.status);
@@ -77,16 +76,11 @@ const CreateProduct = () => {
 
 
         if (isEdit) {
-            console.log('editttttttt')
             let idProduct = new FormData;
             idProduct.append('productId', productId);
             Axios.post(`http://127.0.0.1:8000/getProduct`, idProduct)
                 .then(res => {
-                    console.log('res.data   ', res.data)
                     let data = res.data[0];
-                    console.log('data.variantes  ', data.variantes)
-                    console.log('data.images_products  ', data.images_products)
-                    console.log('imageVariantes  ', imageVariantes)
                     setNameProduct(data.name == null ? '' : data.name);
                     setIsInAutoCollection(data.isInAutoCollection == 1 ? true : false);
                     setRibbonProduct(data.ribbon == null ? '' : data.ribbon);
@@ -110,7 +104,6 @@ const CreateProduct = () => {
                     setTva(data.taxe_id);
                     setSupplier(data.supplier == null ? '' : data.supplier);
                     setVariantes(data.variantes);
-                    // setImageVariantes(data.images_products);
 
                     // affiche la partie promo dans price
                     if (data.reduction != null || data.reduced_price != null) {
@@ -155,6 +148,8 @@ const CreateProduct = () => {
                 })
 
             setIsEditProduct(true);
+        } else {
+            initCreateProduct();
         }
 
     }, []);
@@ -192,21 +187,6 @@ const CreateProduct = () => {
 
 
     const checkIfCreateProductIsDirty = () => {
-        let isImagesVariantesModified = true;
-        if (hooksComparation.imageVariantes && imageVariantes[0].length > 0) {
-            let imgV = [];
-            imageVariantes.forEach(x => {
-                imgV.push(...x);
-            });
-            imgV = imgV.map(x => x.id);
-            let hooksImgV = hooksComparation.imageVariantes.map(x => x.id);
-            isImagesVariantesModified = hooksImgV.every(id => imgV.indexOf(id) > -1);
-            console.log('imageVariantes comp ', imageVariantes)
-            console.log('imgV  ', imgV)
-            console.log('hooksImgV  ', hooksImgV)
-            console.log('isImagesVariantesModified  ', isImagesVariantesModified)
-        }
-
         if (isEditProduct) {
             if (
                 hooksComparation.nameProduct != nameProduct ||
@@ -231,8 +211,8 @@ const CreateProduct = () => {
                 // // hooksComparation.// // dateFieldProduct
                 hooksComparation.tva != tva.id ||
                 hooksComparation.supplier != supplier ||
-                hooksComparation.variantes != variantes ||
-                isImagesVariantesModified === false
+                hooksComparation.variantes != variantes 
+
                 // hooksComparation.isShowPromoProduct != isShowPromoProduct
             ) {
                 setIsDirtyCreateProduct(true);
@@ -266,7 +246,7 @@ const CreateProduct = () => {
                 tva.id != tvaComparation.id ||
                 supplier != '' ||
                 variantes.length > 0 ||
-                (imageVariantes.length > 1 || imageVariantes[0].length > 0) ||
+                imageVariantes[0].length > 0 ||
                 isShowPromoProduct != false
             ) {
                 setIsDirtyCreateProduct(true);
@@ -281,11 +261,6 @@ const CreateProduct = () => {
     // demande confirmation avant de quitter le form sans sauvegarder
     usePromptProduct('Quitter sans sauvegarder les changements ?', checkIfCreateProductIsDirty, setShowModalLeaveWithoutSave, setMessageModal, leaveProductFormWithoutSaveChange, setLeaveProductFormWithoutSaveChange);
 
-    // console.log('isDirtyCreateProduct  ', isDirtyCreateProduct)
-
-    // console.log('variantes  ', variantes)
-    // console.log('tva --  ', tva)
-    // console.log('tvaComparation --  ', tvaComparation)
 
     const handleModalConfirm = () => {
         setShowModalLeaveWithoutSave(false)
@@ -451,6 +426,7 @@ const CreateProduct = () => {
                         <Header
                             initCreateProduct={initCreateProduct}
                             isDirtyCreateProduct={isDirtyCreateProduct}
+                            productId={productId}
                         />
                         <h4 className="mb-5 font-semibold text-xl">
                             Ajouter un produit

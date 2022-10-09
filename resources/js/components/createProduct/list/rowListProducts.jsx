@@ -31,7 +31,7 @@ const RowListProducts = ({ productsFiltered, collections, listProductsChecked, h
     useEffect(() => {
         handleGridCols();
         setMainImgPath(productsFiltered.images_products.filter(x => x.ordre == 1)[0]);
-console.log('productsFiltered   ', productsFiltered)
+
         let tmp_stockCount = productsFiltered.variantes.reduce((acc, obj) => { return acc + obj.stock; }, 0);
         setStockCount(tmp_stockCount > 0 ? tmp_stockCount : productsFiltered.stock);
 
@@ -64,7 +64,7 @@ console.log('productsFiltered   ', productsFiltered)
     }, []);
 
 
-    // active ou désactive une collection
+    // active ou désactive un produit
     const handleActivation = (id, status) => {
         let statusData = new FormData();
         statusData.append("id", id);

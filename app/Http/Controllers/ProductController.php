@@ -27,10 +27,14 @@ use App\Http\Controllers\Functions\StringTools;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function getProducts()
     {
         $products = Product::with('collections', 'images_products', 'variantes')->orderBy('id', 'asc')->get();
         $collections = Collection::all('name');
+
+        // foreach ($products as $product) {
+        //     $this->reOrderImagesProductById($product->id);
+        // }
         return [$products, $collections];
     }
 
@@ -42,7 +46,7 @@ class ProductController extends Controller
     }
 
     public function store(StoreProductRequest $request)
-    { 
+    {
         $product = new Product;
         $product->name = $request->nameProduct;
         $product->isInAutoCollection = $request->isInAutoCollection == 'true' ? 1 : 0;
@@ -110,8 +114,8 @@ class ProductController extends Controller
                 $variante->optionsString = $item->optionsString;
             } else {
                 $variante->optionsString = '';
-            }            
-            
+            }
+
             if ($item->cost != '') {
                 $variante->cost = $item->cost;
             } elseif ($request->productCost != '') {
@@ -157,7 +161,7 @@ class ProductController extends Controller
             } else {
                 $variante->stock = 0;
             }
-            
+
             if ($item->unlimited != '') {
                 $variante->unlimitedStock = $item->unlimited;
             } elseif ($request->unlimitedStock != '') {
@@ -252,7 +256,7 @@ class ProductController extends Controller
         return $images;
     }
 
-    public function clean_Images_product_table()
+    public function clean_Images_product_table(): void
     {
         // delete temporary images products
         $images_products = Images_product::where('status', 'tmp')->get();
@@ -285,7 +289,9 @@ class ProductController extends Controller
                     return 'This file type is not allowed';
                 }
 
-                $max = Images_product::where('status', 'tmp')->get();
+                $max = Images_product::where('status', 'tmp')
+                    ->orWhere('product_id', $request->productId)
+                    ->get();
                 $image_product = new Images_product;
                 $image_product->path = 'images/' . $newName;
                 $image_product->alt = $newName;
@@ -295,7 +301,10 @@ class ProductController extends Controller
                 $image_product->save();
             }
 
-            $images = Images_product::where('status', 'tmp')->orderBy('ordre')->get();
+            $images = Images_product::where('status', 'tmp')
+                ->orWhere('product_id', $request->productId)
+                ->orderBy('ordre')
+                ->get();
             return $images;
         } else {
             return 'error';
@@ -316,7 +325,25 @@ class ProductController extends Controller
                 $ndx++;
             }
         }
-        return Images_product::where('product_id', $imagesToReorder[0][0]->product_id)->get();
+        return Images_product::where('product_id', $imagesToReorder[0][0]->product_id)
+            ->orWhere('status', 'tmp')
+            ->orderBy('ordre')
+            ->get();
+    }
+
+    public function reOrderImagesProductById($productId): void
+    {
+        $images_product = Images_product::where('product_id', $productId)
+            ->orWhere('status', 'tmp')
+            ->orderBy('ordre', 'desc')
+            ->get();
+        $ndx = 1;
+        foreach ($images_product as $image) {
+            $image_prod = Images_product::where('id', $image->id)->first();
+            $image_prod->ordre = $ndx;
+            $image_prod->save();
+            $ndx++;
+        }
     }
 
     // ModalImageVariante: delete "countFile"  tmp images 
@@ -338,30 +365,35 @@ class ProductController extends Controller
 
 
     // supprime une image à la fois
-    public function deleteImageProduct($id)
+    public function deleteImageProduct(Request $request)
     {
-        $image_product = Images_product::find($id);
-        $product_id = $image_product->product_id;
+        $image_product = Images_product::find($request->id);
+        $product_id = $request->productId;
         File::delete($image_product->path);
-        Images_product::destroy($id);
+        Images_product::destroy($request->id);
 
         // test $images_products not null
-        $images_products = Images_product::where('product_id', $image_product->product_id)
+        $images_products = Images_product::where('product_id', $product_id)
             ->orderBy('ordre', 'asc')
             ->first();
 
         if ($images_products) {
-            $images_products = Images_product::where('product_id', $image_product->product_id)
+            $images_products = Images_product::where('product_id', $product_id)
+                ->orWhere('status', 'tmp')
                 ->orderBy('ordre', 'asc')
                 ->get();
             // réorganise les valeurs de ordre
             $i = 1;
-            foreach ($images_products  as $image) {
-                $image->ordre = $i;
-                $image->save();
+            foreach ($images_products as $image) {
+                $modified_images_products = Images_product::where('id', $image->id)->first();
+                $modified_images_products->ordre = $i;
+                $modified_images_products->save();
                 $i++;
             }
-            return Images_product::where('product_id', $product_id)->get();
+            return Images_product::where('product_id', $product_id)
+                ->orWhere('status', 'tmp')
+                ->orderBy('ordre')
+                ->get();
         } else {
             return 'empty';
         }

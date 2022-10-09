@@ -62,7 +62,7 @@ const HeaderListProducts = ({ confirmDeleteCollection, handleSearch, collections
                 {/* add product */}
                 <button
                     className='w-52 h-10 p-0 flex flex-row justify-center items-center flex-nowrap border border-gray-300 rounded-md bg-indigo-500 text-white'
-                    onClick={() => {
+                    onClick={() => {  
                         initCollectionForm();
                         setIs_Edit(false);
                         setIs({ ...is, newCollection: true });
