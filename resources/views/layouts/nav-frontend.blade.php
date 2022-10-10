@@ -15,13 +15,13 @@
 			@endforeach -->
 
 		<a href="/" class='flex flex-row justify-start items-center mr-auto'>
-			<span class='text-[24px] text-white font-semibold font-Comfortaa'>
+			<span class='text-[24px] text-teal-400 font-semibold font-Comfortaa'>
 				my
 			</span>
-			<span class='text-[24px] text-teal-400 font-semibold font-Comfortaa'>
+			<span class='text-[24px] text-white font-semibold font-Comfortaa'>
 				easy
 			</span>
-			<span class='text-[24px] text-white font-semibold font-Comfortaa'>
+			<span class='text-[24px] text-teal-400 font-semibold font-Comfortaa'>
 				boutique
 			</span>
 		</a>

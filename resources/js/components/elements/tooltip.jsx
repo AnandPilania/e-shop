@@ -10,7 +10,7 @@ const Tooltip = ({ children, css, id, widthTip }) => {
     });
 
 
-    useEffect(() => {
+    useEffect(() => { 
         var tipImg = document.getElementById(`${id}toolTipImg2922`);
         var tipIcon = document.getElementById(`${id}toolTipMessage2922`);
         var parent = document.getElementById(id);
@@ -28,7 +28,11 @@ const Tooltip = ({ children, css, id, widthTip }) => {
         });
 
         parent.addEventListener("mouseleave", () => {
-                tipIcon.style.visibility = "hidden";
+            tipIcon.style.visibility = "hidden";
+        });
+
+        return parent.removeEventListener("mouseleave", () => {
+            tipIcon.style.visibility = "hidden";
         });
 
     }, []);

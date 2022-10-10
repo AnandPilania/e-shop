@@ -10947,6 +10947,7 @@ var CreateProduct = function CreateProduct() {
       idProduct.append('productId', productId);
       axios__WEBPACK_IMPORTED_MODULE_9___default().post("http://127.0.0.1:8000/getProduct", idProduct).then(function (res) {
         var data = res.data[0];
+        console.log('data.collections  ', data.collections);
         setNameProduct(data.name == null ? '' : data.name);
         setIsInAutoCollection(data.isInAutoCollection == 1 ? true : false);
         setRibbonProduct(data.ribbon == null ? '' : data.ribbon);
@@ -11050,9 +11051,28 @@ var CreateProduct = function CreateProduct() {
 
   var checkIfCreateProductIsDirty = function checkIfCreateProductIsDirty() {
     if (isEditProduct) {
-      if (hooksComparation.nameProduct != nameProduct || hooksComparation.isInAutoCollection != isInAutoCollection || hooksComparation.ribbonProduct != ribbonProduct || hooksComparation.descriptionProduct != descriptionProduct || // hooksComparation.collections != collections ||
-      hooksComparation.productPrice != productPrice || hooksComparation.reducedProductPrice != reducedProductPrice || hooksComparation.promoApplied != promoApplied || hooksComparation.promoType != promoType || hooksComparation.productCost != productCost || hooksComparation.productStock != productStock || hooksComparation.unlimited != unlimited || hooksComparation.productParcelWeight != productParcelWeight || hooksComparation.productParcelWeightMeasureUnit != productParcelWeightMeasureUnit || hooksComparation.productCode != productCode || // hooksComparation.transporter != transporter ||
-      hooksComparation.metaUrlProduct != metaUrlProduct || hooksComparation.metaTitleProduct != metaTitleProduct || hooksComparation.metaDescriptionProduct != metaDescriptionProduct || // // hooksComparation.// // dateFieldProduct
+      // check collections
+      var idsCollectionsPrev = hooksComparation.collections.map(function (x) {
+        return x.id;
+      });
+      var idsCollectionsCurr = collections.map(function (x) {
+        return x.id;
+      });
+      var isNotColectionsChanged = idsCollectionsPrev.every(function (id) {
+        return idsCollectionsCurr.includes(id);
+      }) && idsCollectionsPrev.length === idsCollectionsCurr.length;
+      var idsTransportersPrev = hooksComparation.transporter.map(function (x) {
+        return x.modeId;
+      });
+      var idsTransportersCurr = transporter.map(function (x) {
+        return x.modeId;
+      });
+      var isNotTransportersChanged = idsTransportersPrev.every(function (id) {
+        return idsTransportersCurr.includes(id);
+      }) && idsTransportersPrev.length === idsTransportersCurr.length;
+      console.log('hooksComparation.isShowPromoProduct  isShowPromoProduct  ', hooksComparation.isShowPromoProduct, isShowPromoProduct);
+
+      if (hooksComparation.nameProduct != nameProduct || hooksComparation.isInAutoCollection != isInAutoCollection || hooksComparation.ribbonProduct != ribbonProduct || hooksComparation.descriptionProduct != descriptionProduct || isNotColectionsChanged === false || hooksComparation.productPrice != productPrice || hooksComparation.reducedProductPrice != reducedProductPrice || hooksComparation.promoApplied != promoApplied || hooksComparation.promoType != promoType || hooksComparation.productCost != productCost || hooksComparation.productStock != productStock || hooksComparation.unlimited != unlimited || hooksComparation.productParcelWeight != productParcelWeight || hooksComparation.productParcelWeightMeasureUnit != productParcelWeightMeasureUnit || hooksComparation.productCode != productCode || isNotTransportersChanged === false || hooksComparation.metaUrlProduct != metaUrlProduct || hooksComparation.metaTitleProduct != metaTitleProduct || hooksComparation.metaDescriptionProduct != metaDescriptionProduct || // // hooksComparation.// // dateFieldProduct
       hooksComparation.tva != tva.id || hooksComparation.supplier != supplier || hooksComparation.variantes != variantes // hooksComparation.isShowPromoProduct != isShowPromoProduct
       ) {
         setIsDirtyCreateProduct(true);
@@ -17382,7 +17402,7 @@ var Price = function Price() {
     setIsShowPromoProduct(!isShowPromoProduct);
     setPromoType("%");
     setPromoApplied('');
-    setReducedProductPrice(productPrice);
+    !isShowPromoProduct ? setReducedProductPrice(productPrice) : setReducedProductPrice('');
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_5__["default"], {
@@ -19628,6 +19648,9 @@ var Tooltip = function Tooltip(_ref) {
     parent.addEventListener("mouseleave", function () {
       tipIcon.style.visibility = "hidden";
     });
+    return parent.removeEventListener("mouseleave", function () {
+      tipIcon.style.visibility = "hidden";
+    });
   }, []);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
     className: "w-auto flex flex-row justify-start items-center relative mb-2 ".concat(css),
@@ -19705,12 +19728,12 @@ var TooltipWithoutIcon = function TooltipWithoutIcon(_ref) {
     var tipImg = document.getElementById(idimg);
     var tipIcon = document.getElementById("".concat(id, "toolTipMessage2922"));
     var parent = document.getElementById(id);
-    var tipIconHeight = tipIcon.offsetHeight + 14;
+    var tipIconHeight = tipIcon.offsetHeight + 20;
     tipImg.addEventListener("mouseover", function () {
       tipIcon.style.visibility = "visible";
       setStyle({
         top: "".concat(-tipIconHeight, "px"),
-        left: "".concat(-(widthTip / 2) - 8, "px"),
+        left: "".concat(-(widthTip / 2) - 20, "px"),
         width: widthTip
       });
     });
@@ -19725,7 +19748,7 @@ var TooltipWithoutIcon = function TooltipWithoutIcon(_ref) {
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
       id: "".concat(id, "toolTipMessage2922"),
       style: style,
-      className: "w-auto absolute flex justify-start whitespace-normal max-w-[370px] p-3 text-sm text-white bg-indigo-700 z-[100] rounded-md shadow-lg cursor-default after:content-[''] after:ml-[-10px] after:absolute after:top-full after:left-[50%] after:border-[10px] after:border-t-indigo-700 after:border-x-transparent after:border-b-transparent after:z-[100]",
+      className: "w-auto absolute flex flex-col justify-start whitespace-normal max-w-[370px] p-3 text-sm text-white bg-indigo-700 z-[100] rounded-md shadow-lg cursor-default after:content-[''] after:ml-[-10px] after:absolute after:top-full after:left-[50%] after:border-[10px] after:border-t-indigo-700 after:border-x-transparent after:border-b-transparent after:z-[100]",
       children: children
     })]
   });
@@ -22437,10 +22460,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _elements_tooltip__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../elements/tooltip */ "./resources/js/components/elements/tooltip.jsx");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _modal_modalConfirmation__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../modal/modalConfirmation */ "./resources/js/components/modal/modalConfirmation.jsx");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _modal_modalConfirmation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../modal/modalConfirmation */ "./resources/js/components/modal/modalConfirmation.jsx");
+/* harmony import */ var _elements_tooltipWithoutIcon__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../elements/tooltipWithoutIcon */ "./resources/js/components/elements/tooltipWithoutIcon.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -22566,12 +22589,10 @@ var RowListShipping = function RowListShipping(_ref) {
     var id_shippingMode = idShippingMode;
     var modeToDeleteData = new FormData();
     modeToDeleteData.append('id', id_shippingMode);
-    axios__WEBPACK_IMPORTED_MODULE_2___default().post("http://127.0.0.1:8000/delete-Shipping_mode", modeToDeleteData).then(function (res) {
-      console.log('res.data  --->  ok');
-
+    axios__WEBPACK_IMPORTED_MODULE_1___default().post("http://127.0.0.1:8000/delete-Shipping_mode", modeToDeleteData).then(function (res) {
       if (res.data === 'ok') {
         // refresh data after save new mode shipping
-        axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/shipping-list").then(function (res) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default().get("http://127.0.0.1:8000/shipping-list").then(function (res) {
           setDeliveryZoneList(res.data[0]); // retire l'id de la zone du tableau qui affiche les shippings mode lorsequ'on a effacé tous les mode de livraison 
 
           var ndx_zone = res.data[0].findIndex(function (x) {
@@ -22613,7 +22634,7 @@ var RowListShipping = function RowListShipping(_ref) {
     setShowModalConfirmation(false);
     var zondIdData = new FormData();
     zondIdData.append('IdDeliveryZones', IdDeliveryZones);
-    axios__WEBPACK_IMPORTED_MODULE_2___default().post("http://127.0.0.1:8000/delete-shipping", zondIdData).then(function (res) {
+    axios__WEBPACK_IMPORTED_MODULE_1___default().post("http://127.0.0.1:8000/delete-shipping", zondIdData).then(function (res) {
       console.log('res.data  ---> ', res.data);
       setIdDeliveryZones(null);
       getShippingsList();
@@ -22734,64 +22755,80 @@ var RowListShipping = function RowListShipping(_ref) {
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
           className: "w-full h-full grid grid-cols-3  justify-center items-center ".concat(idZone_arr.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"),
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("span", {
-            className: "w-full h-full flex items-center relative group ".concat(idZone_arr.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"),
+            id: "addModeShipping101022".concat(shippingItem.id),
+            className: "w-full h-full flex items-center ".concat(idZone_arr.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"),
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
+              id: "img_addModeShipping101022".concat(shippingItem.id),
               src: window.location.origin + '/images/icons/add_icon.svg',
               className: "h-5 w-5 m-auto cursor-pointer",
               onClick: function onClick() {
                 return addDeliveryMode(shippingItem.id);
               }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_1__["default"], {
-              top: -40,
-              left: -100,
-              children: "Ajouter un mode de livraison"
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(_elements_tooltipWithoutIcon__WEBPACK_IMPORTED_MODULE_3__["default"], {
+              id: "addModeShipping101022".concat(shippingItem.id),
+              idimg: "img_addModeShipping101022".concat(shippingItem.id),
+              widthTip: 220,
+              children: ["Ajouter un mode de livraison", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
+                href: "http://127.0.0.1:8000",
+                target: "_blank",
+                rel: "noopener noreferrer",
+                className: "mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300",
+                children: "Mon lien"
+              })]
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("span", {
-            className: "w-full h-full flex items-center relative group ".concat(idZone_arr.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"),
+            id: "editModeShipping101022".concat(shippingItem.id),
+            className: "w-full h-full flex items-center ".concat(idZone_arr.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"),
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
+              id: "img_editModeShipping101022".concat(shippingItem.id),
               src: window.location.origin + '/images/icons/pencil.svg',
               className: "h-5 w-5 m-auto cursor-pointer",
               onClick: function onClick() {
                 return editZone(shippingItem.id);
               }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_1__["default"], {
-              top: -20,
-              left: -30,
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_elements_tooltipWithoutIcon__WEBPACK_IMPORTED_MODULE_3__["default"], {
+              id: "editModeShipping101022".concat(shippingItem.id),
+              idimg: "img_editModeShipping101022".concat(shippingItem.id),
+              widthTip: 85,
               children: "Modifier"
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("span", {
-            className: "w-full h-full flex items-center relative group ".concat(idZone_arr.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"),
+            id: "deleteModeShipping101022".concat(shippingItem.id),
+            className: "w-full h-full flex items-center ".concat(idZone_arr.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"),
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
+              id: "img_deleteModeShipping101022".concat(shippingItem.id),
               src: window.location.origin + '/images/icons/trash.svg',
               className: "h-5 w-5 m-auto cursor-pointer",
               onClick: function onClick() {
                 return deleteZone(shippingItem);
               }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_1__["default"], {
-              top: -20,
-              left: -30,
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_elements_tooltipWithoutIcon__WEBPACK_IMPORTED_MODULE_3__["default"], {
+              id: "deleteModeShipping101022".concat(shippingItem.id),
+              idimg: "img_deleteModeShipping101022".concat(shippingItem.id),
+              widthTip: 95,
               children: "Supprimer"
             })]
           })]
-        }), shippingItem.shipping_modes.length > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
-          className: "w-full h-full px-2 flex items-center ".concat(idZone_arr.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"),
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("span", {
-            className: "cursor-pointer relative group",
-            onClick: function onClick() {
-              showListModesDetails(shippingItem.id);
-            },
-            children: [idZone_arr.includes(shippingItem.id) ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
-              src: window.location.origin + '/images/icons/eye-slash.svg',
-              className: "h-5 w-5"
-            }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
-              src: window.location.origin + '/images/icons/eye.svg',
-              className: "h-5 w-5"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_1__["default"], {
-              top: -60,
-              left: -150,
-              children: "Voir les modes de livraison"
-            })]
-          })
+        }), shippingItem.shipping_modes.length > 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("span", {
+          className: "w-full h-full pl-6 flex items-center cursor-pointer ".concat(idZone_arr.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"),
+          id: "showModeShipping101022".concat(shippingItem.id),
+          onClick: function onClick() {
+            showListModesDetails(shippingItem.id);
+          },
+          children: [idZone_arr.includes(shippingItem.id) ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
+            id: "img_showModeShipping101022".concat(shippingItem.id),
+            src: window.location.origin + '/images/icons/eye-slash.svg',
+            className: "h-5 w-5"
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
+            id: "img_showModeShipping101022".concat(shippingItem.id),
+            src: window.location.origin + '/images/icons/eye.svg',
+            className: "h-5 w-5"
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_elements_tooltipWithoutIcon__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            id: "showModeShipping101022".concat(shippingItem.id),
+            idimg: "img_showModeShipping101022".concat(shippingItem.id),
+            widthTip: 210,
+            children: "Voir les modes de livraison"
+          })]
         }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
           className: "w-full col-span-4 border-t border-x  border-gray-200 pb-4 bg-[#fefefe] ".concat(idZone_arr.includes(shippingItem.id) ? "block" : "hidden"),
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
@@ -22823,29 +22860,35 @@ var RowListShipping = function RowListShipping(_ref) {
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("span", {
                   children: [modesItem.conditions.length, " ", modesItem.conditions.length > 1 ? "tarifs" : "tarif"]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("span", {
-                  className: "w-full h-full flex justify-center items-center cursor-pointer relative group",
+                  id: "edit2ModeShipping101022".concat(shippingItem.id),
+                  className: "w-full h-full flex justify-center items-center cursor-pointer",
                   onClick: function onClick() {
                     return editDeliveryMode(shippingItem.id, modesItem.id);
                   },
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
+                    id: "img_edit2ModeShipping101022".concat(shippingItem.id),
                     src: window.location.origin + '/images/icons/pencil.svg',
                     className: "h-5 w-5"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_1__["default"], {
-                    top: -40,
-                    left: 0,
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_elements_tooltipWithoutIcon__WEBPACK_IMPORTED_MODULE_3__["default"], {
+                    id: "edit2ModeShipping101022".concat(shippingItem.id),
+                    idimg: "img_edit2ModeShipping101022".concat(shippingItem.id),
+                    widthTip: 85,
                     children: "Modifier"
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("span", {
-                  className: "w-full h-full flex justify-center items-center cursor-pointer relative group",
+                  id: "delete2ModeShipping101022".concat(shippingItem.id),
+                  className: "w-full h-full flex justify-center items-center cursor-pointer",
                   onClick: function onClick() {
                     return deleteShippingMode(shippingItem, modesItem);
                   },
                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
+                    id: "img_delete2ModeShipping101022".concat(shippingItem.id),
                     src: window.location.origin + '/images/icons/trash.svg',
                     className: "h-5 w-5"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_elements_tooltip__WEBPACK_IMPORTED_MODULE_1__["default"], {
-                    top: -40,
-                    left: 0,
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_elements_tooltipWithoutIcon__WEBPACK_IMPORTED_MODULE_3__["default"], {
+                    id: "delete2ModeShipping101022".concat(shippingItem.id),
+                    idimg: "img_delete2ModeShipping101022".concat(shippingItem.id),
+                    widthTip: 95,
                     children: "Supprimer"
                   })]
                 })]
@@ -22854,12 +22897,12 @@ var RowListShipping = function RowListShipping(_ref) {
           })]
         })]
       }, shippingItem.id);
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_modal_modalConfirmation__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_modal_modalConfirmation__WEBPACK_IMPORTED_MODULE_2__["default"], {
       show: showModalConfirmation,
       handleModalConfirm: handleModalConfirm,
       handleModalCancel: handleModalCancel,
       messageModal: messageModal
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_modal_modalConfirmation__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_modal_modalConfirmation__WEBPACK_IMPORTED_MODULE_2__["default"], {
       show: showModalConfirmation2,
       handleModalConfirm: handleModalConfirm2,
       handleModalCancel: handleModalCancel,
@@ -23215,6 +23258,7 @@ var Shipping = function Shipping() {
     });
   };
 
+  console.log('activePanelShipping  ', activePanelShipping);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_1__["default"], {
     css: "mt-10",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("span", {

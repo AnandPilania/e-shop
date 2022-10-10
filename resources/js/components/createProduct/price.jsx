@@ -83,7 +83,9 @@ const Price = () => {
         setIsShowPromoProduct(!isShowPromoProduct);
         setPromoType("%");
         setPromoApplied('');
-        setReducedProductPrice(productPrice);
+        !isShowPromoProduct ?
+        setReducedProductPrice(productPrice) :
+        setReducedProductPrice('') ;
     }
 
 

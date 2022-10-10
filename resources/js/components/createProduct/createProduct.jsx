@@ -81,6 +81,7 @@ const CreateProduct = () => {
             Axios.post(`http://127.0.0.1:8000/getProduct`, idProduct)
                 .then(res => {
                     let data = res.data[0];
+                    console.log('data.collections  ', data.collections);
                     setNameProduct(data.name == null ? '' : data.name);
                     setIsInAutoCollection(data.isInAutoCollection == 1 ? true : false);
                     setRibbonProduct(data.ribbon == null ? '' : data.ribbon);
@@ -188,12 +189,24 @@ const CreateProduct = () => {
 
     const checkIfCreateProductIsDirty = () => {
         if (isEditProduct) {
+            // check collections
+            let idsCollectionsPrev = hooksComparation.collections.map(x => x.id);
+            let idsCollectionsCurr = collections.map(x => x.id);
+            let isNotColectionsChanged = idsCollectionsPrev.every(id => idsCollectionsCurr.includes(id)) && idsCollectionsPrev.length === idsCollectionsCurr.length;
+
+            let idsTransportersPrev = hooksComparation.transporter.map(x => x.modeId);
+            let idsTransportersCurr = transporter.map(x => x.modeId);
+            let isNotTransportersChanged = idsTransportersPrev.every(id => idsTransportersCurr.includes(id)) && idsTransportersPrev.length === idsTransportersCurr.length;
+
+            console.log('hooksComparation.isShowPromoProduct  isShowPromoProduct  ', hooksComparation.isShowPromoProduct, isShowPromoProduct)      
+
+
             if (
                 hooksComparation.nameProduct != nameProduct ||
                 hooksComparation.isInAutoCollection != isInAutoCollection ||
                 hooksComparation.ribbonProduct != ribbonProduct ||
                 hooksComparation.descriptionProduct != descriptionProduct ||
-                // hooksComparation.collections != collections ||
+                isNotColectionsChanged === false ||
                 hooksComparation.productPrice != productPrice ||
                 hooksComparation.reducedProductPrice != reducedProductPrice ||
                 hooksComparation.promoApplied != promoApplied ||
@@ -204,7 +217,7 @@ const CreateProduct = () => {
                 hooksComparation.productParcelWeight != productParcelWeight ||
                 hooksComparation.productParcelWeightMeasureUnit != productParcelWeightMeasureUnit ||
                 hooksComparation.productCode != productCode ||
-                // hooksComparation.transporter != transporter ||
+                isNotTransportersChanged === false ||
                 hooksComparation.metaUrlProduct != metaUrlProduct ||
                 hooksComparation.metaTitleProduct != metaTitleProduct ||
                 hooksComparation.metaDescriptionProduct != metaDescriptionProduct ||

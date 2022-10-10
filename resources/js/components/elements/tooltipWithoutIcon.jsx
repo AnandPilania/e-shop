@@ -15,14 +15,14 @@ const TooltipWithoutIcon = ({ children, css, id, idimg, widthTip }) => {
         var tipIcon = document.getElementById(`${id}toolTipMessage2922`);
         var parent = document.getElementById(id);
 
-        var tipIconHeight = tipIcon.offsetHeight + 14;
+        var tipIconHeight = tipIcon.offsetHeight + 20;
 
         tipImg.addEventListener("mouseover", () => {
             tipIcon.style.visibility = "visible";
              
             setStyle({
                 top: `${-tipIconHeight}px`,
-                left: `${-(widthTip / 2) - 8}px`,
+                left: `${-(widthTip / 2) - 20}px`,
                 width: widthTip
             });
 
@@ -42,7 +42,7 @@ const TooltipWithoutIcon = ({ children, css, id, idimg, widthTip }) => {
             <div
                 id={`${id}toolTipMessage2922`}
                 style={style}
-                className={`w-auto absolute flex justify-start whitespace-normal max-w-[370px] p-3 text-sm text-white bg-indigo-700 z-[100] rounded-md shadow-lg cursor-default after:content-[''] after:ml-[-10px] after:absolute after:top-full after:left-[50%] after:border-[10px] after:border-t-indigo-700 after:border-x-transparent after:border-b-transparent after:z-[100]`}
+                className={`w-auto absolute flex flex-col justify-start whitespace-normal max-w-[370px] p-3 text-sm text-white bg-indigo-700 z-[100] rounded-md shadow-lg cursor-default after:content-[''] after:ml-[-10px] after:absolute after:top-full after:left-[50%] after:border-[10px] after:border-t-indigo-700 after:border-x-transparent after:border-b-transparent after:z-[100]`}
             >
                 {children}
             </div>

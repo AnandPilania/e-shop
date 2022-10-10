@@ -22,7 +22,7 @@ const Shipping = () => {
             .then(res => {
                 setDeliveryZoneList(res.data[0]);
                 setCountriesList(res.data[1]);
-            }).catch(function (error) {
+            }).catch((error) => {
                 console.log('error:   ' + error);
             });
     }, []);
@@ -33,12 +33,12 @@ const Shipping = () => {
         Axios.get(`http://127.0.0.1:8000/shipping-list`)
             .then(res => {
                 setDeliveryZoneList(res.data[0]);
-            }).catch(function (error) {
+            }).catch((error) => {
                 console.log('error:   ' + error);
             });
     }
 
-
+console.log('activePanelShipping  ', activePanelShipping)
     return (
         <Flex_col_s_s css="mt-10">
             <span className='text-xl font-semibold text=gray-600 mt-4 mb-4'>

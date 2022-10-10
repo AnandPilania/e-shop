@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Tooltip from '../elements/tooltip';
 import Axios from 'axios';
 import ModalConfirmation from '../modal/modalConfirmation';
+import TooltipWithoutIcon from '../elements/tooltipWithoutIcon';
 
 
 const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, IdDeliveryZones, setIdDeliveryZones, setIdMode, setDeliveryZoneList, setIsEditZone, getShippingsList }) => {
@@ -66,7 +66,6 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, IdDeliveryZ
 
         Axios.post(`http://127.0.0.1:8000/delete-Shipping_mode`, modeToDeleteData)
             .then(res => {
-                console.log('res.data  --->  ok');
                 if (res.data === 'ok') {
                     // refresh data after save new mode shipping
                     Axios.get(`http://127.0.0.1:8000/shipping-list`)
@@ -77,7 +76,6 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, IdDeliveryZ
                             if (ndx_zone > -1) {
                                 if (res.data[0][ndx_zone].shipping_modes.length == 0) showListModesDetails(id_zone);
                             }
-
                             setIdDeliveryZones(null);
                             setIdShippingMode(null);
 
@@ -264,73 +262,94 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, IdDeliveryZ
                     >
                         {/* add delivery mode */}
                         <span
-                            className={`w-full h-full flex items-center relative group ${idZone_arr.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
+                            id={`addModeShipping101022${shippingItem.id}`}
+                            className={`w-full h-full flex items-center ${idZone_arr.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
                         >
                             <img
+                                id={`img_addModeShipping101022${shippingItem.id}`}
                                 src={window.location.origin + '/images/icons/add_icon.svg'}
                                 className="h-5 w-5 m-auto cursor-pointer"
                                 onClick={() => addDeliveryMode(shippingItem.id)}
                             />
 
-                            <Tooltip top={-40} left={-100}>
-                                Ajouter un mode de livraison
-                            </Tooltip>
+                            <TooltipWithoutIcon
+                                id={`addModeShipping101022${shippingItem.id}`}
+                                idimg={`img_addModeShipping101022${shippingItem.id}`}
+                                widthTip={220}>
+                                Ajouter un mode de livraison<br></br>
+                                <a href="http://127.0.0.1:8000"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300">Mon lien</a>
+                            </TooltipWithoutIcon>
+
                         </span>
 
                         {/* edit zone */}
                         <span
-                            className={`w-full h-full flex items-center relative group ${idZone_arr.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
+                            id={`editModeShipping101022${shippingItem.id}`}
+                            className={`w-full h-full flex items-center ${idZone_arr.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
                         >
                             <img
+                                id={`img_editModeShipping101022${shippingItem.id}`}
                                 src={window.location.origin + '/images/icons/pencil.svg'}
                                 className="h-5 w-5 m-auto cursor-pointer"
                                 onClick={() => editZone(shippingItem.id)}
                             />
-
-                            <Tooltip top={-20} left={-30}>
+                            <TooltipWithoutIcon
+                                id={`editModeShipping101022${shippingItem.id}`}
+                                idimg={`img_editModeShipping101022${shippingItem.id}`}
+                                widthTip={85}>
                                 Modifier
-                            </Tooltip>
+                            </TooltipWithoutIcon>
                         </span>
 
                         {/* delete zone */}
                         <span
-                            className={`w-full h-full flex items-center relative group ${idZone_arr.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
+                            id={`deleteModeShipping101022${shippingItem.id}`}
+                            className={`w-full h-full flex items-center ${idZone_arr.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
                         >
                             <img
+                                id={`img_deleteModeShipping101022${shippingItem.id}`}
                                 src={window.location.origin + '/images/icons/trash.svg'}
                                 className="h-5 w-5 m-auto cursor-pointer"
                                 onClick={() => deleteZone(shippingItem)}
                             />
-
-                            <Tooltip top={-20} left={-30}>
+                            <TooltipWithoutIcon
+                                id={`deleteModeShipping101022${shippingItem.id}`}
+                                idimg={`img_deleteModeShipping101022${shippingItem.id}`}
+                                widthTip={95}>
                                 Supprimer
-                            </Tooltip>
+                            </TooltipWithoutIcon>
                         </span>
                     </div>
 
                     {/* show / hide list modes details */}
                     {shippingItem.shipping_modes.length > 0 ?
-                        <span className={`w-full h-full px-2 flex items-center ${idZone_arr.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
+                        <span
+                            className={`w-full h-full pl-6 flex items-center cursor-pointer ${idZone_arr.includes(shippingItem.id) ? "bg-gray-50" : "bg-white"}`}
+                            id={`showModeShipping101022${shippingItem.id}`}
+                            onClick={() => { showListModesDetails(shippingItem.id) }}
                         >
-                            <span
-                                className='cursor-pointer relative group'
-                                onClick={() => { showListModesDetails(shippingItem.id) }}
-                            >
-                                {idZone_arr.includes(shippingItem.id) ?
-                                    <img
-                                        src={window.location.origin + '/images/icons/eye-slash.svg'}
-                                        className="h-5 w-5"
-                                    />
-                                    :
-                                    <img
-                                        src={window.location.origin + '/images/icons/eye.svg'}
-                                        className="h-5 w-5"
-                                    />
-                                }
-                                <Tooltip top={-60} left={-150}>
-                                    Voir les modes de livraison
-                                </Tooltip>
-                            </span>
+                            {idZone_arr.includes(shippingItem.id) ?
+                                <img
+                                    id={`img_showModeShipping101022${shippingItem.id}`}
+                                    src={window.location.origin + '/images/icons/eye-slash.svg'}
+                                    className="h-5 w-5"
+                                />
+                                :
+                                <img
+                                    id={`img_showModeShipping101022${shippingItem.id}`}
+                                    src={window.location.origin + '/images/icons/eye.svg'}
+                                    className="h-5 w-5"
+                                />
+                            }
+                            <TooltipWithoutIcon
+                                id={`showModeShipping101022${shippingItem.id}`}
+                                idimg={`img_showModeShipping101022${shippingItem.id}`}
+                                widthTip={210}>
+                                Voir les modes de livraison
+                            </TooltipWithoutIcon>
                         </span>
                         :
                         <span></span>
@@ -370,28 +389,38 @@ const RowListShipping = ({ deliveryZoneList, setActivePanelShipping, IdDeliveryZ
                                             {modesItem.conditions.length} {modesItem.conditions.length > 1 ? "tarifs" : "tarif"}
                                         </span>
                                         <span
-                                            className='w-full h-full flex justify-center items-center cursor-pointer relative group'
+                                            id={`edit2ModeShipping101022${shippingItem.id}`}
+                                            className='w-full h-full flex justify-center items-center cursor-pointer'
                                             onClick={() => editDeliveryMode(shippingItem.id, modesItem.id)}
                                         >
                                             <img
+                                                id={`img_edit2ModeShipping101022${shippingItem.id}`}
                                                 src={window.location.origin + '/images/icons/pencil.svg'}
                                                 className="h-5 w-5"
                                             />
-                                            <Tooltip top={-40} left={0}>
+                                            <TooltipWithoutIcon
+                                                id={`edit2ModeShipping101022${shippingItem.id}`}
+                                                idimg={`img_edit2ModeShipping101022${shippingItem.id}`}
+                                                widthTip={85}>
                                                 Modifier
-                                            </Tooltip>
+                                            </TooltipWithoutIcon>
                                         </span>
                                         <span
-                                            className='w-full h-full flex justify-center items-center cursor-pointer relative group'
+                                            id={`delete2ModeShipping101022${shippingItem.id}`}
+                                            className='w-full h-full flex justify-center items-center cursor-pointer'
                                             onClick={() => deleteShippingMode(shippingItem, modesItem)}
                                         >
                                             <img
+                                                id={`img_delete2ModeShipping101022${shippingItem.id}`}
                                                 src={window.location.origin + '/images/icons/trash.svg'}
                                                 className="h-5 w-5"
                                             />
-                                            <Tooltip top={-40} left={0}>
+                                            <TooltipWithoutIcon
+                                                id={`delete2ModeShipping101022${shippingItem.id}`}
+                                                idimg={`img_delete2ModeShipping101022${shippingItem.id}`}
+                                                widthTip={95}>
                                                 Supprimer
-                                            </Tooltip>
+                                            </TooltipWithoutIcon>
                                         </span>
                                     </div>
                                 )}
