@@ -10802,8 +10802,6 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var CreateProduct = function CreateProduct() {
-  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_23__.useNavigate)();
-
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
       showModalFromPrice = _useState2[0],
@@ -10832,7 +10830,12 @@ var CreateProduct = function CreateProduct() {
   var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState12 = _slicedToArray(_useState11, 2),
       leaveProductFormWithoutSaveChange = _useState12[0],
-      setLeaveProductFormWithoutSaveChange = _useState12[1]; // when click on edit in collection list it send collection id to db request for make edit collection
+      setLeaveProductFormWithoutSaveChange = _useState12[1];
+
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState14 = _slicedToArray(_useState13, 2),
+      showBackButton = _useState14[0],
+      setShowBackButton = _useState14[1]; // when click on edit in collection list it send collection id to db request for make edit collection
 
 
   var _useLocation = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_23__.useLocation)(),
@@ -11070,11 +11073,9 @@ var CreateProduct = function CreateProduct() {
       var isNotTransportersChanged = idsTransportersPrev.every(function (id) {
         return idsTransportersCurr.includes(id);
       }) && idsTransportersPrev.length === idsTransportersCurr.length;
-      console.log('hooksComparation.isShowPromoProduct  isShowPromoProduct  ', hooksComparation.isShowPromoProduct, isShowPromoProduct);
 
       if (hooksComparation.nameProduct != nameProduct || hooksComparation.isInAutoCollection != isInAutoCollection || hooksComparation.ribbonProduct != ribbonProduct || hooksComparation.descriptionProduct != descriptionProduct || isNotColectionsChanged === false || hooksComparation.productPrice != productPrice || hooksComparation.reducedProductPrice != reducedProductPrice || hooksComparation.promoApplied != promoApplied || hooksComparation.promoType != promoType || hooksComparation.productCost != productCost || hooksComparation.productStock != productStock || hooksComparation.unlimited != unlimited || hooksComparation.productParcelWeight != productParcelWeight || hooksComparation.productParcelWeightMeasureUnit != productParcelWeightMeasureUnit || hooksComparation.productCode != productCode || isNotTransportersChanged === false || hooksComparation.metaUrlProduct != metaUrlProduct || hooksComparation.metaTitleProduct != metaTitleProduct || hooksComparation.metaDescriptionProduct != metaDescriptionProduct || // // hooksComparation.// // dateFieldProduct
-      hooksComparation.tva != tva.id || hooksComparation.supplier != supplier || hooksComparation.variantes != variantes // hooksComparation.isShowPromoProduct != isShowPromoProduct
-      ) {
+      hooksComparation.tva != tva.id || hooksComparation.supplier != supplier || hooksComparation.variantes != variantes || hooksComparation.isShowPromoProduct != isShowPromoProduct) {
         setIsDirtyCreateProduct(true);
         return true;
       } else {
@@ -11191,6 +11192,8 @@ var CreateProduct = function CreateProduct() {
 
     (0,_functions_temporaryStorage_handleTinyMceTemporary__WEBPACK_IMPORTED_MODULE_10__.handleTinyMceTemporary)(descriptionProduct, null, 'product');
     var formData = new FormData();
+    formData.append('isEdit', isEdit);
+    formData.append('productId', productId);
     formData.append('nameProduct', nameProduct);
     formData.append('ribbonProduct', ribbonProduct);
     formData.append('descriptionProduct', descriptionProduct);
@@ -11200,6 +11203,7 @@ var CreateProduct = function CreateProduct() {
         arrayOfImages.push(img);
       });
     });
+    console.log('arrayOfImages  ', arrayOfImages);
     formData.append('imageVariantes', JSON.stringify(arrayOfImages));
     formData.append('collections', JSON.stringify(collections));
     formData.append('isInAutoCollection', isInAutoCollection);
@@ -17402,7 +17406,12 @@ var Price = function Price() {
     setIsShowPromoProduct(!isShowPromoProduct);
     setPromoType("%");
     setPromoApplied('');
-    !isShowPromoProduct ? setReducedProductPrice(productPrice) : setReducedProductPrice('');
+
+    if (!isShowPromoProduct) {
+      setReducedProductPrice(productPrice);
+    } else {
+      setReducedProductPrice('');
+    }
   };
 
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_5__["default"], {

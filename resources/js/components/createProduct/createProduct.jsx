@@ -1,5 +1,5 @@
 import { React, useState, useEffect, useContext } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import AppContext from '../contexts/AppContext';
 import Flex_col_s_s from '../elements/container/flex_col_s_s';
 import Options from './options/options';
@@ -26,14 +26,13 @@ import ModalConfirmation from '../modal/modalConfirmation';
 
 const CreateProduct = () => {
 
-    var navigate = useNavigate();
-
     const [showModalFromPrice, setShowModalFromPrice] = useState(false);
     const [isDirtyCreateProduct, setIsDirtyCreateProduct] = useState(false);
     const [hooksComparation, setHooksComparation] = useState({});
     const [showModalLeaveWithoutSave, setShowModalLeaveWithoutSave] = useState(false);
     const [tvaComparation, setTvaComparation] = useState('');
     const [leaveProductFormWithoutSaveChange, setLeaveProductFormWithoutSaveChange] = useState(false);
+    const [showBackButton, setShowBackButton] = useState(false);
 
     // when click on edit in collection list it send collection id to db request for make edit collection
     const { state } = useLocation();
@@ -152,7 +151,6 @@ const CreateProduct = () => {
         } else {
             initCreateProduct();
         }
-
     }, []);
 
     const initCreateProduct = () => {
@@ -198,9 +196,6 @@ const CreateProduct = () => {
             let idsTransportersCurr = transporter.map(x => x.modeId);
             let isNotTransportersChanged = idsTransportersPrev.every(id => idsTransportersCurr.includes(id)) && idsTransportersPrev.length === idsTransportersCurr.length;
 
-            console.log('hooksComparation.isShowPromoProduct  isShowPromoProduct  ', hooksComparation.isShowPromoProduct, isShowPromoProduct)      
-
-
             if (
                 hooksComparation.nameProduct != nameProduct ||
                 hooksComparation.isInAutoCollection != isInAutoCollection ||
@@ -224,9 +219,8 @@ const CreateProduct = () => {
                 // // hooksComparation.// // dateFieldProduct
                 hooksComparation.tva != tva.id ||
                 hooksComparation.supplier != supplier ||
-                hooksComparation.variantes != variantes 
-
-                // hooksComparation.isShowPromoProduct != isShowPromoProduct
+                hooksComparation.variantes != variantes ||
+                hooksComparation.isShowPromoProduct != isShowPromoProduct
             ) {
                 setIsDirtyCreateProduct(true);
                 return true;
@@ -382,6 +376,8 @@ const CreateProduct = () => {
         var formData = new FormData;
 
 
+        formData.append('isEdit', isEdit);
+        formData.append('productId', productId);
         formData.append('nameProduct', nameProduct);
         formData.append('ribbonProduct', ribbonProduct);
         formData.append('descriptionProduct', descriptionProduct);
@@ -391,6 +387,7 @@ const CreateProduct = () => {
                 arrayOfImages.push(img);
             });
         });
+        console.log('arrayOfImages  ', arrayOfImages)
         formData.append('imageVariantes', JSON.stringify(arrayOfImages));
         formData.append('collections', JSON.stringify(collections));
         formData.append('isInAutoCollection', isInAutoCollection);

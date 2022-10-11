@@ -45,9 +45,18 @@ class ProductController extends Controller
         return [$product, $collections];
     }
 
-    public function store(StoreProductRequest $request)
+    // public function store(StoreProductRequest $request)
+    public function store(Request $request)
     {
-        $product = new Product;
+
+        if ($request->isEdit == "true") {
+            $product = Product::find($request->productId);
+        } else {
+            $product = new Product;
+        }
+
+        dd($request->isEdit);
+
         $product->name = $request->nameProduct;
         $product->isInAutoCollection = $request->isInAutoCollection == 'true' ? 1 : 0;
         $product->ribbon = $request->ribbonProduct;
@@ -214,15 +223,31 @@ class ProductController extends Controller
         }
 
         // save images
-        if (count(json_decode($request->imageVariantes)) > 0) {
-            $images_products = Images_product::where('status', 'tmp')
-                ->orWhere('product_id', 0)
-                ->get();
-            if ($images_products->first()) {
-                foreach ($images_products as $image_product) {
-                    $image_product->status = '';
-                    $image_product->product_id = $product->id;
-                    $image_product->save();
+        if ($request->isEdit == "true") {
+            if (count(json_decode($request->imageVariantes)) > 0) {
+                
+                $images_products = Images_product::where('status', 'tmp')
+                    ->orWhere('product_id', $request->productId)
+                    ->get();
+                if ($images_products->first()) {
+                    foreach ($images_products as $image_product) {
+                        $image_product->status = '';
+                        $image_product->product_id = $product->id;
+                        $image_product->save();
+                    }
+                }
+            }
+        } else {
+            if (count(json_decode($request->imageVariantes)) > 0) {
+                $images_products = Images_product::where('status', 'tmp')
+                    ->orWhere('product_id', 0)
+                    ->get();
+                if ($images_products->first()) {
+                    foreach ($images_products as $image_product) {
+                        $image_product->status = '';
+                        $image_product->product_id = $product->id;
+                        $image_product->save();
+                    }
                 }
             }
         }

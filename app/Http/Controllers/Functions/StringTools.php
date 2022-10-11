@@ -23,6 +23,11 @@ class StringTools
         $str = $this->cleanCaracters($file->getClientOriginalName());
         $str = str_replace(strrchr($str, '.'), '', $str); // delete extension
 
+        // delete uuid
+        if (strpos($str, "--") !== false) {
+            $str = substr($str, 0, strpos($str, "--")); // delete all after --
+        }
+
         $pattern = '/(-\d+\.[a-zA-Z]{2,4})$/';
         $str = preg_replace($pattern, '', $str);
 
@@ -37,9 +42,9 @@ class StringTools
         } else {
             $ext = $this->getExtesion($file);
         }
-        
+
         // remplace all specials caracteres and lowerCase
-        $newName = $this->cleanCaracters($str) . '-' . Str::uuid() . '.' . $ext;
+        $newName = $this->cleanCaracters($str) . '--' . Str::uuid() . '.' . $ext;
 
         return $newName;
     }
