@@ -139,7 +139,6 @@ const CreateCollection = () => {
         }]);
     }, []);
 
-    console.log('isEdit  ', isEdit)
 
 
     // show or hide reset button
@@ -386,7 +385,6 @@ const CreateCollection = () => {
                     }
                 })
                 .then(res => {
-                    console.log('res.data  --->  ok');
                     if (res.data === 'ok') {
                         initCollectionForm();
                         setIdCollection(null);

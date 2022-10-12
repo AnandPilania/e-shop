@@ -7263,8 +7263,7 @@ var CreateCollection = function CreateCollection() {
       value: '',
       disableOperator: ''
     }]);
-  }, []);
-  console.log('isEdit  ', isEdit); // show or hide reset button
+  }, []); // show or hide reset button
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     var conditonDirty = false;
@@ -7561,8 +7560,6 @@ var CreateCollection = function CreateCollection() {
           'Content-Type': 'multipart/form-data'
         }
       }).then(function (res) {
-        console.log('res.data  --->  ok');
-
         if (res.data === 'ok') {
           initCollectionForm();
           setIdCollection(null); // refresh data after save new collection
@@ -10802,6 +10799,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var CreateProduct = function CreateProduct() {
+  var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_23__.useNavigate)();
+
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
       showModalFromPrice = _useState2[0],
@@ -10832,10 +10831,15 @@ var CreateProduct = function CreateProduct() {
       leaveProductFormWithoutSaveChange = _useState12[0],
       setLeaveProductFormWithoutSaveChange = _useState12[1];
 
-  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1),
       _useState14 = _slicedToArray(_useState13, 2),
-      showBackButton = _useState14[0],
-      setShowBackButton = _useState14[1]; // when click on edit in collection list it send collection id to db request for make edit collection
+      productStatus = _useState14[0],
+      setProductStatus = _useState14[1];
+
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState16 = _slicedToArray(_useState15, 2),
+      showBackButton = _useState16[0],
+      setShowBackButton = _useState16[1]; // when click on edit in collection list it send collection id to db request for make edit collection
 
 
   var _useLocation = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_23__.useLocation)(),
@@ -10943,7 +10947,22 @@ var CreateProduct = function CreateProduct() {
       setTvaComparation(tmpTva[0]);
     })["catch"](function (error) {
       console.log('Error : ' + error.status);
-    });
+    }); // show back button only when page completly loaded
+
+    var showBackButtonWhenPageLoaded = function showBackButtonWhenPageLoaded() {
+      setShowBackButton(true);
+    }; // Check if the page has already loaded
+
+
+    if (document.readyState === "complete") {
+      showBackButtonWhenPageLoaded();
+    } else {
+      window.addEventListener("load", showBackButtonWhenPageLoaded); // Remove the event listener when component unmounts
+
+      return function () {
+        return window.removeEventListener("load", showBackButtonWhenPageLoaded);
+      };
+    }
 
     if (isEdit) {
       var idProduct = new FormData();
@@ -10951,6 +10970,7 @@ var CreateProduct = function CreateProduct() {
       axios__WEBPACK_IMPORTED_MODULE_9___default().post("http://127.0.0.1:8000/getProduct", idProduct).then(function (res) {
         var data = res.data[0];
         console.log('data.collections  ', data.collections);
+        console.log('data  ', data);
         setNameProduct(data.name == null ? '' : data.name);
         setIsInAutoCollection(data.isInAutoCollection == 1 ? true : false);
         setRibbonProduct(data.ribbon == null ? '' : data.ribbon);
@@ -10963,13 +10983,14 @@ var CreateProduct = function CreateProduct() {
         setProductCost(data.cost == null ? '' : data.cost);
         setProductStock(data.stock == null ? '' : data.stock);
         setUnlimited(data.unlimitedStock);
+        setProductStatus(data.status);
         setProductParcelWeight(data.weight == null ? '' : data.weight);
         setProductParcelWeightMeasureUnit(data.weightMeasure);
         setProductCode(data.sku == null ? '' : data.sku);
         setTransporter(JSON.parse(data.onlyTheseCarriers));
-        setMetaUrlProduct(data.metaUrl);
-        setMetaTitleProduct(data.metaTitle);
-        setMetaDescriptionProduct(data.metaDescription);
+        setMetaUrlProduct(data.metaUrl == null ? '' : data.metaUrl);
+        setMetaTitleProduct(data.metaTitle == null ? '' : data.metaTitle);
+        setMetaDescriptionProduct(data.metaDescription == null ? '' : data.metaDescription);
         setDateFieldProduct(data.dateActivation);
         setTva(data.taxe_id);
         setSupplier(data.supplier == null ? '' : data.supplier);
@@ -10998,12 +11019,14 @@ var CreateProduct = function CreateProduct() {
         hooksCompar.productParcelWeightMeasureUnit = data.weightMeasure;
         hooksCompar.productCode = data.sku == null ? '' : data.sku;
         hooksCompar.transporter = JSON.parse(data.onlyTheseCarriers);
-        hooksCompar.metaUrlProduct = data.metaUrl;
-        hooksCompar.metaTitleProduct = data.metaTitle;
-        hooksCompar.metaDescriptionProduct = data.metaDescription;
+        hooksCompar.metaUrlProduct = data.metaUrl == null ? '' : data.metaUrl;
+        hooksCompar.metaTitleProduct = data.metaTitle == null ? '' : data.metaTitle;
+        hooksCompar.metaDescriptionProduct = data.metaDescription == null ? '' : data.metaDescription;
         hooksCompar.dateFieldProduct = data.dateActivation;
         hooksCompar.tva = data.taxe_id;
         hooksCompar.supplier = data.supplier == null ? '' : data.supplier;
+        console.log('data.variantes;  ', data.variantes); //<--- ! ! !
+
         hooksCompar.variantes = data.variantes;
         hooksCompar.imageVariantes = data.images_products; // affiche la partie promo dans price
 
@@ -11019,7 +11042,7 @@ var CreateProduct = function CreateProduct() {
     } else {
       initCreateProduct();
     }
-  }, []);
+  }, []); // console.log('showBackButton  ', showBackButton);
 
   var initCreateProduct = function initCreateProduct() {
     setNameProduct('');
@@ -11221,6 +11244,7 @@ var CreateProduct = function CreateProduct() {
     formData.append('tva', JSON.stringify(tva));
     formData.append('supplier', JSON.stringify(supplier));
     formData.append("dateActivation", dateFieldProduct);
+    formData.append("productStatus", productStatus);
     formData.append('optionsObj', JSON.stringify(optionsObj));
     formData.append('variantes', JSON.stringify(variantes));
     formData.append('metaUrlProduct', metaUrlProduct);
@@ -11231,8 +11255,10 @@ var CreateProduct = function CreateProduct() {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
-    }).then(function (res) {
-      console.log('res.data  --->  ok');
+    }).then(function () {
+      setIsEditProduct(false);
+      initCreateProduct();
+      navigate('/listProduct');
     });
   }
 
@@ -11243,7 +11269,7 @@ var CreateProduct = function CreateProduct() {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsxs)("div", {
         className: "w-full grid grid-cols-1 gap-y-4",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsxs)(_elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)(_header__WEBPACK_IMPORTED_MODULE_18__["default"], {
+          children: [showBackButton && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_22__.jsx)(_header__WEBPACK_IMPORTED_MODULE_18__["default"], {
             initCreateProduct: initCreateProduct,
             isDirtyCreateProduct: isDirtyCreateProduct,
             productId: productId
@@ -11446,6 +11472,9 @@ var DropZoneProduct = function DropZoneProduct(_ref) {
         var tmp_data = [[]];
         var tmp = [];
         var imagesProduct = res.data[0].images_products;
+        imagesProduct.sort(function (a, b) {
+          return a.ordre - b.ordre;
+        });
 
         for (var i = 0; i < imagesProduct.length; i++) {
           if (tmp.length < 4) {
@@ -12333,7 +12362,6 @@ var Header = function Header(_ref) {
       onClick: function onClick() {
         // nettoie images_products images temporaires
         axios__WEBPACK_IMPORTED_MODULE_2___default().post("http://127.0.0.1:8000/clean_Images_product_table");
-        axios__WEBPACK_IMPORTED_MODULE_2___default().get("http://127.0.0.1:8000/reOrderImagesProductById/".concat(productId));
         setIsEditProduct(false);
         setImageVariantes([[]]);
       },
@@ -13835,7 +13863,8 @@ var RowListProducts = function RowListProducts(_ref) {
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       screenSize = _useContext.screenSize,
       listProductsFiltered = _useContext.listProductsFiltered,
-      setListProductsFiltered = _useContext.setListProductsFiltered;
+      setListProductsFiltered = _useContext.setListProductsFiltered,
+      listCollectionNames = _useContext.listCollectionNames;
 
   var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_6__.useNavigate)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
@@ -13882,7 +13911,13 @@ var RowListProducts = function RowListProducts(_ref) {
     }
 
     handleStatusColorAndStatusOnOff();
-  }, []); // active ou désactive un produit
+  }, []); // permet de mettre à jour l'image dans list product quand on modifie les images en éditant un produit et qu'on clique sur le back button pour annuler
+
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    setMainImgPath(productsFiltered.images_products.filter(function (x) {
+      return x.ordre == 1;
+    })[0]);
+  }, [listCollectionNames]); // active ou désactive un produit
 
   var handleActivation = function handleActivation(id, status) {
     var statusData = new FormData();
@@ -14341,6 +14376,7 @@ var OptimisationProduct = function OptimisationProduct() {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     showOptimisationProduct();
   }, [metaTitlebiggerThan50Product, metaDescriptionbiggerThan130Product, size]);
+  console.log('metaUrlProduct  ', metaUrlProduct);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_3__["default"], {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_5__["default"], {
       label: "SEO"

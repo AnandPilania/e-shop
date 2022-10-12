@@ -31,7 +31,7 @@ const List = () => {
     const { setSearchValue, messageModal, textButtonConfirm, setMessageModal, setSender, setTextButtonConfirm, screenSize, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked, setListCollectionNames } = useContext(AppContext);
 
 
-    useEffect(() => { 
+    useEffect(() => {  
         Axios.get(`http://127.0.0.1:8000/getProducts`)
             .then(res => {
                 // procuts permet de garder la liste complète des products pour certaines fonctions qui ont besoin que toutes les products soit parcourues ce qui n'est pas toujours le cas avec listProductsFiltered qui est principalement utilisé pour afficher les products avec ou sans filtre

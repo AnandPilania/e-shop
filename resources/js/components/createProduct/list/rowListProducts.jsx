@@ -22,7 +22,7 @@ const RowListProducts = ({ productsFiltered, collections, listProductsChecked, h
     const [statusColor, setStatusColor] = useState('green');
     const [statusState, setStatusState] = useState('Activé');
 
-    const { screenSize, listProductsFiltered, setListProductsFiltered } =
+    const { screenSize, listProductsFiltered, setListProductsFiltered, listCollectionNames } =
         useContext(AppContext);
 
 
@@ -63,26 +63,32 @@ const RowListProducts = ({ productsFiltered, collections, listProductsChecked, h
         handleStatusColorAndStatusOnOff();
     }, []);
 
+    // permet de mettre à jour l'image dans list product quand on modifie les images en éditant un produit et qu'on clique sur le back button pour annuler
+    useEffect(() => {
+        setMainImgPath(productsFiltered.images_products.filter(x => x.ordre == 1)[0]);
+    }, [listCollectionNames]);
+
 
     // active ou désactive un produit
     const handleActivation = (id, status) => {
         let statusData = new FormData();
         statusData.append("id", id);
         statusData.append("status", status);
-        Axios.post(`http://127.0.0.1:8000/handleProductStatus`, statusData).then(
-            (res) => {
-                if (
-                    res.data != "" &&
-                    res.data != null &&
-                    res.data != undefined
-                ) {
-                    let tmp_arr = [...listProductsFiltered];
-                    let index_arr = tmp_arr.findIndex((x) => x.id == id);
-                    tmp_arr[index_arr].status = res.data.status;
-                    setListProductsFiltered(tmp_arr);
+        Axios.post(`http://127.0.0.1:8000/handleProductStatus`, statusData)
+            .then(
+                (res) => {
+                    if (
+                        res.data != "" &&
+                        res.data != null &&
+                        res.data != undefined
+                    ) {
+                        let tmp_arr = [...listProductsFiltered];
+                        let index_arr = tmp_arr.findIndex((x) => x.id == id);
+                        tmp_arr[index_arr].status = res.data.status;
+                        setListProductsFiltered(tmp_arr);
+                    }
                 }
-            }
-        );
+            );
     };
 
     const handleStatusColorAndStatusOnOff = () => {
@@ -175,7 +181,7 @@ const RowListProducts = ({ productsFiltered, collections, listProductsChecked, h
                     />
                 )}
             </div>
-            
+
             {/* thumbnail */}
             <div className="flex flex-row justify-center items-center min-h[48px] w-full">
                 {mainImgPath?.path != undefined &&

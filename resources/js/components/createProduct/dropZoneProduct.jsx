@@ -70,6 +70,9 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
                     let tmp_data = [[]];
                     let tmp = [];
                     let imagesProduct = res.data[0].images_products;
+                    imagesProduct.sort(function (a, b) {
+                        return a.ordre - b.ordre;
+                    });
                     for (let i = 0; i < imagesProduct.length; i++) {
                         if (tmp.length < 4) {
                             tmp.push(imagesProduct[i]);
@@ -232,7 +235,7 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
 
 
     // change order of images in db images_product when drag and drop images products in drop zone
-    const handleReOrderInTemporaryStorage = (images_ReOrdered) => { 
+    const handleReOrderInTemporaryStorage = (images_ReOrdered) => {
         var imagesToReOrder = new FormData;
         imagesToReOrder.append('images', JSON.stringify(images_ReOrdered));
 

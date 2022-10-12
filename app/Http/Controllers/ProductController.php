@@ -48,14 +48,14 @@ class ProductController extends Controller
     // public function store(StoreProductRequest $request)
     public function store(Request $request)
     {
-
+        // dd($request);
         if ($request->isEdit == "true") {
             $product = Product::find($request->productId);
         } else {
             $product = new Product;
         }
 
-        dd($request->isEdit);
+        // dd($request->isEdit);
 
         $product->name = $request->nameProduct;
         $product->isInAutoCollection = $request->isInAutoCollection == 'true' ? 1 : 0;
@@ -80,19 +80,39 @@ class ProductController extends Controller
         $cleanLink = new CleanLink;
         $product->link = $cleanLink->cleanLink($request->nameProduct);
         // Retourne un nouvel objet DateTime représentant la date et l'heure spécifiées par la string time, qui a été formaté dans le format donné.
-        $date = DateTime::createFromFormat('d-m-Y H:i:s', $request->dateActivation);
-        $product->dateActivation = $date->format('Y-m-d H:i:s');
-        $product->status = 1;
-        // $product->status = $date->format('Y-m-d H:i:s') <= date('Y-m-d H:i:s') ? 1 : 2;
+        if ($request->isEdit == "true") {
+            $product->dateActivation = $request->dateActivation;
+        } else {
+            $date = DateTime::createFromFormat('d-m-Y H:i:s', $request->dateActivation);
+            $product->dateActivation = $date->format('Y-m-d H:i:s');
+        }
+        $product->status = $request->productStatus;
         $product->type = 'no type';
         $product->taxe_id = json_decode($request->tva)->id;
         $product->supplier_id = json_decode($request->supplier) != "" && json_decode($request->supplier)->id;
         $product->save();
 
 
+        // delete relations in collection_product pivot table <---
+        if ($request->isEdit == "true") {
+            $product->collections()->detach();
+        }
         // save in collection_product table <---
         foreach (json_decode($request->collections) as $collection) {
             $product->collections()->attach($collection->id);
+        }
+
+        // delete relations in variantes table AND
+        // delete all relations in options_values_variante pivot table
+        if ($request->isEdit == "true") {
+            $variantes = Variante::where('product_id', $request->productId)
+                ->get();
+            if ($variantes->first()) {
+                foreach ($variantes as $variante) {
+                    $variante->options_values()->detach();
+                    $variante->delete();
+                }
+            }
         }
 
         // variantes table !!!
@@ -119,81 +139,81 @@ class ProductController extends Controller
         foreach ($variantes as $item) {
             $variante = new Variante;
 
-            if ($item->optionsString != '') {
+            if (isset($item->optionsString) && $item->optionsString != '') {
                 $variante->optionsString = $item->optionsString;
             } else {
                 $variante->optionsString = '';
             }
 
-            if ($item->cost != '') {
+            if (isset($item->cost) && $item->cost != '') {
                 $variante->cost = $item->cost;
-            } elseif ($request->productCost != '') {
+            } elseif (isset($request->productCost) && $request->productCost != '') {
                 $variante->cost = $request->productCost;
             } else {
                 $variante->cost = null;
             }
 
-            if ($item->price != '') {
+            if (isset($item->price) && $item->price != '') {
                 $variante->price = $item->price;
-            } elseif ($request->productPrice != '') {
+            } elseif (isset($request->productPrice) && $request->productPrice != '') {
                 $variante->price = $request->productPrice;
             } else {
                 $variante->price = 0;
             }
 
-            if ($item->reducedPrice != '') {
+            if (isset($item->reducedPrice) && $item->reducedPrice != '') {
                 $variante->reducedPrice = $item->reducedPrice;
-            } elseif ($request->reducedProductPrice != '') {
+            } elseif (isset($request->reducedProductPrice) && $request->reducedProductPrice != '') {
                 $variante->reducedPrice = $request->reducedProductPrice;
             } else {
                 $variante->reducedPrice = null;
             }
 
-            if ($item->parcelWeight != '') {
+            if (isset($item->parcelWeight) && $item->parcelWeight != '') {
                 $variante->weight = $item->parcelWeight;
-            } elseif ($request->productParcelWeight != '') {
+            } elseif (isset($request->productParcelWeigh) && $request->productParcelWeight != '') {
                 $variante->weight = $request->productParcelWeight;
             } else {
                 $variante->weight = null;
             }
-
-            if ($item->parcelWeightMeasureUnit != '') {
+            
+            if (isset($item->parcelWeightMeasureUnit) && $item->parcelWeightMeasureUnit != '') {
                 $variante->weightMeasure = $item->parcelWeightMeasureUnit;
-            } elseif ($request->WeightMeasureUnit != '') {
+            } elseif (isset($request->WeightMeasureUnit) && $request->WeightMeasureUnit != '') {
                 $variante->weightMeasure = $request->WeightMeasureUnit;
             } else {
                 $variante->weightMeasure = 'gr';
             }
 
-            if ($item->stock != '') {
+            if (isset($item->stock) && $item->stock != '') {
                 $variante->stock = $item->stock;
             } else {
                 $variante->stock = 0;
             }
 
-            if ($item->unlimited != '') {
+            if (isset($item->unlimited) && $item->unlimited != '') {
                 $variante->unlimitedStock = $item->unlimited;
-            } elseif ($request->unlimitedStock != '') {
+            } elseif (isset($request->unlimitedStock) && $request->unlimitedStock != '') {
                 $variante->unlimitedStock = $request->unlimitedStock;
             } else {
                 $variante->unlimitedStock = 1;
             }
 
-            if ($item->productCode != '') {
+            if (isset($item->productCode) && $item->productCode != '') {
                 $variante->sku = $item->productCode;
-            } elseif ($request->productCode != '') {
+            } elseif (isset($request->productCode) && $request->productCode != '') {
                 $variante->sku = $request->productCode;
             } else {
                 $variante->sku = Str::uuid();
             }
 
-            if ($item->deleted != '') {
+            if (isset($item->deleted) && $item->deleted != '') {
                 $variante->deleted = $item->deleted;
             } else {
                 $variante->deleted = false;
             }
 
-            if (property_exists($item->selectedImage, 'path')) {
+            if (isset($item->selectedImage) && property_exists($item->selectedImage, 'path')) {
                 $variante->image_path = $item->selectedImage->path;
             } else {
                 $variante->image_path = '';
@@ -201,6 +221,7 @@ class ProductController extends Controller
 
             $variante->product_id = $product->id;
             $variante->save();
+
 
             // si la value de l'option existe alors on l'attache sinon on la crée d'abord puis on l'attache
             if ($item->options != '') {
@@ -225,7 +246,7 @@ class ProductController extends Controller
         // save images
         if ($request->isEdit == "true") {
             if (count(json_decode($request->imageVariantes)) > 0) {
-                
+
                 $images_products = Images_product::where('status', 'tmp')
                     ->orWhere('product_id', $request->productId)
                     ->get();

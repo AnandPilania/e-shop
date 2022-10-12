@@ -122,7 +122,7 @@ const OptimisationProduct = () => {
         showOptimisationProduct();
     }, [metaTitlebiggerThan50Product, metaDescriptionbiggerThan130Product, size]);
 
-
+console.log('metaUrlProduct  ', metaUrlProduct)
     return (
         <Flex_col_s_s>
             <Label label="SEO" />

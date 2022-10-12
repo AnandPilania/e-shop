@@ -1,5 +1,5 @@
 import { React, useState, useEffect, useContext } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import AppContext from '../contexts/AppContext';
 import Flex_col_s_s from '../elements/container/flex_col_s_s';
 import Options from './options/options';
@@ -26,12 +26,15 @@ import ModalConfirmation from '../modal/modalConfirmation';
 
 const CreateProduct = () => {
 
+    const navigate = useNavigate();
+
     const [showModalFromPrice, setShowModalFromPrice] = useState(false);
     const [isDirtyCreateProduct, setIsDirtyCreateProduct] = useState(false);
     const [hooksComparation, setHooksComparation] = useState({});
     const [showModalLeaveWithoutSave, setShowModalLeaveWithoutSave] = useState(false);
     const [tvaComparation, setTvaComparation] = useState('');
     const [leaveProductFormWithoutSaveChange, setLeaveProductFormWithoutSaveChange] = useState(false);
+    const [productStatus, setProductStatus] = useState(1);
     const [showBackButton, setShowBackButton] = useState(false);
 
     // when click on edit in collection list it send collection id to db request for make edit collection
@@ -74,6 +77,21 @@ const CreateProduct = () => {
             });
 
 
+        // show back button only when page completly loaded
+        const showBackButtonWhenPageLoaded = () => {
+            setShowBackButton(true);
+        };
+
+        // Check if the page has already loaded
+        if (document.readyState === "complete") {
+            showBackButtonWhenPageLoaded();
+        } else {
+            window.addEventListener("load", showBackButtonWhenPageLoaded);
+            // Remove the event listener when component unmounts
+            return () => window.removeEventListener("load", showBackButtonWhenPageLoaded);
+        }
+
+
         if (isEdit) {
             let idProduct = new FormData;
             idProduct.append('productId', productId);
@@ -81,6 +99,7 @@ const CreateProduct = () => {
                 .then(res => {
                     let data = res.data[0];
                     console.log('data.collections  ', data.collections);
+                    console.log('data  ', data);
                     setNameProduct(data.name == null ? '' : data.name);
                     setIsInAutoCollection(data.isInAutoCollection == 1 ? true : false);
                     setRibbonProduct(data.ribbon == null ? '' : data.ribbon);
@@ -93,13 +112,14 @@ const CreateProduct = () => {
                     setProductCost(data.cost == null ? '' : data.cost);
                     setProductStock(data.stock == null ? '' : data.stock);
                     setUnlimited(data.unlimitedStock);
+                    setProductStatus(data.status);
                     setProductParcelWeight(data.weight == null ? '' : data.weight);
                     setProductParcelWeightMeasureUnit(data.weightMeasure);
                     setProductCode(data.sku == null ? '' : data.sku);
                     setTransporter(JSON.parse(data.onlyTheseCarriers));
-                    setMetaUrlProduct(data.metaUrl);
-                    setMetaTitleProduct(data.metaTitle);
-                    setMetaDescriptionProduct(data.metaDescription);
+                    setMetaUrlProduct(data.metaUrl == null ? '' : data.metaUrl);
+                    setMetaTitleProduct(data.metaTitle == null ? '' : data.metaTitle);
+                    setMetaDescriptionProduct(data.metaDescription == null ? '' : data.metaDescription);
                     setDateFieldProduct(data.dateActivation);
                     setTva(data.taxe_id);
                     setSupplier(data.supplier == null ? '' : data.supplier);
@@ -130,12 +150,13 @@ const CreateProduct = () => {
                     hooksCompar.productParcelWeightMeasureUnit = data.weightMeasure;
                     hooksCompar.productCode = data.sku == null ? '' : data.sku;
                     hooksCompar.transporter = JSON.parse(data.onlyTheseCarriers);
-                    hooksCompar.metaUrlProduct = data.metaUrl;
-                    hooksCompar.metaTitleProduct = data.metaTitle;
-                    hooksCompar.metaDescriptionProduct = data.metaDescription;
+                    hooksCompar.metaUrlProduct = data.metaUrl == null ? '' : data.metaUrl;
+                    hooksCompar.metaTitleProduct = data.metaTitle == null ? '' : data.metaTitle;
+                    hooksCompar.metaDescriptionProduct = data.metaDescription == null ? '' : data.metaDescription;
                     hooksCompar.dateFieldProduct = data.dateActivation;
                     hooksCompar.tva = data.taxe_id;
                     hooksCompar.supplier = data.supplier == null ? '' : data.supplier;
+                    console.log('data.variantes;  ', data.variantes)//<--- ! ! !
                     hooksCompar.variantes = data.variantes;
                     hooksCompar.imageVariantes = data.images_products;
                     // affiche la partie promo dans price
@@ -152,6 +173,8 @@ const CreateProduct = () => {
             initCreateProduct();
         }
     }, []);
+
+    // console.log('showBackButton  ', showBackButton);
 
     const initCreateProduct = () => {
         setNameProduct('');
@@ -375,7 +398,6 @@ const CreateProduct = () => {
 
         var formData = new FormData;
 
-
         formData.append('isEdit', isEdit);
         formData.append('productId', productId);
         formData.append('nameProduct', nameProduct);
@@ -405,6 +427,7 @@ const CreateProduct = () => {
         formData.append('tva', JSON.stringify(tva));
         formData.append('supplier', JSON.stringify(supplier));
         formData.append("dateActivation", dateFieldProduct);
+        formData.append("productStatus", productStatus);
         formData.append('optionsObj', JSON.stringify(optionsObj));
         formData.append('variantes', JSON.stringify(variantes));
         formData.append('metaUrlProduct', metaUrlProduct);
@@ -414,14 +437,11 @@ const CreateProduct = () => {
         consolelog();
 
         Axios.post(`http://127.0.0.1:8000/products`, formData,
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-            .then(res => {
-                console.log('res.data  --->  ok');
-
+            { headers: { 'Content-Type': 'multipart/form-data' } })
+            .then(() => {
+                setIsEditProduct(false);
+                initCreateProduct();
+                navigate('/listProduct');
             });
     }
 
@@ -433,11 +453,12 @@ const CreateProduct = () => {
             <div className="w-full grid grid-cols-1 lg:grid-cols-[1fr_33.3333%] gap-4 justify-center items-start lg:w-[95%] xl:w-[90%] 2xl:w-[80%] 3xl:w-[70%] min-h-[100vh] mt-[50px] mx-auto  text-base">
                 <div className="w-full grid grid-cols-1 gap-y-4">
                     <Flex_col_s_s>
-                        <Header
-                            initCreateProduct={initCreateProduct}
-                            isDirtyCreateProduct={isDirtyCreateProduct}
-                            productId={productId}
-                        />
+                        {showBackButton &&
+                            <Header
+                                initCreateProduct={initCreateProduct}
+                                isDirtyCreateProduct={isDirtyCreateProduct}
+                                productId={productId}
+                            />}
                         <h4 className="mb-5 font-semibold text-xl">
                             Ajouter un produit
                         </h4>
