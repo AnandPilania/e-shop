@@ -11,14 +11,12 @@ import Flex_col_s_s from '../../elements/container/flex_col_s_s';
 
 const Options = () => {
 
-    const [showOptions, setShowOptions] = useState(false);
     const [showModalCancelWithoutSaveOptions, setShowModalCancelWithoutSaveOptions] = useState(false);
 
-    const { optionsObj, setOptionsObj, listType, setListType } = useContext(AppContext);
-
+    const { optionsObj, setOptionsObj, setListType, showOptions, setShowOptions } = useContext(AppContext);
 
     useEffect(() => {
-        // get list of option types
+        // get list of option types. Is required !!
         Axios.get(`http://127.0.0.1:8000/listtype`)
             .then(res => {
                 setListType(res.data);
@@ -195,10 +193,7 @@ const Options = () => {
             </DragDropContext>
 
             <div className='w-full'>
-                {showOptions &&
-                    <OptionVariantesList
-                        setShowOptions={setShowOptions}
-                    />}
+                {showOptions && <OptionVariantesList />}
             </div>
 
 

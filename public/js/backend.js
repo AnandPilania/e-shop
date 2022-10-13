@@ -4090,198 +4090,203 @@ var Appcontainer = function Appcontainer() {
 
   var _useState155 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState156 = _slicedToArray(_useState155, 2),
-      unlimited = _useState156[0],
-      setUnlimited = _useState156[1];
+      showOptions = _useState156[0],
+      setShowOptions = _useState156[1];
 
-  var _useState157 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState157 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState158 = _slicedToArray(_useState157, 2),
-      variantes = _useState158[0],
-      setVariantes = _useState158[1];
+      unlimited = _useState158[0],
+      setUnlimited = _useState158[1];
 
   var _useState159 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState160 = _slicedToArray(_useState159, 2),
-      checkedVariantesList = _useState160[0],
-      setCheckedVariantesList = _useState160[1];
+      variantes = _useState160[0],
+      setVariantes = _useState160[1];
 
   var _useState161 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState162 = _slicedToArray(_useState161, 2),
-      selectedVariantesList = _useState162[0],
-      setSelectedVariantesList = _useState162[1];
+      checkedVariantesList = _useState162[0],
+      setCheckedVariantesList = _useState162[1];
 
-  var _useState163 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+  var _useState163 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState164 = _slicedToArray(_useState163, 2),
-      allOptionsVariantesNeeded = _useState164[0],
-      setAllOptionsVariantesNeeded = _useState164[1];
+      selectedVariantesList = _useState164[0],
+      setSelectedVariantesList = _useState164[1];
 
-  var _useState165 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState165 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
       _useState166 = _slicedToArray(_useState165, 2),
-      isHideDeletedVariantes = _useState166[0],
-      setIsHideDeletedVariantes = _useState166[1];
+      allOptionsVariantesNeeded = _useState166[0],
+      setAllOptionsVariantesNeeded = _useState166[1];
 
-  var _useState167 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+  var _useState167 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState168 = _slicedToArray(_useState167, 2),
-      isInAutoCollection = _useState168[0],
-      setIsInAutoCollection = _useState168[1];
+      isHideDeletedVariantes = _useState168[0],
+      setIsHideDeletedVariantes = _useState168[1];
 
-  var _useState169 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
+  var _useState169 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
       _useState170 = _slicedToArray(_useState169, 2),
-      variante = _useState170[0],
-      setVariante = _useState170[1];
+      isInAutoCollection = _useState170[0],
+      setIsInAutoCollection = _useState170[1];
 
-  var _useState171 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([[]]),
+  var _useState171 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
       _useState172 = _slicedToArray(_useState171, 2),
-      imageVariantes = _useState172[0],
-      setImageVariantes = _useState172[1];
+      variante = _useState172[0],
+      setVariante = _useState172[1];
 
-  var _useState173 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState173 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([[]]),
       _useState174 = _slicedToArray(_useState173, 2),
-      listType = _useState174[0],
-      setListType = _useState174[1];
+      imageVariantes = _useState174[0],
+      setImageVariantes = _useState174[1];
 
   var _useState175 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState176 = _slicedToArray(_useState175, 2),
-      optionsData = _useState176[0],
-      setOptionsData = _useState176[1];
+      listType = _useState176[0],
+      setListType = _useState176[1];
 
   var _useState177 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState178 = _slicedToArray(_useState177, 2),
-      changedVariantes = _useState178[0],
-      setChangedVariantes = _useState178[1];
+      optionsData = _useState178[0],
+      setOptionsData = _useState178[1];
 
-  var _useState179 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState179 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState180 = _slicedToArray(_useState179, 2),
-      metaTitleProduct = _useState180[0],
-      setMetaTitleProduct = _useState180[1];
+      changedVariantes = _useState180[0],
+      setChangedVariantes = _useState180[1];
 
   var _useState181 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState182 = _slicedToArray(_useState181, 2),
-      metaDescriptionProduct = _useState182[0],
-      setMetaDescriptionProduct = _useState182[1];
+      metaTitleProduct = _useState182[0],
+      setMetaTitleProduct = _useState182[1];
 
   var _useState183 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState184 = _slicedToArray(_useState183, 2),
-      metaUrlProduct = _useState184[0],
-      setMetaUrlProduct = _useState184[1];
+      metaDescriptionProduct = _useState184[0],
+      setMetaDescriptionProduct = _useState184[1];
 
-  var _useState185 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([1, 2, 3]),
+  var _useState185 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState186 = _slicedToArray(_useState185, 2),
-      products = _useState186[0],
-      setProducts = _useState186[1];
+      metaUrlProduct = _useState186[0],
+      setMetaUrlProduct = _useState186[1];
 
-  var _useState187 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState187 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([1, 2, 3]),
       _useState188 = _slicedToArray(_useState187, 2),
-      listProductsFiltered = _useState188[0],
-      setListProductsFiltered = _useState188[1];
+      products = _useState188[0],
+      setProducts = _useState188[1];
 
   var _useState189 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState190 = _slicedToArray(_useState189, 2),
-      listProductsChecked = _useState190[0],
-      setListProductsChecked = _useState190[1];
+      listProductsFiltered = _useState190[0],
+      setListProductsFiltered = _useState190[1];
 
-  var _useState191 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_4__.getNow)()),
+  var _useState191 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState192 = _slicedToArray(_useState191, 2),
-      dateFieldProduct = _useState192[0],
-      setDateFieldProduct = _useState192[1];
+      listProductsChecked = _useState192[0],
+      setListProductsChecked = _useState192[1];
 
-  var _useState193 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState193 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)((0,_functions_dateTools__WEBPACK_IMPORTED_MODULE_4__.getNow)()),
       _useState194 = _slicedToArray(_useState193, 2),
-      listCollectionNames = _useState194[0],
-      setListCollectionNames = _useState194[1];
+      dateFieldProduct = _useState194[0],
+      setDateFieldProduct = _useState194[1];
 
-  var _useState195 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+  var _useState195 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState196 = _slicedToArray(_useState195, 2),
-      isEditProduct = _useState196[0],
-      setIsEditProduct = _useState196[1];
+      listCollectionNames = _useState196[0],
+      setListCollectionNames = _useState196[1];
 
   var _useState197 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState198 = _slicedToArray(_useState197, 2),
-      isShowPromoProduct = _useState198[0],
-      setIsShowPromoProduct = _useState198[1]; //---------------------------------------------------------------PRODUCT
+      isEditProduct = _useState198[0],
+      setIsEditProduct = _useState198[1];
+
+  var _useState199 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState200 = _slicedToArray(_useState199, 2),
+      isShowPromoProduct = _useState200[0],
+      setIsShowPromoProduct = _useState200[1]; //---------------------------------------------------------------PRODUCT
   // supplier-------------------------------------------------------------
 
 
-  var _useState199 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
-      _useState200 = _slicedToArray(_useState199, 2),
-      nameSupplier = _useState200[0],
-      setNameSupplier = _useState200[1];
-
   var _useState201 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState202 = _slicedToArray(_useState201, 2),
-      emailSupplier = _useState202[0],
-      setEmailSupplier = _useState202[1];
+      nameSupplier = _useState202[0],
+      setNameSupplier = _useState202[1];
 
   var _useState203 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState204 = _slicedToArray(_useState203, 2),
-      phoneSupplier = _useState204[0],
-      setPhoneSupplier = _useState204[1];
+      emailSupplier = _useState204[0],
+      setEmailSupplier = _useState204[1];
 
   var _useState205 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState206 = _slicedToArray(_useState205, 2),
-      webSiteSupplier = _useState206[0],
-      setWebSiteSupplier = _useState206[1];
+      phoneSupplier = _useState206[0],
+      setPhoneSupplier = _useState206[1];
 
   var _useState207 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState208 = _slicedToArray(_useState207, 2),
-      adressSupplier = _useState208[0],
-      setAdressSupplier = _useState208[1];
+      webSiteSupplier = _useState208[0],
+      setWebSiteSupplier = _useState208[1];
 
   var _useState209 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState210 = _slicedToArray(_useState209, 2),
-      citySupplier = _useState210[0],
-      setCitySupplier = _useState210[1];
+      adressSupplier = _useState210[0],
+      setAdressSupplier = _useState210[1];
 
   var _useState211 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState212 = _slicedToArray(_useState211, 2),
-      countrySupplier = _useState212[0],
-      setCountrySupplier = _useState212[1];
+      citySupplier = _useState212[0],
+      setCitySupplier = _useState212[1];
 
-  var _useState213 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState213 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState214 = _slicedToArray(_useState213, 2),
-      listSuppliers = _useState214[0],
-      setListSuppliers = _useState214[1];
+      countrySupplier = _useState214[0],
+      setCountrySupplier = _useState214[1];
 
-  var _useState215 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState215 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState216 = _slicedToArray(_useState215, 2),
-      supplier = _useState216[0],
-      setSupplier = _useState216[1]; // TVA---------------------------------------------------------------
+      listSuppliers = _useState216[0],
+      setListSuppliers = _useState216[1];
 
-
-  var _useState217 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
+  var _useState217 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState218 = _slicedToArray(_useState217, 2),
-      activeCalculTva = _useState218[0],
-      setActiveCalculTva = _useState218[1];
+      supplier = _useState218[0],
+      setSupplier = _useState218[1]; // TVA---------------------------------------------------------------
 
-  var _useState219 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+
+  var _useState219 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
       _useState220 = _slicedToArray(_useState219, 2),
-      tvaRateList = _useState220[0],
-      setTvaRateList = _useState220[1];
+      activeCalculTva = _useState220[0],
+      setActiveCalculTva = _useState220[1];
 
-  var _useState221 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState221 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState222 = _slicedToArray(_useState221, 2),
-      tva = _useState222[0],
-      setTva = _useState222[1]; // Shipping ---------------------------------------------------------
+      tvaRateList = _useState222[0],
+      setTvaRateList = _useState222[1];
 
-
-  var _useState223 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState223 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
       _useState224 = _slicedToArray(_useState223, 2),
-      listTransporters = _useState224[0],
-      setListTransporters = _useState224[1];
+      tva = _useState224[0],
+      setTva = _useState224[1]; // Shipping ---------------------------------------------------------
+
 
   var _useState225 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState226 = _slicedToArray(_useState225, 2),
-      transporter = _useState226[0],
-      setTransporter = _useState226[1]; // GENERAL -----------------------------------------------------------
+      listTransporters = _useState226[0],
+      setListTransporters = _useState226[1];
 
-
-  var _useState227 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.innerWidth),
+  var _useState227 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
       _useState228 = _slicedToArray(_useState227, 2),
-      screenSize = _useState228[0],
-      setScreenSize = _useState228[1];
+      transporter = _useState228[0],
+      setTransporter = _useState228[1]; // GENERAL -----------------------------------------------------------
 
-  var _useState229 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+
+  var _useState229 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(window.innerWidth),
       _useState230 = _slicedToArray(_useState229, 2),
-      showSideNav = _useState230[0],
-      setShowSideNav = _useState230[1];
+      screenSize = _useState230[0],
+      setScreenSize = _useState230[1];
+
+  var _useState231 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
+      _useState232 = _slicedToArray(_useState231, 2),
+      showSideNav = _useState232[0],
+      setShowSideNav = _useState232[1];
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // chargement des collections
@@ -4788,7 +4793,9 @@ var Appcontainer = function Appcontainer() {
     showInitButton: showInitButton,
     setShowInitButton: setShowInitButton,
     imageHasBeenChanged: imageHasBeenChanged,
-    setImageHasBeenChanged: setImageHasBeenChanged
+    setImageHasBeenChanged: setImageHasBeenChanged,
+    showOptions: showOptions,
+    setShowOptions: setShowOptions
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_14__.jsxs)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"].Provider, {
     value: contextValue,
@@ -10478,7 +10485,9 @@ __webpack_require__.r(__webpack_exports__);
   showInitButton: '',
   setShowInitButton: function setShowInitButton() {},
   imageHasBeenChanged: '',
-  setImageHasBeenChanged: function setImageHasBeenChanged() {}
+  setImageHasBeenChanged: function setImageHasBeenChanged() {},
+  showOptions: '',
+  setShowOptions: function setShowOptions() {}
 }));
 
 /***/ }),
@@ -10920,7 +10929,8 @@ var CreateProduct = function CreateProduct() {
       isEditProduct = _useContext.isEditProduct,
       setIsEditProduct = _useContext.setIsEditProduct,
       isShowPromoProduct = _useContext.isShowPromoProduct,
-      setIsShowPromoProduct = _useContext.setIsShowPromoProduct;
+      setIsShowPromoProduct = _useContext.setIsShowPromoProduct,
+      setShowOptions = _useContext.setShowOptions;
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // charge la liste des fournisseurs
@@ -11181,6 +11191,8 @@ var CreateProduct = function CreateProduct() {
     setShowModalFromPrice(false);
     setShowModalLeaveWithoutSave(false);
   };
+
+  console.log('optionsObj  ', optionsObj);
 
   var consolelog = function consolelog() {
     console.log('nameProduct  ', nameProduct);
@@ -14376,7 +14388,6 @@ var OptimisationProduct = function OptimisationProduct() {
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     showOptimisationProduct();
   }, [metaTitlebiggerThan50Product, metaDescriptionbiggerThan130Product, size]);
-  console.log('metaUrlProduct  ', metaUrlProduct);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)(_elements_container_flex_col_s_s__WEBPACK_IMPORTED_MODULE_3__["default"], {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_form_label__WEBPACK_IMPORTED_MODULE_5__["default"], {
       label: "SEO"
@@ -15875,8 +15886,7 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
 
   var handleChangeSelectionVariantesList = _ref.handleChangeSelectionVariantesList,
       isAllSelectedCheckbox = _ref.isAllSelectedCheckbox,
-      setIsAllSelectedCheckbox = _ref.setIsAllSelectedCheckbox,
-      setShowOptions = _ref.setShowOptions;
+      setIsAllSelectedCheckbox = _ref.setIsAllSelectedCheckbox;
 
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
@@ -15934,12 +15944,16 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
       setImageVariantes = _useContext.setImageVariantes,
       changedVariantes = _useContext.changedVariantes,
       setChangedVariantes = _useContext.setChangedVariantes,
-      screenSize = _useContext.screenSize;
+      screenSize = _useContext.screenSize,
+      setShowOptions = _useContext.setShowOptions;
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     selectedVariantesList.length > 0 && handleChangeSelectionVariantesList(null, null);
-  }, [variantes]);
+  }, [variantes]); // console.log('optionsObj out ', optionsObj)
+
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    // console.log('optionsObj  ', optionsObj)
+    console.log('variantes  ', variantes);
     var libelles = []; // renvoi un tableau contenant les tableaux des VALEURS des différentes options. Sert à récupérer toutes les combinaisons possible entre les différentes options 
 
     var optionsCombinations = optionsObj.map(function (x) {
@@ -16037,8 +16051,7 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
     }
 
     setVariantes(tmp_variantesAsString); // ferme "ajouter des options quand on supprime toutes les options"
-
-    optionsObj.length === 0 && setShowOptions(false);
+    // optionsObj.length === 0 && setShowOptions(false);
   }, [optionsObj]);
 
   var handleVariantes = function handleVariantes(id, field, data) {
@@ -16583,22 +16596,18 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var Options = function Options() {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState2 = _slicedToArray(_useState, 2),
-      showOptions = _useState2[0],
-      setShowOptions = _useState2[1];
-
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-      _useState4 = _slicedToArray(_useState3, 2),
-      showModalCancelWithoutSaveOptions = _useState4[0],
-      setShowModalCancelWithoutSaveOptions = _useState4[1];
+      showModalCancelWithoutSaveOptions = _useState2[0],
+      setShowModalCancelWithoutSaveOptions = _useState2[1];
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       optionsObj = _useContext.optionsObj,
       setOptionsObj = _useContext.setOptionsObj,
-      listType = _useContext.listType,
-      setListType = _useContext.setListType;
+      setListType = _useContext.setListType,
+      showOptions = _useContext.showOptions,
+      setShowOptions = _useContext.setShowOptions;
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    // get list of option types
+    // get list of option types. Is required !!
     axios__WEBPACK_IMPORTED_MODULE_4___default().get("http://127.0.0.1:8000/listtype").then(function (res) {
       setListType(res.data);
     })["catch"](function (error) {
@@ -16764,9 +16773,7 @@ var Options = function Options() {
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
       className: "w-full",
-      children: showOptions && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_optionVariantesList__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        setShowOptions: setShowOptions
-      })
+      children: showOptions && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_optionVariantesList__WEBPACK_IMPORTED_MODULE_3__["default"], {})
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_modalconfirmCancelWithoutSapveOptions__WEBPACK_IMPORTED_MODULE_6__["default"], {
       show: showModalCancelWithoutSaveOptions,
       handleModalConfirm: confirmCancelWithoutSapveOptions,

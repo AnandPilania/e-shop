@@ -234,6 +234,8 @@ export default createContext({
     setShowInitButton: () => { },
     imageHasBeenChanged: '', 
     setImageHasBeenChanged: () => { },
+    showOptions: '', 
+    setShowOptions: () => { },
 
 
 });

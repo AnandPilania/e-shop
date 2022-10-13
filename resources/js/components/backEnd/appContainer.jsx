@@ -143,6 +143,7 @@ const Appcontainer = () => {
     const [productStock, setProductStock] = useState('');
     const [productCode, setProductCode] = useState('');
     const [optionsObj, setOptionsObj] = useState([]);
+    const [showOptions, setShowOptions] = useState(false);
     const [unlimited, setUnlimited] = useState(false);
     const [variantes, setVariantes] = useState([]);
     const [checkedVariantesList, setCheckedVariantesList] = useState([]);
@@ -589,6 +590,7 @@ const Appcontainer = () => {
         isShowPromoProduct, setIsShowPromoProduct,
         showInitButton, setShowInitButton,
         imageHasBeenChanged, setImageHasBeenChanged,
+        showOptions, setShowOptions,
 
     }
 
