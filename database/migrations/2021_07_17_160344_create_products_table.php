@@ -33,6 +33,7 @@ class CreateProductsTable extends Migration
             $table->string('link');
             $table->mediumText('description')->nullable();
             $table->text('onlyTheseCarriers')->nullable();
+            $table->text('optionsObj')->nullable();
             $table->string('metaUrl', 255)->nullable();
             $table->string('metaTitle', 255)->nullable();
             $table->mediumText('metaDescription')->nullable();

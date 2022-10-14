@@ -91,7 +91,8 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
 
 
     // save optionObj
-    useEffect(() => {
+    useEffect(() => {  
+        console.log('useeffet optionObj  ', optionObj) 
         saveOption(optionObj);
     }, [optionObj]);
 

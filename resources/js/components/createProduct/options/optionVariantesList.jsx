@@ -19,7 +19,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
     const [animateSlideRightIsActived, setAnimateSlideRightIsActived] = useState(false);
 
 
-    const { optionsObj, productPrice, reducedProductPrice, productStock, productCost, productParcelWeight, productParcelWeightMeasureUnit, productCode, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, isHideDeletedVariantes, variante, setVariante, setImageVariantes, changedVariantes, setChangedVariantes, screenSize, setShowOptions } = useContext(AppContext);
+    const { optionsObj, productPrice, reducedProductPrice, productStock, productCost, productParcelWeight, productParcelWeightMeasureUnit, productCode, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, isHideDeletedVariantes, variante, setVariante, setImageVariantes, changedVariantes, setChangedVariantes, screenSize, setShowOptions, isEditProduct } = useContext(AppContext);
 
 
 
@@ -27,11 +27,8 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         selectedVariantesList.length > 0 && handleChangeSelectionVariantesList(null, null);
     }, [variantes]);
 
-    // console.log('optionsObj out ', optionsObj)
 
-    useEffect(() => {
-// console.log('optionsObj  ', optionsObj)
-console.log('variantes  ', variantes)
+    useEffect(() => {  
         let libelles = [];
 
         // renvoi un tableau contenant les tableaux des VALEURS des différentes options. Sert à récupérer toutes les combinaisons possible entre les différentes options 
@@ -116,7 +113,7 @@ console.log('variantes  ', variantes)
         setVariantes(tmp_variantesAsString);
 
         // ferme "ajouter des options quand on supprime toutes les options"
-        // optionsObj.length === 0 && setShowOptions(false);
+        // optionsObj.name != '' && setShowOptions(false);
     }, [optionsObj]);
 
 

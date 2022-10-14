@@ -98,8 +98,6 @@ const CreateProduct = () => {
             Axios.post(`http://127.0.0.1:8000/getProduct`, idProduct)
                 .then(res => {
                     let data = res.data[0];
-                    console.log('data.collections  ', data.collections);
-                    console.log('data  ', data);
                     setNameProduct(data.name == null ? '' : data.name);
                     setIsInAutoCollection(data.isInAutoCollection == 1 ? true : false);
                     setRibbonProduct(data.ribbon == null ? '' : data.ribbon);
@@ -117,13 +115,15 @@ const CreateProduct = () => {
                     setProductParcelWeightMeasureUnit(data.weightMeasure);
                     setProductCode(data.sku == null ? '' : data.sku);
                     setTransporter(JSON.parse(data.onlyTheseCarriers));
+                    console.log('setOptionsObj(JSON.parse(data.optionsObj));')
+                    setOptionsObj(JSON.parse(data.optionsObj));
                     setMetaUrlProduct(data.metaUrl == null ? '' : data.metaUrl);
                     setMetaTitleProduct(data.metaTitle == null ? '' : data.metaTitle);
                     setMetaDescriptionProduct(data.metaDescription == null ? '' : data.metaDescription);
                     setDateFieldProduct(data.dateActivation);
                     setTva(data.taxe_id);
                     setSupplier(data.supplier == null ? '' : data.supplier);
-                    setVariantes(data.variantes);
+                    // setVariantes(data.variantes);
 
                     // affiche la partie promo dans price
                     if (data.reduction != null || data.reduced_price != null) {
@@ -155,7 +155,6 @@ const CreateProduct = () => {
                     hooksCompar.dateFieldProduct = data.dateActivation;
                     hooksCompar.tva = data.taxe_id;
                     hooksCompar.supplier = data.supplier == null ? '' : data.supplier;
-                    console.log('data.variantes;  ', data.variantes)//<--- ! ! !
                     hooksCompar.variantes = data.variantes;
                     hooksCompar.imageVariantes = data.images_products;
                     // affiche la partie promo dans price
@@ -173,6 +172,7 @@ const CreateProduct = () => {
         }
     }, []);
 
+console.log('optionsObj  ', optionsObj)
 
 
     // console.log('showBackButton  ', showBackButton);
@@ -361,7 +361,7 @@ const CreateProduct = () => {
         setShowModalFromPrice(false);
         setShowModalLeaveWithoutSave(false);
     }
-    console.log('optionsObj  ', optionsObj)
+    // console.log('optionsObj  ', optionsObj)
     const consolelog = () => {
         console.log('nameProduct  ', nameProduct);
         console.log('ribbonProduct  ', ribbonProduct);

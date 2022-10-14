@@ -74,6 +74,7 @@ class ProductController extends Controller
         $product->weightMeasure = $request->WeightMeasureUnit;
         $product->sku = $request->productSKU != '' ? $request->productSKU : Str::uuid();
         $product->onlyTheseCarriers = $request->transporter;
+        $product->optionsObj = $request->optionsObj;
         $product->metaUrl = $request->metaUrlProduct == "null" ? '' : $request->metaUrlProduct;
         $product->metaTitle = $request->metaTitleProduct == "null" ? '' : $request->metaTitleProduct;
         $product->metaDescription = $request->metaDescriptionProduct == "null" ? '' : $request->metaDescriptionProduct;

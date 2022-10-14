@@ -38,8 +38,6 @@ const Options = () => {
 
 
     const addOption = () => {
-        // get bigger ordre num
-        // const ordres = optionsObj.map(x => { return x.ordre });
         setOptionsObj([
             ...optionsObj,
             {
@@ -47,13 +45,13 @@ const Options = () => {
                 name: '',
                 values: [],
                 ordre: optionsObj.length
-                // ordre: ordres.length
             }]);
     }
 
 
     // si il y a une nouvelle option on l'ajoute sinon on retire l'option passée en params
     const saveOption = (newOption) => {
+        console.log('saveOption(newOption)  ', newOption)
         let arr = [...optionsObj];
         let ndx = arr.findIndex(obj => obj.id == newOption.id);
         if (ndx > -1) {

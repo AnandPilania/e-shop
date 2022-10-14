@@ -10979,8 +10979,6 @@ var CreateProduct = function CreateProduct() {
       idProduct.append('productId', productId);
       axios__WEBPACK_IMPORTED_MODULE_9___default().post("http://127.0.0.1:8000/getProduct", idProduct).then(function (res) {
         var data = res.data[0];
-        console.log('data.collections  ', data.collections);
-        console.log('data  ', data);
         setNameProduct(data.name == null ? '' : data.name);
         setIsInAutoCollection(data.isInAutoCollection == 1 ? true : false);
         setRibbonProduct(data.ribbon == null ? '' : data.ribbon);
@@ -10998,13 +10996,15 @@ var CreateProduct = function CreateProduct() {
         setProductParcelWeightMeasureUnit(data.weightMeasure);
         setProductCode(data.sku == null ? '' : data.sku);
         setTransporter(JSON.parse(data.onlyTheseCarriers));
+        console.log('setOptionsObj(JSON.parse(data.optionsObj));');
+        setOptionsObj(JSON.parse(data.optionsObj));
         setMetaUrlProduct(data.metaUrl == null ? '' : data.metaUrl);
         setMetaTitleProduct(data.metaTitle == null ? '' : data.metaTitle);
         setMetaDescriptionProduct(data.metaDescription == null ? '' : data.metaDescription);
         setDateFieldProduct(data.dateActivation);
         setTva(data.taxe_id);
-        setSupplier(data.supplier == null ? '' : data.supplier);
-        setVariantes(data.variantes); // affiche la partie promo dans price
+        setSupplier(data.supplier == null ? '' : data.supplier); // setVariantes(data.variantes);
+        // affiche la partie promo dans price
 
         if (data.reduction != null || data.reduced_price != null) {
           setIsShowPromoProduct(true);
@@ -11035,8 +11035,6 @@ var CreateProduct = function CreateProduct() {
         hooksCompar.dateFieldProduct = data.dateActivation;
         hooksCompar.tva = data.taxe_id;
         hooksCompar.supplier = data.supplier == null ? '' : data.supplier;
-        console.log('data.variantes;  ', data.variantes); //<--- ! ! !
-
         hooksCompar.variantes = data.variantes;
         hooksCompar.imageVariantes = data.images_products; // affiche la partie promo dans price
 
@@ -11052,7 +11050,8 @@ var CreateProduct = function CreateProduct() {
     } else {
       initCreateProduct();
     }
-  }, []); // console.log('showBackButton  ', showBackButton);
+  }, []);
+  console.log('optionsObj  ', optionsObj); // console.log('showBackButton  ', showBackButton);
 
   var initCreateProduct = function initCreateProduct() {
     setNameProduct('');
@@ -11190,9 +11189,8 @@ var CreateProduct = function CreateProduct() {
   var closelModal = function closelModal() {
     setShowModalFromPrice(false);
     setShowModalLeaveWithoutSave(false);
-  };
+  }; // console.log('optionsObj  ', optionsObj)
 
-  console.log('optionsObj  ', optionsObj);
 
   var consolelog = function consolelog() {
     console.log('nameProduct  ', nameProduct);
@@ -15429,6 +15427,7 @@ var Option = function Option(_ref) {
   }, [optionObj.name]); // save optionObj
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    console.log('useeffet optionObj  ', optionObj);
     saveOption(optionObj);
   }, [optionObj]);
 
@@ -15945,15 +15944,13 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
       changedVariantes = _useContext.changedVariantes,
       setChangedVariantes = _useContext.setChangedVariantes,
       screenSize = _useContext.screenSize,
-      setShowOptions = _useContext.setShowOptions;
+      setShowOptions = _useContext.setShowOptions,
+      isEditProduct = _useContext.isEditProduct;
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     selectedVariantesList.length > 0 && handleChangeSelectionVariantesList(null, null);
-  }, [variantes]); // console.log('optionsObj out ', optionsObj)
-
+  }, [variantes]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    // console.log('optionsObj  ', optionsObj)
-    console.log('variantes  ', variantes);
     var libelles = []; // renvoi un tableau contenant les tableaux des VALEURS des différentes options. Sert à récupérer toutes les combinaisons possible entre les différentes options 
 
     var optionsCombinations = optionsObj.map(function (x) {
@@ -16051,7 +16048,7 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
     }
 
     setVariantes(tmp_variantesAsString); // ferme "ajouter des options quand on supprime toutes les options"
-    // optionsObj.length === 0 && setShowOptions(false);
+    // optionsObj.name != '' && setShowOptions(false);
   }, [optionsObj]);
 
   var handleVariantes = function handleVariantes(id, field, data) {
@@ -16626,19 +16623,18 @@ var Options = function Options() {
   };
 
   var addOption = function addOption() {
-    // get bigger ordre num
-    // const ordres = optionsObj.map(x => { return x.ordre });
     setOptionsObj([].concat(_toConsumableArray(optionsObj), [{
       id: Date.now(),
       name: '',
       values: [],
-      ordre: optionsObj.length // ordre: ordres.length
-
+      ordre: optionsObj.length
     }]));
   }; // si il y a une nouvelle option on l'ajoute sinon on retire l'option passée en params
 
 
   var saveOption = function saveOption(newOption) {
+    console.log('saveOption(newOption)  ', newOption);
+
     var arr = _toConsumableArray(optionsObj);
 
     var ndx = arr.findIndex(function (obj) {
