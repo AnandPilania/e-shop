@@ -10945,10 +10945,11 @@ var CreateProduct = function CreateProduct() {
     })["catch"](function (error) {
       console.log('error:   ' + error);
     }); // charge les données des types d'options et leurs valeurs ex. Couleurs, rouge, vert, ...
-
-    axios__WEBPACK_IMPORTED_MODULE_9___default().get("http://127.0.0.1:8000/getOptionValues").then(function (res) {
-      setOptionsData(Object.values(res.data));
-    }); // récup la tva default pour comparaison if dirty
+    // Axios.get(`http://127.0.0.1:8000/getOptionValues`)
+    //     .then((res) => {
+    //         setOptionsData(Object.values(res.data));
+    //     });
+    // récup la tva default pour comparaison if dirty
 
     axios__WEBPACK_IMPORTED_MODULE_9___default().get("http://127.0.0.1:8000/getTaxes").then(function (res) {
       var tmpTva = res.data.filter(function (x) {
@@ -10996,15 +10997,14 @@ var CreateProduct = function CreateProduct() {
         setProductParcelWeightMeasureUnit(data.weightMeasure);
         setProductCode(data.sku == null ? '' : data.sku);
         setTransporter(JSON.parse(data.onlyTheseCarriers));
-        console.log('setOptionsObj(JSON.parse(data.optionsObj));');
         setOptionsObj(JSON.parse(data.optionsObj));
         setMetaUrlProduct(data.metaUrl == null ? '' : data.metaUrl);
         setMetaTitleProduct(data.metaTitle == null ? '' : data.metaTitle);
         setMetaDescriptionProduct(data.metaDescription == null ? '' : data.metaDescription);
         setDateFieldProduct(data.dateActivation);
         setTva(data.taxe_id);
-        setSupplier(data.supplier == null ? '' : data.supplier); // setVariantes(data.variantes);
-        // affiche la partie promo dans price
+        setSupplier(data.supplier == null ? '' : data.supplier);
+        setVariantes(data.variantes); // affiche la partie promo dans price
 
         if (data.reduction != null || data.reduced_price != null) {
           setIsShowPromoProduct(true);
@@ -11036,6 +11036,9 @@ var CreateProduct = function CreateProduct() {
         hooksCompar.tva = data.taxe_id;
         hooksCompar.supplier = data.supplier == null ? '' : data.supplier;
         hooksCompar.variantes = data.variantes;
+        console.log('data.variantes  ', data.variantes.map(function (x) {
+          return x.optionsString;
+        }));
         hooksCompar.imageVariantes = data.images_products; // affiche la partie promo dans price
 
         if (data.reduction != null || data.reduced_price != null) {
@@ -11045,12 +11048,14 @@ var CreateProduct = function CreateProduct() {
         }
 
         setHooksComparation(hooksCompar);
+        if (JSON.parse(data.optionsObj)[0].name.length > 0) setShowOptions(true);
       });
       setIsEditProduct(true);
     } else {
       initCreateProduct();
     }
   }, []);
+  console.log('variantes  ', variantes);
   console.log('optionsObj  ', optionsObj); // console.log('showBackButton  ', showBackButton);
 
   var initCreateProduct = function initCreateProduct() {
@@ -11105,9 +11110,18 @@ var CreateProduct = function CreateProduct() {
       var isNotTransportersChanged = idsTransportersPrev.every(function (id) {
         return idsTransportersCurr.includes(id);
       }) && idsTransportersPrev.length === idsTransportersCurr.length;
+      var comparVariantesLibelle = hooksComparation.variantes.map(function (x) {
+        return x.optionsString;
+      });
+      var variantesLibelle = variantes.map(function (x) {
+        return x.optionsString;
+      });
+      var isNotVaraiantesChanged = variantesLibelle.every(function (x) {
+        return comparVariantesLibelle.includes(x);
+      }) && comparVariantesLibelle.length === variantesLibelle.length;
 
       if (hooksComparation.nameProduct != nameProduct || hooksComparation.isInAutoCollection != isInAutoCollection || hooksComparation.ribbonProduct != ribbonProduct || hooksComparation.descriptionProduct != descriptionProduct || isNotColectionsChanged === false || hooksComparation.productPrice != productPrice || hooksComparation.reducedProductPrice != reducedProductPrice || hooksComparation.promoApplied != promoApplied || hooksComparation.promoType != promoType || hooksComparation.productCost != productCost || hooksComparation.productStock != productStock || hooksComparation.unlimited != unlimited || hooksComparation.productParcelWeight != productParcelWeight || hooksComparation.productParcelWeightMeasureUnit != productParcelWeightMeasureUnit || hooksComparation.productCode != productCode || isNotTransportersChanged === false || hooksComparation.metaUrlProduct != metaUrlProduct || hooksComparation.metaTitleProduct != metaTitleProduct || hooksComparation.metaDescriptionProduct != metaDescriptionProduct || // // hooksComparation.// // dateFieldProduct
-      hooksComparation.tva != tva.id || hooksComparation.supplier != supplier || hooksComparation.variantes != variantes || hooksComparation.isShowPromoProduct != isShowPromoProduct) {
+      hooksComparation.tva != tva.id || hooksComparation.supplier != supplier || isNotVaraiantesChanged == false || hooksComparation.isShowPromoProduct != isShowPromoProduct) {
         setIsDirtyCreateProduct(true);
         return true;
       } else {
@@ -15256,9 +15270,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var use_state_if_mounted__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! use-state-if-mounted */ "./node_modules/use-state-if-mounted/index.js");
 /* harmony import */ var _contexts_AppContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../contexts/AppContext */ "./resources/js/components/contexts/AppContext.jsx");
-/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
+/* harmony import */ var react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-beautiful-dnd */ "./node_modules/react-beautiful-dnd/dist/react-beautiful-dnd.esm.js");
 /* harmony import */ var _functions_upperFirstLetter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../functions/upperFirstLetter */ "./resources/js/components/functions/upperFirstLetter.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
@@ -15284,6 +15300,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -15342,24 +15359,28 @@ var Option = function Option(_ref) {
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_2__["default"]),
       listType = _useContext.listType,
-      optionsData = _useContext.optionsData; // fourni les valeurs pour une option donnée
+      isEditProduct = _useContext.isEditProduct; // fourni les valeurs pour une option donnée
 
 
   var getOptionValues = function getOptionValues() {
-    var ndx = null;
+    // charge les données des types d'options et leurs valeurs ex. Couleurs, rouge, vert, ...
+    axios__WEBPACK_IMPORTED_MODULE_4___default().get("http://127.0.0.1:8000/getOptionValues").then(function (res) {
+      var ndx = null;
+      var tmp_optionData = Object.values(res.data);
 
-    for (var i = 0; i < optionsData.length; i++) {
-      if (optionsData[i][0].optionName == optionObj.name) {
-        ndx = i;
-        break;
+      for (var i = 0; i < tmp_optionData.length; i++) {
+        if (tmp_optionData[i][0].optionName == optionObj.name) {
+          ndx = i;
+          break;
+        }
       }
-    }
 
-    if (ndx !== null) {
-      setListOptionValues(optionsData[ndx]);
-    } else {
-      setListOptionValues([]);
-    }
+      if (ndx !== null) {
+        setListOptionValues(tmp_optionData[ndx]);
+      } else {
+        setListOptionValues([]);
+      }
+    });
   };
 
   var removeErrorMessageOptionName = function removeErrorMessageOptionName() {
@@ -15391,6 +15412,11 @@ var Option = function Option(_ref) {
   };
 
   var handleChangeOption = function handleChangeOption(e) {
+    var _e$name;
+
+    console.log('e   -->  ', e);
+    console.log('idValues_Names   -->  ??? '); // <-----------------------!!!
+
     if (e.target != undefined) {
       setOptionObj(_objectSpread(_objectSpread({}, optionObj), {}, {
         name: e.target.value,
@@ -15401,7 +15427,7 @@ var Option = function Option(_ref) {
       removeErrorMessageOptionName();
     }
 
-    if (e != undefined && e.name.length > 0) {
+    if (e != undefined && ((_e$name = e.name) === null || _e$name === void 0 ? void 0 : _e$name.length) > 0) {
       setOptionObj(_objectSpread(_objectSpread({}, optionObj), {}, {
         name: e.name,
         values: [],
@@ -15414,20 +15440,25 @@ var Option = function Option(_ref) {
 
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    var _optionObj$name;
-
     setListOptionValues([]);
-    setOptionObj(_objectSpread(_objectSpread({}, optionObj), {}, {
-      values: []
-    }));
 
-    if (((_optionObj$name = optionObj.name) === null || _optionObj$name === void 0 ? void 0 : _optionObj$name.length) > 0) {
+    if (isEditProduct) {
       getOptionValues();
+      setOptionObj(_objectSpread({}, optionObj));
+    } else {
+      var _optionObj$name;
+
+      setOptionObj(_objectSpread(_objectSpread({}, optionObj), {}, {
+        values: []
+      }));
+
+      if (((_optionObj$name = optionObj.name) === null || _optionObj$name === void 0 ? void 0 : _optionObj$name.length) > 0) {
+        getOptionValues();
+      }
     }
   }, [optionObj.name]); // save optionObj
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
-    console.log('useeffet optionObj  ', optionObj);
     saveOption(optionObj);
   }, [optionObj]);
 
@@ -15624,21 +15655,21 @@ var Option = function Option(_ref) {
     }));
   };
 
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_5__.Draggable, {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_6__.Draggable, {
     draggableId: "".concat(option_obj.id),
     index: index,
     children: function children(provided, snapshot) {
       var _optionObj$name2;
 
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", _objectSpread(_objectSpread({
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", _objectSpread(_objectSpread({
         id: "".concat("optionCardDnD" + option_obj.id),
         className: "w-full h-auto grid gap-x-4 grid-cols-[25px_1fr_1fr_25px] justify-start items-start px-4 pt-4 pb-2 mb-2 rounded border border-gray-300 bg-white",
         ref: provided.innerRef
       }, provided.draggableProps), {}, {
         style: getItemStyle(snapshot.isDragging, provided.draggableProps.style),
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
           className: "h-10 pt-[9px]",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", _objectSpread({
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", _objectSpread({
             src: window.location.origin + '/images/icons/grip-vertical.svg',
             className: "h-[22px] w-[22px] cursor-move",
             onMouseDown: function onMouseDown() {
@@ -15648,13 +15679,13 @@ var Option = function Option(_ref) {
               return getStyleOffGrip("".concat("optionCardDnD" + option_obj.id));
             }
           }, provided.dragHandleProps))
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
           className: "w-full h-auto p-0 flex flex-col justify-start items-start",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
             className: "relative w-full m-0 p-0",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
               className: "w-full h-[40px] p-0 m-0",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
                 id: "inputListType",
                 type: "text",
                 value: optionObj.name,
@@ -15669,23 +15700,23 @@ var Option = function Option(_ref) {
                 autoComplete: "off",
                 className: "inputListType name".concat(optionObj.id, " w-full h-10 pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ").concat(listTypesNoEmpty && "hover:bg-caret-down", " bg-right-center ")
               })
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
               id: "name".concat(optionObj.id),
               className: "text-red-700 text-sm mb-1"
-            }), showListType && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("ul", {
+            }), showListType && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("ul", {
               id: "listType",
               className: "absolute t-[40px] l-0 w-full max-h-[242px] border border-gray-300 bg-white overflow-x-hidden overflow-y-scroll z-10 shadow-lg scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100",
               children: listTypesNoEmpty && listType.map(function (item, index) {
                 return (optionsObj === null || optionsObj === void 0 ? void 0 : optionsObj.findIndex(function (x) {
                   return x.name == item.name;
-                })) == -1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("li", {
+                })) == -1 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
                   value: item.name,
                   onClick: function onClick() {
                     handleChangeOption(item);
                     getOptionValues();
                   },
                   className: "w-full h-[40px] cursor-pointer hover:bg-slate-100",
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
                     className: "flex flex-row justify-start items-center pl-[10px] w-full h-full pr-[30px] text-stone-800 text-base hover:cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis",
                     children: item.name
                   })
@@ -15693,13 +15724,13 @@ var Option = function Option(_ref) {
               })
             })]
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
           className: "w-full h-auto p-0 flex flex-col justify-start items-start",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
             className: "relative w-full m-0 p-0",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
               className: "w-full h-[40px] p-0",
-              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
                 id: "inputOptionValues",
                 type: "text",
                 value: tmp_optionValues,
@@ -15721,24 +15752,24 @@ var Option = function Option(_ref) {
                 disabled: ((_optionObj$name2 = optionObj.name) === null || _optionObj$name2 === void 0 ? void 0 : _optionObj$name2.length) == 0,
                 className: "inputOptionValues value".concat(optionObj.id, " w-full h-10 pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ").concat(listOptionValuesNotEmpty && "hover:bg-caret-down", "  bg-right-center")
               })
-            }), optionValueMessage && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+            }), optionValueMessage && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
               className: "block text-red-700 text-sm pb-1",
               children: "Cette option existe d\xE9j\xE0"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
               id: "value".concat(optionObj.id),
               className: "text-red-700 text-sm pb-3"
-            }), showOptionValues && listOptionValues.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("ul", {
+            }), showOptionValues && listOptionValues.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("ul", {
               id: "listOptionValues",
               ref: ul_optionValuesRef,
               className: "absolute t-[40px] l-0 w-full max-h-[242px] border border-gray-300 bg-white overflow-x-hidden overflow-y-scroll z-10 shadow-lg scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100",
               children: listOptionValues.map(function (item, index) {
-                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("li", {
+                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("li", {
                   value: item.name,
                   onClick: function onClick() {
                     handleSelectOptionValues(item.name);
                   },
                   className: "w-full h-10 flex flex-row justify-start items-center pl-2.5 cursor-pointer hover:bg-slate-100",
-                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+                  children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
                     type: "checkbox",
                     value: item.id,
                     id: item.id,
@@ -15752,7 +15783,7 @@ var Option = function Option(_ref) {
                       }
                     },
                     className: "w-[17px] h-[17px] mr-[10px] hover:cursor-pointer"
-                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("label", {
+                  }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("label", {
                     className: "flex flex-row justify-start items-center w-full h-full pr-[30px] text-stone-800 text-base hover:cursor-pointer whitespace-nowrap overflow-hidden text-ellipsis",
                     children: item.name
                   })]
@@ -15760,37 +15791,39 @@ var Option = function Option(_ref) {
               })
             })]
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
           className: "flex justify-start items-center w-[40px] h-[40px] p-0 m-0 cursor-pointer",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("span", {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("span", {
             onClick: function onClick() {
               return deleteOption(optionObj.id);
             },
             className: "flex justify-center items-center w-[22px] h-[22px] p-0 m-0 cursor-pointer group hover:bg-red-500 rounded-[5px]",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
               src: window.location.origin + '/images/icons/trash.svg',
               className: "h-[18px] w-[18px] group-hover:hidden"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
               src: window.location.origin + '/images/icons/x-white.svg',
               className: "h-[18px] w-[18px] hidden group-hover:block"
             })]
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_5__.DragDropContext, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_6__.DragDropContext, {
           onDragEnd: onDragEnd,
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_5__.Droppable, {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_6__.Droppable, {
             droppableId: "option_ObjDroppableId",
             direction: "horizontal",
             children: function children(provided, snapshot) {
-              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", _objectSpread(_objectSpread({
+              var _optionObj$values, _optionObj$values2;
+
+              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", _objectSpread(_objectSpread({
                 className: "col-span-3 flex flex-wrap pt-[5px] w-full"
               }, provided.droppableProps), {}, {
                 ref: provided.innerRef,
-                children: [!!optionObj.values.length > 0 && optionObj.values.map(function (item, indx) {
-                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_5__.Draggable, {
+                children: [!!((_optionObj$values = optionObj.values) !== null && _optionObj$values !== void 0 && _optionObj$values.length) > 0 && ((_optionObj$values2 = optionObj.values) === null || _optionObj$values2 === void 0 ? void 0 : _optionObj$values2.map(function (item, indx) {
+                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(react_beautiful_dnd__WEBPACK_IMPORTED_MODULE_6__.Draggable, {
                     draggableId: "".concat(indx),
                     index: indx,
                     children: function children(provided, snapshot) {
-                      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", _objectSpread(_objectSpread(_objectSpread({
+                      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", _objectSpread(_objectSpread(_objectSpread({
                         className: "flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-[8px] pr-[6px] py-[3px] mb-1 mr-2 cursor-move",
                         onClick: function onClick() {
                           return setShowOptionValues(false);
@@ -15798,15 +15831,15 @@ var Option = function Option(_ref) {
                         ref: provided.innerRef
                       }, provided.draggableProps), provided.dragHandleProps), {}, {
                         style: getItemStyle(snapshot.isDragging, provided.draggableProps.style),
-                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
                           className: "h-full text-gray-500 mr-2 rounded-md",
                           children: item
-                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("span", {
                           className: "h-[20px] w-[20px] flex justify-center items-center hover:cursor-pointer bg-gray-600  hover:bg-red-500 rounded-md",
                           onClick: function onClick() {
                             return removeOptionValue(item);
                           },
-                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("img", {
+                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
                             src: "../images/icons/x-white.svg",
                             className: "w-[20px] h-[20px] hover:scale-125"
                           })
@@ -15814,7 +15847,7 @@ var Option = function Option(_ref) {
                       }));
                     }
                   }, indx);
-                }), provided.placeholder]
+                })), provided.placeholder]
               }));
             }
           })
@@ -16387,7 +16420,7 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
           className: "w-full relative",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "w-full flex flex-rox justify-start items-center",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
+            children: [console.log('item   ', item), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
               type: "number",
               id: "inputStock".concat(item === null || item === void 0 ? void 0 : item.id),
               onChange: function onChange(e) {
@@ -16633,8 +16666,6 @@ var Options = function Options() {
 
 
   var saveOption = function saveOption(newOption) {
-    console.log('saveOption(newOption)  ', newOption);
-
     var arr = _toConsumableArray(optionsObj);
 
     var ndx = arr.findIndex(function (obj) {

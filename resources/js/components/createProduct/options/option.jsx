@@ -3,6 +3,7 @@ import { useStateIfMounted } from "use-state-if-mounted";
 import AppContext from '../../contexts/AppContext';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { upperFirstLetter } from '../../functions/upperFirstLetter';
+import Axios from 'axios';
 
 
 const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => {
@@ -21,26 +22,31 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
     const [showOptionValues, setShowOptionValues] = useStateIfMounted(false);
     const [optionValueMessage, setOptionValueMessage] = useStateIfMounted(false);
 
-
-    const { listType, optionsData } = useContext(AppContext);
+    const { listType, isEditProduct } = useContext(AppContext);
 
 
     // fourni les valeurs pour une option donnée
     const getOptionValues = () => {
-        let ndx = null;
-        for (let i = 0; i < optionsData.length; i++) {
-            if (optionsData[i][0].optionName == optionObj.name) {
-                ndx = i;
-                break;
-            }
-        }
-        if (ndx !== null) {
-            setListOptionValues(optionsData[ndx]);
-        } else {
-            setListOptionValues([]);
-        }
+        // charge les données des types d'options et leurs valeurs ex. Couleurs, rouge, vert, ...
+        Axios.get(`http://127.0.0.1:8000/getOptionValues`)
+            .then((res) => {
+                let ndx = null;
+                const tmp_optionData = Object.values(res.data);
+                for (let i = 0; i < tmp_optionData.length; i++) {
+                    if (tmp_optionData[i][0].optionName == optionObj.name) {
+                        ndx = i;
+                        break;
+                    }
+                }
+                if (ndx !== null) {
+                    setListOptionValues(tmp_optionData[ndx]);
+                } else {
+                    setListOptionValues([]);
+                }
+            });
     }
 
+    
     const removeErrorMessageOptionName = () => {
         // input option name
         let spanMessageName = document.getElementById(`name${optionObj.id}`);
@@ -68,12 +74,14 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
 
 
     const handleChangeOption = (e) => {
+        console.log('e   -->  ', e)
+        console.log('idValues_Names   -->  ??? ') // <-----------------------!!!
         if (e.target != undefined) {
             setOptionObj({ ...optionObj, name: e.target.value, values: [], idValues_Names: null });
             setShowListType(false);
             removeErrorMessageOptionName();
         }
-        if (e != undefined && e.name.length > 0) {
+        if (e != undefined && e.name?.length > 0) {
             setOptionObj({ ...optionObj, name: e.name, values: [], idValues_Names: e.id });
             setShowListType(false);
             removeErrorMessageOptionName();
@@ -83,16 +91,20 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
     // initialise quand on change d'option
     useEffect(() => {
         setListOptionValues([]);
-        setOptionObj({ ...optionObj, values: [] });
-        if (optionObj.name?.length > 0) {
+        if (isEditProduct) {
             getOptionValues();
+            setOptionObj({ ...optionObj });
+        } else {
+            setOptionObj({ ...optionObj, values: [] });
+            if (optionObj.name?.length > 0) {
+                getOptionValues();
+            }
         }
     }, [optionObj.name]);
 
 
     // save optionObj
-    useEffect(() => {  
-        console.log('useeffet optionObj  ', optionObj) 
+    useEffect(() => {
         saveOption(optionObj);
     }, [optionObj]);
 
@@ -453,7 +465,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
                                     {...provided.droppableProps}
                                     ref={provided.innerRef}
                                 >
-                                    {!!optionObj.values.length > 0 && optionObj.values.map((item, indx) =>
+                                    {!!optionObj.values?.length > 0 && optionObj.values?.map((item, indx) =>
                                         <Draggable
                                             key={indx}
                                             draggableId={`${indx}`}

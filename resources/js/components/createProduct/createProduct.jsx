@@ -61,10 +61,10 @@ const CreateProduct = () => {
             });
 
         // charge les données des types d'options et leurs valeurs ex. Couleurs, rouge, vert, ...
-        Axios.get(`http://127.0.0.1:8000/getOptionValues`)
-            .then((res) => {
-                setOptionsData(Object.values(res.data));
-            });
+        // Axios.get(`http://127.0.0.1:8000/getOptionValues`)
+        //     .then((res) => {
+        //         setOptionsData(Object.values(res.data));
+        //     });
 
         // récup la tva default pour comparaison if dirty
         Axios.get("http://127.0.0.1:8000/getTaxes")
@@ -115,7 +115,6 @@ const CreateProduct = () => {
                     setProductParcelWeightMeasureUnit(data.weightMeasure);
                     setProductCode(data.sku == null ? '' : data.sku);
                     setTransporter(JSON.parse(data.onlyTheseCarriers));
-                    console.log('setOptionsObj(JSON.parse(data.optionsObj));')
                     setOptionsObj(JSON.parse(data.optionsObj));
                     setMetaUrlProduct(data.metaUrl == null ? '' : data.metaUrl);
                     setMetaTitleProduct(data.metaTitle == null ? '' : data.metaTitle);
@@ -123,7 +122,7 @@ const CreateProduct = () => {
                     setDateFieldProduct(data.dateActivation);
                     setTva(data.taxe_id);
                     setSupplier(data.supplier == null ? '' : data.supplier);
-                    // setVariantes(data.variantes);
+                    setVariantes(data.variantes);
 
                     // affiche la partie promo dans price
                     if (data.reduction != null || data.reduced_price != null) {
@@ -156,6 +155,7 @@ const CreateProduct = () => {
                     hooksCompar.tva = data.taxe_id;
                     hooksCompar.supplier = data.supplier == null ? '' : data.supplier;
                     hooksCompar.variantes = data.variantes;
+                    console.log('data.variantes  ', data.variantes.map(x => x.optionsString))
                     hooksCompar.imageVariantes = data.images_products;
                     // affiche la partie promo dans price
                     if (data.reduction != null || data.reduced_price != null) {
@@ -164,6 +164,8 @@ const CreateProduct = () => {
                         hooksCompar.isShowPromoProduct = false;
                     }
                     setHooksComparation(hooksCompar);
+
+                    if (JSON.parse(data.optionsObj)[0].name.length > 0) setShowOptions(true);
                 })
 
             setIsEditProduct(true);
@@ -172,8 +174,8 @@ const CreateProduct = () => {
         }
     }, []);
 
-console.log('optionsObj  ', optionsObj)
-
+    console.log('variantes  ', variantes)
+    console.log('optionsObj  ', optionsObj)
 
     // console.log('showBackButton  ', showBackButton);
 
@@ -220,6 +222,10 @@ console.log('optionsObj  ', optionsObj)
             let idsTransportersCurr = transporter.map(x => x.modeId);
             let isNotTransportersChanged = idsTransportersPrev.every(id => idsTransportersCurr.includes(id)) && idsTransportersPrev.length === idsTransportersCurr.length;
 
+            let comparVariantesLibelle = hooksComparation.variantes.map(x => x.optionsString) 
+            let variantesLibelle = variantes.map(x => x.optionsString) 
+            let isNotVaraiantesChanged = variantesLibelle.every(x => comparVariantesLibelle.includes(x)) && comparVariantesLibelle.length === variantesLibelle.length;
+
             if (
                 hooksComparation.nameProduct != nameProduct ||
                 hooksComparation.isInAutoCollection != isInAutoCollection ||
@@ -243,7 +249,7 @@ console.log('optionsObj  ', optionsObj)
                 // // hooksComparation.// // dateFieldProduct
                 hooksComparation.tva != tva.id ||
                 hooksComparation.supplier != supplier ||
-                hooksComparation.variantes != variantes ||
+                isNotVaraiantesChanged == false ||
                 hooksComparation.isShowPromoProduct != isShowPromoProduct
             ) {
                 setIsDirtyCreateProduct(true);

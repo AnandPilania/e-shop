@@ -51,7 +51,6 @@ const Options = () => {
 
     // si il y a une nouvelle option on l'ajoute sinon on retire l'option passée en params
     const saveOption = (newOption) => {
-        console.log('saveOption(newOption)  ', newOption)
         let arr = [...optionsObj];
         let ndx = arr.findIndex(obj => obj.id == newOption.id);
         if (ndx > -1) {

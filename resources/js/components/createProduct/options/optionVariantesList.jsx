@@ -471,6 +471,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                     <div
                                         className='w-full flex flex-rox justify-start items-center'
                                     >
+                                    {console.log('item   ', item)}
                                         <input
                                             type="number"
                                             id={`inputStock${item?.id}`}
