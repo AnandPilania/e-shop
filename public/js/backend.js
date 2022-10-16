@@ -10848,18 +10848,7 @@ var CreateProduct = function CreateProduct() {
   var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
       _useState16 = _slicedToArray(_useState15, 2),
       showBackButton = _useState16[0],
-      setShowBackButton = _useState16[1]; // when click on edit in collection list it send collection id to db request for make edit collection
-
-
-  var _useLocation = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_23__.useLocation)(),
-      state = _useLocation.state;
-
-  var _ref = state !== null ? state : {
-    productId: null,
-    isEdit: false
-  },
-      productId = _ref.productId,
-      isEdit = _ref.isEdit;
+      setShowBackButton = _useState16[1];
 
   var _useContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_contexts_AppContext__WEBPACK_IMPORTED_MODULE_1__["default"]),
       descriptionProduct = _useContext.descriptionProduct,
@@ -10930,7 +10919,18 @@ var CreateProduct = function CreateProduct() {
       setIsEditProduct = _useContext.setIsEditProduct,
       isShowPromoProduct = _useContext.isShowPromoProduct,
       setIsShowPromoProduct = _useContext.setIsShowPromoProduct,
-      setShowOptions = _useContext.setShowOptions;
+      setShowOptions = _useContext.setShowOptions; // when click on edit in collection list it send collection id to db request for make edit collection
+
+
+  var _useLocation = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_23__.useLocation)(),
+      state = _useLocation.state;
+
+  var _ref = state !== null ? state : {
+    productId: null,
+    isEdit: false
+  },
+      productId = _ref.productId,
+      isEdit = _ref.isEdit;
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     // charge la liste des fournisseurs
@@ -10990,7 +10990,7 @@ var CreateProduct = function CreateProduct() {
         setPromoApplied(data.reduction == null ? '' : data.reduction);
         setPromoType(data.reductionType);
         setProductCost(data.cost == null ? '' : data.cost);
-        setProductStock(data.stock == null ? '' : data.stock);
+        setProductStock(data.stock == 0 ? '' : data.stock);
         setUnlimited(data.unlimitedStock);
         setProductStatus(data.status);
         setProductParcelWeight(data.weight == null ? '' : data.weight);
@@ -11036,9 +11036,6 @@ var CreateProduct = function CreateProduct() {
         hooksCompar.tva = data.taxe_id;
         hooksCompar.supplier = data.supplier == null ? '' : data.supplier;
         hooksCompar.variantes = data.variantes;
-        console.log('data.variantes  ', data.variantes.map(function (x) {
-          return x.optionsString;
-        }));
         hooksCompar.imageVariantes = data.images_products; // affiche la partie promo dans price
 
         if (data.reduction != null || data.reduced_price != null) {
@@ -11054,9 +11051,9 @@ var CreateProduct = function CreateProduct() {
     } else {
       initCreateProduct();
     }
-  }, []);
-  console.log('variantes  ', variantes);
-  console.log('optionsObj  ', optionsObj); // console.log('showBackButton  ', showBackButton);
+  }, []); // console.log('variantes  ', variantes)
+  // console.log('optionsObj  ', optionsObj)
+  // console.log('showBackButton  ', showBackButton);
 
   var initCreateProduct = function initCreateProduct() {
     setNameProduct('');
@@ -11258,8 +11255,9 @@ var CreateProduct = function CreateProduct() {
     formData.append('reducedProductPrice', reducedProductPrice);
     formData.append('promoApplied', promoApplied);
     formData.append('promoType', promoType);
-    formData.append('productCost', productCost);
-    formData.append('productStock', productStock == '' ? 0 : productStock);
+    formData.append('productCost', productCost); // formData.append('productStock', productStock == '' ? 0 : productStock);
+
+    formData.append('productStock', productStock);
     formData.append('unlimitedStock', unlimited);
     formData.append('productSKU', productCode == '' ? (0,uuid__WEBPACK_IMPORTED_MODULE_24__["default"])() : productCode);
     formData.append('productParcelWeight', productParcelWeight);
@@ -13888,7 +13886,8 @@ var RowListProducts = function RowListProducts(_ref) {
       screenSize = _useContext.screenSize,
       listProductsFiltered = _useContext.listProductsFiltered,
       setListProductsFiltered = _useContext.setListProductsFiltered,
-      listCollectionNames = _useContext.listCollectionNames;
+      listCollectionNames = _useContext.listCollectionNames,
+      setIsEditProduct = _useContext.setIsEditProduct;
 
   var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_6__.useNavigate)();
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
@@ -14009,7 +14008,8 @@ var RowListProducts = function RowListProducts(_ref) {
   };
 
   var editProduct = function editProduct(id) {
-    // isEdit indique qu'on veut éditer un produit
+    setIsEditProduct(true); // isEdit indique qu'on veut éditer un produit
+
     navigate("/addProduct", {
       state: {
         productId: id,
@@ -15414,9 +15414,6 @@ var Option = function Option(_ref) {
   var handleChangeOption = function handleChangeOption(e) {
     var _e$name;
 
-    console.log('e   -->  ', e);
-    console.log('idValues_Names   -->  ??? '); // <-----------------------!!!
-
     if (e.target != undefined) {
       setOptionObj(_objectSpread(_objectSpread({}, optionObj), {}, {
         name: e.target.value,
@@ -15443,8 +15440,7 @@ var Option = function Option(_ref) {
     setListOptionValues([]);
 
     if (isEditProduct) {
-      getOptionValues();
-      setOptionObj(_objectSpread({}, optionObj));
+      getOptionValues(); // setOptionObj({ ...optionObj });
     } else {
       var _optionObj$name;
 
@@ -16420,22 +16416,22 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
           className: "w-full relative",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
             className: "w-full flex flex-rox justify-start items-center",
-            children: [console.log('item   ', item), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("input", {
               type: "number",
               id: "inputStock".concat(item === null || item === void 0 ? void 0 : item.id),
               onChange: function onChange(e) {
                 return handleStockProduct(e, item);
               },
               value: (item === null || item === void 0 ? void 0 : item.stock) == null ? '' : item === null || item === void 0 ? void 0 : item.stock,
-              placeholder: screenSize > 1350 ? item.placeholderStock : String.fromCharCode(0x221E),
+              placeholder: screenSize > 1350 ? item === null || item === void 0 ? void 0 : item.placeholderStock : String.fromCharCode(0x221E),
               min: "0",
               max: "9999999999",
               onClick: function onClick() {
                 return handleStockProductOnFocus(item);
               },
-              className: "w-full h-8 border border-gray-300 rounded-l-md pl-2 text-sm leading-6 bg-white ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50", " ").concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight")
+              className: "w-full h-8 border border-gray-300 rounded-l-md pl-2 text-sm leading-6 bg-white ".concat((item === null || item === void 0 ? void 0 : item.deleted) && "bg-red-100", " ").concat(checkedVariantesList.includes(item === null || item === void 0 ? void 0 : item.id) && "bg-blue-50", " ").concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight")
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("span", {
-              className: "flex flex-rox justify-start items-center h-8 border-y border-r border-gray-300 rounded-r-md xl:px-2.5 cursor-pointer caret-transparent group ".concat(item.deleted && "bg-red-100", " ").concat(checkedVariantesList.includes(item.id) && "bg-blue-50", " ").concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight"),
+              className: "flex flex-rox justify-start items-center h-8 border-y border-r border-gray-300 rounded-r-md xl:px-2.5 cursor-pointer caret-transparent group ".concat((item === null || item === void 0 ? void 0 : item.deleted) && "bg-red-100", " ").concat(checkedVariantesList.includes(item === null || item === void 0 ? void 0 : item.id) && "bg-blue-50", " ").concat(animateSlideLeftIsActived && "animate-slideLeft", " ").concat(animateSlideRightIsActived && "animate-slideRight"),
               onClick: function onClick() {
                 return handleUnlimitedStockProduct(item);
               },
@@ -16444,7 +16440,7 @@ var OptionVariantesList = function OptionVariantesList(_ref) {
                 id: "unlimitedStockCheckbox".concat(item === null || item === void 0 ? void 0 : item.id),
                 type: "checkbox" // placeholder="Illimité"
                 ,
-                checked: (item === null || item === void 0 ? void 0 : item.stock) != '' ? false : item === null || item === void 0 ? void 0 : item.unlimited // pour pas avoir de warning "input checkbox non controlé"
+                checked: (item === null || item === void 0 ? void 0 : item.stock) != undefined ? false : item === null || item === void 0 ? void 0 : item.unlimited // pour pas avoir de warning "input checkbox non controlé"
                 ,
                 onChange: function onChange() {}
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("span", {

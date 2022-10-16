@@ -37,11 +37,13 @@ const CreateProduct = () => {
     const [productStatus, setProductStatus] = useState(1);
     const [showBackButton, setShowBackButton] = useState(false);
 
+
+    const { descriptionProduct, setListSuppliers, supplier, setSupplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, setTva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, setRibbonProduct, screenSize, unlimited, isInAutoCollection, setIsInAutoCollection, dateFieldProduct, setDateFieldProduct, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked, setDescriptionProduct, setCollections, setProductPrice, promoApplied, promoType, setPromoType, setProductParcelWeight, setProductParcelWeightMeasureUnit, setPromoApplied, setReducedProductPrice, setProductCost, setProductStock, setProductCode, setOptionsObj, setUnlimited, setVariantes, setTransporter, setMetaTitleProduct, setMetaDescriptionProduct, setMetaUrlProduct, setImageVariantes, isEditProduct, setIsEditProduct, isShowPromoProduct, setIsShowPromoProduct, setShowOptions } = useContext(AppContext);
+
     // when click on edit in collection list it send collection id to db request for make edit collection
     const { state } = useLocation();
     const { productId, isEdit } = state !== null ? state : { productId: null, isEdit: false };
 
-    const { descriptionProduct, setListSuppliers, supplier, setSupplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, setTva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, setRibbonProduct, screenSize, unlimited, isInAutoCollection, setIsInAutoCollection, dateFieldProduct, setDateFieldProduct, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked, setDescriptionProduct, setCollections, setProductPrice, promoApplied, promoType, setPromoType, setProductParcelWeight, setProductParcelWeightMeasureUnit, setPromoApplied, setReducedProductPrice, setProductCost, setProductStock, setProductCode, setOptionsObj, setUnlimited, setVariantes, setTransporter, setMetaTitleProduct, setMetaDescriptionProduct, setMetaUrlProduct, setImageVariantes, isEditProduct, setIsEditProduct, isShowPromoProduct, setIsShowPromoProduct, setShowOptions } = useContext(AppContext);
 
     useEffect(() => {
         // charge la liste des fournisseurs
@@ -92,7 +94,7 @@ const CreateProduct = () => {
         }
 
 
-        if (isEdit) {
+        if (isEdit) { 
             let idProduct = new FormData;
             idProduct.append('productId', productId);
             Axios.post(`http://127.0.0.1:8000/getProduct`, idProduct)
@@ -108,7 +110,7 @@ const CreateProduct = () => {
                     setPromoApplied(data.reduction == null ? '' : data.reduction);
                     setPromoType(data.reductionType);
                     setProductCost(data.cost == null ? '' : data.cost);
-                    setProductStock(data.stock == null ? '' : data.stock);
+                    setProductStock(data.stock == 0 ? '' : data.stock);
                     setUnlimited(data.unlimitedStock);
                     setProductStatus(data.status);
                     setProductParcelWeight(data.weight == null ? '' : data.weight);
@@ -155,7 +157,6 @@ const CreateProduct = () => {
                     hooksCompar.tva = data.taxe_id;
                     hooksCompar.supplier = data.supplier == null ? '' : data.supplier;
                     hooksCompar.variantes = data.variantes;
-                    console.log('data.variantes  ', data.variantes.map(x => x.optionsString))
                     hooksCompar.imageVariantes = data.images_products;
                     // affiche la partie promo dans price
                     if (data.reduction != null || data.reduced_price != null) {
@@ -174,8 +175,8 @@ const CreateProduct = () => {
         }
     }, []);
 
-    console.log('variantes  ', variantes)
-    console.log('optionsObj  ', optionsObj)
+    // console.log('variantes  ', variantes)
+    // console.log('optionsObj  ', optionsObj)
 
     // console.log('showBackButton  ', showBackButton);
 
@@ -222,8 +223,8 @@ const CreateProduct = () => {
             let idsTransportersCurr = transporter.map(x => x.modeId);
             let isNotTransportersChanged = idsTransportersPrev.every(id => idsTransportersCurr.includes(id)) && idsTransportersPrev.length === idsTransportersCurr.length;
 
-            let comparVariantesLibelle = hooksComparation.variantes.map(x => x.optionsString) 
-            let variantesLibelle = variantes.map(x => x.optionsString) 
+            let comparVariantesLibelle = hooksComparation.variantes.map(x => x.optionsString)
+            let variantesLibelle = variantes.map(x => x.optionsString)
             let isNotVaraiantesChanged = variantesLibelle.every(x => comparVariantesLibelle.includes(x)) && comparVariantesLibelle.length === variantesLibelle.length;
 
             if (
@@ -425,7 +426,8 @@ const CreateProduct = () => {
         formData.append('promoApplied', promoApplied);
         formData.append('promoType', promoType);
         formData.append('productCost', productCost);
-        formData.append('productStock', productStock == '' ? 0 : productStock);
+        // formData.append('productStock', productStock == '' ? 0 : productStock);
+        formData.append('productStock', productStock);
         formData.append('unlimitedStock', unlimited);
         formData.append('productSKU', productCode == '' ? uuidv4() : productCode);
         formData.append('productParcelWeight', productParcelWeight);

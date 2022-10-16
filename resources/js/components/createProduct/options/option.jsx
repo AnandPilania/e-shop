@@ -67,15 +67,12 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
         if (inputOptionValueError !== undefined) {
             inputOptionValueError.className = `inputOptionValues value${optionObj.id} w-full h-10 pl-[10px] m-0 mb-1 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat  ${listOptionValuesNotEmpty && "hover:bg-caret-down"} bg-right-center`;
         }
-
         // value duplicate
         setOptionValueMessage(false);
     }
 
 
     const handleChangeOption = (e) => {
-        console.log('e   -->  ', e)
-        console.log('idValues_Names   -->  ??? ') // <-----------------------!!!
         if (e.target != undefined) {
             setOptionObj({ ...optionObj, name: e.target.value, values: [], idValues_Names: null });
             setShowListType(false);
@@ -89,11 +86,11 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
     };
 
     // initialise quand on change d'option
-    useEffect(() => {
+    useEffect(() => { 
         setListOptionValues([]);
         if (isEditProduct) {
             getOptionValues();
-            setOptionObj({ ...optionObj });
+            // setOptionObj({ ...optionObj });
         } else {
             setOptionObj({ ...optionObj, values: [] });
             if (optionObj.name?.length > 0) {
@@ -303,7 +300,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
                         provided.draggableProps.style
                     )}
                 >
-                    {/* drag */}
+                    {/* drag grip */}
                     <div className='h-10 pt-[9px]'>
                         <img src={window.location.origin + '/images/icons/grip-vertical.svg'} className="h-[22px] w-[22px] cursor-move"
                             onMouseDown={() => getStyleOnGrip(`${"optionCardDnD" + option_obj.id}`)}

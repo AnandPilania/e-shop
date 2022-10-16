@@ -22,7 +22,7 @@ const RowListProducts = ({ productsFiltered, collections, listProductsChecked, h
     const [statusColor, setStatusColor] = useState('green');
     const [statusState, setStatusState] = useState('Activé');
 
-    const { screenSize, listProductsFiltered, setListProductsFiltered, listCollectionNames } =
+    const { screenSize, listProductsFiltered, setListProductsFiltered, listCollectionNames, setIsEditProduct } =
         useContext(AppContext);
 
 
@@ -142,6 +142,7 @@ const RowListProducts = ({ productsFiltered, collections, listProductsChecked, h
     };
 
     const editProduct = (id) => {
+        setIsEditProduct(true);
         // isEdit indique qu'on veut éditer un produit
         navigate("/addProduct", {
             state: { productId: id, isEdit: true },

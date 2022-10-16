@@ -28,7 +28,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
     }, [variantes]);
 
 
-    useEffect(() => {  
+    useEffect(() => {
         let libelles = [];
 
         // renvoi un tableau contenant les tableaux des VALEURS des différentes options. Sert à récupérer toutes les combinaisons possible entre les différentes options 
@@ -72,7 +72,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
             }
 
             // crée des variantes vides. le nombre de variantes crées est = à libelles.length
-            if (libelles[i] != '') { 
+            if (libelles[i] != '') {
                 tmp_variantesAsString.push({
                     id: 'optionVarianteList' + i,
                     optionsString: libelles[i],
@@ -471,26 +471,25 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                     <div
                                         className='w-full flex flex-rox justify-start items-center'
                                     >
-                                    {console.log('item   ', item)}
                                         <input
                                             type="number"
                                             id={`inputStock${item?.id}`}
                                             onChange={(e) => handleStockProduct(e, item)}
                                             value={item?.stock == null ? '' : item?.stock}
-                                            placeholder={screenSize > 1350 ? item.placeholderStock : String.fromCharCode(0x221E)}
+                                            placeholder={screenSize > 1350 ? item?.placeholderStock : String.fromCharCode(0x221E)}
                                             min="0" max="9999999999"
                                             onClick={(() => handleStockProductOnFocus(item))}
-                                            className={`w-full h-8 border border-gray-300 rounded-l-md pl-2 text-sm leading-6 bg-white ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
+                                            className={`w-full h-8 border border-gray-300 rounded-l-md pl-2 text-sm leading-6 bg-white ${item?.deleted && "bg-red-100"} ${checkedVariantesList.includes(item?.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
                                         />
                                         <span
-                                            className={`flex flex-rox justify-start items-center h-8 border-y border-r border-gray-300 rounded-r-md xl:px-2.5 cursor-pointer caret-transparent group ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
+                                            className={`flex flex-rox justify-start items-center h-8 border-y border-r border-gray-300 rounded-r-md xl:px-2.5 cursor-pointer caret-transparent group ${item?.deleted && "bg-red-100"} ${checkedVariantesList.includes(item?.id) && "bg-blue-50"} ${animateSlideLeftIsActived && "animate-slideLeft"} ${animateSlideRightIsActived && "animate-slideRight"}`}
                                             onClick={() => handleUnlimitedStockProduct(item)}>
                                             <input
                                                 className='caret-transparent cursor-pointer bg-red-500'
                                                 id={`unlimitedStockCheckbox${item?.id}`}
                                                 type="checkbox"
                                                 // placeholder="Illimité"
-                                                checked={item?.stock != '' ? false : item?.unlimited}
+                                                checked={item?.stock != undefined ? false : item?.unlimited}
                                                 // pour pas avoir de warning "input checkbox non controlé"
                                                 onChange={() => { }}
                                             />
