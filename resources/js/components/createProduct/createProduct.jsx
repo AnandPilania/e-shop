@@ -83,18 +83,16 @@ const CreateProduct = () => {
         const showBackButtonWhenPageLoaded = () => {
             setShowBackButton(true);
         };
-
         // Check if the page has already loaded
         if (document.readyState === "complete") {
             showBackButtonWhenPageLoaded();
         } else {
             window.addEventListener("load", showBackButtonWhenPageLoaded);
-            // Remove the event listener when component unmounts
             return () => window.removeEventListener("load", showBackButtonWhenPageLoaded);
         }
 
 
-        if (isEdit) { 
+        if (isEdit) {
             let idProduct = new FormData;
             idProduct.append('productId', productId);
             Axios.post(`http://127.0.0.1:8000/getProduct`, idProduct)
@@ -361,7 +359,7 @@ const CreateProduct = () => {
                 }
             }
         }
-
+        return true;
     }
 
     const closelModal = () => {
@@ -399,59 +397,58 @@ const CreateProduct = () => {
     function handleSubmit(e) {
         e.preventDefault();
 
-        validation();
+        if (validation()) {
+            // delete removed tinyMCE images in folder and db
+            handleTinyMceTemporary(descriptionProduct, null, 'product');
 
-        // delete removed tinyMCE images in folder and db
-        handleTinyMceTemporary(descriptionProduct, null, 'product');
+            var formData = new FormData;
 
-        var formData = new FormData;
-
-        formData.append('isEdit', isEdit);
-        formData.append('productId', productId);
-        formData.append('nameProduct', nameProduct);
-        formData.append('ribbonProduct', ribbonProduct);
-        formData.append('descriptionProduct', descriptionProduct);
-        var arrayOfImages = [];
-        imageVariantes.forEach(imgArr => {
-            imgArr.forEach(img => {
-                arrayOfImages.push(img);
+            formData.append('isEdit', isEdit);
+            formData.append('productId', productId);
+            formData.append('nameProduct', nameProduct);
+            formData.append('ribbonProduct', ribbonProduct);
+            formData.append('descriptionProduct', descriptionProduct);
+            var arrayOfImages = [];
+            imageVariantes.forEach(imgArr => {
+                imgArr.forEach(img => {
+                    arrayOfImages.push(img);
+                });
             });
-        });
-        console.log('arrayOfImages  ', arrayOfImages)
-        formData.append('imageVariantes', JSON.stringify(arrayOfImages));
-        formData.append('collections', JSON.stringify(collections));
-        formData.append('isInAutoCollection', isInAutoCollection);
-        formData.append('productPrice', productPrice);
-        formData.append('reducedProductPrice', reducedProductPrice);
-        formData.append('promoApplied', promoApplied);
-        formData.append('promoType', promoType);
-        formData.append('productCost', productCost);
-        // formData.append('productStock', productStock == '' ? 0 : productStock);
-        formData.append('productStock', productStock);
-        formData.append('unlimitedStock', unlimited);
-        formData.append('productSKU', productCode == '' ? uuidv4() : productCode);
-        formData.append('productParcelWeight', productParcelWeight);
-        formData.append('WeightMeasureUnit', productParcelWeightMeasureUnit);
-        formData.append('transporter', JSON.stringify(transporter));
-        formData.append('tva', JSON.stringify(tva));
-        formData.append('supplier', JSON.stringify(supplier));
-        formData.append("dateActivation", dateFieldProduct);
-        formData.append("productStatus", productStatus);
-        formData.append('optionsObj', JSON.stringify(optionsObj));
-        formData.append('variantes', JSON.stringify(variantes));
-        formData.append('metaUrlProduct', metaUrlProduct);
-        formData.append('metaTitleProduct', metaTitleProduct);
-        formData.append('metaDescriptionProduct', metaDescriptionProduct);
+            console.log('arrayOfImages  ', arrayOfImages)
+            formData.append('imageVariantes', JSON.stringify(arrayOfImages));
+            formData.append('collections', JSON.stringify(collections));
+            formData.append('isInAutoCollection', isInAutoCollection);
+            formData.append('productPrice', productPrice);
+            formData.append('reducedProductPrice', reducedProductPrice);
+            formData.append('promoApplied', promoApplied);
+            formData.append('promoType', promoType);
+            formData.append('productCost', productCost);
+            formData.append('productStock', productStock == '' ? 0 : productStock);
+            formData.append('unlimitedStock', unlimited);
+            formData.append('productSKU', productCode == '' ? uuidv4() : productCode);
+            formData.append('productParcelWeight', productParcelWeight);
+            formData.append('WeightMeasureUnit', productParcelWeightMeasureUnit);
+            formData.append('transporter', JSON.stringify(transporter));
+            formData.append('tva', JSON.stringify(tva));
+            formData.append('supplier', JSON.stringify(supplier));
+            formData.append("dateActivation", dateFieldProduct);
+            formData.append("productStatus", productStatus);
+            formData.append('optionsObj', JSON.stringify(optionsObj));
+            formData.append('variantes', JSON.stringify(variantes));
+            formData.append('metaUrlProduct', metaUrlProduct);
+            formData.append('metaTitleProduct', metaTitleProduct);
+            formData.append('metaDescriptionProduct', metaDescriptionProduct);
 
-        consolelog();
+            consolelog();
 
-        Axios.post(`http://127.0.0.1:8000/products`, formData,
-            { headers: { 'Content-Type': 'multipart/form-data' } })
-            .then(() => {
-                setIsEditProduct(false);
-                initCreateProduct();
-                navigate('/listProduct');
-            });
+            Axios.post(`http://127.0.0.1:8000/storeProduct`, formData,
+                { headers: { 'Content-Type': 'multipart/form-data' } })
+                .then(() => {
+                    setIsEditProduct(false);
+                    initCreateProduct();
+                    navigate('/listProduct');
+                });
+        }
     }
 
 

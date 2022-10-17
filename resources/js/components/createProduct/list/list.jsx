@@ -1,8 +1,7 @@
 import { React, useState, useEffect, useContext } from 'react';
 import AppContext from '../../contexts/AppContext';
 import Axios from 'axios';
-import { Link } from 'react-router-dom';
-import InputText from '../../InputText/Input_text';
+import { useNavigate } from 'react-router-dom';
 
 import RowListProducts from './rowListProducts';
 import CheckboxListProducts from './checkboxListProducts';
@@ -10,6 +9,8 @@ import HeaderListProducts from './headerListProducts';
 import ModalConfirmation from '../../modal/modalConfirmation';
 
 const List = () => {
+
+    const navigate = useNavigate();
 
     const [collectionsSelected, setCollectionsSelected] = useState('');
 
@@ -28,10 +29,10 @@ const List = () => {
         created_atSens: true
     });
 
-    const { setSearchValue, messageModal, textButtonConfirm, setMessageModal, setSender, setTextButtonConfirm, screenSize, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked, setListCollectionNames } = useContext(AppContext);
+    const { setSearchValue, messageModal, textButtonConfirm, setMessageModal, setSender, setTextButtonConfirm, screenSize, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked, setListCollectionNames, setIsEditProduct } = useContext(AppContext);
 
 
-    useEffect(() => {  
+    useEffect(() => {
         Axios.get(`http://127.0.0.1:8000/getProducts`)
             .then(res => {
                 // procuts permet de garder la liste complète des products pour certaines fonctions qui ont besoin que toutes les products soit parcourues ce qui n'est pas toujours le cas avec listProductsFiltered qui est principalement utilisé pour afficher les products avec ou sans filtre
@@ -51,21 +52,19 @@ const List = () => {
             listProductsChecked.map(checkedId => {
                 // if "all" is in listProductsChecked then dont take it 
                 if (checkedId !== 'all') {
-                    let collName = products.filter(item => item.id == checkedId);
-                    tmp_arr += (collName[0].name) + ', ';
+                    let prodName = products.filter(item => item.id == checkedId);
+                    tmp_arr += (prodName[0].name) + ', ';
                 }
             });
             let names = tmp_arr.toString();
             names = names.slice(0, (names.length - 2)).replace(/(\,)(?!.*\1)/g, ' et '); // remove last "," and replace last occurence of "," by " et "
-            let article = listProductsChecked.length > 1 ? 'les collections' : 'la collection';
+            let article = listProductsChecked.length > 1 ? 'les produits' : 'le produit';
             setMessageModal('Supprimer ' + article + ' ' + names + ' ?');
             setProductToDelete(listProductsChecked);
         } else {
             setMessageModal('Supprimer le produit ' + name + ' ?');
             setProductToDelete(id);
         }
-        setTextButtonConfirm('Confirmer');
-        setSender('deleteCollection');
         setShowModalConfirm(true);
     }
 
@@ -81,10 +80,18 @@ const List = () => {
         Axios.post(`http://127.0.0.1:8000/deleteProducts`, idToDelete)
             .then(res => {
                 setShowModalConfirm(false);
-                setProducts(res.data);
-                // setIdCollection(null);
-                // setIs({ ...is, collectionDeleted: true });
+                if (res.data[0].length > 0) {
+                    setProducts(res.data[0]);
+                    setListProductsFiltered(res.data[0]);
+                    setListCollectionNames(res.data[1]);
+                } else {
+                    setProducts([]);
+                    setListProductsFiltered([]);
+                    setListCollectionNames([]);
+                }
                 setListProductsChecked([]);
+                setIsEditProduct(false);
+                navigate('/listProduct');
             });
     }
 
@@ -216,7 +223,7 @@ const List = () => {
                 if (map_productsNames.indexOf(collectionsSelected[j]) > -1) {
                     if (tmp_products.findIndex(x => x.id == products[i].id) == -1) {
                         tmp_products.push(products[i]);
-                    } 
+                    }
                 }
             }
         }
@@ -266,7 +273,7 @@ const List = () => {
         }
         setGridCols(tmp_grid_cols);
     }
-
+console.log('listProductsFiltered  ', listProductsFiltered)
 
     return (
 

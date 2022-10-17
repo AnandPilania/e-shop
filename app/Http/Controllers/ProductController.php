@@ -46,7 +46,7 @@ class ProductController extends Controller
     }
 
     // public function store(StoreProductRequest $request)
-    public function store(Request $request)
+    public function storeProduct(Request $request)
     {
         // dd($request);
         if ($request->isEdit == "true") {
@@ -54,8 +54,6 @@ class ProductController extends Controller
         } else {
             $product = new Product;
         }
-
-        // dd($request->isEdit);
 
         $product->name = $request->nameProduct;
         $product->isInAutoCollection = $request->isInAutoCollection == 'true' ? 1 : 0;
@@ -177,7 +175,7 @@ class ProductController extends Controller
             } else {
                 $variante->weight = null;
             }
-            
+
             if (isset($item->parcelWeightMeasureUnit) && $item->parcelWeightMeasureUnit != '') {
                 $variante->weightMeasure = $item->parcelWeightMeasureUnit;
             } elseif (isset($request->WeightMeasureUnit) && $request->WeightMeasureUnit != '') {
@@ -454,33 +452,40 @@ class ProductController extends Controller
         $productId = $request->id;
         $product = Product::find($productId);
 
-        // suppression les fichiers images dans public/images
-        $images_products = Images_product::where('product_id', $productId)->get();
-        foreach ($images_products as $image_variante) {
-            if (File::exists(public_path($image_variante->path))) {
-                File::delete(public_path($image_variante->path));
+        if (Product::where("id", $productId)->first()) {
+            // suppression les fichiers images dans public/images
+            $images_products = Images_product::where('product_id', $productId)->get();
+            foreach ($images_products as $image_variante) {
+                if (File::exists(public_path($image_variante->path))) {
+                    File::delete(public_path($image_variante->path));
+                }
             }
-        }
-        Images_product::where('product_id', $productId)->delete();
+            Images_product::where('product_id', $productId)->delete();
 
-        // supprimer toutes les options d'une variante appartenant à un produit donné
-        foreach ($product->variantes as $variante) {
-            $options_values =  $variante->options_values;
-            foreach ($options_values as $options_value) {
-                $variante->options_values()->detach($options_value->id);
+            // supprimer toutes les options d'une variante appartenant à un produit donné
+            foreach ($product->variantes as $variante) {
+                $options_values =  $variante->options_values;
+                foreach ($options_values as $options_value) {
+                    $variante->options_values()->detach($options_value->id);
+                }
             }
+
+            $collections = $product->collections;
+            foreach ($collections as $collection) {
+                $product->collections()->detach($collection->id);
+            }
+
+            Variante::where('product_id', $productId)->delete();
+
+            $product->delete();
+
+            $products = Product::with('collections', 'images_products', 'variantes')->orderBy('id', 'asc')->get();
+            $collections = Collection::all('name');
+
+            return [$products, $collections];
+        } else {
+            return "Product not found";
         }
-
-        $collections = $product->collections;
-        foreach ($collections as $collection) {
-            $product->collections()->detach($collection->id);
-        }
-
-        Variante::where('product_id', $productId)->delete();
-
-        $product->delete();
-
-        return 'ok';
     }
 
     // change le status d'activation d'un produit

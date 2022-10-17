@@ -194,6 +194,8 @@ Route::post('/handleProductStatus', [ProductController::class, 'handleProductSta
 // delete on or sevreal products
 Route::post('/deleteProducts', [ProductController::class, 'deleteProducts']);
 
+// store product
+Route::post('/storeProduct', [ProductController::class, 'storeProduct']);
 // // A SUPPRIMER ? !!!
 // Route::get('/detailCompletion', [OptionsValueController::class, 'detailCompletion']);
 

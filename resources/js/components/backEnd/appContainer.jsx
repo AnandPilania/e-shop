@@ -159,7 +159,8 @@ const Appcontainer = () => {
     const [metaTitleProduct, setMetaTitleProduct] = useState('');
     const [metaDescriptionProduct, setMetaDescriptionProduct] = useState('');
     const [metaUrlProduct, setMetaUrlProduct] = useState('');
-    const [products, setProducts] = useState([1, 2, 3]);
+    // const [products, setProducts] = useState([1, 2, 3]);
+    const [products, setProducts] = useState([]);
     const [listProductsFiltered, setListProductsFiltered] = useState([]);
     const [listProductsChecked, setListProductsChecked] = useState([]);
     const [dateFieldProduct, setDateFieldProduct] = useState(getNow());

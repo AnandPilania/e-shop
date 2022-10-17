@@ -5,12 +5,12 @@ import ModalListOperations from './modalListOperations';
 import CollectionsFilter from './collectionsFilter';
 
 
-const HeaderListProducts = ({ confirmDeleteCollection, handleSearch, collectionsFilter, collectionsSelected, setCollectionsSelected }) => {
+const HeaderListProducts = ({ confirmDeleteProduct, handleSearch, collectionsFilter, collectionsSelected, setCollectionsSelected }) => {
 
     const [isShowOperationDrop, setIsShowOperationDrop] = useState(false);
     const [sender, setSender] = useState('');
 
-    const { setIs_Edit, is, setIs, initCollectionForm, listCollectionsChecked, showModalListOperations, setShowModalListOperations, searchValue, listCollectionNames } = useContext(AppContext);
+    const { setIs_Edit, is, setIs, initCollectionForm, listProductsChecked, showModalListOperations, setShowModalListOperations, searchValue, listCollectionNames } = useContext(AppContext);
 
 
     useEffect(() => {
@@ -53,7 +53,7 @@ const HeaderListProducts = ({ confirmDeleteCollection, handleSearch, collections
 
 
     return (
-        <div className='w-full h-max flex flex-col justify-start items-start mt-12 mb-8'
+        <div className='w-full h-max flex flex-col justify-start items-start mt-12 mb-8 brd-red-2'
         >
             <div className='w-full flex flex-row justify-between items-start'>
                 <h1 className="text-xl font-bold caret-transparent">
@@ -76,10 +76,10 @@ const HeaderListProducts = ({ confirmDeleteCollection, handleSearch, collections
             </div>
 
             <div
-                className='w-full h-auto flex flex-col justify-start items-center 500px:flex-row 500px:justify-between flex-wrap mt-6 500px:mt-10'
+                className='w-full h-auto flex flex-col justify-start items-center 500px:flex-row 500px:justify-between flex-wrap mt-6 500px:mt-10 brd-blue-1'
             >
                 <div
-                    className='w-full xl:w-[49%] h-auto flex flex-col justify-start items-center 500px:justify-between  500px:flex-row flex-nowrap'
+                    className='w-full xl:w-[49%] h-auto flex flex-col justify-start items-center 500px:justify-between  500px:flex-row flex-nowrap brd-red-1'
                 >
                     {/* search */}
                     <div
@@ -104,10 +104,10 @@ const HeaderListProducts = ({ confirmDeleteCollection, handleSearch, collections
 
 
                 <div
-                    className='w-full xl:w-[49%] h-auto flex flex-col justify-start items-center 500px:flex-row 500px:justify-between flex-wrap mt-4 xl:mt-0'
+                    className='w-full xl:w-[49%] h-auto flex flex-col justify-start items-center 500px:flex-row 500px:justify-between flex-wrap mt-4 xl:mt-0 brd-green-1'
                 >
                     {/* operations */}
-                    {listCollectionsChecked.length > 0 &&
+                    {listProductsChecked.length > 0 &&
                         <div
                             id="operationsDropDown_Id"
                             className='w-full 500px:max-w-[47%] h-12 500px:h-10 relative bg-white rounded-md'
@@ -137,11 +137,11 @@ const HeaderListProducts = ({ confirmDeleteCollection, handleSearch, collections
                     }
 
                     {/* delete */}
-                    {listCollectionsChecked.length > 0 &&
+                    {listProductsChecked.length > 0 &&
                         <span
                             className='w-full 500px:max-w-[47%] h-12 500px:h-10 flex flex-row justify-start items-center px-3 border border-gray-300 hover:border-gray-400 rounded-md bg-white cursor-pointer mt-4 500px:mt-0'
                             onClick={() => {
-                                confirmDeleteCollection('from CheckboxListCollection', null);
+                                confirmDeleteProduct('from CheckboxListProducts', null);
                             }}
                         >
                             <img src='../images/icons/trash.svg' className="w-5 h-5 mr-3"
