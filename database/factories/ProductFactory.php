@@ -43,6 +43,7 @@ class ProductFactory extends Factory
             'onlyTheseCarriers' => 0,
             'type' => $type[$random],
             'taxe_id' => 1, 
+            'supplier_id' => 1, 
         ];
     }
 }

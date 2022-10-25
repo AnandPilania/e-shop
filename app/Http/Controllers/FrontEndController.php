@@ -23,27 +23,7 @@ class FrontEndController extends Controller
 {
     public function index()
     {
-        // si on a un jumbotron dans la table jumbo alors on l'affiche sinon on en crée un et on l'affiche. Pour ne pas avboir d'ereur d'objet vide dans la vue
-
-        $jumbo = Jumbo::all();
-        $bannieres = Banniere::all() ? Banniere::all() : '';
-
-        if ($jumbo->count() > 0) {
-
-            return view('front-end.index', ['jumbo' => $jumbo, 'bannieres' => $bannieres]);
-        } else {
-
-            $jumbo = new Jumbo;
-            $jumbo->text = 'Créez un texte d\'accueil';
-            $jumbo->button_text = 'texte bouton';
-            $jumbo->alt = 'alt';
-            $jumbo->image = 'images/img_jumbo_default';
-            $jumbo->save();
-
-            $jumbo = Jumbo::all();
-
-            return view('front-end.index', ['jumbo' => $jumbo, 'bannieres' => $bannieres]);
-        }
+            return view('front-end.index');
     }
 
     public function create()

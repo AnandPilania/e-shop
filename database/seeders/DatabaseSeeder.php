@@ -22,10 +22,10 @@ class DatabaseSeeder extends Seeder
         $this->call(CategoriesSeeder::class);
         $this->call(CollectionsSeeder::class);
         $this->call(TaxesSeeder::class);
+        $this->call(SuppliersSeeder::class);
         $this->call(ProductsSeeder::class);
         $this->call(OptionsValuesSeeder::class);
         $this->call(VarianteSeeder::class);
-        $this->call(SuppliersSeeder::class);
         $this->call(ConfigsSeeder::class);
     }
 }
