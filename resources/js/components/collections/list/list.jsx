@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import AppContext from '../../contexts/AppContext';
 import Axios from 'axios';
 import RowListCollections from './RowListCollections';

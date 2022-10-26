@@ -26,14 +26,23 @@ const Activation = () => {
                                 altInput: false,
                                 disableMobile: "true",
                                 locale: {
+                                    firstDayOfWeek: 1,
                                     weekdays: {
-                                        shorthand: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"]
+                                        shorthand: ["dim", "lun", "mar", "mer", "jeu", "ven", "sam"],
+                                        longhand: [
+                                            "dimanche",
+                                            "lundi",
+                                            "mardi",
+                                            "mercredi",
+                                            "jeudi",
+                                            "vendredi",
+                                            "samedi",
+                                        ],
                                     },
                                     months: {
                                         shorthand: ["Jan", "Fév", "Mars", "Avr", "Mai", "Juin", "Juil", "Aout", "Sep", "Oct", "Nov", "Déc"],
                                         longhand: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"]
                                     },
-                                    firstDayOfWeek: 0,
                                 },
                                 dateFormat: "d-m-Y H:i:s",
                                 time_24hr: true,

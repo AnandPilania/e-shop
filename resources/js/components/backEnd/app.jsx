@@ -15,9 +15,3 @@ const App = () => {
 
 export default App;
 
-    //setTextButtonModalApp('Quitter');
-    //setTextButtonModalApp2('Annuler');
-    //setMessageModalApp('Quitter cette page sans sauvegarder vos données ?');
-    //setImageModalApp('../images/icons/warning.png');
-    //setFollowThisLink(-1);
-    //setShowModalApp(true);

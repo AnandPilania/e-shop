@@ -11,7 +11,7 @@ export default function SelectWithCheckboxProduct({ unikId, list, selected, setS
 
     // si l'élément a déjà été sélectionné on le retir sinon on l'ajout, ceci coche ou décoche la checkbox
     const handleChange = (zone, mode) => {
-        let index = selected.findIndex(x => x.zoneId == zone.id && x.modeId == mode.id);
+        let index = selected?.findIndex(x => x.zoneId == zone.id && x.modeId == mode.id);
         if (index > -1) {
             let tmp_arr = [...selected];
             tmp_arr.splice(index, 1);

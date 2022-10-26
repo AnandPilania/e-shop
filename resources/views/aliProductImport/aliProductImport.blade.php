@@ -7,5 +7,5 @@
 @section('content')
 <div id="aliProductImport"></div>
 
-<script src="{{ asset('js/aliProductImport.js') }}"></script>
+<!-- <script src="{{ asset('js/aliProductImport.js') }}"></script> -->
 @endsection

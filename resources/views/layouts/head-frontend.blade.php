@@ -38,7 +38,7 @@
 
     <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}" />
 
-    <script src="bundle.js"></script>
+    <!-- <script src="bundle.js"></script> -->
 
     <!-- reCaptch v3 -->
     <!-- IMPORTANT!!! remember CSRF token -->

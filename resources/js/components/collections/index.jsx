@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import AppContext from '../contexts/AppContext';
-import { usePromptCollection } from '../hooks/usePromptCollection';
+// import { usePromptCollection } from '../hooks/usePromptCollection';
 import Axios from 'axios';
 import ModalConfirm from '../modal/modalConfirm';
 import ModalSimpleMessage from '../modal/modalSimpleMessage';
@@ -263,7 +263,7 @@ const CreateCollection = () => {
 
 
     // demande confirmation avant de quitter le form sans sauvegarder
-    usePromptCollection('Quitter sans sauvegarder les changements ?', checkIfIsDirty, setShowModalConfirm, setMessageModal);
+    // usePromptCollection('Quitter sans sauvegarder les changements ?', checkIfIsDirty, setShowModalConfirm, setMessageModal);
 
 
 

@@ -1,13 +1,8 @@
 {
     "private": true,
     "scripts": {
-        "dev": "npm run development",
-        "development": "mix",
-        "watch": "mix watch",
-        "watch-poll": "mix watch -- --watch-options-poll=1000",
-        "hot": "mix watch --hot",
-        "prod": "npm run production",
-        "production": "mix --production"
+        "dev": "vite",
+        "build": "vite build"
     },
     "devDependencies": {
         "@babel/preset-react": "^7.16.7",
@@ -16,7 +11,7 @@
         "axios": "^0.24.0",
         "jest": "^28.1.1",
         "jquery": "^3.6",
-        "laravel-mix": "^6.0.39",
+        "laravel-vite-plugin": "^0.6.1",
         "lodash": "^4.17.21",
         "popper.js": "^1.16.1",
         "postcss": "^8.4.14",
@@ -26,7 +21,8 @@
         "resolve-url-loader": "^4.0.0",
         "sass": "^1.48.0",
         "sass-loader": "^12.4.0",
-        "tailwindcss": "^3.0.24"
+        "tailwindcss": "^3.0.24",
+        "vite": "^3.1.8"
     },
     "dependencies": {
         "@tinymce/tinymce-react": "^3.13.0",
@@ -36,9 +32,10 @@
         "react-beautiful-dnd": "^13.1.0",
         "react-color": "^2.19.3",
         "react-cropper": "^2.1.8",
+        "react-datepicker": "^4.8.0",
         "react-datetime-picker": "^3.4.3",
         "react-dropzone": "^11.5.1",
-        "react-flatpickr": "^3.10.7",
+        "react-flatpickr": "^3.10.13",
         "react-router": "^6.2.1",
         "react-router-dom": "^6.2.1",
         "styled-components": "^5.3.3",

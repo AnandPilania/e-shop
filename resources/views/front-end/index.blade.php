@@ -19,7 +19,7 @@
 </div>
 
 
-<script src="../../../js/aliScrap.js"></script>
+<!-- <script src="../../../js/aliScrap.js"></script> -->
 
 
 @endsection

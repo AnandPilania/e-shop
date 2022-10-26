@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import Flatpickr from "react-flatpickr";
+import 'flatpickr/dist/themes/light.css';
+// import 'flatpickr/dist/l10n/fr.js';
 import Label from '../form/label';
 // import "flatpickr/dist/themes/material_blue.css";
 
@@ -8,13 +10,13 @@ import Label from '../form/label';
 const Activation = () => {
 
     const { dateFieldProduct, setDateFieldProduct } = useContext(AppContext);
-    
+
     return (
         <div>
             <div className="w-full h-auto flex flex-col justify-start items-start mb-2.5 p-5 shadow-sm bg-white rounded-md">
                 <div className="w-full h-auto flex flex-col justify-start items-start">
                     <div className='w-full h-auto flex flex-col justify-start items-start'>
-                        <Label label="Date d'activation" css="mb-2"/>
+                        <Label label="Date d'activation" css="mb-2" />
                         <Flatpickr
                             className="w-full h-10 pl-5 m-0 flex justify-start items-center border border-gray-300 rounded-md cursor-pointer bg-white hover:border-gray-400  bg-no-repeat bg-right-center bg-chevron-expand caret-transparent"
                             id="activationDate"
@@ -26,14 +28,23 @@ const Activation = () => {
                                 altInput: false,
                                 disableMobile: "true",
                                 locale: {
+                                    firstDayOfWeek: 1,
                                     weekdays: {
-                                        shorthand: ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"]
+                                        shorthand: ["dim", "lun", "mar", "mer", "jeu", "ven", "sam"],
+                                        longhand: [
+                                            "dimanche",
+                                            "lundi",
+                                            "mardi",
+                                            "mercredi",
+                                            "jeudi",
+                                            "vendredi",
+                                            "samedi",
+                                        ],
                                     },
                                     months: {
                                         shorthand: ["Jan", "Fév", "Mars", "Avr", "Mai", "Juin", "Juil", "Aout", "Sep", "Oct", "Nov", "Déc"],
                                         longhand: ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"]
                                     },
-                                    firstDayOfWeek: 0,
                                 },
                                 dateFormat: "d-m-Y H:i:s",
                                 time_24hr: true,

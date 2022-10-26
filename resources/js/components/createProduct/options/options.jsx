@@ -26,7 +26,7 @@ const Options = () => {
     }, []);
 
 
-    const confirmCancelWithoutSapveOptions = () => {
+    const confirmCancelWithoutSapveOptions = () => { alert('ok')
         setShowModalCancelWithoutSaveOptions(false);
         setShowOptions(false);
         setOptionsObj([]);
