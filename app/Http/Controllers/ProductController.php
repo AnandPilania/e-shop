@@ -88,7 +88,7 @@ class ProductController extends Controller
         $product->status = $request->productStatus;
         $product->type = 'no type';
         $product->taxe_id = json_decode($request->tva)->id;
-        $product->supplier_id = json_decode($request->supplier) != "" && json_decode($request->supplier)->id;
+        $product->supplier_id = json_decode($request->supplier) != "" ? json_decode($request->supplier)->id : null;
         $product->save();
 
 
@@ -101,7 +101,7 @@ class ProductController extends Controller
             $product->collections()->attach($collection->id);
         }
 
-        // delete relations in variantes table AND
+        // delete variantes in variantes table AND
         // delete all relations in options_values_variante pivot table
         if ($request->isEdit == "true") {
             $variantes = Variante::where('product_id', $request->productId)
@@ -114,7 +114,7 @@ class ProductController extends Controller
             }
         }
 
-        // variantes table !!!
+        // variantes table 
         $variantes = json_decode($request->variantes);
         if (count($variantes) == 0) {
             $emptyVariante = (object) [
@@ -217,13 +217,13 @@ class ProductController extends Controller
             } else {
                 $variante->image_path = '';
             }
-
             $variante->product_id = $product->id;
             $variante->save();
 
-
+            dd($item->options);
             // si la value de l'option existe alors on l'attache sinon on la crée d'abord puis on l'attache
             if ($item->options != '') {
+                dd($item->options);
                 foreach ($item->options as $key => $value) {
                     $optionValue = Options_value::where('name', $value)
                         ->where('options_names_id', $key)->first();
@@ -237,6 +237,7 @@ class ProductController extends Controller
                         $option_value->options_names_id = $key;
                         $option_value->save();
                         $variante->options_values()->attach($option_value->id);
+                        dd($option_value);
                     }
                 }
             }
@@ -342,7 +343,7 @@ class ProductController extends Controller
                 $image_product->alt = $newName;
                 $image_product->status = 'tmp';
                 $image_product->ordre = count($max) + 1;
-                $image_product->product_id = 0;
+                $image_product->product_id = 111111;
                 $image_product->save();
             }
 

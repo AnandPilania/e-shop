@@ -178,33 +178,33 @@ class OptionsValuesSeeder extends Seeder
 
 
 
-        for ($i = 1; $i < 31; $i++) {
-            // product_sheets
-            DB::table('product_sheets')->insert([
-                'text' => 'Texte de la fiche technique',
-                'product_id' => $i,
-            ]);
+        // for ($i = 1; $i < 31; $i++) {
+        //     // product_sheets
+        //     DB::table('product_sheets')->insert([
+        //         'text' => 'Texte de la fiche technique',
+        //         'product_id' => $i,
+        //     ]);
 
-            // image_product
-            $ii = $i + 2;
-            DB::table('images_products')->insert([
-                'path' => 'images/croppée - Copie (' . $ii . ').jpg',
-                'alt' => 'mon alt',
-                'ordre' => 1,
-                'product_id' => $i,
-            ]);
-            DB::table('images_products')->insert([
-                'path' => 'images/croppée2 - Copie (' . $ii . ').jpg',
-                'alt' => 'mon alt',
-                'ordre' => 2,
-                'product_id' => $i,
-            ]);
+        //     // image_product
+        //     $ii = $i + 2;
+        //     DB::table('images_products')->insert([
+        //         'path' => 'images/croppée - Copie (' . $ii . ').jpg',
+        //         'alt' => 'mon alt',
+        //         'ordre' => 1,
+        //         'product_id' => $i,
+        //     ]);
+        //     DB::table('images_products')->insert([
+        //         'path' => 'images/croppée2 - Copie (' . $ii . ').jpg',
+        //         'alt' => 'mon alt',
+        //         'ordre' => 2,
+        //         'product_id' => $i,
+        //     ]);
 
-            // collection_product
-            // DB::table('collection_product')->insert([
-            //     'collection_id' => rand(1,6),
-            //     'product_id' => $i,
-            // ]);
-        }
+        //     // collection_product
+        //     // DB::table('collection_product')->insert([
+        //     //     'collection_id' => rand(1,6),
+        //     //     'product_id' => $i,
+        //     // ]);
+        // }
     }
 }

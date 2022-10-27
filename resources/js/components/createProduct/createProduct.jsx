@@ -20,7 +20,8 @@ import { v4 as uuidv4 } from 'uuid';
 import Activation from './activation';
 import Header from './header';
 import { getNow } from '../functions/dateTools';
-import { usePromptProduct } from './usePromptProduct';
+// import { usePromptProduct } from './usePromptProduct';
+import { usePrompt } from './useComfirmExit';
 import ModalConfirmation from '../modal/modalConfirmation';
 
 
@@ -163,8 +164,8 @@ const CreateProduct = () => {
                         hooksCompar.isShowPromoProduct = false;
                     }
                     setHooksComparation(hooksCompar);
-
-                    if (JSON.parse(data.optionsObj)[0].name.length > 0) setShowOptions(true);
+console.log('data.optionsObj  ', data.optionsObj)
+                    if (JSON.parse(data.optionsObj)[0]?.name.length > 0) setShowOptions(true);
                 })
 
             setIsEditProduct(true);
@@ -295,7 +296,7 @@ const CreateProduct = () => {
     }
 
     // demande confirmation avant de quitter le form sans sauvegarder
-    usePromptProduct('Quitter sans sauvegarder les changements ?', checkIfCreateProductIsDirty, setShowModalLeaveWithoutSave, setMessageModal, leaveProductFormWithoutSaveChange, setLeaveProductFormWithoutSaveChange);
+    usePrompt('Quitter sans sauvegarder les changements ?', true, setShowModalLeaveWithoutSave, setMessageModal, leaveProductFormWithoutSaveChange, setLeaveProductFormWithoutSaveChange);
 
 
     const handleModalConfirm = () => {

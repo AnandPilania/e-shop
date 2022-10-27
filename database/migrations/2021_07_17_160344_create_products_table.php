@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('name', 255);
             $table->integer('isInAutoCollection')->default(1);
             $table->tinyInteger('tmp');
+            $table->tinyInteger('status');
             $table->dateTime('dateActivation');
             $table->string('ribbon', 255)->nullable();
             $table->float('price', 8, 2);
@@ -38,9 +39,9 @@ class CreateProductsTable extends Migration
             $table->string('metaTitle', 255)->nullable();
             $table->mediumText('metaDescription')->nullable();
             $table->string('type')->nullable(); 
-            $table->unsignedBigInteger('supplier_id')->nullable()->default(1);
+            $table->unsignedBigInteger('supplier_id')->nullable();
             $table->foreign('supplier_id')->references('id')->on('suppliers');   
-            $table->unsignedBigInteger('taxe_id')->nullable()->default(1);
+            $table->unsignedBigInteger('taxe_id')->nullable();
             $table->foreign('taxe_id')->references('id')->on('taxes');         
             $table->timestamps();
         });

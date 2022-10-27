@@ -5,7 +5,7 @@ import CreateCollection from './index';
 
 
 
-const ShowCreateCollectionOrCroppeImage = () => {
+const WrapperCreateCollectionCroppeImage = () => {
 
     const { wrapIndexcroppe } = useContext(AppContext);
 
@@ -20,4 +20,4 @@ const ShowCreateCollectionOrCroppeImage = () => {
     );
 }
 
-export default ShowCreateCollectionOrCroppeImage;
+export default WrapperCreateCollectionCroppeImage;

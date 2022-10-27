@@ -137,9 +137,9 @@ class TemporaryStorageController extends Controller
     public function deleteModalImageVariantes(Request $request)
     {
         $tmp_storage = Temporary_storage::where('key', $request->key)
-        ->orderBy('id', 'desc')
-        ->limit($request->countFile)
-        ->get();
+            ->orderBy('id', 'desc')
+            ->limit($request->countFile)
+            ->get();
 
         if (isset($tmp_storage) && count($tmp_storage) > 0) {
             foreach ($tmp_storage as $toDelete) {
@@ -194,27 +194,29 @@ class TemporaryStorageController extends Controller
                 $description = Product::where('id', $request->id)->first('description');
             }
 
-            $doc = new DOMDocument();
-            @$doc->loadHTML($description);
-            $xpath = new \DOMXpath($doc);
-            $tags = $xpath->query('//img/@src | //source/@src');
-            $tab = array("\/images\/", "\/videos\/", "\\");
-            foreach ($tags as $tag) {
-                // strstr retourne une sous-chaîne allant de la première occurrence (incluse) jusqu'à la fin de la chaîne
-                $is_video = strstr($tag->value, '\/videos\/');
-                $is_image = strstr($tag->value, '\/images\/');
-                if ($is_video !== false) {
-                    $to_delete = str_replace($tab, '', $is_video);
-                    $to_delete = 'videos/' . substr($to_delete, 0, -1);
-                    if (!in_array($to_delete, $tab_data) && $tab_data[0] !== "") {
-                        if (File::exists(public_path($to_delete))) File::delete(public_path($to_delete));
+            if ($description) {
+                $doc = new DOMDocument();
+                @$doc->loadHTML($description);
+                $xpath = new \DOMXpath($doc);
+                $tags = $xpath->query('//img/@src | //source/@src');
+                $tab = array("\/images\/", "\/videos\/", "\\");
+                foreach ($tags as $tag) {
+                    // strstr retourne une sous-chaîne allant de la première occurrence (incluse) jusqu'à la fin de la chaîne
+                    $is_video = strstr($tag->value, '\/videos\/');
+                    $is_image = strstr($tag->value, '\/images\/');
+                    if ($is_video !== false) {
+                        $to_delete = str_replace($tab, '', $is_video);
+                        $to_delete = 'videos/' . substr($to_delete, 0, -1);
+                        if (!in_array($to_delete, $tab_data) && $tab_data[0] !== "") {
+                            if (File::exists(public_path($to_delete))) File::delete(public_path($to_delete));
+                        }
                     }
-                }
-                if ($is_image !== false) {
-                    $to_delete = str_replace($tab, '', $is_image);
-                    $to_delete = 'images/' . substr($to_delete, 0, -1);
-                    if (!in_array($to_delete, $tab_data) && $tab_data[0] !== "") {
-                        if (File::exists(public_path($to_delete))) File::delete(public_path($to_delete));
+                    if ($is_image !== false) {
+                        $to_delete = str_replace($tab, '', $is_image);
+                        $to_delete = 'images/' . substr($to_delete, 0, -1);
+                        if (!in_array($to_delete, $tab_data) && $tab_data[0] !== "") {
+                            if (File::exists(public_path($to_delete))) File::delete(public_path($to_delete));
+                        }
                     }
                 }
             }

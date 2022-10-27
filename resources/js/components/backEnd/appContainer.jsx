@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import AppContext from '../contexts/AppContext';
-// import { useLocation } from "react-router-dom";
-import { useLocalStorage } from "../hooks/useLocalStorage";
 import Axios from 'axios';
 import { getNow } from '../functions/dateTools';
 import { Routes, Route } from 'react-router-dom';
@@ -9,12 +7,10 @@ import MainNav from './mainNav';
 import Navbar from '../navBar/navBar';
 // import AliProductImport from '../aliProductImport/aliProductImport';
 import CreateProduct from '../createProduct/createProduct';
-// import EditProduct from '../createProduct/editProduct';
-import EditImages from '../createProduct/edit_images';
 import List from '../createProduct/list/list';
 import ListCollections from '../collections/list/list';
 import CreateCollection from '../collections/index';
-import ShowCreateCollectionOrCroppeImage from '../collections/showCreateCollectionOrCroppeImage';
+import WrapperCreateCollectionCroppeImage from '../collections/wrapperCreateCollectionCroppeImage';
 import Settings from '../settings/settings';
 
 
@@ -376,7 +372,6 @@ const Appcontainer = () => {
         return urlName;
     };
 
-    // const location = useLocation();
 
     //ModalConfirm--------------------------------------------------------------
     const handleModalConfirm = () => {
@@ -593,6 +588,7 @@ const Appcontainer = () => {
         imageHasBeenChanged, setImageHasBeenChanged,
         showOptions, setShowOptions,
 
+
     }
 
 
@@ -608,12 +604,8 @@ const Appcontainer = () => {
                     <Routes>
                         <Route path="/listProduct" element={<List />} />
                         <Route path="/addProduct" element={<CreateProduct />} />
-                        {/* <Route path="/editProduct/:productId" element={<EditProduct />} /> */}
-                        <Route path="/editImagesProduct/:product_id" element={<EditImages />} />
-
-
                         <Route path="/collections-list" element={<ListCollections />} />
-                        <Route path="/add-collection" element={<ShowCreateCollectionOrCroppeImage />} />
+                        <Route path="/add-collection" element={<WrapperCreateCollectionCroppeImage />} />
                         <Route path="/settings" element={<Settings />} />
                         {/* <Route path="/cropImage" element={<CroppeImage />} /> */}
                         <Route

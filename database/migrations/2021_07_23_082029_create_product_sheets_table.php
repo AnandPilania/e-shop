@@ -16,7 +16,7 @@ class CreateProductSheetsTable extends Migration
         Schema::create('product_sheets', function (Blueprint $table) {
             $table->id();
             $table->text('text')->nullable();
-            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('product_id')->nullable();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->timestamps();
         });
