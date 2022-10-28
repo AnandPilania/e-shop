@@ -59,6 +59,11 @@ class Product extends Model
         return $this->hasMany(Review::class);
     }
 
+    public function supplier() 
+    {
+        return $this->belongsTo(Supplier::class);
+    }
+
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
@@ -67,11 +72,6 @@ class Product extends Model
     public function variantes()
     {
         return $this->hasMany(Variante::class);
-    }
-
-    public function supplier() 
-    {
-        return $this->belongsTo(Supplier::class);
     }
 
 }

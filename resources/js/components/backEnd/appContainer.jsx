@@ -17,7 +17,7 @@ import Settings from '../settings/settings';
 const Appcontainer = () => {
 
     //COLLECTION------------------------------------------------------------
-      const [conditions, setConditions] = useState([{
+    const [conditions, setConditions] = useState([{
         id: 0,
         parameter: '1',
         operator: '1',
@@ -218,6 +218,12 @@ const Appcontainer = () => {
                 console.log('Error : ' + error.status);
             });
 
+        // delete all tmp products
+        Axios.get("http://127.0.0.1:8000/deleteTmpProducts")
+            .catch(error => {
+                console.log('Error : ' + error.status);
+            });
+
         // Listener screen size change
         function handleResizeScreen() {
             setScreenSize(window.innerWidth);
@@ -329,7 +335,7 @@ const Appcontainer = () => {
         if (img != null) {
             img.src = null;
             img.style.display = "none";
-    
+
             // remet l'image de fond
             let containerDropZone = document.getElementById('drop-region-dropZone');
             containerDropZone.style.backgroundColor = '#FFFFFF';
@@ -512,7 +518,7 @@ const Appcontainer = () => {
         is, setIs,
         collectionForm, setCollectionForm,
         deleteThisCollection, setDeleteThisCollection,
-           wrapIndexcroppe, setWrapIndexcroppe,
+        wrapIndexcroppe, setWrapIndexcroppe,
         listCollectionsChecked, setListCollectionsChecked,
         listCollectionsFiltered, setListCollectionsFiltered,
         showModalListOperations, setShowModalListOperations,

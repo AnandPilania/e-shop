@@ -167,6 +167,7 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
                 form_Data.append('files[]', file);
             }
         });
+        console.log('productId  ', productId)
         form_Data.append('productId', productId);
         if (count_files.length > 0) {
             Axios.post(`http://127.0.0.1:8000/storeTmpImages`, form_Data,

@@ -193,6 +193,8 @@ Route::get('/getProducts', [ProductController::class, 'getProducts']);
 Route::post('/handleProductStatus', [ProductController::class, 'handleProductStatus']);
 // delete on or sevreal products
 Route::post('/deleteProducts', [ProductController::class, 'deleteProducts']);
+// delete all tmp products
+Route::get('/deleteTmpProducts', [ProductController::class, 'deleteTmpProducts']);
 
 // store product
 Route::post('/storeProduct', [ProductController::class, 'storeProduct']);

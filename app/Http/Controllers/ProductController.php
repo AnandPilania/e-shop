@@ -100,18 +100,21 @@ class ProductController extends Controller
         foreach (json_decode($request->collections) as $collection) {
             $product->collections()->attach($collection->id);
         }
-
+// dd(json_decode($request->variantes)[0]->options);
         // delete variantes in variantes table AND
         // delete all relations in options_values_variante pivot table
         if ($request->isEdit == "true") {
-            $variantes = Variante::where('product_id', $request->productId)
-                ->get();
-            if ($variantes->first()) {
-                foreach ($variantes as $variante) {
-                    $variante->options_values()->detach();
-                    $variante->delete();
+            // if (json_decode($request->variantes)[0]->options != 'null') {
+                $variantes = Variante::where('product_id', $request->productId)
+                    ->get();
+                if ($variantes->first()) {
+                    foreach ($variantes as $variante) {
+                        dd($variante->options_values);//<---- VOIR COMMENT EST CONSTRUIT OPTIONS ET ESSAYER DE LE RENVOYER AUSSI QUAND ON EST EN EDIT !!!
+                        $variante->options_values()->detach();
+                        $variante->delete();
+                    }
                 }
-            }
+            // }
         }
 
         // variantes table 
@@ -134,7 +137,7 @@ class ProductController extends Controller
             ];
             array_push($variantes, $emptyVariante);
         }
-
+        // dd($variantes);
         foreach ($variantes as $item) {
             $variante = new Variante;
 
@@ -220,10 +223,10 @@ class ProductController extends Controller
             $variante->product_id = $product->id;
             $variante->save();
 
-            dd($item->options);
+            // dd($item->options);
             // si la value de l'option existe alors on l'attache sinon on la crée d'abord puis on l'attache
             if ($item->options != '') {
-                dd($item->options);
+                // dd($item->options);
                 foreach ($item->options as $key => $value) {
                     $optionValue = Options_value::where('name', $value)
                         ->where('options_names_id', $key)->first();
@@ -343,7 +346,23 @@ class ProductController extends Controller
                 $image_product->alt = $newName;
                 $image_product->status = 'tmp';
                 $image_product->ordre = count($max) + 1;
-                $image_product->product_id = 111111;
+                if ($request->productId == "null") {
+                    $product_tmp = new Product;
+                    $product_tmp->name = 'tmp_name';
+                    $product_tmp->tmp = 1;
+                    $product_tmp->isInAutoCollection = 1;
+                    $product_tmp->price = 0;
+                    $product_tmp->stock = 0;
+                    $product_tmp->unlimitedStock = 0;
+                    $product_tmp->sku = 0;
+                    $product_tmp->dateActivation = date('Y-m-d H:i:s');
+                    $product_tmp->status = 0;
+                    $product_tmp->save();
+                    $product_lastId = $product_tmp->id;
+                } else {
+                    $product_lastId = $request->productId;
+                }
+                $image_product->product_id = $product_lastId;
                 $image_product->save();
             }
 
@@ -486,6 +505,44 @@ class ProductController extends Controller
             return [$products, $collections];
         } else {
             return "Product not found";
+        }
+    }
+
+    public function deleteTmpProducts()
+    {
+        $products = Product::where('tmp', 1)->get();
+
+        if ($products->first()) {
+            foreach ($products as $product) {
+                // suppression les fichiers images dans public/images
+                $images_products = Images_product::where('product_id', $product->id)->get();
+                foreach ($images_products as $image_variante) {
+                    if (File::exists(public_path($image_variante->path))) {
+                        File::delete(public_path($image_variante->path));
+                    }
+                }
+                Images_product::where('product_id', $product->id)->delete();
+
+                // supprimer toutes les options d'une variante appartenant à un produit donné
+                foreach ($product->variantes as $variante) {
+                    $options_values =  $variante->options_values;
+                    foreach ($options_values as $options_value) {
+                        $variante->options_values()->detach($options_value->id);
+                    }
+                }
+
+                $collections = $product->collections;
+                foreach ($collections as $collection) {
+                    $product->collections()->detach($collection->id);
+                }
+
+                Variante::where('product_id', $product->id)->delete();
+
+                $product->delete();
+
+                $products = Product::with('collections', 'images_products', 'variantes')->orderBy('id', 'asc')->get();
+                $collections = Collection::all('name');
+            }
         }
     }
 

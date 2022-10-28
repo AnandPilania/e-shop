@@ -21,7 +21,6 @@ import Activation from './activation';
 import Header from './header';
 import { getNow } from '../functions/dateTools';
 // import { usePromptProduct } from './usePromptProduct';
-import { usePrompt } from './useComfirmExit';
 import ModalConfirmation from '../modal/modalConfirmation';
 
 
@@ -296,7 +295,7 @@ console.log('data.optionsObj  ', data.optionsObj)
     }
 
     // demande confirmation avant de quitter le form sans sauvegarder
-    usePrompt('Quitter sans sauvegarder les changements ?', true, setShowModalLeaveWithoutSave, setMessageModal, leaveProductFormWithoutSaveChange, setLeaveProductFormWithoutSaveChange);
+    // usePromptProduct('Quitter sans sauvegarder les changements ?', true, setShowModalLeaveWithoutSave, setMessageModal, leaveProductFormWithoutSaveChange, setLeaveProductFormWithoutSaveChange);
 
 
     const handleModalConfirm = () => {
