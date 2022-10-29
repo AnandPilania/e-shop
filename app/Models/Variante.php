@@ -19,9 +19,4 @@ class Variante extends Model
         return $this->belongsToMany(Options_value::class);
     }
 
-    public function taxe()
-    {
-        return $this->belongsTo(Taxe::class);
-    } 
-
 }

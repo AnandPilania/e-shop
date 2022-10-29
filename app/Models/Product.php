@@ -69,6 +69,11 @@ class Product extends Model
         return $this->belongsToMany(Tag::class);
     }
 
+    public function taxe()
+    {
+        return $this->belongsTo(Taxe::class);
+    } 
+
     public function variantes()
     {
         return $this->hasMany(Variante::class);

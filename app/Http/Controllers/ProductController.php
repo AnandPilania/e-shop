@@ -40,7 +40,7 @@ class ProductController extends Controller
 
     public function getProduct(Request $request)
     {
-        $product = Product::where('id', $request->productId)->with('collections', 'images_products', 'variantes', 'supplier')->first();
+        $product = Product::where('id', $request->productId)->with('collections', 'images_products', 'variantes', 'supplier', 'taxe')->first();
         $collections = Collection::all('name');
         return [$product, $collections];
     }
@@ -87,7 +87,7 @@ class ProductController extends Controller
         }
         $product->status = $request->productStatus;
         $product->type = 'no type';
-        $product->taxe_id = json_decode($request->tva)->id;
+        $product->taxe_id = intval(json_decode($request->tva)->id);
         $product->supplier_id = json_decode($request->supplier) != "" ? json_decode($request->supplier)->id : null;
         $product->save();
 
@@ -100,21 +100,18 @@ class ProductController extends Controller
         foreach (json_decode($request->collections) as $collection) {
             $product->collections()->attach($collection->id);
         }
-// dd(json_decode($request->variantes)[0]->options);
+
         // delete variantes in variantes table AND
         // delete all relations in options_values_variante pivot table
         if ($request->isEdit == "true") {
-            // if (json_decode($request->variantes)[0]->options != 'null') {
-                $variantes = Variante::where('product_id', $request->productId)
-                    ->get();
-                if ($variantes->first()) {
-                    foreach ($variantes as $variante) {
-                        dd($variante->options_values);//<---- VOIR COMMENT EST CONSTRUIT OPTIONS ET ESSAYER DE LE RENVOYER AUSSI QUAND ON EST EN EDIT !!!
-                        $variante->options_values()->detach();
-                        $variante->delete();
-                    }
+            $variantes = Variante::where('product_id', $request->productId)
+                ->get();
+            if ($variantes->first()) {
+                foreach ($variantes as $variante) {
+                    $variante->options_values()->detach();
+                    $variante->delete();
                 }
-            // }
+            }
         }
 
         // variantes table 
@@ -223,27 +220,34 @@ class ProductController extends Controller
             $variante->product_id = $product->id;
             $variante->save();
 
-            // dd($item->options);
-            // si la value de l'option existe alors on l'attache sinon on la crée d'abord puis on l'attache
-            if ($item->options != '') {
-                // dd($item->options);
-                foreach ($item->options as $key => $value) {
-                    $optionValue = Options_value::where('name', $value)
-                        ->where('options_names_id', $key)->first();
-                    if ($optionValue) {
-                        $variante->options_values()->attach($optionValue->id);
-                    } else {
-                        $option_value = new Options_value;
-                        $maxOrdre = Options_value::where('options_names_id', $key)->max('ordre');
-                        $option_value->name = $value;
-                        $option_value->ordre = $maxOrdre + 1;
-                        $option_value->options_names_id = $key;
-                        $option_value->save();
-                        $variante->options_values()->attach($option_value->id);
-                        dd($option_value);
-                    }
-                }
+
+
+            // options_value_variante pivot table 
+            // if ($item->options != '') {
+            // on récupère la key "id du optionName et la value "value de l'option
+            $idOptionName = key((array) $item->options);
+            $value = current((array)$item->options);
+            // dd($idOptionName, $value);
+            $optionValue = false;
+            if ($idOptionName != "null" && $value != false) {
+                // si la value de l'option existe déjà dans la table options_values on attach avec son id
+                $optionValue = Options_value::where('name', $value)
+                    ->where('options_names_id', $idOptionName)->first();
             }
+
+            if ($optionValue) {
+                $variante->options_values()->attach($optionValue->id);
+                // sinon on la crée d'abord puis on l'attache
+            } else {
+                $option_value = new Options_value;
+                $latestRecord = Options_value::latest()->first();
+                $option_value->name = $value;
+                $option_value->ordre = $latestRecord->ordre + 1;
+                $option_value->options_names_id = $idOptionName;
+                $option_value->save();
+                $variante->options_values()->attach($option_value->id);
+            }
+            // }
         }
 
         // save images

@@ -96,7 +96,7 @@ const CreateProduct = () => {
             let idProduct = new FormData;
             idProduct.append('productId', productId);
             Axios.post(`http://127.0.0.1:8000/getProduct`, idProduct)
-                .then(res => {
+                .then(res => { 
                     let data = res.data[0];
                     setNameProduct(data.name == null ? '' : data.name);
                     setIsInAutoCollection(data.isInAutoCollection == 1 ? true : false);
@@ -120,7 +120,7 @@ const CreateProduct = () => {
                     setMetaTitleProduct(data.metaTitle == null ? '' : data.metaTitle);
                     setMetaDescriptionProduct(data.metaDescription == null ? '' : data.metaDescription);
                     setDateFieldProduct(data.dateActivation);
-                    setTva(data.taxe_id);
+                    setTva(data.taxe);
                     setSupplier(data.supplier == null ? '' : data.supplier);
                     setVariantes(data.variantes);
 
@@ -152,7 +152,7 @@ const CreateProduct = () => {
                     hooksCompar.metaTitleProduct = data.metaTitle == null ? '' : data.metaTitle;
                     hooksCompar.metaDescriptionProduct = data.metaDescription == null ? '' : data.metaDescription;
                     hooksCompar.dateFieldProduct = data.dateActivation;
-                    hooksCompar.tva = data.taxe_id;
+                    hooksCompar.tva = data.taxe;
                     hooksCompar.supplier = data.supplier == null ? '' : data.supplier;
                     hooksCompar.variantes = data.variantes;
                     hooksCompar.imageVariantes = data.images_products;

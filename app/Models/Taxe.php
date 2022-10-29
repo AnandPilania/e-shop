@@ -9,7 +9,7 @@ class Taxe extends Model
 {
     use HasFactory;
 
-    public function variantes()
+    public function products()
     {
         return $this->hasMany(Variante::class);
     } 
