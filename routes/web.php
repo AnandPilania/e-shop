@@ -150,64 +150,51 @@ Route::post('/update-Shipping_mode', [ShippingController::class, 'updateShipping
 // delete shipping mode
 Route::post('/delete-Shipping_mode', [ShippingController::class, 'deleteShipping_mode']);
 
-// recup un produit avec ses relations
-Route::post('/getProduct', [ProductController::class, 'getProduct']);
 
-Route::get('/selectCollections/{productId}', [ProductController::class, 'selectCollections']);
+Route::controller(ProductController::class)->group(function () {
+    Route::post('/getProduct', 'getProduct');
+    Route::get('/selectCollections/{productId}', 'selectCollections');
+    // get image from url
+    Route::post('/fetchImage', 'fetchImage');
+    // pour react edit_images.jsx
+    Route::get('/editImagesProduct/{id}', 'editImagesProduct');
+    Route::post('/replaceImagesProduct', 'replaceImagesProduct');
+    Route::post('/addImagesProduct', 'addImagesProduct');
+    Route::post('/deleteImageProduct', 'deleteImageProduct');
+    // get images by prodcut id
+    Route::get('/getTemporaryImagesProduct/{productId}', 'getTemporaryImagesProduct');
+    Route::post('/updateProduct', 'update');
+    Route::post('/storeTmpImages', 'storeTmpImages');
+    Route::post('/clean_Images_product_table', 'clean_Images_product_table');
+    // delete "count" ModalImageVariante images from images_products
+    Route::post('/deleteModalImageHasBeenCanceled', 'deleteModalImageHasBeenCanceled');
+    // change order of images when drag and drop images products in create product form
+    Route::post('/reOrderImagesProducts', 'reOrderImagesProducts');
+    Route::get('/reOrderImagesProductById/{productId}', 'reOrderImagesProductById');
+    Route::get('/getProducts', 'getProducts');
+    // change le status d'activation d'un produit'
+    Route::post('/handleProductStatus', 'handleProductStatus');
+    // delete on or sevreal products
+    Route::post('/deleteProducts', 'deleteProducts');
+    // delete all tmp products
+    Route::get('/deleteTmpProducts', 'deleteTmpProducts');
+    // store product
+    Route::post('/storeProduct', 'storeProduct');
+});
 
-// get image from url
-Route::post('/fetchImage', [ProductController::class, 'fetchImage']);
 
 
-// pour blade -> edit_images.blade !!! N EST PLUS UTILISE
-// Route::get('/editImagesProduct/{id}', [ProductController::class, 'editImagesProduct']);
-
-// pour react edit_images.jsx
-Route::get('/editImagesProduct/{id}', [ProductController::class, 'editImagesProduct']);
-
-Route::post('/replaceImagesProduct', [ProductController::class, 'replaceImagesProduct']);
-Route::post('/addImagesProduct', [ProductController::class, 'addImagesProduct']);
-Route::post('/deleteImageProduct', [ProductController::class, 'deleteImageProduct']);
-// get images by prodcut id
-Route::get('/getTemporaryImagesProduct/{productId}', [ProductController::class, 'getTemporaryImagesProduct']);
-Route::post('/updateProduct', [ProductController::class, 'update']);
-// Route::post('/storeImages', [ProductController::class, 'storeImages']);
-Route::post('/storeTmpImages', [ProductController::class, 'storeTmpImages']);
-Route::post('/clean_Images_product_table', [ProductController::class, 'clean_Images_product_table']);
-// delete "count" ModalImageVariante images from images_products
-Route::post('/deleteModalImageHasBeenCanceled', [ProductController::class, 'deleteModalImageHasBeenCanceled']);
-
-// change order of images when drag and drop images products in create product form
-Route::post('/reOrderImagesProducts', [ProductController::class, 'reOrderImagesProducts']);
-Route::get('/reOrderImagesProductById/{productId}', [ProductController::class, 'reOrderImagesProductById']);
-// Route::post('/getImagesProduct', [ProductController::class, 'getImagesProduct']);
 
 Route::get('/creatFrontIndex', [FrontEndController::class, 'create']);
 // Route::get('/jumbos', [JumbosController::class, 'index']);
 
 // store les reviews envoyées par les users
 Route::post('/storeReveiw', [ReviewController::class, 'storeReveiw']);
-Route::get('/getProducts', [ProductController::class, 'getProducts']);
-
-// change le status d'activation d'un produit'
-Route::post('/handleProductStatus', [ProductController::class, 'handleProductStatus']);
-// delete on or sevreal products
-Route::post('/deleteProducts', [ProductController::class, 'deleteProducts']);
-// delete all tmp products
-Route::get('/deleteTmpProducts', [ProductController::class, 'deleteTmpProducts']);
-
-// store product
-Route::post('/storeProduct', [ProductController::class, 'storeProduct']);
-// // A SUPPRIMER ? !!!
-// Route::get('/detailCompletion', [OptionsValueController::class, 'detailCompletion']);
 
 Route::get('/getOptionValues', [OptionsValueController::class, 'getOptionValues']);
 
 // renvoi les valeurs d'option d'un produit donné
 Route::get('/getOptionValues', [OptionsValueController::class, 'getOptionValues']);
-
-//met en best seller un produit dans la table products
-Route::post('/bestSeller', [ProductController::class, 'bestSeller']);
 
 // renvoi la fiche du produit
 Route::get('/collections/{collection}/{productLink}/{productId}', [ProductSheetController::class, 'productSheet']);
@@ -300,4 +287,3 @@ require __DIR__ . '/auth.php';
 
 // pour les test HackerRank
 Route::get('/hackerRanck', [HackerRank_Test::class, 'hackerRanck']);
-

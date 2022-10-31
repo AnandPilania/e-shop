@@ -22,9 +22,6 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Controllers\Functions\CleanLink;
 use App\Http\Controllers\Functions\StringTools;
 
-
-
-
 class ProductController extends Controller
 {
     public function getProducts()
@@ -32,8 +29,8 @@ class ProductController extends Controller
         $products = Product::with('collections', 'images_products', 'variantes')->orderBy('id', 'asc')->get();
         $collections = Collection::all('name');
 
-        // foreach ($products as $product) {
-        //     $this->reOrderImagesProductById($product->id);
+        // foreach ( $products as $product ) {
+        //     $this->reOrderImagesProductById( $product->id );
         // }
         return [$products, $collections];
     }
@@ -45,11 +42,12 @@ class ProductController extends Controller
         return [$product, $collections];
     }
 
-    // public function store(StoreProductRequest $request)
+    // public function store( StoreProductRequest $request )
+
     public function storeProduct(Request $request)
     {
-        // dd($request);
-        if ($request->isEdit == "true") {
+        // dd( $request );
+        if ($request->isEdit == 'true') {
             $product = Product::find($request->productId);
         } else {
             $product = new Product;
@@ -60,7 +58,7 @@ class ProductController extends Controller
         $product->ribbon = $request->ribbonProduct;
         // remplace dans les src de la description le chemin du dossier temporaryStorage par celui de la destionation finale des images et vidéos. !!! c'est handleTinyMceTemporaryElements qui se charge de déplacer les fichiers dans ces dossiers !!!
         $tmp_description = str_replace('temporaryStorage', 'images', $request->descriptionProduct);
-        $product->description = preg_replace('/(<source src=").+(images)/', '<source src="' . url('') . '/videos', $tmp_description);
+        $product->description = preg_replace('/( <source src = ").+(images)/', '<source src="' . url('') . '/videos', $tmp_description);
         $product->price = $request->productPrice;
         $product->reduced_price = $request->reducedProductPrice;
         $product->reduction = $request->promoApplied;
@@ -79,7 +77,7 @@ class ProductController extends Controller
         $cleanLink = new CleanLink;
         $product->link = $cleanLink->cleanLink($request->nameProduct);
         // Retourne un nouvel objet DateTime représentant la date et l'heure spécifiées par la string time, qui a été formaté dans le format donné.
-        if ($request->isEdit == "true") {
+        if ($request->isEdit == 'true') {
             $product->dateActivation = $request->dateActivation;
         } else {
             $date = DateTime::createFromFormat('d-m-Y H:i:s', $request->dateActivation);
@@ -88,12 +86,11 @@ class ProductController extends Controller
         $product->status = $request->productStatus;
         $product->type = 'no type';
         $product->taxe_id = intval(json_decode($request->tva)->id);
-        $product->supplier_id = json_decode($request->supplier) != "" ? json_decode($request->supplier)->id : null;
+        $product->supplier_id = json_decode($request->supplier) != '' ? json_decode($request->supplier)->id : null;
         $product->save();
 
-
         // delete relations in collection_product pivot table <---
-        if ($request->isEdit == "true") {
+        if ($request->isEdit == 'true') {
             $product->collections()->detach();
         }
         // save in collection_product table <---
@@ -103,7 +100,7 @@ class ProductController extends Controller
 
         // delete variantes in variantes table AND
         // delete all relations in options_values_variante pivot table
-        if ($request->isEdit == "true") {
+        if ($request->isEdit == 'true') {
             $variantes = Variante::where('product_id', $request->productId)
                 ->get();
             if ($variantes->first()) {
@@ -114,7 +111,7 @@ class ProductController extends Controller
             }
         }
 
-        // variantes table 
+        // variantes table
         $variantes = json_decode($request->variantes);
         if (count($variantes) == 0) {
             $emptyVariante = (object) [
@@ -124,7 +121,7 @@ class ProductController extends Controller
                 'reducedPrice' => '',
                 'parcelWeight' => '',
                 'parcelWeightMeasureUnit' => '',
-                'stock' => '',
+                'stock' => 'not',
                 'unlimited' => '',
                 'productCode' => '',
                 'deleted' => '',
@@ -134,7 +131,7 @@ class ProductController extends Controller
             ];
             array_push($variantes, $emptyVariante);
         }
-        // dd($variantes);
+        // dd( $variantes );
         foreach ($variantes as $item) {
             $variante = new Variante;
 
@@ -211,6 +208,12 @@ class ProductController extends Controller
             } else {
                 $variante->deleted = false;
             }
+            // dd($item->options);
+            if (isset($item->options) && $item->options != null && !is_string($item->options)) {
+                $variante->options = json_encode($item->options);
+            } elseif (isset($item->options) && $item->options != null && is_string($item->options)) {
+                $variante->options = $item->options;
+            }
 
             if (isset($item->selectedImage) && property_exists($item->selectedImage, 'path')) {
                 $variante->image_path = $item->selectedImage->path;
@@ -219,35 +222,24 @@ class ProductController extends Controller
             }
             $variante->product_id = $product->id;
             $variante->save();
-
-
-
-            // options_value_variante pivot table 
-            // if ($item->options != '') {
-            // on récupère la key "id du optionName et la value "value de l'option
-            $idOptionName = key((array) $item->options);
-            $value = current((array)$item->options);
+            // dd($item->options);
+            // options_value_variante pivot table
+            // get key '<-- is id of optionName & current 'value of option
+            $idOptionName = key((array) json_decode($variante->options));
+            $value = current((array) json_decode($variante->options));
             // dd($idOptionName, $value);
             $optionValue = false;
-            if ($idOptionName != "null" && $value != false) {
-                // si la value de l'option existe déjà dans la table options_values on attach avec son id
-                $optionValue = Options_value::where('name', $value)
-                    ->where('options_names_id', $idOptionName)->first();
-            }
-
-            if ($optionValue) {
+            if ($idOptionName != null && $value != false) {
+                // Retrieve Options_value by name or creacte New if it doesn't exist...
+                $optionValue = Options_value::firstOrNew([
+                    'name' => $value,
+                    'options_names_id' => $idOptionName
+                ]);
+                $optionValue->ordre = !is_int($optionValue->ordre) &&  Options_value::max('ordre') + 1;
+                $optionValue->options_names_id = $idOptionName;
+                $optionValue->save();
                 $variante->options_values()->attach($optionValue->id);
-                // sinon on la crée d'abord puis on l'attache
-            } else {
-                $option_value = new Options_value;
-                $latestRecord = Options_value::latest()->first();
-                $option_value->name = $value;
-                $option_value->ordre = $latestRecord->ordre + 1;
-                $option_value->options_names_id = $idOptionName;
-                $option_value->save();
-                $variante->options_values()->attach($option_value->id);
             }
-            // }
         }
 
         // save images
@@ -300,6 +292,7 @@ class ProductController extends Controller
 
 
     // récupère toutes les image temporaires d'un product donné
+
     public function getTemporaryImagesProduct($productId)
     {
         $images = Images_product::where('product_id', $productId)
@@ -323,14 +316,14 @@ class ProductController extends Controller
     {
         if ($request->hasFile('files')) {
             $files = $request->file('files');
-            // dd($files);
+            // dd( $files );
             foreach ($files as $file) {
                 $mimeType = Image::make($file)->mime();
                 $mimeType_videos_array = array('video/webm', 'video/ogg', 'video/avi', 'video/mp4', 'video/mpeg');
                 $mimeType_images_array = array('image/gif', 'image/png', 'image/jpeg', 'image/webp');
                 $tools = new StringTools;
                 $newName = $tools->nameGeneratorFromFile($file);
-                // dd($newName);
+                // dd( $newName );
                 if (in_array($mimeType, $mimeType_images_array)) {
                     $path = public_path('images/');
                     $imgFile = Image::make($file);
@@ -350,7 +343,7 @@ class ProductController extends Controller
                 $image_product->alt = $newName;
                 $image_product->status = 'tmp';
                 $image_product->ordre = count($max) + 1;
-                if ($request->productId == "null") {
+                if ($request->productId == 'null') {
                     $product_tmp = new Product;
                     $product_tmp->name = 'tmp_name';
                     $product_tmp->tmp = 1;
@@ -379,7 +372,6 @@ class ProductController extends Controller
             return 'error';
         }
     }
-
 
     public function reOrderImagesProducts(Request $request)
     {
@@ -415,7 +407,8 @@ class ProductController extends Controller
         }
     }
 
-    // ModalImageVariante: delete "countFile"  tmp images 
+    // ModalImageVariante: delete 'countFile'  tmp images
+
     public function deleteModalImageHasBeenCanceled(Request $request)
     {
         $tmp_storage = Images_product::where('status', $request->key)
@@ -432,8 +425,8 @@ class ProductController extends Controller
         return $images;
     }
 
-
     // supprime une image à la fois
+
     public function deleteImageProduct(Request $request)
     {
         $image_product = Images_product::find($request->id);
@@ -468,15 +461,12 @@ class ProductController extends Controller
         }
     }
 
-
-
-
     public function deleteProducts(Request $request)
     {
         $productId = $request->id;
         $product = Product::find($productId);
 
-        if (Product::where("id", $productId)->first()) {
+        if (Product::where('id', $productId)->first()) {
             // suppression les fichiers images dans public/images
             $images_products = Images_product::where('product_id', $productId)->get();
             foreach ($images_products as $image_variante) {
@@ -551,6 +541,7 @@ class ProductController extends Controller
     }
 
     // change le status d'activation d'un produit
+
     public function handleProductStatus(Request $request)
     {
         $product = Product::find($request->id);
@@ -562,12 +553,11 @@ class ProductController extends Controller
         return $product;
     }
 
-
     public function getAliExpressProduct(Request $request)
     {
         dd($request);
         // $url = $request->color;
-        // $contents = file_get_contents($url);
+        // $contents = file_get_contents( $url );
         $colorTab = (json_decode($request->color));
         dd($colorTab, json_decode($request->size));
         $body = new Body;
@@ -575,14 +565,13 @@ class ProductController extends Controller
         $body->save();
 
         // importer image et sauvegarder
-        // $url = "http://www.google.co.in/intl/en_com/images/srpr/logo1w.png";
-        // $contents = file_get_contents($url);
-        // $name = substr($url, strrpos($url, '/') + 1);
-        // Storage::put($name, $contents);
+        // $url = 'http://www.google.co.in/intl/en_com/images/srpr/logo1w.png';
+        // $contents = file_get_contents( $url );
+        // $name = substr( $url, strrpos( $url, '/' ) + 1 );
+        // Storage::put( $name, $contents );
 
-        // return redirect()->route('collections.index');
+        // return redirect()->route( 'collections.index' );
     }
-
 
     public function selectCollections($productId)
     {

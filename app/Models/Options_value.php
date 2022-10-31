@@ -9,6 +9,10 @@ class Options_value extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+    ];
+
     public function variantes()
     {
         return $this->belongsToMany(Variante::class);

@@ -10,6 +10,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
 
     const [optionObj, setOptionObj] = useStateIfMounted({
         id: option_obj.id,
+        idValues_Names: option_obj.idValues_Names,
         name: option_obj.name,
         values: [...option_obj.values],
         ordre: option_obj.ordre
@@ -71,7 +72,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
         setOptionValueMessage(false);
     }
 
-
+    // handle option name change
     const handleChangeOption = (e) => {
         if (e.target != undefined) {
             setOptionObj({ ...optionObj, name: e.target.value, values: [], idValues_Names: null });
@@ -101,7 +102,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
 
 
     // save optionObj
-    useEffect(() => {
+    useEffect(() => { 
         saveOption(optionObj);
     }, [optionObj]);
 

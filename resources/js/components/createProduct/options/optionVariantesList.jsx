@@ -53,10 +53,9 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         }
         optionsCombinations.length > 0 && getCombinaisons(indexOfNotEmpty_optionsObj_values, "");
 
-        // get les noms d'options pour les associer à leur values dans un objet
+        // get les id des noms d'options pour les associer à leur values dans un objet
         let optionsIdValuesNames = optionsObj.map(x => x.idValues_Names);
         let tmp_variantesAsString = [];
-
         // quand on modifie les params d'une variantes on la copie ici pour conserver ses modifications
         let tmp_changedVariantes = [...changedVariantes];
 
@@ -115,7 +114,6 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         // ferme "ajouter des options quand on supprime toutes les options"
         // optionsObj.name != '' && setShowOptions(false);
     }, [optionsObj]);
-
 
 
     const handleVariantes = (id, field, data) => {

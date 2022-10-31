@@ -98,6 +98,7 @@ const CreateProduct = () => {
             Axios.post(`http://127.0.0.1:8000/getProduct`, idProduct)
                 .then(res => { 
                     let data = res.data[0];
+                    console.log('res.data[0]  ', res.data[0])
                     setNameProduct(data.name == null ? '' : data.name);
                     setIsInAutoCollection(data.isInAutoCollection == 1 ? true : false);
                     setRibbonProduct(data.ribbon == null ? '' : data.ribbon);
@@ -123,7 +124,6 @@ const CreateProduct = () => {
                     setTva(data.taxe);
                     setSupplier(data.supplier == null ? '' : data.supplier);
                     setVariantes(data.variantes);
-
                     // affiche la partie promo dans price
                     if (data.reduction != null || data.reduced_price != null) {
                         setIsShowPromoProduct(true);
@@ -163,7 +163,7 @@ const CreateProduct = () => {
                         hooksCompar.isShowPromoProduct = false;
                     }
                     setHooksComparation(hooksCompar);
-console.log('data.optionsObj  ', data.optionsObj)
+
                     if (JSON.parse(data.optionsObj)[0]?.name.length > 0) setShowOptions(true);
                 })
 
@@ -173,10 +173,6 @@ console.log('data.optionsObj  ', data.optionsObj)
         }
     }, []);
 
-    // console.log('variantes  ', variantes)
-    // console.log('optionsObj  ', optionsObj)
-
-    // console.log('showBackButton  ', showBackButton);
 
     const initCreateProduct = () => {
         setNameProduct('');
@@ -414,7 +410,6 @@ console.log('data.optionsObj  ', data.optionsObj)
                     arrayOfImages.push(img);
                 });
             });
-            console.log('arrayOfImages  ', arrayOfImages)
             formData.append('imageVariantes', JSON.stringify(arrayOfImages));
             formData.append('collections', JSON.stringify(collections));
             formData.append('isInAutoCollection', isInAutoCollection);
