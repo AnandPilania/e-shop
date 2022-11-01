@@ -29,6 +29,14 @@ const SettingNav = ({ setCurrentComponent }) => {
                 setCurrentComponent={setCurrentComponent}
             />
             <Card
+                icon="truck.svg"
+                title="Options Variantes"
+                text="Free, high quality, open source icon ln any project."
+                color="bg-pink-50"
+                component="shipping"
+                setCurrentComponent={setCurrentComponent}
+            />
+            <Card
                 icon="x.svg"
                 title="Bon de commande"
                 text="Free, high quality, opeu like—SVGs, SVG sprite, or web fonts. project."

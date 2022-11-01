@@ -17,10 +17,17 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
     const [indexOfVisiblesFields, setIndexOfVisiblesFields] = useState(0);
     const [animateSlideLeftIsActived, setAnimateSlideLeftIsActived] = useState(false);
     const [animateSlideRightIsActived, setAnimateSlideRightIsActived] = useState(false);
+    const [maxIdValues_Names, setMaxIdValues_Names] = useState('');
 
 
     const { optionsObj, productPrice, reducedProductPrice, productStock, productCost, productParcelWeight, productParcelWeightMeasureUnit, productCode, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, isHideDeletedVariantes, variante, setVariante, setImageVariantes, changedVariantes, setChangedVariantes, screenSize, setShowOptions, isEditProduct } = useContext(AppContext);
 
+    useEffect(() => {
+        Axios.get(`http://127.0.0.1:8000/getMaxIdValues_Names`)
+            .then(res => { 
+                setMaxIdValues_Names(res.data +1);
+            })
+    }, []);
 
 
     useEffect(() => {
@@ -52,6 +59,19 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
             }
         }
         optionsCombinations.length > 0 && getCombinaisons(indexOfNotEmpty_optionsObj_values, "");
+
+
+        // si idValues_Names == null lui attribu un id
+        if (optionsObj.findIndex(x => x.idValues_Names == null) > -1) {
+            let newId = maxIdValues_Names;
+                for (let i = 0; i < optionsObj.length; i++) {
+                    if (optionsObj[i].idValues_Names == null) {
+                        optionsObj[i].idValues_Names = newId;
+                        newId = newId + 1;
+                    }
+                }
+        }
+        console.log('optionsObj  ', optionsObj)
 
         // get les id des noms d'options pour les associer à leur values dans un objet
         let optionsIdValuesNames = optionsObj.map(x => x.idValues_Names);

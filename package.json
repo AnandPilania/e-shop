@@ -28,6 +28,7 @@
         "@tinymce/tinymce-react": "^3.13.0",
         "axios-progress-bar": "^1.2.0",
         "html-react-parser": "^1.4.10",
+        "moment": "^2.29.4",
         "npm-check-updates": "^16.3.3",
         "react-beautiful-dnd": "^13.1.0",
         "react-color": "^2.19.3",

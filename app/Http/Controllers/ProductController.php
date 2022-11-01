@@ -40,13 +40,19 @@ class ProductController extends Controller
         $product = Product::where('id', $request->productId)->with('collections', 'images_products', 'variantes', 'supplier', 'taxe')->first();
         $collections = Collection::all('name');
         return [$product, $collections];
+    }    
+    
+    public function getMaxIdValues_Names()
+    {
+        $maxIdValues_Names = Options_name::max('id');
+        return $maxIdValues_Names;
     }
 
     // public function store( StoreProductRequest $request )
 
     public function storeProduct(Request $request)
     {
-        // dd( $request );
+        // dd(json_decode($request->optionsObj));
         if ($request->isEdit == 'true') {
             $product = Product::find($request->productId);
         } else {
@@ -77,12 +83,8 @@ class ProductController extends Controller
         $cleanLink = new CleanLink;
         $product->link = $cleanLink->cleanLink($request->nameProduct);
         // Retourne un nouvel objet DateTime représentant la date et l'heure spécifiées par la string time, qui a été formaté dans le format donné.
-        if ($request->isEdit == 'true') {
-            $product->dateActivation = $request->dateActivation;
-        } else {
-            $date = DateTime::createFromFormat('d-m-Y H:i:s', $request->dateActivation);
-            $product->dateActivation = $date->format('Y-m-d H:i:s');
-        }
+        $date = DateTime::createFromFormat('d-m-Y H:i:s', $request->dateActivation);
+        $product->dateActivation = $date->format('Y-m-d H:i:s');
         $product->status = $request->productStatus;
         $product->type = 'no type';
         $product->taxe_id = intval(json_decode($request->tva)->id);
@@ -98,6 +100,40 @@ class ProductController extends Controller
             $product->collections()->attach($collection->id);
         }
 
+        $variantes = json_decode($request->variantes);
+
+        // create new oprion name and value if is new
+        $options_object = json_decode($request->optionsObj);
+        if (count($options_object) > 0) {
+            foreach ($options_object as $index => $opt) {
+                $option_name = Options_name::firstOrCreate([
+                    'name' => ucfirst($opt->name)
+                ]);
+
+
+                // $variantes[$index]->idValues_Names = $option_name->id;
+                // dd($variantes[$index]->options);
+                // dd($variantes[$index]->idValues_Names);
+
+
+                foreach ($opt->values as $ndx => $value) {
+                    $testIfExistOptionValue = Options_value::where('name', $value)->where('options_names_id', $option_name->id)->first();
+
+                    if (is_null($testIfExistOptionValue)) {
+                        $option_value = new Options_value;
+                        $option_value->name = $value;
+                        $option_value->ordre = $ndx;
+                        $option_value->options_names_id = $option_name->id;
+                        $option_value->save();
+
+                        // $keys = array_keys($arr);
+                        // $keys[array_search($oldkey, $keys)] = $newkey;
+                        // return array_combine($keys, $arr);
+                    }
+                }
+            }
+        }
+        dd($variantes);
         // delete variantes in variantes table AND
         // delete all relations in options_values_variante pivot table
         if ($request->isEdit == 'true') {
@@ -112,7 +148,6 @@ class ProductController extends Controller
         }
 
         // variantes table
-        $variantes = json_decode($request->variantes);
         if (count($variantes) == 0) {
             $emptyVariante = (object) [
                 'optionsString' => '',
@@ -222,7 +257,8 @@ class ProductController extends Controller
             }
             $variante->product_id = $product->id;
             $variante->save();
-            // dd($item->options);
+
+            dd($variante->options);
             // options_value_variante pivot table
             // get key '<-- is id of optionName & current 'value of option
             $idOptionName = key((array) json_decode($variante->options));

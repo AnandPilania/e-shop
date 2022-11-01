@@ -22,6 +22,7 @@ import Header from './header';
 import { getNow } from '../functions/dateTools';
 // import { usePromptProduct } from './usePromptProduct';
 import ModalConfirmation from '../modal/modalConfirmation';
+import moment from 'moment';
 
 
 const CreateProduct = () => {
@@ -120,7 +121,8 @@ const CreateProduct = () => {
                     setMetaUrlProduct(data.metaUrl == null ? '' : data.metaUrl);
                     setMetaTitleProduct(data.metaTitle == null ? '' : data.metaTitle);
                     setMetaDescriptionProduct(data.metaDescription == null ? '' : data.metaDescription);
-                    setDateFieldProduct(data.dateActivation);
+                    console.log('data.dateActivation  ', data.dateActivation)
+                    setDateFieldProduct(moment(new Date(data.dateActivation)).format("DD-MM-YYYY HH:mm:ss"));
                     setTva(data.taxe);
                     setSupplier(data.supplier == null ? '' : data.supplier);
                     setVariantes(data.variantes);
@@ -172,7 +174,7 @@ const CreateProduct = () => {
             initCreateProduct();
         }
     }, []);
-
+console.log('variantes  ', variantes)
 
     const initCreateProduct = () => {
         setNameProduct('');

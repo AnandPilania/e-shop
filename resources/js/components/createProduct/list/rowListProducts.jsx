@@ -46,7 +46,7 @@ const RowListProducts = ({ productsFiltered, collections, listProductsChecked, h
             if (tmpMin != tmpMax) {
                 setAvailablePrice(tmpMin + ' € - ' + tmpMax + ' €');
             } else {
-                setAvailablePrice(tmpMax);
+                setAvailablePrice(tmpMax + ' €');
             }
         } else if (Math.max(...tmp_price) > 0) {
             let tmpMin = Math.min(...tmp_price);
@@ -54,7 +54,7 @@ const RowListProducts = ({ productsFiltered, collections, listProductsChecked, h
             if (tmpMin != tmpMax) {
                 setAvailablePrice(tmpMin + ' € - ' + tmpMax + ' €');
             } else {
-                setAvailablePrice(tmpMax);
+                setAvailablePrice(tmpMax + ' €');
             }
         } else {
             setAvailablePrice('0 €');

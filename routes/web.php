@@ -43,15 +43,6 @@ use App\Http\Controllers\OptionsNameController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-
-Route::get('/', [FrontEndController::class, 'index']);
-Route::get('/panier', [CartController::class, 'index_panier']);
-Route::get('/vider-panier', [CartController::class, 'viderPanier']);
-
-//Back-end//
-Route::get('/dashboard', [BackEndController::class, 'dashboard']);
-
 //resources//
 Route::resource('/categories', CategoryController::class);
 Route::resource('/products', ProductController::class);
@@ -67,89 +58,71 @@ Route::resource('/reviews', ReviewController::class);
 Route::resource('/carts', CartController::class);
 Route::resource('/orders', OrderController::class);
 
+
+Route::get('/aliProductImport', [AliExpressController::class, 'aliProductImportView']);
+Route::post('/importProduct', [AliExpressController::class, 'importProduct']);
+
+//Back-end//
+Route::get('/dashboard', [BackEndController::class, 'dashboard']);
+
+Route::get('/panier', [CartController::class, 'index_panier']);
+Route::get('/vider-panier', [CartController::class, 'viderPanier']);
+// update le cart // put ne prend pas cette requête
+Route::post('/cartUpdate', [CartController::class, 'update']);
+
 // use in create.jsx Collections
 Route::get('/getCategories', [CategoryController::class, 'getCategories']);
 
-// store la collection
-Route::post('/save-collection', [CollectionController::class, 'storeAndAssign']);
+Route::get('/', [FrontEndController::class, 'index']);
+Route::get('/creatFrontIndex', [FrontEndController::class, 'create']);
 
-// cette route remplace Route::resource('/collections INDEX car j'ai besoin de l'URL collections pour le front end pour le SEO
-Route::get('/collections-list-back-end', [CollectionController::class, 'collectionsListBackEnd']);
+// CONFIGS ----------------------------------------------------------
+Route::controller(ConfigController::class)->group(function () {
+    Route::get('/getConfigs', 'getConfigs');
+    Route::get('/getConfig/{param}', 'getConfig');
+    Route::post('/updateConfig', 'updateConfig');
+    Route::get('/getUserLocalisation', 'getUserLocalisation');
+});
 
-// stocke temporairement dans temporary_storages une ou plusieurs images
-Route::post('/temporaryStoreImages', [TemporaryStorageController::class, 'temporaryStoreImages']);
-
-
-// // change order of images when drag and drop images products on create product form
-// Route::post('/reOrderImagesProducts', [TemporaryStorageController::class, 'reOrderImagesProducts']);
-
-// get temporary collection image
-Route::get('/getSingleTemporaryImage/{id}', [TemporaryStorageController::class, 'getSingleTemporaryImage']);
-
-// get temporary collection image
-Route::get('/getTemporaryImages/{key}', [TemporaryStorageController::class, 'getTemporaryImages']);
-
-// delete temporary element by id
-Route::get('/deleteOneElementById/{id}', [TemporaryStorageController::class, 'deleteOneElementById']);
-
-// delete temporary collection image
-Route::post('/deleteTemporayStoredElements', [TemporaryStorageController::class, 'deleteTemporayStoredElements']);
-
-// delete "count" ModalImageVariante images from Temporary_storage
-Route::post('/deleteModalImageVariantes', [TemporaryStorageController::class, 'deleteModalImageVariantes']);
-
-// handle tinyMCE temporary images and videos when collection or product are registred
-Route::post('/handleTinyMceTemporaryElements', [TemporaryStorageController::class, 'handleTinyMceTemporaryElements']);
-
-// remove records from db and files from folders when unused more
-Route::post('/cleanTemporayStorage', [TemporaryStorageController::class, 'cleanTemporayStorage']);
+Route::controller(CollectionController::class)->group(function () {
+    // utilisé dans selectCollections.jsx 
+    Route::get('/getCollections', 'getCollections');
+    // récupère une collection pour l'éditer
+    Route::get('/getCollectionById/{id}', 'getCollectionById');
+    Route::get('/getCollectionTmpImage', 'getCollectionTmpImage');
+    Route::post('/saveTemporaryImage', 'saveTemporaryImage');
+    // supprime une collection
+    Route::post('/deleteCollection', 'deleteCollection');
+    // change le status d'activation de la collection
+    Route::post('/handleStatus', 'handleStatus');
+    // ajoute des conditions à un group de colection depuis la liste des colletions
+    Route::post('/addCondtionsToGroup', 'addCondtionsToGroup');
+    // store la collection
+    Route::post('/save-collection', 'storeAndAssign');
+    // cette route remplace Route::resource('/collections INDEX car j'ai besoin de l'URL collections pour le front end pour le SEO
+    Route::get('/collections-list-back-end', 'collectionsListBackEnd');
+});
 
 Route::get('/listtype', [OptionsNameController::class, 'listtype']);
 
-// utilisé dans selectCollections.jsx 
-Route::get('/getCollections', [CollectionController::class, 'getCollections']);
+Route::get('/getOptionValues', [OptionsValueController::class, 'getOptionValues']);
 
-// récupère une collection pour l'éditer
-Route::get('/getCollectionById/{id}', [CollectionController::class, 'getCollectionById']);
-Route::get('/getCollectionTmpImage', [CollectionController::class, 'getCollectionTmpImage']);
-Route::post('/saveTemporaryImage', [CollectionController::class, 'saveTemporaryImage']);
+// renvoi les valeurs d'option d'un produit donné
+Route::get('/getOptionValues', [OptionsValueController::class, 'getOptionValues']);
 
-// supprime une collection
-Route::post('/deleteCollection', [CollectionController::class, 'deleteCollection']);
+// Stripe
+Route::post('/webhook/payment/succeeded', [OrderController::class, 'storeAfterStripePayment']);
+// Route::post('webhook/payment/succeeded', function (Request $request) {
 
-// change le status d'activation de la collection
-Route::post('/handleStatus', [CollectionController::class, 'handleStatus']);
+//     $orderController = new OrderController;
+//     $orderController->storeAfterStripePayment($request);
 
-// ajoute des conditions à un group de colection depuis la liste des colletions
-Route::post('/addCondtionsToGroup', [CollectionController::class, 'addCondtionsToGroup']);
+//     return 'ok';
 
-// suppliers list
-Route::get('/suppliers-list', [SupplierController::class, 'index']);
+// });
 
-// save supplier
-Route::post('/save-supplier', [SupplierController::class, 'store']);
-
-// shipping list
-Route::get('/shipping-list', [ShippingController::class, 'index']);
-
-// save shipping
-Route::post('/save-shipping', [ShippingController::class, 'saveShipping']);
-
-// edit shipping
-Route::post('/edit-shipping', [ShippingController::class, 'editShipping']);
-
-// delete shipping
-Route::post('/delete-shipping', [ShippingController::class, 'deleteShipping']);
-
-// save shipping mode
-Route::post('/save-Shipping_mode', [ShippingController::class, 'saveShipping_mode']);
-
-// update shipping mode
-Route::post('/update-Shipping_mode', [ShippingController::class, 'updateShipping_mode']);
-
-// delete shipping mode
-Route::post('/delete-Shipping_mode', [ShippingController::class, 'deleteShipping_mode']);
-
+// show payment view and give $cart_session data
+Route::get('/paiement', [PaymentController::class, 'index']);
 
 Route::controller(ProductController::class)->group(function () {
     Route::post('/getProduct', 'getProduct');
@@ -180,38 +153,74 @@ Route::controller(ProductController::class)->group(function () {
     Route::get('/deleteTmpProducts', 'deleteTmpProducts');
     // store product
     Route::post('/storeProduct', 'storeProduct');
+    // save ali express product in db
+    Route::post('/getAliExpressProduct', 'getAliExpressProduct');
+    Route::get('/getMaxIdValues_Names', 'getMaxIdValues_Names');
 });
-
-
-
-
-Route::get('/creatFrontIndex', [FrontEndController::class, 'create']);
-// Route::get('/jumbos', [JumbosController::class, 'index']);
-
-// store les reviews envoyées par les users
-Route::post('/storeReveiw', [ReviewController::class, 'storeReveiw']);
-
-Route::get('/getOptionValues', [OptionsValueController::class, 'getOptionValues']);
-
-// renvoi les valeurs d'option d'un produit donné
-Route::get('/getOptionValues', [OptionsValueController::class, 'getOptionValues']);
 
 // renvoi la fiche du produit
 Route::get('/collections/{collection}/{productLink}/{productId}', [ProductSheetController::class, 'productSheet']);
 
-// update le cart // put ne prend pas cette requête
-Route::post('/cartUpdate', [CartController::class, 'update']);
-
-// show payment view and give $cart_session data
-Route::get('/paiement', [PaymentController::class, 'index']);
-
 // check if email exist when checkout
 Route::post('/checkEmailExist', [RegisteredUserController::class, 'checkEmailExist']);
-// save ali express product in db
-Route::post('/getAliExpressProduct', [ProductController::class, 'getAliExpressProduct']);
+Route::post('/registerFromPayment', [RegisteredUserController::class, 'store']);
 
-Route::get('/aliProductImport', [AliExpressController::class, 'aliProductImportView']);
-Route::post('/importProduct', [AliExpressController::class, 'importProduct']);
+// store les reviews envoyées par les users
+Route::post('/storeReveiw', [ReviewController::class, 'storeReveiw']);
+
+Route::controller(ShippingController::class)->group(function () {
+    // shipping list
+    Route::get('/shipping-list', 'index');
+    // save shipping
+    Route::post('/save-shipping', 'saveShipping');
+    // edit shipping
+    Route::post('/edit-shipping', 'editShipping');
+    // delete shipping
+    Route::post('/delete-shipping', 'deleteShipping');
+    // save shipping mode
+    Route::post('/save-Shipping_mode', 'saveShipping_mode');
+    // update shipping mode
+    Route::post('/update-Shipping_mode', 'updateShipping_mode');
+    // delete shipping mode
+    Route::post('/delete-Shipping_mode', 'deleteShipping_mode');
+});
+
+Route::controller(SupplierController::class)->group(function () {
+    // suppliers list
+    Route::get('/suppliers-list', 'index');
+    // save supplier
+    Route::post('/save-supplier', 'store');
+});
+
+// TAXES ------------------------------------------------------------
+Route::controller(TaxeController::class)->group(function () {
+    Route::get('/getTaxes', 'getTaxes');
+    Route::post('/deleteTaxes', 'deleteTaxes');
+    Route::post('/addTaxes', 'addTaxes');
+    Route::post('/updateTaxes', 'updateTaxes');
+    Route::post('/updateTvaRate', 'updateTvaRate');
+});
+
+Route::controller(TemporaryStorageController::class)->group(function () {
+    // stocke temporairement dans temporary_storages une ou plusieurs images
+    Route::post('/temporaryStoreImages', 'temporaryStoreImages');
+    // // change order of images when drag and drop images products on create product form
+    // Route::post('/reOrderImagesProducts', 'reOrderImagesProducts');
+    // get temporary collection image
+    Route::get('/getSingleTemporaryImage/{id}', 'getSingleTemporaryImage');
+    // get temporary collection image
+    Route::get('/getTemporaryImages/{key}', 'getTemporaryImages');
+    // delete temporary element by id
+    Route::get('/deleteOneElementById/{id}', 'deleteOneElementById');
+    // delete temporary collection image
+    Route::post('/deleteTemporayStoredElements', 'deleteTemporayStoredElements');
+    // delete "count" ModalImageVariante images from Temporary_storage
+    Route::post('/deleteModalImageVariantes', 'deleteModalImageVariantes');
+    // handle tinyMCE temporary images and videos when collection or product are registred
+    Route::post('/handleTinyMceTemporaryElements', 'handleTinyMceTemporaryElements');
+    // remove records from db and files from folders when unused more
+    Route::post('/cleanTemporayStorage', 'cleanTemporayStorage');
+});
 
 
 Route::get('/logout', function () {
@@ -232,29 +241,12 @@ Route::get('/conditionsUtilisation', function () {
 })->name('cu');
 
 
-Route::post('/registerFromPayment', [RegisteredUserController::class, 'store']);
-
-// Stripe
-Route::post('/webhook/payment/succeeded', [OrderController::class, 'storeAfterStripePayment']);
-// Route::post('webhook/payment/succeeded', function (Request $request) {
-
-//     $orderController = new OrderController;
-//     $orderController->storeAfterStripePayment($request);
-
-//     return 'ok';
-
-// });
-
 //breeze----------------------------
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth'])->name('dashboard');
 
-
+// A SUPPRIMER
 Route::get('/accordion', function () {
     return View('test_menu_accordion.menu');
 });
@@ -266,20 +258,6 @@ Route::any('{path}', function ($page) {
     return view('back-end.backend');
 });
 
-
-// CONFIGS ----------------------------------------------------------
-Route::get('/getConfigs', [ConfigController::class, 'getConfigs']);
-Route::get('/getConfig/{param}', [ConfigController::class, 'getConfig']);
-Route::post('/updateConfig', [ConfigController::class, 'updateConfig']);
-Route::get('/getUserLocalisation', [ConfigController::class, 'getUserLocalisation']);
-
-
-// TAXES ------------------------------------------------------------
-Route::get('/getTaxes', [TaxeController::class, 'getTaxes']);
-Route::post('/deleteTaxes', [TaxeController::class, 'deleteTaxes']);
-Route::post('/addTaxes', [TaxeController::class, 'addTaxes']);
-Route::post('/updateTaxes', [TaxeController::class, 'updateTaxes']);
-Route::post('/updateTvaRate', [TaxeController::class, 'updateTvaRate']);
 
 
 require __DIR__ . '/auth.php';
