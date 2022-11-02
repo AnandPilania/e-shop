@@ -26,7 +26,7 @@ const Options = () => {
     }, []);
 
 
-    const confirmCancelWithoutSapveOptions = () => { 
+    const confirmCancelWithoutSapveOptions = () => {
         setShowModalCancelWithoutSaveOptions(false);
         setShowOptions(false);
         setOptionsObj([]);
@@ -50,7 +50,7 @@ const Options = () => {
 
 
     // si il y a une nouvelle option on l'ajoute sinon on retire l'option passée en params
-    const saveOption = (newOption) => { 
+    const saveOption = (newOption) => {
         let arr = [...optionsObj];
         let ndx = arr.findIndex(obj => obj.id == newOption.id);
         if (ndx > -1) {
@@ -124,13 +124,19 @@ const Options = () => {
     return (
         <Flex_col_s_s>
             <Label label="Variantes" />
-            <div className='w-full h-auto mb-5 mt-2.5'>
+            <div className='w-full h-auto mb-5 mt-2.5 flex justify-between items-center'>
                 <Toggle
                     id="options_add_variantes"
                     isChecked={showOptions}
                     change={handleShowOptions}
                     label="Ajouter des variantes"
                 />
+                <button className='flex justify-around items-center px-3 py-2 shrink-0 border border-gray-300 rounded-md text-base cursor-pointer'>
+                    <img
+                        src={window.location.origin + '/images/icons/gear.svg'}
+                        className="h-[22px] w-[22px] mr-2" />
+                        Céer une option
+                </button>
             </div>
 
 
