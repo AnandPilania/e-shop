@@ -21,7 +21,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
     const [tmp_selectOptionValues, setTmp_selectOptionValues] = useStateIfMounted('');
     const [showListType, setShowListType] = useStateIfMounted(false);
     const [showOptionValues, setShowOptionValues] = useStateIfMounted(false);
-    const [optionValueMessage, setOptionValueMessage] = useStateIfMounted(false);
+    const [optionValueAlreadyExist, setOptionValueAlreadyExist] = useStateIfMounted(false);
 
     const { listType, isEditProduct } = useContext(AppContext);
 
@@ -48,41 +48,11 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
     }
 
     
-    const removeErrorMessageOptionName = () => {
-        // input option name
-        let spanMessageName = document.getElementById(`name${optionObj.id}`);
-        spanMessageName.innerHTML = '';
-        let inputOptionError = document.getElementsByClassName(`name${optionObj.id}`)[0];
-        if (inputOptionError !== undefined) {
-            inputOptionError.className = `inputListType name${optionObj.id} w-full h-10 pl-[10px] m-0 mb-1 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ${listTypesNoEmpty && "hover:bg-caret-down"}  bg-right-center`;
-        }
-        // value duplicate
-        setOptionValueMessage(false);
-    }
-
-    const removeErrorMessageOptionValue = () => {
-        // input option Value
-        let spanMessageValue = document.getElementById(`value${optionObj.id}`);
-        spanMessageValue.innerHTML = '';
-        let inputOptionValueError = document.getElementsByClassName(`value${optionObj.id}`)[0];
-        if (inputOptionValueError !== undefined) {
-            inputOptionValueError.className = `inputOptionValues value${optionObj.id} w-full h-10 pl-[10px] m-0 mb-1 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat  ${listOptionValuesNotEmpty && "hover:bg-caret-down"} bg-right-center`;
-        }
-        // value duplicate
-        setOptionValueMessage(false);
-    }
-
     // handle option name change
     const handleChangeOption = (e) => {
-        if (e.target != undefined) {
-            setOptionObj({ ...optionObj, name: e.target.value, values: [], idValues_Names: null });
-            setShowListType(false);
-            removeErrorMessageOptionName();
-        }
         if (e != undefined && e.name?.length > 0) {
             setOptionObj({ ...optionObj, name: e.name, values: [], idValues_Names: e.id });
             setShowListType(false);
-            removeErrorMessageOptionName();
         }
     };
 
@@ -113,7 +83,6 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
 
     const handleShowOptionValuesList = () => {
         setShowOptionValues(!showOptionValues);
-        setOptionValueMessage(false);
     }
 
     // ferme le dropDown input listType quand on clique en dehors
@@ -134,16 +103,10 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
     }, [showListType]);
 
 
-    const handleChangeOptionValues = (e) => {
-        setTmp_optionValues(upperFirstLetter(e.target.value));
-        setShowOptionValues(false);
-        removeErrorMessageOptionValue();
-    };
-
     const handleEnterOptionsValue = () => {
         setShowOptionValues(false);
         if (optionObj.values.includes(upperFirstLetter(tmp_optionValues))) {
-            setOptionValueMessage(true);
+            setOptionValueAlreadyExist(true);
             return;
         } else {
             removeErrorMessageOptionValue();
@@ -178,10 +141,10 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
         setTmp_selectOptionValues(optionValue);
 
         setTmp_optionValues('');
-        setOptionValueMessage(false);
+        setOptionValueAlreadyExist(false);
         removeErrorMessageOptionValue();
 
-    };
+    }
 
     const input_optionValuesRef = useRef(null);
     // gère la fermeture du dropDown input OptionValues quand on clique en dehors
@@ -197,7 +160,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
             // si le nom de l'option tapée existe déjà affiche un message d'errreur
             if (tmp_optionValues.length > 0) {
                 if (optionObj.values.includes(upperFirstLetter(tmp_optionValues))) {
-                    setOptionValueMessage(true);
+                    setOptionValueAlreadyExist(true);
                     return;
 
                 } else {
@@ -331,12 +294,6 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
                                 />
                             </div>
 
-                            {/* affiche les erreurs */}
-                            <span
-                                id={`name${optionObj.id}`}
-                                className='text-red-700 text-sm mb-1'>
-                            </span>
-
                             {showListType &&
                                 <ul id="listType"
                                     className='absolute t-[40px] l-0 w-full max-h-[242px] border border-gray-300 bg-white overflow-x-hidden overflow-y-scroll z-10 shadow-lg scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100'
@@ -372,7 +329,6 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
                                     type="text"
                                     value={tmp_optionValues}
                                     ref={input_optionValuesRef}
-                                    onChange={handleChangeOptionValues}
                                     onClick={handleShowOptionValuesList}
                                     onKeyDown={(e) => {
                                         if (e.key === 'Enter' || e.key === 'NumpadEnter') {
@@ -390,7 +346,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
                                     className={`inputOptionValues value${optionObj.id} w-full h-10 pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ${listOptionValuesNotEmpty && "hover:bg-caret-down"}  bg-right-center`}
                                 />
                             </div>
-                            {optionValueMessage &&
+                            {optionValueAlreadyExist &&
                                 <span className='block text-red-700 text-sm pb-1'>Cette option existe déjà</span>
                             }
 

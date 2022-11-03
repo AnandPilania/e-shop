@@ -8,10 +8,12 @@ import ModalconfirmCancelWithoutSapveOptions from './modalconfirmCancelWithoutSa
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import Label from '../../form/label';
 import Flex_col_s_s from '../../elements/container/flex_col_s_s';
+import ModalCreateOption from './modalCreateOption';
 
 const Options = () => {
 
     const [showModalCancelWithoutSaveOptions, setShowModalCancelWithoutSaveOptions] = useState(false);
+    const [showModalCreateOption, setShowModalCreateOption] = useState(false);
 
     const { optionsObj, setOptionsObj, setListType, showOptions, setShowOptions } = useContext(AppContext);
 
@@ -34,6 +36,7 @@ const Options = () => {
 
     const closeModal = () => {
         setShowModalCancelWithoutSaveOptions(false);
+        setShowModalCreateOption(false);
     }
 
 
@@ -131,11 +134,13 @@ const Options = () => {
                     change={handleShowOptions}
                     label="Ajouter des variantes"
                 />
-                <button className='flex justify-around items-center px-3 py-2 shrink-0 border border-gray-300 rounded-md text-base cursor-pointer'>
+                <button
+                    className='flex justify-around items-center px-3 py-2 shrink-0 border border-gray-300 rounded-md text-base cursor-pointer'
+                    onClick={() => setShowModalCreateOption(true)}>
                     <img
                         src={window.location.origin + '/images/icons/gear.svg'}
                         className="h-[22px] w-[22px] mr-2" />
-                        Céer une option
+                    Céer une option
                 </button>
             </div>
 
@@ -200,7 +205,6 @@ const Options = () => {
             </div>
 
 
-            {/* modal for confirmation */}
             <ModalconfirmCancelWithoutSapveOptions
                 show={showModalCancelWithoutSaveOptions}
                 handleModalConfirm={confirmCancelWithoutSapveOptions}
@@ -208,6 +212,13 @@ const Options = () => {
                 textButtonConfirm="Confirmer">
                 <h2 className="childrenModal">Fermer sans sauvegarder les options</h2>
             </ModalconfirmCancelWithoutSapveOptions>
+
+            <ModalCreateOption
+                show={showModalCreateOption}
+                handleModalConfirm={confirmCancelWithoutSapveOptions}
+                handleModalCancel={closeModal}
+                setShowModalCreateOption={setShowModalCreateOption} />
+
 
         </Flex_col_s_s>
     );
