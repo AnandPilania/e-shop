@@ -43,7 +43,7 @@ const Tooltip = ({ children, css, id, widthTip }) => {
             <img
                 id={`${id}toolTipImg2922`}
                 src='../images/icons/info-circle.svg'
-                className="w-4 h-4 ml-2 cursor-help z-50" />
+                className="w-4 h-4 ml-2 cursor-help z-30" />
             <div className={`w-[200px] absolute top-[-30px] bottom-2 left-[-150px]`}>
             </div>
             <div

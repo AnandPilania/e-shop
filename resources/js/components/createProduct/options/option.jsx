@@ -21,7 +21,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
     const [tmp_selectOptionValues, setTmp_selectOptionValues] = useStateIfMounted('');
     const [showListType, setShowListType] = useStateIfMounted(false);
     const [showOptionValues, setShowOptionValues] = useStateIfMounted(false);
-    const [optionValueAlreadyExist, setOptionValueAlreadyExist] = useStateIfMounted(false);
+
 
     const { listType, isEditProduct } = useContext(AppContext);
 
@@ -47,7 +47,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
             });
     }
 
-    
+
     // handle option name change
     const handleChangeOption = (e) => {
         if (e != undefined && e.name?.length > 0) {
@@ -57,7 +57,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
     };
 
     // initialise quand on change d'option
-    useEffect(() => { 
+    useEffect(() => {
         setListOptionValues([]);
         if (isEditProduct) {
             getOptionValues();
@@ -72,7 +72,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
 
 
     // save optionObj
-    useEffect(() => { 
+    useEffect(() => {
         saveOption(optionObj);
     }, [optionObj]);
 
@@ -105,13 +105,6 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
 
     const handleEnterOptionsValue = () => {
         setShowOptionValues(false);
-        if (optionObj.values.includes(upperFirstLetter(tmp_optionValues))) {
-            setOptionValueAlreadyExist(true);
-            return;
-        } else {
-            removeErrorMessageOptionValue();
-        }
-
         // remove comma from tmp_optionValues if comma is pressed
         let val = '';
         let ndx = tmp_optionValues.indexOf(',');
@@ -120,7 +113,6 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
         } else {
             val = tmp_optionValues.trim();
         }
-
         tmp_optionValues.length > 0 &&
             setOptionObj({ ...optionObj, values: [...optionObj.values, val] });
         setTmp_optionValues('');
@@ -141,9 +133,6 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
         setTmp_selectOptionValues(optionValue);
 
         setTmp_optionValues('');
-        setOptionValueAlreadyExist(false);
-        removeErrorMessageOptionValue();
-
     }
 
     const input_optionValuesRef = useRef(null);
@@ -157,18 +146,11 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
     const handleClickOutside = (event) => {
         // check qu'on a bien click en dehors de l'input
         if (input_optionValuesRef.current && !input_optionValuesRef.current.contains(event.target)) {
-            // si le nom de l'option tapée existe déjà affiche un message d'errreur
             if (tmp_optionValues.length > 0) {
-                if (optionObj.values.includes(upperFirstLetter(tmp_optionValues))) {
-                    setOptionValueAlreadyExist(true);
-                    return;
-
-                } else {
-                    // sinon l'ajoute
-                    setOptionObj({ ...optionObj, values: [...optionObj.values, tmp_optionValues] });
-                    setTmp_optionValues('');
-                    setShowOptionValues(false);
-                }
+                // ajoute l'option sélectionnée
+                setOptionObj({ ...optionObj, values: [...optionObj.values, tmp_optionValues] });
+                setTmp_optionValues('');
+                setShowOptionValues(false);
             }
         }
     };
@@ -346,9 +328,6 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
                                     className={`inputOptionValues value${optionObj.id} w-full h-10 pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ${listOptionValuesNotEmpty && "hover:bg-caret-down"}  bg-right-center`}
                                 />
                             </div>
-                            {optionValueAlreadyExist &&
-                                <span className='block text-red-700 text-sm pb-1'>Cette option existe déjà</span>
-                            }
 
                             {/* affiche les erreurs */}
                             <span
@@ -380,7 +359,6 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
                                                 onKeyDown={(e) => {
                                                     if (e.key === 'Enter' || e.key === 'NumpadEnter') {
                                                         setShowOptionValues(false);
-                                                        removeErrorMessageOptionValue();
                                                     }
                                                 }}
                                                 className="w-[17px] h-[17px] mr-[10px] hover:cursor-pointer"

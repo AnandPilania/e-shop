@@ -7,6 +7,9 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
 
     const [inputOptionName, setInputOptionName] = useState('');
     const [inputOptionValue, setInputOptionValue] = useState('');
+    const [lisNewOptionValue, setListNewOptionValue] = useState([]);
+    const [optionValueAlreadyExist, setOptionValueAlreadyExist] = useState(false);
+    const [optionNameAlreadyExist, setOptionNameAlreadyExist] = useState(false);
 
     const { optionObj, setOptionObj, setListType, showOptions, setShowOptions } = useContext(AppContext);
 
@@ -29,7 +32,7 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
         spanMessageName.innerHTML = '';
         let inputOptionError = document.getElementsByClassName(`name${optionObj.id}`)[0];
         if (inputOptionError !== undefined) {
-            inputOptionError.className = `inputListType name${optionObj.id} w-full h-10 pl-[10px] m-0 mb-1 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ${listTypesNoEmpty && "hover:bg-caret-down"}  bg-right-center`;
+            inputOptionError.className = `inputOptionName041122 name${optionObj.id} w-full h-10 pl-[10px] m-0 mb-1 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ${listTypesNoEmpty && "hover:bg-caret-down"}  bg-right-center`;
         }
         // value duplicate
         setOptionValueMessage(false);
@@ -37,27 +40,27 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
 
     const removeErrorMessageOptionValue = () => {
         // input option Value
-        // let spanMessageValue = document.getElementById(`value${optionObj.id}`);
-        // spanMessageValue.innerHTML = '';
-        // let inputOptionValueError = document.getElementsByClassName(`value${optionObj.id}`)[0];
-        // if (inputOptionValueError !== undefined) {
-        //     inputOptionValueError.className = `inputOptionValues value${optionObj.id} w-full h-10 pl-[10px] m-0 mb-1 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat  ${listOptionValuesNotEmpty && "hover:bg-caret-down"} bg-right-center`;
-        // }
-        // // value duplicate
-        // setOptionValueMessage(false);
+        let spanMessageValue = document.getElementById(`value${optionObj.id}`);
+        spanMessageValue.innerHTML = '';
+        let inputOptionValueError = document.getElementsByClassName(`value${optionObj.id}`)[0];
+        if (inputOptionValueError !== undefined) {
+            inputOptionValueError.className = `inputOptionValue041122 value${optionObj.id} w-full h-10 pl-[10px] m-0 mb-1 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat  ${listOptionValuesNotEmpty && "hover:bg-caret-down"} bg-right-center`;
+        }
+        // value duplicate
+        setOptionValueMessage(false);
     }
 
     const removeInputOptionValue = (item) => {
-        let index = inputOptionValue.indexOf(item);
+        let index = lisNewOptionValue.indexOf(item);
         if (index > -1) {
-            let tmp_arr = [...inputOptionValue];
+            let tmp_arr = [...lisNewOptionValue];
             tmp_arr.splice(index, 1);
-            setInputOptionValue([...tmp_arr]);
+            setListNewOptionValue([...tmp_arr]);
         }
     }
 
     const handleEnterOptionsValue = () => {
-        if (optionObj.values.includes(upperFirstLetter(tmp_optionValues))) {
+        if (lisNewOptionValue.includes(upperFirstLetter(inputOptionValue))) {
             setOptionValueAlreadyExist(true);
             return;
         } else {
@@ -66,16 +69,16 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
 
         // remove comma from tmp_optionValues if comma is pressed
         let val = '';
-        let ndx = tmp_optionValues.indexOf(',');
-        if (ndx > -1 && ndx == tmp_optionValues.length - 1) {
-            val = tmp_optionValues.trim().slice(0, -1);
+        let ndx = inputOptionValue.indexOf(',');
+        if (ndx > -1 && ndx == inputOptionValue.length - 1) {
+            val = inputOptionValue.trim().slice(0, -1);
         } else {
-            val = tmp_optionValues.trim();
+            val = inputOptionValue.trim();
         }
 
-        tmp_optionValues.length > 0 &&
-            setOptionObj({ ...optionObj, values: [...optionObj.values, val] });
-        setTmp_optionValues('');
+        inputOptionValue.length > 0 &&
+        setListNewOptionValue([...lisNewOptionValue, val]);
+        setInputOptionValue('');
     }
 
     const saveNewOption = () => {
@@ -90,102 +93,98 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
                 <div
                     className="w-full flex flex-row justify-end items-center pr-2">
                     <img src='../images/icons/x-white.svg'
-                        className="w-8 h-8 bg-red-600 rounded-md cursor-pointer"
+                        className="w-8 h-8 bg-indigo-700 rounded-md cursor-pointer"
                         onClick={() => setShowModalCreateOption(false)} />
                 </div>
 
 
                 <div className="w-full flex flex-col justify-start items-start mt-8">
-
-                    <div className="w-full flex flex-row justify-start items-center mt-8">
+                    <div className="w-full flex flex-row flex-wrap justify-start items-center mt-8">
                         {/* option name */}
-                        <div className='w-full h-[40px] p-0 m-0'>
+                        <div className='w-full flex flex-col justify-start items-start shrink-0 p-0 m-0 mb-5'>
+                            <label className='text-gray-500 mb-1'>
+                            Nom de l'option
+                            </label>
                             <input
-                                id="inputListType"
+                                id="inputOptionName041122"
                                 type="text"
-                                value={optionObj?.name}
+                                value={inputOptionName}
                                 onChange={handleChangeOptionName}
-                                placeholder="Ex. Couleur, Taille,..."
+                                placeholder="Ex. Couleur, Taille, M²,..."
                                 autoComplete="off"
-                                className={`inputListType name${optionObj?.id} w-full h-10 pl-[10px] mr-6 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat  bg-right-center `}
+                                className={`inputOptionName041122 name${optionObj?.id} w-full h-10 pl-2.5 mr-6 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat  bg-right-center `}
                             />
                             {/* affiche les erreurs */}
-                            <span
-                                id={`name${optionObj?.id}`}
-                                className='text-red-700 text-sm mb-1'>
-                            </span>
+                            {optionNameAlreadyExist &&
+                                <span className='block text-red-700 text-sm pb-1'>Ce nom d'option existe déjà</span>
+                            }
                         </div>
 
                         {/* option value */}
-                        <div className='w-full h-[40px] p-0'>
-                            <input
-                                id="inputOptionValues"
-                                type="text"
-                                value={inputOptionValue}
-                                onChange={handleChangeOptionValues}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter' || e.key === 'NumpadEnter') {
-                                        handleEnterOptionsValue();
-                                    }
-                                }}
-                                onKeyUp={(e) => {
-                                    if (e.key == ',') {
-                                        handleEnterOptionsValue();
-                                    }
-                                }}
-                                placeholder="Ex. Bleu, Large,..."
-                                autoComplete="off"
-                                disabled={optionObj?.name?.length == 0}
-                                className={`inputOptionValues value${optionObj?.id} w-full h-10 pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat  bg-right-center`}
-                            />
-                            {/* affiche les erreurs */}
-                            <span
-                                id={`value${optionObj?.id}`}
-                                className='text-red-700 text-sm pb-3'>
-                            </span>
-
+                        <div className='w-full flex flex-col justify-start items-start p-0 m0'>
+                            <label className='w-full text-gray-500 mb-1'>Nom de la variante</label>
+                            <div className='w-full flex flex-row justify-start items-center shrink-0 h-10 p-0'>
+                                <input
+                                    id="inputOptionValue041122"
+                                    type="text"
+                                    value={inputOptionValue}
+                                    onChange={handleChangeOptionValues}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === 'NumpadEnter') {
+                                            handleEnterOptionsValue();
+                                        }
+                                    }}
+                                    onKeyUp={(e) => {
+                                        if (e.key == ',') {
+                                            handleEnterOptionsValue();
+                                        }
+                                    }}
+                                    placeholder="Ex. Bleu, XXL, 5,..."
+                                    autoComplete="off"
+                                    className={`inputOptionValue041122 value${optionObj?.id} w-full shrink h-10 pl-2.5 m-0 mr-2 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat  bg-right-center`}
+                                />
+                                <button
+                                    className="h-10 px-4 flex justify-center items-center border border-gray-300 rounded-md bg-white text-gray-700 hover:font-semibold cursor-pointer"
+                                    onClick={handleEnterOptionsValue}>
+                                    Valider
+                                </button>
+                            </div>
                         </div>
-
-                        <button className="w-32 h-12 flex justify-center items-center border border-gray-300 rounded-md bg-white text-gary-700 hover:font-semibold cursor-pointer"
-                        onClick={saveNewOption}>
-                        <img src='../images/icons/add_icon.svg'
-                        className="w-8 h-8 mr-2 rounded-md"
-                        onClick={() => setShowModalCreateOption(false)} />
-                        Ajouter
-                    </button>
-
-
+                        {/* affiche les erreurs */}
+                        {optionValueAlreadyExist &&
+                                <span className='block text-red-700 text-sm pb-1'>Cette variante existe déjà</span>
+                            }
                     </div>
                 </div>
 
                 {/* pastilles */}
-                <div className="col-span-3 flex flex-wrap pt-[5px] w-full">
-                    {!!inputOptionValue?.length > 0 && inputOptionValue?.map((item, indx) =>
+                <div className="col-span-3 flex flex-wrap pt-1.5 w-full">
+                    {!!lisNewOptionValue?.length > 0 && lisNewOptionValue?.map((item, indx) =>
                         <div
-                            className="flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-[8px] pr-[6px] py-[3px] mb-1 mr-2 cursor-move">
+                            className="flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-2 pr-1.5 py-[3px] mb-1 mr-2 cursor-move">
                             <span
                                 className="h-full text-gray-500 mr-2 rounded-md">
                                 {item}
                             </span>
                             <span
-                                className="h-[20px] w-[20px] flex justify-center items-center hover:cursor-pointer bg-gray-600  hover:bg-red-500 rounded-md"
+                                className="h-5 w-5 flex justify-center items-center hover:cursor-pointer bg-gray-600  hover:bg-red-500 rounded-md"
                                 onClick={() => removeInputOptionValue(item)}>
                                 <img src='../images/icons/x-white.svg'
-                                    className="w-[20px] h-[20px] hover:scale-125" />
+                                    className="w-5 h-5 hover:scale-125" />
                             </span>
                         </div>
                     )}
                 </div>
 
 
-                <div className="w-full flex flex-row justify-start items-center mt-8">
+                <div className="w-full flex flex-row justify-start items-center mt-12">
 
-                    <button className="w-32 h-12 flex justify-center items-center border border-gray-300 rounded-md bg-green-700 text-white hover:font-semibold"
+                    <button className="w-32 h-12 flex justify-center items-center border border-gray-300 rounded-md bg-indigo-600 text-white hover:font-semibold"
                         onClick={saveNewOption}>
                         Enregistrer
                     </button>
                     <button
-                        className="w-32 h-12 ml-5 flex justify-center items-center border border-gray-300 rounded-md bg-red-700 text-white hover:font-semibold"
+                        className="w-32 h-12 ml-5 flex justify-center items-center border border-indigo-600 rounded-md bg-white text-gray-600 hover:border-gray-600"
                         onClick={() => setShowModalCreateOption(false)}>
                         Annuler
                     </button>
