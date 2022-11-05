@@ -1,7 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import AppContext from '../../contexts/AppContext';
 import { upperFirstLetter } from '../../functions/upperFirstLetter';
-
+import Axios from 'axios';
 
 const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textButtonConfirm, setShowModalCreateOption }) => {
 
@@ -10,13 +10,28 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
     const [lisNewOptionValue, setListNewOptionValue] = useState([]);
     const [optionValueAlreadyExist, setOptionValueAlreadyExist] = useState(false);
     const [optionNameAlreadyExist, setOptionNameAlreadyExist] = useState(false);
+    const [newOption, setNewOption] = useState(true);
+    const [optionTabActive, setOptionTabActive] = useState(1);
+    const [optionsNamesValuesList, setOptionsNamesValuesList] = useState([]);
+    const [showThisIdOptionName, setShowThisIdOptionName] = useState([]);
 
     const { optionObj, setOptionObj, setListType, showOptions, setShowOptions } = useContext(AppContext);
+
+    useEffect(() => {
+        Axios.get(`http://127.0.0.1:8000/getOptionsNamesValuesList`)
+            .then(res => {
+                if (res) {
+                    setOptionsNamesValuesList(res.data);
+                    console.log('res.data  ', res.data);
+                }
+            })
+            .catch((error) => console.log('error: ', error));
+    }, []);
 
     // handle option name change
     const handleChangeOptionName = (e) => {
         if (e.target != undefined) {
-            setInputOptionName(e.target.value);
+            setInputOptionName(upperFirstLetter(e.target.value));
             removeErrorMessageOptionName();
         }
     };
@@ -28,26 +43,26 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
 
     const removeErrorMessageOptionName = () => {
         // input option name
-        let spanMessageName = document.getElementById(`name${optionObj.id}`);
+        let spanMessageName = document.getElementById(`inputOptionName041122`);
         spanMessageName.innerHTML = '';
-        let inputOptionError = document.getElementsByClassName(`name${optionObj.id}`)[0];
+        let inputOptionError = document.getElementsByClassName(`inputOptionName041122`)[0];
         if (inputOptionError !== undefined) {
-            inputOptionError.className = `inputOptionName041122 name${optionObj.id} w-full h-10 pl-[10px] m-0 mb-1 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat ${listTypesNoEmpty && "hover:bg-caret-down"}  bg-right-center`;
+            inputOptionError.className = `inputOptionName041122 w-full h-10 pl-[10px] m-0 border border-gray-300 rounded-md cursor-text bg-white`;
         }
         // value duplicate
-        setOptionValueMessage(false);
+        setOptionNameAlreadyExist(false);
     }
 
     const removeErrorMessageOptionValue = () => {
         // input option Value
-        let spanMessageValue = document.getElementById(`value${optionObj.id}`);
+        let spanMessageValue = document.getElementById(`inputOptionValue041122`);
         spanMessageValue.innerHTML = '';
-        let inputOptionValueError = document.getElementsByClassName(`value${optionObj.id}`)[0];
+        let inputOptionValueError = document.getElementsByClassName(`inputOptionValue041122`)[0];
         if (inputOptionValueError !== undefined) {
-            inputOptionValueError.className = `inputOptionValue041122 value${optionObj.id} w-full h-10 pl-[10px] m-0 mb-1 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat  ${listOptionValuesNotEmpty && "hover:bg-caret-down"} bg-right-center`;
+            inputOptionValueError.className = `inputOptionValue041122 w-full h-10 pl-[10px] m-0 mr-4 border border-gray-300 rounded-md cursor-text bg-white`;
         }
         // value duplicate
-        setOptionValueMessage(false);
+        setOptionValueAlreadyExist(false);
     }
 
     const removeInputOptionValue = (item) => {
@@ -77,120 +92,206 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
         }
 
         inputOptionValue.length > 0 &&
-        setListNewOptionValue([...lisNewOptionValue, val]);
+            setListNewOptionValue([...lisNewOptionValue, val]);
         setInputOptionValue('');
     }
 
     const saveNewOption = () => {
-        alert('ok')
+        let form_Data = new FormData;
+        form_Data.append('name', inputOptionName);
+        form_Data.append('values', JSON.stringify(lisNewOptionValue));
+
+        Axios.post(`http://127.0.0.1:8000/saveOptionVariante`, form_Data)
+            .catch((error) => console.log('error: ', error));
+    }
+
+    const handleOptionTabActive = (tabNum) => {
+        setOptionTabActive(tabNum);
+        setNewOption(tabNum == 1 ? true : false);
+    }
+
+    const handleShowListOptionValues = (idOptionName) => {
+        let tmp = [...showThisIdOptionName];
+        if (tmp.includes(idOptionName)) {
+            tmp = tmp.filter(x => x != idOptionName);
+        } else {
+            tmp.push(idOptionName);
+        }
+        setShowThisIdOptionName(tmp);
     }
 
     return (
         <div
-            className={` ${show ? "block" : "hidden"} fixed top-0 left-0 bg-bg-modal z-40 w-full h-full  flex flex-col justify-start items-center`}>
+            className={` ${show ? "block" : "hidden"} fixed top-0 left-0 bg-bg-modal z-40 w-full h-full flex flex-col justify-start items-center`}>
             <section
-                className="fixed w-auto max-h-[90vh] max-w-[650px] min-w-[350] px-8 pt-5 pb-8 top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] flex flex-col justify-start items-start rounded-md bg-white z-50">
+                className="fixed sm:w-full sm:h-hauto md:w-[572px] md:min-h-[425px] pb-8 top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] flex flex-col justify-start items-start rounded-md bg-white z-50">
                 <div
-                    className="w-full flex flex-row justify-end items-center pr-2">
-                    <img src='../images/icons/x-white.svg'
-                        className="w-8 h-8 bg-indigo-700 rounded-md cursor-pointer"
-                        onClick={() => setShowModalCreateOption(false)} />
+                    className="w-full flex flex-row justify-start items-start bg-gray-50 rounded-t-md">
+                    <button
+                        className={`w-1/2 h-16 px-4 flex justify-center items-center shrink-0 bg-white text-gray-600 cursor-pointer rounded-tl-md ${newOption ? "font-semibold border-r rounded-t-xl border-gray-300" : "border-b bg-gray-50"}`}
+                        onClick={() => handleOptionTabActive(1)}>
+                        Nouvelle option
+                    </button>
+                    <button
+                        className={`w-1/2 h-16 px-4 flex justify-center items-center shronk-0 bg-white text-gray-600 cursor-pointer rounded-tr-md ${!newOption ? "font-semibold border-l rounded-t-xl border-gray-300" : "border-b bg-gray-50"}`}
+                        onClick={() => handleOptionTabActive(2)}>
+                        Gérer les options
+                    </button>
                 </div>
 
-
-                <div className="w-full flex flex-col justify-start items-start mt-8">
-                    <div className="w-full flex flex-row flex-wrap justify-start items-center mt-8">
-                        {/* option name */}
-                        <div className='w-full flex flex-col justify-start items-start shrink-0 p-0 m-0 mb-5'>
-                            <label className='text-gray-500 mb-1'>
-                            Nom de l'option
-                            </label>
-                            <input
-                                id="inputOptionName041122"
-                                type="text"
-                                value={inputOptionName}
-                                onChange={handleChangeOptionName}
-                                placeholder="Ex. Couleur, Taille, M²,..."
-                                autoComplete="off"
-                                className={`inputOptionName041122 name${optionObj?.id} w-full h-10 pl-2.5 mr-6 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat  bg-right-center `}
-                            />
-                            {/* affiche les erreurs */}
-                            {optionNameAlreadyExist &&
-                                <span className='block text-red-700 text-sm pb-1'>Ce nom d'option existe déjà</span>
-                            }
-                        </div>
-
-                        {/* option value */}
-                        <div className='w-full flex flex-col justify-start items-start p-0 m0'>
-                            <label className='w-full text-gray-500 mb-1'>Nom de la variante</label>
-                            <div className='w-full flex flex-row justify-start items-center shrink-0 h-10 p-0'>
-                                <input
-                                    id="inputOptionValue041122"
-                                    type="text"
-                                    value={inputOptionValue}
-                                    onChange={handleChangeOptionValues}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter' || e.key === 'NumpadEnter') {
-                                            handleEnterOptionsValue();
+                {/* new option */}
+                {optionTabActive == 1 &&
+                    <div className='w-full'>
+                        <div className='w-full px-8 flex flex-col justify-start items-start'>
+                            <div className="w-full flex flex-col justify-start items-start">
+                                <div className="w-full flex flex-row flex-wrap justify-start items-center mt-8">
+                                    {/* option name */}
+                                    <div className='w-full flex flex-col justify-start items-start shrink-0 p-0 m-0 mb-5'>
+                                        <label className='text-gray-500 mb-1'>
+                                            Nom de l'option
+                                        </label>
+                                        <input
+                                            id="inputOptionName041122"
+                                            type="text"
+                                            value={inputOptionName}
+                                            onChange={handleChangeOptionName}
+                                            placeholder="Ex. Couleur, Taille, M²,..."
+                                            autoComplete="off"
+                                            className={`inputOptionName041122 w-full h-10 pl-2.5 border border-gray-300 rounded-md cursor-text bg-white`}
+                                        />
+                                        {/* affiche les erreurs */}
+                                        {optionNameAlreadyExist &&
+                                            <span className='block text-red-700 text-sm pb-1'>Ce nom d'option existe déjà</span>
                                         }
-                                    }}
-                                    onKeyUp={(e) => {
-                                        if (e.key == ',') {
-                                            handleEnterOptionsValue();
-                                        }
-                                    }}
-                                    placeholder="Ex. Bleu, XXL, 5,..."
-                                    autoComplete="off"
-                                    className={`inputOptionValue041122 value${optionObj?.id} w-full shrink h-10 pl-2.5 m-0 mr-2 border border-gray-300 rounded-md cursor-text bg-white bg-no-repeat  bg-right-center`}
-                                />
-                                <button
-                                    className="h-10 px-4 flex justify-center items-center border border-gray-300 rounded-md bg-white text-gray-700 hover:font-semibold cursor-pointer"
-                                    onClick={handleEnterOptionsValue}>
-                                    Valider
-                                </button>
+                                    </div>
+
+                                    {/* option value */}
+                                    <div className='w-full flex flex-col justify-start items-start p-0 m0'>
+                                        <label className='w-full text-gray-500 mb-1'>Nom de la variante</label>
+                                        <div className='w-full flex flex-row justify-start items-center shrink-0 h-10 p-0'>
+                                            <input
+                                                id="inputOptionValue041122"
+                                                type="text"
+                                                value={inputOptionValue}
+                                                onChange={handleChangeOptionValues}
+                                                onKeyDown={(e) => {
+                                                    if (e.key === 'Enter' || e.key === 'NumpadEnter') {
+                                                        handleEnterOptionsValue();
+                                                    }
+                                                }}
+                                                onKeyUp={(e) => {
+                                                    if (e.key == ',') {
+                                                        handleEnterOptionsValue();
+                                                    }
+                                                }}
+                                                placeholder="Ex. Bleu, XXL, 5,..."
+                                                autoComplete="off"
+                                                className={`inputOptionValue041122 w-full shrink h-10 pl-2.5 m-0 mr-4 border border-gray-300 rounded-md cursor-text bg-white`}
+                                            />
+                                            <button
+                                                className="h-10 px-4 flex justify-center items-center border border-gray-300 rounded-md bg-white text-gray-700 hover:border-gray-600 cursor-pointer"
+                                                onClick={handleEnterOptionsValue}>
+                                                Valider
+                                            </button>
+                                        </div>
+                                    </div>
+                                    {/* affiche les erreurs */}
+                                    {optionValueAlreadyExist &&
+                                        <span className='block text-red-700 text-sm pb-1'>Cette variante existe déjà</span>
+                                    }
+                                </div>
                             </div>
                         </div>
-                        {/* affiche les erreurs */}
-                        {optionValueAlreadyExist &&
-                                <span className='block text-red-700 text-sm pb-1'>Cette variante existe déjà</span>
-                            }
-                    </div>
-                </div>
 
-                {/* pastilles */}
-                <div className="col-span-3 flex flex-wrap pt-1.5 w-full">
-                    {!!lisNewOptionValue?.length > 0 && lisNewOptionValue?.map((item, indx) =>
-                        <div
-                            className="flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-2 pr-1.5 py-[3px] mb-1 mr-2 cursor-move">
-                            <span
-                                className="h-full text-gray-500 mr-2 rounded-md">
-                                {item}
-                            </span>
-                            <span
-                                className="h-5 w-5 flex justify-center items-center hover:cursor-pointer bg-gray-600  hover:bg-red-500 rounded-md"
-                                onClick={() => removeInputOptionValue(item)}>
-                                <img src='../images/icons/x-white.svg'
-                                    className="w-5 h-5 hover:scale-125" />
-                            </span>
+                        {/* pastilles */}
+                        <div className="col-span-3 flex flex-wrap pt-2.5 px-8 w-full">
+                            {!!lisNewOptionValue?.length > 0 && lisNewOptionValue?.map((item, index) =>
+                                <div
+                                    key={index}
+                                    className="flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-2 pr-1.5 py-[3px] mb-1 mr-2 cursor-move">
+                                    <span
+                                        className="h-full text-gray-500 mr-2 rounded-md">
+                                        {item}
+                                    </span>
+                                    <span
+                                        className="h-5 w-5 flex justify-center items-center hover:cursor-pointer bg-gray-600  hover:bg-red-500 rounded-md"
+                                        onClick={() => removeInputOptionValue(item)}>
+                                        <img src='../images/icons/x-white.svg'
+                                            className="w-5 h-5 hover:scale-125" />
+                                    </span>
+                                </div>
+                            )}
                         </div>
-                    )}
-                </div>
+                    </div>}
 
+                {/* handle options */}
+                {optionTabActive == 2 &&
+                    <div className='w-[calc(100%_-_16px)] mt-10 ml-2 max-h-[300px] overflow-y-auto'>
+                        {optionsNamesValuesList.length > 0 &&
+                            optionsNamesValuesList.map((optionName, ndx) =>
+                                <div
+                                    key={ndx}
+                                    className="w-full flex flex-col justify-start items-center"
+                                >
+                                    <div className='w-full flex flex-row justify-start items-center flex-nowrap border-b border-gray-300 hover:bg-gray-50'>
+                                        <span
+                                            className='w-4/5 h-12 pl- flex justify-start items-center font-semibold'>
+                                            {optionName.name}
+                                        </span>
+                                        {showThisIdOptionName.includes(optionName.id) ?
+                                            <img
+                                                src={window.location.origin + '/images/icons/eye-slash.svg'}
+                                                className="h-5 w-5 cursor-pointer"
+                                                onClick={() => handleShowListOptionValues(optionName.id)}
+                                            />
+                                            :
+                                            <img
+                                                src={window.location.origin + '/images/icons/eye.svg'}
+                                                className="h-5 w-5 cursor-pointer"
+                                                onClick={() => handleShowListOptionValues(optionName.id)}
+                                            />
+                                        }
+                                    </div>
 
-                <div className="w-full flex flex-row justify-start items-center mt-12">
+                                    {showThisIdOptionName.includes(optionName.id) &&
+                                        <div
+                                            className='w-full flex flex-col justify-start items-start'
+                                        >
+                                            {optionName.options_value.length > 0 &&
+                                                optionName.options_value.map((value, indx) =>
+                                                    <div
+                                                        key={indx}
+                                                        className='w-full h-10 flex flex-row justify-start items-center flex-nowrap border-b border-gray-100 hover:bg-gray-50 cursor-row-resize'>
+                                                        <span className='w-4/5 h-10 pl-5 flex justify-start items-center'>
+                                                            {value.name}
+                                                        </span>
+                                                        <img
+                                                            src={window.location.origin + '/images/icons/pencil.svg'}
+                                                            className="h-5 w-5 mr-4 cursor-pointer"
+                                                        />
+                                                        <img
+                                                            src={window.location.origin + '/images/icons/trash.svg'}
+                                                            className="h-5 w-5 cursor-pointer"
+                                                        />
+                                                    </div>)}
+                                        </div>
+                                    }
+                                </div>
+                            )}
+                    </div>}
 
-                    <button className="w-32 h-12 flex justify-center items-center border border-gray-300 rounded-md bg-indigo-600 text-white hover:font-semibold"
+                {/* save - cancel */}
+                <div className="w-full px-8 flex flex-row justify-start items-center mt-12">
+                    <button className="w-32 h-12 flex justify-center items-center border border-gray-300 rounded-md bg-indigo-600 text-white hover:bg-indigo-800"
                         onClick={saveNewOption}>
                         Enregistrer
                     </button>
                     <button
-                        className="w-32 h-12 ml-5 flex justify-center items-center border border-indigo-600 rounded-md bg-white text-gray-600 hover:border-gray-600"
+                        className="w-32 h-12 ml-5 flex justify-center items-center border border-gray-300 rounded-md bg-white text-gray-600 hover:border-gray-600"
                         onClick={() => setShowModalCreateOption(false)}>
                         Annuler
                     </button>
                 </div>
-
-
             </section>
         </div>
     );

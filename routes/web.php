@@ -28,10 +28,9 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\AliExpressController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ProductSheetController;
-use App\Http\Controllers\OptionsValueController;
 use App\Http\Controllers\TemporaryStorageController;
 use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\OptionsNameController;
+use App\Http\Controllers\OptionsVarianteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,7 +50,7 @@ Route::resource('/commandes', CommandeController::class);
 // Route::resource('/taxes', TaxeController::class);
 Route::resource('/customers', CustomerController::class);
 Route::resource('/collections', CollectionController::class);
-Route::resource('/type_detail_products', OptionsNameController::class);
+// Route::resource('/type_detail_products', OptionsNameController::class);
 Route::resource('/jumbos', JumbosController::class);
 Route::resource('/bannieres', BanniereController::class);
 Route::resource('/reviews', ReviewController::class);
@@ -103,12 +102,16 @@ Route::controller(CollectionController::class)->group(function () {
     Route::get('/collections-list-back-end', 'collectionsListBackEnd');
 });
 
-Route::get('/listtype', [OptionsNameController::class, 'listtype']);
+// ancien listtype !!!
+Route::get('/getOptionsNames', [OptionsVarianteController::class, 'getOptionsNames']);
 
-Route::get('/getOptionValues', [OptionsValueController::class, 'getOptionValues']);
+Route::get('/getOptionValues', [OptionsVarianteController::class, 'getOptionValues']);
 
-// renvoi les valeurs d'option d'un produit donné
-Route::get('/getOptionValues', [OptionsValueController::class, 'getOptionValues']);
+Route::get('/getOptionsNamesValuesList', [OptionsVarianteController::class, 'getOptionsNamesValuesList']);
+
+Route::post('/saveOptionVariante', [OptionsVarianteController::class, 'store']);
+
+
 
 // Stripe
 Route::post('/webhook/payment/succeeded', [OrderController::class, 'storeAfterStripePayment']);
