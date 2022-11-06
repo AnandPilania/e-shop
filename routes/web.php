@@ -111,6 +111,8 @@ Route::get('/getOptionsNamesValuesList', [OptionsVarianteController::class, 'get
 
 Route::post('/saveOptionVariante', [OptionsVarianteController::class, 'store']);
 
+Route::get('/deleteOptionVariante/{id}', [OptionsVarianteController::class, 'deleteOptionVariante']);
+
 
 
 // Stripe

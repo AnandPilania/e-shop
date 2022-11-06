@@ -14,9 +14,4 @@ class Variante extends Model
         return $this->belongsTo(Product::class);
     } 
 
-    public function options_values()
-    {
-        return $this->belongsToMany(Options_value::class);
-    }
-
 }

@@ -105,6 +105,16 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
             .catch((error) => console.log('error: ', error));
     }
 
+    const deleteOption = (idOptionName) => {
+        Axios.get(`http://127.0.0.1:8000/deleteOptionVariante/${idOptionName}`)
+        .catch((error) => console.log('error: ', error));
+    }    
+    
+    const modifyOption = (idOptionName) => {
+        Axios.get(`http://127.0.0.1:8000/deleteOptionVariante/${idOptionName}`)
+        .catch((error) => console.log('error: ', error));
+    }
+
     const handleOptionTabActive = (tabNum) => {
         setOptionTabActive(tabNum);
         setNewOption(tabNum == 1 ? true : false);
@@ -226,12 +236,12 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
 
                 {/* handle options */}
                 {optionTabActive == 2 &&
-                    <div className='w-[calc(100%_-_16px)] mt-10 ml-2 max-h-[300px] overflow-y-auto'>
+                    <div className='w-full mt-10 max-h-[300px] overflow-y-auto flex flex-col justify-start items-center'>
                         {optionsNamesValuesList.length > 0 &&
                             optionsNamesValuesList.map((optionName, ndx) =>
                                 <div
                                     key={ndx}
-                                    className="w-full flex flex-col justify-start items-center"
+                                    className="w-[88%] flex flex-col justify-start items-center"
                                 >
                                     <div className='w-full flex flex-row justify-start items-center flex-nowrap border-b border-gray-300 hover:bg-gray-50'>
                                         <span
@@ -251,11 +261,21 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
                                                 onClick={() => handleShowListOptionValues(optionName.id)}
                                             />
                                         }
+                                        <img
+                                            src={window.location.origin + '/images/icons/pencil.svg'}
+                                            className="h-5 w-5 mr-4 cursor-pointer"
+                                            onClick={() => modifyOption(optionName.id)}
+                                        />
+                                        <img
+                                            src={window.location.origin + '/images/icons/trash.svg'}
+                                            className="h-5 w-5 cursor-pointer"
+                                            onClick={() => deleteOption(optionName.id)}
+                                        />
                                     </div>
 
                                     {showThisIdOptionName.includes(optionName.id) &&
                                         <div
-                                            className='w-full flex flex-col justify-start items-start'
+                                            className='w-full flex flex-col justify-start items-start last:border-none'
                                         >
                                             {optionName.options_value.length > 0 &&
                                                 optionName.options_value.map((value, indx) =>
@@ -282,7 +302,7 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
 
                 {/* save - cancel */}
                 <div className="w-full px-8 flex flex-row justify-start items-center mt-12">
-                    <button className="w-32 h-12 flex justify-center items-center border border-gray-300 rounded-md bg-indigo-600 text-white hover:bg-indigo-800"
+                    <button className="w-32 h-12 flex justify-center items-center rounded-md bg-indigo-600 text-white hover:bg-indigo-800"
                         onClick={saveNewOption}>
                         Enregistrer
                     </button>

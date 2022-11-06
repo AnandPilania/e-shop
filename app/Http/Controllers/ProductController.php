@@ -40,8 +40,8 @@ class ProductController extends Controller
         $product = Product::where('id', $request->productId)->with('collections', 'images_products', 'variantes', 'supplier', 'taxe')->first();
         $collections = Collection::all('name');
         return [$product, $collections];
-    }    
-    
+    }
+
     public function getMaxIdValues_Names()
     {
         $maxIdValues_Names = Options_name::max('id');
@@ -52,7 +52,7 @@ class ProductController extends Controller
 
     public function storeProduct(Request $request)
     {
-        // dd(json_decode($request->optionsObj));
+        // dd($request);
         if ($request->isEdit == 'true') {
             $product = Product::find($request->productId);
         } else {
@@ -87,7 +87,7 @@ class ProductController extends Controller
         $product->dateActivation = $date->format('Y-m-d H:i:s');
         $product->status = $request->productStatus;
         $product->type = 'no type';
-        $product->taxe_id = intval(json_decode($request->tva)->id);
+        $product->taxe_id = 1; //intval(json_decode($request->tva)->id);
         $product->supplier_id = json_decode($request->supplier) != '' ? json_decode($request->supplier)->id : null;
         $product->save();
 
@@ -100,54 +100,19 @@ class ProductController extends Controller
             $product->collections()->attach($collection->id);
         }
 
-        $variantes = json_decode($request->variantes);
-
-        // create new oprion name and value if is new
-        $options_object = json_decode($request->optionsObj);
-        if (count($options_object) > 0) {
-            foreach ($options_object as $index => $opt) {
-                $option_name = Options_name::firstOrCreate([
-                    'name' => ucfirst($opt->name)
-                ]);
-
-
-                // $variantes[$index]->idValues_Names = $option_name->id;
-                // dd($variantes[$index]->options);
-                // dd($variantes[$index]->idValues_Names);
-
-
-                foreach ($opt->values as $ndx => $value) {
-                    $testIfExistOptionValue = Options_value::where('name', $value)->where('options_names_id', $option_name->id)->first();
-
-                    if (is_null($testIfExistOptionValue)) {
-                        $option_value = new Options_value;
-                        $option_value->name = $value;
-                        $option_value->ordre = $ndx;
-                        $option_value->options_names_id = $option_name->id;
-                        $option_value->save();
-
-                        // $keys = array_keys($arr);
-                        // $keys[array_search($oldkey, $keys)] = $newkey;
-                        // return array_combine($keys, $arr);
-                    }
-                }
-            }
-        }
-        dd($variantes);
-        // delete variantes in variantes table AND
-        // delete all relations in options_values_variante pivot table
+        // delete all variantes
         if ($request->isEdit == 'true') {
             $variantes = Variante::where('product_id', $request->productId)
                 ->get();
             if ($variantes->first()) {
                 foreach ($variantes as $variante) {
-                    $variante->options_values()->detach();
                     $variante->delete();
                 }
             }
         }
 
         // variantes table
+        $variantes = json_decode($request->variantes);
         if (count($variantes) == 0) {
             $emptyVariante = (object) [
                 'optionsString' => '',
@@ -166,7 +131,7 @@ class ProductController extends Controller
             ];
             array_push($variantes, $emptyVariante);
         }
-        // dd( $variantes );
+
         foreach ($variantes as $item) {
             $variante = new Variante;
 
@@ -244,11 +209,11 @@ class ProductController extends Controller
                 $variante->deleted = false;
             }
             // dd($item->options);
-            if (isset($item->options) && $item->options != null && !is_string($item->options)) {
-                $variante->options = json_encode($item->options);
-            } elseif (isset($item->options) && $item->options != null && is_string($item->options)) {
-                $variante->options = $item->options;
-            }
+            // if (isset($item->options) && $item->options != null && !is_string($item->options)) {
+            //     $variante->options = json_encode($item->options);
+            // } elseif (isset($item->options) && $item->options != null && is_string($item->options)) {
+            //     $variante->options = $item->options;
+            // }
 
             if (isset($item->selectedImage) && property_exists($item->selectedImage, 'path')) {
                 $variante->image_path = $item->selectedImage->path;
@@ -257,26 +222,8 @@ class ProductController extends Controller
             }
             $variante->product_id = $product->id;
             $variante->save();
-
-            dd($variante->options);
-            // options_value_variante pivot table
-            // get key '<-- is id of optionName & current 'value of option
-            $idOptionName = key((array) json_decode($variante->options));
-            $value = current((array) json_decode($variante->options));
-            // dd($idOptionName, $value);
-            $optionValue = false;
-            if ($idOptionName != null && $value != false) {
-                // Retrieve Options_value by name or creacte New if it doesn't exist...
-                $optionValue = Options_value::firstOrNew([
-                    'name' => $value,
-                    'options_names_id' => $idOptionName
-                ]);
-                $optionValue->ordre = !is_int($optionValue->ordre) &&  Options_value::max('ordre') + 1;
-                $optionValue->options_names_id = $idOptionName;
-                $optionValue->save();
-                $variante->options_values()->attach($optionValue->id);
-            }
         }
+
 
         // save images
         if ($request->isEdit == "true") {
@@ -512,14 +459,6 @@ class ProductController extends Controller
             }
             Images_product::where('product_id', $productId)->delete();
 
-            // supprimer toutes les options d'une variante appartenant à un produit donné
-            foreach ($product->variantes as $variante) {
-                $options_values =  $variante->options_values;
-                foreach ($options_values as $options_value) {
-                    $variante->options_values()->detach($options_value->id);
-                }
-            }
-
             $collections = $product->collections;
             foreach ($collections as $collection) {
                 $product->collections()->detach($collection->id);
@@ -552,14 +491,6 @@ class ProductController extends Controller
                     }
                 }
                 Images_product::where('product_id', $product->id)->delete();
-
-                // supprimer toutes les options d'une variante appartenant à un produit donné
-                foreach ($product->variantes as $variante) {
-                    $options_values =  $variante->options_values;
-                    foreach ($options_values as $options_value) {
-                        $variante->options_values()->detach($options_value->id);
-                    }
-                }
 
                 $collections = $product->collections;
                 foreach ($collections as $collection) {

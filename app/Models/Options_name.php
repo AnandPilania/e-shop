@@ -13,7 +13,7 @@ class Options_name extends Model
         'name',
     ];
 
-    public function options_value()
+    public function options_values()
     {
         return $this->hasMany(Options_value::class);
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Options_name;
 use App\Models\Options_value;
 use App\Models\Product;
+use App\Models\Variante;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -21,10 +22,11 @@ class OptionsVarianteController extends Controller
 
         return $types;
     }
-    
 
-    public function getOptionsNamesValuesList() {
-        $optionsList = Options_name::with('options_value')->get();
+
+    public function getOptionsNamesValuesList()
+    {
+        $optionsList = Options_name::with('options_values')->get();
 
         return $optionsList;
     }
@@ -68,9 +70,57 @@ class OptionsVarianteController extends Controller
     }
 
 
-    public function destroy($id)
+    public function deleteOptionVariante($id)
     {
-        //
+        $optionsValue = Options_value::where('options_name_id', $id)->first();
+        if ($optionsValue) Options_value::where('options_name_id', $id)->delete();
+        $optionName = Options_name::where('id', $id)->first();
+        if ($optionName) $optionName->delete();
+
+        $option_values_list = [];
+
+        // remove the deleted option from optionObj of all products
+        $products = Product::all();
+        if ($products->first()) {
+            foreach ($products as $product) {
+                $optionArr = json_decode($product->optionsObj);
+                if (is_array($optionArr)) {
+                    foreach ($optionArr as $key => $option) {
+                        if ($option->idValues_Names == $id) {
+                            foreach ($option->values as $value) {
+                                array_push($option_values_list, $value);
+                            }
+                            unset($optionArr[$key]);
+                        }
+                    }
+                }
+                $product->optionsObj = $optionArr;
+                $product->save();
+            }
+        }
+
+        $variantes = Variante::all();
+        if ($variantes->first()) {
+            foreach ($variantes as $variante) {
+                foreach ($option_values_list as $optionValue) {
+
+                    $optionValue = str_replace('"', '', $optionValue);
+                    
+                    $pos = strpos($variante->optionsString, $optionValue . ' - ');
+                    if ($pos === false) {
+                        $pos = strpos($variante->optionsString, ' - ' . $optionValue);
+                    }
+                    if ($pos !== false) {
+                        $variante->optionsString = substr_replace($variante->optionsString, '', $pos, 0);
+                        $variante->save();
+                    }
+                }
+            }
+        }
+    }
+
+    public function deleteOptionValue()
+    {
     }
 
 
@@ -79,8 +129,8 @@ class OptionsVarianteController extends Controller
     public function getOptionValues()
     {
         $optionsData = DB::table('options_values')
-            ->select('options_names.name as optionName', 'options_values.name as name', 'options_values.id as idOptionValue', 'ordre', 'options_names_id')
-            ->join('options_names', 'options_names.id', '=', 'options_names_id')
+            ->select('options_names.name as optionName', 'options_values.name as name', 'options_values.id as idOptionValue', 'ordre', 'options_name_id')
+            ->join('options_names', 'options_names.id', '=', 'options_name_id')
             ->groupBy('options_values.name')
             ->orderBy('options_names.name')
             ->get();
