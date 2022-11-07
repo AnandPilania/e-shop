@@ -94,7 +94,7 @@ class OptionsVarianteController extends Controller
                         }
                     }
                 }
-                $product->optionsObj = $optionArr;
+                $product->optionsObj = json_encode($optionArr);
                 $product->save();
             }
         }
@@ -103,15 +103,16 @@ class OptionsVarianteController extends Controller
         if ($variantes->first()) {
             foreach ($variantes as $variante) {
                 foreach ($option_values_list as $optionValue) {
-
-                    $optionValue = str_replace('"', '', $optionValue);
-                    
                     $pos = strpos($variante->optionsString, $optionValue . ' - ');
+
                     if ($pos === false) {
                         $pos = strpos($variante->optionsString, ' - ' . $optionValue);
                     }
                     if ($pos !== false) {
-                        $variante->optionsString = substr_replace($variante->optionsString, '', $pos, 0);
+                        $variante->optionsString = substr_replace($variante->optionsString, '', $pos);
+
+                        // dd($pos, $optionValue, $variante->optionsString, 'trueeee');
+                        
                         $variante->save();
                     }
                 }

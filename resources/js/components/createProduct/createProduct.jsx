@@ -211,17 +211,17 @@ console.log('variantes  ', variantes)
     const checkIfCreateProductIsDirty = () => {
         if (isEditProduct) {
             // check collections
-            let idsCollectionsPrev = hooksComparation.collections.map(x => x.id);
-            let idsCollectionsCurr = collections.map(x => x.id);
-            let isNotColectionsChanged = idsCollectionsPrev.every(id => idsCollectionsCurr.includes(id)) && idsCollectionsPrev.length === idsCollectionsCurr.length;
+            let idsCollectionsPrev = hooksComparation?.collections?.map(x => x.id);
+            let idsCollectionsCurr = collections?.map(x => x.id);
+            let isNotColectionsChanged = idsCollectionsPrev?.every(id => idsCollectionsCurr?.includes(id)) && idsCollectionsPrev?.length === idsCollectionsCurr?.length;
 
-            let idsTransportersPrev = hooksComparation.transporter.map(x => x.modeId);
-            let idsTransportersCurr = transporter.map(x => x.modeId);
-            let isNotTransportersChanged = idsTransportersPrev.every(id => idsTransportersCurr.includes(id)) && idsTransportersPrev.length === idsTransportersCurr.length;
+            let idsTransportersPrev = hooksComparation?.transporter?.map(x => x.modeId);
+            let idsTransportersCurr = transporter?.map(x => x.modeId);
+            let isNotTransportersChanged = idsTransportersPrev?.every(id => idsTransportersCurr?.includes(id)) && idsTransportersPrev?.length === idsTransportersCurr?.length;
 
-            let comparVariantesLibelle = hooksComparation.variantes.map(x => x.optionsString)
-            let variantesLibelle = variantes.map(x => x.optionsString)
-            let isNotVaraiantesChanged = variantesLibelle.every(x => comparVariantesLibelle.includes(x)) && comparVariantesLibelle.length === variantesLibelle.length;
+            let comparVariantesLibelle = hooksComparation?.variantes?.map(x => x.optionsString)
+            let variantesLibelle = variantes?.map(x => x.optionsString)
+            let isNotVaraiantesChanged = variantesLibelle?.every(x => comparVariantesLibelle?.includes(x)) && comparVariantesLibelle?.length === variantesLibelle?.length;
 
             if (
                 hooksComparation.nameProduct != nameProduct ||
@@ -277,7 +277,7 @@ console.log('variantes  ', variantes)
                 metaTitleProduct != '' ||
                 metaDescriptionProduct != '' ||
                 // // dateFieldProduct
-                tva.id != tvaComparation.id ||
+                tva?.id != tvaComparation?.id ||
                 supplier != '' ||
                 variantes.length > 0 ||
                 imageVariantes[0].length > 0 ||
