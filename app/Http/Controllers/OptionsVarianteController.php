@@ -70,8 +70,9 @@ class OptionsVarianteController extends Controller
     }
 
 
-    public function deleteOptionVariante($id)
+    public function deleteOptionNameAndHerOptionsValues($id)
     {
+        // delete optionName and optionsValues
         $optionsValue = Options_value::where('options_name_id', $id)->first();
         if ($optionsValue) Options_value::where('options_name_id', $id)->delete();
         $optionName = Options_name::where('id', $id)->first();
@@ -84,6 +85,9 @@ class OptionsVarianteController extends Controller
         if ($products->first()) {
             foreach ($products as $product) {
                 $optionArr = json_decode($product->optionsObj);
+                if (is_object($optionArr)) {
+                    $optionArr = (array) $optionArr;
+                }
                 if (is_array($optionArr)) {
                     foreach ($optionArr as $key => $option) {
                         if ($option->idValues_Names == $id) {
@@ -99,29 +103,43 @@ class OptionsVarianteController extends Controller
             }
         }
 
+        // sort by string.length 'DESC' for preg_replace work fine
+        usort($option_values_list, function ($a, $b) {
+            return strlen($a) < strlen($b);
+        });
+
+        // rewrite the optionsString for each variantes who has a options_value deleted
         $variantes = Variante::all();
         if ($variantes->first()) {
             foreach ($variantes as $variante) {
-                foreach ($option_values_list as $optionValue) {
-                    $pos = strpos($variante->optionsString, $optionValue . ' - ');
+                foreach ($option_values_list as $str) {
 
-                    if ($pos === false) {
-                        $pos = strpos($variante->optionsString, ' - ' . $optionValue);
-                    }
-                    if ($pos !== false) {
-                        $variante->optionsString = substr_replace($variante->optionsString, '', $pos);
+                    $search = '/(' . preg_quote($str) . '\s-\s)/';
+                    $variante->optionsString = preg_replace($search, '', $variante->optionsString);
 
-                        // dd($pos, $optionValue, $variante->optionsString, 'trueeee');
-                        
-                        $variante->save();
-                    }
+                    $search = '/(\s-\s' . preg_quote($str) . ')/';
+                    $variante->optionsString = preg_replace($search, '', $variante->optionsString);
+
+                    $variante->save();
                 }
             }
         }
+
+        $optionsList = Options_name::with('options_values')->get();
+        $types = DB::table('options_names')
+        ->select('name', 'id')
+        ->orderBy('name', 'asc')
+        ->get();
+
+        return [$optionsList, $types];
     }
 
-    public function deleteOptionValue()
+
+    public function deleteOneOptionValue($idOptionName, $idOptionValue)
     {
+        $optionsValue = Options_value::where('options_name_id', $idOptionName)->first();
+        dd($optionsValue);
+        if ($optionsValue) Options_value::where('options_name_id', $idOptionName)->delete();
     }
 
 

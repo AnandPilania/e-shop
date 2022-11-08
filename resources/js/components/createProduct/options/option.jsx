@@ -322,6 +322,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
                                             handleEnterOptionsValue();
                                         }
                                     }}
+                                    onChange={() => {}}
                                     placeholder="Ex. Bleu, Large,..."
                                     autoComplete="off"
                                     disabled={optionObj.name?.length == 0}

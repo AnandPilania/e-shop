@@ -331,32 +331,32 @@ console.log('variantes  ', variantes)
             return false;
         }
 
-        // options
-        for (let i = 0; i < optionsObj.length; i++) {
+        // options --> VOIR S IL FAUT VALIDER QUAND OPTION VARIANTE EST ACTIVE MAIS SANS OPTIONNAME ET/OU SANS OPTIONSVALUES !!!!!!!!!!!!!!!!!!!!
+        // for (let i = 0; i < optionsObj.length; i++) {
 
-            if (optionsObj[i].name == '') {
-                let spanMessage = document.getElementById(`name${optionsObj[i].id}`);
-                spanMessage.innerHTML = 'Le champ nom de l\'option ne peut pas être vide';
+        //     if (optionsObj[i].name == '') {
+        //         let spanMessage = document.getElementById(`name${optionsObj[i].id}`);
+        //         spanMessage.innerHTML = 'Le champ nom de l\'option ne peut pas être vide';
 
-                let inputOptionError = document.getElementsByClassName(`name${optionsObj[i].id}`)[0];
+        //         let inputOptionError = document.getElementsByClassName(`name${optionsObj[i].id}`)[0];
 
-                if (inputOptionError !== undefined) {
-                    inputOptionError.classList.remove('border-gray-300');
-                    inputOptionError.classList.add('border-red-500');
-                }
-            }
+        //         if (inputOptionError !== undefined) {
+        //             inputOptionError.classList.remove('border-gray-300');
+        //             inputOptionError.classList.add('border-red-500');
+        //         }
+        //     }
 
-            if (optionsObj[i].values.length == 0) {
-                let spanMessage = document.getElementById(`value${optionsObj[i].id}`);
-                spanMessage.innerHTML = 'Le champ valeur de l\'option ne peut pas être vide';
+        //     if (optionsObj[i].values.length == 0) {
+        //         let spanMessage = document.getElementById(`value${optionsObj[i].id}`);
+        //         spanMessage.innerHTML = 'Le champ valeur de l\'option ne peut pas être vide';
 
-                let inputOptionValueError = document.getElementsByClassName(`value${optionsObj[i].id}`)[0];
-                if (inputOptionValueError !== undefined) {
-                    inputOptionValueError.classList.remove('border-gray-300');
-                    inputOptionValueError.classList.add('border-red-500');
-                }
-            }
-        }
+        //         let inputOptionValueError = document.getElementsByClassName(`value${optionsObj[i].id}`)[0];
+        //         if (inputOptionValueError !== undefined) {
+        //             inputOptionValueError.classList.remove('border-gray-300');
+        //             inputOptionValueError.classList.add('border-red-500');
+        //         }
+        //     }
+        // }
         return true;
     }
 

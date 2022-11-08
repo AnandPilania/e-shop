@@ -13,7 +13,7 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
     const [newOption, setNewOption] = useState(true);
     const [optionTabActive, setOptionTabActive] = useState(1);
     const [optionsNamesValuesList, setOptionsNamesValuesList] = useState([]);
-    const [showThisIdOptionName, setShowThisIdOptionName] = useState([]);
+    const [listIdOptionName, setListIdOptionName] = useState([]);
 
     const { optionObj, setOptionObj, setListType, showOptions, setShowOptions } = useContext(AppContext);
 
@@ -105,13 +105,28 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
             .catch((error) => console.log('error: ', error));
     }
 
-    const deleteOption = (idOptionName) => {
-        Axios.get(`http://127.0.0.1:8000/deleteOptionVariante/${idOptionName}`)
+    const deleteOptionNameAndHerOptionsValues = (idOptionName) => {
+        Axios.get(`http://127.0.0.1:8000/deleteOptionNameAndHerOptionsValues/${idOptionName}`)
+        .then(res => {
+            setOptionsNamesValuesList(res.data[0]);
+            setListType(res.data[1]);
+            console.log('res.data');
+        })
         .catch((error) => console.log('error: ', error));
-    }    
+    }  
+    
+    const deleteOneOptionValue = (idOptionName, idOptionValue) => { 
+        Axios.get(`http://127.0.0.1:8000/deleteOneOptionValue/${idOptionName}`)
+        .then(res => {
+            setOptionsNamesValuesList(res.data[0]);
+            setListType(res.data[1]);
+            console.log('res.data');
+        })
+        .catch((error) => console.log('error: ', error));
+    }  
     
     const modifyOption = (idOptionName) => {
-        Axios.get(`http://127.0.0.1:8000/deleteOptionVariante/${idOptionName}`)
+        Axios.get(`http://127.0.0.1:8000/deleteOneOptionValue/${idOptionName}`)
         .catch((error) => console.log('error: ', error));
     }
 
@@ -120,16 +135,18 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
         setNewOption(tabNum == 1 ? true : false);
     }
 
-    const handleShowListOptionValues = (idOptionName) => {
-        let tmp = [...showThisIdOptionName];
+    const handleShowListOptionValues = (idOptionName) => { 
+        console.log('idOptionName  ', idOptionName)
+        let tmp = [...optionsNamesValuesList];
         if (tmp.includes(idOptionName)) {
-            tmp = tmp.filter(x => x != idOptionName);
+            tmp = tmp.filter(x => x.id != idOptionName);
         } else {
             tmp.push(idOptionName);
         }
-        setShowThisIdOptionName(tmp);
+        setListIdOptionName(tmp);
     }
 
+    console.log('optionsNamesValuesList  ', optionsNamesValuesList)
     return (
         <div
             className={` ${show ? "block" : "hidden"} fixed top-0 left-0 bg-bg-modal z-40 w-full h-full flex flex-col justify-start items-center`}>
@@ -248,7 +265,7 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
                                             className='w-4/5 h-12 pl- flex justify-start items-center font-semibold'>
                                             {optionName.name}
                                         </span>
-                                        {showThisIdOptionName.includes(optionName.id) ?
+                                        {listIdOptionName.includes(optionName.id) ?
                                             <img
                                                 src={window.location.origin + '/images/icons/eye-slash.svg'}
                                                 className="h-5 w-5 cursor-pointer"
@@ -269,15 +286,15 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
                                         <img
                                             src={window.location.origin + '/images/icons/trash.svg'}
                                             className="h-5 w-5 cursor-pointer"
-                                            onClick={() => deleteOption(optionName.id)}
+                                            onClick={() => deleteOptionNameAndHerOptionsValues(optionName.id)}
                                         />
                                     </div>
 
-                                    {showThisIdOptionName.includes(optionName.id) &&
+                                    {listIdOptionName.includes(optionName.id) &&
                                         <div
                                             className='w-full flex flex-col justify-start items-start last:border-none'
                                         >
-                                            {optionName.options_value.length > 0 &&
+                                            {optionName?.options_value?.length > 0 &&
                                                 optionName.options_value.map((value, indx) =>
                                                     <div
                                                         key={indx}
@@ -291,6 +308,7 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
                                                         />
                                                         <img
                                                             src={window.location.origin + '/images/icons/trash.svg'}
+                                                            onClick={() => deleteOneOptionValue(optionName.id, value.id)}
                                                             className="h-5 w-5 cursor-pointer"
                                                         />
                                                     </div>)}

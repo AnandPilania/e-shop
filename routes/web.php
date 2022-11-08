@@ -111,7 +111,9 @@ Route::get('/getOptionsNamesValuesList', [OptionsVarianteController::class, 'get
 
 Route::post('/saveOptionVariante', [OptionsVarianteController::class, 'store']);
 
-Route::get('/deleteOptionVariante/{id}', [OptionsVarianteController::class, 'deleteOptionVariante']);
+Route::get('/deleteOptionNameAndHerOptionsValues/{id}', [OptionsVarianteController::class, 'deleteOptionNameAndHerOptionsValues']);
+
+Route::get('/deleteOneOptionValue/{id}', [OptionsVarianteController::class, 'deleteOneOptionValue']);
 
 
 
