@@ -71,7 +71,6 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                     }
                 }
         }
-        console.log('optionsObj  ', optionsObj)
 
         // get les id des noms d'options pour les associer à leur values dans un objet
         let optionsIdValuesNames = optionsObj.map(x => x.idValues_Names);
@@ -80,22 +79,12 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         let tmp_changedVariantes = [...changedVariantes];
 
         for (let i = 0; i < libelles.length; i++) {
-            // split les values de optionsObj pour les récupérer séparements et les associer à leur option Name dans un objet "destiné au back-end !" 
-            let tmp = libelles[i].split(',')
-            let valuesSplited = tmp[0].split(' - ');
-            let variantesOptions = {};
-            for (let j = 0; j < optionsObj.length; j++) {
-                if (optionsObj[j].values.length > 0) {
-                    variantesOptions[optionsIdValuesNames[j]] = valuesSplited[j];
-                }
-            }
 
             // crée des variantes vides. le nombre de variantes crées est = à libelles.length
             if (libelles[i] != '') {
                 tmp_variantesAsString.push({
                     id: 'optionVarianteList' + i,
                     optionsString: libelles[i],
-                    options: variantesOptions,
                     price: productPrice,
                     reducedPrice: reducedProductPrice,
                     stock: '',

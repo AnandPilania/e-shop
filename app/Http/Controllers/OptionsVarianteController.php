@@ -23,6 +23,13 @@ class OptionsVarianteController extends Controller
         return $types;
     }
 
+    public function getOneOptionWithHerValues($id)
+    {
+        $option = Options_name::where('id', $id)->with('options_values')->first();
+
+        return $option;
+    }
+
 
     public function getOptionsNamesValuesList()
     {
@@ -34,14 +41,22 @@ class OptionsVarianteController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request);
-
         $this->validate($request, ['name' => 'required|string|max:255', 'values' => 'required|string']);
+        $id = $request->idOptionName;
 
-        $option_name = new Options_name;
+        if ($id === "null") {
+            // if new option
+            $option_name = new Options_name;
+        } else {
+            // if update option
+            $option_name = Options_name::find($id);
+            $optionsValue = Options_value::where('options_name_id', $id)->first();
+            if ($optionsValue) Options_value::where('options_name_id', $id)->delete();
+        }
+        // save optionName
         $option_name->name = $request->name;
         $option_name->save();
-
+        // save optionsValues
         $optionsValues = json_decode($request->values);
         if (count($optionsValues) > 0) {
             foreach ($optionsValues as $key => $value) {
@@ -53,21 +68,9 @@ class OptionsVarianteController extends Controller
             }
         }
 
-        return 'ok';
+        return $this->getOptionsNames();
     }
 
-
-    public function update(Request $request, $id)
-    {
-        $this->validate($request, ['name' => 'required']);
-
-        $Type_detail =  Options_name::find($id);
-        $Type_detail->name = strtolower($request->name);
-
-        $Type_detail->save();
-
-        return 'ok';
-    }
 
 
     public function deleteOptionNameAndHerOptionsValues($id)
@@ -132,14 +135,6 @@ class OptionsVarianteController extends Controller
         ->get();
 
         return [$optionsList, $types];
-    }
-
-
-    public function deleteOneOptionValue($idOptionName, $idOptionValue)
-    {
-        $optionsValue = Options_value::where('options_name_id', $idOptionName)->first();
-        dd($optionsValue);
-        if ($optionsValue) Options_value::where('options_name_id', $idOptionName)->delete();
     }
 
 

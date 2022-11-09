@@ -41,7 +41,6 @@ class VarianteFactory extends Factory
             'unlimitedStock' => rand(0,1),
             'sku' => '123456789', 
             'deleted' => 0,
-            'options' => "['color' => 'red', 'size' => 'm']", 
             'image_path' => "image path", 
             // 'product_id' => self::$prod_id++, <--- est géré dans le seeder !!
         ];

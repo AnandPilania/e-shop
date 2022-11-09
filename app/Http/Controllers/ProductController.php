@@ -100,7 +100,7 @@ class ProductController extends Controller
             $product->collections()->attach($collection->id);
         }
 
-        // delete all variantes
+        // delete all variantes if is edit
         if ($request->isEdit == 'true') {
             $variantes = Variante::where('product_id', $request->productId)
                 ->get();
@@ -208,12 +208,6 @@ class ProductController extends Controller
             } else {
                 $variante->deleted = false;
             }
-            // dd($item->options);
-            // if (isset($item->options) && $item->options != null && !is_string($item->options)) {
-            //     $variante->options = json_encode($item->options);
-            // } elseif (isset($item->options) && $item->options != null && is_string($item->options)) {
-            //     $variante->options = $item->options;
-            // }
 
             if (isset($item->selectedImage) && property_exists($item->selectedImage, 'path')) {
                 $variante->image_path = $item->selectedImage->path;
