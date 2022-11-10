@@ -73,11 +73,11 @@ class OptionsVarianteController extends Controller
 
 
 
-    public function deleteOptionNameAndHerOptionsValues($id)
+    public function deleteOptionNameAndHerOptionValues($id)
     {
-        // delete optionName and optionsValues
-        $optionsValue = Options_value::where('options_name_id', $id)->first();
-        if ($optionsValue) Options_value::where('options_name_id', $id)->delete();
+        // delete optionName and optionValues
+        $optionValues = Options_value::where('options_name_id', $id)->first();
+        if ($optionValues) Options_value::where('options_name_id', $id)->delete();
         $optionName = Options_name::where('id', $id)->first();
         if ($optionName) $optionName->delete();
 
@@ -87,10 +87,7 @@ class OptionsVarianteController extends Controller
         $products = Product::all();
         if ($products->first()) {
             foreach ($products as $product) {
-                $optionArr = json_decode($product->optionsObj);
-                if (is_object($optionArr)) {
-                    $optionArr = (array) $optionArr;
-                }
+                $optionArr = (array) json_decode($product->optionsObj);
                 if (is_array($optionArr)) {
                     foreach ($optionArr as $key => $option) {
                         if ($option->idValues_Names == $id) {
@@ -130,11 +127,25 @@ class OptionsVarianteController extends Controller
 
         $optionsList = Options_name::with('options_values')->get();
         $types = DB::table('options_names')
-        ->select('name', 'id')
-        ->orderBy('name', 'asc')
-        ->get();
+            ->select('name', 'id')
+            ->orderBy('name', 'asc')
+            ->get();
 
         return [$optionsList, $types];
+    }
+
+
+    public function deleteOneOptionValue(Request $request)
+    {
+        $request->whenFilled('idOptionName', function ($id) {
+            $optionName = Options_name::where('id', $id)->with('options_values')->first();
+            dd($optionName);
+        }, function () {
+           dd('is not filled');
+        });
+
+
+
     }
 
 

@@ -18,6 +18,7 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
     const [optionNameId, setOptionNameId] = useState(null);
     const [titleHandleOption, setTitleHandleOption] = useState('Gérer les options');
 
+
     const { optionObj, setOptionObj, setListType, showOptions, setShowOptions } = useContext(AppContext);
 
     useEffect(() => {
@@ -29,7 +30,6 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
             .then(res => {
                 if (res) {
                     setOptionsNamesValuesList(res.data);
-                    console.log('res.data  ', res.data);
                 }
             })
             .catch((error) => console.log('error: ', error));
@@ -64,6 +64,7 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
     const removeErrorMessageOptionValue = () => {
         // input option Value
         let spanMessageValue = document.getElementById(`inputOptionValue041122`);
+        if (spanMessageValue != null && spanMessageValue != undefined)
         spanMessageValue.innerHTML = '';
         let inputOptionValueError = document.getElementsByClassName(`inputOptionValue041122`)[0];
         if (inputOptionValueError !== undefined) {
@@ -73,15 +74,30 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
         setOptionValueAlreadyExist(false);
     }
 
-    const removeInputOptionValue = (item) => {
-        let index = lisNewOptionValue.indexOf(item);
-        if (index > -1) {
-            let tmp_arr = [...lisNewOptionValue];
-            tmp_arr.splice(index, 1);
-            setListNewOptionValue([...tmp_arr]);
+    const removeInputOptionValue = (item) => { //<-------------------- !!!!!!!
+console.log('item   ', item)
+console.log('optionNameId   ', optionNameId)
+        if (optionNameId != null) {
+            let form_Data = new FormData;
+            form_Data.append('nameOptionValue', item);
+            form_Data.append('idOptionName', optionNameId);
+
+            Axios.post(`http://127.0.0.1:8000/deleteOneOptionValue`, form_Data)
+            .then(res => {
+                // setOptionsNamesValuesList(res.data[0]);
+                // setListType(res.data[1]);
+            })
+            .catch((error) => console.log('error: ', error));
         }
-        // lisNewOptionValue.length > 1 pcq listNewOptionValue est toujours = à 1 au moment où on arrive ici, même si on a delete toutes les pastilles
-        setShowResetButton(lisNewOptionValue.length > 1 || inputOptionName.length > 0 ? true : false);
+
+        // let index = lisNewOptionValue.indexOf(item);
+        // if (index > -1) {
+        //     let tmp_arr = [...lisNewOptionValue];
+        //     tmp_arr.splice(index, 1);
+        //     setListNewOptionValue([...tmp_arr]);
+        // }
+        // // lisNewOptionValue.length > 1 pcq listNewOptionValue est toujours = à 1 au moment où on arrive ici, même si on a delete toutes les pastilles
+        // setShowResetButton(lisNewOptionValue.length > 1 || inputOptionName.length > 0 ? true : false);
     }
 
     const handleEnterOptionsValue = () => {
@@ -131,7 +147,6 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
     const updateOption = (idOptionName) => {
         Axios.get(`http://127.0.0.1:8000/getOneOptionWithHerValues/${idOptionName}`)
             .then(res => {
-                console.log('res.data  ', res.data)
                 setInputOptionName(res.data.name);
                 setListNewOptionValue(res.data.options_values.map(x => x.name));
                 setShowResetButton(true);
@@ -143,8 +158,8 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
     }
 
 
-    const deleteOptionNameAndHerOptionsValues = (idOptionName) => {
-        Axios.get(`http://127.0.0.1:8000/deleteOptionNameAndHerOptionsValues/${idOptionName}`)
+    const deleteOptionNameAndHerOptionValues = (idOptionName) => {
+        Axios.get(`http://127.0.0.1:8000/deleteOptionNameAndHerOptionValues/${idOptionName}`)
             .then(res => {
                 setOptionsNamesValuesList(res.data[0]);
                 setListType(res.data[1]);
@@ -155,14 +170,14 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
     const handleOptionTabActive = (tabNum) => {
         setOptionTabActive(tabNum);
         setNewOption(tabNum == 1 ? true : false);
-        // ferme la liste des values dans gerer les options
+        // ferme la liste des values dans gérer les options
         setListIdOptionName([]);
 
         if (tabNum == 1) {
             initModalCreateOption();
         }
         if (tabNum == 2) {
-            setTitleHandleOption('Gérer les options')
+            setTitleHandleOption('Gérer les options');
         }
     }
 
@@ -181,6 +196,7 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
     }
 
     const handleCancelShowModalCreateOption = () => {
+        setOptionTabActive(1);
         initModalCreateOption();
         setShowModalCreateOption(false);
     }
@@ -190,12 +206,12 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
         setInputOptionValue('');
         setListNewOptionValue([]);
         setNewOption(1);
+        setOptionNameId(null);
         setShowResetButton(false);
         removeErrorMessageOptionValue();
     }
 
 
-    console.log('optionsNamesValuesList  ', optionsNamesValuesList)
     return (
         <div
             className={` ${show ? "block" : "hidden"} fixed top-0 left-0 bg-bg-modal z-40 w-full h-full flex flex-col justify-start items-center`}>
@@ -323,7 +339,7 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
                                             :
                                             <img
                                                 src={window.location.origin + '/images/icons/eye.svg'}
-                                                className="h-5 w-5 mr-4  cursor-pointer"
+                                                className="h-5 w-5 mr-5  cursor-pointer"
                                                 onClick={() => handleShowListOptionValues(optionName.id)}
                                             />
                                         }
@@ -335,7 +351,7 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
                                         <img
                                             src={window.location.origin + '/images/icons/trash.svg'}
                                             className="h-5 w-5 cursor-pointer"
-                                            onClick={() => deleteOptionNameAndHerOptionsValues(optionName.id)}
+                                            onClick={() => deleteOptionNameAndHerOptionValues(optionName.id)}
                                         />
                                     </div>
 
@@ -347,7 +363,7 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
                                                 optionName.options_values.map((value, indx) =>
                                                     <div
                                                         key={indx}
-                                                        className='w-full h-10 flex flex-row justify-start items-center flex-nowrap border-b border-gray-100 hover:bg-gray-50 cursor-row-resize'>
+                                                        className='w-full h-10 flex flex-row justify-start items-center flex-nowrap border-b border-gray-100 hover:bg-gray-50 cursor-default'>
                                                         <span className='w-4/5 h-10 pl-5 flex justify-start items-center'>
                                                             {value.name}
                                                         </span>

@@ -94,12 +94,14 @@ const CreateProduct = () => {
 
 
         if (isEdit) {
+            initCreateProduct();
             let idProduct = new FormData;
             idProduct.append('productId', productId);
             Axios.post(`http://127.0.0.1:8000/getProduct`, idProduct)
-                .then(res => { 
+                .then(res => {
                     let data = res.data[0];
                     console.log('res.data[0]  ', res.data[0])
+                    // console.log('JSON.parse(data.optionsObj)  ', JSON.parse(data.optionsObj))
                     setNameProduct(data.name == null ? '' : data.name);
                     setIsInAutoCollection(data.isInAutoCollection == 1 ? true : false);
                     setRibbonProduct(data.ribbon == null ? '' : data.ribbon);
@@ -118,6 +120,7 @@ const CreateProduct = () => {
                     setProductCode(data.sku == null ? '' : data.sku);
                     setTransporter(JSON.parse(data.onlyTheseCarriers));
                     setOptionsObj(JSON.parse(data.optionsObj));
+                    console.log('data.optionsObj  ', JSON.parse(data.optionsObj))
                     setMetaUrlProduct(data.metaUrl == null ? '' : data.metaUrl);
                     setMetaTitleProduct(data.metaTitle == null ? '' : data.metaTitle);
                     setMetaDescriptionProduct(data.metaDescription == null ? '' : data.metaDescription);
@@ -174,7 +177,7 @@ const CreateProduct = () => {
             initCreateProduct();
         }
     }, []);
-console.log('variantes  ', variantes)
+    console.log('variantes  ', variantes)
 
     const initCreateProduct = () => {
         setNameProduct('');
@@ -200,6 +203,8 @@ console.log('variantes  ', variantes)
         setTva(tvaComparation);
         setSupplier('');
         setVariantes([]);
+        setOptionsObj([]);
+        setShowOptions(false);
         setImageVariantes([[]]);
         setIsShowPromoProduct(false);
         setIsDirtyCreateProduct(false);

@@ -359,7 +359,7 @@ const List = () => {
                     <div className='w-auto'>{/* edit & delete */}</div>
                 </li>
                 {/* RowListProducts */}
-                {listProductsFiltered.length > 0 && listProductsFiltered.map(item =>
+                {listProductsFiltered?.length > 0 && listProductsFiltered?.map(item =>
                     <RowListProducts
                         key={item.id}
                         productsFiltered={item}

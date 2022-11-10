@@ -106,6 +106,7 @@ class ProductController extends Controller
                 ->get();
             if ($variantes->first()) {
                 foreach ($variantes as $variante) {
+                    $variante->options_values()->detach();
                     $variante->delete();
                 }
             }
@@ -209,6 +210,13 @@ class ProductController extends Controller
                 $variante->deleted = false;
             }
 
+            // dd($item->options);
+            if (isset($item->options) && $item->options != null && !is_string($item->options)) {
+                $variante->options = json_encode($item->options);
+            } elseif (isset($item->options) && $item->options != null && is_string($item->options)) {
+                $variante->options = $item->options;
+            }
+
             if (isset($item->selectedImage) && property_exists($item->selectedImage, 'path')) {
                 $variante->image_path = $item->selectedImage->path;
             } else {
@@ -216,7 +224,23 @@ class ProductController extends Controller
             }
             $variante->product_id = $product->id;
             $variante->save();
+
+            // options_value_variante pivot table
+            if (isset($item->options)) {
+                $options = (array) $item->options;
+                if (count($options) > 0) {
+                    foreach ($options as $key => $optionValue) {
+                        // get Options_value by name and id of option_name
+                        $optionValue = Options_value::where([
+                            'name' => $optionValue,
+                            'options_name_id' => $key
+                        ])->first();
+                        $optionValue && $variante->options_values()->attach($optionValue->id);
+                    }
+                }
+            }
         }
+
 
 
         // save images

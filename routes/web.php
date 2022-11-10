@@ -102,19 +102,23 @@ Route::controller(CollectionController::class)->group(function () {
     Route::get('/collections-list-back-end', 'collectionsListBackEnd');
 });
 
-// ancien listtype !!!
-Route::get('/getOptionsNames', [OptionsVarianteController::class, 'getOptionsNames']);
 
-Route::get('/getOptionValues', [OptionsVarianteController::class, 'getOptionValues']);
+Route::controller(OptionsVarianteController::class)->group(function () {
+    // ancien listtype !!!
+    Route::get('/getOptionsNames', 'getOptionsNames');
 
-Route::get('/getOptionsNamesValuesList', [OptionsVarianteController::class, 'getOptionsNamesValuesList']);
+    Route::get('/getOptionValues', 'getOptionValues');
 
-Route::post('/saveOptionVariante', [OptionsVarianteController::class, 'store']);
+    Route::get('/getOptionsNamesValuesList', 'getOptionsNamesValuesList');
 
-Route::get('/deleteOptionNameAndHerOptionsValues/{id}', [OptionsVarianteController::class, 'deleteOptionNameAndHerOptionsValues']);
+    Route::post('/saveOptionVariante', 'store');
 
-Route::get('/getOneOptionWithHerValues/{id}', [OptionsVarianteController::class, 'getOneOptionWithHerValues']);
+    Route::post('/deleteOneOptionValue', 'deleteOneOptionValue');
 
+    Route::get('/deleteOptionNameAndHerOptionValues/{id}', 'deleteOptionNameAndHerOptionValues');
+
+    Route::get('/getOneOptionWithHerValues/{id}', 'getOneOptionWithHerValues');
+});
 
 
 

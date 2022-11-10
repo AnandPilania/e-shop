@@ -61,7 +61,7 @@ const WithHandleSelectionList = (Component) => (props) => {
 
     const handleChangeSelectionVariantesList = (value, idValues_Names) => {
         let tmpSelectedList = [...selectedVariantesList];
-        // si alloptionsNeeded est true alors on check s'il le type d'option qu'on veut ajouter n'est pas déjà présent dans selectedVariantesList. si oui on retire dabord l'ancien avant d'ajouter le nouveau 
+        // si alloptionsNeeded est true alors on check si le type d'option qu'on veut ajouter n'est pas déjà présent dans selectedVariantesList. si oui on retire dabord l'ancien avant d'ajouter le nouveau 
         if (allOptionsVariantesNeeded === 1) {
             tmpSelectedList.forEach(x => {
                 let index = tmpSelectedList.findIndex(x => x.name == idValues_Names && x.value != value);
@@ -90,7 +90,7 @@ const WithHandleSelectionList = (Component) => (props) => {
             }
             selectAllOrOneNeededOptions(tmpSelectedList);
         }
-    };
+    }
 
 
     return (

@@ -20,13 +20,26 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
     const [maxIdValues_Names, setMaxIdValues_Names] = useState('');
 
 
-    const { optionsObj, productPrice, reducedProductPrice, productStock, productCost, productParcelWeight, productParcelWeightMeasureUnit, productCode, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, isHideDeletedVariantes, variante, setVariante, setImageVariantes, changedVariantes, setChangedVariantes, screenSize, setShowOptions, isEditProduct } = useContext(AppContext);
+    const { optionsObj, productPrice, reducedProductPrice, productStock, productCost, productParcelWeight, productParcelWeightMeasureUnit, productCode, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, isHideDeletedVariantes, variante, setVariante, setImageVariantes, changedVariantes, setChangedVariantes, screenSize, setShowOptions, isEditProduct, setIsEditProduct } = useContext(AppContext);
 
     useEffect(() => {
-        Axios.get(`http://127.0.0.1:8000/getMaxIdValues_Names`)
-            .then(res => { 
-                setMaxIdValues_Names(res.data +1);
-            })
+        let abortController;
+        (async () => {
+            abortController = new AbortController();
+            let signal = abortController.signal;
+            try {
+                // the signal is passed into the request(s) we want to abort using this controller
+                const { data } = await Axios.get(
+                    'http://127.0.0.1:8000/getMaxIdValues_Names',
+                    { signal: signal }
+                );
+                setMaxIdValues_Names(data + 1);
+            } catch (e) {
+                console.error(e);
+            }
+        })();
+
+        return () => abortController.abort();
     }, []);
 
 
@@ -36,90 +49,103 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
 
     useEffect(() => {
-        let libelles = [];
+        if (!isEditProduct) {
+            let libelles = [];
+            console.log('variantes----List   ', variantes)
+            // renvoi un tableau contenant les tableaux des VALEURS des différentes options. Sert à récupérer toutes les combinaisons possible entre les différentes options 
+            let optionsCombinations = optionsObj.map(x => x.values);
 
-        // renvoi un tableau contenant les tableaux des VALEURS des différentes options. Sert à récupérer toutes les combinaisons possible entre les différentes options 
-        let optionsCombinations = optionsObj.map(x => x.values);
-
-        // crée un tableau avec les index des optionsObj dont les VALUES ne sont pas vides pour que getCombinaisons parcoure uniquement les values non vides dans optionsCombinations
-        let indexOfNotEmpty_optionsObj_values = [];
-        for (let i = 0; i < optionsObj.length; i++) {
-            if (optionsObj[i].values.length > 0) {
-                indexOfNotEmpty_optionsObj_values.push(i);
+            // crée un tableau avec les index des optionsObj dont les VALUES ne sont pas vides pour que getCombinaisons parcoure uniquement les values non vides dans optionsCombinations
+            let indexOfNotEmpty_optionsObj_values = [];
+            for (let i = 0; i < optionsObj.length; i++) {
+                if (optionsObj[i].values.length > 0) {
+                    indexOfNotEmpty_optionsObj_values.push(i);
+                }
             }
-        }
-        function getCombinaisons(ndxTab, comb) {
-            if (!ndxTab.length) {
-                libelles.push(comb);
-                return;
+            function getCombinaisons(ndxTab, comb) {
+                if (!ndxTab.length) {
+                    libelles.push(comb);
+                    return;
+                }
+                for (var i = 0; i < optionsCombinations[ndxTab[0]]?.length; i++) {
+                    let separator = comb.length > 0 ? " - " : "";
+                    getCombinaisons(ndxTab.slice(1), comb + separator + optionsCombinations[ndxTab[0]][i]);
+                }
             }
-            for (var i = 0; i < optionsCombinations[ndxTab[0]]?.length; i++) {
-                let separator = comb.length > 0 ? " - " : "";
-                getCombinaisons(ndxTab.slice(1), comb + separator + optionsCombinations[ndxTab[0]][i]);
-            }
-        }
-        optionsCombinations.length > 0 && getCombinaisons(indexOfNotEmpty_optionsObj_values, "");
+            optionsCombinations.length > 0 && getCombinaisons(indexOfNotEmpty_optionsObj_values, "");
 
 
-        // si idValues_Names == null lui attribu un id
-        if (optionsObj.findIndex(x => x.idValues_Names == null) > -1) {
-            let newId = maxIdValues_Names;
+            // si idValues_Names == null lui attribu un id
+            if (optionsObj.findIndex(x => x.idValues_Names == null) > -1) {
+                let newId = maxIdValues_Names;
                 for (let i = 0; i < optionsObj.length; i++) {
                     if (optionsObj[i].idValues_Names == null) {
                         optionsObj[i].idValues_Names = newId;
                         newId = newId + 1;
                     }
                 }
-        }
-
-        // get les id des noms d'options pour les associer à leur values dans un objet
-        let optionsIdValuesNames = optionsObj.map(x => x.idValues_Names);
-        let tmp_variantesAsString = [];
-        // quand on modifie les params d'une variantes on la copie ici pour conserver ses modifications
-        let tmp_changedVariantes = [...changedVariantes];
-
-        for (let i = 0; i < libelles.length; i++) {
-
-            // crée des variantes vides. le nombre de variantes crées est = à libelles.length
-            if (libelles[i] != '') {
-                tmp_variantesAsString.push({
-                    id: 'optionVarianteList' + i,
-                    optionsString: libelles[i],
-                    price: productPrice,
-                    reducedPrice: reducedProductPrice,
-                    stock: '',
-                    productCode: productCode == '' ? uuidv4() : productCode,
-                    cost: productCost,
-                    parcelWeight: productParcelWeight,
-                    parcelWeightMeasureUnit: productParcelWeightMeasureUnit,
-                    unlimited: false,
-                    placeholderStock: '0',
-                    deleted: false,
-                    selectedImage: {},
-                })
             }
-        }
 
-        // remplace les variantes de tmp_variantesAsString par celles qui ont été modifiées et qui leur correspondent
-        if (tmp_variantesAsString.length > 0 && tmp_changedVariantes.length > 0) {
-            for (let i = 0; i < tmp_variantesAsString.length; i++) {
-                for (let j = 0; j < tmp_changedVariantes.length; j++) {
-                    let newOptions = Object.values(tmp_variantesAsString[i].options);
-                    let changedOptions = Object.values(tmp_changedVariantes[j].options);
+            // get les id des noms d'options pour les associer à leur values dans un objet
+            let optionsIdValuesNames = optionsObj.map(x => x.idValues_Names);
+            let tmp_variantesAsString = [];
+            // quand on modifie les params d'une variantes on la copie ici pour conserver ses modifications
+            let tmp_changedVariantes = [...changedVariantes];
 
-                    if (changedOptions.every(x => newOptions.includes(x))) {
-                        let tmp_id = tmp_variantesAsString[i].id;
-                        let tmp_optionsString = tmp_variantesAsString[i].optionsString;
-                        tmp_variantesAsString[i] = tmp_changedVariantes[j];
-                        tmp_variantesAsString[i].id = tmp_id;
-                        tmp_variantesAsString[i].optionsString = tmp_optionsString;
-                        tmp_changedVariantes.splice(j, 1);
+            for (let i = 0; i < libelles.length; i++) {
+                // split les values de optionsObj pour les récupérer séparements et les associer à leur option Name dans un objet "destiné au back-end !" 
+                let tmp = libelles[i].split(',')
+                let valuesSplited = tmp[0].split(' - ');
+                let variantesOptions = {};
+                for (let j = 0; j < optionsObj.length; j++) {
+                    if (optionsObj[j].values.length > 0) {
+                        variantesOptions[optionsIdValuesNames[j]] = valuesSplited[j];
+                    }
+                }
+
+
+                // crée des variantes vides. le nombre de variantes crées est = à libelles.length
+                if (libelles[i] != '') {
+                    tmp_variantesAsString.push({
+                        id: 'optionVarianteList' + i,
+                        optionsString: libelles[i],
+                        options: variantesOptions,
+                        price: productPrice,
+                        reducedPrice: reducedProductPrice,
+                        stock: '',
+                        productCode: productCode == '' ? uuidv4() : productCode,
+                        cost: productCost,
+                        parcelWeight: productParcelWeight,
+                        parcelWeightMeasureUnit: productParcelWeightMeasureUnit,
+                        unlimited: false,
+                        placeholderStock: '0',
+                        deleted: false,
+                        selectedImage: {},
+                    })
+                }
+            }
+
+            // remplace les variantes de tmp_variantesAsString par celles qui ont été modifiées et qui leur correspondent
+            if (tmp_variantesAsString.length > 0 && tmp_changedVariantes.length > 0) {
+                for (let i = 0; i < tmp_variantesAsString.length; i++) {
+                    for (let j = 0; j < tmp_changedVariantes.length; j++) {
+                        let newOptions = Object.values(tmp_variantesAsString[i].options);
+                        let changedOptions = Object.values(tmp_changedVariantes[j].options);
+
+                        if (changedOptions.every(x => newOptions.includes(x))) {
+                            let tmp_id = tmp_variantesAsString[i].id;
+                            let tmp_optionsString = tmp_variantesAsString[i].optionsString;
+                            tmp_variantesAsString[i] = tmp_changedVariantes[j];
+                            tmp_variantesAsString[i].id = tmp_id;
+                            tmp_variantesAsString[i].optionsString = tmp_optionsString;
+                            tmp_changedVariantes.splice(j, 1);
+                        }
                     }
                 }
             }
+            setVariantes(tmp_variantesAsString);
         }
-        setVariantes(tmp_variantesAsString);
-
+        setIsEditProduct(false);     
         // ferme "ajouter des options quand on supprime toutes les options"
         // optionsObj.name != '' && setShowOptions(false);
     }, [optionsObj]);
@@ -289,12 +315,16 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
 
     const toggleDeleteUndeleteVariante = (id) => {
+        console.log('id    ', id)
+        console.log('variantes -->    ', variantes)
         let tmp_variantes = [...variantes];
         let ndx = tmp_variantes.findIndex(x => x.id == id);
+        console.log('tmp_variantes    ', tmp_variantes)
+        console.log('ndx    ', ndx)
         if (ndx > -1) {
-            if (tmp_variantes[ndx].deleted === false) {
+            if (tmp_variantes[ndx].deleted == false) {
                 tmp_variantes[ndx].deleted = true;
-            } else if (tmp_variantes[ndx].deleted === true) {
+            } else if (tmp_variantes[ndx].deleted == true) {
                 tmp_variantes[ndx].deleted = false;
             }
         }
@@ -405,9 +435,8 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                             </svg>
                         </span>
                     </div>
-                </div>}
-
-
+                </div>
+            }
 
             {/* isHideDeletedVariantes cache les variantes deleted -> toggle */}
             {
