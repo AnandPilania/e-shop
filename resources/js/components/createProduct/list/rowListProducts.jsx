@@ -153,9 +153,7 @@ const RowListProducts = ({ productsFiltered, collections, listProductsChecked, h
         width: "50px",
         height: "50px",
         backgroundImage:
-            "url(" +
-            window.location.origin +
-            "/" +
+            "url(/storage/" +
             mainImgPath?.path +
             ")",
         backgroundSize: "cover",

@@ -21,6 +21,7 @@ use Intervention\Image\Facades\Image;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Controllers\Functions\CleanLink;
 use App\Http\Controllers\Functions\StringTools;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -246,7 +247,6 @@ class ProductController extends Controller
         // save images
         if ($request->isEdit == "true") {
             if (count(json_decode($request->imageVariantes)) > 0) {
-
                 $images_products = Images_product::where('status', 'tmp')
                     ->orWhere('product_id', $request->productId)
                     ->get();
@@ -296,70 +296,57 @@ class ProductController extends Controller
 
     public function getTemporaryImagesProduct($productId)
     {
-        $images = Images_product::where('product_id', $productId)
-            ->orderBy('ordre')
-            ->get();
-
-        return $images;
-    }
-
-    public function clean_Images_product_table(): void
-    {
-        // delete temporary images products
-        $images_products = Images_product::where('status', 'tmp')->get();
-        foreach ($images_products as $images_product) {
-            File::delete(public_path($images_product->path));
-            Images_product::destroy($images_product->id);
+        if ($productId == 0) {
+            $images = Images_product::where('status', 'tmp')
+                ->orderBy('ordre')
+                ->get();
+        } else {
+            $images = Images_product::where('product_id', $productId)
+                ->orderBy('ordre')
+                ->get();
         }
+        return $images;
     }
 
     public function storeTmpImages(Request $request)
     {
+        // dd($request);
+        $request->validate([
+            'files' => 'required',
+            'files.*' => ['mimes:jpeg,jpg,png', 'max:5000'],
+            'productId' => 'nullable',
+        ]);
+
         if ($request->hasFile('files')) {
+            if ($request->productId == 0) {
+                $product_tmp = new Product;
+                $product_tmp->name = 'tmp_name';
+                $product_tmp->tmp = 1;
+                $product_tmp->isInAutoCollection = 1;
+                $product_tmp->price = 0;
+                $product_tmp->stock = 0;
+                $product_tmp->unlimitedStock = 0;
+                $product_tmp->sku = 0;
+                $product_tmp->dateActivation = date('Y-m-d H:i:s');
+                $product_tmp->status = 0;
+                $product_tmp->save();
+                $product_lastId = $product_tmp->id;
+            } else {
+                $product_lastId = $request->productId;
+            }
+
             $files = $request->file('files');
-            // dd( $files );
             foreach ($files as $file) {
-                $mimeType = Image::make($file)->mime();
-                $mimeType_videos_array = array('video/webm', 'video/ogg', 'video/avi', 'video/mp4', 'video/mpeg');
-                $mimeType_images_array = array('image/gif', 'image/png', 'image/jpeg', 'image/webp');
-                $tools = new StringTools;
-                $newName = $tools->nameGeneratorFromFile($file);
-                // dd( $newName );
-                if (in_array($mimeType, $mimeType_images_array)) {
-                    $path = public_path('images/');
-                    $imgFile = Image::make($file);
-                    $imgFile->save($path . $newName, 80, 'jpg');
-                } else if (in_array($mimeType, $mimeType_videos_array)) {
-                    $path = public_path('videos/');
-                    $file->move($path, $newName);
-                } else {
-                    return 'This file type is not allowed';
-                }
+                $path = Storage::disk('public')->put('images', $file);
 
                 $max = Images_product::where('status', 'tmp')
                     ->orWhere('product_id', $request->productId)
                     ->get();
                 $image_product = new Images_product;
-                $image_product->path = 'images/' . $newName;
-                $image_product->alt = $newName;
+                $image_product->path = $path;
+                $image_product->alt = $path;
                 $image_product->status = 'tmp';
                 $image_product->ordre = count($max) + 1;
-                if ($request->productId == 'null') {
-                    $product_tmp = new Product;
-                    $product_tmp->name = 'tmp_name';
-                    $product_tmp->tmp = 1;
-                    $product_tmp->isInAutoCollection = 1;
-                    $product_tmp->price = 0;
-                    $product_tmp->stock = 0;
-                    $product_tmp->unlimitedStock = 0;
-                    $product_tmp->sku = 0;
-                    $product_tmp->dateActivation = date('Y-m-d H:i:s');
-                    $product_tmp->status = 0;
-                    $product_tmp->save();
-                    $product_lastId = $product_tmp->id;
-                } else {
-                    $product_lastId = $request->productId;
-                }
                 $image_product->product_id = $product_lastId;
                 $image_product->save();
             }
@@ -371,6 +358,16 @@ class ProductController extends Controller
             return $images;
         } else {
             return 'error';
+        }
+    }
+
+    public function clean_Images_product_table(): void
+    {
+        // delete temporary images products
+        $images_products = Images_product::where('status', 'tmp')->get();
+        foreach ($images_products as $images_product) {
+            File::delete(public_path($images_product->path));
+            Images_product::destroy($images_product->id);
         }
     }
 

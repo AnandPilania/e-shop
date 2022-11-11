@@ -15,7 +15,7 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
     const isOverflow = useIsOverflow(modalImageSectionRef, (isOverflowFromCallback) => { });
 
 
-    const { variantes, setVariantes, variante } = useContext(AppContext);
+    const { variantes, setVariantes, variante, IdProduct, setIdProduct } = useContext(AppContext);
 
 
     const handleImportImage = () => {
@@ -83,6 +83,7 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
     const saveImage = (file) => {
         var tmp_Data = new FormData;
         tmp_Data.append('files[]', file);
+        tmp_Data.append('productId', IdProduct);
         Axios.post(`http://127.0.0.1:8000/storeTmpImages`, tmp_Data,
             { headers: { 'Content-Type': 'multipart/form-data' } })
             .then((res) => {
@@ -168,7 +169,7 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
         }
     }
 
-
+console.log('imageVariante --->  ', imageVariante)
     return (
         <div className={` ${show ? "block" : "hidden"} fixed top-0 left-0 bg-bg-modal z-40 w-full h-[100%]  flex flex-col justify-start items-center`}>
             <div className="fixed w-[40%] max-h-[90vh] max-x-[650px] min-x-[350] px-[20px] pt-[20px] pb-[30px] top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] flex flex-col justify-start items-start rounded-md bg-white z-50"
@@ -180,7 +181,7 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
                     <span
                         onClick={handleModalCancel}
                         className='flex justify-center items-center w-[30px] h-[30px] cursor-pointer bg-red-500 rounded-[5px]'>
-                        <img src={window.location.origin + '/images/icons/x-white.svg'} className="h-[20px] w-[20px]" />
+                        <img src={'/images/icons/x-white.svg'} className="h-[20px] w-[20px]" />
                     </span>
                 </div>
 
@@ -197,7 +198,7 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
                                 className="flex flex-row justify-center items-center mb[20px] w-full h-[100px] relative border border-slate-300 rounded cursor-pointer hover:border-slate-400 "
                             >
                                 <img className='max-w-[(calc(100% / 4) - 12px] max-h-[98px]'
-                                    src={window.location.origin + '/' + item.path}
+                                    src={'/storage/' + item.path}
                                 />
                                 <button
                                     id={`checkedButton${item.id}`}
@@ -228,7 +229,7 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
                             className="flex flex-row justify-start items-center p-3 border border-gray-300 rounded"
                         >
                             <img className='w-auto h-[100px]'
-                                src={window.location.origin + '/' + variante.selectedImage.path}
+                                src={'/storage/' + variante.selectedImage.path}
                             />
                             <button
                                 className="w-auto flex justify-center items-center px-3 py-2 ml-3 rounded bg-red-700 hover:bg-red-800 text-white cursor-pointer"

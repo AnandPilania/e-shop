@@ -414,7 +414,7 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
         }
     };
 
-
+console.log('imageVariantes  ', imageVariantes)
     return (
         <Flex_col_s_s id="main-image-product">
             <Label label="Images" />
@@ -431,7 +431,7 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
                                     className='w-full text-center text-xs mt-0 pb-2.5'>Image principale</span>
                                 <img
                                     className='m-0 object-contain max-h-[200px]'
-                                    src={window.location.origin + '/' + imageVariantes[0][0].path}
+                                    src={'/storage/' + imageVariantes[0][0].path}
                                 />
                             </div>
                         }
@@ -485,7 +485,7 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
                                                     )}
                                                 >
                                                     <img className='imgClass max-w-3/12 max-h-32'
-                                                        src={window.location.origin + '/' + item.path}
+                                                        src={'/storage/' + item.path}
                                                     />
                                                     <button id="removeImg"
                                                         className="invisible group-hover:visible absolute top-1.5 right-1.5 w-6 h-6 bg-[#d23e44] rounded"

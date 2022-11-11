@@ -125,6 +125,7 @@ const Appcontainer = () => {
 
     //PRODUCT---------------------------------------------------------------
 
+    const [IdProduct, setIdProduct] = useState(0);
     const [nameProduct, setNameProduct] = useState('');
     const [ribbonProduct, setRibbonProduct] = useState('');
     const [descriptionProduct, setDescriptionProduct] = useState('');
@@ -593,7 +594,8 @@ const Appcontainer = () => {
         showInitButton, setShowInitButton,
         imageHasBeenChanged, setImageHasBeenChanged,
         showOptions, setShowOptions,
-
+        IdProduct, setIdProduct,
+        
 
     }
 

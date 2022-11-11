@@ -236,6 +236,7 @@ export default createContext({
     setImageHasBeenChanged: () => { },
     showOptions: '', 
     setShowOptions: () => { },
-
+    IdProduct: '',  
+    setIdProduct: () => { },
 
 });

@@ -20,7 +20,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
     const [maxIdValues_Names, setMaxIdValues_Names] = useState('');
 
 
-    const { optionsObj, productPrice, reducedProductPrice, productStock, productCost, productParcelWeight, productParcelWeightMeasureUnit, productCode, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, isHideDeletedVariantes, variante, setVariante, setImageVariantes, changedVariantes, setChangedVariantes, screenSize, setShowOptions, isEditProduct, setIsEditProduct } = useContext(AppContext);
+    const { optionsObj, productPrice, reducedProductPrice, productStock, productCost, productParcelWeight, productParcelWeightMeasureUnit, productCode, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, isHideDeletedVariantes, variante, setVariante, setImageVariantes, changedVariantes, setChangedVariantes, screenSize, setShowOptions, isEditProduct, setIsEditProduct, IdProduct } = useContext(AppContext);
 
     useEffect(() => {
         let abortController;
@@ -51,7 +51,6 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
     useEffect(() => {
         if (!isEditProduct) {
             let libelles = [];
-            console.log('variantes----List   ', variantes)
             // renvoi un tableau contenant les tableaux des VALEURS des différentes options. Sert à récupérer toutes les combinaisons possible entre les différentes options 
             let optionsCombinations = optionsObj.map(x => x.values);
 
@@ -73,7 +72,6 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                 }
             }
             optionsCombinations.length > 0 && getCombinaisons(indexOfNotEmpty_optionsObj_values, "");
-
 
             // si idValues_Names == null lui attribu un id
             if (optionsObj.findIndex(x => x.idValues_Names == null) > -1) {
@@ -102,7 +100,6 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                         variantesOptions[optionsIdValuesNames[j]] = valuesSplited[j];
                     }
                 }
-
 
                 // crée des variantes vides. le nombre de variantes crées est = à libelles.length
                 if (libelles[i] != '') {
@@ -145,7 +142,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
             }
             setVariantes(tmp_variantesAsString);
         }
-        setIsEditProduct(false);     
+        isEditProduct && setIsEditProduct(false);     
         // ferme "ajouter des options quand on supprime toutes les options"
         // optionsObj.name != '' && setShowOptions(false);
     }, [optionsObj]);
@@ -222,11 +219,14 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
     }
 
 
-
+    // click mini image variante
     const loadImagesVariantes = (item) => {
+        console.log('item---  ', item)
+
         setVariante(item);
-        Axios.get('http://127.0.0.1:8000/getTemporaryImagesProduct/0')
+        Axios.get(`http://127.0.0.1:8000/getTemporaryImagesProduct/${0}`)
             .then(res => {
+                console.log('res.data image---  ', res.data)
                 setImageVariante(res.data);
                 setIdVariante(item.id);
                 setShowModalImageVariante(true);
@@ -599,7 +599,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                 {
                                     item.image_path != undefined && item.image_path != null && Object.keys(item.image_path).length != 0 ?
                                         <img className='w-auto max-h-[28px]'
-                                            src={window.location.origin + '/' + item.image_path}
+                                            src={'/storage/' + item.selectedImage.path}
                                         />
                                         :
                                         <img className='w-6 h-auto'
@@ -615,14 +615,14 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                         <span
                                             onClick={() => toggleDeleteUndeleteVariante(item.id)}
                                             className='flex justify-center items-center w-8 h-8 p-0 m-0 cursor-pointer hover:bg-red-500 rounded-md'>
-                                            <img src={window.location.origin + '/images/icons/trash.svg'} className="h-5 w-5 group-hover:hidden" />
-                                            <img src={window.location.origin + '/images/icons/x-white.svg'} className="h-6 w-6 hidden group-hover:block" />
+                                            <img src={'/images/icons/trash.svg'} className="h-5 w-5 group-hover:hidden" />
+                                            <img src={'/images/icons/x-white.svg'} className="h-6 w-6 hidden group-hover:block" />
                                         </span>
                                         :
                                         <span
                                             onClick={() => toggleDeleteUndeleteVariante(item.id)}
                                             className='flex justify-center items-center w-8 h-8 p-0 m-0 cursor-pointer hover:bg-blue-200 rounded-md'>
-                                            <img src={window.location.origin + '/images/icons/arrow-back.svg'} className="h-5 w-5" />
+                                            <img src={'/images/icons/arrow-back.svg'} className="h-5 w-5" />
                                         </span>
                                 }
                             </div>
