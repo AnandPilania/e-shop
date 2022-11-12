@@ -51,9 +51,9 @@ const TinyeditorProduct = () => {
                     cb(blobInfo.blobUri(), { title: file.name });
                 };
                 reader.readAsDataURL(file);
-            };
+            }
 
-            if (meta.filetype == 'media') {
+            if (meta.filetype == 'media') {  
                 loadProgressBar();
                 var reader = new FileReader();
                 var videoElement = document.createElement('video');
@@ -64,7 +64,7 @@ const TinyeditorProduct = () => {
                             if (videoElement.duration) {
                                 let videoFile = new FormData;
                                 videoFile.append('key', 'tmp_tinyMceVideos');
-                                videoFile.append('value', file);
+                                videoFile.append('file', file);
                                 Axios.post(`http://127.0.0.1:8000/temporaryStoreImages`, videoFile,
                                     {
                                         headers: {
@@ -148,7 +148,7 @@ const TinyeditorProduct = () => {
                     // configure la base du path du stockage des images  
                     relative_urls: false,
                     remove_script_host: false,
-                    document_base_url: window.location.origin, //'http://127.0.0.1:8000',
+                    document_base_url:'/storage/',
                     //------------------------------------------
                     images_upload_handler: tinyMCE_image_upload_handler,
                     // allow drop images

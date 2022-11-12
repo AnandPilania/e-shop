@@ -30,16 +30,13 @@ const CreateProduct = () => {
     const navigate = useNavigate();
 
     const [showModalFromPrice, setShowModalFromPrice] = useState(false);
-    const [isDirtyCreateProduct, setIsDirtyCreateProduct] = useState(false);
-    const [hooksComparation, setHooksComparation] = useState({});
     const [showModalLeaveWithoutSave, setShowModalLeaveWithoutSave] = useState(false);
-    const [tvaComparation, setTvaComparation] = useState('');
     const [leaveProductFormWithoutSaveChange, setLeaveProductFormWithoutSaveChange] = useState(false);
     const [productStatus, setProductStatus] = useState(1);
     const [showBackButton, setShowBackButton] = useState(false);
 
 
-    const { descriptionProduct, setListSuppliers, supplier, setSupplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, setTva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, setRibbonProduct, screenSize, unlimited, isInAutoCollection, setIsInAutoCollection, dateFieldProduct, setDateFieldProduct, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked, setDescriptionProduct, setCollections, setProductPrice, promoApplied, promoType, setPromoType, setProductParcelWeight, setProductParcelWeightMeasureUnit, setPromoApplied, setReducedProductPrice, setProductCost, setProductStock, setProductCode, setOptionsObj, setUnlimited, setVariantes, setTransporter, setMetaTitleProduct, setMetaDescriptionProduct, setMetaUrlProduct, setImageVariantes, isEditProduct, setIsEditProduct, isShowPromoProduct, setIsShowPromoProduct, setShowOptions, IdProduct, setIdProduct } = useContext(AppContext);
+    const { descriptionProduct, setListSuppliers, supplier, setSupplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, setTva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, setRibbonProduct, screenSize, unlimited, isInAutoCollection, setIsInAutoCollection, dateFieldProduct, setDateFieldProduct, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked, setDescriptionProduct, setCollections, setProductPrice, promoApplied, promoType, setPromoType, setProductParcelWeight, setProductParcelWeightMeasureUnit, setPromoApplied, setReducedProductPrice, setProductCost, setProductStock, setProductCode, setOptionsObj, setUnlimited, setVariantes, setTransporter, setMetaTitleProduct, setMetaDescriptionProduct, setMetaUrlProduct, setImageVariantes, isEditProduct, setIsEditProduct, isShowPromoProduct, setIsShowPromoProduct, setShowOptions, IdProduct, setIdProduct, initCreateProduct, tvaComparation, setTvaComparation, isDirtyCreateProduct, setIsDirtyCreateProduct, checkIfCreateProductIsDirty, setHooksComparation } = useContext(AppContext);
 
     // when click on edit in collection list it send collection id to db request for make edit collection
     const { state } = useLocation();
@@ -179,123 +176,9 @@ const CreateProduct = () => {
     }, []);
     console.log('variantes  ', variantes)
 
-    const initCreateProduct = () => {
-        setNameProduct('');
-        setIsInAutoCollection(true);
-        setRibbonProduct('');
-        setDescriptionProduct('')
-        setCollections([]);
-        setProductPrice('');
-        setReducedProductPrice('');
-        setPromoApplied('');
-        setPromoType('%');
-        setProductCost('');
-        setProductStock('');
-        setUnlimited(false);
-        setProductParcelWeight('');
-        setProductParcelWeightMeasureUnit('gr');
-        setProductCode('');
-        setTransporter([]);
-        setMetaUrlProduct('');
-        setMetaTitleProduct('');
-        setMetaDescriptionProduct('');
-        setDateFieldProduct(getNow());
-        setTva(tvaComparation);
-        setSupplier('');
-        setVariantes([]);
-        setOptionsObj([]);
-        setShowOptions(false);
-        setImageVariantes([[]]);
-        setIsShowPromoProduct(false);
-        setIsDirtyCreateProduct(false);
-        checkIfCreateProductIsDirty();
-        setIsEditProduct(false);
-    }
 
 
-    const checkIfCreateProductIsDirty = () => {
-        if (isEditProduct) {
-            // check collections
-            let idsCollectionsPrev = hooksComparation?.collections?.map(x => x.id);
-            let idsCollectionsCurr = collections?.map(x => x.id);
-            let isNotColectionsChanged = idsCollectionsPrev?.every(id => idsCollectionsCurr?.includes(id)) && idsCollectionsPrev?.length === idsCollectionsCurr?.length;
 
-            let idsTransportersPrev = hooksComparation?.transporter?.map(x => x.modeId);
-            let idsTransportersCurr = transporter?.map(x => x.modeId);
-            let isNotTransportersChanged = idsTransportersPrev?.every(id => idsTransportersCurr?.includes(id)) && idsTransportersPrev?.length === idsTransportersCurr?.length;
-
-            let comparVariantesLibelle = hooksComparation?.variantes?.map(x => x.optionsString)
-            let variantesLibelle = variantes?.map(x => x.optionsString)
-            let isNotVaraiantesChanged = variantesLibelle?.every(x => comparVariantesLibelle?.includes(x)) && comparVariantesLibelle?.length === variantesLibelle?.length;
-
-            if (
-                hooksComparation.nameProduct != nameProduct ||
-                hooksComparation.isInAutoCollection != isInAutoCollection ||
-                hooksComparation.ribbonProduct != ribbonProduct ||
-                hooksComparation.descriptionProduct != descriptionProduct ||
-                isNotColectionsChanged === false ||
-                hooksComparation.productPrice != productPrice ||
-                hooksComparation.reducedProductPrice != reducedProductPrice ||
-                hooksComparation.promoApplied != promoApplied ||
-                hooksComparation.promoType != promoType ||
-                hooksComparation.productCost != productCost ||
-                hooksComparation.productStock != productStock ||
-                hooksComparation.unlimited != unlimited ||
-                hooksComparation.productParcelWeight != productParcelWeight ||
-                hooksComparation.productParcelWeightMeasureUnit != productParcelWeightMeasureUnit ||
-                hooksComparation.productCode != productCode ||
-                isNotTransportersChanged === false ||
-                hooksComparation.metaUrlProduct != metaUrlProduct ||
-                hooksComparation.metaTitleProduct != metaTitleProduct ||
-                hooksComparation.metaDescriptionProduct != metaDescriptionProduct ||
-                // // hooksComparation.// // dateFieldProduct
-                hooksComparation.tva != tva.id ||
-                hooksComparation.supplier != supplier ||
-                isNotVaraiantesChanged == false ||
-                hooksComparation.isShowPromoProduct != isShowPromoProduct
-            ) {
-                setIsDirtyCreateProduct(true);
-                return true;
-            } else {
-                setIsDirtyCreateProduct(false);
-                return false;
-            }
-        } else {
-            if (
-                nameProduct != '' ||
-                isInAutoCollection != true ||
-                ribbonProduct != '' ||
-                descriptionProduct != '' ||
-                collections.length > 0 ||
-                productPrice != '' ||
-                reducedProductPrice != '' ||
-                promoApplied != '' ||
-                promoType != '%' ||
-                productCost != '' ||
-                productStock != '' ||
-                unlimited != false ||
-                productParcelWeight != '' ||
-                productParcelWeightMeasureUnit != 'gr' ||
-                productCode != '' ||
-                transporter.length > 0 ||
-                metaUrlProduct != '' ||
-                metaTitleProduct != '' ||
-                metaDescriptionProduct != '' ||
-                // // dateFieldProduct
-                tva?.id != tvaComparation?.id ||
-                supplier != '' ||
-                variantes.length > 0 ||
-                imageVariantes[0].length > 0 ||
-                isShowPromoProduct != false
-            ) {
-                setIsDirtyCreateProduct(true);
-                return true;
-            } else {
-                setIsDirtyCreateProduct(false);
-                return false;
-            }
-        }
-    }
 
     // demande confirmation avant de quitter le form sans sauvegarder
     // usePromptProduct('Quitter sans sauvegarder les changements ?', true, setShowModalLeaveWithoutSave, setMessageModal, leaveProductFormWithoutSaveChange, setLeaveProductFormWithoutSaveChange);

@@ -30,9 +30,7 @@ class ProductController extends Controller
         $products = Product::with('collections', 'images_products', 'variantes')->orderBy('id', 'asc')->get();
         $collections = Collection::all('name');
 
-        // foreach ( $products as $product ) {
-        //     $this->reOrderImagesProductById( $product->id );
-        // }
+        $this->getMaxIdValues_Names();
         return [$products, $collections];
     }
 
@@ -46,7 +44,11 @@ class ProductController extends Controller
     public function getMaxIdValues_Names()
     {
         $maxIdValues_Names = Options_name::max('id');
-        return $maxIdValues_Names;
+        if (!is_null($maxIdValues_Names)) {
+            return $maxIdValues_Names;
+        } else {
+            return 0;
+        }
     }
 
     // public function store( StoreProductRequest $request )
@@ -64,7 +66,8 @@ class ProductController extends Controller
         $product->isInAutoCollection = $request->isInAutoCollection == 'true' ? 1 : 0;
         $product->ribbon = $request->ribbonProduct;
         // remplace dans les src de la description le chemin du dossier temporaryStorage par celui de la destionation finale des images et vidéos. !!! c'est handleTinyMceTemporaryElements qui se charge de déplacer les fichiers dans ces dossiers !!!
-        $tmp_description = str_replace('temporaryStorage', 'images', $request->descriptionProduct);
+        $tmp_description = $request->descriptionProduct;
+        // $tmp_description = str_replace('temporaryStorage', 'images', $request->descriptionProduct);
         $product->description = preg_replace('/( <source src = ").+(images)/', '<source src="' . url('') . '/videos', $tmp_description);
         $product->price = $request->productPrice;
         $product->reduced_price = $request->reducedProductPrice;
@@ -211,17 +214,18 @@ class ProductController extends Controller
                 $variante->deleted = false;
             }
 
-            // dd($item->options);
             if (isset($item->options) && $item->options != null && !is_string($item->options)) {
                 $variante->options = json_encode($item->options);
             } elseif (isset($item->options) && $item->options != null && is_string($item->options)) {
                 $variante->options = $item->options;
             }
-
-            if (isset($item->selectedImage) && property_exists($item->selectedImage, 'path')) {
-                $variante->image_path = $item->selectedImage->path;
+            echo strlen($item->image_path) . '<br>';
+            if (isset($item->image_path) && strlen($item->image_path) > 0) {
+                $variante->image_path = $item->image_path;
+                // dd($item->image_path);
             } else {
                 $variante->image_path = '';
+                // dd('nein');
             }
             $variante->product_id = $product->id;
             $variante->save();
@@ -273,6 +277,8 @@ class ProductController extends Controller
             }
         }
 
+        $this->deleteTmpProducts();
+
         return 'ok';
     }
 
@@ -296,21 +302,24 @@ class ProductController extends Controller
 
     public function getTemporaryImagesProduct($productId)
     {
-        if ($productId == 0) {
-            $images = Images_product::where('status', 'tmp')
-                ->orderBy('ordre')
-                ->get();
+        if (!is_null($productId) && is_numeric($productId)) {
+            if ($productId == 0) {
+                $images = Images_product::where('status', 'tmp')
+                    ->orderBy('ordre')
+                    ->get();
+            } elseif ($productId > 0) {
+                $images = Images_product::where('product_id', $productId)
+                    ->orderBy('ordre')
+                    ->get();
+            }
+            return $images;
         } else {
-            $images = Images_product::where('product_id', $productId)
-                ->orderBy('ordre')
-                ->get();
+            return 'empty';
         }
-        return $images;
     }
 
     public function storeTmpImages(Request $request)
     {
-        // dd($request);
         $request->validate([
             'files' => 'required',
             'files.*' => ['mimes:jpeg,jpg,png', 'max:5000'],
@@ -318,7 +327,7 @@ class ProductController extends Controller
         ]);
 
         if ($request->hasFile('files')) {
-            if ($request->productId == 0) {
+            if ($request->productId == 0 || $request->productId == 'null') {
                 $product_tmp = new Product;
                 $product_tmp->name = 'tmp_name';
                 $product_tmp->tmp = 1;
@@ -366,7 +375,9 @@ class ProductController extends Controller
         // delete temporary images products
         $images_products = Images_product::where('status', 'tmp')->get();
         foreach ($images_products as $images_product) {
-            File::delete(public_path($images_product->path));
+            if (Storage::disk('public')->exists($images_product->path)) {
+                Storage::disk('public')->delete($images_product->path);
+            }
             Images_product::destroy($images_product->id);
         }
     }
@@ -415,7 +426,9 @@ class ProductController extends Controller
             ->get();
         if (isset($tmp_storage) && count($tmp_storage) > 0) {
             foreach ($tmp_storage as $toDelete) {
-                File::delete(public_path($toDelete->path));
+                if (Storage::disk('public')->exists($toDelete->path)) {
+                    Storage::disk('public')->delete($toDelete->path);
+                }
                 Images_product::destroy($toDelete->id);
             }
         }
@@ -429,7 +442,9 @@ class ProductController extends Controller
     {
         $image_product = Images_product::find($request->id);
         $product_id = $request->productId;
-        File::delete($image_product->path);
+        if (Storage::disk('public')->exists($image_product->path)) {
+            Storage::disk('public')->delete($image_product->path);
+        }
         Images_product::destroy($request->id);
 
         // test $images_products not null
@@ -462,24 +477,29 @@ class ProductController extends Controller
     public function deleteProducts(Request $request)
     {
         $productId = $request->id;
-        $product = Product::find($productId);
+        $product = Product::where('id', $productId)->first();
 
-        if (Product::where('id', $productId)->first()) {
-            // suppression les fichiers images dans public/images
-            $images_products = Images_product::where('product_id', $productId)->get();
-            foreach ($images_products as $image_variante) {
-                if (File::exists(public_path($image_variante->path))) {
-                    File::delete(public_path($image_variante->path));
+        if ($product) {
+            // suppression des fichiers images dans storage/public/images
+            if (Images_product::where('product_id', $productId)->exists()) {
+                $images_products = Images_product::where('product_id', $productId)->get();
+                foreach ($images_products as $image_variante) {
+                    if (Storage::disk('public')->exists($image_variante->path)) {
+                        Storage::disk('public')->delete($image_variante->path);
+                    }
                 }
-            }
-            Images_product::where('product_id', $productId)->delete();
-
-            $collections = $product->collections;
-            foreach ($collections as $collection) {
-                $product->collections()->detach($collection->id);
+                Images_product::where('product_id', $productId)->delete();
             }
 
-            Variante::where('product_id', $productId)->delete();
+            $product->collections()->detach();
+
+            if (Variante::where('product_id', $productId)->exists()) {
+                $variantes = Variante::where('product_id', $productId)->get();
+                foreach ($variantes as $variante) {
+                    $variante->options_values()->detach();
+                }
+                Variante::where('product_id', $productId)->delete();
+            }
 
             $product->delete();
 
@@ -492,6 +512,7 @@ class ProductController extends Controller
         }
     }
 
+
     public function deleteTmpProducts()
     {
         $products = Product::where('tmp', 1)->get();
@@ -501,8 +522,8 @@ class ProductController extends Controller
                 // suppression les fichiers images dans public/images
                 $images_products = Images_product::where('product_id', $product->id)->get();
                 foreach ($images_products as $image_variante) {
-                    if (File::exists(public_path($image_variante->path))) {
-                        File::delete(public_path($image_variante->path));
+                    if (Storage::disk('public')->exists($image_variante->path)) {
+                        Storage::disk('public')->delete($image_variante->path);
                     }
                 }
                 Images_product::where('product_id', $product->id)->delete();

@@ -31,8 +31,8 @@ const Shipping = () => {
                         toggleSelectWithCheckbox={toggleSelectWithCheckboxTransporter}
                         setToggleSelectWithCheckbox={setToggleSelectWithCheckboxTransporter}
                     />
-                    <div className={`flex flex-wrap ${transporter.length > 0 && "pt-4"} w-full`}>
-                        {transporter.length > 0 && transporter.map(item =>
+                    <div className={`flex flex-wrap ${transporter?.length > 0 && "pt-4"} w-full`}>
+                        {transporter?.length > 0 && transporter.map(item =>
                             <div key={item.modeId}
                                 className="flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-2 pr-1.5 py-1 mb-1 mr-2">
                                 <span

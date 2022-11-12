@@ -142,7 +142,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
             }
             setVariantes(tmp_variantesAsString);
         }
-        isEditProduct && setIsEditProduct(false);     
+        isEditProduct && setIsEditProduct(false);
         // ferme "ajouter des options quand on supprime toutes les options"
         // optionsObj.name != '' && setShowOptions(false);
     }, [optionsObj]);
@@ -152,14 +152,17 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         let tmp_variantes = [...variantes];
         let ndx = tmp_variantes.findIndex(x => x.id == id);
         if (ndx > -1) {
+            alert('ndx > -1')
             tmp_variantes[ndx][field] = data;
         }
         // sauvegarde les variantes avec des paramètres modifiés ex. price, stock,... pour ne pas perdre ces modifiactions quand on ajoute ou supprime des options
         let tmp_changedVariantes = [...changedVariantes];
         let index = tmp_changedVariantes.findIndex(x => x.id == tmp_variantes[ndx].id);
         if (index > -1) {
+            alert('ndx > -1 changed')
             tmp_changedVariantes[index] = tmp_variantes[ndx];
         } else {
+            alert('ndx === -1 changed')
             tmp_changedVariantes.push(tmp_variantes[ndx]);
         }
         setChangedVariantes([...tmp_changedVariantes]);
@@ -224,10 +227,14 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         console.log('item---  ', item)
 
         setVariante(item);
-        Axios.get(`http://127.0.0.1:8000/getTemporaryImagesProduct/${0}`)
+        Axios.get(`http://127.0.0.1:8000/getTemporaryImagesProduct/${IdProduct}`)
             .then(res => {
-                console.log('res.data image---  ', res.data)
-                setImageVariante(res.data);
+                // console.log('res.data image---  ', res.data)
+                if (res.data != "empty") {
+                    setImageVariante(res.data);
+                } else {
+                    setImageVariante({});
+                }
                 setIdVariante(item.id);
                 setShowModalImageVariante(true);
             })
@@ -244,6 +251,8 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
     // enregistre l'image principal pour une variante donnée
     const handleConfirm = (selectedImage) => {
+        console.log('selectedImage  ', selectedImage)
+        console.log('idVariante  ', idVariante)
         setShowModalImageVariante(false);
         // ajoute l'image sélectionnée à la variante qui a l'id == idVariante
         handleVariantes(idVariante, 'selectedImage', selectedImage);
@@ -252,6 +261,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         // refresh dropZoneProduct
         Axios.get(`http://127.0.0.1:8000/getTemporaryImagesProduct/${selectedImage.product_id}`)
             .then(res => {
+                console.log('res.data  ', res.data)
                 let tmp_data = [[]];
                 let tmp = [];
                 for (let i = 0; i < res.data.length; i++) {
@@ -447,6 +457,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                             key={index}
                             className={`w-full h-auto grid gap-x-2 grid-cols-[25px_100px_1fr_1fr_50px_32px] md:grid-cols-[25px_80px_1fr_1fr_1fr_50px_32px] xl:grid-cols-[25px_140px_1fr_1fr_1fr_50px_32px] justify-start items-center py-2 relative bg-white  hover:bg-gray-50 ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
                         >
+                            {console.log('variantes-*-**-*--  ', variantes)}
                             {/* checkbox "!!! a son css !!!" */}
                             <div className='w-6 h-8 flex flex-row justify-start items-center pt-2 pl-[1px]'>
                                 <AnimateCheckbox
@@ -596,15 +607,23 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                 className={`w-full h-8 border border-gray-300 flex justify-center items-center cursor-pointer ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
                                 onClick={() => loadImagesVariantes(item)}
                             >
+                                {console.log('item.image_path  ', item.image_path)}
                                 {
                                     item.image_path != undefined && item.image_path != null && Object.keys(item.image_path).length != 0 ?
                                         <img className='w-auto max-h-[28px]'
-                                            src={'/storage/' + item.selectedImage.path}
+                                            src={'/storage/' + item.image_path}
                                         />
                                         :
-                                        <img className='w-6 h-auto'
-                                            src='../images/icons/image.svg'
-                                        />
+                                        item.selectedImage?.path != undefined && item.selectedImage?.path != null && Object.keys(item.selectedImage?.path).length != 0 ?
+                                            <img className='w-auto max-h-[28px]'
+                                                src={'/storage/' + item.selectedImage.path}
+                                            />
+
+                                            :
+
+                                            <img className='w-6 h-auto'
+                                                src='../images/icons/image.svg'
+                                            />
                                 }
                             </span>
 

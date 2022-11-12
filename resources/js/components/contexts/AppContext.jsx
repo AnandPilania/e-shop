@@ -238,5 +238,12 @@ export default createContext({
     setShowOptions: () => { },
     IdProduct: '',  
     setIdProduct: () => { },
-
+    initCreateProduct: () => { },
+    tvaComparation: '', 
+    setTvaComparation: () => { },
+    isDirtyCreateProduct: '', 
+    setIsDirtyCreateProduct: () => { },
+    checkIfCreateProductIsDirty: () => { },
+    hooksComparation: '', 
+    setHooksComparation: () => { },
 });

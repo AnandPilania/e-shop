@@ -7,9 +7,9 @@ export function saveInTemporaryStorage(key, value, blobImageName) {
     let name = value.name !== undefined ? value.name : blobImageName;
 
     if (Array.isArray(value)) {
-        tmp_Data.append('value', value[0], name);
+        tmp_Data.append('file', value[0], name);
     } else {
-        tmp_Data.append('value', value, name);
+        tmp_Data.append('file', value, name);
     }
 
 

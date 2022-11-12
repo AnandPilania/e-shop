@@ -10,7 +10,7 @@ const HeaderListProducts = ({ confirmDeleteProduct, handleSearch, collectionsFil
     const [isShowOperationDrop, setIsShowOperationDrop] = useState(false);
     const [sender, setSender] = useState('');
 
-    const { setIs_Edit, is, setIs, initCollectionForm, listProductsChecked, showModalListOperations, setShowModalListOperations, searchValue, listCollectionNames } = useContext(AppContext);
+    const { setIs_Edit, is, setIs, initCreateProduct, listProductsChecked, showModalListOperations, setShowModalListOperations, searchValue, listCollectionNames } = useContext(AppContext);
 
 
     useEffect(() => {
@@ -63,9 +63,8 @@ const HeaderListProducts = ({ confirmDeleteProduct, handleSearch, collectionsFil
                 <button
                     className='w-52 h-10 p-0 flex flex-row justify-center items-center flex-nowrap border border-gray-300 rounded-md bg-indigo-500 text-white'
                     onClick={() => {  
-                        initCollectionForm();
+                        initCreateProduct();
                         setIs_Edit(false);
-                        setIs({ ...is, newCollection: true });
                     }}
                 >
                     <Link to="/addProduct"
