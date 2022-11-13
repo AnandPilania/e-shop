@@ -118,6 +118,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                         placeholderStock: '0',
                         deleted: false,
                         selectedImage: {},
+                        image_path: '',
                     })
                 }
             }
@@ -125,10 +126,14 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
             // remplace les variantes de tmp_variantesAsString par celles qui ont été modifiées et qui leur correspondent
             if (tmp_variantesAsString.length > 0 && tmp_changedVariantes.length > 0) {
                 for (let i = 0; i < tmp_variantesAsString.length; i++) {
+                    let newOptions = Object.values(tmp_variantesAsString[i].options);
                     for (let j = 0; j < tmp_changedVariantes.length; j++) {
-                        let newOptions = Object.values(tmp_variantesAsString[i].options);
-                        let changedOptions = Object.values(tmp_changedVariantes[j].options);
-
+                        let changedOptions = {};
+                        if (typeof (tmp_changedVariantes[j].options) == "string") {
+                            changedOptions = Object.values(JSON.parse(tmp_changedVariantes[j].options));
+                        } else {
+                            changedOptions = Object.values(tmp_changedVariantes[j].options);
+                        }
                         if (changedOptions.every(x => newOptions.includes(x))) {
                             let tmp_id = tmp_variantesAsString[i].id;
                             let tmp_optionsString = tmp_variantesAsString[i].optionsString;
@@ -152,17 +157,14 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         let tmp_variantes = [...variantes];
         let ndx = tmp_variantes.findIndex(x => x.id == id);
         if (ndx > -1) {
-            alert('ndx > -1')
             tmp_variantes[ndx][field] = data;
         }
         // sauvegarde les variantes avec des paramètres modifiés ex. price, stock,... pour ne pas perdre ces modifiactions quand on ajoute ou supprime des options
         let tmp_changedVariantes = [...changedVariantes];
         let index = tmp_changedVariantes.findIndex(x => x.id == tmp_variantes[ndx].id);
         if (index > -1) {
-            alert('ndx > -1 changed')
             tmp_changedVariantes[index] = tmp_variantes[ndx];
         } else {
-            alert('ndx === -1 changed')
             tmp_changedVariantes.push(tmp_variantes[ndx]);
         }
         setChangedVariantes([...tmp_changedVariantes]);
@@ -224,12 +226,9 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
     // click mini image variante
     const loadImagesVariantes = (item) => {
-        console.log('item---  ', item)
-
         setVariante(item);
         Axios.get(`http://127.0.0.1:8000/getTemporaryImagesProduct/${IdProduct}`)
             .then(res => {
-                // console.log('res.data image---  ', res.data)
                 if (res.data != "empty") {
                     setImageVariante(res.data);
                 } else {
@@ -251,8 +250,6 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
     // enregistre l'image principal pour une variante donnée
     const handleConfirm = (selectedImage) => {
-        console.log('selectedImage  ', selectedImage)
-        console.log('idVariante  ', idVariante)
         setShowModalImageVariante(false);
         // ajoute l'image sélectionnée à la variante qui a l'id == idVariante
         handleVariantes(idVariante, 'selectedImage', selectedImage);
@@ -261,7 +258,6 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         // refresh dropZoneProduct
         Axios.get(`http://127.0.0.1:8000/getTemporaryImagesProduct/${selectedImage.product_id}`)
             .then(res => {
-                console.log('res.data  ', res.data)
                 let tmp_data = [[]];
                 let tmp = [];
                 for (let i = 0; i < res.data.length; i++) {
@@ -274,6 +270,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                         tmp_data.push(tmp);
                     }
                 };
+                console.log('tmp_data  ', tmp_data)
                 setImageVariantes(tmp_data);
             })
             .catch(error => {
@@ -325,12 +322,8 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
 
     const toggleDeleteUndeleteVariante = (id) => {
-        console.log('id    ', id)
-        console.log('variantes -->    ', variantes)
         let tmp_variantes = [...variantes];
         let ndx = tmp_variantes.findIndex(x => x.id == id);
-        console.log('tmp_variantes    ', tmp_variantes)
-        console.log('ndx    ', ndx)
         if (ndx > -1) {
             if (tmp_variantes[ndx].deleted == false) {
                 tmp_variantes[ndx].deleted = true;
@@ -457,7 +450,6 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                             key={index}
                             className={`w-full h-auto grid gap-x-2 grid-cols-[25px_100px_1fr_1fr_50px_32px] md:grid-cols-[25px_80px_1fr_1fr_1fr_50px_32px] xl:grid-cols-[25px_140px_1fr_1fr_1fr_50px_32px] justify-start items-center py-2 relative bg-white  hover:bg-gray-50 ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
                         >
-                            {console.log('variantes-*-**-*--  ', variantes)}
                             {/* checkbox "!!! a son css !!!" */}
                             <div className='w-6 h-8 flex flex-row justify-start items-center pt-2 pl-[1px]'>
                                 <AnimateCheckbox
@@ -607,7 +599,6 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                 className={`w-full h-8 border border-gray-300 flex justify-center items-center cursor-pointer ${item.deleted && "bg-red-100"} ${checkedVariantesList.includes(item.id) && "bg-blue-50"}`}
                                 onClick={() => loadImagesVariantes(item)}
                             >
-                                {console.log('item.image_path  ', item.image_path)}
                                 {
                                     item.image_path != undefined && item.image_path != null && Object.keys(item.image_path).length != 0 ?
                                         <img className='w-auto max-h-[28px]'

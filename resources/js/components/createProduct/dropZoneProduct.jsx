@@ -10,7 +10,7 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
 
     const dropRegionRef = useRef();
 
-    const { imageVariantes, setImageVariantes } = useContext(AppContext);
+    const { imageVariantes, setImageVariantes, variantes, setVariantes } = useContext(AppContext);
 
     var fakeInput = null;
     var mainImageProduct = null;
@@ -167,7 +167,7 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
                 form_Data.append('files[]', file);
             }
         });
-        console.log('productId  ', productId)
+
         form_Data.append('productId', productId);
         if (count_files.length > 0) {
             Axios.post(`http://127.0.0.1:8000/storeTmpImages`, form_Data,
@@ -199,17 +199,31 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
         }
     }
 
+    // enlève la mini image des variantes quand on supprime l'image dans la dropZone 
+    const removeOneMiniVarianteImage = (data) => {
+        let idImages = data.map(x => x.id);
+        let tmp_variantes = [...variantes];
+        tmp_variantes.forEach(x => {
+            if (!idImages.includes(x.selectedImage.id)) {
+                return x.selectedImage = {};
+            }
+        });
+        setVariantes([...tmp_variantes]);
+    }
 
-    function removeOneImage(id) {
+
+    const removeOneImage = (id) => {
         let form_Data = new FormData;
         form_Data.append('id', id);
         form_Data.append('productId', productId);
         Axios.post(`http://127.0.0.1:8000/deleteImageProduct`, form_Data)
             .then(res => {
-                if (res.data === 'empty') {
+                if (res.data == 'empty') {
                     setImageVariantes([]);
+                    removeOneMiniVarianteImage([]);
                     dropRegionRef.current.addEventListener('click', runFakeInputClick);
                 } else {
+                    removeOneMiniVarianteImage(res.data);
                     // crée des tableaux de 4 images 
                     if (res.data.length > 0) {
                         let tmp_data = [[]];
@@ -225,12 +239,12 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
                             }
                         };
                         setImageVariantes(tmp_data);
-                        handleReOrderInTemporaryStorage(tmp_data);
+                        // handleReOrderInTemporaryStorage(tmp_data);
                     }
                 }
             })
             .catch(error => {
-                console.log('Error delete Product Image failed : ' + error.status);
+                console.log('Error -> Delete Image Product failed : ' + error.status);
             });
     }
 
@@ -414,7 +428,7 @@ const DropZoneProduct = ({ isEditProduct, productId }) => {
         }
     };
 
-console.log('imageVariantes  ', imageVariantes)
+
     return (
         <Flex_col_s_s id="main-image-product">
             <Label label="Images" />

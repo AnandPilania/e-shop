@@ -36,7 +36,7 @@ const CreateProduct = () => {
     const [showBackButton, setShowBackButton] = useState(false);
 
 
-    const { descriptionProduct, setListSuppliers, supplier, setSupplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, setTva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, setRibbonProduct, screenSize, unlimited, isInAutoCollection, setIsInAutoCollection, dateFieldProduct, setDateFieldProduct, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked, setDescriptionProduct, setCollections, setProductPrice, promoApplied, promoType, setPromoType, setProductParcelWeight, setProductParcelWeightMeasureUnit, setPromoApplied, setReducedProductPrice, setProductCost, setProductStock, setProductCode, setOptionsObj, setUnlimited, setVariantes, setTransporter, setMetaTitleProduct, setMetaDescriptionProduct, setMetaUrlProduct, setImageVariantes, isEditProduct, setIsEditProduct, isShowPromoProduct, setIsShowPromoProduct, setShowOptions, IdProduct, setIdProduct, initCreateProduct, tvaComparation, setTvaComparation, isDirtyCreateProduct, setIsDirtyCreateProduct, checkIfCreateProductIsDirty, setHooksComparation } = useContext(AppContext);
+    const { descriptionProduct, setListSuppliers, supplier, setSupplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, setTva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, setRibbonProduct, screenSize, unlimited, isInAutoCollection, setIsInAutoCollection, dateFieldProduct, setDateFieldProduct, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked, setDescriptionProduct, setCollections, setProductPrice, promoApplied, promoType, setPromoType, setProductParcelWeight, setProductParcelWeightMeasureUnit, setPromoApplied, setReducedProductPrice, setProductCost, setProductStock, setProductCode, setOptionsObj, setUnlimited, setVariantes, setTransporter, setMetaTitleProduct, setMetaDescriptionProduct, setMetaUrlProduct, setImageVariantes, isEditProduct, setIsEditProduct, isShowPromoProduct, setIsShowPromoProduct, setShowOptions, IdProduct, setIdProduct, initCreateProduct, tvaComparation, setTvaComparation, isDirtyCreateProduct, setIsDirtyCreateProduct, checkIfCreateProductIsDirty, setHooksComparation, setChangedVariantes } = useContext(AppContext);
 
     // when click on edit in collection list it send collection id to db request for make edit collection
     const { state } = useLocation();
@@ -98,7 +98,7 @@ const CreateProduct = () => {
             Axios.post(`http://127.0.0.1:8000/getProduct`, idProd)
                 .then(res => {
                     let data = res.data[0];
-                    console.log('res.data[0]  ', res.data[0])
+                    // console.log('res.data[0]  ', res.data[0])
                     setNameProduct(data.name == null ? '' : data.name);
                     setIsInAutoCollection(data.isInAutoCollection == 1 ? true : false);
                     setRibbonProduct(data.ribbon == null ? '' : data.ribbon);
@@ -117,15 +117,15 @@ const CreateProduct = () => {
                     setProductCode(data.sku == null ? '' : data.sku);
                     setTransporter(JSON.parse(data.onlyTheseCarriers));
                     setOptionsObj(JSON.parse(data.optionsObj));
-                    console.log('data.optionsObj  ', JSON.parse(data.optionsObj))
                     setMetaUrlProduct(data.metaUrl == null ? '' : data.metaUrl);
                     setMetaTitleProduct(data.metaTitle == null ? '' : data.metaTitle);
                     setMetaDescriptionProduct(data.metaDescription == null ? '' : data.metaDescription);
-                    console.log('data.dateActivation  ', data.dateActivation)
                     setDateFieldProduct(moment(new Date(data.dateActivation)).format("DD-MM-YYYY HH:mm:ss"));
                     setTva(data.taxe);
                     setSupplier(data.supplier == null ? '' : data.supplier);
                     setVariantes(data.variantes);
+                    // sert à conserver les mini images dans optionsVariantesList quand on ajoute des options. A GARDER !
+                    setChangedVariantes(data.variantes.filter(x => x.image_path != ""));
                     // affiche la partie promo dans price
                     if (data.reduction != null || data.reduced_price != null) {
                         setIsShowPromoProduct(true);
@@ -174,7 +174,7 @@ const CreateProduct = () => {
             initCreateProduct();
         }
     }, []);
-    console.log('variantes  ', variantes)
+
 
 
 
@@ -252,7 +252,7 @@ const CreateProduct = () => {
         setShowModalFromPrice(false);
         setShowModalLeaveWithoutSave(false);
     }
-    // console.log('optionsObj  ', optionsObj)
+
     const consolelog = () => {
         console.log('nameProduct  ', nameProduct);
         console.log('ribbonProduct  ', ribbonProduct);

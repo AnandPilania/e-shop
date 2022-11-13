@@ -74,9 +74,7 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
         setOptionValueAlreadyExist(false);
     }
 
-    const removeInputOptionValue = (item) => { //<-------------------- !!!!!!!
-console.log('item   ', item)
-console.log('optionNameId   ', optionNameId)
+    const removeInputOptionValue = (item) => { 
         if (optionNameId != null) {
             let form_Data = new FormData;
             form_Data.append('nameOptionValue', item);

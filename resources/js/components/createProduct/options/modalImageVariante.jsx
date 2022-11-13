@@ -169,7 +169,7 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
         }
     }
 
-console.log('imageVariante --->  ', imageVariante)
+
     return (
         <div className={` ${show ? "block" : "hidden"} fixed top-0 left-0 bg-bg-modal z-40 w-full h-[100%]  flex flex-col justify-start items-center`}>
             <div className="fixed w-[40%] max-h-[90vh] max-x-[650px] min-x-[350] px-[20px] pt-[20px] pb-[30px] top-[50%] left-[50%] translate-y-[-50%] translate-x-[-50%] flex flex-col justify-start items-start rounded-md bg-white z-50"

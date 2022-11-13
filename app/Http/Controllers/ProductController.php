@@ -219,13 +219,13 @@ class ProductController extends Controller
             } elseif (isset($item->options) && $item->options != null && is_string($item->options)) {
                 $variante->options = $item->options;
             }
-            echo strlen($item->image_path) . '<br>';
+
             if (isset($item->image_path) && strlen($item->image_path) > 0) {
                 $variante->image_path = $item->image_path;
-                // dd($item->image_path);
+            } elseif (isset($item->selectedImage->path) && strlen($item->selectedImage->path) > 0) {
+                $variante->image_path = $item->selectedImage->path;
             } else {
                 $variante->image_path = '';
-                // dd('nein');
             }
             $variante->product_id = $product->id;
             $variante->save();
@@ -328,7 +328,10 @@ class ProductController extends Controller
 
         if ($request->hasFile('files')) {
             if ($request->productId == 0 || $request->productId == 'null') {
-                $product_tmp = new Product;
+                $product_tmp = Product::where('status', 'tmp')->first();
+                if (!$product_tmp) {
+                    $product_tmp = new Product;
+                }
                 $product_tmp->name = 'tmp_name';
                 $product_tmp->tmp = 1;
                 $product_tmp->isInAutoCollection = 1;
@@ -384,6 +387,7 @@ class ProductController extends Controller
 
     public function reOrderImagesProducts(Request $request)
     {
+        // dd($request);
         $imagesToReorder = json_decode($request->images);
         $ndx = 1;
         // imagesToReorder are arrays in array
@@ -436,43 +440,80 @@ class ProductController extends Controller
         return $images;
     }
 
-    // supprime une image à la fois
 
+    // supprime une image à la fois
     public function deleteImageProduct(Request $request)
     {
-        $image_product = Images_product::find($request->id);
-        $product_id = $request->productId;
-        if (Storage::disk('public')->exists($image_product->path)) {
-            Storage::disk('public')->delete($image_product->path);
-        }
-        Images_product::destroy($request->id);
+        $images_products = null;
 
-        // test $images_products not null
-        $images_products = Images_product::where('product_id', $product_id)
-            ->orderBy('ordre', 'asc')
-            ->first();
-
-        if ($images_products) {
-            $images_products = Images_product::where('product_id', $product_id)
-                ->orWhere('status', 'tmp')
-                ->orderBy('ordre', 'asc')
-                ->get();
-            // réorganise les valeurs de ordre
-            $i = 1;
-            foreach ($images_products as $image) {
-                $modified_images_products = Images_product::where('id', $image->id)->first();
-                $modified_images_products->ordre = $i;
-                $modified_images_products->save();
-                $i++;
+        $image_product = Images_product::where('id', $request->id)->first();
+        if ($image_product) {
+            if (Storage::disk('public')->exists($image_product->path)) {
+                Storage::disk('public')->delete($image_product->path);
             }
-            return Images_product::where('product_id', $product_id)
-                ->orWhere('status', 'tmp')
-                ->orderBy('ordre')
-                ->get();
+            Images_product::destroy($request->id);
+        }
+
+        if ($request->has('productId') && $request->productId != "null") {
+            $product_id = $request->productId;
+
+            // vide le champ image_path dans la table variantes s'il contien le path de l'image supprimée
+            if (!is_null($image_product)) { 
+                $variante = Variante::where('image_path', $image_product->path)->where('product_id', $image_product->product_id)->first();
+                if ($variante) {
+                    $variante->image_path = '';
+                    $variante->save();
+                }
+            }
+            // dd('isImages_products');
+            $isImages_products = Images_product::where('product_id', $product_id)
+                ->orderBy('ordre', 'asc')
+                ->first();
+
+            if ($isImages_products) {
+                $images_products = Images_product::where('product_id', $product_id)
+                    ->orderBy('ordre', 'asc')
+                    ->get();
+ 
+                // réorganise les valeurs de ordre
+                $i = 1;
+                foreach ($images_products as $image) {
+                    $image_product = Images_product::where('id', $image->id)->first();
+                    $image_product->ordre = $i;
+                    $image_product->save();
+                    $i++;
+                }
+
+                dd(Images_product::where('product_id', $product_id)
+                ->orderBy('ordre', 'asc')
+                ->get());
+
+
+                return Images_product::where('product_id', $product_id)
+                    ->orderBy('ordre', 'asc')
+                    ->get();
+            }
+        } elseif ($request->has('productId') && $request->productId == "null") {
+            $isImages_tmp_products = Images_product::where('status', 'tmp')
+                ->orderBy('ordre', 'asc')
+                ->first();
+
+            if ($isImages_tmp_products) {
+                return Images_product::where('status', 'tmp')
+                    ->orderBy('ordre', 'asc')
+                    ->get();
+            } else {
+                return 'empty';
+            }
         } else {
             return 'empty';
         }
+
+
+
+
     }
+
 
     public function deleteProducts(Request $request)
     {
