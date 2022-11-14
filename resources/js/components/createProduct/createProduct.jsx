@@ -16,7 +16,7 @@ import Description from './description';
 import Supplier from './supplier';
 import Tva from './tva';
 import Shipping from './shipping';
-import { v4 as uuidv4 } from 'uuid';
+import { stringify, v4 as uuidv4 } from 'uuid';
 import Activation from './activation';
 import Header from './header';
 import { getNow } from '../functions/dateTools';
@@ -34,16 +34,87 @@ const CreateProduct = () => {
     const [leaveProductFormWithoutSaveChange, setLeaveProductFormWithoutSaveChange] = useState(false);
     const [productStatus, setProductStatus] = useState(1);
     const [showBackButton, setShowBackButton] = useState(false);
+    const [productGlobalHook, setProductGlobalHook] = useState({});
 
 
-    const { descriptionProduct, setListSuppliers, supplier, setSupplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, setTva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, setRibbonProduct, screenSize, unlimited, isInAutoCollection, setIsInAutoCollection, dateFieldProduct, setDateFieldProduct, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked, setDescriptionProduct, setCollections, setProductPrice, promoApplied, promoType, setPromoType, setProductParcelWeight, setProductParcelWeightMeasureUnit, setPromoApplied, setReducedProductPrice, setProductCost, setProductStock, setProductCode, setOptionsObj, setUnlimited, setVariantes, setTransporter, setMetaTitleProduct, setMetaDescriptionProduct, setMetaUrlProduct, setImageVariantes, isEditProduct, setIsEditProduct, isShowPromoProduct, setIsShowPromoProduct, setShowOptions, IdProduct, setIdProduct, initCreateProduct, tvaComparation, setTvaComparation, isDirtyCreateProduct, setIsDirtyCreateProduct, checkIfCreateProductIsDirty, setHooksComparation, setChangedVariantes } = useContext(AppContext);
+    const { descriptionProduct, setListSuppliers, supplier, setSupplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, setNameProduct, optionsObj, setOptionsData, activeCalculTva, setTvaRateList, tva, setTva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, setRibbonProduct, screenSize, unlimited, isInAutoCollection, setIsInAutoCollection, dateFieldProduct, setDateFieldProduct, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked, setDescriptionProduct, setCollections, setProductPrice, promoApplied, promoType, setPromoType, setProductParcelWeight, setProductParcelWeightMeasureUnit, setPromoApplied, setReducedProductPrice, setProductCost, setProductStock, setProductCode, setOptionsObj, setUnlimited, setVariantes, setTransporter, setMetaTitleProduct, setMetaDescriptionProduct, setMetaUrlProduct, setImageVariantes, isEditProduct, setIsEditProduct, isShowPromoProduct, setIsShowPromoProduct, setShowOptions, IdProduct, setIdProduct, initCreateProduct, tvaComparation, setTvaComparation, isDirtyCreateProduct, setIsDirtyCreateProduct, checkIfCreateProductIsDirty, hooksComparation, setHooksComparation, changedVariantes, setChangedVariantes } = useContext(AppContext);
 
     // when click on edit in collection list it send collection id to db request for make edit collection
     const { state } = useLocation();
     const { productId, isEdit } = state !== null ? state : { productId: null, isEdit: false };
 
 
+    // Set the name of the hidden property and the change event for visibility
+    var hidden, visibilityChange;
+    if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support
+        hidden = "hidden";
+        visibilityChange = "visibilitychange";
+    } else if (typeof document.msHidden !== "undefined") {
+        hidden = "msHidden";
+        visibilityChange = "msvisibilitychange";
+    } else if (typeof document.webkitHidden !== "undefined") {
+        hidden = "webkitHidden";
+        visibilityChange = "webkitvisibilitychange";
+    }
+
+    // If the page is hidden, save in localStorage;
+    const handleVisibilityChange = () => {
+        if (document.hidden) {
+            if (isEdit) {
+                console.log('isEdit')
+                console.log('hooksComparation   ', hooksComparation)
+                localStorage.setItem('productForm', JSON.stringify(hooksComparation));
+            } else {
+                localStorage.setItem('productForm', JSON.stringify(handleLocalStorage()));
+            }
+        }
+        console.log('productForm  ', JSON.parse(localStorage.getItem('productForm')));
+        // localStorage.removeItem('monChat');
+    }
+
+    const handleLocalStorage = () => {
+        let prodGlobalHook = {};
+        prodGlobalHook.nameProduct = nameProduct;
+        prodGlobalHook.isInAutoCollection = isInAutoCollection;
+        prodGlobalHook.ribbonProduct = ribbonProduct;
+        prodGlobalHook.descriptionProduct = descriptionProduct;
+        prodGlobalHook.collections = collections;
+        prodGlobalHook.productPrice = productPrice;
+        prodGlobalHook.reducedProductPrice = reducedProductPrice;
+        prodGlobalHook.promoApplied = promoApplied;
+        prodGlobalHook.promoType = promoType;
+        prodGlobalHook.productCost = productCost;
+        prodGlobalHook.productStock = productStock;
+        prodGlobalHook.unlimited = unlimited;
+        prodGlobalHook.productStatus = productStatus;
+        prodGlobalHook.productParcelWeight = productParcelWeight;
+        prodGlobalHook.productParcelWeightMeasureUnit = productParcelWeightMeasureUnit;
+        prodGlobalHook.productCode = productCode;
+        prodGlobalHook.transporter = transporter;
+        prodGlobalHook.optionsObj = optionsObj;
+        prodGlobalHook.metaUrlProduct = metaUrlProduct;
+        prodGlobalHook.metaTitleProduct = metaTitleProduct;
+        prodGlobalHook.metaDescriptionProduct = metaDescriptionProduct;
+        prodGlobalHook.dateFieldProduct = dateFieldProduct
+        prodGlobalHook.tva = tva;
+        prodGlobalHook.supplier = supplier;
+        prodGlobalHook.variantes = variantes;
+        prodGlobalHook.changedVariantes = changedVariantes;
+        prodGlobalHook.isShowPromoProduct = isShowPromoProduct;
+        return prodGlobalHook;
+    }
+
+
+
     useEffect(() => {
+        // Page Visibility API
+        if (typeof document.addEventListener === "undefined" || typeof document.hidden === "undefined") {
+            console.log("Page Visibility API requires Chrome or Firefox.");
+        } else {
+            // Handle page visibility change
+            document.addEventListener(visibilityChange, handleVisibilityChange, false);
+        }
+
         // charge la liste des fournisseurs
         Axios.get(`http://127.0.0.1:8000/suppliers-list`)
             .then(res => {
@@ -165,6 +236,7 @@ const CreateProduct = () => {
                         hooksCompar.isShowPromoProduct = false;
                     }
                     setHooksComparation(hooksCompar);
+                    console.log('hooksCompar  ', hooksCompar)
 
                     if (JSON.parse(data.optionsObj)[0]?.name.length > 0) setShowOptions(true);
                 })
@@ -173,6 +245,8 @@ const CreateProduct = () => {
         } else {
             initCreateProduct();
         }
+
+        return document.removeEventListener(visibilityChange, handleVisibilityChange, false);
     }, []);
 
 
