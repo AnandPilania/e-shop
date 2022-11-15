@@ -29,7 +29,7 @@ const List = () => {
         created_atSens: true
     });
 
-    const { setSearchValue, messageModal, textButtonConfirm, setMessageModal, setSender, setTextButtonConfirm, screenSize, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked, setListCollectionNames, setIsEditProduct } = useContext(AppContext);
+    const { setSearchValue, messageModal, textButtonConfirm, setMessageModal, setSender, setTextButtonConfirm, screenSize, products, setProducts, listProductsFiltered, setListProductsFiltered, listProductsChecked, setListProductsChecked, setListCollectionNames, setIsEditProduct, setPage } = useContext(AppContext);
 
 
     useEffect(() => {
@@ -42,6 +42,8 @@ const List = () => {
             }).catch(function (error) {
                 console.log('error:   ' + error);
             });
+
+            setPage('productsList');
     }, []);
 
 

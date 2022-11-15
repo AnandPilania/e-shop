@@ -14,6 +14,8 @@ class Product extends Model
         'description',
     ];
 
+
+
     public function ali_product_info()
     {
         return $this->hasOne(Ali_product_info::class);

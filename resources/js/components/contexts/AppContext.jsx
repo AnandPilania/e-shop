@@ -246,4 +246,11 @@ export default createContext({
     checkIfCreateProductIsDirty: () => { },
     hooksComparation: '', 
     setHooksComparation: () => { },
+    productStatus: '', 
+    setProductStatus: () => { },
+    toLeavePage: '',
+    setToLeavePage: () => { },
+    page: '', 
+    setPage: () => { },
+
 });

@@ -167,6 +167,7 @@ const Appcontainer = () => {
     const [tvaComparation, setTvaComparation] = useState('');
     const [isDirtyCreateProduct, setIsDirtyCreateProduct] = useState(false);
     const [hooksComparation, setHooksComparation] = useState({});
+    const [productStatus, setProductStatus] = useState(1);
 
     //---------------------------------------------------------------PRODUCT
 
@@ -196,6 +197,8 @@ const Appcontainer = () => {
     // GENERAL -----------------------------------------------------------
     const [screenSize, setScreenSize] = useState(window.innerWidth);
     const [showSideNav, setShowSideNav] = useState(true);
+    const [toLeavePage, setToLeavePage] = useState(false);
+    const [page, setPage] = useState(false);
 
     useEffect(() => {
         // chargement des collections
@@ -228,6 +231,10 @@ const Appcontainer = () => {
                 console.log('Error : ' + error.status);
             });
 
+        // nettoie la table images_products des images temporaires
+        Axios.post(`http://127.0.0.1:8000/clean_Images_product_table`);
+
+
         // Listener screen size change
         function handleResizeScreen() {
             setScreenSize(window.innerWidth);
@@ -236,6 +243,8 @@ const Appcontainer = () => {
         return () => {
             window.removeEventListener('resize', handleResizeScreen);
         };
+
+
 
     }, []);
 
@@ -297,7 +306,7 @@ const Appcontainer = () => {
         setIdProduct(0);
     }
 
-    
+
     const checkIfCreateProductIsDirty = () => {
         if (isEditProduct) {
             // check collections
@@ -723,10 +732,13 @@ const Appcontainer = () => {
         isDirtyCreateProduct, setIsDirtyCreateProduct,
         checkIfCreateProductIsDirty,
         hooksComparation, setHooksComparation,
+        productStatus, setProductStatus,
+        toLeavePage, setToLeavePage,
+        page, setPage,
 
     }
 
-
+    console.log('toLeavePage  ', toLeavePage);
 
     return (
         <AppContext.Provider value={contextValue}>

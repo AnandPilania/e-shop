@@ -41,6 +41,13 @@ class ProductController extends Controller
         return [$product, $collections];
     }
 
+    public function getTmpProduct(Request $request)
+    {
+        $product = Product::where('tmp', 1)->with('collections', 'images_products', 'variantes', 'supplier', 'taxe')->first();
+        $collections = Collection::all('name');
+        return [$product, $collections];
+    }
+
     public function getMaxIdValues_Names()
     {
         $maxIdValues_Names = Options_name::max('id');
@@ -483,11 +490,6 @@ class ProductController extends Controller
                     $image_product->save();
                     $i++;
                 }
-
-                dd(Images_product::where('product_id', $product_id)
-                ->orderBy('ordre', 'asc')
-                ->get());
-
 
                 return Images_product::where('product_id', $product_id)
                     ->orderBy('ordre', 'asc')

@@ -138,6 +138,7 @@ Route::get('/paiement', [PaymentController::class, 'index']);
 
 Route::controller(ProductController::class)->group(function () {
     Route::post('/getProduct', 'getProduct');
+    Route::post('/getTmpProduct', 'getTmpProduct');
     Route::get('/selectCollections/{productId}', 'selectCollections');
     // get image from url
     Route::post('/fetchImage', 'fetchImage');
