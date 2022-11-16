@@ -248,9 +248,9 @@ export default createContext({
     setHooksComparation: () => { },
     productStatus: '', 
     setProductStatus: () => { },
-    toLeavePage: '',
-    setToLeavePage: () => { },
-    page: '', 
-    setPage: () => { },
-
+    hasLeaveThisPage: '', 
+    setHasLeaveThisPage: () => { },
+    isVisible: '',  
+    setIsVisible: () => { },
+    
 });

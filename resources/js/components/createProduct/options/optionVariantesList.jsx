@@ -49,6 +49,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
 
     useEffect(() => {
+        console.log('USE-EFFECT')
         if (!isEditProduct) {
             let libelles = [];
             // renvoi un tableau contenant les tableaux des VALEURS des différentes options. Sert à récupérer toutes les combinaisons possible entre les différentes options 
@@ -87,8 +88,6 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
             // get les id des noms d'options pour les associer à leur values dans un objet
             let optionsIdValuesNames = optionsObj.map(x => x.idValues_Names);
             let tmp_variantesAsString = [];
-            // quand on modifie les params d'une variantes on la copie ici pour conserver ses modifications
-            let tmp_changedVariantes = [...changedVariantes];
 
             for (let i = 0; i < libelles.length; i++) {
                 // split les values de optionsObj pour les récupérer séparements et les associer à leur option Name dans un objet "destiné au back-end !" 
@@ -123,6 +122,8 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                 }
             }
 
+            // quand on modifie les params d'une variantes on la copie ici pour conserver ses modifications
+            let tmp_changedVariantes = [...changedVariantes];
             // remplace les variantes de tmp_variantesAsString par celles qui ont été modifiées et qui leur correspondent
             if (tmp_variantesAsString.length > 0 && tmp_changedVariantes.length > 0) {
                 for (let i = 0; i < tmp_variantesAsString.length; i++) {
@@ -144,14 +145,17 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                         }
                     }
                 }
+                console.log('tmp_changedVariantes  ', tmp_changedVariantes)
             }
             setVariantes(tmp_variantesAsString);
         }
         isEditProduct && setIsEditProduct(false);
         // ferme "ajouter des options quand on supprime toutes les options"
         // optionsObj.name != '' && setShowOptions(false);
+
     }, [optionsObj]);
 
+    console.log('-> variantes <-', variantes)
 
     const handleVariantes = (id, field, data) => {
         let tmp_variantes = [...variantes];
@@ -167,6 +171,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         } else {
             tmp_changedVariantes.push(tmp_variantes[ndx]);
         }
+        console.log('tmp_changedVariantes <-', tmp_changedVariantes)
         setChangedVariantes([...tmp_changedVariantes]);
         setVariantes([...tmp_variantes]);
     }

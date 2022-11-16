@@ -12,6 +12,8 @@ import ListCollections from '../collections/list/list';
 import CreateCollection from '../collections/index';
 import WrapperCreateCollectionCroppeImage from '../collections/wrapperCreateCollectionCroppeImage';
 import Settings from '../settings/settings';
+import { getIsDocumentHidden } from '../functions/visibilityChange.js';
+
 
 
 const Appcontainer = () => {
@@ -197,8 +199,8 @@ const Appcontainer = () => {
     // GENERAL -----------------------------------------------------------
     const [screenSize, setScreenSize] = useState(window.innerWidth);
     const [showSideNav, setShowSideNav] = useState(true);
-    const [toLeavePage, setToLeavePage] = useState(false);
-    const [page, setPage] = useState(false);
+    const [isVisible, setIsVisible] = useState(getIsDocumentHidden())
+    const [hasLeaveThisPage, setHasLeaveThisPage] = useState(false);
 
     useEffect(() => {
         // chargement des collections
@@ -247,6 +249,8 @@ const Appcontainer = () => {
 
 
     }, []);
+
+    // console.log('isVisible  ', isVisible)
 
 
     // remove records and images files from folders and temporaryStorage db when unused 
@@ -733,12 +737,11 @@ const Appcontainer = () => {
         checkIfCreateProductIsDirty,
         hooksComparation, setHooksComparation,
         productStatus, setProductStatus,
-        toLeavePage, setToLeavePage,
-        page, setPage,
+        hasLeaveThisPage, setHasLeaveThisPage,
+        isVisible, setIsVisible,
 
     }
 
-    console.log('toLeavePage  ', toLeavePage);
 
     return (
         <AppContext.Provider value={contextValue}>

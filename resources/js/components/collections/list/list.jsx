@@ -25,7 +25,7 @@ const ListCollections = () => {
         created_atSens: true
     });
 
-    const { listCollections, setListCollections, listCollectionsFiltered, setListCollectionsFiltered, setListCategories, setCategoriesChecked, setSearchValue, is, setIs, messageModal, textButtonConfirm, imageModal, showModalConfirm, handleModalConfirm, handleModalCancel, setShowModalConfirm, setMessageModal, setSender, setTextButtonConfirm, setImageModal, setTmp_parameter, screenSize, listCollectionsChecked, setListCollectionsChecked, setPage } = useContext(AppContext);
+    const { listCollections, setListCollections, listCollectionsFiltered, setListCollectionsFiltered, setListCategories, setCategoriesChecked, setSearchValue, is, setIs, messageModal, textButtonConfirm, imageModal, showModalConfirm, handleModalConfirm, handleModalCancel, setShowModalConfirm, setMessageModal, setSender, setTextButtonConfirm, setImageModal, setTmp_parameter, screenSize, listCollectionsChecked, setListCollectionsChecked, setHasLeaveThisPage } = useContext(AppContext);
 
     useEffect(() => {
         if (listCollectionsFiltered.length === 0) {
@@ -41,7 +41,7 @@ const ListCollections = () => {
                 });
         }
 
-        setPage('collectionsList')
+        setHasLeaveThisPage('collectionsList')
     }, []);
 
     useEffect(() => {

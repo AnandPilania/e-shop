@@ -38,25 +38,20 @@ const CreateProduct = () => {
     const [showBackButton, setShowBackButton] = useState(false);
 
 
-    const { descriptionProduct, setListSuppliers, supplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, optionsObj, activeCalculTva, setTvaRateList, tva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, screenSize, unlimited, isInAutoCollection, dateFieldProduct, promoApplied, promoType, setIsEditProduct, isShowPromoProduct, setIdProduct, initCreateProduct, setTvaComparation, isDirtyCreateProduct, changedVariantes, productStatus, setSupplier, setNameProduct, setTva, setRibbonProduct, setIsInAutoCollection, setDateFieldProduct, setDescriptionProduct, setCollections, setProductPrice, setPromoType, setProductParcelWeight, setProductParcelWeightMeasureUnit, setPromoApplied, setReducedProductPrice, setProductCost, setProductStock, setProductCode, setOptionsObj, setUnlimited, setVariantes, setTransporter, setMetaTitleProduct, setMetaDescriptionProduct, setMetaUrlProduct, setIsShowPromoProduct, setShowOptions, setHooksComparation, setChangedVariantes, setProductStatus, toLeavePage, setPage } = useContext(AppContext);
+    const { descriptionProduct, setListSuppliers, supplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, optionsObj, activeCalculTva, setTvaRateList, tva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, screenSize, unlimited, isInAutoCollection, dateFieldProduct, promoApplied, promoType, setIsEditProduct, isShowPromoProduct, setIdProduct, initCreateProduct, setTvaComparation, isDirtyCreateProduct, changedVariantes, productStatus, setSupplier, setNameProduct, setTva, setRibbonProduct, setIsInAutoCollection, setDateFieldProduct, setDescriptionProduct, setCollections, setProductPrice, setPromoType, setProductParcelWeight, setProductParcelWeightMeasureUnit, setPromoApplied, setReducedProductPrice, setProductCost, setProductStock, setProductCode, setOptionsObj, setUnlimited, setVariantes, setTransporter, setMetaTitleProduct, setMetaDescriptionProduct, setMetaUrlProduct, setIsShowPromoProduct, setShowOptions, setHooksComparation, setChangedVariantes, setProductStatus, hasLeaveThisPage, setHasLeaveThisPage, setIsVisible } = useContext(AppContext);
 
     // when click on edit in collection list it send collection id to db request for make edit collection
     const { state } = useLocation();
     const { productId, isEdit } = state !== null ? state : { productId: null, isEdit: false };
 
 
-
     // If the page is hidden, save in localStorage;
     useEffect(() => {
-        if (!isVisiblePage || toLeavePage) {
+        if (!isVisiblePage) {
             localStorage.setItem('productForm', JSON.stringify(handleLocalStorage()));
+            // setIsVisible(true);
         }
-        console.log('productForm  ', JSON.parse(localStorage.getItem('productForm')));
-    }, [isVisiblePage, toLeavePage]);
-
-
-    // localStorage.removeItem('productForm');
-
+    }, [isVisiblePage]);
     const handleLocalStorage = () => {
         let prodGlobalHook = {};
         prodGlobalHook.nameProduct = nameProduct;
@@ -133,8 +128,8 @@ const CreateProduct = () => {
         }
 
         if (isEdit) {
-            localStorage.removeItem('productForm');
-            initCreateProduct();
+            // localStorage.removeItem('productForm');
+            // initCreateProduct();
             setIdProduct(productId);
             let idProd = new FormData;
             idProd.append('productId', productId);
@@ -144,24 +139,23 @@ const CreateProduct = () => {
                     let data = res.data[0];
                     setProductData(data);
                 });
-
             setIsEditProduct(true);
         } else {
             if (localStorage.getItem('productForm') != null) {
                 setProductData(JSON.parse(localStorage.getItem('productForm')));
                 setIsLocalStorage(true);
-                localStorage.removeItem('productForm');
+                // localStorage.removeItem('productForm');
             } else {
                 initCreateProduct();
             }
         }
 
-        setPage('createProduct');
+        setHasLeaveThisPage('createProductForm');
     }, []);
 
 
     const setProductData = (data) => {
-        console.log('data.name   ', data.name)
+
         let name = data.name == undefined ? data.nameProduct : data.name;
         let ribbon = data.ribbon == undefined ? data.ribbonProduct : data.ribbon;
         let description = data.description == undefined ? data.descriptionProduct : data.description;
@@ -245,13 +239,10 @@ const CreateProduct = () => {
             hooksCompar.isShowPromoProduct = false;
         }
         setHooksComparation(hooksCompar);
-        console.log('hooksCompar  ', hooksCompar)
 
         if (Array.isArray(data.optionsObj)) {
-            console.log('data.optionsObj arr  ', data.optionsObj)
             if (data.optionsObj[0]?.name.length > 0) setShowOptions(true);
         } else {
-            console.log('JSON.parse(data.optionsObj) json  ', JSON.parse(data.optionsObj))
             if (typeof data.optionsObj === 'string'  && JSON.parse(data.optionsObj)[0]?.name.length > 0) setShowOptions(true);
         }
 

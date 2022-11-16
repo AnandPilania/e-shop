@@ -65,7 +65,6 @@ const DropZoneProduct = ({ productId, isLocalStorage, setIsLocalStorage }) => {
         if (isLocalStorage) {
             Axios.post(`http://127.0.0.1:8000/getTmpProduct`)
                 .then(res => {
-                    console.log('res.data[0]   ', res.data)
                     let tmp_data = [[]];
                     let tmp = [];
                     let imagesProduct = res.data[0].images_products;
