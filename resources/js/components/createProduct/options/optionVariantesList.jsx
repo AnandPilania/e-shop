@@ -49,7 +49,8 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
 
     useEffect(() => {
-        console.log('USE-EFFECT')
+        console.log('USEd-EFFECT')
+        console.log('optionsObj   ', optionsObj)
         if (!isEditProduct) {
             let libelles = [];
             // renvoi un tableau contenant les tableaux des VALEURS des différentes options. Sert à récupérer toutes les combinaisons possible entre les différentes options 
@@ -171,7 +172,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         } else {
             tmp_changedVariantes.push(tmp_variantes[ndx]);
         }
-        console.log('tmp_changedVariantes <-', tmp_changedVariantes)
+        console.log('tmp_changedVariantes !!! <-', tmp_changedVariantes)
         setChangedVariantes([...tmp_changedVariantes]);
         setVariantes([...tmp_variantes]);
     }

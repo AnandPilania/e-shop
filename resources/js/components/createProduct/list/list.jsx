@@ -345,7 +345,7 @@ const List = () => {
 
                     {/* status */}
                     {screenSize > 559 &&
-                        <div className='shrink-0 w-32 h-12 flex-row'>
+                        <div className='shrink-0 w-32 h-12 flex flex-row justify-start items-center'>
                             <span className='shrink-0 font-medium'>Statut</span>
                         </div>}
 

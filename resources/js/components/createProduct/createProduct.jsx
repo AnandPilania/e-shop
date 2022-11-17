@@ -47,7 +47,9 @@ const CreateProduct = () => {
 
     // If the page is hidden, save in localStorage;
     useEffect(() => {
+        console.log('isVisiblePage  ------------------------------------ ')
         if (!isVisiblePage) {
+            console.log('!!!!isVisiblePage  ------------------------------------ ')
             localStorage.setItem('productForm', JSON.stringify(handleLocalStorage()));
             // setIsVisible(true);
         }
@@ -153,7 +155,7 @@ const CreateProduct = () => {
         setHasLeaveThisPage('createProductForm');
     }, []);
 
-
+console.log('localStorage.getItem  ', JSON.parse(localStorage.getItem('productForm')).optionsObj)
     const setProductData = (data) => {
 
         let name = data.name == undefined ? data.nameProduct : data.name;
@@ -190,7 +192,6 @@ const CreateProduct = () => {
         setProductParcelWeightMeasureUnit(weightMeasure);
         setProductCode(sku == null ? '' : sku);
         setTransporter(onlyTheseCarriers != undefined ? onlyTheseCarriers : []);
-        setOptionsObj(Array.isArray(data.optionsObj) ? data.optionsObj : JSON.parse(data.optionsObj));
         setMetaUrlProduct(data.metaUrl == null ? '' : data.metaUrl);
         setMetaTitleProduct(data.metaTitle == null ? '' : data.metaTitle);
         setMetaDescriptionProduct(data.metaDescription == null ? '' : data.metaDescription);
@@ -204,6 +205,7 @@ const CreateProduct = () => {
         if (data.reduction != null || data.reduced_price != null) {
             setIsShowPromoProduct(true);
         }
+        setOptionsObj(Array.isArray(data.optionsObj) ? data.optionsObj : JSON.parse(data.optionsObj));
 
         // tableau de comparaison pour checker if isDirty
         let hooksCompar = [];

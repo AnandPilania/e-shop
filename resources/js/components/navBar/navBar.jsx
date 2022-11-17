@@ -31,11 +31,11 @@ const Navbar = () => {
 
     // déclenche le localStorage des formulaires si on quitte une des pages qui ne peuvent pas être quitter quand elles sont dirty
     if (hasLeaveThisPage === "createProductForm") {
-      setHasLeaveThisPage('');
       // setIsVisible(false);
+      setHasLeaveThisPage('');
     } else if (hasLeaveThisPage === "createCollectionForm") {
-      setHasLeaveThisPage('');
       // setIsVisible(false);
+      setHasLeaveThisPage('');
     } else {
       // setIsVisible(true);
     }
