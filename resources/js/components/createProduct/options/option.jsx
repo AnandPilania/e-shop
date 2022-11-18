@@ -57,13 +57,13 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
     };
 
     // initialise quand on change d'option
-    useEffect(() => {
+    useEffect(() => { 
         setListOptionValues([]);
         if (isEditProduct) {
             getOptionValues();
             // setOptionObj({ ...optionObj });
         } else {
-            setOptionObj({ ...optionObj, values: [] });
+            // setOptionObj({ ...optionObj, values: [] });
             if (optionObj.name?.length > 0) {
                 getOptionValues();
             }

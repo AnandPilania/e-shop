@@ -90,7 +90,7 @@ const DropZoneProduct = ({ productId, isLocalStorage, setIsLocalStorage }) => {
         }
     }, [isLocalStorage]);
 
-
+// console.log('imageVariantes  ', imageVariantes)
     useEffect(() => {
         if (isEditProduct) {
             let idProduct = new FormData;

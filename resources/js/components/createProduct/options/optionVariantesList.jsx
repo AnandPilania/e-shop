@@ -49,9 +49,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
 
     useEffect(() => {
-        console.log('USEd-EFFECT')
-        console.log('optionsObj   ', optionsObj)
-        if (!isEditProduct) {
+        if (!isEditProduct && optionsObj != null && optionsObj != undefined) {
             let libelles = [];
             // renvoi un tableau contenant les tableaux des VALEURS des différentes options. Sert à récupérer toutes les combinaisons possible entre les différentes options 
             let optionsCombinations = optionsObj.map(x => x.values);
@@ -62,7 +60,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                 if (optionsObj[i].values.length > 0) {
                     indexOfNotEmpty_optionsObj_values.push(i);
                 }
-            }
+            }          
             function getCombinaisons(ndxTab, comb) {
                 if (!ndxTab.length) {
                     libelles.push(comb);
@@ -122,7 +120,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                     })
                 }
             }
-
+console.log('changedVariantes  ', changedVariantes)
             // quand on modifie les params d'une variantes on la copie ici pour conserver ses modifications
             let tmp_changedVariantes = [...changedVariantes];
             // remplace les variantes de tmp_variantesAsString par celles qui ont été modifiées et qui leur correspondent
@@ -146,7 +144,6 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                         }
                     }
                 }
-                console.log('tmp_changedVariantes  ', tmp_changedVariantes)
             }
             setVariantes(tmp_variantesAsString);
         }
@@ -156,7 +153,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
     }, [optionsObj]);
 
-    console.log('-> variantes <-', variantes)
+
 
     const handleVariantes = (id, field, data) => {
         let tmp_variantes = [...variantes];
@@ -172,7 +169,6 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
         } else {
             tmp_changedVariantes.push(tmp_variantes[ndx]);
         }
-        console.log('tmp_changedVariantes !!! <-', tmp_changedVariantes)
         setChangedVariantes([...tmp_changedVariantes]);
         setVariantes([...tmp_variantes]);
     }
@@ -615,9 +611,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                                             <img className='w-auto max-h-[28px]'
                                                 src={'/storage/' + item.selectedImage.path}
                                             />
-
                                             :
-
                                             <img className='w-6 h-auto'
                                                 src='../images/icons/image.svg'
                                             />

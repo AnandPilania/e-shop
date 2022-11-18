@@ -74,10 +74,10 @@ const Options = () => {
     }
 
     // show and hide add options
-    const handleShowOptions = () => { console.log('ICI OPTIONS')
+    const handleShowOptions = () => { 
         if (showOptions) {
             // on demande confirmation avant d'annuler les options et de perdre tout ce qu'il y a dans les champs 
-            if (optionsObj.findIndex(x => x.name.length > 0 || x.values.length > 0) > -1) {
+            if (optionsObj?.findIndex(x => x.name.length > 0 || x.values.length > 0) > -1) {
                 setShowModalCancelWithoutSaveOptions(true);
             } else {
                 setShowOptions(false);

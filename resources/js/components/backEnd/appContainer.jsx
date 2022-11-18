@@ -203,6 +203,8 @@ const Appcontainer = () => {
     const [hasLeaveThisPage, setHasLeaveThisPage] = useState(false);
 
     useEffect(() => {
+        localStorage.removeItem('productForm');
+
         // chargement des collections
         if (listCollections.length === 0) {
             Axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
@@ -245,8 +247,6 @@ const Appcontainer = () => {
         return () => {
             window.removeEventListener('resize', handleResizeScreen);
         };
-
-
 
     }, []);
 
@@ -308,6 +308,41 @@ const Appcontainer = () => {
         checkIfCreateProductIsDirty();
         setIsEditProduct(false);
         setIdProduct(0);
+        setChangedVariantes([]);
+    }
+
+    const handleLocalStorage = () => {
+        let prodGlobalHook = {};
+        prodGlobalHook.nameProduct = nameProduct;
+        prodGlobalHook.isInAutoCollection = isInAutoCollection;
+        prodGlobalHook.ribbonProduct = ribbonProduct;
+        prodGlobalHook.descriptionProduct = descriptionProduct;
+        prodGlobalHook.collections = collections;
+        prodGlobalHook.productPrice = productPrice;
+        prodGlobalHook.reducedProductPrice = reducedProductPrice;
+        prodGlobalHook.promoApplied = promoApplied;
+        prodGlobalHook.promoType = promoType;
+        prodGlobalHook.productCost = productCost;
+        prodGlobalHook.productStock = productStock;
+        prodGlobalHook.unlimited = unlimited;
+        prodGlobalHook.productStatus = productStatus;
+        prodGlobalHook.productParcelWeight = productParcelWeight;
+        prodGlobalHook.productParcelWeightMeasureUnit = productParcelWeightMeasureUnit;
+        prodGlobalHook.productCode = productCode;
+        prodGlobalHook.transporter = transporter;
+        prodGlobalHook.optionsObj = optionsObj;
+        prodGlobalHook.metaUrlProduct = metaUrlProduct;
+        prodGlobalHook.metaTitleProduct = metaTitleProduct;
+        prodGlobalHook.metaDescriptionProduct = metaDescriptionProduct;
+        prodGlobalHook.dateFieldProduct = dateFieldProduct
+        prodGlobalHook.tva = tva;
+        prodGlobalHook.supplier = supplier;
+        prodGlobalHook.variantes = variantes;
+        prodGlobalHook.imageVariantes = imageVariantes;
+        prodGlobalHook.changedVariantes = changedVariantes;
+        prodGlobalHook.isShowPromoProduct = isShowPromoProduct;
+
+        localStorage.setItem('productForm', JSON.stringify(prodGlobalHook));
     }
 
 
@@ -739,6 +774,7 @@ const Appcontainer = () => {
         productStatus, setProductStatus,
         hasLeaveThisPage, setHasLeaveThisPage,
         isVisible, setIsVisible,
+        handleLocalStorage,
 
     }
 

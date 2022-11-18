@@ -81,13 +81,6 @@ const OptimisationProduct = () => {
         }
     }
 
-    // réinitialise les champs de l'optimisation seo
-    const initOptimisationForm = () => {
-        setMetaTitleProduct('');
-        setMetaDescriptionProduct('');
-        setMetaUrlProduct(window.location.origin + '/');
-    }
-
     const handleMetaUrl = (e) => {
         let urlName = normalizUrl(e.target.value);
         setMetaUrlProduct(urlName.substring(0, 2047));
@@ -137,25 +130,6 @@ const OptimisationProduct = () => {
                         label="Optimisation SEO"
                     />
                 </div>
-
-                {metaUrlProduct?.length > 0 ?
-                    (<button
-                        className='w-auto py-2 px-4 mb-2.5 flex flex-row justify-center items-center text-white bg-red-700 rounded-md text-base cursor-pointer hover:bg-red-800'
-                        onClick={initOptimisationForm}>
-                        Annuler
-                    </button>) :
-                    metaTitleProduct?.length > 0 ?
-                        (<button
-                            className='w-auto py-2 px-4 mb-2.5 flex flex-row justify-center items-center text-white bg-red-700 rounded-md text-base cursor-pointer hover:bg-red-800'
-                            onClick={initOptimisationForm}>
-                            Annuler
-                        </button>) :
-                        metaDescriptionProduct?.length > 0 ?
-                            (<button
-                                className='w-auto py-2 px-4 mb-2.5 flex flex-row justify-center items-center text-white bg-red-700 rounded-md text-base cursor-pointer hover:bg-red-800'
-                                onClick={initOptimisationForm}>
-                                Annuler
-                            </button>) : ''}
             </div>
 
             <div

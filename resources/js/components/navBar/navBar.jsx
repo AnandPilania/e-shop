@@ -9,7 +9,7 @@ const Navbar = () => {
   const [itemMenuSelected, setItemMenuSelected] = useState('');
   const [screenSize, setScreenSize] = useState('');
 
-  const { showSideNav, setShowSideNav, setIsVisible , hasLeaveThisPage, setHasLeaveThisPage } = useContext(AppContext);
+  const { showSideNav, setShowSideNav, setIsVisible , hasLeaveThisPage, setHasLeaveThisPage, handleLocalStorage } = useContext(AppContext);
 
   // get screen size
   useEffect(() => {
@@ -31,13 +31,13 @@ const Navbar = () => {
 
     // déclenche le localStorage des formulaires si on quitte une des pages qui ne peuvent pas être quitter quand elles sont dirty
     if (hasLeaveThisPage === "createProductForm") {
-      // setIsVisible(false);
+      handleLocalStorage();
       setHasLeaveThisPage('');
     } else if (hasLeaveThisPage === "createCollectionForm") {
-      // setIsVisible(false);
+      handleLocalStorage();
       setHasLeaveThisPage('');
     } else {
-      // setIsVisible(true);
+      setIsVisible(true);
     }
     navigate(url);
   }

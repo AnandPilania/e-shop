@@ -252,5 +252,6 @@ export default createContext({
     setHasLeaveThisPage: () => { },
     isVisible: '',  
     setIsVisible: () => { },
+    handleLocalStorage: () => { },
     
 });

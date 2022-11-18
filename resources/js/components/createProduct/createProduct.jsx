@@ -26,6 +26,7 @@ import moment from 'moment';
 import { usePageVisibility } from '../hooks/usePageVisibility';
 
 
+
 const CreateProduct = () => {
     const isVisiblePage = usePageVisibility()
 
@@ -38,7 +39,7 @@ const CreateProduct = () => {
     const [showBackButton, setShowBackButton] = useState(false);
 
 
-    const { descriptionProduct, setListSuppliers, supplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, optionsObj, activeCalculTva, setTvaRateList, tva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, screenSize, unlimited, isInAutoCollection, dateFieldProduct, promoApplied, promoType, setIsEditProduct, isShowPromoProduct, setIdProduct, initCreateProduct, setTvaComparation, isDirtyCreateProduct, changedVariantes, productStatus, setSupplier, setNameProduct, setTva, setRibbonProduct, setIsInAutoCollection, setDateFieldProduct, setDescriptionProduct, setCollections, setProductPrice, setPromoType, setProductParcelWeight, setProductParcelWeightMeasureUnit, setPromoApplied, setReducedProductPrice, setProductCost, setProductStock, setProductCode, setOptionsObj, setUnlimited, setVariantes, setTransporter, setMetaTitleProduct, setMetaDescriptionProduct, setMetaUrlProduct, setIsShowPromoProduct, setShowOptions, setHooksComparation, setChangedVariantes, setProductStatus, hasLeaveThisPage, setHasLeaveThisPage, setIsVisible } = useContext(AppContext);
+    const { descriptionProduct, setListSuppliers, supplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, optionsObj, activeCalculTva, setTvaRateList, tva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, screenSize, unlimited, isInAutoCollection, dateFieldProduct, promoApplied, promoType, setIsEditProduct, isShowPromoProduct, setIdProduct, initCreateProduct, setTvaComparation, isDirtyCreateProduct, changedVariantes, productStatus, setSupplier, setNameProduct, setTva, setRibbonProduct, setIsInAutoCollection, setDateFieldProduct, setDescriptionProduct, setCollections, setProductPrice, setPromoType, setProductParcelWeight, setProductParcelWeightMeasureUnit, setPromoApplied, setReducedProductPrice, setProductCost, setProductStock, setProductCode, setOptionsObj, setUnlimited, setVariantes, setTransporter, setMetaTitleProduct, setMetaDescriptionProduct, setMetaUrlProduct, setIsShowPromoProduct, setShowOptions, setHooksComparation, setChangedVariantes, setProductStatus, hasLeaveThisPage, setHasLeaveThisPage, handleLocalStorage, setIsVisible } = useContext(AppContext);
 
     // when click on edit in collection list it send collection id to db request for make edit collection
     const { state } = useLocation();
@@ -47,45 +48,11 @@ const CreateProduct = () => {
 
     // If the page is hidden, save in localStorage;
     useEffect(() => {
-        console.log('isVisiblePage  ------------------------------------ ')
         if (!isVisiblePage) {
-            console.log('!!!!isVisiblePage  ------------------------------------ ')
-            localStorage.setItem('productForm', JSON.stringify(handleLocalStorage()));
-            // setIsVisible(true);
+            handleLocalStorage();
+            setIsVisible(true);
         }
     }, [isVisiblePage]);
-    const handleLocalStorage = () => {
-        let prodGlobalHook = {};
-        prodGlobalHook.nameProduct = nameProduct;
-        prodGlobalHook.isInAutoCollection = isInAutoCollection;
-        prodGlobalHook.ribbonProduct = ribbonProduct;
-        prodGlobalHook.descriptionProduct = descriptionProduct;
-        prodGlobalHook.collections = collections;
-        prodGlobalHook.productPrice = productPrice;
-        prodGlobalHook.reducedProductPrice = reducedProductPrice;
-        prodGlobalHook.promoApplied = promoApplied;
-        prodGlobalHook.promoType = promoType;
-        prodGlobalHook.productCost = productCost;
-        prodGlobalHook.productStock = productStock;
-        prodGlobalHook.unlimited = unlimited;
-        prodGlobalHook.productStatus = productStatus;
-        prodGlobalHook.productParcelWeight = productParcelWeight;
-        prodGlobalHook.productParcelWeightMeasureUnit = productParcelWeightMeasureUnit;
-        prodGlobalHook.productCode = productCode;
-        prodGlobalHook.transporter = transporter;
-        prodGlobalHook.optionsObj = optionsObj;
-        prodGlobalHook.metaUrlProduct = metaUrlProduct;
-        prodGlobalHook.metaTitleProduct = metaTitleProduct;
-        prodGlobalHook.metaDescriptionProduct = metaDescriptionProduct;
-        prodGlobalHook.dateFieldProduct = dateFieldProduct
-        prodGlobalHook.tva = tva;
-        prodGlobalHook.supplier = supplier;
-        prodGlobalHook.variantes = variantes;
-        prodGlobalHook.changedVariantes = changedVariantes;
-        prodGlobalHook.isShowPromoProduct = isShowPromoProduct;
-        return prodGlobalHook;
-    }
-
 
 
     useEffect(() => {
@@ -130,8 +97,9 @@ const CreateProduct = () => {
         }
 
         if (isEdit) {
-            // localStorage.removeItem('productForm');
-            // initCreateProduct();
+            localStorage.removeItem('productForm');
+            initCreateProduct();
+            setIsLocalStorage(true);
             setIdProduct(productId);
             let idProd = new FormData;
             idProd.append('productId', productId);
@@ -144,20 +112,20 @@ const CreateProduct = () => {
             setIsEditProduct(true);
         } else {
             if (localStorage.getItem('productForm') != null) {
-                setProductData(JSON.parse(localStorage.getItem('productForm')));
+                initCreateProduct();
+                let data = JSON.parse(localStorage.getItem('productForm'));
+                setProductData(data);
                 setIsLocalStorage(true);
-                // localStorage.removeItem('productForm');
             } else {
                 initCreateProduct();
             }
         }
-
+        // indique la page qu'on quitte. Sert à gérer le stockage en local storage des formulaires dirty
         setHasLeaveThisPage('createProductForm');
     }, []);
 
-console.log('localStorage.getItem  ', JSON.parse(localStorage.getItem('productForm')).optionsObj)
-    const setProductData = (data) => {
 
+    const setProductData = (data) => {
         let name = data.name == undefined ? data.nameProduct : data.name;
         let ribbon = data.ribbon == undefined ? data.ribbonProduct : data.ribbon;
         let description = data.description == undefined ? data.descriptionProduct : data.description;
@@ -173,7 +141,10 @@ console.log('localStorage.getItem  ', JSON.parse(localStorage.getItem('productFo
         let weightMeasure = data.weightMeasure == undefined ? data.productParcelWeightMeasureUnit : data.weightMeasure;
         let sku = data.sku == undefined ? data.productCode : data.sku;
         let onlyTheseCarriers = data.onlyTheseCarriers == undefined ? data.transporter : JSON.parse(data.onlyTheseCarriers);
-        // let optionsObj = data.optionsObj == undefined ? data.transporter : data.optionsObj;
+        let metaUrl = data.metaUrl == undefined ? data.metaUrlProduct : data.metaUrl;
+        let metaTitle = data.metaTitle == undefined ? data.metaTitleProduct : data.metaTitle;
+        let metaDescription = data.metaDescription == undefined ? data.metaDescriptionProduct : data.metaDescription;
+        let dateActivation = data.dateActivation == undefined ? data.dateFieldProduct : moment(new Date(data.dateActivation)).format("DD-MM-YYYY HH:mm:ss");
 
         setNameProduct(name == null ? '' : name);
         setIsInAutoCollection(data.isInAutoCollection == 1 ? true : false);
@@ -192,18 +163,34 @@ console.log('localStorage.getItem  ', JSON.parse(localStorage.getItem('productFo
         setProductParcelWeightMeasureUnit(weightMeasure);
         setProductCode(sku == null ? '' : sku);
         setTransporter(onlyTheseCarriers != undefined ? onlyTheseCarriers : []);
-        setMetaUrlProduct(data.metaUrl == null ? '' : data.metaUrl);
-        setMetaTitleProduct(data.metaTitle == null ? '' : data.metaTitle);
-        setMetaDescriptionProduct(data.metaDescription == null ? '' : data.metaDescription);
-        setDateFieldProduct(moment(new Date(data.dateActivation)).format("DD-MM-YYYY HH:mm:ss"));
+        setMetaUrlProduct(metaUrl == null ? '' : metaUrl);
+        setMetaTitleProduct(metaTitle == null ? '' : metaTitle);
+        setMetaDescriptionProduct(metaDescription == null ? '' : metaDescription);
+        setDateFieldProduct(dateActivation);
         setTva(data.taxe);
         setSupplier(data.supplier == null ? '' : data.supplier);
         setVariantes(data.variantes);
         // sert à conserver les mini images dans optionsVariantesList quand on ajoute des options. A GARDER !
-        setChangedVariantes(data.variantes.filter(x => x.image_path != ""));
+        if (isEdit) {
+            setChangedVariantes(data.variantes.filter(x => x.image_path != ""));
+        } else {
+            let hasImage_path = data.variantes.filter(x => x.image_path != "");
+            if (hasImage_path.length > 0) {
+                setChangedVariantes(hasImage_path);
+            } else {
+                let hasSelectedImage = data.variantes.filter(x => 'selectedImage' in x);
+                if (hasSelectedImage.length > 0) {
+                    setChangedVariantes(hasSelectedImage);
+                } 
+            }
+        }
         // affiche la partie promo dans price
-        if (data.reduction != null || data.reduced_price != null) {
-            setIsShowPromoProduct(true);
+        if (data.reduction != undefined || data.reduced_price != undefined) {
+            if (data.reduction != null || data.reduced_price != null) {
+                setIsShowPromoProduct(true);
+            } else {
+                setIsShowPromoProduct(false);
+            }
         }
         setOptionsObj(Array.isArray(data.optionsObj) ? data.optionsObj : JSON.parse(data.optionsObj));
 
@@ -217,7 +204,6 @@ console.log('localStorage.getItem  ', JSON.parse(localStorage.getItem('productFo
         hooksCompar.productPrice = price;
         hooksCompar.reducedProductPrice = reduced_price == null ? '' : reduced_price;
         hooksCompar.promoApplied = reduction == null ? '' : reduction;
-        // hooksCompar.promoApplied = data.reduction == null ? '' : data.reduction;
         hooksCompar.promoType = reductionType;
         hooksCompar.productCost = cost == null ? '' : cost;
         hooksCompar.productStock = stock == null ? '' : stock;
@@ -226,31 +212,38 @@ console.log('localStorage.getItem  ', JSON.parse(localStorage.getItem('productFo
         hooksCompar.productParcelWeightMeasureUnit = weightMeasure;
         hooksCompar.productCode = sku == null ? '' : sku;
         hooksCompar.transporter = onlyTheseCarriers != undefined ? onlyTheseCarriers : [];
-        hooksCompar.metaUrlProduct = data.metaUrl == null ? '' : data.metaUrl;
-        hooksCompar.metaTitleProduct = data.metaTitle == null ? '' : data.metaTitle;
-        hooksCompar.metaDescriptionProduct = data.metaDescription == null ? '' : data.metaDescription;
-        hooksCompar.dateFieldProduct = data.dateActivation;
+        hooksCompar.metaUrlProduct = metaUrl == null ? '' : metaUrl;
+        hooksCompar.metaTitleProduct = metaTitle == null ? '' : metaTitle;
+        hooksCompar.metaDescriptionProduct = metaDescription == null ? '' : metaDescription;
+        hooksCompar.dateFieldProduct = dateActivation;
         hooksCompar.tva = data.taxe;
         hooksCompar.supplier = data.supplier == null ? '' : data.supplier;
         hooksCompar.variantes = data.variantes;
-        hooksCompar.imageVariantes = data.images_products;
+        hooksCompar.changedVariantes = changedVariantes;
+        hooksCompar.imageVariantes = data.images_products == null ? imageVariantes : data.images_products;
+        // 
         // affiche la partie promo dans price
-        if (data.reduction != null || data.reduced_price != null) {
-            hooksCompar.isShowPromoProduct = true;
-        } else {
-            hooksCompar.isShowPromoProduct = false;
+
+        if (data.reducedProductPrice != undefined || data.promoApplied != undefined) {
+            if (data.reducedProductPrice != null || data.promoApplied != null) {
+                hooksCompar.isShowPromoProduct = true;
+                setIsShowPromoProduct(true);
+            } else {
+                hooksCompar.isShowPromoProduct = false;
+                setIsShowPromoProduct(false);
+            }
         }
+
         setHooksComparation(hooksCompar);
 
         if (Array.isArray(data.optionsObj)) {
             if (data.optionsObj[0]?.name.length > 0) setShowOptions(true);
         } else {
-            if (typeof data.optionsObj === 'string'  && JSON.parse(data.optionsObj)[0]?.name.length > 0) setShowOptions(true);
+            if (typeof data.optionsObj === 'string' && JSON.parse(data.optionsObj)[0]?.name.length > 0) setShowOptions(true);
         }
-
     }
 
-
+    console.log('variantes  ', variantes)
 
     // demande confirmation avant de quitter le form sans sauvegarder
     // usePromptProduct('Quitter sans sauvegarder les changements ?', true, setShowModalLeaveWithoutSave, setMessageModal, leaveProductFormWithoutSaveChange, setLeaveProductFormWithoutSaveChange);
