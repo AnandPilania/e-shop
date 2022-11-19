@@ -44,7 +44,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`sideNav absolute lg:sticky top-14 left-0 w-0 h-[calc(100vh_-_56px)] pt-8 pl-3 bg-slate-800 flex flex-col justify-start items-start z-50 transition ease-in-out delay-150 ${showSideNav ? "translate-x-0 w-60" : "translate-x-[-100%] w-0"} lg:w-60 lg:translate-x-0`}
+      className={`sideNav absolute lg:sticky top-14 left-0 w-0 h-[calc(100vh_-_56px)] pt-8 pl-3 bg-indigo-900 flex flex-col justify-start items-start z-50 transition ease-in-out delay-150 ${showSideNav ? "translate-x-0 w-60" : "translate-x-[-100%] w-0"} lg:w-60 lg:translate-x-0`}
     >
 
         <>

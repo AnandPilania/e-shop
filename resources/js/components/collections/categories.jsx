@@ -269,7 +269,7 @@ const Categories = () => {
     return (
         <div className='w-full'>
             <div className="flex flex-col justify-start items-start h-auto w-full bg-white mb-2.5 p-5 rounded-md shadow-sm">
-                <div className="div-label-inputTxt">
+                <div className="w-full flex flex-col justify-start items-start">
                     <Label label="Catégorie" />
                     <div
                         className="w-full rounded-t-md relative"

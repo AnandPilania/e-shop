@@ -172,9 +172,8 @@ const ConditionCollection = ({ condition, handleChangeValue, handleChangeParam, 
     const borderRed = warningIdCondition.includes(condition.id) ? 'borderRed' : '';
 
 
-
     return (
-        <div className={"block-select-conditions " + borderRed}>
+        <div className={"w-full mb-4 grid grid-cols-[1fr_1fr_1fr_30px] gap-x-2.5 justify-start items-center " + borderRed}>
 
             {/* parameters */}
             <div>

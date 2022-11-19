@@ -281,7 +281,7 @@ const ListCollections = () => {
                             onClick={() => sortList('name')}>
                             Nom
                         </span>
-                        <figure className='h-6 w-6 cursor-pointer' onClick={() => sortList('name')}>
+                        <figure className='h-6 w-6 ml-1.5 cursor-pointer' onClick={() => sortList('name')}>
                             <img src={window.location.origin + '/images/icons/' + imgSort.imgName} className="h-6 w-6" />
                         </figure>
                     </div>
@@ -312,7 +312,7 @@ const ListCollections = () => {
 
                     {/* status */}
                     {screenSize > 559 &&
-                        <div className='shrink-0 w-32 h-12 flex-row'>
+                        <div className='shrink-0 w-32 h-12 flex flex-row justify-start items-center'>
                             <span className='shrink-0 font-medium'>Statut</span>
                         </div>}
 

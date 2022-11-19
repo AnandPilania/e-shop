@@ -5,14 +5,14 @@ import Label from '../form/label';
 
 const NameAndRibbon = () => {
 
-    const { nameProduct, setNameProduct, ribbonProduct, setRibbonProduct } = useContext(AppContext);
+    const { nameProduct, setNameProduct, ribbonProduct, setRibbonProduct, productForm, setProductForm } = useContext(AppContext);
 
     const handleName = (e) => {
-        setNameProduct(e.target.value);
+        setProductForm({...productForm, nameProduct: e.target.value});
     }
 
     const handleRibbon = (e) => {
-        setRibbonProduct(e.target.value);
+        setProductForm({...productForm, ribbonProduct: e.target.value});
     }
 
     return (
@@ -24,7 +24,7 @@ const NameAndRibbon = () => {
                 </div>
                 <InputText
                     id="productName22822"
-                    value={nameProduct}
+                    value={productForm.nameProduct}
                     handleChange={handleName}
                     css="rounded-md"
                     maxLength={255}
@@ -37,7 +37,7 @@ const NameAndRibbon = () => {
                 </div>
                 <InputText
                     id="productRibbon22822"
-                    value={ribbonProduct}
+                    value={productForm.ribbonProduct}
                     handleChange={handleRibbon}
                     css="rounded-md"
                     maxLength={255}

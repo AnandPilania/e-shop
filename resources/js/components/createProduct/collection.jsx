@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import Flex_col_s_s from '../elements/container/flex_col_s_s';
-import SelectWithCheckbox from '../elements/selectWithCheckbox';
+import SelectWithCheckbox from './selectWithCheckbox';
 import Axios from 'axios';
 import Label from '../form/label';
 
@@ -11,7 +11,7 @@ const Collection = () => {
     const [collectionsRelations, setCollectionsRelations] = useState([]);
     const [toggleSelectWithCheckboxCollection, setToggleSelectWithCheckboxCollection] = useState(false);
 
-    const { collections, setCollections, isInAutoCollection, setIsInAutoCollection } = useContext(AppContext);
+    const { collections, setCollections, isInAutoCollection, setIsInAutoCollection, productForm, setProductForm } = useContext(AppContext);
 
     useEffect(() => {
         // récupére les collections
@@ -28,16 +28,16 @@ const Collection = () => {
     }, []);
 
     const removeCollection = (item) => {
-        let index = collections.findIndex(x => x.id == item.id);
+        let index = productForm.collections.findIndex(x => x.id == item.id);
         if (index > -1) {
-            let tmp_arr = [...collections];
+            let tmp_arr = [...productForm.collections];
             tmp_arr.splice(index, 1);
-            setCollections([...tmp_arr]);
+            setProductForm({...productForm, collections: [...tmp_arr]});
         }
     }
 
     const handleIsInAutoCollection = () => {
-        setIsInAutoCollection(!isInAutoCollection);
+        setProductForm({...productForm, isInAutoCollection: !productForm.isInAutoCollection});
     }
 
     return (
@@ -47,13 +47,13 @@ const Collection = () => {
                 key="SelectWithCheckbox_collection"
                 unikId="SelectWithCheckbox_collection"
                 list={collectionsRelations}
-                selected={collections}
-                setSelected={setCollections}
+                selected={productForm}
+                setSelected={setProductForm}
                 toggleSelectWithCheckbox={toggleSelectWithCheckboxCollection}
                 setToggleSelectWithCheckbox={setToggleSelectWithCheckboxCollection}
             />
-            <div className={`flex flex-wrap ${collections.length > 0 && "pt-4"} w-full`}>
-                {collections.map(item =>
+            <div className={`flex flex-wrap ${productForm.collections.length > 0 && "pt-4"} w-full`}>
+                {productForm.collections.map(item =>
                     <div key={item.id}
                         className="flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-2 pr-1.5 py-1 mb-1 mr-2">
                         <span
@@ -73,9 +73,9 @@ const Collection = () => {
                 <input
                 id="isInAutoCollectionId26822"
                     type="checkbox"
-                    value={isInAutoCollection}
+                    value={productForm.isInAutoCollection}
                     onChange={handleIsInAutoCollection}
-                    checked={isInAutoCollection}
+                    checked={productForm.isInAutoCollection}
                     className="h-5 w-5"
                 />
                 <label 

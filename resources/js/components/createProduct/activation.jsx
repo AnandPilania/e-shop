@@ -9,7 +9,7 @@ import Label from '../form/label';
 
 const Activation = () => {
 
-    const { dateFieldProduct, setDateFieldProduct } = useContext(AppContext);
+    const { dateFieldProduct, setDateFieldProduct, productForm, setProductForm } = useContext(AppContext);
 
     return (
         <div>
@@ -21,7 +21,7 @@ const Activation = () => {
                             className="w-full h-10 pl-5 m-0 flex justify-start items-center border border-gray-300 rounded-md cursor-pointer bg-white hover:border-gray-400  bg-no-repeat bg-right-center bg-chevron-expand caret-transparent"
                             id="activationDate"
                             data-enable-time
-                            placeholder={dateFieldProduct}
+                            placeholder={productForm.dateFieldProduct}
                             position="auto center"
                             options={{
                                 minDate: 'today',
@@ -65,7 +65,7 @@ const Activation = () => {
                                     (minute.toString()) + ":" +
                                     (seconde.toString());
 
-                                setDateFieldProduct(dateActivation);
+                                    setProductForm({...productForm, dateFieldProduct: dateActivation});
                             }}
                         />
                     </div>

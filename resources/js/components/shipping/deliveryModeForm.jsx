@@ -82,7 +82,7 @@ const DeliveryModeForm = ({ deliveryZoneList, setDeliveryZoneList, IdDeliveryZon
         }
     }
     // demande confirmation avant de quitter le form sans sauvegarder
-    usePromptCollection('Quitter sans sauvegarder vos changements ?', checkIfIsDirty, setShowModalConfirmation, setMessageModal);
+    // usePromptCollection('Quitter sans sauvegarder vos changements ?', checkIfIsDirty, setShowModalConfirmation, setMessageModal);
 
 
     const handleShowDeliveryPriceConditions = () => {

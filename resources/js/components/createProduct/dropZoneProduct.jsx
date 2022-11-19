@@ -55,71 +55,67 @@ const DropZoneProduct = ({ productId, isLocalStorage, setIsLocalStorage }) => {
         }
 
         setDropRegion();
-
-        // // nettoie la table images_products des images temporaires
-        // Axios.post(`http://127.0.0.1:8000/clean_Images_product_table`);
-
     }, []);
 
-    useEffect(() => {
-        if (isLocalStorage) {
-            Axios.post(`http://127.0.0.1:8000/getTmpProduct`)
-                .then(res => {
-                    let tmp_data = [[]];
-                    let tmp = [];
-                    let imagesProduct = res.data[0].images_products;
-                    imagesProduct.sort(function (a, b) {
-                        return a.ordre - b.ordre;
-                    });
-                    for (let i = 0; i < imagesProduct.length; i++) {
-                        if (tmp.length < 4) {
-                            tmp.push(imagesProduct[i]);
-                            tmp_data.splice(-1, 1, tmp);
-                        } else {
-                            tmp = [];
-                            tmp.push(imagesProduct[i]);
-                            tmp_data.push(tmp);
-                        }
-                    };
-                    setImageVariantes(tmp_data);
-                })
-                .catch(error => {
-                    console.log('Error get Product Images failed : ' + error.status);
-                });
-            setIsLocalStorage(false);
-        }
-    }, [isLocalStorage]);
+    // useEffect(() => {
+    //     if (isLocalStorage) {
+    //         Axios.post(`http://127.0.0.1:8000/getTmpProduct`)
+    //             .then(res => {
+    //                 let tmp_data = [[]];
+    //                 let tmp = [];
+    //                 let imagesProduct = res.data[0].images_products;
+    //                 imagesProduct.sort(function (a, b) {
+    //                     return a.ordre - b.ordre;
+    //                 });
+    //                 for (let i = 0; i < imagesProduct.length; i++) {
+    //                     if (tmp.length < 4) {
+    //                         tmp.push(imagesProduct[i]);
+    //                         tmp_data.splice(-1, 1, tmp);
+    //                     } else {
+    //                         tmp = [];
+    //                         tmp.push(imagesProduct[i]);
+    //                         tmp_data.push(tmp);
+    //                     }
+    //                 };
+    //                 setImageVariantes(tmp_data);
+    //             })
+    //             .catch(error => {
+    //                 console.log('Error get Product Images failed : ' + error.status);
+    //             });
+    //         setIsLocalStorage(false);
+    //     }
+    // }, [isLocalStorage]);
 
 // console.log('imageVariantes  ', imageVariantes)
-    useEffect(() => {
-        if (isEditProduct) {
-            let idProduct = new FormData;
-            idProduct.append('productId', productId);
-            Axios.post(`http://127.0.0.1:8000/getProduct`, idProduct)
-                .then(res => {
-                    let tmp_data = [[]];
-                    let tmp = [];
-                    let imagesProduct = res.data[0].images_products;
-                    imagesProduct.sort(function (a, b) {
-                        return a.ordre - b.ordre;
-                    });
-                    for (let i = 0; i < imagesProduct.length; i++) {
-                        if (tmp.length < 4) {
-                            tmp.push(imagesProduct[i]);
-                            tmp_data.splice(-1, 1, tmp);
-                        } else {
-                            tmp = [];
-                            tmp.push(imagesProduct[i]);
-                            tmp_data.push(tmp);
-                        }
-                    };
-                    setImageVariantes(tmp_data);
-                })
-                .catch(error => {
-                    console.log('Error get Product Images failed : ' + error.status);
-                });
-        }
-    }, [isEditProduct])
+    // useEffect(() => {
+    //     if (isEditProduct) {
+    //         let idProduct = new FormData;
+    //         idProduct.append('productId', productId);
+    //         Axios.post(`http://127.0.0.1:8000/getProduct`, idProduct)
+    //             .then(res => {
+    //                 let tmp_data = [[]];
+    //                 let tmp = [];
+    //                 let imagesProduct = res.data[0].images_products;
+    //                 imagesProduct.sort(function (a, b) {
+    //                     return a.ordre - b.ordre;
+    //                 });
+    //                 for (let i = 0; i < imagesProduct.length; i++) {
+    //                     if (tmp.length < 4) {
+    //                         tmp.push(imagesProduct[i]);
+    //                         tmp_data.splice(-1, 1, tmp);
+    //                     } else {
+    //                         tmp = [];
+    //                         tmp.push(imagesProduct[i]);
+    //                         tmp_data.push(tmp);
+    //                     }
+    //                 };
+    //                 setImageVariantes(tmp_data);
+    //             })
+    //             .catch(error => {
+    //                 console.log('Error get Product Images failed : ' + error.status);
+    //             });
+    //     }
+    // }, [isEditProduct])
 
 
     function preventDefault(e) {

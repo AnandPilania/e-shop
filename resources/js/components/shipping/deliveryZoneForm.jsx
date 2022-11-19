@@ -39,7 +39,7 @@ const DeliveryZoneForm = ({ countriesList, deliveryZoneList, IdDeliveryZones, se
     }, []);
 
     // demande confirmation avant de quitter le form sans sauvegarder
-    usePromptCollection('Quitter sans sauvegarder vos données ?', isDirtyZoneShipping, setShowModalConfirmation, setMessageModal);
+    // usePromptCollection('Quitter sans sauvegarder vos données ?', isDirtyZoneShipping, setShowModalConfirmation, setMessageModal);
 
 
     const handleNameZoneShipping = (e) => {

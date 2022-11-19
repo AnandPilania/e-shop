@@ -253,5 +253,8 @@ export default createContext({
     isVisible: '',  
     setIsVisible: () => { },
     handleLocalStorage: () => { },
+    productForm: '',
+    setProductForm: () => { },
+
     
 });

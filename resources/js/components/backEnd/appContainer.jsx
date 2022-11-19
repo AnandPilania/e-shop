@@ -171,6 +171,40 @@ const Appcontainer = () => {
     const [hooksComparation, setHooksComparation] = useState({});
     const [productStatus, setProductStatus] = useState(1);
 
+    const [productForm, setProductForm] = useState({
+        nameProduct : '',
+        isInAutoCollection : true,
+        ribbonProduct : '',
+        descriptionProduct : '',
+        collections : [],
+        productPrice : '',
+        reducedProductPrice : '',
+        promoApplied : '',
+        promoType : '%',
+        productCost : '',
+        productStock : '',
+        unlimited : false,
+        productParcelWeight : '',
+        productParcelWeightMeasureUnit : 'gr',
+        productCode : '',
+        transporter : [],
+        metaUrlProduct : '',
+        metaTitleProduct : '',
+        metaDescriptionProduct : '',
+        dateFieldProduct : getNow(),
+        tva : '',
+        supplier : '',
+        variantes : [],
+        optionsObj : [],
+        showOptions : false,
+        imageVariantes : [[]],
+        isShowPromoProduct : false,
+        isDirtyCreateProduct : false,
+        isEditProduct : false,
+        idProduct : 0,
+        changedVariantes : [],
+    });
+
     //---------------------------------------------------------------PRODUCT
 
 
@@ -280,7 +314,7 @@ const Appcontainer = () => {
         setNameProduct('');
         setIsInAutoCollection(true);
         setRibbonProduct('');
-        setDescriptionProduct('')
+        setDescriptionProduct('');
         setCollections([]);
         setProductPrice('');
         setReducedProductPrice('');
@@ -775,6 +809,7 @@ const Appcontainer = () => {
         hasLeaveThisPage, setHasLeaveThisPage,
         isVisible, setIsVisible,
         handleLocalStorage,
+        productForm, setProductForm,
 
     }
 

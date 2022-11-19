@@ -117,7 +117,7 @@ const Conditions = ({
                     <div className="w-full flex flex-col justify-start">
                         <Label label="Condition(s)" />
                         <p className='text-base text-gray-700'>
-                            Définissez une ou plusieurs règles. Ex. Le prix du produit est inférieur à 50 €, Le nom du produit contient le mot Robe, etc. Seuls les produits correspondants à vos règles seront intégrés dans cette collection.
+                            Définissez une ou plusieurs règles. Ex. Le prix du produit est inférieur à 50 €, Le nom du produit contient le mot Robe, etc. Seuls les produits correspondants à vos règles seront intégrés automatiquement dans cette collection.
                         </p>
                         <div className="w-full my-4 flex flex-row justify-start items-center">
                             <div className="w-full flex flex-row justify-start items-center">
@@ -176,7 +176,7 @@ const Conditions = ({
                                 id="includOnlyNewProducts"
                                 checked={notIncludePrevProduct == 1 ? true : false}
                                 onChange={handleNotIncludePrevProducts}
-                                className="accent-indigo-700"
+                                className="accent-indigo-700 mr-2"
                             />
                             <label
                                 htmlFor='includOnlyNewProducts'>

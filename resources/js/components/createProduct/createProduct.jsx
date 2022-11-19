@@ -24,7 +24,7 @@ import { getNow } from '../functions/dateTools';
 import ModalConfirmation from '../modal/modalConfirmation';
 import moment from 'moment';
 import { usePageVisibility } from '../hooks/usePageVisibility';
-
+import { isSet } from '../functions/isSet';
 
 
 const CreateProduct = () => {
@@ -39,7 +39,7 @@ const CreateProduct = () => {
     const [showBackButton, setShowBackButton] = useState(false);
 
 
-    const { descriptionProduct, setListSuppliers, supplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, optionsObj, activeCalculTva, setTvaRateList, tva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, screenSize, unlimited, isInAutoCollection, dateFieldProduct, promoApplied, promoType, setIsEditProduct, isShowPromoProduct, setIdProduct, initCreateProduct, setTvaComparation, isDirtyCreateProduct, changedVariantes, productStatus, setSupplier, setNameProduct, setTva, setRibbonProduct, setIsInAutoCollection, setDateFieldProduct, setDescriptionProduct, setCollections, setProductPrice, setPromoType, setProductParcelWeight, setProductParcelWeightMeasureUnit, setPromoApplied, setReducedProductPrice, setProductCost, setProductStock, setProductCode, setOptionsObj, setUnlimited, setVariantes, setTransporter, setMetaTitleProduct, setMetaDescriptionProduct, setMetaUrlProduct, setIsShowPromoProduct, setShowOptions, setHooksComparation, setChangedVariantes, setProductStatus, hasLeaveThisPage, setHasLeaveThisPage, handleLocalStorage, setIsVisible } = useContext(AppContext);
+    const { descriptionProduct, setListSuppliers, supplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, optionsObj, activeCalculTva, setTvaRateList, tva, imageVariantes, productCode, productCost, reducedProductPrice, variantes, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, screenSize, unlimited, isInAutoCollection, dateFieldProduct, promoApplied, promoType, setIsEditProduct, isShowPromoProduct, setIdProduct, initCreateProduct, setTvaComparation, isDirtyCreateProduct, changedVariantes, productStatus, setSupplier, setNameProduct, setTva, setRibbonProduct, setIsInAutoCollection, setDateFieldProduct, setDescriptionProduct, setCollections, setProductPrice, setPromoType, setProductParcelWeight, setProductParcelWeightMeasureUnit, setPromoApplied, setReducedProductPrice, setProductCost, setProductStock, setProductCode, setOptionsObj, setUnlimited, setVariantes, setTransporter, setMetaTitleProduct, setMetaDescriptionProduct, setMetaUrlProduct, setIsShowPromoProduct, setShowOptions, setHooksComparation, setChangedVariantes, setProductStatus, setImageVariantes, setHasLeaveThisPage, handleLocalStorage, setIsVisible, productForm, setProductForm } = useContext(AppContext);
 
     // when click on edit in collection list it send collection id to db request for make edit collection
     const { state } = useLocation();
@@ -108,6 +108,7 @@ const CreateProduct = () => {
                     console.log('res data   ', res.data)
                     let data = res.data[0];
                     setProductData(data);
+                    loadImagesVariantes(data);
                 });
             setIsEditProduct(true);
         } else {
@@ -115,7 +116,8 @@ const CreateProduct = () => {
                 initCreateProduct();
                 let data = JSON.parse(localStorage.getItem('productForm'));
                 setProductData(data);
-                setIsLocalStorage(true);
+                loadImagesVariantes(data);
+                // setIsLocalStorage(true);
             } else {
                 initCreateProduct();
             }
@@ -124,7 +126,37 @@ const CreateProduct = () => {
         setHasLeaveThisPage('createProductForm');
     }, []);
 
+    const loadImagesVariantes = (data) => {
+        let tmp_data = [[]];
+        let tmp = [];
+        console.log('data   ', data)
+        let imagesProduct = [];
+        if ('images_products' in data) {
+            imagesProduct = data.images_products;
+        } else if ('imageVariantes' in data) {
+            imagesProduct = data.imageVariantes[0];
+        }
+        if (imagesProduct.length > 0) {
+            imagesProduct.sort(function (a, b) {
+                return a.ordre - b.ordre;
+            });
+            for (let i = 0; i < imagesProduct.length; i++) {
+                if (tmp.length < 4) {
+                    tmp.push(imagesProduct[i]);
+                    tmp_data.splice(-1, 1, tmp);
+                } else {
+                    tmp = [];
+                    tmp.push(imagesProduct[i]);
+                    tmp_data.push(tmp);
+                }
+            };
+            setImageVariantes(tmp_data);
+        }
+    }
 
+
+    console.log('productForm  ', productForm)
+    console.log('imageVariantes  ', imageVariantes)
     const setProductData = (data) => {
         let name = data.name == undefined ? data.nameProduct : data.name;
         let ribbon = data.ribbon == undefined ? data.ribbonProduct : data.ribbon;
@@ -145,54 +177,59 @@ const CreateProduct = () => {
         let metaTitle = data.metaTitle == undefined ? data.metaTitleProduct : data.metaTitle;
         let metaDescription = data.metaDescription == undefined ? data.metaDescriptionProduct : data.metaDescription;
         let dateActivation = data.dateActivation == undefined ? data.dateFieldProduct : moment(new Date(data.dateActivation)).format("DD-MM-YYYY HH:mm:ss");
-
-        setNameProduct(name == null ? '' : name);
-        setIsInAutoCollection(data.isInAutoCollection == 1 ? true : false);
-        setRibbonProduct(ribbon == null ? '' : ribbon);
-        setDescriptionProduct(description);
-        setCollections([...data.collections]);
-        setProductPrice(price);
-        setReducedProductPrice(reduced_price == null ? '' : reduced_price);
-        setPromoApplied(reduction == null ? '' : reduction);
-        setPromoType(reductionType);
-        setProductCost(cost == null ? '' : cost);
-        setProductStock(stock == 0 ? '' : stock);
-        setUnlimited(unlimitedStock);
-        setProductStatus(status);
-        setProductParcelWeight(weight == null ? '' : weight);
-        setProductParcelWeightMeasureUnit(weightMeasure);
-        setProductCode(sku == null ? '' : sku);
-        setTransporter(onlyTheseCarriers != undefined ? onlyTheseCarriers : []);
-        setMetaUrlProduct(metaUrl == null ? '' : metaUrl);
-        setMetaTitleProduct(metaTitle == null ? '' : metaTitle);
-        setMetaDescriptionProduct(metaDescription == null ? '' : metaDescription);
-        setDateFieldProduct(dateActivation);
-        setTva(data.taxe);
-        setSupplier(data.supplier == null ? '' : data.supplier);
-        setVariantes(data.variantes);
         // sert à conserver les mini images dans optionsVariantesList quand on ajoute des options. A GARDER !
+        let changed_variantes = [];
         if (isEdit) {
-            setChangedVariantes(data.variantes.filter(x => x.image_path != ""));
+            changed_variantes = data.variantes.filter(x => x.image_path != "");
         } else {
             let hasImage_path = data.variantes.filter(x => x.image_path != "");
             if (hasImage_path.length > 0) {
-                setChangedVariantes(hasImage_path);
+                changed_variantes = hasImage_path;
             } else {
                 let hasSelectedImage = data.variantes.filter(x => 'selectedImage' in x);
                 if (hasSelectedImage.length > 0) {
-                    setChangedVariantes(hasSelectedImage);
-                } 
+                    changed_variantes = hasSelectedImage;
+                }
             }
         }
         // affiche la partie promo dans price
-        if (data.reduction != undefined || data.reduced_price != undefined) {
-            if (data.reduction != null || data.reduced_price != null) {
-                setIsShowPromoProduct(true);
-            } else {
-                setIsShowPromoProduct(false);
-            }
+        let isShow_PromoProduct = false;
+        if (isSet(data.reduction) && isSet(data.reduced_price)) {
+            isShow_PromoProduct = true;
+        } else {
+            isShow_PromoProduct = false;
         }
-        setOptionsObj(Array.isArray(data.optionsObj) ? data.optionsObj : JSON.parse(data.optionsObj));
+
+        setProductForm({
+            nameProduct: name == null ? '' : name,
+            isInAutoCollection: data.isInAutoCollection == 1 ? true : false,
+            ribbonProduct: ribbon == null ? '' : ribbon,
+            descriptionProduct: description,
+            collections: [...data.collections],
+            productPrice: price,
+            reducedProductPrice: reduced_price == null ? '' : reduced_price,
+            promoApplied: reduction == null ? '' : reduction,
+            promoType: reductionType,
+            productCost: cost == null ? '' : cost,
+            productStock: stock == 0 ? '' : stock,
+            unlimited: unlimitedStock,
+            productParcelWeight: weight == null ? '' : weight,
+            productParcelWeightMeasureUnit: weightMeasure,
+            productCode: sku == null ? '' : sku,
+            transporter: onlyTheseCarriers != undefined ? onlyTheseCarriers : [],
+            metaUrlProduct: metaUrl == null ? '' : metaUrl,
+            metaTitleProduct: metaTitle == null ? '' : metaTitle,
+            metaDescriptionProduct: metaDescription == null ? '' : metaDescription,
+            dateFieldProduct: dateActivation,
+            tva: data.taxe,
+            supplier: data.supplier == null ? '' : data.supplier,
+            variantes: data.variantes,
+            optionsObj: Array.isArray(data.optionsObj) ? data.optionsObj : JSON.parse(data.optionsObj),
+            isShowPromoProduct: isShow_PromoProduct,
+            changedVariantes: changed_variantes,
+        });
+
+
 
         // tableau de comparaison pour checker if isDirty
         let hooksCompar = [];
@@ -221,19 +258,6 @@ const CreateProduct = () => {
         hooksCompar.variantes = data.variantes;
         hooksCompar.changedVariantes = changedVariantes;
         hooksCompar.imageVariantes = data.images_products == null ? imageVariantes : data.images_products;
-        // 
-        // affiche la partie promo dans price
-
-        if (data.reducedProductPrice != undefined || data.promoApplied != undefined) {
-            if (data.reducedProductPrice != null || data.promoApplied != null) {
-                hooksCompar.isShowPromoProduct = true;
-                setIsShowPromoProduct(true);
-            } else {
-                hooksCompar.isShowPromoProduct = false;
-                setIsShowPromoProduct(false);
-            }
-        }
-
         setHooksComparation(hooksCompar);
 
         if (Array.isArray(data.optionsObj)) {
@@ -242,6 +266,117 @@ const CreateProduct = () => {
             if (typeof data.optionsObj === 'string' && JSON.parse(data.optionsObj)[0]?.name.length > 0) setShowOptions(true);
         }
     }
+
+    // const setProductData = (data) => {
+    //     let name = data.name == undefined ? data.nameProduct : data.name;
+    //     let ribbon = data.ribbon == undefined ? data.ribbonProduct : data.ribbon;
+    //     let description = data.description == undefined ? data.descriptionProduct : data.description;
+    //     let price = data.price == undefined ? data.productPrice : data.price;
+    //     let reduced_price = data.reduced_price == undefined ? data.reducedProductPrice : data.reduced_price;
+    //     let reduction = data.reduction == undefined ? data.promoApplied : data.reduction;
+    //     let reductionType = data.reductionType == undefined ? data.promoType : data.reductionType;
+    //     let cost = data.cost == undefined ? data.productCost : data.cost;
+    //     let stock = data.stock == undefined ? data.productStock : data.stock;
+    //     let unlimitedStock = data.unlimitedStock == undefined ? data.unlimited : data.unlimitedStock;
+    //     let status = data.status == undefined ? data.productStatus : data.status;
+    //     let weight = data.weight == undefined ? data.productParcelWeight : data.weight;
+    //     let weightMeasure = data.weightMeasure == undefined ? data.productParcelWeightMeasureUnit : data.weightMeasure;
+    //     let sku = data.sku == undefined ? data.productCode : data.sku;
+    //     let onlyTheseCarriers = data.onlyTheseCarriers == undefined ? data.transporter : JSON.parse(data.onlyTheseCarriers);
+    //     let metaUrl = data.metaUrl == undefined ? data.metaUrlProduct : data.metaUrl;
+    //     let metaTitle = data.metaTitle == undefined ? data.metaTitleProduct : data.metaTitle;
+    //     let metaDescription = data.metaDescription == undefined ? data.metaDescriptionProduct : data.metaDescription;
+    //     let dateActivation = data.dateActivation == undefined ? data.dateFieldProduct : moment(new Date(data.dateActivation)).format("DD-MM-YYYY HH:mm:ss");
+
+    //     setNameProduct(name == null ? '' : name);
+    //     setIsInAutoCollection(data.isInAutoCollection == 1 ? true : false);
+    //     setRibbonProduct(ribbon == null ? '' : ribbon);
+    //     setDescriptionProduct(description);
+    //     setCollections([...data.collections]);
+    //     setProductPrice(price);
+    //     setReducedProductPrice(reduced_price == null ? '' : reduced_price);
+    //     setPromoApplied(reduction == null ? '' : reduction);
+    //     setPromoType(reductionType);
+    //     setProductCost(cost == null ? '' : cost);
+    //     setProductStock(stock == 0 ? '' : stock);
+    //     setUnlimited(unlimitedStock);
+    //     setProductStatus(status);
+    //     setProductParcelWeight(weight == null ? '' : weight);
+    //     setProductParcelWeightMeasureUnit(weightMeasure);
+    //     setProductCode(sku == null ? '' : sku);
+    //     setTransporter(onlyTheseCarriers != undefined ? onlyTheseCarriers : []);
+    //     setMetaUrlProduct(metaUrl == null ? '' : metaUrl);
+    //     setMetaTitleProduct(metaTitle == null ? '' : metaTitle);
+    //     setMetaDescriptionProduct(metaDescription == null ? '' : metaDescription);
+    //     setDateFieldProduct(dateActivation);
+    //     setTva(data.taxe);
+    //     setSupplier(data.supplier == null ? '' : data.supplier);
+    //     setVariantes(data.variantes);
+    //     // sert à conserver les mini images dans optionsVariantesList quand on ajoute des options. A GARDER !
+    //     if (isEdit) {
+    //         setChangedVariantes(data.variantes.filter(x => x.image_path != ""));
+    //     } else {
+    //         let hasImage_path = data.variantes.filter(x => x.image_path != "");
+    //         if (hasImage_path.length > 0) {
+    //             setChangedVariantes(hasImage_path);
+    //         } else {
+    //             let hasSelectedImage = data.variantes.filter(x => 'selectedImage' in x);
+    //             if (hasSelectedImage.length > 0) {
+    //                 setChangedVariantes(hasSelectedImage);
+    //             }
+    //         }
+    //     }
+    //     // affiche la partie promo dans price
+    //     if (isSet(data.reduction) && isSet(data.reduced_price)) {
+    //         setIsShowPromoProduct(true);
+    //     } else {
+    //         setIsShowPromoProduct(false);
+    //     }
+
+    //     setOptionsObj(Array.isArray(data.optionsObj) ? data.optionsObj : JSON.parse(data.optionsObj));
+
+    //     // tableau de comparaison pour checker if isDirty
+    //     let hooksCompar = [];
+    //     hooksCompar.nameProduct = name == null ? '' : name;
+    //     hooksCompar.isInAutoCollection = data.isInAutoCollection == 1 ? true : false;
+    //     hooksCompar.ribbonProduct = ribbon == null ? '' : ribbon;
+    //     hooksCompar.descriptionProduct = description;
+    //     hooksCompar.collections = [...data.collections];
+    //     hooksCompar.productPrice = price;
+    //     hooksCompar.reducedProductPrice = reduced_price == null ? '' : reduced_price;
+    //     hooksCompar.promoApplied = reduction == null ? '' : reduction;
+    //     hooksCompar.promoType = reductionType;
+    //     hooksCompar.productCost = cost == null ? '' : cost;
+    //     hooksCompar.productStock = stock == null ? '' : stock;
+    //     hooksCompar.unlimited = data.unlimitedStock;
+    //     hooksCompar.productParcelWeight = weight == null ? '' : weight;
+    //     hooksCompar.productParcelWeightMeasureUnit = weightMeasure;
+    //     hooksCompar.productCode = sku == null ? '' : sku;
+    //     hooksCompar.transporter = onlyTheseCarriers != undefined ? onlyTheseCarriers : [];
+    //     hooksCompar.metaUrlProduct = metaUrl == null ? '' : metaUrl;
+    //     hooksCompar.metaTitleProduct = metaTitle == null ? '' : metaTitle;
+    //     hooksCompar.metaDescriptionProduct = metaDescription == null ? '' : metaDescription;
+    //     hooksCompar.dateFieldProduct = dateActivation;
+    //     hooksCompar.tva = data.taxe;
+    //     hooksCompar.supplier = data.supplier == null ? '' : data.supplier;
+    //     hooksCompar.variantes = data.variantes;
+    //     hooksCompar.changedVariantes = changedVariantes;
+    //     hooksCompar.imageVariantes = data.images_products == null ? imageVariantes : data.images_products;
+    //     // affiche la partie promo dans price
+    //     if (isSet(data.reducedProductPrice) && isSet(data.promoApplied)) {
+    //         setIsShowPromoProduct(true);
+    //     } else {
+    //         setIsShowPromoProduct(false);
+    //     }
+
+    //     setHooksComparation(hooksCompar);
+
+    //     if (Array.isArray(data.optionsObj)) {
+    //         if (data.optionsObj[0]?.name.length > 0) setShowOptions(true);
+    //     } else {
+    //         if (typeof data.optionsObj === 'string' && JSON.parse(data.optionsObj)[0]?.name.length > 0) setShowOptions(true);
+    //     }
+    // }
 
     console.log('variantes  ', variantes)
 
@@ -271,14 +406,14 @@ const CreateProduct = () => {
 
     const validation = () => {
         // name validation
-        if (nameProduct.length == 0) {
+        if (productForm.nameProduct.length == 0) {
             setMessageModal('Le champ nom est requis');
             setShowModalFromPrice(true);
             return false;
         }
 
         // price validation
-        if (productPrice <= 0) {
+        if (productForm.productPrice <= 0) {
             setMessageModal('Le champ prix est requis');
             setShowModalFromPrice(true);
             return false;
@@ -318,31 +453,31 @@ const CreateProduct = () => {
         setShowModalLeaveWithoutSave(false);
     }
 
-    const consolelog = () => {
-        console.log('nameProduct  ', nameProduct);
-        console.log('ribbonProduct  ', ribbonProduct);
-        console.log('descriptionProduct  ', descriptionProduct);
-        console.log('imageVariantes', JSON.stringify(imageVariantes));
-        console.log('collections  ', collections);
-        console.log('isInAutoCollection  ', isInAutoCollection);
-        console.log('productPrice  ', productPrice);
-        console.log('reducedProductPrice  ', reducedProductPrice);
-        console.log('productCost  ', productCost);
-        console.log('productStock  ', productStock);
-        console.log('productSKU  ', productCode);
-        console.log('productParcelWeight  ', productParcelWeight);
-        console.log('productParcelWeightMeasureUnit  ', productParcelWeightMeasureUnit);
-        console.log('transporter  ', transporter);
-        console.log('tva  ', JSON.stringify(tva));
-        console.log('supplier  ', supplier);
-        console.log('dateFieldProduct  ', dateFieldProduct);
-        console.log('optionsObj  ', optionsObj);
-        console.log('variantes  ', variantes);
-        console.log('metaUrlProduct   ', metaUrlProduct);
-        console.log('metaTitleProduct   ', metaTitleProduct);
-        console.log('metaDescriptionProduct   ', metaDescriptionProduct);
-        console.log('isDirtyCreateProduct   ', isDirtyCreateProduct);
-    }
+    // const consolelog = () => {
+    //     console.log('nameProduct  ', nameProduct);
+    //     console.log('ribbonProduct  ', ribbonProduct);
+    //     console.log('descriptionProduct  ', descriptionProduct);
+    //     console.log('imageVariantes', JSON.stringify(imageVariantes));
+    //     console.log('collections  ', collections);
+    //     console.log('isInAutoCollection  ', isInAutoCollection);
+    //     console.log('productPrice  ', productPrice);
+    //     console.log('reducedProductPrice  ', reducedProductPrice);
+    //     console.log('productCost  ', productCost);
+    //     console.log('productStock  ', productStock);
+    //     console.log('productSKU  ', productCode);
+    //     console.log('productParcelWeight  ', productParcelWeight);
+    //     console.log('productParcelWeightMeasureUnit  ', productParcelWeightMeasureUnit);
+    //     console.log('transporter  ', transporter);
+    //     console.log('tva  ', JSON.stringify(tva));
+    //     console.log('supplier  ', supplier);
+    //     console.log('dateFieldProduct  ', dateFieldProduct);
+    //     console.log('optionsObj  ', optionsObj);
+    //     console.log('variantes  ', variantes);
+    //     console.log('metaUrlProduct   ', metaUrlProduct);
+    //     console.log('metaTitleProduct   ', metaTitleProduct);
+    //     console.log('metaDescriptionProduct   ', metaDescriptionProduct);
+    //     console.log('isDirtyCreateProduct   ', isDirtyCreateProduct);
+    // }
     // consolelog();
 
     function handleSubmit(e) {
@@ -354,11 +489,11 @@ const CreateProduct = () => {
 
             var formData = new FormData;
 
-            formData.append('isEdit', isEdit);
-            formData.append('productId', productId);
-            formData.append('nameProduct', nameProduct);
-            formData.append('ribbonProduct', ribbonProduct);
-            formData.append('descriptionProduct', descriptionProduct);
+            formData.append('isEdit', productForm.isEdit);
+            formData.append('productId', productForm.productId);
+            formData.append('nameProduct', productForm.nameProduct);
+            formData.append('ribbonProduct', productForm.ribbonProduct);
+            formData.append('descriptionProduct', productForm.descriptionProduct);
             var arrayOfImages = [];
             imageVariantes.forEach(imgArr => {
                 imgArr.forEach(img => {
@@ -366,28 +501,28 @@ const CreateProduct = () => {
                 });
             });
             formData.append('imageVariantes', JSON.stringify(arrayOfImages));
-            formData.append('collections', JSON.stringify(collections));
-            formData.append('isInAutoCollection', isInAutoCollection);
-            formData.append('productPrice', productPrice);
-            formData.append('reducedProductPrice', reducedProductPrice);
-            formData.append('promoApplied', promoApplied);
-            formData.append('promoType', promoType);
-            formData.append('productCost', productCost);
-            formData.append('productStock', productStock == '' ? 0 : productStock);
-            formData.append('unlimitedStock', unlimited);
-            formData.append('productSKU', productCode == '' ? uuidv4() : productCode);
-            formData.append('productParcelWeight', productParcelWeight);
-            formData.append('WeightMeasureUnit', productParcelWeightMeasureUnit);
-            formData.append('transporter', JSON.stringify(transporter));
-            formData.append('tva', JSON.stringify(tva));
-            formData.append('supplier', JSON.stringify(supplier));
-            formData.append("dateActivation", dateFieldProduct);
-            formData.append("productStatus", productStatus);
-            formData.append('optionsObj', JSON.stringify(optionsObj));
-            formData.append('variantes', JSON.stringify(variantes));
-            formData.append('metaUrlProduct', metaUrlProduct);
-            formData.append('metaTitleProduct', metaTitleProduct);
-            formData.append('metaDescriptionProduct', metaDescriptionProduct);
+            formData.append('collections', JSON.stringify(productForm.collections));
+            formData.append('isInAutoCollection', productForm.isInAutoCollection);
+            formData.append('productPrice', productForm.productPrice);
+            formData.append('reducedProductPrice', productForm.reducedProductPrice);
+            formData.append('promoApplied', productForm.promoApplied);
+            formData.append('promoType', productForm.promoType);
+            formData.append('productCost', productForm.productCost);
+            formData.append('productStock', productForm.productStock == '' ? 0 : productForm.productStock);
+            formData.append('unlimitedStock', productForm.unlimited);
+            formData.append('productSKU', productForm.productCode == '' ? uuidv4() : productForm.productCode);
+            formData.append('productParcelWeight', productForm.productParcelWeight);
+            formData.append('WeightMeasureUnit', productForm.productParcelWeightMeasureUnit);
+            formData.append('transporter', JSON.stringify(productForm.transporter));
+            formData.append('tva', JSON.stringify(productForm.tva));
+            formData.append('supplier', JSON.stringify(productForm.supplier));
+            formData.append("dateActivation", productForm.dateFieldProduct);
+            formData.append("productStatus", productForm.productStatus);
+            formData.append('optionsObj', JSON.stringify(productForm.optionsObj));
+            formData.append('variantes', JSON.stringify(productForm.variantes));
+            formData.append('metaUrlProduct', productForm.metaUrlProduct);
+            formData.append('metaTitleProduct', productForm.metaTitleProduct);
+            formData.append('metaDescriptionProduct', productForm.metaDescriptionProduct);
 
             consolelog();
 
