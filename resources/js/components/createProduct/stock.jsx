@@ -13,7 +13,7 @@ const Stock = () => {
     const [placeholder, setPlaceholder] = useState('0');
     const [toggleSelect, setToggleSelect] = useState(false);
 
-    const { productStock, setProductStock, unlimited, setUnlimited, productCode, setProductCode, productParcelWeight, setProductParcelWeight, productParcelWeightMeasureUnit, setProductParcelWeightMeasureUnit } = useContext(AppContext);
+    const { productForm, setProductForm } = useContext(AppContext);
 
     useEffect(() => {
         let inputStock = document.getElementById('inputStock');
@@ -21,15 +21,18 @@ const Stock = () => {
     }, []);
 
     const handleProductStock = (e) => {
-        setProductStock(e.target.value);
+        setProductForm({ ...productForm, productStock: e.target.value });
     }
 
     const handleProductStockOnFocus = () => {
         let unlimitedStockCheckbox = document.getElementById('unlimitedStockCheckbox11922');
         unlimitedStockCheckbox.checked = false;
 
-        if (unlimited) {
-            setUnlimited(false);
+        if (productForm.unlimited) {
+            setProductForm({
+                ...productForm,
+                unlimited: false
+            });
             setPlaceholder('0');
             let inputStock = document.getElementById('inputStock');
             if (inputStock != null) inputStock.style.backgroundColor = '#ffffff';
@@ -37,27 +40,31 @@ const Stock = () => {
     }
 
     const handleUnlimitedStock = () => {
-        if (!unlimited) {
+        if (!productForm.unlimited) {
             let inputStock = document.getElementById('inputStock');
             if (inputStock != null) inputStock.style.backgroundColor = '#f9fafb';
-            setUnlimited(!unlimited);
-            setProductStock('');
             setPlaceholder('Illimité');
         } else {
             let inputStock = document.getElementById('inputStock');
             if (inputStock != null) inputStock.style.backgroundColor = '#ffffff';
-            setUnlimited(!unlimited);
-            setProductStock('');
             setPlaceholder('0');
         }
+        setProductForm({
+            ...productForm,
+            productStock: '',
+            unlimited: !productForm.unlimited
+        });
     }
 
     const handleCodeProduct = (e) => {
-        setProductCode(e.target.value)
+        setProductForm({
+            ...productForm,
+            productCode: e.target.value,
+        });
     }
 
     const handleProductParcelWeight = (e) => {
-        setProductParcelWeight(e.target.value);
+        setProductForm({ ...productForm, productParcelWeight: e.target.value });
     }
 
     return (
@@ -70,17 +77,17 @@ const Stock = () => {
                     <Label label="Stock" />
                     <div
                         className='flex flex-rox justify-start items-center w-full'>
-                            <InputNumeric
-                                id='inputStock'
-                                value={!!productStock ? productStock : ''}
-                                handleChange={handleProductStock}
-                                handleClick={handleProductStockOnFocus}
-                                placeholder={placeholder}
-                                step="1"
-                                min="0"
-                                max="9999999999"
-                                css="rounded-l-md"
-                            />
+                        <InputNumeric
+                            id='inputStock'
+                            value={!!productForm.productStock ? productForm.productStock : ''}
+                            handleChange={handleProductStock}
+                            handleClick={handleProductStockOnFocus}
+                            placeholder={placeholder}
+                            step="1"
+                            min="0"
+                            max="9999999999"
+                            css="rounded-l-md"
+                        />
 
                         <span
                             id="checkboxStockUnlimited11922"
@@ -91,7 +98,7 @@ const Stock = () => {
                                 className='w-4 h-4 caret-transparent cursor-pointer'
                                 id='unlimitedStockCheckbox11922'
                                 type="checkbox"
-                                checked={unlimited}
+                                checked={productForm.unlimited}
                                 onChange={handleUnlimitedStock} />
                             <TooltipWithoutIcon id="checkboxStockUnlimited11922" idimg="unlimitedStockCheckbox11922" widthTip={184}>
                                 Mettre le stock à illimité
@@ -116,15 +123,15 @@ const Stock = () => {
                                 className="mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300">Mon lien</a>
                         </Tooltip>
                     </div>
-                        <InputNumeric
-                            id='inputSku17822'
-                            value={!!productCode ? productCode : ''}
-                            handleChange={handleCodeProduct}
-                            placeholder=""
-                            step="1"
-                            min="0"
-                            css="rounded-md"
-                        />
+                    <InputNumeric
+                        id='inputSku17822'
+                        value={!!productForm.productCode ? productForm.productCode : ''}
+                        handleChange={handleCodeProduct}
+                        placeholder=""
+                        step="1"
+                        min="0"
+                        css="rounded-md"
+                    />
                 </div>
 
                 {/* weight */}
@@ -141,22 +148,22 @@ const Stock = () => {
                     <div
                         className='w-full flex flex-row justify-start items-center'
                     >
-                            <InputNumeric
-                                value={!!productParcelWeight ? productParcelWeight : ''}
-                                handleChange={handleProductParcelWeight}
-                                placeholder="Poids du colis"
-                                step={productParcelWeightMeasureUnit == 'kg' ? "1" : "0.01"}
-                                min="0"
-                                max="9999999999"
-                                css="rounded-l-md"
-                            />
+                        <InputNumeric
+                            value={!!productForm.productParcelWeight ? productForm.productParcelWeight : ''}
+                            handleChange={handleProductParcelWeight}
+                            placeholder="Poids du colis"
+                            step={productForm.productParcelWeightMeasureUnit == 'kg' ? "1" : "0.01"}
+                            min="0"
+                            max="9999999999"
+                            css="rounded-l-md"
+                        />
                         <span
                             className='w-16 h-10 flex justify-center items-center border-y border-r border-gray-300 bg-white text-gray-500 text-sm font-semibold rounded-r-md'
                         >
                             <SelectMeasureUnit
                                 list={['gr', 'kg']}
-                                itemSelected={!!productParcelWeightMeasureUnit ? productParcelWeightMeasureUnit : 'gr'}
-                                setItemSelected={setProductParcelWeightMeasureUnit}
+                                itemSelected={!!productForm.productParcelWeightMeasureUnit ? productForm.productParcelWeightMeasureUnit : 'gr'}
+                                setItemSelected={setProductForm}
                                 toggleSelect={toggleSelect}
                                 setToggleSelect={setToggleSelect}
                                 ulUnikId="stockIdUl25822"

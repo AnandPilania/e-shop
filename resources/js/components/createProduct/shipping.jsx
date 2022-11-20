@@ -7,15 +7,15 @@ import SelectWithCheckboxProduct from './selectWithCheckboxProduct';
 const Shipping = () => {
     const [toggleSelectWithCheckboxTransporter, setToggleSelectWithCheckboxTransporter] = useState(false);
 
-    const { listTransporters, transporter, setTransporter } = useContext(AppContext);
+    const { listTransporters, productForm, setProductForm } = useContext(AppContext);
 
     // delete pastille des transporteurs sélectionnés
     const removeTransporter = (item) => {
-        let index = transporter.findIndex(x => x.modeId == item.modeId);
+        let index = productForm.transporter.findIndex(x => x.modeId == item.modeId);
         if (index > -1) {
-            let tmp_arr = [...transporter];
+            let tmp_arr = [...productForm.transporter];
             tmp_arr.splice(index, 1);
-            setTransporter([...tmp_arr]);
+            setProductForm({...productForm, transporter: [...tmp_arr]});
         }
     }
 
@@ -26,13 +26,13 @@ const Shipping = () => {
                         key="SelectWithCheckbox_transporter"
                         unikId="SelectWithCheckbox_transporter22822"
                         list={listTransporters[0]}
-                        selected={transporter}
-                        setSelected={setTransporter}
+                        selected={productForm.transporter}
+                        setSelected={setProductForm}
                         toggleSelectWithCheckbox={toggleSelectWithCheckboxTransporter}
                         setToggleSelectWithCheckbox={setToggleSelectWithCheckboxTransporter}
                     />
-                    <div className={`flex flex-wrap ${transporter?.length > 0 && "pt-4"} w-full`}>
-                        {transporter?.length > 0 && transporter.map(item =>
+                    <div className={`flex flex-wrap ${productForm.transporter?.length > 0 && "pt-4"} w-full`}>
+                        {productForm.transporter?.length > 0 && productForm.transporter.map(item =>
                             <div key={item.modeId}
                                 className="flex justify-between items-center rounded-md bg-gray-100 border border-gray-300 pl-2 pr-1.5 py-1 mb-1 mr-2">
                                 <span

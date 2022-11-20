@@ -7,13 +7,13 @@ import { saveInTemporaryStorage } from '../functions/temporaryStorage/saveInTemp
 
 const TinyeditorProduct = () => {
 
-    const { descriptionProduct, setDescriptionProduct, tinyLanguage
+    const { productForm, setProductForm, descriptionProduct, setDescriptionProduct, tinyLanguage
     } = useContext(AppContext);
 
     const editorRef = useRef(null);
 
     const handleDescriptionProduct = (description, editor) => {
-        setDescriptionProduct(description);
+        setProductForm({...productForm, descriptionProduct: description});
     };
 
 
@@ -100,8 +100,8 @@ const TinyeditorProduct = () => {
                     editorRef.current = editor;
                 }
                 }
-                // initialValue={descriptionProduct}
-                value={descriptionProduct}
+                // initialValue={productForm.descriptionProduct}
+                value={productForm.descriptionProduct}
                 onEditorChange={
                     (newValue, editor) => {
                         handleDescriptionProduct(newValue, editor);

@@ -10,7 +10,7 @@ export default function SelectMeasureUnit({ list, itemSelected, setItemSelected,
 
 
     const handleChangeSelect = (item) => {
-        setItemSelected(item);
+        setItemSelected(prevState => ({ ...prevState, productParcelWeightMeasureUnit: item }));
         showSelectMenu();
     };
 

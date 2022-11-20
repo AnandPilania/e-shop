@@ -156,7 +156,7 @@ const CreateProduct = () => {
 
 
     console.log('productForm  ', productForm)
-    console.log('imageVariantes  ', imageVariantes)
+    // console.log('imageVariantes  ', imageVariantes)
     const setProductData = (data) => {
         let name = data.name == undefined ? data.nameProduct : data.name;
         let ribbon = data.ribbon == undefined ? data.ribbonProduct : data.ribbon;
@@ -194,7 +194,7 @@ const CreateProduct = () => {
         }
         // affiche la partie promo dans price
         let isShow_PromoProduct = false;
-        if (isSet(data.reduction) && isSet(data.reduced_price)) {
+        if (isSet(data.reduction) || isSet(data.reduced_price)) {
             isShow_PromoProduct = true;
         } else {
             isShow_PromoProduct = false;
@@ -223,6 +223,7 @@ const CreateProduct = () => {
             dateFieldProduct: dateActivation,
             tva: data.taxe,
             supplier: data.supplier == null ? '' : data.supplier,
+            
             variantes: data.variantes,
             optionsObj: Array.isArray(data.optionsObj) ? data.optionsObj : JSON.parse(data.optionsObj),
             isShowPromoProduct: isShow_PromoProduct,

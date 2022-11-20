@@ -19,12 +19,7 @@ const OptimisationProduct = () => {
     const size = useWindowSize();
 
 
-    const {
-        normalizUrl,
-        metaTitleProduct, setMetaTitleProduct,
-        metaDescriptionProduct, setMetaDescriptionProduct,
-        metaUrlProduct, setMetaUrlProduct,
-    } = useContext(AppContext);
+    const { normalizUrl, productForm, setProductForm } = useContext(AppContext);
 
 
     useEffect(() => {
@@ -38,14 +33,14 @@ const OptimisationProduct = () => {
         }
 
         // affiche en rouge un avertissement sur la longeur du méta title
-        if (metaTitleProduct?.length > 50) {
+        if (productForm.metaTitleProduct?.length > 50) {
             setMetaTitleBiggerThan50Product(true);
         } else {
             setMetaTitleBiggerThan50Product(false);
         }
 
         // affiche en rouge un avertissement sur la longeur de la méta description
-        if (metaDescriptionProduct?.length > 130) {
+        if (productForm.metaDescriptionProduct?.length > 130) {
             setMetaDescriptionbiggerThan130Product(true);
         } else {
             setMetaDescriptionbiggerThan130Product(false);
@@ -58,9 +53,11 @@ const OptimisationProduct = () => {
         localStorage.setItem("isShowOptimisationProduct", !isShowOptimisationProduct);
         setIsShowOptimisationProduct(!isShowOptimisationProduct);
         // clean fields
-        setMetaTitleProduct('');
-        setMetaDescriptionProduct('');
-        setMetaUrlProduct(window.location.origin + '/');
+        setProductForm({...productForm, 
+            metaTitleProduct: '',
+            metaDescriptionProduct: '',
+            metaUrlProduct: ''
+    });
     };
 
     useEffect(() => {
@@ -83,11 +80,11 @@ const OptimisationProduct = () => {
 
     const handleMetaUrl = (e) => {
         let urlName = normalizUrl(e.target.value);
-        setMetaUrlProduct(urlName.substring(0, 2047));
+        setProductForm({...productForm, metaUrlProduct: urlName.substring(0, 2047)});
     };
 
     const handleMetaTitle = (e) => {
-        setMetaTitleProduct(e.target.value);
+        setProductForm({...productForm, metaTitleProduct: e.target.value});
 
         // affiche en rouge un avertissement sur la longeur du méta title
         if (e.target.value.length > 50) {
@@ -98,8 +95,7 @@ const OptimisationProduct = () => {
     };
 
     const handleMetaDescription = (e) => {
-        setMetaDescriptionProduct('');
-        setMetaDescriptionProduct(e.target.value);
+        setProductForm({...productForm, metaDescriptionProduct: e.target.value});
 
         // affiche en rouge un avertissement sur la longeur de la méta description
         if (e.target.value.length > 130) {
@@ -160,7 +156,7 @@ const OptimisationProduct = () => {
                             {window.location.origin + '/'}
                         </span>
                         <InputText
-                            value={metaUrlProduct?.length > 0 ? metaUrlProduct : ''}
+                            value={productForm.metaUrlProduct?.length > 0 ? productForm.metaUrlProduct : ''}
                             handleChange={handleMetaUrl}
                             maxLength="2047"
                             css="rounded-r-md"
@@ -183,14 +179,14 @@ const OptimisationProduct = () => {
                         </Tooltip>
                     </div>
                     <InputText
-                        value={metaTitleProduct?.length > 0 ? metaTitleProduct : ''}
+                        value={productForm.metaTitleProduct?.length > 0 ? productForm.metaTitleProduct : ''}
                         handleChange={handleMetaTitle}
                         css="rounded-md"
                         maxLength="2047"
                     />
                     <div className='w-full'>
                         <span className='text-blue-700 text-xs font-normal mb-2'>
-                            Nombre de caractères {metaTitleProduct?.length > 0 ? metaTitleProduct?.length : 0}
+                            Nombre de caractères {productForm.metaTitleProduct?.length > 0 ? productForm.metaTitleProduct?.length : 0}
                         </span>
                         {metaTitlebiggerThan50Product &&
                             <span className="text-red-700 break-words ml-2 text-sm font-normal">
@@ -215,13 +211,13 @@ const OptimisationProduct = () => {
                         </Tooltip>
                     </div>
                     <TextArea
-                        value={metaDescriptionProduct?.length > 0 ? metaDescriptionProduct : ''}
+                        value={productForm.metaDescriptionProduct?.length > 0 ? productForm.metaDescriptionProduct : ''}
                         handleChange={handleMetaDescription}
                         maxLength="2047"
                     />
                     <div className='w-full h-auto'>
                         <span className='text-blue-700 text-xs font-normal'>
-                            Nombre de caractères {metaDescriptionProduct?.length > 0 ? metaDescriptionProduct?.length : 0}
+                            Nombre de caractères {productForm.metaDescriptionProduct?.length > 0 ? productForm.metaDescriptionProduct?.length : 0}
                         </span>
                         {metaDescriptionbiggerThan130Product &&
                             <span className="text-red-700 break-words ml-2 text-sm font-normal">

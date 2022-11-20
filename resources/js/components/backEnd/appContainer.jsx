@@ -347,34 +347,34 @@ const Appcontainer = () => {
 
     const handleLocalStorage = () => {
         let prodGlobalHook = {};
-        prodGlobalHook.nameProduct = nameProduct;
-        prodGlobalHook.isInAutoCollection = isInAutoCollection;
-        prodGlobalHook.ribbonProduct = ribbonProduct;
-        prodGlobalHook.descriptionProduct = descriptionProduct;
-        prodGlobalHook.collections = collections;
-        prodGlobalHook.productPrice = productPrice;
-        prodGlobalHook.reducedProductPrice = reducedProductPrice;
-        prodGlobalHook.promoApplied = promoApplied;
-        prodGlobalHook.promoType = promoType;
-        prodGlobalHook.productCost = productCost;
-        prodGlobalHook.productStock = productStock;
-        prodGlobalHook.unlimited = unlimited;
-        prodGlobalHook.productStatus = productStatus;
-        prodGlobalHook.productParcelWeight = productParcelWeight;
-        prodGlobalHook.productParcelWeightMeasureUnit = productParcelWeightMeasureUnit;
-        prodGlobalHook.productCode = productCode;
-        prodGlobalHook.transporter = transporter;
-        prodGlobalHook.optionsObj = optionsObj;
-        prodGlobalHook.metaUrlProduct = metaUrlProduct;
-        prodGlobalHook.metaTitleProduct = metaTitleProduct;
-        prodGlobalHook.metaDescriptionProduct = metaDescriptionProduct;
-        prodGlobalHook.dateFieldProduct = dateFieldProduct
-        prodGlobalHook.tva = tva;
-        prodGlobalHook.supplier = supplier;
-        prodGlobalHook.variantes = variantes;
-        prodGlobalHook.imageVariantes = imageVariantes;
-        prodGlobalHook.changedVariantes = changedVariantes;
-        prodGlobalHook.isShowPromoProduct = isShowPromoProduct;
+        prodGlobalHook.nameProduct = productForm.nameProduct;
+        prodGlobalHook.isInAutoCollection = productForm.isInAutoCollection;
+        prodGlobalHook.ribbonProduct = productForm.ribbonProduct;
+        prodGlobalHook.descriptionProduct = productForm.descriptionProduct;
+        prodGlobalHook.collections = productForm.collections;
+        prodGlobalHook.productPrice = productForm.productPrice;
+        prodGlobalHook.reducedProductPrice = productForm.reducedProductPrice;
+        prodGlobalHook.promoApplied = productForm.promoApplied;
+        prodGlobalHook.promoType = productForm.promoType;
+        prodGlobalHook.productCost = productForm.productCost;
+        prodGlobalHook.productStock = productForm.productStock;
+        prodGlobalHook.unlimited = productForm.unlimited;
+        prodGlobalHook.productStatus = productForm.productStatus;
+        prodGlobalHook.productParcelWeight = productForm.productParcelWeight;
+        prodGlobalHook.productParcelWeightMeasureUnit = productForm.productParcelWeightMeasureUnit;
+        prodGlobalHook.productCode = productForm.productCode;
+        prodGlobalHook.transporter = productForm.transporter;
+        prodGlobalHook.optionsObj = productForm.optionsObj;
+        prodGlobalHook.metaUrlProduct = productForm.metaUrlProduct;
+        prodGlobalHook.metaTitleProduct = productForm.metaTitleProduct;
+        prodGlobalHook.metaDescriptionProduct = productForm.metaDescriptionProduct;
+        prodGlobalHook.dateFieldProduct = productForm.dateFieldProduct
+        prodGlobalHook.tva = productForm.tva;
+        prodGlobalHook.supplier = productForm.supplier;
+        prodGlobalHook.variantes = productForm.variantes;
+        prodGlobalHook.imageVariantes = productForm.imageVariantes;
+        prodGlobalHook.changedVariantes = productForm.changedVariantes;
+        prodGlobalHook.isShowPromoProduct = productForm.isShowPromoProduct;
 
         localStorage.setItem('productForm', JSON.stringify(prodGlobalHook));
     }

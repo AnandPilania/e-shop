@@ -9,88 +9,91 @@ const Price = () => {
 
     const [productProfit, setProductProfit] = useState('');
     const [productMargin, setProductMargin] = useState('');
-
-    const { productPrice, setProductPrice, promoApplied, setPromoApplied, productCost, setProductCost, reducedProductPrice, setReducedProductPrice, promoType, setPromoType, isEditProduct, isShowPromoProduct, setIsShowPromoProduct } = useContext(AppContext);
+    const { productForm, setProductForm } = useContext(AppContext);
 
 
     const handleProductPrice = (e) => {
-        setProductPrice(e.target.value);
+        setProductForm({ ...productForm, productPrice: e.target.value });
     }
 
-    // calcul le prix réduit si on change productPrice ou promoType
+    // calcul le prix réduit si on change productForm.productPrice ou promoType
     useEffect(() => {
-        // if already promoApplied exist then re-calcul reducedProductPrice
-        if (promoApplied != '' && productPrice != '') {
+        // if already productForm.promoApplied exist then re-calcul productForm.reducedProductPrice
+        if (productForm.promoApplied != '' && productForm.productPrice != '') {
             reCalculPromoApplied();
         }
-    }, [productPrice, promoType]);
+    }, [productForm.productPrice, productForm.promoType]);
 
     // calcul le bénéfice en €/$ et la marge en %
     useEffect(() => {
-        let profit = reducedProductPrice == '' ? productPrice - productCost : reducedProductPrice - productCost;
-        productPrice != '' && setProductProfit(profit.toFixed(2));
-        productCost != '' && setProductMargin(((profit / productCost) * 100).toFixed(2));
-        if (productPrice == '') {
+        let profit = productForm.reducedProductPrice == '' ? productForm.productPrice - productForm.productCost : productForm.reducedProductPrice - productForm.productCost;
+        productForm.productPrice != '' && setProductProfit(profit.toFixed(2));
+        productForm.productCost != '' && setProductMargin(((profit / productForm.productCost) * 100).toFixed(2));
+        if (productForm.productPrice == '') {
             setProductProfit('');
             setProductMargin('');
         }
-    }, [productPrice, reducedProductPrice, productCost]);
+    }, [productForm.productPrice, productForm.reducedProductPrice, productForm.productCost]);
 
 
     const handlePromoProductPrice = (e) => {
-        setPromoApplied(e.target.value);
+        setProductForm({ ...productForm, promoApplied: e.target.value });
         let reducedPrice;
-        if (promoType == "%") {
-            reducedPrice = (productPrice / 100) * (100 - e.target.value);
+        if (productForm.promoType == "%") {
+            reducedPrice = (productForm.productPrice / 100) * (100 - e.target.value);
         } else {
-            reducedPrice = productPrice - e.target.value;
+            reducedPrice = productForm.productPrice - e.target.value;
         }
-        setReducedProductPrice(reducedPrice.toFixed(2));
+        setProductForm({ ...productForm, reducedProductPrice: reducedPrice.toFixed(2) });
     }
 
     const handleReducedProductPrice = (e) => {
         let priceReduced = e.target.value;
-        if (promoType == "%") {
-            setPromoApplied((priceReduced / productPrice) * 100)
+        if (productForm.promoType == "%") {
+            setProductForm({ ...productForm, promoApplied: (priceReduced / productForm.productPrice) * 100 });
         } else {
-            setPromoApplied(productPrice - priceReduced);
+            setProductForm({ ...productForm, promoApplied: productForm.productPrice - priceReduced });
         }
-        setReducedProductPrice(priceReduced);
+        setProductForm({ ...productForm, reducedProductPrice: priceReduced });
     }
 
     // toggle between % and € to calcul reduction
     const handlePromoType = (typePromo) => {
-        setPromoType(typePromo);
-        setPromoApplied('');
-        setReducedProductPrice('');
+        setProductForm({ ...productForm, promoType: typePromo });
+        setProductForm({ ...productForm, promoApplied: '' });
+        setProductForm({ ...productForm, reducedProductPrice: '' });
     }
 
     const reCalculPromoApplied = () => {
         let reducedPrice;
-        if (promoType == "%") {
-            reducedPrice = (productPrice / 100) * (100 - promoApplied);
+        if (productForm.promoType == "%") {
+            reducedPrice = (productForm.productPrice / 100) * (100 - productForm.promoApplied);
         } else {
-            reducedPrice = productPrice - promoApplied;
+            reducedPrice = productForm.productPrice - productForm.promoApplied;
         }
-        setReducedProductPrice(reducedPrice.toFixed(2));
+        setProductForm({ ...productForm, reducedProductPrice: reducedPrice.toFixed(2) });
     }
 
     const handleProductCost = (e) => {
-        setProductCost(e.target.value);
+        setProductForm({ ...productForm, productCost: e.target.value });
     }
+
 
     const handleIsShowPromoProduct = () => {
-        setIsShowPromoProduct(!isShowPromoProduct);
-        setPromoType("%");
-        setPromoApplied('');
-        if (!isShowPromoProduct) {
-            setReducedProductPrice(productPrice);
-        } else {
-            setReducedProductPrice('');
-        }
+        setProductForm({
+            ...productForm,
+            promoApplied: '',
+            promoType: '%',
+            isShowPromoProduct: !productForm.isShowPromoProduct,
+        });
     }
-
-
+    useEffect(() => {
+        if (!productForm.isShowPromoProduct) {
+            setProductForm({ ...productForm, reducedProductPrice: productForm.productPrice });
+        } else {
+            setProductForm({ ...productForm, reducedProductPrice: '' });
+        }
+    }, [productForm.isShowPromoProduct]);
 
 
 
@@ -103,10 +106,10 @@ const Price = () => {
                         <Label label="Prix" />
                         <span className='text-red-600'>*</span>
                     </div>
-                    <div className={`w-full rounded-md ${isShowPromoProduct && productPrice == '' && "border-2 border-red-600"}`}>
+                    <div className={`w-full rounded-md ${productForm.isShowPromoProduct && productForm.productPrice == '' && "border-2 border-red-600"}`}>
                         <InputNumeric
                             id="inputPriceProduct19822"
-                            value={!!productPrice ? productPrice : ''}
+                            value={!!productForm.productPrice ? productForm.productPrice : ''}
                             handleChange={handleProductPrice}
                             placeholder=""
                             step=".01"
@@ -115,7 +118,7 @@ const Price = () => {
                             css="rounded-md"
                         />
                     </div>
-                    {isShowPromoProduct && productPrice == '' &&
+                    {productForm.isShowPromoProduct && productForm.productPrice == '' &&
                         <span
                             className='text-sm font-semiblod text-red-600 mt-1'>
                             Ce champ est requis
@@ -126,13 +129,13 @@ const Price = () => {
                 <div className='col-span-2 flex flex-col justify-start items-start my-2'>
                     <Toggle
                         id="promo_product_19822"
-                        isChecked={isShowPromoProduct}
+                        isChecked={productForm.isShowPromoProduct}
                         change={handleIsShowPromoProduct}
                         label="Faire une promotion"
                     />
                 </div>
 
-                {isShowPromoProduct &&
+                {productForm.isShowPromoProduct &&
                     <div className='w-full col-span-2 mb-6'>
                         {/* réduction */}
                         <div className='w-full flex flex-col justify-start items-start mb-4'>
@@ -141,7 +144,7 @@ const Price = () => {
                                 <div className='w-6/12 flex justify-start items-center'>
                                     <InputNumeric
                                         id="inputReduction19822"
-                                        value={!!promoApplied ? promoApplied : ''}
+                                        value={!!productForm.promoApplied ? productForm.promoApplied : ''}
                                         handleChange={handlePromoProductPrice}
                                         placeholder=""
                                         step=".01"
@@ -153,19 +156,19 @@ const Price = () => {
                                         <span
                                             className="w-10 h-10 flex flex-row justify-center items-center rounded-r-md text-gray-700 font-semibold"
                                         >
-                                            {promoType == "€" ? "€" : "%"}
+                                            {productForm.promoType == "€" ? "€" : "%"}
                                         </span>
                                     </div>
                                 </div>
                                 <div className='h-8 px-1 ml-2 flex flex-row justify-center items-center border border-gray-300 rounded-r-md bg-white'>
                                     {/* % button */}
                                     <span
-                                        className={`w-6 h-6 flex flex-row justify-center items-center rounded-md ${promoType != "%" && "hover:bg-indigo-300"} hover:text-white text-base font-semibold cursor-pointer mr-1 ${promoType == "%" ? "bg-indigo-500 text-white" : "bg-gray-50 text-gray-700"}`}
+                                        className={`w-6 h-6 flex flex-row justify-center items-center rounded-md ${productForm.promoType != "%" && "hover:bg-indigo-300"} hover:text-white text-base font-semibold cursor-pointer mr-1 ${productForm.promoType == "%" ? "bg-indigo-500 text-white" : "bg-gray-50 text-gray-700"}`}
                                         onClick={() => handlePromoType("%")}
                                     >%</span>
                                     {/* € button */}
                                     <span
-                                        className={`w-6 h-6 flex flex-row justify-center items-center rounded-md ${promoType != "€" && "hover:bg-indigo-300"} hover:text-white text-base font-semibold cursor-pointer ${promoType == "€" ? "bg-indigo-500 text-white" : "bg-gray-50 text-gray-700"}`}
+                                        className={`w-6 h-6 flex flex-row justify-center items-center rounded-md ${productForm.promoType != "€" && "hover:bg-indigo-300"} hover:text-white text-base font-semibold cursor-pointer ${productForm.promoType == "€" ? "bg-indigo-500 text-white" : "bg-gray-50 text-gray-700"}`}
                                         onClick={() => handlePromoType("€")}
                                     >€</span>
                                 </div>
@@ -176,7 +179,7 @@ const Price = () => {
                             <Label label="Prix après réduction" />
                             <InputNumeric
                                 id="inputReducedPrice19822"
-                                value={!!reducedProductPrice ? reducedProductPrice : ''}
+                                value={!!productForm.reducedProductPrice ? productForm.reducedProductPrice : ''}
                                 handleChange={handleReducedProductPrice}
                                 placeholder=""
                                 step=".01"
@@ -194,7 +197,7 @@ const Price = () => {
                     <div className='w-full'>
                         <InputNumeric
                             id="inputCost19822"
-                            value={!!productCost ? productCost : ''}
+                            value={!!productForm.productCost ? productForm.productCost : ''}
                             handleChange={handleProductCost}
                             placeholder=""
                             step=".01"
@@ -223,7 +226,7 @@ const Price = () => {
                     <Label label="Marge" />
                     <div className='w-full flex flex-row justify-start items-center'>
                         <span className="flex flex-row justify-start items-center bg-gray-50 w-full h-10 pl-2 border border-gray-300 text-gray-500 text-sm rounded-l-md caret-transparent font-semibold">
-                            {productCost != '' && productMargin}
+                            {productForm.productCost != '' && productMargin}
                         </span>
                         <span className='min-w-[40px] h-10 flex flex-row justify-center items-center border-y border-r border-gray-300 rounded-r-md bg-gray-50 text-gray-700  caret-transparent font-semibold'>
                             %

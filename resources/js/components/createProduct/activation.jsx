@@ -9,7 +9,7 @@ import Label from '../form/label';
 
 const Activation = () => {
 
-    const { dateFieldProduct, setDateFieldProduct, productForm, setProductForm } = useContext(AppContext);
+    const { productForm, setProductForm } = useContext(AppContext);
 
     return (
         <div>

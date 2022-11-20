@@ -15,9 +15,9 @@ export default function SelectWithCheckboxProduct({ unikId, list, selected, setS
         if (index > -1) {
             let tmp_arr = [...selected];
             tmp_arr.splice(index, 1);
-            setSelected([...tmp_arr]);
+            setSelected(prevState => ({...prevState, transporter: [...tmp_arr]}));
         } else {
-            setSelected([...selected, { zoneId: zone.id, zoneName: zone.zone_name, modeId: mode.id, modeName: mode.mode_name }]);
+            setSelected(prevState => ({...prevState, transporter: [...selected, { zoneId: zone.id, zoneName: zone.zone_name, modeId: mode.id, modeName: mode.mode_name }]}));
         }
     };
 

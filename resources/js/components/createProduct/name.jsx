@@ -5,7 +5,7 @@ import Label from '../form/label';
 
 const NameAndRibbon = () => {
 
-    const { nameProduct, setNameProduct, ribbonProduct, setRibbonProduct, productForm, setProductForm } = useContext(AppContext);
+    const { productForm, setProductForm } = useContext(AppContext);
 
     const handleName = (e) => {
         setProductForm({...productForm, nameProduct: e.target.value});

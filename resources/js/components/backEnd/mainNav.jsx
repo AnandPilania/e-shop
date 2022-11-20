@@ -14,7 +14,7 @@ const MainNav = () => {
 
     return (
         <div
-            className="col-span-2 sticky top-0 left-0 w-full h-14 flex flex-row justify-start items-center bg-white z-[100] border-b border-gray-300"
+            className="col-span-2 sticky top-0 left-0 w-full h-14 flex flex-row justify-start items-center bg-[#fcfcfc] z-[150] border-b border-gray-200"
         >
             <button
                 className="absolute top-2 left-5 w-10 h-10 p-1 cursor-pointer flex flex-col justify-around items-center bg-[#fafafa] rounded-md z-50 hover:bg-slate-200 lg:hidden"
@@ -29,7 +29,7 @@ const MainNav = () => {
             </button>
 
 
-            <div className='flex flex-row justify-start items-center ml-20'>
+            <div className='flex flex-row justify-start items-center ml-80'>
                 <span
                     className='text-[24px] text-teal-700 font-semibold'
                 >
@@ -55,7 +55,7 @@ const MainNav = () => {
             </div>
 
             <button
-                className="py-2 px-5 bg-blue-500 rounded-md text-white ml-auto mr-10"
+                className="py-1 px-5 bg-indigo-900 rounded-md text-white ml-auto mr-20"
             >
                 Login
             </button>
