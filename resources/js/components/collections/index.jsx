@@ -1,7 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import AppContext from '../contexts/AppContext';
-// import { usePromptCollection } from '../hooks/usePromptCollection';
 import Axios from 'axios';
 import ModalConfirm from '../modal/modalConfirm';
 import ModalSimpleMessage from '../modal/modalSimpleMessage';
@@ -15,20 +14,30 @@ import { getNow, getDateTime } from '../functions/dateTools';
 import NameCollection from './name';
 import DescriptionCollection from './description';
 import HeaderIndex from './headerIndex';
+import { usePageVisibility } from '../hooks/usePageVisibility';
+
 
 const CreateCollection = () => {
 
     const {
         image, setImagePath, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage,
-        messageModal, setMessageModal, textButtonConfirm, imageModal, setImageModal, setIs_Edit, listCollections, setListCollections, setListCollectionsFiltered, setListCategories, nameCollection, setNameCollection, descriptionCollection, setDescriptionCollection, descriptionCollectionForMeta, setDescriptionCollectionForMeta, conditions, setConditions, isAutoConditions, setIsAutoConditions, allConditionsNeeded, setAllConditionsNeeded, notIncludePrevProduct, setNotIncludePrevProduct, setWarningIdCondition, normalizUrl, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, imageName, setImageName, imagePath, alt, setAlt, categoryName, setCategoryName, categoryId, setCategoryId, dateField, setDateField, setTinyLanguage, idCollection, setIdCollection, handleModalConfirm, handleModalCancel, initCollectionForm, collectionForm, setCollectionForm, wrapIndexcroppe, setShowInitButton, imageHasBeenChanged, setImageHasBeenChanged, setHasLeaveThisPage
-    } = useContext(AppContext);
+        messageModal, setMessageModal, textButtonConfirm, imageModal, setImageModal, setIs_Edit, listCollections, setListCollections, setListCollectionsFiltered, setListCategories, nameCollection, setNameCollection, descriptionCollection, setDescriptionCollection, descriptionCollectionForMeta, setDescriptionCollectionForMeta, conditions, setConditions, isAutoConditions, setIsAutoConditions, allConditionsNeeded, setAllConditionsNeeded, notIncludePrevProduct, setNotIncludePrevProduct, setWarningIdCondition, normalizUrl, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, imageName, setImageName, imagePath, alt, setAlt, categoryName, setCategoryName, categoryId, setCategoryId, dateField, setDateField, setTinyLanguage, idCollection, setIdCollection, handleModalConfirm, handleModalCancel, initCollectionForm, collectionForm, setCollectionForm, wrapIndexcroppe, setShowInitButton, imageHasBeenChanged, setImageHasBeenChanged, setHasLeaveThisPage, handleLocalStorageCollection, setIsVisible } = useContext(AppContext);
 
     var navigate = useNavigate();
     var formData = new FormData;
+    const isVisiblePage = usePageVisibility()
 
     // collectionId from collection list
     const { state } = useLocation();
     const { collectionId, isEdit } = state !== null ? state : { collectionId: null, isEdit: false };
+
+        // If the page is hidden, save in localStorage;
+        useEffect(() => {
+            if (!isVisiblePage) {
+                handleLocalStorageCollection();
+                setIsVisible(true);
+            }
+        }, [isVisiblePage]);
 
     useEffect(() => {
         // detection navigator language
@@ -70,64 +79,20 @@ const CreateCollection = () => {
             setShowInitButton(true);
             Axios.get(`http://127.0.0.1:8000/getCollectionById/${collectionId}`)
                 .then(res => {
-                    res.data.objConditions?.length > 0 ? setConditions(JSON.parse(res.data.objConditions)) : setConditions([{ id: 0, parameter: '1', operator: '1', value: '' }]);
-
-                    setIsAutoConditions(res.data.automatise);
-                    localStorage.setItem('isAutoConditions', res.data.automatise);
-
-                    setAllConditionsNeeded(res.data.allConditionsNeeded);
-                    localStorage.setItem('allConditionsNeeded', res.data.allConditionsNeeded);
-
-                    setNotIncludePrevProduct(res.data.notIncludePrevProduct);
-                    localStorage.setItem('notIncludePrevProduct', res.data.notIncludePrevProduct);
-
-                    setIdCollection(res.data.id);
-                    setNameCollection(res.data.name);
-                    setDescriptionCollection(res.data.description);
-                    setMetaTitle(res.data.meta_title);
-                    setMetaDescription(res.data.meta_description);
-
-                    setMetaUrl(res.data.meta_url);
-
-                    if (res.data.image !== null && res.data.image !== '') {
-                        setImageName(res.data.image.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''));
-                        setImagePath(res.data.image);
-                    } else {
-                        setImageName('');
-                        setImagePath('');
-                    }
-
-                    setAlt(res.data.alt);
-                    setCategoryName(res.data.category !== null ? res.data.category.name : 'Sans catégorie');
-                    setCategoryId(res.data.category_id !== null ? res.data.category_id : 1);
-                    setDateField(getDateTime(new Date(res.data.dateActivation)));
-                    setDescriptionCollectionForMeta('');
-                    setCategoryId(res.data.category_id !== null ? res.data.category_id : 1);
-                    // check if leave edit without save change --> in usePromptCollection 
-                    setCollectionForm({
-                        conditions: res.data.objConditions?.length > 0 ? JSON.parse(res.data.objConditions) : [{ id: 0, parameter: '1', operator: '1', value: '' }],
-                        nameCollection: res.data.name,
-                        descriptionCollection: res.data.description,
-                        metaTitle: res.data.meta_title,
-                        metaDescription: res.data.meta_description,
-                        metaUrl: res.data.meta_url,
-                        imageName: res.data.image?.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''),
-                        alt: res.data.alt,
-                        categoryName: res.data.category?.name !== undefined ? res.data.category.name : 'Sans catégorie',
-                        categoryId: res.data.category_id !== null ? res.data.category_id : 1,
-                        dateField: getDateTime(new Date(res.data.dateActivation)),
-                        imagePath: res.data.image,
-                        image: res.data.image,
-                        isAutoConditions: res.data.automatise,
-                        notIncludePrevProduct: res.data.notIncludePrevProduct,
-                        allConditionsNeeded: res.data.allConditionsNeeded,
-                    })
-
-                    setIs_Edit(true);
+                    setCollectionData(res.data);
 
                 }).catch(function (error) {
                     console.log('error:   ' + error);
                 });
+        } else {
+            if (localStorage.getItem('collectionForm') != null) {
+                initCollectionForm();
+                let data = JSON.parse(localStorage.getItem('collectionForm'));
+                setCollectionData(data);
+                // loadImagesVariantes(data);
+            } else {
+                initCollectionForm();
+            }
         }
 
         setHasLeaveThisPage('createCollectionForm')
@@ -142,6 +107,61 @@ const CreateCollection = () => {
     }, []);
 
 
+    const setCollectionData = (data) => {
+        data.objConditions?.length > 0 ? setConditions(JSON.parse(data.objConditions)) : setConditions([{ id: 0, parameter: '1', operator: '1', value: '' }]);
+
+
+        setIsAutoConditions(data.automatise != undefined ? data.automatise : 0);
+        setAllConditionsNeeded(data.allConditionsNeeded != undefined ? data.allConditionsNeeded : 1);
+        setNotIncludePrevProduct(data.notIncludePrevProduct != undefined ? data.notIncludePrevProduct : 1);
+        setIdCollection(data.id);
+        console.log('data.name  ', data.name)
+        setNameCollection(data.name);
+        setDescriptionCollection(data.description);
+        setMetaTitle(data.meta_title);
+        setMetaDescription(data.meta_description);
+        setMetaUrl(data.meta_url);
+
+        console.log('image  ', data.image)
+        console.log('imageName  ', imageName)
+        if (data.image !== null && data.image !== undefined && data.image !== '') {
+            setImageName(data.image.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''));
+            setImagePath(data.image);
+        } else {
+            setImageName('');
+            setImagePath('');
+        }
+
+        setAlt(data.alt);
+        console.log('category  ', data.category)
+        setCategoryName(data.category !== null && data.category !== undefined ? data.category.name : 'Sans catégorie');
+        setDateField(getDateTime(new Date(data.dateActivation)));
+        setDescriptionCollectionForMeta('');
+        setCategoryId(data.category_id !== null ? data.category_id : 1);
+        // check if leave edit without save change --> in usePromptCollection 
+        setCollectionForm({
+            conditions: data.objConditions?.length > 0 ? JSON.parse(data.objConditions) : [{ id: 0, parameter: '1', operator: '1', value: '' }],
+            nameCollection: data.name,
+            descriptionCollection: data.description,
+            metaTitle: data.meta_title,
+            metaDescription: data.meta_description,
+            metaUrl: data.meta_url,
+            imageName: data.image?.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''),
+            alt: data.alt,
+            categoryName: data.category?.name !== undefined ? data.category.name : 'Sans catégorie',
+            categoryId: data.category_id !== null ? data.category_id : 1,
+            dateField: getDateTime(new Date(data.dateActivation)),
+            imagePath: data.image,
+            image: data.image,
+            isAutoConditions: data.automatise,
+            notIncludePrevProduct: data.notIncludePrevProduct,
+            allConditionsNeeded: data.allConditionsNeeded,
+        })
+
+        setIs_Edit(true);
+    }
+
+
 
     // show or hide reset button
     useEffect(() => {
@@ -152,15 +172,15 @@ const CreateCollection = () => {
             }
         });
         switch (true) {
-            case nameCollection.length > 0: setShowInitButton(true); break;
-            case descriptionCollection.length > 0: setShowInitButton(true); break;
-            case alt.length > 0: setShowInitButton(true); break;
-            case imageName.length > 0: setShowInitButton(true); break;
-            case metaTitle.length > 0: setShowInitButton(true); break;
-            case metaDescription.length > 0: setShowInitButton(true); break;
-            case metaUrl != window.location.origin + '/': setShowInitButton(true); break;
-            case image.length > 0: setShowInitButton(true); break;
-            case imagePath.length > 0: setShowInitButton(true); break;
+            case nameCollection?.length > 0: setShowInitButton(true); break;
+            case descriptionCollection?.length > 0: setShowInitButton(true); break;
+            case alt?.length > 0: setShowInitButton(true); break;
+            case imageName?.length > 0: setShowInitButton(true); break;
+            case metaTitle?.length > 0: setShowInitButton(true); break;
+            case metaDescription?.length > 0: setShowInitButton(true); break;
+            case metaUrl != '/': setShowInitButton(true); break;
+            case image?.length > 0: setShowInitButton(true); break;
+            case imagePath?.length > 0: setShowInitButton(true); break;
             case categoryName != 'Sans catégorie': setShowInitButton(true); break;
             case categoryId != 1: setShowInitButton(true); break;
             case dateField != getNow(): setShowInitButton(true); break;
@@ -169,103 +189,101 @@ const CreateCollection = () => {
         }
     }, [nameCollection, descriptionCollection, alt, imageName, metaTitle, metaDescription, metaUrl, image, imagePath, categoryName, categoryId, dateField, conditions]);
 
-  
-    const checkIfIsDirty = () => {
 
-        if (isEdit) {
-            if (wrapIndexcroppe.blob !== null) return true;
+    // const checkIfIsDirty = () => {
 
-            // tinyMCE ajoute des caractères undefined qui ne permettent pas de faire une comparaison alors on compte chaque caractères dans les deux texte et on compare leur nombre pour avoir plus de chances de repérer les textes différents 
-            let maxLength = Math.max(collectionForm.descriptionCollection.length, descriptionCollection.length);
-            var a = descriptionCollection;
-            var b = collectionForm.descriptionCollection;
-            var tab = [];
-            for (let i = 0; i < maxLength; i++) {
-                if (!tab.includes(a[i]) && a[i] !== null && a[i] !== undefined) {
-                    tab.push(a[i]);
-                }
-            }
-            var occurenceA = 0;
-            var occurenceB = 0;
-            for (let i = 0; i < tab.length; i++) {
-                if (tab[i] !== undefined && tab[i].charCodeAt(0) !== 13) {
-                    occurenceA = [...a].filter(item => item === tab[i]).length;
-                    occurenceB = [...b].filter(item => item === tab[i]).length;
-                    if (occurenceA !== occurenceB) {
-                        return true;
-                    }
-                }
-            }
+    //     if (isEdit) {
+    //         if (wrapIndexcroppe.blob !== null) return true;
 
-            switch (true) {
-                case JSON.stringify(collectionForm.conditions) !== JSON.stringify(conditions):
-                    return true;
-                case collectionForm.nameCollection !== nameCollection:
-                    return true;
-                case collectionForm.metaTitle !== metaTitle:
-                    return true;
-                case collectionForm.metaDescription !== metaDescription:
-                    return true;
-                case collectionForm.metaUrl !== metaUrl:
-                    return true;
-                case collectionForm.imageName !== imageName:
-                    return true;
-                case collectionForm.alt !== alt:
-                    return true;
-                case collectionForm.categoryName !== categoryName:
-                    return true;
-                case collectionForm.categoryId !== categoryId:
-                    return true;
-                case collectionForm.dateField !== dateField:
-                    return true;
-                case collectionForm.isAutoConditions != isAutoConditions:
-                    return true;
-                case collectionForm.notIncludePrevProduct != notIncludePrevProduct:
-                    return true;
-                case collectionForm.allConditionsNeeded != allConditionsNeeded:
-                    return true;
-                case imageHasBeenChanged === true:
-                    return true;
-                default:
-                    setIs_Edit(false);
-                    setIdCollection(null);
-                    return false;
-            }
-        }
+    //         // tinyMCE ajoute des caractères undefined qui ne permettent pas de faire une comparaison alors on compte chaque caractères dans les deux texte et on compare leur nombre pour avoir plus de chances de repérer les textes différents 
+    //         let maxLength = Math.max(collectionForm.descriptionCollection.length, descriptionCollection.length);
+    //         var a = descriptionCollection;
+    //         var b = collectionForm.descriptionCollection;
+    //         var tab = [];
+    //         for (let i = 0; i < maxLength; i++) {
+    //             if (!tab.includes(a[i]) && a[i] !== null && a[i] !== undefined) {
+    //                 tab.push(a[i]);
+    //             }
+    //         }
+    //         var occurenceA = 0;
+    //         var occurenceB = 0;
+    //         for (let i = 0; i < tab.length; i++) {
+    //             if (tab[i] !== undefined && tab[i].charCodeAt(0) !== 13) {
+    //                 occurenceA = [...a].filter(item => item === tab[i]).length;
+    //                 occurenceB = [...b].filter(item => item === tab[i]).length;
+    //                 if (occurenceA !== occurenceB) {
+    //                     return true;
+    //                 }
+    //             }
+    //         }
 
-        if (!isEdit) {
-            var conditonDirty = false;
-            conditions.forEach(condition => {
-                if (condition.value != '') {
-                    conditonDirty = true;
-                }
-            });
-            if (
-                nameCollection != '' ||
-                descriptionCollection != '' ||
-                alt != '' ||
-                imageName != '' ||
-                metaTitle != '' ||
-                metaDescription != '' ||
-                metaUrl != window.location.origin + '/' ||
-                image != '' ||
-                categoryName != 'Sans catégorie' ||
-                categoryId != 1 ||
-                // dateField != getNow() ||
-                conditonDirty == true ||
-                imagePath !== ''
-            ) {
-                return true;
-            } else {
-                setIdCollection(null);
-                return false;
-            }
-        }
-    }
+    //         switch (true) {
+    //             case JSON.stringify(collectionForm.conditions) !== JSON.stringify(conditions):
+    //                 return true;
+    //             case collectionForm.nameCollection !== nameCollection:
+    //                 return true;
+    //             case collectionForm.metaTitle !== metaTitle:
+    //                 return true;
+    //             case collectionForm.metaDescription !== metaDescription:
+    //                 return true;
+    //             case collectionForm.metaUrl !== metaUrl:
+    //                 return true;
+    //             case collectionForm.imageName !== imageName:
+    //                 return true;
+    //             case collectionForm.alt !== alt:
+    //                 return true;
+    //             case collectionForm.categoryName !== categoryName:
+    //                 return true;
+    //             case collectionForm.categoryId !== categoryId:
+    //                 return true;
+    //             case collectionForm.dateField !== dateField:
+    //                 return true;
+    //             case collectionForm.isAutoConditions != isAutoConditions:
+    //                 return true;
+    //             case collectionForm.notIncludePrevProduct != notIncludePrevProduct:
+    //                 return true;
+    //             case collectionForm.allConditionsNeeded != allConditionsNeeded:
+    //                 return true;
+    //             case imageHasBeenChanged === true:
+    //                 return true;
+    //             default:
+    //                 setIs_Edit(false);
+    //                 setIdCollection(null);
+    //                 return false;
+    //         }
+    //     }
+
+    //     if (!isEdit) {
+    //         var conditonDirty = false;
+    //         conditions.forEach(condition => {
+    //             if (condition.value != '') {
+    //                 conditonDirty = true;
+    //             }
+    //         });
+    //         if (
+    //             nameCollection != '' ||
+    //             descriptionCollection != '' ||
+    //             alt != '' ||
+    //             imageName != '' ||
+    //             metaTitle != '' ||
+    //             metaDescription != '' ||
+    //             metaUrl != window.location.origin + '/' ||
+    //             image != '' ||
+    //             categoryName != 'Sans catégorie' ||
+    //             categoryId != 1 ||
+    //             // dateField != getNow() ||
+    //             conditonDirty == true ||
+    //             imagePath !== ''
+    //         ) {
+    //             return true;
+    //         } else {
+    //             setIdCollection(null);
+    //             return false;
+    //         }
+    //     }
+    // }
 
 
-    // demande confirmation avant de quitter le form sans sauvegarder
-    // usePromptCollection('Quitter sans sauvegarder les changements ?', checkIfIsDirty, setShowModalConfirm, setMessageModal);
 
 
 
@@ -321,7 +339,7 @@ const CreateCollection = () => {
             return false;
         }
 
-        if (nameCollection.length === 0) {
+        if (nameCollection?.length === 0) {
             document.getElementById('titreCollection').style.border = "solid 1px rgb(212, 0, 0)";
             setMessageModal('Le champ Nom de la collection est obligatoire');
             setImageModal('../images/icons/trash_dirty.png');
@@ -329,13 +347,13 @@ const CreateCollection = () => {
             return false;
         }
 
-        if (nameCollection.length < 3) {
+        if (nameCollection?.length < 3) {
             document.getElementById('titreCollection').style.border = "solid 1px rgb(212, 0, 0)";
             setMessageModal('Le nom de la collection doit contenir au moins trois caractères');
             setImageModal('../images/icons/trash_dirty.png');
             setShowModalSimpleMessage(true);
             return false;
-        } else if (nameCollection.length > 191) {
+        } else if (nameCollection?.length > 191) {
             document.getElementById('titreCollection').style.border = "solid 1px rgb(212, 0, 0)";
             setMessageModal('Le nom de la collection ne doit pas dépasser 191 caractères');
             setImageModal('../images/icons/trash_dirty.png');

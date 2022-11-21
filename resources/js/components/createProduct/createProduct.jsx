@@ -19,8 +19,6 @@ import Shipping from './shipping';
 import { v4 as uuidv4 } from 'uuid';
 import Activation from './activation';
 import Header from './header';
-import { getNow } from '../functions/dateTools';
-// import { usePromptProduct } from './usePromptProduct';
 import ModalConfirmation from '../modal/modalConfirmation';
 import moment from 'moment';
 import { usePageVisibility } from '../hooks/usePageVisibility';
@@ -32,14 +30,11 @@ const CreateProduct = () => {
 
     const navigate = useNavigate();
 
-    const [isLocalStorage, setIsLocalStorage] = useState(false);
     const [showModalFromPrice, setShowModalFromPrice] = useState(false);
     const [showModalLeaveWithoutSave, setShowModalLeaveWithoutSave] = useState(false);
-    const [leaveProductFormWithoutSaveChange, setLeaveProductFormWithoutSaveChange] = useState(false);
     const [showBackButton, setShowBackButton] = useState(false);
 
-
-    const { descriptionProduct, setListSuppliers, supplier, collections, productPrice, productStock, productParcelWeight, transporter, productParcelWeightMeasureUnit, messageModal, setMessageModal, nameProduct, activeCalculTva, setTvaRateList, tva, imageVariantes, productCode, productCost, reducedProductPrice, metaTitleProduct, metaDescriptionProduct, metaUrlProduct, setListTransporters, ribbonProduct, screenSize, unlimited, isInAutoCollection, dateFieldProduct, promoApplied, promoType, setIsEditProduct, setIdProduct, initCreateProduct, setTvaComparation, isDirtyCreateProduct, productStatus, setShowOptions, setHooksComparation, setChangedVariantes, setProductStatus, setImageVariantes, setHasLeaveThisPage, handleLocalStorage, setIsVisible, productForm, setProductForm } = useContext(AppContext);
+    const { descriptionProduct, setListSuppliers, messageModal, setMessageModal, activeCalculTva, setTvaRateList, imageVariantes, setListTransporters, screenSize, setIsEditProduct, setIdProduct, initCreateProduct, setTvaComparation, isDirtyCreateProduct, setShowOptions, setHooksComparation, setImageVariantes, setHasLeaveThisPage, handleLocalStorageProduct, setIsVisible, productForm, setProductForm } = useContext(AppContext);
 
     // when click on edit in collection list it send collection id to db request for make edit collection
     const { state } = useLocation();
@@ -49,7 +44,7 @@ const CreateProduct = () => {
     // If the page is hidden, save in localStorage;
     useEffect(() => {
         if (!isVisiblePage) {
-            handleLocalStorage();
+            handleLocalStorageProduct();
             setIsVisible(true);
         }
     }, [isVisiblePage]);
@@ -99,7 +94,6 @@ const CreateProduct = () => {
         if (isEdit) {
             localStorage.removeItem('productForm');
             initCreateProduct();
-            setIsLocalStorage(true);
             setIdProduct(productId);
             let idProd = new FormData;
             idProd.append('productId', productId);
@@ -117,7 +111,6 @@ const CreateProduct = () => {
                 let data = JSON.parse(localStorage.getItem('productForm'));
                 setProductData(data);
                 loadImagesVariantes(data);
-                // setIsLocalStorage(true);
             } else {
                 initCreateProduct();
             }
@@ -156,8 +149,9 @@ const CreateProduct = () => {
 
 
     console.log('productForm  ', productForm)
-    // console.log('imageVariantes  ', imageVariantes)
+
     const setProductData = (data) => {
+        // on check d'où viennent les valeurs. Elles viennent de la requête ex. data.name ou du localStorage ex. data.nameProduct 
         let name = data.name == undefined ? data.nameProduct : data.name;
         let ribbon = data.ribbon == undefined ? data.ribbonProduct : data.ribbon;
         let description = data.description == undefined ? data.descriptionProduct : data.description;
@@ -239,6 +233,7 @@ const CreateProduct = () => {
         hooksCompar.ribbonProduct = ribbon == null ? '' : ribbon;
         hooksCompar.descriptionProduct = description;
         hooksCompar.collections = [...data.collections];
+        hooksCompar.status = status,
         hooksCompar.productPrice = price;
         hooksCompar.reducedProductPrice = reduced_price == null ? '' : reduced_price;
         hooksCompar.promoApplied = reduction == null ? '' : reduction;
@@ -273,7 +268,6 @@ const CreateProduct = () => {
 
     const handleModalConfirm = () => {
         setShowModalLeaveWithoutSave(false)
-        setLeaveProductFormWithoutSaveChange(true);
         initCreateProduct();
     }
 
@@ -340,32 +334,7 @@ const CreateProduct = () => {
         setShowModalLeaveWithoutSave(false);
     }
 
-    // const consolelog = () => {
-    //     console.log('nameProduct  ', nameProduct);
-    //     console.log('ribbonProduct  ', ribbonProduct);
-    //     console.log('descriptionProduct  ', descriptionProduct);
-    //     console.log('imageVariantes', JSON.stringify(imageVariantes));
-    //     console.log('collections  ', collections);
-    //     console.log('isInAutoCollection  ', isInAutoCollection);
-    //     console.log('productPrice  ', productPrice);
-    //     console.log('reducedProductPrice  ', reducedProductPrice);
-    //     console.log('productCost  ', productCost);
-    //     console.log('productStock  ', productStock);
-    //     console.log('productSKU  ', productCode);
-    //     console.log('productParcelWeight  ', productParcelWeight);
-    //     console.log('productParcelWeightMeasureUnit  ', productParcelWeightMeasureUnit);
-    //     console.log('transporter  ', transporter);
-    //     console.log('tva  ', JSON.stringify(tva));
-    //     console.log('supplier  ', supplier);
-    //     console.log('dateFieldProduct  ', dateFieldProduct);
-    //     console.log('optionsObj  ', optionsObj);
-    //     console.log('variantes  ', productForm.variantes);
-    //     console.log('metaUrlProduct   ', metaUrlProduct);
-    //     console.log('metaTitleProduct   ', metaTitleProduct);
-    //     console.log('metaDescriptionProduct   ', metaDescriptionProduct);
-    //     console.log('isDirtyCreateProduct   ', isDirtyCreateProduct);
-    // }
-    // consolelog();
+
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -411,7 +380,6 @@ const CreateProduct = () => {
             formData.append('metaTitleProduct', productForm.metaTitleProduct);
             formData.append('metaDescriptionProduct', productForm.metaDescriptionProduct);
 
-            consolelog();
 
             Axios.post(`http://127.0.0.1:8000/storeProduct`, formData,
                 { headers: { 'Content-Type': 'multipart/form-data' } })
@@ -445,8 +413,6 @@ const CreateProduct = () => {
                     </Flex_col_s_s>
 
                     <DropZoneProduct
-                        isLocalStorage={isLocalStorage}
-                        setIsLocalStorage={setIsLocalStorage}
                         productId={productId}
                     />
 

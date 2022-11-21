@@ -22,7 +22,7 @@ const NameCollection = () => {
                 css="rounded-md hover:border-gray-400"
                 maxLength="255"
             />
-            <span className={`text-sm text-red-600 ${nameCollection.length > 191 ? "block" : "none"}`}>Le nom de la collection ne peut pas dépasser 191 caractères</span>
+            <span className={`text-sm text-red-600 ${nameCollection?.length > 191 ? "block" : "none"}`}>Le nom de la collection ne peut pas dépasser 191 caractères</span>
         </div>
     );
 }

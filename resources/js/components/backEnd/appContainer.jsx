@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AppContext from '../contexts/AppContext';
 import Axios from 'axios';
-import { getNow } from '../functions/dateTools';
+import { getNow, getDateTime } from '../functions/dateTools';
 import { Routes, Route } from 'react-router-dom';
 import MainNav from './mainNav';
 import Navbar from '../navBar/navBar';
@@ -39,9 +39,9 @@ const Appcontainer = () => {
     const [descriptionCollectionForMeta, setDescriptionCollectionForMeta] = useState('');
     const [imagePath, setImagePath] = useState('');
     const [image, setImage] = useState([]);
-    const [isAutoConditions, setIsAutoConditions] = useState(localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 0);
-    const [notIncludePrevProduct, setNotIncludePrevProduct] = useState(localStorage.getItem('notIncludePrevProduct') ? localStorage.getItem('notIncludePrevProduct') : 1);
-    const [allConditionsNeeded, setAllConditionsNeeded] = useState(localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1);
+    const [isAutoConditions, setIsAutoConditions] = useState(localStorage.getItem('isAutoConditions') != null ? localStorage.getItem('isAutoConditions') : 0);
+    const [notIncludePrevProduct, setNotIncludePrevProduct] = useState(localStorage.getItem('notIncludePrevProduct') != null ? localStorage.getItem('notIncludePrevProduct') : 1);
+    const [allConditionsNeeded, setAllConditionsNeeded] = useState(localStorage.getItem('allConditionsNeeded') != null ? localStorage.getItem('allConditionsNeeded') : 1);
     const [collectionForm, setCollectionForm] = useState({
         conditions: [{
             id: 0,
@@ -63,9 +63,9 @@ const Appcontainer = () => {
         dateField: getNow(),
         descriptionCollectionForMeta: '',
         image: [],
-        isAutoConditions: localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 1,
-        notIncludePrevProduct: localStorage.getItem('notIncludePrevProduct') ? localStorage.getItem('notIncludePrevProduct') : 1,
-        allConditionsNeeded: localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1,
+        isAutoConditions: localStorage.getItem('isAutoConditions') != null ? localStorage.getItem('isAutoConditions') : 1,
+        notIncludePrevProduct: localStorage.getItem('notIncludePrevProduct') != null ? localStorage.getItem('notIncludePrevProduct') : 1,
+        allConditionsNeeded: localStorage.getItem('allConditionsNeeded') != null ? localStorage.getItem('allConditionsNeeded') : 1,
     })
     const [wrapIndexcroppe, setWrapIndexcroppe] = useState({ component: 'CreateCollection', blob: null });
     const [showInitButton, setShowInitButton] = useState(false);
@@ -126,42 +126,6 @@ const Appcontainer = () => {
     //------------------------------------------------------------COLLECTION
 
     //PRODUCT---------------------------------------------------------------
-
-    // TOUS LES HOOKS DE CE PREMIER BLOCK ONT ETE REMPLACES PAR LE HOOK OBJECT productForm ET NE SONT DONC PLUS UTILISES 
-
-    //----------------------------------------------------------------------
-
-    const [nameProduct, setNameProduct] = useState('');
-    const [ribbonProduct, setRibbonProduct] = useState('');
-    const [descriptionProduct, setDescriptionProduct] = useState('');
-    const [collections, setCollections] = useState([]);
-    const [productPrice, setProductPrice] = useState('');
-    const [productParcelWeight, setProductParcelWeight] = useState('');
-    const [productParcelWeightMeasureUnit, setProductParcelWeightMeasureUnit] = useState('gr');
-    const [promoApplied, setPromoApplied] = useState('');
-    const [reducedProductPrice, setReducedProductPrice] = useState('');
-    const [promoType, setPromoType] = useState('%');
-    const [productCost, setProductCost] = useState('');
-    const [productStock, setProductStock] = useState('');
-    const [productCode, setProductCode] = useState('');
-    const [optionsObj, setOptionsObj] = useState([]);
-    const [unlimited, setUnlimited] = useState(false);
-    const [variantes, setVariantes] = useState([]);
-    const [isInAutoCollection, setIsInAutoCollection] = useState(true);
-    const [changedVariantes, setChangedVariantes] = useState([]);
-    const [metaTitleProduct, setMetaTitleProduct] = useState('');
-    const [metaDescriptionProduct, setMetaDescriptionProduct] = useState('');
-    const [metaUrlProduct, setMetaUrlProduct] = useState('');
-    const [dateFieldProduct, setDateFieldProduct] = useState(getNow());
-    const [productStatus, setProductStatus] = useState(1);
-    const [transporter, setTransporter] = useState([]);
-    const [supplier, setSupplier] = useState('');
-    const [tva, setTva] = useState('');
-    const [isShowPromoProduct, setIsShowPromoProduct] = useState(false);
-
-    //-------------------------------------------------------------------------
-
-
     const [IdProduct, setIdProduct] = useState(0);
     const [showOptions, setShowOptions] = useState(false);
     const [checkedVariantesList, setCheckedVariantesList] = useState([]);
@@ -181,8 +145,6 @@ const Appcontainer = () => {
     const [tvaComparation, setTvaComparation] = useState('');
     const [isDirtyCreateProduct, setIsDirtyCreateProduct] = useState(false);
     const [hooksComparation, setHooksComparation] = useState({});
-
-
     const [productForm, setProductForm] = useState({
         nameProduct: '',
         isInAutoCollection: true,
@@ -221,7 +183,6 @@ const Appcontainer = () => {
     //---------------------------------------------------------------PRODUCT
 
 
-
     // supplier-------------------------------------------------------------
     const [nameSupplier, setNameSupplier] = useState('');
     const [emailSupplier, setEmailSupplier] = useState('');
@@ -231,7 +192,6 @@ const Appcontainer = () => {
     const [citySupplier, setCitySupplier] = useState('');
     const [countrySupplier, setCountrySupplier] = useState('');
     const [listSuppliers, setListSuppliers] = useState([]);
-
 
     // TVA---------------------------------------------------------------
     const [activeCalculTva, setActiveCalculTva] = useState(0);
@@ -323,72 +283,94 @@ const Appcontainer = () => {
 
     // réinitialisation du product form
     const initCreateProduct = () => {
-        setNameProduct('');
-        setIsInAutoCollection(true);
-        setRibbonProduct('');
-        setDescriptionProduct('');
-        setCollections([]);
-        setProductPrice('');
-        setReducedProductPrice('');
-        setPromoApplied('');
-        setPromoType('%');
-        setProductCost('');
-        setProductStock('');
-        setUnlimited(false);
-        setProductParcelWeight('');
-        setProductParcelWeightMeasureUnit('gr');
-        setProductCode('');
-        setTransporter([]);
-        setMetaUrlProduct('');
-        setMetaTitleProduct('');
-        setMetaDescriptionProduct('');
-        setDateFieldProduct(getNow());
-        setTva(tvaComparation);
-        setSupplier('');
-        setVariantes([]);
-        setOptionsObj([]);
+        setProductForm({
+            nameProduct: '',
+            isInAutoCollection: true,
+            ribbonProduct: '',
+            descriptionProduct: '',
+            productStatus: 1,
+            collections: [],
+            productPrice: '',
+            reducedProductPrice: '',
+            promoApplied: '',
+            promoType: '%',
+            productCost: '',
+            productStock: '',
+            unlimited: false,
+            productParcelWeight: '',
+            productParcelWeightMeasureUnit: 'gr',
+            productCode: '',
+            transporter: [],
+            metaUrlProduct: '',
+            metaTitleProduct: '',
+            metaDescriptionProduct: '',
+            dateFieldProduct: getNow(),
+            tva: '',
+            supplier: '',
+            variantes: [],
+            optionsObj: [],
+            showOptions: false,
+            imageVariantes: [[]],
+            isShowPromoProduct: false,
+            isDirtyCreateProduct: false,
+            isEditProduct: false,
+            idProduct: 0,
+            changedVariantes: [],
+        }),
         setShowOptions(false);
         setImageVariantes([[]]);
-        setIsShowPromoProduct(false);
         setIsDirtyCreateProduct(false);
         checkIfCreateProductIsDirty();
         setIsEditProduct(false);
         setIdProduct(0);
-        setChangedVariantes([]);
     }
 
-    const handleLocalStorage = () => {
+    // met dans localStorage le productForm et ses images
+    const handleLocalStorageProduct = () => {
         let prodGlobalHook = {};
-        prodGlobalHook.nameProduct = productForm.nameProduct;
-        prodGlobalHook.isInAutoCollection = productForm.isInAutoCollection;
-        prodGlobalHook.ribbonProduct = productForm.ribbonProduct;
-        prodGlobalHook.descriptionProduct = productForm.descriptionProduct;
-        prodGlobalHook.collections = productForm.collections;
-        prodGlobalHook.productPrice = productForm.productPrice;
-        prodGlobalHook.reducedProductPrice = productForm.reducedProductPrice;
-        prodGlobalHook.promoApplied = productForm.promoApplied;
-        prodGlobalHook.promoType = productForm.promoType;
-        prodGlobalHook.productCost = productForm.productCost;
-        prodGlobalHook.productStock = productForm.productStock;
-        prodGlobalHook.unlimited = productForm.unlimited;
-        prodGlobalHook.productStatus = productForm.productStatus;
-        prodGlobalHook.productParcelWeight = productForm.productParcelWeight;
-        prodGlobalHook.productParcelWeightMeasureUnit = productForm.productParcelWeightMeasureUnit;
-        prodGlobalHook.productCode = productForm.productCode;
-        prodGlobalHook.transporter = productForm.transporter;
-        prodGlobalHook.optionsObj = productForm.optionsObj;
-        prodGlobalHook.metaUrlProduct = productForm.metaUrlProduct;
-        prodGlobalHook.metaTitleProduct = productForm.metaTitleProduct;
-        prodGlobalHook.metaDescriptionProduct = productForm.metaDescriptionProduct;
-        prodGlobalHook.dateFieldProduct = productForm.dateFieldProduct
-        prodGlobalHook.tva = productForm.tva;
-        prodGlobalHook.supplier = productForm.supplier;
-        prodGlobalHook.variantes = productForm.variantes;
-        prodGlobalHook.imageVariantes = productForm.imageVariantes;
-        prodGlobalHook.changedVariantes = productForm.changedVariantes;
-        prodGlobalHook.isShowPromoProduct = productForm.isShowPromoProduct;
-
+        prodGlobalHook = {...productForm};
+        prodGlobalHook.imageVariantes = imageVariantes;
         localStorage.setItem('productForm', JSON.stringify(prodGlobalHook));
+    } 
+    
+    
+
+
+    const handleLocalStorageCollection = () => {
+        let collGlobalHook = {};
+        if (conditions.length > 0) {
+            collGlobalHook.conditions = conditions;
+        } else {
+            collGlobalHook.conditions = [{ id: 0, parameter: '1', operator: '1', value: '' }];
+        } 
+        collGlobalHook.automatise = isAutoConditions;
+        localStorage.setItem('isAutoConditions', isAutoConditions);
+        collGlobalHook.allConditionsNeeded = allConditionsNeeded;
+        localStorage.setItem('allConditionsNeeded', allConditionsNeeded);
+        collGlobalHook.notIncludePrevProduct = notIncludePrevProduct;
+        localStorage.setItem('notIncludePrevProduct', notIncludePrevProduct);
+        collGlobalHook.idCollection = idCollection;
+        collGlobalHook.name = nameCollection;
+        collGlobalHook.description = descriptionCollection;
+        collGlobalHook.meta_title = metaTitle;
+        collGlobalHook.meta_description = metaDescription;
+        collGlobalHook.meta_url = metaUrl;
+
+        console.log('image  ', image)
+        console.log('imageName  ', imageName)
+        // if (image !== null && image !== '') {
+        //     collGlobalHook.image = image.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', '');
+        //     collGlobalHook.imagePath = image;
+        // } else {
+        //     collGlobalHook.imageName = '';
+        //     collGlobalHook.imagePath = '';
+        // }
+        collGlobalHook.alt = alt
+        collGlobalHook.categoryName = categoryName.name !== null ? categoryName.name : 'Sans catégorie'
+        collGlobalHook.dateField = dateField;
+        collGlobalHook.descriptionCollectionForMeta = ''
+        collGlobalHook.categoryId = categoryId !== null ? categoryId : 1
+        localStorage.setItem('collectionForm', JSON.stringify(collGlobalHook));
     }
 
 
@@ -396,42 +378,42 @@ const Appcontainer = () => {
         if (isEditProduct) {
             // check collections
             let idsCollectionsPrev = hooksComparation?.collections?.map(x => x.id);
-            let idsCollectionsCurr = collections?.map(x => x.id);
+            let idsCollectionsCurr = productForm.collections?.map(x => x.id);
             let isNotColectionsChanged = idsCollectionsPrev?.every(id => idsCollectionsCurr?.includes(id)) && idsCollectionsPrev?.length === idsCollectionsCurr?.length;
 
             let idsTransportersPrev = hooksComparation?.transporter?.map(x => x.modeId);
-            let idsTransportersCurr = transporter?.map(x => x.modeId);
+            let idsTransportersCurr = productForm.transporter?.map(x => x.modeId);
             let isNotTransportersChanged = idsTransportersPrev?.every(id => idsTransportersCurr?.includes(id)) && idsTransportersPrev?.length === idsTransportersCurr?.length;
 
             let comparVariantesLibelle = hooksComparation?.variantes?.map(x => x.optionsString)
-            let variantesLibelle = variantes?.map(x => x.optionsString)
+            let variantesLibelle = productForm.variantes?.map(x => x.optionsString)
             let isNotVaraiantesChanged = variantesLibelle?.every(x => comparVariantesLibelle?.includes(x)) && comparVariantesLibelle?.length === variantesLibelle?.length;
 
             if (
-                hooksComparation.nameProduct != nameProduct ||
-                hooksComparation.isInAutoCollection != isInAutoCollection ||
-                hooksComparation.ribbonProduct != ribbonProduct ||
-                hooksComparation.descriptionProduct != descriptionProduct ||
+                hooksComparation.nameProduct != productForm.nameProduct ||
+                hooksComparation.isInAutoCollection != productForm.isInAutoCollection ||
+                hooksComparation.ribbonProduct != productForm.ribbonProduct ||
+                hooksComparation.descriptionProduct != productForm.descriptionProduct ||
                 isNotColectionsChanged === false ||
-                hooksComparation.productPrice != productPrice ||
-                hooksComparation.reducedProductPrice != reducedProductPrice ||
-                hooksComparation.promoApplied != promoApplied ||
-                hooksComparation.promoType != promoType ||
-                hooksComparation.productCost != productCost ||
-                hooksComparation.productStock != productStock ||
-                hooksComparation.unlimited != unlimited ||
-                hooksComparation.productParcelWeight != productParcelWeight ||
-                hooksComparation.productParcelWeightMeasureUnit != productParcelWeightMeasureUnit ||
-                hooksComparation.productCode != productCode ||
+                hooksComparation.productPrice != productForm.productPrice ||
+                hooksComparation.reducedProductPrice != productForm.reducedProductPrice ||
+                hooksComparation.promoApplied != productForm.promoApplied ||
+                hooksComparation.promoType != productForm.promoType ||
+                hooksComparation.productCost != productForm.productCost ||
+                hooksComparation.productStock != productForm.productStock ||
+                hooksComparation.unlimited != productForm.unlimited ||
+                hooksComparation.productParcelWeight != productForm.productParcelWeight ||
+                hooksComparation.productParcelWeightMeasureUnit != productForm.productParcelWeightMeasureUnit ||
+                hooksComparation.productCode != productForm.productCode ||
                 isNotTransportersChanged === false ||
-                hooksComparation.metaUrlProduct != metaUrlProduct ||
-                hooksComparation.metaTitleProduct != metaTitleProduct ||
-                hooksComparation.metaDescriptionProduct != metaDescriptionProduct ||
+                hooksComparation.metaUrlProduct != productForm.metaUrlProduct ||
+                hooksComparation.metaTitleProduct != productForm.metaTitleProduct ||
+                hooksComparation.metaDescriptionProduct != productForm.metaDescriptionProduct ||
                 // // hooksComparation.// // dateFieldProduct
-                hooksComparation.tva != tva?.id ||
-                hooksComparation.supplier != supplier ||
+                hooksComparation.tva != productForm.tva?.id ||
+                hooksComparation.supplier != productForm.supplier ||
                 isNotVaraiantesChanged == false ||
-                hooksComparation.isShowPromoProduct != isShowPromoProduct
+                hooksComparation.isShowPromoProduct != productForm.isShowPromoProduct
             ) {
                 setIsDirtyCreateProduct(true);
                 return true;
@@ -441,31 +423,31 @@ const Appcontainer = () => {
             }
         } else {
             if (
-                nameProduct != '' ||
-                isInAutoCollection != true ||
-                ribbonProduct != '' ||
-                descriptionProduct != '' ||
-                collections.length > 0 ||
-                productPrice != '' ||
-                reducedProductPrice != '' ||
-                promoApplied != '' ||
-                promoType != '%' ||
-                productCost != '' ||
-                productStock != '' ||
-                unlimited != false ||
-                productParcelWeight != '' ||
-                productParcelWeightMeasureUnit != 'gr' ||
-                productCode != '' ||
-                transporter.length > 0 ||
-                metaUrlProduct != '' ||
-                metaTitleProduct != '' ||
-                metaDescriptionProduct != '' ||
+                productForm.nameProduct != '' ||
+                productForm.isInAutoCollection != true ||
+                productForm.ribbonProduct != '' ||
+                productForm.descriptionProduct != '' ||
+                productForm.collections.length > 0 ||
+                productForm.productPrice != '' ||
+                productForm.reducedProductPrice != '' ||
+                productForm.promoApplied != '' ||
+                productForm.promoType != '%' ||
+                productForm.productCost != '' ||
+                productForm.productStock != '' ||
+                productForm.unlimited != false ||
+                productForm.productParcelWeight != '' ||
+                productForm.productParcelWeightMeasureUnit != 'gr' ||
+                productForm.productCode != '' ||
+                productForm.transporter.length > 0 ||
+                productForm.metaUrlProduct != '' ||
+                productForm.metaTitleProduct != '' ||
+                productForm.metaDescriptionProduct != '' ||
                 // // dateFieldProduct
-                tva?.id != tvaComparation?.id ||
-                supplier != '' ||
-                variantes.length > 0 ||
+                productForm.tva?.id != tvaComparation?.id ||
+                productForm.supplier != '' ||
+                productForm.variantes.length > 0 ||
                 imageVariantes[0].length > 0 ||
-                isShowPromoProduct != false
+                productForm.isShowPromoProduct != false
             ) {
                 setIsDirtyCreateProduct(true);
                 return true;
@@ -755,9 +737,6 @@ const Appcontainer = () => {
         dsablStock, setDsablStock,
         dsablDate, setDsablDate,
         refresh, setRefresh,
-        nameProduct, setNameProduct,
-        ribbonProduct, setRibbonProduct,
-        descriptionProduct, setDescriptionProduct,
         nameSupplier, setNameSupplier,
         emailSupplier, setEmailSupplier,
         phoneSupplier, setPhoneSupplier,
@@ -766,19 +745,8 @@ const Appcontainer = () => {
         citySupplier, setCitySupplier,
         countrySupplier, setCountrySupplier,
         listSuppliers, setListSuppliers,
-        supplier, setSupplier,
         initSupplierForm,
-        collections, setCollections,
-        productPrice, setProductPrice,
-        promoApplied, setPromoApplied,
-        promoType, setPromoType,
-        reducedProductPrice, setReducedProductPrice,
-        productCost, setProductCost,
-        productStock, setProductStock,
-        optionsObj, setOptionsObj,
-        unlimited, setUnlimited,
         imageVariantes, setImageVariantes,
-        variantes, setVariantes,
         checkedVariantesList, setCheckedVariantesList,
         selectedVariantesList, setSelectedVariantesList,
         allOptionsVariantesNeeded, setAllOptionsVariantesNeeded,
@@ -786,28 +754,16 @@ const Appcontainer = () => {
         variante, setVariante,
         listType, setListType,
         optionsData, setOptionsData,
-        changedVariantes, setChangedVariantes,
-        productCode, setProductCode,
         activeCalculTva, setActiveCalculTva,
         tvaRateList, setTvaRateList,
-        tva, setTva,
-        metaTitleProduct, setMetaTitleProduct,
-        metaDescriptionProduct, setMetaDescriptionProduct,
-        metaUrlProduct, setMetaUrlProduct,
         listTransporters, setListTransporters,
-        transporter, setTransporter,
-        productParcelWeight, setProductParcelWeight,
-        productParcelWeightMeasureUnit, setProductParcelWeightMeasureUnit,
         screenSize,
-        isInAutoCollection, setIsInAutoCollection,
         showSideNav, setShowSideNav,
         products, setProducts,
         listProductsFiltered, setListProductsFiltered,
         listProductsChecked, setListProductsChecked,
-        dateFieldProduct, setDateFieldProduct,
         listCollectionNames, setListCollectionNames,
         isEditProduct, setIsEditProduct,
-        isShowPromoProduct, setIsShowPromoProduct,
         showInitButton, setShowInitButton,
         imageHasBeenChanged, setImageHasBeenChanged,
         showOptions, setShowOptions,
@@ -817,11 +773,11 @@ const Appcontainer = () => {
         isDirtyCreateProduct, setIsDirtyCreateProduct,
         checkIfCreateProductIsDirty,
         hooksComparation, setHooksComparation,
-        productStatus, setProductStatus,
         hasLeaveThisPage, setHasLeaveThisPage,
         isVisible, setIsVisible,
-        handleLocalStorage,
+        handleLocalStorageProduct,
         productForm, setProductForm,
+        handleLocalStorageCollection,
 
     }
 

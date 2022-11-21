@@ -53,11 +53,12 @@ const OptimisationProduct = () => {
         localStorage.setItem("isShowOptimisationProduct", !isShowOptimisationProduct);
         setIsShowOptimisationProduct(!isShowOptimisationProduct);
         // clean fields
-        setProductForm({...productForm, 
+        setProductForm({
+            ...productForm,
             metaTitleProduct: '',
             metaDescriptionProduct: '',
             metaUrlProduct: ''
-    });
+        });
     };
 
     useEffect(() => {
@@ -80,11 +81,11 @@ const OptimisationProduct = () => {
 
     const handleMetaUrl = (e) => {
         let urlName = normalizUrl(e.target.value);
-        setProductForm({...productForm, metaUrlProduct: urlName.substring(0, 2047)});
+        setProductForm({ ...productForm, metaUrlProduct: urlName.substring(0, 2047) });
     };
 
     const handleMetaTitle = (e) => {
-        setProductForm({...productForm, metaTitleProduct: e.target.value});
+        setProductForm({ ...productForm, metaTitleProduct: e.target.value });
 
         // affiche en rouge un avertissement sur la longeur du méta title
         if (e.target.value.length > 50) {
@@ -95,7 +96,7 @@ const OptimisationProduct = () => {
     };
 
     const handleMetaDescription = (e) => {
-        setProductForm({...productForm, metaDescriptionProduct: e.target.value});
+        setProductForm({ ...productForm, metaDescriptionProduct: e.target.value });
 
         // affiche en rouge un avertissement sur la longeur de la méta description
         if (e.target.value.length > 130) {
