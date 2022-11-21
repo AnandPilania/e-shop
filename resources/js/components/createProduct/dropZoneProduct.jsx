@@ -10,7 +10,7 @@ const DropZoneProduct = ({ productId, isLocalStorage, setIsLocalStorage }) => {
 
     const dropRegionRef = useRef();
 
-    const { isEditProduct, imageVariantes, setImageVariantes, variantes, setVariantes } = useContext(AppContext);
+    const { isEditProduct, imageVariantes, setImageVariantes, productForm, setProductForm } = useContext(AppContext);
 
     var fakeInput = null;
     var mainImageProduct = null;
@@ -228,13 +228,13 @@ const DropZoneProduct = ({ productId, isLocalStorage, setIsLocalStorage }) => {
     // enlève la mini image des variantes quand on supprime l'image dans la dropZone 
     const removeOneMiniVarianteImage = (data) => {
         let idImages = data.map(x => x.id);
-        let tmp_variantes = [...variantes];
+        let tmp_variantes = [...productForm.variantes];
         tmp_variantes.forEach(x => {
             if (!idImages.includes(x.selectedImage.id)) {
                 return x.selectedImage = {};
             }
         });
-        setVariantes([...tmp_variantes]);
+        setProductForm({...productForm, variantes: [...tmp_variantes]});
     }
 
 

@@ -7,27 +7,27 @@ const WithHandleSelectionList = (Component) => (props) => {
 
     const [isAllSelectedCheckbox, setIsAllSelectedCheckbox] = useState(false);
 
-    const { variantes, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, allOptionsVariantesNeeded } = useContext(AppContext);
+    const { setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, allOptionsVariantesNeeded, productForm } = useContext(AppContext);
 
 
     const selectAllOrOneNeededOptions = (tmpSelectedList) => {
         // si on coche toute les checkbox alors il faut setCheckedVariantesList avec toute les variantes pour que lorsqu'on delete une variantes de la lite toute les checkbox restent cochées
         if (isAllSelectedCheckbox) {
             let tmp_tab = [];
-            for (let i = 0; i < variantes.length; i++) {
-                tmp_tab.push(variantes[i].id);
+            for (let i = 0; i < productForm.variantes.length; i++) {
+                tmp_tab.push(productForm.variantes[i].id);
             }
             setCheckedVariantesList([...tmp_tab]);
         } else {
             // select at least One needed
             if (allOptionsVariantesNeeded == 0) {
                 let tmp_tab = [];
-                for (let i = 0; i < variantes.length; i++) {
+                for (let i = 0; i < productForm.variantes.length; i++) {
                     for (let j = 0; j < tmpSelectedList.length; j++) {
-                        if (variantes[i].options[tmpSelectedList[j].name] == tmpSelectedList[j].value) {
+                        if (productForm.variantes[i].options[tmpSelectedList[j].name] == tmpSelectedList[j].value) {
 
-                            if (tmp_tab.indexOf(variantes[i].id) == -1) {
-                                tmp_tab.push(variantes[i].id);
+                            if (tmp_tab.indexOf(productForm.variantes[i].id) == -1) {
+                                tmp_tab.push(productForm.variantes[i].id);
                             }
                         }
                     }
@@ -37,16 +37,16 @@ const WithHandleSelectionList = (Component) => (props) => {
             } else {
                 // select ALL needed
                 let tmp_tab = [];
-                for (let i = 0; i < variantes.length; i++) {
+                for (let i = 0; i < productForm.variantes.length; i++) {
                     let count = 0;
                     for (let j = 0; j < tmpSelectedList.length; j++) {
 
-                        if (variantes[i].options[tmpSelectedList[j].name] == tmpSelectedList[j].value) {
+                        if (productForm.variantes[i].options[tmpSelectedList[j].name] == tmpSelectedList[j].value) {
                             count++;
                             if (count == tmpSelectedList.length) {
 
-                                if (tmp_tab.indexOf(variantes[i].id) == -1) {
-                                    tmp_tab.push(variantes[i].id);
+                                if (tmp_tab.indexOf(productForm.variantes[i].id) == -1) {
+                                    tmp_tab.push(productForm.variantes[i].id);
                                 }
                             }
                         }

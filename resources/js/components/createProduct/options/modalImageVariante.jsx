@@ -15,7 +15,7 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
     const isOverflow = useIsOverflow(modalImageSectionRef, (isOverflowFromCallback) => { });
 
 
-    const { variantes, setVariantes, variante, IdProduct, setIdProduct } = useContext(AppContext);
+    const { variante, IdProduct, productForm, setProductForm } = useContext(AppContext);
 
 
     const handleImportImage = () => {
@@ -160,11 +160,11 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
     }
 
     const removeMainImage = () => {
-        let ndx = variantes.findIndex(x => x.id === variante.id);
+        let ndx = productForm.variantes.findIndex(x => x.id === variante.id);
         if (ndx > -1) {
-            let tmp_variantes = [...variantes];
+            let tmp_variantes = [...productForm.variantes];
             tmp_variantes[ndx].selectedImage = {};
-            setVariantes(tmp_variantes);
+            setProductForm({...productForm, variantes: tmp_variantes});
             handleModalCancel();
         }
     }

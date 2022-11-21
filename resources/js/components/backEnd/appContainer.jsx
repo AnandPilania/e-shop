@@ -127,7 +127,10 @@ const Appcontainer = () => {
 
     //PRODUCT---------------------------------------------------------------
 
-    const [IdProduct, setIdProduct] = useState(0);
+    // TOUS LES HOOKS DE CE PREMIER BLOCK ONT ETE REMPLACES PAR LE HOOK OBJECT productForm ET NE SONT DONC PLUS UTILISES 
+
+    //----------------------------------------------------------------------
+
     const [nameProduct, setNameProduct] = useState('');
     const [ribbonProduct, setRibbonProduct] = useState('');
     const [descriptionProduct, setDescriptionProduct] = useState('');
@@ -142,67 +145,77 @@ const Appcontainer = () => {
     const [productStock, setProductStock] = useState('');
     const [productCode, setProductCode] = useState('');
     const [optionsObj, setOptionsObj] = useState([]);
-    const [showOptions, setShowOptions] = useState(false);
     const [unlimited, setUnlimited] = useState(false);
     const [variantes, setVariantes] = useState([]);
-    const [checkedVariantesList, setCheckedVariantesList] = useState([]);
-    const [selectedVariantesList, setSelectedVariantesList] = useState([]);
-    const [allOptionsVariantesNeeded, setAllOptionsVariantesNeeded] = useState(0);
-    const [isHideDeletedVariantes, setIsHideDeletedVariantes] = useState(false);
     const [isInAutoCollection, setIsInAutoCollection] = useState(true);
-    const [variante, setVariante] = useState({});
-    const [imageVariantes, setImageVariantes] = useState([[]]);
-    const [listType, setListType] = useState([]);
-    const [optionsData, setOptionsData] = useState([]);
     const [changedVariantes, setChangedVariantes] = useState([]);
     const [metaTitleProduct, setMetaTitleProduct] = useState('');
     const [metaDescriptionProduct, setMetaDescriptionProduct] = useState('');
     const [metaUrlProduct, setMetaUrlProduct] = useState('');
+    const [dateFieldProduct, setDateFieldProduct] = useState(getNow());
+    const [productStatus, setProductStatus] = useState(1);
+    const [transporter, setTransporter] = useState([]);
+    const [supplier, setSupplier] = useState('');
+    const [tva, setTva] = useState('');
+    const [isShowPromoProduct, setIsShowPromoProduct] = useState(false);
+
+    //-------------------------------------------------------------------------
+
+
+    const [IdProduct, setIdProduct] = useState(0);
+    const [showOptions, setShowOptions] = useState(false);
+    const [checkedVariantesList, setCheckedVariantesList] = useState([]);
+    const [selectedVariantesList, setSelectedVariantesList] = useState([]);
+    const [allOptionsVariantesNeeded, setAllOptionsVariantesNeeded] = useState(0);
+    const [isHideDeletedVariantes, setIsHideDeletedVariantes] = useState(false);
+    const [variante, setVariante] = useState({});
+    const [imageVariantes, setImageVariantes] = useState([[]]);
+    const [listType, setListType] = useState([]);
+    const [optionsData, setOptionsData] = useState([]);
     // const [products, setProducts] = useState([1, 2, 3]);
     const [products, setProducts] = useState([]);
     const [listProductsFiltered, setListProductsFiltered] = useState([]);
     const [listProductsChecked, setListProductsChecked] = useState([]);
-    const [dateFieldProduct, setDateFieldProduct] = useState(getNow());
     const [listCollectionNames, setListCollectionNames] = useState([]);
     const [isEditProduct, setIsEditProduct] = useState(false);
-    const [isShowPromoProduct, setIsShowPromoProduct] = useState(false);
     const [tvaComparation, setTvaComparation] = useState('');
     const [isDirtyCreateProduct, setIsDirtyCreateProduct] = useState(false);
     const [hooksComparation, setHooksComparation] = useState({});
-    const [productStatus, setProductStatus] = useState(1);
+
 
     const [productForm, setProductForm] = useState({
-        nameProduct : '',
-        isInAutoCollection : true,
-        ribbonProduct : '',
-        descriptionProduct : '',
-        collections : [],
-        productPrice : '',
-        reducedProductPrice : '',
-        promoApplied : '',
-        promoType : '%',
-        productCost : '',
-        productStock : '',
-        unlimited : false,
-        productParcelWeight : '',
-        productParcelWeightMeasureUnit : 'gr',
-        productCode : '',
-        transporter : [],
-        metaUrlProduct : '',
-        metaTitleProduct : '',
-        metaDescriptionProduct : '',
-        dateFieldProduct : getNow(),
-        tva : '',
-        supplier : '',
-        variantes : [],
-        optionsObj : [],
-        showOptions : false,
-        imageVariantes : [[]],
-        isShowPromoProduct : false,
-        isDirtyCreateProduct : false,
-        isEditProduct : false,
-        idProduct : 0,
-        changedVariantes : [],
+        nameProduct: '',
+        isInAutoCollection: true,
+        ribbonProduct: '',
+        descriptionProduct: '',
+        productStatus: 1,
+        collections: [],
+        productPrice: '',
+        reducedProductPrice: '',
+        promoApplied: '',
+        promoType: '%',
+        productCost: '',
+        productStock: '',
+        unlimited: false,
+        productParcelWeight: '',
+        productParcelWeightMeasureUnit: 'gr',
+        productCode: '',
+        transporter: [],
+        metaUrlProduct: '',
+        metaTitleProduct: '',
+        metaDescriptionProduct: '',
+        dateFieldProduct: getNow(),
+        tva: '',
+        supplier: '',
+        variantes: [],
+        optionsObj: [],
+        showOptions: false,
+        imageVariantes: [[]],
+        isShowPromoProduct: false,
+        isDirtyCreateProduct: false,
+        isEditProduct: false,
+        idProduct: 0,
+        changedVariantes: [],
     });
 
     //---------------------------------------------------------------PRODUCT
@@ -218,16 +231,15 @@ const Appcontainer = () => {
     const [citySupplier, setCitySupplier] = useState('');
     const [countrySupplier, setCountrySupplier] = useState('');
     const [listSuppliers, setListSuppliers] = useState([]);
-    const [supplier, setSupplier] = useState('');
+
 
     // TVA---------------------------------------------------------------
     const [activeCalculTva, setActiveCalculTva] = useState(0);
     const [tvaRateList, setTvaRateList] = useState([]);
-    const [tva, setTva] = useState('');
+
 
     // Shipping ---------------------------------------------------------
     const [listTransporters, setListTransporters] = useState([]);
-    const [transporter, setTransporter] = useState([]);
 
 
     // GENERAL -----------------------------------------------------------

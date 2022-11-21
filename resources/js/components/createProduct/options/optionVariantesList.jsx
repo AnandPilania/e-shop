@@ -20,7 +20,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
     const [maxIdValues_Names, setMaxIdValues_Names] = useState('');
 
 
-    const { optionsObj, productPrice, reducedProductPrice, productStock, productCost, productParcelWeight, productParcelWeightMeasureUnit, productCode, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, isHideDeletedVariantes, variante, setVariante, setImageVariantes, changedVariantes, setChangedVariantes, screenSize, setShowOptions, isEditProduct, setIsEditProduct, IdProduct } = useContext(AppContext);
+    const { productPrice, reducedProductPrice, productStock, productCost, productParcelWeight, productParcelWeightMeasureUnit, productCode, checkedVariantesList, setCheckedVariantesList, selectedVariantesList, setSelectedVariantesList, isHideDeletedVariantes, variante, setVariante, setImageVariantes,  screenSize, isEditProduct, setIsEditProduct, IdProduct, productForm, setProductForm } = useContext(AppContext);
 
     useEffect(() => {
         let abortController;
@@ -45,19 +45,19 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
 
     useEffect(() => {
         selectedVariantesList.length > 0 && handleChangeSelectionVariantesList(null, null);
-    }, [variantes]);
+    }, [productForm.variantes]);
 
 
     useEffect(() => {
-        if (!isEditProduct && optionsObj != null && optionsObj != undefined) {
+        if (!isEditProduct && productForm.optionsObj != null && productForm.optionsObj != undefined) {
             let libelles = [];
             // renvoi un tableau contenant les tableaux des VALEURS des différentes options. Sert à récupérer toutes les combinaisons possible entre les différentes options 
-            let optionsCombinations = optionsObj.map(x => x.values);
+            let optionsCombinations = productForm.optionsObj.map(x => x.values);
 
             // crée un tableau avec les index des optionsObj dont les VALUES ne sont pas vides pour que getCombinaisons parcoure uniquement les values non vides dans optionsCombinations
             let indexOfNotEmpty_optionsObj_values = [];
-            for (let i = 0; i < optionsObj.length; i++) {
-                if (optionsObj[i].values.length > 0) {
+            for (let i = 0; i < productForm.optionsObj.length; i++) {
+                if (productForm.optionsObj[i].values.length > 0) {
                     indexOfNotEmpty_optionsObj_values.push(i);
                 }
             }          
@@ -74,18 +74,18 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
             optionsCombinations.length > 0 && getCombinaisons(indexOfNotEmpty_optionsObj_values, "");
 
             // si idValues_Names == null lui attribu un id
-            if (optionsObj.findIndex(x => x.idValues_Names == null) > -1) {
+            if (productForm.optionsObj.findIndex(x => x.idValues_Names == null) > -1) {
                 let newId = maxIdValues_Names;
-                for (let i = 0; i < optionsObj.length; i++) {
-                    if (optionsObj[i].idValues_Names == null) {
-                        optionsObj[i].idValues_Names = newId;
+                for (let i = 0; i < productForm.optionsObj.length; i++) {
+                    if (productForm.optionsObj[i].idValues_Names == null) {
+                        productForm.optionsObj[i].idValues_Names = newId;
                         newId = newId + 1;
                     }
                 }
             }
 
             // get les id des noms d'options pour les associer à leur values dans un objet
-            let optionsIdValuesNames = optionsObj.map(x => x.idValues_Names);
+            let optionsIdValuesNames = productForm.optionsObj.map(x => x.idValues_Names);
             let tmp_variantesAsString = [];
 
             for (let i = 0; i < libelles.length; i++) {
@@ -93,8 +93,8 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                 let tmp = libelles[i].split(',')
                 let valuesSplited = tmp[0].split(' - ');
                 let variantesOptions = {};
-                for (let j = 0; j < optionsObj.length; j++) {
-                    if (optionsObj[j].values.length > 0) {
+                for (let j = 0; j < productForm.optionsObj.length; j++) {
+                    if (productForm.optionsObj[j].values.length > 0) {
                         variantesOptions[optionsIdValuesNames[j]] = valuesSplited[j];
                     }
                 }
@@ -120,9 +120,9 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
                     })
                 }
             }
-console.log('changedVariantes  ', changedVariantes)
+console.log('changedVariantes  ', productForm.changedVariantes)
             // quand on modifie les params d'une variantes on la copie ici pour conserver ses modifications
-            let tmp_changedVariantes = [...changedVariantes];
+            let tmp_changedVariantes = [...productForm.changedVariantes];
             // remplace les variantes de tmp_variantesAsString par celles qui ont été modifiées et qui leur correspondent
             if (tmp_variantesAsString.length > 0 && tmp_changedVariantes.length > 0) {
                 for (let i = 0; i < tmp_variantesAsString.length; i++) {
@@ -145,32 +145,34 @@ console.log('changedVariantes  ', changedVariantes)
                     }
                 }
             }
-            setVariantes(tmp_variantesAsString);
+            setProductForm({...productForm, variantes: tmp_variantesAsString});
         }
         isEditProduct && setIsEditProduct(false);
         // ferme "ajouter des options quand on supprime toutes les options"
-        // optionsObj.name != '' && setShowOptions(false);
+        // productForm.optionsObj.name != '' && setShowOptions(false);
 
-    }, [optionsObj]);
+    }, [productForm.optionsObj]);
 
 
 
     const handleVariantes = (id, field, data) => {
-        let tmp_variantes = [...variantes];
+        let tmp_variantes = [...productForm.variantes];
         let ndx = tmp_variantes.findIndex(x => x.id == id);
         if (ndx > -1) {
             tmp_variantes[ndx][field] = data;
         }
         // sauvegarde les variantes avec des paramètres modifiés ex. price, stock,... pour ne pas perdre ces modifiactions quand on ajoute ou supprime des options
-        let tmp_changedVariantes = [...changedVariantes];
+        let tmp_changedVariantes = [...productForm.changedVariantes];
         let index = tmp_changedVariantes.findIndex(x => x.id == tmp_variantes[ndx].id);
         if (index > -1) {
             tmp_changedVariantes[index] = tmp_variantes[ndx];
         } else {
             tmp_changedVariantes.push(tmp_variantes[ndx]);
         }
-        setChangedVariantes([...tmp_changedVariantes]);
-        setVariantes([...tmp_variantes]);
+        setProductForm({...productForm, 
+            variantes: [...tmp_variantes],
+            changedVariantes: [...tmp_changedVariantes],
+        });
     }
 
 
@@ -291,7 +293,7 @@ console.log('changedVariantes  ', changedVariantes)
         } else {
             tmp_checkedVariantesList.push(id);
             // coche checkbox check all si tout est coché
-            if (variantes.length === tmp_checkedVariantesList.length) {
+            if (productForm.variantes.length === tmp_checkedVariantesList.length) {
                 setIsAllSelectedCheckbox(true);
             }
         }
@@ -299,10 +301,10 @@ console.log('changedVariantes  ', changedVariantes)
     }
     // coche le checkbox all quand les options sélectionnées font que toutes les variantes sont cochées. décoche si c'est plus le cas
     useEffect(() => {
-        if (variantes.length === checkedVariantesList.length && checkedVariantesList.length > 0) {
+        if (productForm.variantes.length === checkedVariantesList.length && checkedVariantesList.length > 0) {
             setIsAllSelectedCheckbox(true);
         }
-        if (variantes.length !== checkedVariantesList.length) {
+        if (productForm.variantes.length !== checkedVariantesList.length) {
             setIsAllSelectedCheckbox(false);
         }
     }, [checkedVariantesList])
@@ -312,7 +314,7 @@ console.log('changedVariantes  ', changedVariantes)
     const selectAllCheckbox = (unUseParameter) => {
         if (!isAllSelectedCheckbox) {
             let tmp_arr = [];
-            variantes.forEach(item => tmp_arr.push(item.id));
+            productForm.variantes.forEach(item => tmp_arr.push(item.id));
             setSelectedVariantesList([]);
             setCheckedVariantesList([...tmp_arr]);
             setIsAllSelectedCheckbox(true);
@@ -324,7 +326,7 @@ console.log('changedVariantes  ', changedVariantes)
 
 
     const toggleDeleteUndeleteVariante = (id) => {
-        let tmp_variantes = [...variantes];
+        let tmp_variantes = [...productForm.variantes];
         let ndx = tmp_variantes.findIndex(x => x.id == id);
         if (ndx > -1) {
             if (tmp_variantes[ndx].deleted == false) {
@@ -333,7 +335,7 @@ console.log('changedVariantes  ', changedVariantes)
                 tmp_variantes[ndx].deleted = false;
             }
         }
-        setVariantes([...tmp_variantes]);
+        setProductForm({...productForm, variantes: [...tmp_variantes]});
     }
 
 
@@ -368,22 +370,22 @@ console.log('changedVariantes  ', changedVariantes)
 
     return (
         <div
-            className={`w-full ${variantes?.length > 0 && "border-t border-gray-200 mt-5"}`}
+            className={`w-full ${productForm.variantes?.length > 0 && "border-t border-gray-200 mt-5"}`}
         >
-            {variantes?.length > 0 &&
+            {productForm.variantes?.length > 0 &&
                 <h3 className='w-full text-left mb-5 mt-6 font-semibold text-[16px]'>
                     Variantes
                 </h3>
             }
 
-            {variantes?.length > 0 &&
+            {productForm.variantes?.length > 0 &&
                 <SelectionVariantesInList
-                    variantes={variantes}
+                    variantes={productForm.variantes}
                     checkedVariantesList={checkedVariantesList}
                     setCheckedVariantesList={setCheckedVariantesList}
                 />}
 
-            {variantes?.length > 0 &&
+            {productForm.variantes?.length > 0 &&
                 <div
                     className="w-full h-auto grid gap-x-2 grid-cols-[25px_100px_1fr_1fr_82px] md:grid-cols-[25px_100px_1fr_1fr_1fr_82px] xl:grid-cols-[25px_140px_1fr_1fr_1fr_82px] justify-start items-center border-b border-gray-200 mb-5"
                 >
@@ -445,7 +447,7 @@ console.log('changedVariantes  ', changedVariantes)
 
             {/* isHideDeletedVariantes cache les variantes deleted -> toggle */}
             {
-                variantes?.length > 0 && variantes.map((item, index) =>
+                productForm.variantes?.length > 0 && productForm.variantes.map((item, index) =>
                     (isHideDeletedVariantes && item.deleted === true) ? '' :
                         <div
                             id={`${index}options_String_Variantes_17922`}

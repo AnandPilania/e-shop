@@ -16,7 +16,7 @@ const ModalEditSelectionVariantes = ({ handleModalCancel, show }) => {
     const placeholder_promo = 'Ajouter un prix avant promo';
     const placeholder_stock = 'Ajouter une quantité';
 
-    const { variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, setSelectedVariantesList, setAllOptionsVariantesNeeded, changedVariantes, setChangedVariantes } = useContext(AppContext);
+    const { checkedVariantesList, setCheckedVariantesList, setSelectedVariantesList, setAllOptionsVariantesNeeded, productForm, setProductForm } = useContext(AppContext);
 
     const handleChangeProductPriceModal = (e) => {
         setProductPriceModal(e.target.value);
@@ -44,7 +44,7 @@ const ModalEditSelectionVariantes = ({ handleModalCancel, show }) => {
 
     // affecte les nouvelles valeurs aux champs concernés des variantes sélectionnées
     const saveChanges = () => {
-        let temp_variantes = [...variantes];
+        let temp_variantes = [...productForm.variantes];
         if (checkedVariantesList.length > 0) {
             for (let i = 0; i < temp_variantes.length; i++) {
                 if (checkedVariantesList.indexOf(temp_variantes[i].id) > -1) {
@@ -73,7 +73,7 @@ const ModalEditSelectionVariantes = ({ handleModalCancel, show }) => {
 
             //----------------------------------------------------------------
             // sauvegarde les variantes avec des paramètres modifiés ex. price, stock,... pour ne pas perdre ces modifiactions quand on ajoute ou supprime des options
-            let tmp_changedVariantes = [...changedVariantes];
+            let tmp_changedVariantes = [...productForm.changedVariantes];
             for (let i = 0; i < temp_variantes.length; i++) {
                 if (temp_variantes[i].reducedPrice != '' ||
                     temp_variantes[i].price != '' ||
@@ -91,11 +91,10 @@ const ModalEditSelectionVariantes = ({ handleModalCancel, show }) => {
                     }
                 }
             }
-            setChangedVariantes([...tmp_changedVariantes]);
-            //----------------------------------------------------------------
+            setProductForm({...productForm, changedVariantes: [...tmp_changedVariantes]});
+             //----------------------------------------------------------------
 
-
-            setVariantes([...temp_variantes]);
+            setProductForm({...productForm, variantes: [...temp_variantes]});
             setProductPriceModal('');
             setReducedProductPriceModal('');
             setProductStockModal('');

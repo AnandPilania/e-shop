@@ -15,7 +15,7 @@ const Options = () => {
     const [showModalCancelWithoutSaveOptions, setShowModalCancelWithoutSaveOptions] = useState(false);
     const [showModalCreateOption, setShowModalCreateOption] = useState(false);
 
-    const { optionsObj, setOptionsObj, setListType, showOptions, setShowOptions } = useContext(AppContext);
+    const { setListType, showOptions, setShowOptions, productForm, setProductForm } = useContext(AppContext);
 
     useEffect(() => {
         // get list of option types. Is required !!
@@ -31,7 +31,7 @@ const Options = () => {
     const confirmCancelWithoutSapveOptions = () => {
         setShowModalCancelWithoutSaveOptions(false);
         setShowOptions(false);
-        setOptionsObj([]);
+        setProductForm({ ...productForm, optionsObj: [] });
     }
 
     const closeModal = () => {
@@ -41,58 +41,62 @@ const Options = () => {
 
 
     const addOption = () => {
-        setOptionsObj([
-            ...optionsObj,
-            {
-                id: Date.now(),
-                name: '',
-                values: [],
-                ordre: optionsObj.length
-            }]);
+        setProductForm({
+            ...productForm, optionsObj: [
+                ...productForm.optionsObj,
+                {
+                    id: Date.now(),
+                    name: '',
+                    values: [],
+                    ordre: productForm.optionsObj.length
+                }]
+        });
     }
 
 
     // si il y a une nouvelle option on l'ajoute sinon on retire l'option passée en params
     const saveOption = (newOption) => {
-        let arr = [...optionsObj];
+        let arr = [...productForm.optionsObj];
         let ndx = arr.findIndex(obj => obj.id == newOption.id);
         if (ndx > -1) {
             arr.splice(ndx, 1, newOption);
-            setOptionsObj([...arr]);
+            setProductForm({ ...productForm, optionsObj: [...arr] });
         } else {
-            setOptionsObj([...optionsObj, newOption]);
+            setProductForm({ ...productForm, optionsObj: [...productForm.optionsObj, newOption] });
         }
     }
 
     const deleteOption = (id) => {
-        let arr = [...optionsObj];
+        let arr = [...productForm.optionsObj];
         let ndx = arr.findIndex(obj => obj.id == id);
         if (ndx > -1) {
             arr.splice(ndx, 1);
-            setOptionsObj([...arr]);
+            setProductForm({ ...productForm, optionsObj: [...arr] });
         }
     }
 
     // show and hide add options
-    const handleShowOptions = () => { 
+    const handleShowOptions = () => {
         if (showOptions) {
             // on demande confirmation avant d'annuler les options et de perdre tout ce qu'il y a dans les champs 
-            if (optionsObj?.findIndex(x => x.name.length > 0 || x.values.length > 0) > -1) {
+            if (productForm.optionsObj?.findIndex(x => x.name.length > 0 || x.values.length > 0) > -1) {
                 setShowModalCancelWithoutSaveOptions(true);
             } else {
                 setShowOptions(false);
-                setOptionsObj([]);
+                setProductForm({ ...productForm, optionsObj: [] });
             }
         } else {
-            setOptionsObj([
-                ...optionsObj,
-                {
-                    id: Date.now(),
-                    name: '',
-                    values: [],
-                    ordre: 0
-                }
-            ]);
+            setProductForm({
+                ...productForm, optionsObj: [
+                    ...productForm.optionsObj,
+                    {
+                        id: Date.now(),
+                        name: '',
+                        values: [],
+                        ordre: 0
+                    }
+                ]
+            });
             setShowOptions(true);
         }
     }
@@ -112,7 +116,7 @@ const Options = () => {
         }
 
         // si on drop ailleurs que sur l'emplacement initial sur la zone droppable
-        const tmp_optionsObj_DnD = Array.from(optionsObj);
+        const tmp_optionsObj_DnD = Array.from(productForm.optionsObj);
         const [removed] = tmp_optionsObj_DnD.splice(source.index, 1);
         tmp_optionsObj_DnD.splice(destination.index, 0, removed);
 
@@ -120,7 +124,7 @@ const Options = () => {
         tmp_optionsObj_DnD.forEach((x, index) => {
             x.ordre = index;
         });
-        setOptionsObj(tmp_optionsObj_DnD);
+        setProductForm({ ...productForm, optionsObj: tmp_optionsObj_DnD });
     };
 
 
@@ -145,7 +149,7 @@ const Options = () => {
             </div>
 
 
-            {optionsObj?.length > 0 &&
+            {productForm.optionsObj?.length > 0 &&
                 <div
                     className='w-full h-auto grid gap-x-4 gap-y-2 grid-cols-[1fr_1fr_25px] justify-start items-start px-4 pb-1'
                 >
@@ -167,13 +171,13 @@ const Options = () => {
                             {...provided.droppableProps}
                             ref={provided.innerRef}
                         >
-                            {optionsObj?.map((item, ndx) =>
+                            {productForm.optionsObj?.map((item, ndx) =>
                                 <Option
                                     key={item.id}
                                     option_obj={item}
                                     saveOption={saveOption}
                                     deleteOption={deleteOption}
-                                    optionsObj={optionsObj}
+                                    optionsObj={productForm.optionsObj}
                                     index={ndx}
                                 />
                             )}
@@ -183,7 +187,7 @@ const Options = () => {
                 </Droppable>
 
 
-                {optionsObj?.length < 4 && showOptions &&
+                {productForm.optionsObj?.length < 4 && showOptions &&
                     <div className="w-full h-auto flex flex-row justify-start items-center mb-6">
                         <button
                             onClick={addOption}
@@ -192,7 +196,7 @@ const Options = () => {
                         </button>
                     </div>
                 }
-                {optionsObj?.length === 4 &&
+                {productForm.optionsObj?.length === 4 &&
                     <span className='text-blue-500 text-sm'>
                         Vous pouvez ajouter jusqu'à 4 options
                     </span>

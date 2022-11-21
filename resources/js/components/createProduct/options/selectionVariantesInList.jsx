@@ -10,7 +10,7 @@ const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
 
     const unikIdSelectionVariantesList = 'SelectWithCheckbox_selectionVariantesList';
 
-    const { optionsObj, selectedVariantesList, allOptionsVariantesNeeded, setAllOptionsVariantesNeeded, variantes, setVariantes, checkedVariantesList, setCheckedVariantesList, setSelectedVariantesList, isHideDeletedVariantes, setIsHideDeletedVariantes } = useContext(AppContext);
+    const { selectedVariantesList, allOptionsVariantesNeeded, setAllOptionsVariantesNeeded, checkedVariantesList, setCheckedVariantesList, setSelectedVariantesList, isHideDeletedVariantes, setIsHideDeletedVariantes, productForm, setProductForm } = useContext(AppContext);
 
 
 
@@ -120,7 +120,7 @@ const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
 
 
     const deleteSelectedVariantes = () => {
-        let temp_variantes = [...variantes];
+        let temp_variantes = [...productForm.variantes];
         if (checkedVariantesList.length > 0) {
             for (let i = 0; i < temp_variantes.length; i++) {
                 if (checkedVariantesList.indexOf(temp_variantes[i].id) > -1) {
@@ -130,17 +130,17 @@ const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
             setCheckedVariantesList([]);
             // selectedVariantesList contien les options cochées
             setSelectedVariantesList([]);
-            setVariantes([...temp_variantes]);
+            setProductForm({...productForm, variantes: [...temp_variantes]});
         }
         handleModalCancelSelectionVariantes();
     }
 
 
     const cancelAllDeletedVariante = () => {
-        let tmp_variantes = [...variantes];
+        let tmp_variantes = [...productForm.variantes];
 
         tmp_variantes.forEach(x => x.deleted = false);
-        setVariantes([...tmp_variantes]);
+        setProductForm({...productForm, variantes: [...tmp_variantes]});
         setIsHideDeletedVariantes(false);
     }
 
@@ -164,7 +164,7 @@ const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
                     id={'ul' + unikIdSelectionVariantesList}
                     className="absolute top-[30px] left-0 w-full h-0 max-h-[300px] bg-white transition-height duration-150 ease-in-out overflow-x-hidden overflow-y-scroll z-10 border-gray-300 border-0 shadow-md scrollbar scrollbar-thumb-slate-200 scrollbar-track-gray-100 rounded-l rounded-r-sm">
                     {
-                        optionsObj?.length > 0 &&
+                        productForm.optionsObj?.length > 0 &&
                         <div className="w-full flex flex-col justify-center items-start py-[10px] px-[10px] bg-blue-50"
                         >
                             <div className="w-full flex flex-row justify-start items-center leading-7">
@@ -196,7 +196,7 @@ const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
                                 </label>
                             </div>
                         </div>}
-                    {optionsObj?.length > 0 && optionsObj.map(item =>
+                    {productForm.optionsObj?.length > 0 && productForm.optionsObj.map(item =>
                         <li
                             key={item.id + unikIdSelectionVariantesList} className="flex flex-row justify-start items-center flex-wrap pl-[10px] py-[10px] w-full h-auto border-b border-gray-200"
                         >
@@ -228,7 +228,7 @@ const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
                     }
                 </ul>
             </div>
-            {variantes.length > 0 &&
+            {productForm.variantes.length > 0 &&
                 <div className="w-[130px] mr-[15px] mb-[20px] relative">
                     <button
                         id={'Button2' + unikIdSelectionVariantesList}
@@ -267,9 +267,9 @@ const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
                             {/* divider */}
                             <div className='h-1 w-[90%] border-b border-gray-300 mb-1.5'></div>
                             <span
-                                className={`w-full flex flex-row justify-start items-center px-[3px] mb-[5px] cursor-pointer ${variantes.findIndex(x => x.deleted === true) > -1 ? "text-gray-500 hover:font-semibold" : "text-gray-400"}`}
+                                className={`w-full flex flex-row justify-start items-center px-[3px] mb-[5px] cursor-pointer ${productForm.variantes.findIndex(x => x.deleted === true) > -1 ? "text-gray-500 hover:font-semibold" : "text-gray-400"}`}
                                 onClick={() => {
-                                    variantes.findIndex(x => x.deleted === true) > -1 &&
+                                    productForm.variantes.findIndex(x => x.deleted === true) > -1 &&
                                         cancelAllDeletedVariante();
                                 }}
                             >
@@ -280,7 +280,7 @@ const SelectionVariantesInList = ({ handleChangeSelectionVariantesList }) => {
                 </div>}
 
             {/* Cacher les variantes supprimées */}
-            {variantes.findIndex(x => x.deleted === true) > -1 &&
+            {productForm.variantes.findIndex(x => x.deleted === true) > -1 &&
                 <span className='flex flex-row justify-center items-center w-auto h-[30px] px-[10px] mb-[20px] text-blue-500 text-sm no-underline hover:underline hover:cursor-pointer'
                     onClick={hideDeletedVariantes}
                 >
