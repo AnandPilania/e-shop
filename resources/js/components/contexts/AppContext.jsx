@@ -204,6 +204,8 @@ export default createContext({
     productForm: '',
     setProductForm: () => { },
     handleLocalStorageCollection: () => { },
+    localStorageImage: '',
+    setLocalStorageImage: () => { },
 
     
 });

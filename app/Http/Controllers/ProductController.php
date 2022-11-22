@@ -636,5 +636,5 @@ class ProductController extends Controller
         $img = file_get_contents($request->url);
         dd($img);
         return $img;
-    }
+    } 
 }

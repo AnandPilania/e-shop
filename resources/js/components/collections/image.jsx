@@ -9,7 +9,7 @@ import InputText from '../form/inputText';
 const Image = ({ state }) => {
 
 
-    const {imageName, setImageName, alt, setAlt, setImageHasBeenChanged } = useContext(AppContext);
+    const {imageName, setImageName, alt, setAlt } = useContext(AppContext);
 
     const handleAlt = (e) => {
         setAlt(e.target.value);
@@ -26,7 +26,6 @@ const Image = ({ state }) => {
                     <Label label="Image" />
                     <DropZone
                         state={state}
-                        setImageHasBeenChanged={setImageHasBeenChanged}
                     />
                 </div>
 

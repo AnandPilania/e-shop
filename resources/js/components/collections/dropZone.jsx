@@ -6,7 +6,7 @@ import TooltipWithoutIcon from '../elements/tooltipWithoutIcon';
 
 const DropZone = (props) => {
 
-    const { setImage, imagePath, setImagePath, setShowModalSimpleMessage, setMessageModal, is_Edit, setIs_Edit, idCollection, wrapIndexcroppe, setWrapIndexcroppe, setImageHasBeenChanged } = useContext(AppContext);
+    const { setImage, imagePath, setImagePath, setShowModalSimpleMessage, setMessageModal, is_Edit, setIs_Edit, idCollection, wrapIndexcroppe, setWrapIndexcroppe, setImageHasBeenChanged, localStorageImage, setLocalStorageImage } = useContext(AppContext);
 
 
     var dropRegion = null;
@@ -46,7 +46,9 @@ const DropZone = (props) => {
         if (wrapIndexcroppe.blob !== null) {
             previewImage(wrapIndexcroppe.blob);
             setWrapIndexcroppe({ component: 'CreateCollection', blob: null });
-        }
+        } 
+        
+
 
         return () => {
             dropRegion.removeEventListener('click', function () {
@@ -173,8 +175,18 @@ const DropZone = (props) => {
         return true;
     }
 
+    useEffect(() => {
+        if (localStorageImage != null) {
+            console.log('new File([blob]  ', localStorageImage)
+            previewImage(localStorageImage);
+            setImage(localStorageImage);
+            setLocalStorageImage(null);
+        }
+    }, [localStorageImage]);
 
-    function previewImage(image) {
+
+
+    function previewImage(file) {
 
         // retire l'image de fond
         let containerDropZone = document.getElementById('drop-region-dropZone');
@@ -206,8 +218,9 @@ const DropZone = (props) => {
         reader.onload = function (e) {
             img.src = e.target.result;
             setImagePath(e.target.result);
+            console.log('e.target.result  ', e.target.result);
         }
-        reader.readAsDataURL(image);
+        reader.readAsDataURL(file);
     }
 
 

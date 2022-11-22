@@ -21,7 +21,7 @@ const CreateCollection = () => {
 
     const {
         image, setImagePath, showModalConfirm, setShowModalConfirm, showModalSimpleMessage, setShowModalSimpleMessage,
-        messageModal, setMessageModal, textButtonConfirm, imageModal, setImageModal, setIs_Edit, listCollections, setListCollections, setListCollectionsFiltered, setListCategories, nameCollection, setNameCollection, descriptionCollection, setDescriptionCollection, descriptionCollectionForMeta, setDescriptionCollectionForMeta, conditions, setConditions, isAutoConditions, setIsAutoConditions, allConditionsNeeded, setAllConditionsNeeded, notIncludePrevProduct, setNotIncludePrevProduct, setWarningIdCondition, normalizUrl, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, imageName, setImageName, imagePath, alt, setAlt, categoryName, setCategoryName, categoryId, setCategoryId, dateField, setDateField, setTinyLanguage, idCollection, setIdCollection, handleModalConfirm, handleModalCancel, initCollectionForm, collectionForm, setCollectionForm, wrapIndexcroppe, setShowInitButton, imageHasBeenChanged, setImageHasBeenChanged, setHasLeaveThisPage, handleLocalStorageCollection, setIsVisible } = useContext(AppContext);
+        messageModal, setMessageModal, textButtonConfirm, imageModal, setImageModal, setIs_Edit, listCollections, setListCollections, setListCollectionsFiltered, setListCategories, nameCollection, setNameCollection, descriptionCollection, setDescriptionCollection, descriptionCollectionForMeta, setDescriptionCollectionForMeta, conditions, setConditions, isAutoConditions, setIsAutoConditions, allConditionsNeeded, setAllConditionsNeeded, notIncludePrevProduct, setNotIncludePrevProduct, setWarningIdCondition, normalizUrl, metaTitle, setMetaTitle, metaDescription, setMetaDescription, metaUrl, setMetaUrl, imageName, setImageName, imagePath, alt, setAlt, categoryName, setCategoryName, categoryId, setCategoryId, dateField, setDateField, setTinyLanguage, idCollection, setIdCollection, handleModalConfirm, handleModalCancel, initCollectionForm, collectionForm, setCollectionForm, wrapIndexcroppe, setShowInitButton, imageHasBeenChanged, setImageHasBeenChanged, setHasLeaveThisPage, handleLocalStorageCollection, setIsVisible, setLocalStorageImage } = useContext(AppContext);
 
     var navigate = useNavigate();
     var formData = new FormData;
@@ -31,13 +31,13 @@ const CreateCollection = () => {
     const { state } = useLocation();
     const { collectionId, isEdit } = state !== null ? state : { collectionId: null, isEdit: false };
 
-        // If the page is hidden, save in localStorage;
-        useEffect(() => {
-            if (!isVisiblePage) {
-                handleLocalStorageCollection();
-                setIsVisible(true);
-            }
-        }, [isVisiblePage]);
+    // If the page is hidden, save in localStorage;
+    useEffect(() => {
+        if (!isVisiblePage) {
+            handleLocalStorageCollection();
+            setIsVisible(true);
+        }
+    }, [isVisiblePage]);
 
     useEffect(() => {
         // detection navigator language
@@ -122,18 +122,19 @@ const CreateCollection = () => {
         setMetaDescription(data.meta_description);
         setMetaUrl(data.meta_url);
 
-        console.log('image  ', data.image)
-        console.log('imageName  ', imageName)
-        if (data.image !== null && data.image !== undefined && data.image !== '') {
-            setImageName(data.image.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''));
-            setImagePath(data.image);
-        } else {
-            setImageName('');
-            setImagePath('');
-        }
 
+        // localStorageImage est utilisé pour afficher l'image qui vient du localStorage dans dropZone
+        fetch(data.image)
+          .then(res => res.blob())
+          .then(blob => {
+            const file = new File([blob], "File name",{ type: "image/png" })
+            // setImagePath(file);
+            setLocalStorageImage(file);
+          })
+
+        setImagePath(data.image.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''));
+        setImageName(data.imageName);
         setAlt(data.alt);
-        console.log('category  ', data.category)
         setCategoryName(data.category !== null && data.category !== undefined ? data.category.name : 'Sans catégorie');
         setDateField(getDateTime(new Date(data.dateActivation)));
         setDescriptionCollectionForMeta('');
@@ -146,7 +147,7 @@ const CreateCollection = () => {
             metaTitle: data.meta_title,
             metaDescription: data.meta_description,
             metaUrl: data.meta_url,
-            imageName: data.image?.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''),
+            // imageName: data.image?.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''),
             alt: data.alt,
             categoryName: data.category?.name !== undefined ? data.category.name : 'Sans catégorie',
             categoryId: data.category_id !== null ? data.category_id : 1,
@@ -449,7 +450,6 @@ const CreateCollection = () => {
             <div>
                 <Image
                     state={state}
-                    setImageHasBeenChanged={setImageHasBeenChanged}
                 />
                 <Categories />
                 <Activation />

@@ -13,7 +13,7 @@ import CreateCollection from '../collections/index';
 import WrapperCreateCollectionCroppeImage from '../collections/wrapperCreateCollectionCroppeImage';
 import Settings from '../settings/settings';
 import { getIsDocumentHidden } from '../functions/visibilityChange.js';
-
+import { v4 as uuidv4 } from 'uuid';
 
 
 const Appcontainer = () => {
@@ -69,6 +69,7 @@ const Appcontainer = () => {
     })
     const [wrapIndexcroppe, setWrapIndexcroppe] = useState({ component: 'CreateCollection', blob: null });
     const [showInitButton, setShowInitButton] = useState(false);
+    const [localStorageImage, setLocalStorageImage] = useState(null);
     //---------------------------------------------------------- collection Form
 
     const [warningIdCondition, setWarningIdCondition] = useState([]);
@@ -210,6 +211,7 @@ const Appcontainer = () => {
 
     useEffect(() => {
         localStorage.removeItem('productForm');
+        localStorage.removeItem('collectionForm');
 
         // chargement des collections
         if (listCollections.length === 0) {
@@ -317,7 +319,7 @@ const Appcontainer = () => {
             idProduct: 0,
             changedVariantes: [],
         }),
-        setShowOptions(false);
+            setShowOptions(false);
         setImageVariantes([[]]);
         setIsDirtyCreateProduct(false);
         checkIfCreateProductIsDirty();
@@ -328,21 +330,20 @@ const Appcontainer = () => {
     // met dans localStorage le productForm et ses images
     const handleLocalStorageProduct = () => {
         let prodGlobalHook = {};
-        prodGlobalHook = {...productForm};
+        prodGlobalHook = { ...productForm };
         prodGlobalHook.imageVariantes = imageVariantes;
         localStorage.setItem('productForm', JSON.stringify(prodGlobalHook));
-    } 
-    
-    
+    }
 
 
-    const handleLocalStorageCollection = () => {
+
+    async function handleLocalStorageCollection() {
         let collGlobalHook = {};
         if (conditions.length > 0) {
             collGlobalHook.conditions = conditions;
         } else {
             collGlobalHook.conditions = [{ id: 0, parameter: '1', operator: '1', value: '' }];
-        } 
+        }
         collGlobalHook.automatise = isAutoConditions;
         localStorage.setItem('isAutoConditions', isAutoConditions);
         collGlobalHook.allConditionsNeeded = allConditionsNeeded;
@@ -356,20 +357,49 @@ const Appcontainer = () => {
         collGlobalHook.meta_description = metaDescription;
         collGlobalHook.meta_url = metaUrl;
 
-        console.log('image  ', image)
-        console.log('imageName  ', imageName)
-        // if (image !== null && image !== '') {
-        //     collGlobalHook.image = image.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', '');
-        //     collGlobalHook.imagePath = image;
-        // } else {
-        //     collGlobalHook.imageName = '';
-        //     collGlobalHook.imagePath = '';
-        // }
-        collGlobalHook.alt = alt
-        collGlobalHook.categoryName = categoryName.name !== null ? categoryName.name : 'Sans catégorie'
+        function readFileAsync(file) {
+            return new Promise((resolve, reject) => {
+                let reader = new FileReader();
+
+                reader.onload = () => {
+                    resolve(reader.result);
+                };
+
+                reader.onerror = reject;
+
+                reader.readAsDataURL(file);
+            })
+        }
+
+        async function processFile() {
+            console.log('typeof image   ', typeof image[0])
+            try {
+                return await readFileAsync(image);
+                // const imageBase64 = await readFileAsync(image);
+                // return await imageBase64.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
+            } catch (err) {
+                console.log(err);
+                return '';
+            }
+        }
+
+        if (image !== null && image !== undefined && image !== '') {
+            if (image instanceof File || image instanceof Blob) {
+                console.log('image File or Blob--->  ', image);
+                collGlobalHook.image = await processFile();
+                collGlobalHook.imageName = imageName;
+                collGlobalHook.imagePath = collGlobalHook.image;
+            }
+        } 
+
+
+            collGlobalHook.imageName = imageName;
+            collGlobalHook.imagePath = '';
+        collGlobalHook.alt = alt;
+        collGlobalHook.categoryName = categoryName.name !== null ? categoryName.name : 'Sans catégorie';
         collGlobalHook.dateField = dateField;
-        collGlobalHook.descriptionCollectionForMeta = ''
-        collGlobalHook.categoryId = categoryId !== null ? categoryId : 1
+        collGlobalHook.descriptionCollectionForMeta = '';
+        collGlobalHook.categoryId = categoryId !== null ? categoryId : 1;
         localStorage.setItem('collectionForm', JSON.stringify(collGlobalHook));
     }
 
@@ -778,6 +808,7 @@ const Appcontainer = () => {
         handleLocalStorageProduct,
         productForm, setProductForm,
         handleLocalStorageCollection,
+        localStorageImage, setLocalStorageImage,
 
     }
 

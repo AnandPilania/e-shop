@@ -100,7 +100,7 @@ class CollectionController extends Controller
     {
         dd($request);
         // check si on edit ou crée une collection
-        if ($request->id !== 'null') {
+        if ($request->id !== 'null' && $request->id !== 'undefined') {
             // if collection is edited
             $collection = Collection::find($request->id);
             $statusHasBeenChanged = $collection->statusHasBeenChanged;
