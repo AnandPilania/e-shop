@@ -1,12 +1,16 @@
 import React, { useContext } from 'react';
 import AppContext from '../contexts/AppContext';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+
 import TooltipWithoutIcon from '../elements/tooltipWithoutIcon';
 
 
 const HeaderIndex = () => {
 
-    const { setShowModalConfirm, setMessageModal, setSender, showInitButton, setTextButtonConfirm, setConditions, setIdCollection, setTmp_parameter, setWrapIndexcroppe } = useContext(AppContext);
+    const navigate = useNavigate();
+
+    const { setShowModalConfirm, setMessageModal, setSender, showInitButton, setTextButtonConfirm, setConditions, setIdCollection, setTmp_parameter, setWrapIndexcroppe, hasLeaveThisPage, setHasLeaveThisPage, setIsVisible, handleLocalStorageCollection } = useContext(AppContext);
 
     // confirm reinitialisatio form
     const confirmInitCollectionForm = () => {
@@ -15,6 +19,17 @@ const HeaderIndex = () => {
         setSender('initCollectionForm');
         setTmp_parameter('');
         setShowModalConfirm(true);
+    }
+
+    const navigateTo = (url) => {
+        // déclenche le localStorage du formulaire create collection si on quitte le formulaire dirty
+        if (hasLeaveThisPage === "createCollectionForm") {
+            handleLocalStorageCollection();
+            setHasLeaveThisPage('');
+        } else {
+            setIsVisible(true);
+        }
+        navigate(url);
     }
 
 
@@ -30,16 +45,15 @@ const HeaderIndex = () => {
                         value: ''
                     }]);
                     setWrapIndexcroppe({ component: 'CreateCollection', blob: null });
+                    navigateTo("/collections-list");
                 }}>
-                <Link to="/collections-list">
-                    <img
-                        src='../images/icons/arrow-left.svg'
-                        className="w-4 h-4 inline"
-                    />
-                    <span className="ml-1.5 font-medium text-gray-700">
-                        Retour
-                    </span>
-                </Link>
+                <img
+                    src='../images/icons/arrow-left.svg'
+                    className="w-4 h-4 inline"
+                />
+                <span className="ml-1.5 font-medium text-gray-700">
+                    Retour
+                </span>
             </button>
 
             {/* réinitialisation */}

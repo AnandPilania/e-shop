@@ -1,16 +1,18 @@
 import React, { useState, useContext } from 'react';
 import AppContext from '../contexts/AppContext';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 import TooltipWithoutIcon from '../elements/tooltipWithoutIcon';
 import ModalConfirmation from '../modal/modalConfirmation';
 
-const Header = ({ initCreateProduct, isDirtyCreateProduct, productId }) => {
+const Header = ({ initCreateProduct, isDirtyCreateProduct }) => {
+
+    const navigate = useNavigate();
 
     const [show, setShow] = useState(false);
     const [message, setMessage] = useState('');
 
-    const { setImageVariantes, setIsEditProduct } = useContext(AppContext);
+    const { setImageVariantes, setIsEditProduct, hasLeaveThisPage, setHasLeaveThisPage, setIsVisible, handleLocalStorageProduct } = useContext(AppContext);
 
     // confirm reinitialisatio form
     const confirmInitCollectionForm = () => {
@@ -23,6 +25,17 @@ const Header = ({ initCreateProduct, isDirtyCreateProduct, productId }) => {
         setShow(false);
     }
 
+    const navigateTo = (url) => {
+        // déclenche le localStorage du formulaire create product si on quitte le formulaire dirty
+        if (hasLeaveThisPage === "createProductForm") {
+            handleLocalStorageProduct();
+            setHasLeaveThisPage('');
+        } else {
+            setIsVisible(true);
+        }
+        navigate(url);
+    }
+
 
     return (
         <div className="w-full h-10 flex justify-start items-center mb-5">
@@ -33,17 +46,14 @@ const Header = ({ initCreateProduct, isDirtyCreateProduct, productId }) => {
                     Axios.post(`http://127.0.0.1:8000/clean_Images_product_table`);
                     setIsEditProduct(false);
                     setImageVariantes([[]]);
-                }}
-            >
-                <Link to="/listProduct">
-                    <img
-                        src='../images/icons/arrow-left.svg'
-                        className="w-4 h-4 inline"
-                    />
-                    <span className="ml-1.5 font-medium text-gray-700">
-                        Retour
-                    </span>
-                </Link>
+                    navigateTo("/listProduct");
+                }}>
+                <img
+                    src='../images/icons/arrow-left.svg'
+                    className="w-4 h-4 inline" />
+                <span className="ml-1.5 font-medium text-gray-700">
+                    Retour
+                </span>
             </button>
 
             {/* réinitialisation */}
@@ -53,16 +63,13 @@ const Header = ({ initCreateProduct, isDirtyCreateProduct, productId }) => {
                     className='w-auto h-10 px-4 flex flex-row justify-center items-center border border-indigo-700 bg-white text-gray-700 font-medium hover:border-2 rounded-md ml-auto'
                     onClick={() => {
                         confirmInitCollectionForm();
-                    }}
-                >
+                    }}>
                     <span
                         id="img_resetButtonCollection4922"
-                        className='w-full h-full flex items-center'
-                    >
+                        className='w-full h-full flex items-center'>
                         <img
                             src='../images/icons/arrow-counterclockwise.svg'
-                            className="w-5 h-5"
-                        />
+                            className="w-5 h-5" />
                     </span>
                     <TooltipWithoutIcon id="resetButtonCollection4922" idimg="img_resetButtonCollection4922" widthTip={190} css="mb-8">
                         Réinitialiser le formulaire

@@ -357,7 +357,6 @@ class ProductController extends Controller
             $files = $request->file('files');
             foreach ($files as $file) {
                 $path = Storage::disk('public')->put('images', $file);
-
                 $max = Images_product::where('status', 'tmp')
                     ->orWhere('product_id', $request->productId)
                     ->get();

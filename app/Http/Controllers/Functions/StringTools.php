@@ -17,6 +17,12 @@ class StringTools
         return strtolower($cleanCaracters);
     }
 
+    public function replaceSpacesByHyphen($str) 
+    {
+        $search = array(' ', '\'');
+        return str_replace($search, '-', $str);
+    }
+
 
     public function nameGeneratorFromFile($file)
     {

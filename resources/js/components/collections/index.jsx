@@ -34,8 +34,10 @@ const CreateCollection = () => {
     // If the page is hidden, save in localStorage;
     useEffect(() => {
         if (!isVisiblePage) {
-            handleLocalStorageCollection();
-            setIsVisible(true);
+            if (checkIfIsDirty()) {
+                handleLocalStorageCollection();
+                setIsVisible(true);
+            }
         }
     }, [isVisiblePage]);
 
@@ -109,31 +111,27 @@ const CreateCollection = () => {
 
     const setCollectionData = (data) => {
         data.objConditions?.length > 0 ? setConditions(JSON.parse(data.objConditions)) : setConditions([{ id: 0, parameter: '1', operator: '1', value: '' }]);
-
-
-        setIsAutoConditions(data.automatise != undefined ? data.automatise : 0);
+        setIsAutoConditions(data.automatise != undefined ? data.automatise : 1);
         setAllConditionsNeeded(data.allConditionsNeeded != undefined ? data.allConditionsNeeded : 1);
         setNotIncludePrevProduct(data.notIncludePrevProduct != undefined ? data.notIncludePrevProduct : 1);
         setIdCollection(data.id);
-        console.log('data.name  ', data.name)
         setNameCollection(data.name);
         setDescriptionCollection(data.description);
         setMetaTitle(data.meta_title);
         setMetaDescription(data.meta_description);
         setMetaUrl(data.meta_url);
-
-
         // localStorageImage est utilisé pour afficher l'image qui vient du localStorage dans dropZone
-        fetch(data.image)
-          .then(res => res.blob())
-          .then(blob => {
-            const file = new File([blob], "File name",{ type: "image/png" })
-            // setImagePath(file);
-            setLocalStorageImage(file);
-          })
-
-        setImagePath(data.image.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''));
-        setImageName(data.imageName);
+        if (data.image != undefined && data.image != null && data.image != '' && !isEdit) {
+            fetch(data.image)
+                .then(res => res.blob())
+                .then(blob => {
+                    const file = new File([blob], imageName, { type: "image/png" })
+                    console.log('file   ', file)
+                    setLocalStorageImage(file);
+                });
+        }
+        // on enlève le uuid du nom
+        setImageName(data.image?.replace(/(-\w{8}-\w{4}-\w{4}-\w{4}-\w{12}\.[a-zA-Z]{2,4})$/, '').replace('images/', ''));
         setAlt(data.alt);
         setCategoryName(data.category !== null && data.category !== undefined ? data.category.name : 'Sans catégorie');
         setDateField(getDateTime(new Date(data.dateActivation)));
@@ -147,16 +145,16 @@ const CreateCollection = () => {
             metaTitle: data.meta_title,
             metaDescription: data.meta_description,
             metaUrl: data.meta_url,
-            // imageName: data.image?.replace(/(-\d+\.[a-zA-Z]{2,4})$/, '').replace('images/', ''),
+            imageName: data.image?.replace(/(-\w{8}-\w{4}-\w{4}-\w{4}-\w{12}\.[a-zA-Z]{2,4})$/, '').replace('images/', ''),
             alt: data.alt,
-            categoryName: data.category?.name !== undefined ? data.category.name : 'Sans catégorie',
-            categoryId: data.category_id !== null ? data.category_id : 1,
+            categoryName: data.category !== null && data.category !== undefined ? data.category.name : 'Sans catégorie',
+            categoryId: data.category_id !== null && data.category_id !== undefined ? data.category_id : 1,
             dateField: getDateTime(new Date(data.dateActivation)),
-            imagePath: data.image,
             image: data.image,
-            isAutoConditions: data.automatise,
-            notIncludePrevProduct: data.notIncludePrevProduct,
-            allConditionsNeeded: data.allConditionsNeeded,
+            isAutoConditions: data.automatise != undefined ? data.automatise : 1,
+            notIncludePrevProduct: data.notIncludePrevProduct != undefined ? data.notIncludePrevProduct : 1,
+            allConditionsNeeded: data.allConditionsNeeded != undefined ? data.allConditionsNeeded : 1,
+            idCollection: data.id,
         })
 
         setIs_Edit(true);
@@ -191,98 +189,98 @@ const CreateCollection = () => {
     }, [nameCollection, descriptionCollection, alt, imageName, metaTitle, metaDescription, metaUrl, image, imagePath, categoryName, categoryId, dateField, conditions]);
 
 
-    // const checkIfIsDirty = () => {
+    const checkIfIsDirty = () => {
 
-    //     if (isEdit) {
-    //         if (wrapIndexcroppe.blob !== null) return true;
+        if (isEdit) {
+            if (wrapIndexcroppe.blob !== null) return true;
 
-    //         // tinyMCE ajoute des caractères undefined qui ne permettent pas de faire une comparaison alors on compte chaque caractères dans les deux texte et on compare leur nombre pour avoir plus de chances de repérer les textes différents 
-    //         let maxLength = Math.max(collectionForm.descriptionCollection.length, descriptionCollection.length);
-    //         var a = descriptionCollection;
-    //         var b = collectionForm.descriptionCollection;
-    //         var tab = [];
-    //         for (let i = 0; i < maxLength; i++) {
-    //             if (!tab.includes(a[i]) && a[i] !== null && a[i] !== undefined) {
-    //                 tab.push(a[i]);
-    //             }
-    //         }
-    //         var occurenceA = 0;
-    //         var occurenceB = 0;
-    //         for (let i = 0; i < tab.length; i++) {
-    //             if (tab[i] !== undefined && tab[i].charCodeAt(0) !== 13) {
-    //                 occurenceA = [...a].filter(item => item === tab[i]).length;
-    //                 occurenceB = [...b].filter(item => item === tab[i]).length;
-    //                 if (occurenceA !== occurenceB) {
-    //                     return true;
-    //                 }
-    //             }
-    //         }
+            // tinyMCE ajoute des caractères undefined qui ne permettent pas de faire une comparaison alors on compte chaque caractères dans les deux texte et on compare leur nombre pour avoir plus de chances de repérer les textes différents 
+            let maxLength = Math.max(collectionForm.descriptionCollection.length, descriptionCollection.length);
+            var a = descriptionCollection;
+            var b = collectionForm.descriptionCollection;
+            var tab = [];
+            for (let i = 0; i < maxLength; i++) {
+                if (!tab.includes(a[i]) && a[i] !== null && a[i] !== undefined) {
+                    tab.push(a[i]);
+                }
+            }
+            var occurenceA = 0;
+            var occurenceB = 0;
+            for (let i = 0; i < tab.length; i++) {
+                if (tab[i] !== undefined && tab[i].charCodeAt(0) !== 13) {
+                    occurenceA = [...a].filter(item => item === tab[i]).length;
+                    occurenceB = [...b].filter(item => item === tab[i]).length;
+                    if (occurenceA !== occurenceB) {
+                        return true;
+                    }
+                }
+            }
 
-    //         switch (true) {
-    //             case JSON.stringify(collectionForm.conditions) !== JSON.stringify(conditions):
-    //                 return true;
-    //             case collectionForm.nameCollection !== nameCollection:
-    //                 return true;
-    //             case collectionForm.metaTitle !== metaTitle:
-    //                 return true;
-    //             case collectionForm.metaDescription !== metaDescription:
-    //                 return true;
-    //             case collectionForm.metaUrl !== metaUrl:
-    //                 return true;
-    //             case collectionForm.imageName !== imageName:
-    //                 return true;
-    //             case collectionForm.alt !== alt:
-    //                 return true;
-    //             case collectionForm.categoryName !== categoryName:
-    //                 return true;
-    //             case collectionForm.categoryId !== categoryId:
-    //                 return true;
-    //             case collectionForm.dateField !== dateField:
-    //                 return true;
-    //             case collectionForm.isAutoConditions != isAutoConditions:
-    //                 return true;
-    //             case collectionForm.notIncludePrevProduct != notIncludePrevProduct:
-    //                 return true;
-    //             case collectionForm.allConditionsNeeded != allConditionsNeeded:
-    //                 return true;
-    //             case imageHasBeenChanged === true:
-    //                 return true;
-    //             default:
-    //                 setIs_Edit(false);
-    //                 setIdCollection(null);
-    //                 return false;
-    //         }
-    //     }
+            switch (true) {
+                case JSON.stringify(collectionForm.conditions) !== JSON.stringify(conditions):
+                    return true;
+                case collectionForm.nameCollection !== nameCollection:
+                    return true;
+                case collectionForm.metaTitle !== metaTitle:
+                    return true;
+                case collectionForm.metaDescription !== metaDescription:
+                    return true;
+                case collectionForm.metaUrl !== metaUrl:
+                    return true;
+                case collectionForm.imageName !== imageName:
+                    return true;
+                case collectionForm.alt !== alt:
+                    return true;
+                case collectionForm.categoryName !== categoryName:
+                    return true;
+                case collectionForm.categoryId !== categoryId:
+                    return true;
+                case collectionForm.dateField !== dateField:
+                    return true;
+                case collectionForm.isAutoConditions != isAutoConditions:
+                    return true;
+                case collectionForm.notIncludePrevProduct != notIncludePrevProduct:
+                    return true;
+                case collectionForm.allConditionsNeeded != allConditionsNeeded:
+                    return true;
+                case imageHasBeenChanged === true:
+                    return true;
+                default:
+                    setIs_Edit(false);
+                    setIdCollection(null);
+                    return false;
+            }
+        }
 
-    //     if (!isEdit) {
-    //         var conditonDirty = false;
-    //         conditions.forEach(condition => {
-    //             if (condition.value != '') {
-    //                 conditonDirty = true;
-    //             }
-    //         });
-    //         if (
-    //             nameCollection != '' ||
-    //             descriptionCollection != '' ||
-    //             alt != '' ||
-    //             imageName != '' ||
-    //             metaTitle != '' ||
-    //             metaDescription != '' ||
-    //             metaUrl != window.location.origin + '/' ||
-    //             image != '' ||
-    //             categoryName != 'Sans catégorie' ||
-    //             categoryId != 1 ||
-    //             // dateField != getNow() ||
-    //             conditonDirty == true ||
-    //             imagePath !== ''
-    //         ) {
-    //             return true;
-    //         } else {
-    //             setIdCollection(null);
-    //             return false;
-    //         }
-    //     }
-    // }
+        if (!isEdit) {
+            var conditonDirty = false;
+            conditions.forEach(condition => {
+                if (condition.value != '') {
+                    conditonDirty = true;
+                }
+            });
+            if (
+                nameCollection != '' ||
+                descriptionCollection != '' ||
+                alt != '' ||
+                imageName != '' ||
+                metaTitle != '' ||
+                metaDescription != '' ||
+                metaUrl != window.location.origin + '/' ||
+                image != '' ||
+                categoryName != 'Sans catégorie' ||
+                categoryId != 1 ||
+                // dateField != getNow() ||
+                conditonDirty == true ||
+                imagePath !== ''
+            ) {
+                return true;
+            } else {
+                setIdCollection(null);
+                return false;
+            }
+        }
+    }
 
 
 

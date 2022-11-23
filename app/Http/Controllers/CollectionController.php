@@ -16,6 +16,7 @@ use App\Http\Controllers\Functions\CleanLink;
 use App\Http\Requests\StoreCollectionRequest;
 use App\Http\Controllers\Functions\StringTools;
 use App\Http\Controllers\Functions\GetArrayOfConditions;
+use Illuminate\Support\Str;
 
 class CollectionController extends Controller
 {
@@ -98,12 +99,10 @@ class CollectionController extends Controller
     // public function storeAndAssign(StoreCollectionRequest $request)
     public function storeAndAssign(Request $request)
     {
-        dd($request);
         // check si on edit ou crée une collection
-        if ($request->id !== 'null' && $request->id !== 'undefined') {
+        if ($request->id !== null && $request->id !== 'undefined') {
             // if collection is edited
             $collection = Collection::find($request->id);
-            $statusHasBeenChanged = $collection->statusHasBeenChanged;
             // delete previous image collection and thumbnail - see above
             $imageToDelete = public_path('/') . $collection->image;
             $thumbNailToDelete = public_path('/') . $collection->thumbnail;
@@ -150,15 +149,17 @@ class CollectionController extends Controller
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            // dd($image->getClientOriginalName());
-            // if ($collection->image !== $image->getClientOriginalName()) {
             $tools = new StringTools;
-            if ($request->imageName !== null) {
-                $input['image'] = $tools->nameGeneratorFromString($request->imageName, $image);
+            $nameInfo = pathinfo($image->getClientOriginalName());
+            if ($request->imageName != "undefined" && $request->imageName != null) {
+                $imageName = $tools->cleanCaracters($request->imageName);
+                $imageName = $tools->replaceSpacesByHyphen($imageName);
+                $input['image'] = $imageName . '-' . Str::uuid() . '.' . $tools->getExtesion($image);
             } else {
-                $input['image'] = $tools->nameGeneratorFromFile($image);
+                $name = $tools->cleanCaracters($nameInfo['filename']);
+                $name = $tools->replaceSpacesByHyphen($name);
+                $input['image'] = $name . '-' . Str::uuid() . '.' . $tools->getExtesion($image);
             }
-
             $destinationPath = public_path('/images');
             $imgFile = Image::make($image);
             $thumbnail = Image::make($image);
@@ -175,7 +176,7 @@ class CollectionController extends Controller
                 });
                 // $imgFile->crop(1920, 500);
             }
-
+            // dd($input['image']);
             $imgFile->save($destinationPath . '/' . $input['image']);
             $thumbnail->save($destinationPath . '/' . 'thumbnail_' . $input['image']);
             $collection->image = 'images/' . $input['image'];

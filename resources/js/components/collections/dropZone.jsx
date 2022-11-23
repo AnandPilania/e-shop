@@ -6,7 +6,7 @@ import TooltipWithoutIcon from '../elements/tooltipWithoutIcon';
 
 const DropZone = (props) => {
 
-    const { setImage, imagePath, setImagePath, setShowModalSimpleMessage, setMessageModal, is_Edit, setIs_Edit, idCollection, wrapIndexcroppe, setWrapIndexcroppe, setImageHasBeenChanged, localStorageImage, setLocalStorageImage } = useContext(AppContext);
+    const { setImage, imagePath, setImagePath, setShowModalSimpleMessage, setMessageModal, is_Edit, setIs_Edit, idCollection, wrapIndexcroppe, setWrapIndexcroppe, setImageHasBeenChanged, localStorageImage, setLocalStorageImage, setImageName } = useContext(AppContext);
 
 
     var dropRegion = null;
@@ -83,7 +83,6 @@ const DropZone = (props) => {
                     .then(res => {
                         if (res.data !== undefined && res.data != '' && res.data !== null) {
                             // get --> image path <-- for croppe
-                            console.log('res.data--->  ', res.data.image)
                             setImagePath('/' + res.data.image);
                             // get --> image <-- for preview
                             fetch('/' + res.data.image)
@@ -153,6 +152,8 @@ const DropZone = (props) => {
 
     function handleFiles(file) {
         file = file[0];
+        let name = file.name.substring(0, file.name.lastIndexOf('.'));
+        setImageName(name.replace('.', ''));
         if (validateImage(file)) {
             setImage(file);
             previewImage(file);
@@ -177,10 +178,9 @@ const DropZone = (props) => {
 
     useEffect(() => {
         if (localStorageImage != null) {
-            console.log('new File([blob]  ', localStorageImage)
-            previewImage(localStorageImage);
             setImage(localStorageImage);
             setLocalStorageImage(null);
+            previewImage(localStorageImage);
         }
     }, [localStorageImage]);
 
@@ -197,28 +197,14 @@ const DropZone = (props) => {
         // previewing image
         let img = document.getElementById("imageZone");
         img.style.display = "block";
+        img.classList.add('object-cover');
         document.getElementById("drop-message-dropZone").style.display = 'none';
-
-        // cadrage de l'image
-        img.onload = () => {
-            var width = img.clientWidth;
-            var height = img.clientHeight;
-            img.style.margin = 'auto';
-            if (width > height) {
-                img.style.width = '100%';
-                img.style.maxWidth = '270px';
-            } else {
-                img.style.height = '100%';
-                img.style.maxHeight = '200px';
-            }
-        }
 
         // read image
         var reader = new FileReader();
         reader.onload = function (e) {
             img.src = e.target.result;
             setImagePath(e.target.result);
-            console.log('e.target.result  ', e.target.result);
         }
         reader.readAsDataURL(file);
     }
@@ -263,7 +249,7 @@ const DropZone = (props) => {
                             className="w-24 h-auto mt-5 mx-auto"
                         />
                     </div>
-                    <img id="imageZone" className='hidden' />
+                    <img id="imageZone" className='hidden object-cover max-h-[200px]' />
                 </div>
             </div>
 

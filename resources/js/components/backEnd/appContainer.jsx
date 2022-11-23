@@ -39,7 +39,7 @@ const Appcontainer = () => {
     const [descriptionCollectionForMeta, setDescriptionCollectionForMeta] = useState('');
     const [imagePath, setImagePath] = useState('');
     const [image, setImage] = useState([]);
-    const [isAutoConditions, setIsAutoConditions] = useState(localStorage.getItem('isAutoConditions') != null ? localStorage.getItem('isAutoConditions') : 0);
+    const [isAutoConditions, setIsAutoConditions] = useState(localStorage.getItem('isAutoConditions') != null ? localStorage.getItem('isAutoConditions') : 1);
     const [notIncludePrevProduct, setNotIncludePrevProduct] = useState(localStorage.getItem('notIncludePrevProduct') != null ? localStorage.getItem('notIncludePrevProduct') : 1);
     const [allConditionsNeeded, setAllConditionsNeeded] = useState(localStorage.getItem('allConditionsNeeded') != null ? localStorage.getItem('allConditionsNeeded') : 1);
     const [collectionForm, setCollectionForm] = useState({
@@ -318,8 +318,8 @@ const Appcontainer = () => {
             isEditProduct: false,
             idProduct: 0,
             changedVariantes: [],
-        }),
-            setShowOptions(false);
+        });
+        setShowOptions(false);
         setImageVariantes([[]]);
         setIsDirtyCreateProduct(false);
         checkIfCreateProductIsDirty();
@@ -385,16 +385,11 @@ const Appcontainer = () => {
 
         if (image !== null && image !== undefined && image !== '') {
             if (image instanceof File || image instanceof Blob) {
-                console.log('image File or Blob--->  ', image);
                 collGlobalHook.image = await processFile();
                 collGlobalHook.imageName = imageName;
-                collGlobalHook.imagePath = collGlobalHook.image;
             }
-        } 
-
-
-            collGlobalHook.imageName = imageName;
-            collGlobalHook.imagePath = '';
+        }
+        collGlobalHook.imageName = imageName;
         collGlobalHook.alt = alt;
         collGlobalHook.categoryName = categoryName.name !== null ? categoryName.name : 'Sans catégorie';
         collGlobalHook.dateField = dateField;
@@ -536,29 +531,16 @@ const Appcontainer = () => {
             descriptionCollectionForMeta: '',
             imagePath: '',
             image: [],
-            isAutoConditions: localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 1,
+            isAutoConditions: localStorage.getItem('isAutoConditions') ? localStorage.getItem('isAutoConditions') : 0,
             notIncludePrevProduct: localStorage.getItem('notIncludePrevProduct') ? localStorage.getItem('notIncludePrevProduct') : 1,
             allConditionsNeeded: localStorage.getItem('allConditionsNeeded') ? localStorage.getItem('allConditionsNeeded') : 1,
         });
         setWrapIndexcroppe({ component: 'CreateCollection', blob: null });
         setShowInitButton(false);
 
-
-        // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
-        // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
-        // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
-        // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
-        // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
-        // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
         // gére le netoyage des images et vidéos dans  temporayStorage 
         let keys_toDelete = ['tmp_tinyMceImages', 'tmp_tinyMceVideos', 'tmp_imageCollection']
         cleanTemporayStorage(keys_toDelete);
-        // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
-        // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
-        // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
-        // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
-        // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
-        // !!!! !!!! !!!! !!!! !!!! !!!! !!! !!! !! !! !
 
         // éfface l'image de la dropZone
         let img = document.getElementById("imageZone");
@@ -589,15 +571,6 @@ const Appcontainer = () => {
     }
     //------------------------------------------------------reset supplier form
 
-    // reset product form ----------------------------------------------------
-    const initProductForm = () => {
-        setProductPrice('');
-        setPromoProductPrice('');
-        setReducedProductPrice('');
-        setProductCost('');
-        setIsDirty(false);
-    }
-    //------------------------------------------------------reset product form
 
     // remove caracteres unauthorized for url
     const normalizUrl = (str) => {
