@@ -209,6 +209,8 @@ const Appcontainer = () => {
     const [isVisible, setIsVisible] = useState(getIsDocumentHidden())
     const [hasLeaveThisPage, setHasLeaveThisPage] = useState(false);
 
+
+
     useEffect(() => {
         localStorage.removeItem('productForm');
         localStorage.removeItem('collectionForm');
@@ -258,8 +260,6 @@ const Appcontainer = () => {
 
     }, []);
 
-    // console.log('isVisible  ', isVisible)
-
 
     // remove records and images files from folders and temporaryStorage db when unused 
     function cleanTemporayStorage(keys_toDelete) {
@@ -267,7 +267,6 @@ const Appcontainer = () => {
         for (var i = 0; i < keys_toDelete.length; i++) {
             toDelete.append('keys[]', keys_toDelete[i]);
         }
-
         Axios.post(`http://127.0.0.1:8000/cleanTemporayStorage`, toDelete,
             {
                 headers: {
@@ -283,124 +282,9 @@ const Appcontainer = () => {
             });
     }
 
-    // réinitialisation du product form
-    const initCreateProduct = () => {
-        setProductForm({
-            nameProduct: '',
-            isInAutoCollection: true,
-            ribbonProduct: '',
-            descriptionProduct: '',
-            productStatus: 1,
-            collections: [],
-            productPrice: '',
-            reducedProductPrice: '',
-            promoApplied: '',
-            promoType: '%',
-            productCost: '',
-            productStock: '',
-            unlimited: false,
-            productParcelWeight: '',
-            productParcelWeightMeasureUnit: 'gr',
-            productCode: '',
-            transporter: [],
-            metaUrlProduct: '',
-            metaTitleProduct: '',
-            metaDescriptionProduct: '',
-            dateFieldProduct: getNow(),
-            tva: '',
-            supplier: '',
-            variantes: [],
-            optionsObj: [],
-            showOptions: false,
-            imageVariantes: [[]],
-            isShowPromoProduct: false,
-            isDirtyCreateProduct: false,
-            isEditProduct: false,
-            idProduct: 0,
-            changedVariantes: [],
-        });
-        setShowOptions(false);
-        setImageVariantes([[]]);
-        setIsDirtyCreateProduct(false);
-        checkIfCreateProductIsDirty();
-        setIsEditProduct(false);
-        setIdProduct(0);
-    }
-
-    // met dans localStorage le productForm et ses images
-    const handleLocalStorageProduct = () => {
-        let prodGlobalHook = {};
-        prodGlobalHook = { ...productForm };
-        prodGlobalHook.imageVariantes = imageVariantes;
-        localStorage.setItem('productForm', JSON.stringify(prodGlobalHook));
-    }
-
-
-
-    async function handleLocalStorageCollection() {
-        let collGlobalHook = {};
-        if (conditions.length > 0) {
-            collGlobalHook.conditions = conditions;
-        } else {
-            collGlobalHook.conditions = [{ id: 0, parameter: '1', operator: '1', value: '' }];
-        }
-        collGlobalHook.automatise = isAutoConditions;
-        localStorage.setItem('isAutoConditions', isAutoConditions);
-        collGlobalHook.allConditionsNeeded = allConditionsNeeded;
-        localStorage.setItem('allConditionsNeeded', allConditionsNeeded);
-        collGlobalHook.notIncludePrevProduct = notIncludePrevProduct;
-        localStorage.setItem('notIncludePrevProduct', notIncludePrevProduct);
-        collGlobalHook.idCollection = idCollection;
-        collGlobalHook.name = nameCollection;
-        collGlobalHook.description = descriptionCollection;
-        collGlobalHook.meta_title = metaTitle;
-        collGlobalHook.meta_description = metaDescription;
-        collGlobalHook.meta_url = metaUrl;
-
-        function readFileAsync(file) {
-            return new Promise((resolve, reject) => {
-                let reader = new FileReader();
-
-                reader.onload = () => {
-                    resolve(reader.result);
-                };
-
-                reader.onerror = reject;
-
-                reader.readAsDataURL(file);
-            })
-        }
-
-        async function processFile() {
-            console.log('typeof image   ', typeof image[0])
-            try {
-                return await readFileAsync(image);
-                // const imageBase64 = await readFileAsync(image);
-                // return await imageBase64.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
-            } catch (err) {
-                console.log(err);
-                return '';
-            }
-        }
-
-        if (image !== null && image !== undefined && image !== '') {
-            if (image instanceof File || image instanceof Blob) {
-                collGlobalHook.image = await processFile();
-                collGlobalHook.imageName = imageName;
-            }
-        }
-        collGlobalHook.imageName = imageName;
-        collGlobalHook.alt = alt;
-        collGlobalHook.categoryName = categoryName.name !== null ? categoryName.name : 'Sans catégorie';
-        collGlobalHook.dateField = dateField;
-        collGlobalHook.descriptionCollectionForMeta = '';
-        collGlobalHook.categoryId = categoryId !== null ? categoryId : 1;
-        localStorage.setItem('collectionForm', JSON.stringify(collGlobalHook));
-    }
-
 
     const checkIfCreateProductIsDirty = () => {
-        if (isEditProduct) {
+          if (isEditProduct) {
             // check collections
             let idsCollectionsPrev = hooksComparation?.collections?.map(x => x.id);
             let idsCollectionsCurr = productForm.collections?.map(x => x.id);
@@ -484,6 +368,215 @@ const Appcontainer = () => {
     }
 
 
+    // réinitialisation du product form
+    const initCreateProduct = () => {
+        setProductForm({
+            nameProduct: '',
+            isInAutoCollection: true,
+            ribbonProduct: '',
+            descriptionProduct: '',
+            productStatus: 1,
+            collections: [],
+            productPrice: '',
+            reducedProductPrice: '',
+            promoApplied: '',
+            promoType: '%',
+            productCost: '',
+            productStock: '',
+            unlimited: false,
+            productParcelWeight: '',
+            productParcelWeightMeasureUnit: 'gr',
+            productCode: '',
+            transporter: [],
+            metaUrlProduct: '',
+            metaTitleProduct: '',
+            metaDescriptionProduct: '',
+            dateFieldProduct: getNow(),
+            tva: '',
+            supplier: '',
+            variantes: [],
+            optionsObj: [],
+            showOptions: false,
+            imageVariantes: [[]],
+            isShowPromoProduct: false,
+            isDirtyCreateProduct: false,
+            isEditProduct: false,
+            idProduct: 0,
+            changedVariantes: [],
+        });
+        setShowOptions(false);
+        setImageVariantes([[]]);
+        setIsDirtyCreateProduct(false);
+        checkIfCreateProductIsDirty();
+        setIdProduct(0);
+    }
+
+    // met dans localStorage le productForm et ses images
+    const handleLocalStorageProduct = () => {
+        let prodGlobalHook = {};
+        prodGlobalHook = { ...productForm };
+        prodGlobalHook.imageVariantes = imageVariantes;
+        localStorage.setItem('productForm', JSON.stringify(prodGlobalHook));
+    }
+
+
+
+    async function handleLocalStorageCollection() {
+        console.log('isEditProduct  ', isEditProduct)
+        let collGlobalHook = {};
+        if (conditions.length > 0) {
+            collGlobalHook.conditions = conditions;
+        } else {
+            collGlobalHook.conditions = [{ id: 0, parameter: '1', operator: '1', value: '' }];
+        }
+        collGlobalHook.automatise = isAutoConditions;
+        localStorage.setItem('isAutoConditions', isAutoConditions);
+        collGlobalHook.allConditionsNeeded = allConditionsNeeded;
+        localStorage.setItem('allConditionsNeeded', allConditionsNeeded);
+        collGlobalHook.notIncludePrevProduct = notIncludePrevProduct;
+        localStorage.setItem('notIncludePrevProduct', notIncludePrevProduct);
+        collGlobalHook.idCollection = idCollection;
+        collGlobalHook.name = nameCollection;
+        collGlobalHook.description = descriptionCollection;
+        collGlobalHook.meta_title = metaTitle;
+        collGlobalHook.meta_description = metaDescription;
+        collGlobalHook.meta_url = metaUrl;
+
+        function readFileAsync(file) {
+            return new Promise((resolve, reject) => {
+                let reader = new FileReader();
+
+                reader.onload = () => {
+                    resolve(reader.result);
+                };
+
+                reader.onerror = reject;
+
+                reader.readAsDataURL(file);
+            })
+        }
+
+        async function processFile() {
+            try {
+                return await readFileAsync(image);
+                // const imageBase64 = await readFileAsync(image);
+                // return await imageBase64.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
+            } catch (err) {
+                console.log(err);
+                return '';
+            }
+        }
+
+        if (image !== null && image !== undefined && image !== '') {
+            if (image instanceof File || image instanceof Blob) {
+                collGlobalHook.image = await processFile();
+                collGlobalHook.imageName = imageName;
+            }
+        }
+        collGlobalHook.imageName = imageName;
+        collGlobalHook.alt = alt;
+        collGlobalHook.categoryName = categoryName.name !== null ? categoryName.name : 'Sans catégorie';
+        collGlobalHook.dateField = dateField;
+        collGlobalHook.descriptionCollectionForMeta = '';
+        collGlobalHook.categoryId = categoryId !== null ? categoryId : 1;
+        localStorage.setItem('collectionForm', JSON.stringify(collGlobalHook));
+    }
+
+
+    const checkIfIsDirty = () => {
+
+        if (is_Edit) {
+            if (wrapIndexcroppe.blob !== null) return true;
+
+            // tinyMCE ajoute des caractères undefined qui ne permettent pas de faire une comparaison alors on compte chaque caractères dans les deux texte et on compare leur nombre pour avoir plus de chances de repérer les textes différents 
+            let maxLength = Math.max(collectionForm.descriptionCollection.length, descriptionCollection.length);
+            var a = descriptionCollection;
+            var b = collectionForm.descriptionCollection;
+            var tab = [];
+            for (let i = 0; i < maxLength; i++) {
+                if (!tab.includes(a[i]) && a[i] !== null && a[i] !== undefined) {
+                    tab.push(a[i]);
+                }
+            }
+            var occurenceA = 0;
+            var occurenceB = 0;
+            for (let i = 0; i < tab.length; i++) {
+                if (tab[i] !== undefined && tab[i].charCodeAt(0) !== 13) {
+                    occurenceA = [...a].filter(item => item === tab[i]).length;
+                    occurenceB = [...b].filter(item => item === tab[i]).length;
+                    if (occurenceA !== occurenceB) {
+                        return true;
+                    }
+                }
+            }
+
+            switch (true) {
+                case JSON.stringify(collectionForm.conditions) !== JSON.stringify(conditions):
+                    return true;
+                case collectionForm.nameCollection !== nameCollection:
+                    return true;
+                case collectionForm.metaTitle !== metaTitle:
+                    return true;
+                case collectionForm.metaDescription !== metaDescription:
+                    return true;
+                case collectionForm.metaUrl !== metaUrl:
+                    return true;
+                case collectionForm.imageName !== imageName:
+                    return true;
+                case collectionForm.alt !== alt:
+                    return true;
+                case collectionForm.categoryName !== categoryName:
+                    return true;
+                case collectionForm.categoryId !== categoryId:
+                    return true;
+                case collectionForm.dateField !== dateField:
+                    return true;
+                case collectionForm.isAutoConditions != isAutoConditions:
+                    return true;
+                case collectionForm.notIncludePrevProduct != notIncludePrevProduct:
+                    return true;
+                case collectionForm.allConditionsNeeded != allConditionsNeeded:
+                    return true;
+                case imageHasBeenChanged === true:
+                    return true;
+                default:
+                    setIs_Edit(false);
+                    setIdCollection(null);
+                    return false;
+            }
+        }
+
+        if (!is_Edit) {
+            var conditonDirty = false;
+            conditions.forEach(condition => {
+                if (condition.value != '') {
+                    conditonDirty = true;
+                }
+            });
+            if (
+                nameCollection != '' ||
+                descriptionCollection != '' ||
+                alt != '' ||
+                imageName != '' ||
+                metaTitle != '' ||
+                metaDescription != '' ||
+                metaUrl != window.location.origin + '/' ||
+                image != '' ||
+                categoryName != 'Sans catégorie' ||
+                categoryId != 1 ||
+                // dateField != getNow() ||
+                conditonDirty == true ||
+                imagePath !== ''
+            ) {
+                return true;
+            } else {
+                setIdCollection(null);
+                return false;
+            }
+        }
+    }
+
+
     // réinitialisation des states du form collection --------------------------
     const initCollectionForm = () => {
         setNameCollection('');
@@ -553,7 +646,6 @@ const Appcontainer = () => {
             containerDropZone.style.backgroundColor = '#FFFFFF';
             document.getElementById("drop-message-dropZone").style.display = 'block';
         }
-
     }
     //----------------------------------------------------Reset collection Form
 
@@ -598,7 +690,6 @@ const Appcontainer = () => {
                 } else {
                     idToDelete.append('id', tmp_parameter);
                 }
-
                 Axios.post(`http://127.0.0.1:8000/deleteCollection`, idToDelete)
                     .then(res => {
                         setListCollections(res.data);
@@ -608,6 +699,7 @@ const Appcontainer = () => {
                     });
                 break;
             case 'initCollectionForm':
+                localStorage.removeItem('collectionForm');
                 initCollectionForm();
                 break;
             case 'initSupplierForm':
@@ -782,6 +874,7 @@ const Appcontainer = () => {
         productForm, setProductForm,
         handleLocalStorageCollection,
         localStorageImage, setLocalStorageImage,
+        checkIfIsDirty,
 
     }
 

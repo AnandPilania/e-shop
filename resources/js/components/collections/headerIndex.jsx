@@ -10,7 +10,7 @@ const HeaderIndex = () => {
 
     const navigate = useNavigate();
 
-    const { setShowModalConfirm, setMessageModal, setSender, showInitButton, setTextButtonConfirm, setConditions, setIdCollection, setTmp_parameter, setWrapIndexcroppe, hasLeaveThisPage, setHasLeaveThisPage, setIsVisible, handleLocalStorageCollection } = useContext(AppContext);
+    const { setShowModalConfirm, setMessageModal, setSender, showInitButton, setTextButtonConfirm, setConditions, setIdCollection, setTmp_parameter, setWrapIndexcroppe, hasLeaveThisPage, setHasLeaveThisPage, setIsVisible, handleLocalStorageCollection, checkIfIsDirty } = useContext(AppContext);
 
     // confirm reinitialisatio form
     const confirmInitCollectionForm = () => {
@@ -24,8 +24,10 @@ const HeaderIndex = () => {
     const navigateTo = (url) => {
         // déclenche le localStorage du formulaire create collection si on quitte le formulaire dirty
         if (hasLeaveThisPage === "createCollectionForm") {
+            if (checkIfIsDirty()) {
             handleLocalStorageCollection();
             setHasLeaveThisPage('');
+            }
         } else {
             setIsVisible(true);
         }

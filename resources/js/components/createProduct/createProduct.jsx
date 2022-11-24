@@ -34,7 +34,7 @@ const CreateProduct = () => {
     const [showModalLeaveWithoutSave, setShowModalLeaveWithoutSave] = useState(false);
     const [showBackButton, setShowBackButton] = useState(false);
 
-    const { descriptionProduct, setListSuppliers, messageModal, setMessageModal, activeCalculTva, setTvaRateList, imageVariantes, setListTransporters, screenSize, setIsEditProduct, setIdProduct, initCreateProduct, setTvaComparation, isDirtyCreateProduct, setShowOptions, setHooksComparation, setImageVariantes, setHasLeaveThisPage, handleLocalStorageProduct, setIsVisible, productForm, setProductForm } = useContext(AppContext);
+    const { descriptionProduct, setListSuppliers, messageModal, setMessageModal, activeCalculTva, setTvaRateList, imageVariantes, setListTransporters, screenSize, setIsEditProduct, setIdProduct, initCreateProduct, setTvaComparation, isDirtyCreateProduct, setShowOptions, setHooksComparation, setImageVariantes, setHasLeaveThisPage, handleLocalStorageProduct, setIsVisible, productForm, setProductForm, checkIfCreateProductIsDirty } = useContext(AppContext);
 
     // when click on edit in collection list it send collection id to db request for make edit collection
     const { state } = useLocation();
@@ -44,8 +44,11 @@ const CreateProduct = () => {
     // If the page is hidden, save in localStorage;
     useEffect(() => {
         if (!isVisiblePage) {
-            handleLocalStorageProduct();
-            setIsVisible(true);
+            if (checkIfCreateProductIsDirty()) {
+                console.log('checkIfCreateProductIsDirty  ', checkIfCreateProductIsDirty());
+                handleLocalStorageProduct();
+                setIsVisible(true);
+            }
         }
     }, [isVisiblePage]);
 
@@ -99,30 +102,29 @@ const CreateProduct = () => {
             idProd.append('productId', productId);
             Axios.post(`http://127.0.0.1:8000/getProduct`, idProd)
                 .then(res => {
-                    console.log('res data   ', res.data)
                     let data = res.data[0];
                     setProductData(data);
                     loadImagesVariantes(data);
                 });
-            setIsEditProduct(true);
+        } else if (localStorage.getItem('productForm') != null) {
+            console.log('is from localStorage')
+            initCreateProduct();
+            let data = JSON.parse(localStorage.getItem('productForm'));
+            setProductData(data);
+            loadImagesVariantes(data);
         } else {
-            if (localStorage.getItem('productForm') != null) {
-                initCreateProduct();
-                let data = JSON.parse(localStorage.getItem('productForm'));
-                setProductData(data);
-                loadImagesVariantes(data);
-            } else {
-                initCreateProduct();
-            }
+            console.log('elseeeee')
+            initCreateProduct();
         }
+
         // indique la page qu'on quitte. Sert à gérer le stockage en local storage des formulaires dirty
         setHasLeaveThisPage('createProductForm');
     }, []);
+    console.log('isEdit-----  ', isEdit)
 
     const loadImagesVariantes = (data) => {
         let tmp_data = [[]];
         let tmp = [];
-        console.log('data   ', data)
         let imagesProduct = [];
         if ('images_products' in data) {
             imagesProduct = data.images_products;
@@ -147,8 +149,6 @@ const CreateProduct = () => {
         }
     }
 
-
-    console.log('productForm  ', productForm)
 
     const setProductData = (data) => {
         // on check d'où viennent les valeurs. Elles viennent de la requête ex. data.name ou du localStorage ex. data.nameProduct 
@@ -195,6 +195,7 @@ const CreateProduct = () => {
         }
 
         setProductForm({
+            productId: productId,
             nameProduct: name == null ? '' : name,
             isInAutoCollection: data.isInAutoCollection == 1 ? true : false,
             ribbonProduct: ribbon == null ? '' : ribbon,
@@ -234,7 +235,7 @@ const CreateProduct = () => {
         hooksCompar.descriptionProduct = description;
         hooksCompar.collections = [...data.collections];
         hooksCompar.status = status,
-        hooksCompar.productPrice = price;
+            hooksCompar.productPrice = price;
         hooksCompar.reducedProductPrice = reduced_price == null ? '' : reduced_price;
         hooksCompar.promoApplied = reduction == null ? '' : reduction;
         hooksCompar.promoType = reductionType;
@@ -261,10 +262,10 @@ const CreateProduct = () => {
         } else {
             if (typeof data.optionsObj === 'string' && JSON.parse(data.optionsObj)[0]?.name.length > 0) setShowOptions(true);
         }
+
+        setIsEditProduct(isEdit);
     }
 
-
-    console.log('productForm.variantes  ', productForm.variantes)
 
     const handleModalConfirm = () => {
         setShowModalLeaveWithoutSave(false)
@@ -341,12 +342,20 @@ const CreateProduct = () => {
 
         if (validation()) {
             // delete removed tinyMCE images in folder and db
-            handleTinyMceTemporary(descriptionProduct, null, 'product');
+            handleTinyMceTemporary(productForm.descriptionProduct, null, 'product');
 
             var formData = new FormData;
-
-            formData.append('isEdit', productForm.isEdit);
-            formData.append('productId', productForm.productId);
+            //<-----------------
+            formData.append('isEdit', isEdit);
+            if (productId == null) { //<-----------------
+                formData.append('productId', productId);
+            } else if (localStorage.getItem('productForm') != null) { //<-----------------
+                let data = JSON.parse(localStorage.getItem('productForm'));
+                formData.append('productId', data.productId); //<-----------------
+            } else { //<-----------------
+                formData.append('productId', null);
+            }
+            //<-----------------
             formData.append('nameProduct', productForm.nameProduct);
             formData.append('ribbonProduct', productForm.ribbonProduct);
             formData.append('descriptionProduct', productForm.descriptionProduct);

@@ -76,8 +76,7 @@ const DropZone = (props) => {
 
     // when collection is edited
     useEffect(() => {
-        if (is_Edit) {
-            console.log('idCollection  ' + idCollection);
+        if (is_Edit) { 
             try {
                 Axios.get(`http://127.0.0.1:8000/getCollectionById/${idCollection}`)
                     .then(res => {
@@ -98,9 +97,9 @@ const DropZone = (props) => {
             } catch (error) {
                 console.error('error  ' + error);
             }
-            setIs_Edit(false);
+            // setIs_Edit(false);
         }
-        return setIs_Edit(false);
+        // return setIs_Edit(false);
     }, [is_Edit]);
 
 
@@ -187,7 +186,6 @@ const DropZone = (props) => {
 
 
     function previewImage(file) {
-
         // retire l'image de fond
         let containerDropZone = document.getElementById('drop-region-dropZone');
         if (containerDropZone !== null) {

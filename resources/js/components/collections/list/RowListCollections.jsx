@@ -16,7 +16,7 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
     const [statusColor, setStatusColor] = useState('green');
     const [statusState, setStatusState] = useState('On');
 
-    const { listCollectionsFiltered, setListCollectionsFiltered, screenSize, wrapIndexcroppe, setWrapIndexcroppe, setImageHasBeenChanged } =
+    const { listCollectionsFiltered, setListCollectionsFiltered, screenSize, wrapIndexcroppe, setWrapIndexcroppe, setImageHasBeenChanged, setIdCollection } =
         useContext(AppContext);
 
     var navigate = useNavigate();
@@ -105,6 +105,7 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
     };
 
     const editCollection = (id) => {
+        setIdCollection(id);
         setImageHasBeenChanged(false);
         wrapIndexcroppe.component != 'CreateCollection' &&  setWrapIndexcroppe({ component: 'CreateCollection', blob: null });
         // isEdit indique qu'on veut éditer la collection
@@ -116,12 +117,7 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
     const figureSize = {
         width: "50px",
         height: "50px",
-        backgroundImage:
-            "url(" +
-            window.location.origin +
-            "/" +
-            collectionFiltered.thumbnail +
-            ")",
+        backgroundImage: "url(/" + collectionFiltered.thumbnail + ")",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",

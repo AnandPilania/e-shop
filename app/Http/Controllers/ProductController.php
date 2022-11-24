@@ -62,7 +62,7 @@ class ProductController extends Controller
 
     public function storeProduct(Request $request)
     {
-        // dd($request);
+        dd($request);
         if ($request->isEdit == 'true') {
             $product = Product::find($request->productId);
         } else {

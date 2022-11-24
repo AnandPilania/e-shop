@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\TaxeController;
+use App\Http\Controllers\DataBaseCreator;
 use App\Http\Controllers\HackerRank_Test;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ConfigController;
@@ -28,9 +29,9 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\AliExpressController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ProductSheetController;
+use App\Http\Controllers\OptionsVarianteController;
 use App\Http\Controllers\TemporaryStorageController;
 use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\OptionsVarianteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -270,6 +271,18 @@ Route::pattern('path', '^admin+[a-zA-Z0-9-/]*');
 Route::any('{path}', function ($page) {
     return view('back-end.backend');
 });
+
+
+// création base de données
+Route::get('/createDataDase', [DataBaseCreator::class, 'createDataDase']);
+
+
+
+// EN COURS DE TEST
+Route::get('/productSheet', [FrontEndController::class, 'index']);
+
+
+
 
 
 

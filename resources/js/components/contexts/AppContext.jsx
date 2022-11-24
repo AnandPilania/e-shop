@@ -206,6 +206,7 @@ export default createContext({
     handleLocalStorageCollection: () => { },
     localStorageImage: '',
     setLocalStorageImage: () => { },
+    checkIfIsDirty: () => { },
 
     
 });
