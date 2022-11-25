@@ -16,8 +16,8 @@ class PaymentController extends Controller
         $product_in_cart = [];
 
         $countries = DB::table('countries')
-            ->select('name_fr')
-            ->orderBy('name_fr', 'asc')
+            ->select('name')
+            ->orderBy('name', 'asc')
             ->get();
 
 

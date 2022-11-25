@@ -1,7 +1,10 @@
 import React, { useContext } from 'react';
 import AppContext from '../contexts/AppContext';
+import { useNavigate } from 'react-router-dom';
 
 const MainNav = () => {
+
+    const navigate = useNavigate();
 
     const { screenSize, showSideNav, setShowSideNav } = useContext(AppContext);
 
@@ -10,6 +13,10 @@ const MainNav = () => {
     const handleShowSideNav = (e) => {
         e.target.setAttribute("aria-expanded", showSideNav ? "false" : "true");
         setShowSideNav(!showSideNav);
+    }
+
+    const navigateTo = () => {
+        navigate(window.location.href = '/');
     }
 
     return (
@@ -29,7 +36,8 @@ const MainNav = () => {
             </button>
 
 
-            <div className='flex flex-row justify-start items-center ml-80'>
+            <div className='flex flex-row justify-start items-center ml-80 cursor-pointer'
+                onClick={navigateTo}>
                 <span
                     className='text-[24px] text-teal-700 font-semibold'
                 >

@@ -241,6 +241,12 @@ const Appcontainer = () => {
 
         // delete all tmp products
         Axios.get("http://127.0.0.1:8000/deleteTmpProducts")
+            .then(res => {
+                // doit mettre à jour listProductsFiltered pour ne plus afficher le tmp_product dans list quand on rafraichi la page. ce qui est sensé le supprimer.
+                setProducts(res.data[0]);
+                setListProductsFiltered(res.data[0]);
+                setListCollectionNames(res.data[1]);
+            })
             .catch(error => {
                 console.log('Error : ' + error.status);
             });
@@ -284,7 +290,7 @@ const Appcontainer = () => {
 
 
     const checkIfCreateProductIsDirty = () => {
-          if (isEditProduct) {
+        if (isEditProduct) {
             // check collections
             let idsCollectionsPrev = hooksComparation?.collections?.map(x => x.id);
             let idsCollectionsCurr = productForm.collections?.map(x => x.id);

@@ -62,15 +62,15 @@ class ProductController extends Controller
 
     public function storeProduct(Request $request)
     {
-        dd($request);
-        if ($request->isEdit == 'true') {
+        // dd($request->isEdit, $request->productId);
+        if ($request->isEdit == 'true' && Product::find($request->productId)->exists()) {
             $product = Product::find($request->productId);
         } else {
             $product = new Product;
         }
 
         $product->name = $request->nameProduct;
-        $product->isInAutoCollection = $request->isInAutoCollection == 'true' ? 1 : 0;
+        $product->isInAutoCollection = $request->isInAutoCollection == 'true' ? true : false;
         $product->ribbon = $request->ribbonProduct;
         // remplace dans les src de la description le chemin du dossier temporaryStorage par celui de la destionation finale des images et vidéos. !!! c'est handleTinyMceTemporaryElements qui se charge de déplacer les fichiers dans ces dossiers !!!
         $tmp_description = $request->descriptionProduct;
@@ -327,6 +327,7 @@ class ProductController extends Controller
 
     public function storeTmpImages(Request $request)
     {
+        // dd($request);
         $request->validate([
             'files' => 'required',
             'files.*' => ['mimes:jpeg,jpg,png', 'max:5000'],
@@ -341,7 +342,7 @@ class ProductController extends Controller
                 }
                 $product_tmp->name = 'tmp_name';
                 $product_tmp->tmp = 1;
-                $product_tmp->isInAutoCollection = 1;
+                $product_tmp->isInAutoCollection = true;
                 $product_tmp->price = 0;
                 $product_tmp->stock = 0;
                 $product_tmp->unlimitedStock = 0;
@@ -464,7 +465,7 @@ class ProductController extends Controller
             $product_id = $request->productId;
 
             // vide le champ image_path dans la table variantes s'il contien le path de l'image supprimée
-            if (!is_null($image_product)) { 
+            if (!is_null($image_product)) {
                 $variante = Variante::where('image_path', $image_product->path)->where('product_id', $image_product->product_id)->first();
                 if ($variante) {
                     $variante->image_path = '';
@@ -480,7 +481,7 @@ class ProductController extends Controller
                 $images_products = Images_product::where('product_id', $product_id)
                     ->orderBy('ordre', 'asc')
                     ->get();
- 
+
                 // réorganise les valeurs de ordre
                 $i = 1;
                 foreach ($images_products as $image) {
@@ -509,10 +510,6 @@ class ProductController extends Controller
         } else {
             return 'empty';
         }
-
-
-
-
     }
 
 
@@ -578,11 +575,13 @@ class ProductController extends Controller
                 Variante::where('product_id', $product->id)->delete();
 
                 $product->delete();
-
-                $products = Product::with('collections', 'images_products', 'variantes')->orderBy('id', 'asc')->get();
-                $collections = Collection::all('name');
             }
         }
+
+        $products = Product::with('collections', 'images_products', 'variantes')->orderBy('id', 'asc')->get();
+        $collections = Collection::all('name');
+
+        return [$products, $collections];
     }
 
     // change le status d'activation d'un produit
@@ -635,5 +634,5 @@ class ProductController extends Controller
         $img = file_get_contents($request->url);
         dd($img);
         return $img;
-    } 
+    }
 }

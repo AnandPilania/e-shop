@@ -33,7 +33,7 @@ class ProductFactory extends Factory
         
         return [
             'name' => $name,
-            'isInAutoCollection' => 1,
+            'isInAutoCollection' => true,
             'status' => 1,
             'tmp' => rand(0, 1),
             'dateActivation' => '2021-02-25 12:00:00',

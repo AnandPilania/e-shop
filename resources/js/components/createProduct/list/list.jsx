@@ -35,6 +35,7 @@ const List = () => {
     useEffect(() => {
         Axios.get(`http://127.0.0.1:8000/getProducts`)
             .then(res => {
+                console.log('res.data[0]  ', res.data[0])
                 // procuts permet de garder la liste complète des products pour certaines fonctions qui ont besoin que toutes les products soit parcourues ce qui n'est pas toujours le cas avec listProductsFiltered qui est principalement utilisé pour afficher les products avec ou sans filtre
                 setProducts(res.data[0]);
                 setListProductsFiltered(res.data[0]);
@@ -362,7 +363,7 @@ const List = () => {
                     <div className='w-auto'>{/* edit & delete */}</div>
                 </li>
                 {/* RowListProducts */}
-                {listProductsFiltered?.length > 0 && listProductsFiltered?.map(item =>
+                {listProductsFiltered?.length > 0 && listProductsFiltered?.map(item => item.tmp == false && 
                     <RowListProducts
                         key={item.id}
                         productsFiltered={item}

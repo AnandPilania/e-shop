@@ -9,7 +9,7 @@ const Navbar = () => {
   const [itemMenuSelected, setItemMenuSelected] = useState('');
   const [screenSize, setScreenSize] = useState('');
 
-  const { showSideNav, setShowSideNav, setIsVisible, hasLeaveThisPage, setHasLeaveThisPage, handleLocalStorageProduct, handleLocalStorageCollection, checkIfIsDirty, checkIfCreateProductIsDirty } = useContext(AppContext);
+  const { showSideNav, setShowSideNav, setIsVisible, hasLeaveThisPage, setHasLeaveThisPage, handleLocalStorageProduct, handleLocalStorageCollection, checkIfIsDirty, checkIfCreateProductIsDirty, isEditProduct } = useContext(AppContext);
 
   // get screen size
   useEffect(() => {
@@ -29,9 +29,8 @@ const Navbar = () => {
 
   const navigateTo = (url) => {
     // déclenche le localStorage des formulaires si on quitte une des pages qui ne peuvent pas être quitter quand elles sont dirty
-    if (hasLeaveThisPage == "createProductForm") {
+    if (hasLeaveThisPage == "createProductForm" && !isEditProduct) {
       if (checkIfCreateProductIsDirty()) {
-        console.log('checkIfCreateProductIsDirty  ', checkIfCreateProductIsDirty());
         handleLocalStorageProduct();
         setHasLeaveThisPage('');
       }
@@ -48,7 +47,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`sideNav absolute lg:sticky top-14 left-0 w-0 h-[calc(100vh_-_56px)] pt-8 pl-3 bg-indigo-800 flex flex-col justify-start items-start z-50 transition ease-in-out delay-150 ${showSideNav ? "translate-x-0 w-60" : "translate-x-[-100%] w-0"} lg:w-60 lg:translate-x-0`}
+      className={`sideNav absolute lg:sticky top-14 left-0 w-0 h-[calc(100vh_-_56px)] pt-8 pl-3 bg-[#3c3284] flex flex-col justify-start items-start z-50 transition ease-in-out delay-150 ${showSideNav ? "translate-x-0 w-60" : "translate-x-[-100%] w-0"} lg:w-60 lg:translate-x-0`}
     >
 
       <>

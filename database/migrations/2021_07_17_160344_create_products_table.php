@@ -16,9 +16,9 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255);
-            $table->integer('isInAutoCollection')->default(1);
-            $table->tinyInteger('tmp');
-            $table->tinyInteger('status');
+            $table->boolean('isInAutoCollection')->default(1);
+            $table->boolean('tmp');
+            $table->boolean('status');
             $table->dateTime('dateActivation');
             $table->string('ribbon', 255)->nullable();
             $table->float('price', 8, 2);
@@ -27,7 +27,7 @@ class CreateProductsTable extends Migration
             $table->string('reductionType')->nullable();
             $table->float('cost', 8, 2)->nullable();
             $table->integer('stock');
-            $table->tinyInteger('unlimitedStock');
+            $table->boolean('unlimitedStock');
             $table->float('weight', 8, 2)->nullable();
             $table->string('weightMeasure')->nullable();
             $table->string('sku', 100);

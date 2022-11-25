@@ -34,7 +34,7 @@ const CreateProduct = () => {
     const [showModalLeaveWithoutSave, setShowModalLeaveWithoutSave] = useState(false);
     const [showBackButton, setShowBackButton] = useState(false);
 
-    const { descriptionProduct, setListSuppliers, messageModal, setMessageModal, activeCalculTva, setTvaRateList, imageVariantes, setListTransporters, screenSize, setIsEditProduct, setIdProduct, initCreateProduct, setTvaComparation, isDirtyCreateProduct, setShowOptions, setHooksComparation, setImageVariantes, setHasLeaveThisPage, handleLocalStorageProduct, setIsVisible, productForm, setProductForm, checkIfCreateProductIsDirty } = useContext(AppContext);
+    const { descriptionProduct, setListSuppliers, messageModal, setMessageModal, activeCalculTva, setTvaRateList, imageVariantes, setListTransporters, screenSize, setIsEditProduct, setIdProduct, initCreateProduct, setTvaComparation, isDirtyCreateProduct, setShowOptions, setHooksComparation, setImageVariantes, setHasLeaveThisPage, handleLocalStorageProduct, setIsVisible, productForm, setProductForm, checkIfCreateProductIsDirty, setIsDirtyCreateProduct } = useContext(AppContext);
 
     // when click on edit in collection list it send collection id to db request for make edit collection
     const { state } = useLocation();
@@ -44,8 +44,7 @@ const CreateProduct = () => {
     // If the page is hidden, save in localStorage;
     useEffect(() => {
         if (!isVisiblePage) {
-            if (checkIfCreateProductIsDirty()) {
-                console.log('checkIfCreateProductIsDirty  ', checkIfCreateProductIsDirty());
+            if (checkIfCreateProductIsDirty() && !isEdit) {
                 handleLocalStorageProduct();
                 setIsVisible(true);
             }
@@ -107,7 +106,6 @@ const CreateProduct = () => {
                     loadImagesVariantes(data);
                 });
         } else if (localStorage.getItem('productForm') != null) {
-            console.log('is from localStorage')
             initCreateProduct();
             let data = JSON.parse(localStorage.getItem('productForm'));
             setProductData(data);
@@ -119,6 +117,8 @@ const CreateProduct = () => {
 
         // indique la page qu'on quitte. Sert à gérer le stockage en local storage des formulaires dirty
         setHasLeaveThisPage('createProductForm');
+
+        checkIfCreateProductIsDirty();
     }, []);
     console.log('isEdit-----  ', isEdit)
 
@@ -128,10 +128,12 @@ const CreateProduct = () => {
         let imagesProduct = [];
         if ('images_products' in data) {
             imagesProduct = data.images_products;
-        } else if ('imageVariantes' in data) {
+        } else if ('imageVariantes' in data) { 
+            console.log('imageVariantes in data  ')
             imagesProduct = data.imageVariantes[0];
         }
         if (imagesProduct.length > 0) {
+            console.log('imagesProduct  ', imagesProduct)
             imagesProduct.sort(function (a, b) {
                 return a.ordre - b.ordre;
             });
@@ -149,6 +151,13 @@ const CreateProduct = () => {
         }
     }
 
+    useEffect(() => {
+        if (checkIfCreateProductIsDirty()) {
+            setIsDirtyCreateProduct(true);
+        } else {
+            setIsDirtyCreateProduct(false);
+        }
+    }, [productForm]);
 
     const setProductData = (data) => {
         // on check d'où viennent les valeurs. Elles viennent de la requête ex. data.name ou du localStorage ex. data.nameProduct 
@@ -195,9 +204,8 @@ const CreateProduct = () => {
         }
 
         setProductForm({
-            productId: productId,
             nameProduct: name == null ? '' : name,
-            isInAutoCollection: data.isInAutoCollection == 1 ? true : false,
+            isInAutoCollection: data.isInAutoCollection,
             ribbonProduct: ribbon == null ? '' : ribbon,
             descriptionProduct: description,
             collections: [...data.collections],
@@ -230,7 +238,7 @@ const CreateProduct = () => {
         // tableau de comparaison pour checker if isDirty
         let hooksCompar = [];
         hooksCompar.nameProduct = name == null ? '' : name;
-        hooksCompar.isInAutoCollection = data.isInAutoCollection == 1 ? true : false;
+        hooksCompar.isInAutoCollection = data.isInAutoCollection;
         hooksCompar.ribbonProduct = ribbon == null ? '' : ribbon;
         hooksCompar.descriptionProduct = description;
         hooksCompar.collections = [...data.collections];
@@ -345,17 +353,8 @@ const CreateProduct = () => {
             handleTinyMceTemporary(productForm.descriptionProduct, null, 'product');
 
             var formData = new FormData;
-            //<-----------------
             formData.append('isEdit', isEdit);
-            if (productId == null) { //<-----------------
-                formData.append('productId', productId);
-            } else if (localStorage.getItem('productForm') != null) { //<-----------------
-                let data = JSON.parse(localStorage.getItem('productForm'));
-                formData.append('productId', data.productId); //<-----------------
-            } else { //<-----------------
-                formData.append('productId', null);
-            }
-            //<-----------------
+            formData.append('productId', productId);
             formData.append('nameProduct', productForm.nameProduct);
             formData.append('ribbonProduct', productForm.ribbonProduct);
             formData.append('descriptionProduct', productForm.descriptionProduct);

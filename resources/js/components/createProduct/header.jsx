@@ -12,12 +12,23 @@ const Header = ({ initCreateProduct, isDirtyCreateProduct }) => {
     const [show, setShow] = useState(false);
     const [message, setMessage] = useState('');
 
-    const { setImageVariantes, setIsEditProduct, hasLeaveThisPage, setHasLeaveThisPage, setIsVisible, handleLocalStorageProduct } = useContext(AppContext);
+    const { setImageVariantes, setIsEditProduct, setIs_Edit, hasLeaveThisPage, setHasLeaveThisPage, setIsVisible, handleLocalStorageProduct, isEditProduct, checkIfCreateProductIsDirty } = useContext(AppContext);
 
     // confirm reinitialisatio form
     const confirmInitCollectionForm = () => {
         setMessage('Supprimer tout le contenu de ce formulaire ?')
         setShow(true);
+    }
+
+    const handleConfirmInitForm = () => {
+        setShow(false);
+        setIs_Edit(false);
+        initCreateProduct();
+        // nettoie images_products images temporaires
+        Axios.post(`http://127.0.0.1:8000/clean_Images_product_table`);
+        setIsEditProduct(false);
+        setImageVariantes([[]]);
+        localStorage.removeItem('productForm');
     }
 
     const handleCancelShow = () => {
@@ -27,25 +38,22 @@ const Header = ({ initCreateProduct, isDirtyCreateProduct }) => {
 
     const navigateTo = (url) => {
         // déclenche le localStorage du formulaire create product si on quitte le formulaire dirty
-        if (hasLeaveThisPage === "createProductForm") {
-            handleLocalStorageProduct();
-            setHasLeaveThisPage('');
+        if (hasLeaveThisPage == "createProductForm" && !isEditProduct) {
+            if (checkIfCreateProductIsDirty()) {
+                handleLocalStorageProduct();
+                setHasLeaveThisPage('');
+            }
         } else {
             setIsVisible(true);
         }
         navigate(url);
     }
-
-
+    console.log('isDirtyCreateProduct  ', isDirtyCreateProduct)
     return (
         <div className="w-full h-10 flex justify-start items-center mb-5">
             {/* retour */}
             <button className="w-24 h-10 px-2 flex flex-row justify-center items-center border border-indigo-700 hover:border-2 rounded-md"
                 onClick={() => {
-                    // nettoie images_products images temporaires
-                    Axios.post(`http://127.0.0.1:8000/clean_Images_product_table`);
-                    setIsEditProduct(false);
-                    setImageVariantes([[]]);
                     navigateTo("/listProduct");
                 }}>
                 <img
@@ -57,7 +65,7 @@ const Header = ({ initCreateProduct, isDirtyCreateProduct }) => {
             </button>
 
             {/* réinitialisation */}
-            {isDirtyCreateProduct && (
+            {isDirtyCreateProduct && !isEditProduct && (
                 <button
                     id="resetButtonCollection4922"
                     className='w-auto h-10 px-4 flex flex-row justify-center items-center border border-indigo-700 bg-white text-gray-700 font-medium hover:border-2 rounded-md ml-auto'
@@ -77,7 +85,7 @@ const Header = ({ initCreateProduct, isDirtyCreateProduct }) => {
                 </button>)}
             <ModalConfirmation
                 show={show}
-                handleModalConfirm={initCreateProduct}
+                handleModalConfirm={handleConfirmInitForm}
                 handleModalCancel={handleCancelShow}
             >
                 <h2 className="childrenModal">{message}</h2>

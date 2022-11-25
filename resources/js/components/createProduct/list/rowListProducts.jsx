@@ -22,7 +22,7 @@ const RowListProducts = ({ productsFiltered, collections, listProductsChecked, h
     const [statusColor, setStatusColor] = useState('green');
     const [statusState, setStatusState] = useState('Activé');
 
-    const { screenSize, listProductsFiltered, setListProductsFiltered, listCollectionNames, setIsEditProduct } =
+    const { screenSize, listProductsFiltered, setListProductsFiltered, listCollectionNames, setIsEditProduct, productForm, setProductForm } =
         useContext(AppContext);
 
 

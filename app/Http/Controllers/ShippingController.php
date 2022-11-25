@@ -12,17 +12,25 @@ class ShippingController extends Controller
 {
     public function index()
     {
-        $shipping = Shipping::with('shipping_modes')->orderBy('zone_name')->get();
-
-        foreach ($shipping as $item) {
-            $item->destinations = json_decode($item->destinations);
-
-            foreach ($item->shipping_modes as $shipping_mode) {
-                $shipping_mode->conditions = json_decode($shipping_mode->conditions);
-            }
+        if (Country::all()->count()) {
+            $countries = Country::all();
+        } else {
+            $countries = [];
         }
 
-        $countries = Country::all();
+        if (Shipping::with('shipping_modes')->count()) {
+            $shipping = Shipping::with('shipping_modes')->orderBy('zone_name')->get();
+
+            foreach ($shipping as $item) {
+                $item->destinations = json_decode($item->destinations);
+
+                foreach ($item->shipping_modes as $shipping_mode) {
+                    $shipping_mode->conditions = json_decode($shipping_mode->conditions);
+                }
+            }
+        } else {
+            $shipping = [];
+        }
 
         return [$shipping, $countries];
     }

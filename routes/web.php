@@ -20,6 +20,7 @@ use App\Http\Controllers\BackEndController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BanniereController;
+use App\Http\Controllers\BoutiqueController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\CustomerController;
@@ -271,6 +272,10 @@ Route::pattern('path', '^admin+[a-zA-Z0-9-/]*');
 Route::any('{path}', function ($page) {
     return view('back-end.backend');
 });
+
+
+// website
+Route::get('/website', [BoutiqueController::class, 'index']);
 
 
 // création base de données

@@ -33,7 +33,7 @@ class OptionsVarianteController extends Controller
 
     public function getOptionsNamesValuesList()
     {
-        $optionsList = Options_name::with('options_values')->get();
+        $optionsList = Options_name::with('options_values')->exists() && Options_name::with('options_values')->get();
 
         return $optionsList;
     }

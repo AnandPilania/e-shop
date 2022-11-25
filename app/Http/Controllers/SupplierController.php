@@ -10,7 +10,6 @@ class SupplierController extends Controller
     public function index()
     {
         $suppliers = Supplier::orderBy('name')->get();
-
         return $suppliers;
     }
 
