@@ -143,7 +143,7 @@ const OptimisationProduct = () => {
                         <Label label="Url" css="shrink-0" />
                         <Tooltip id="urlOptimisationCollection3922" widthTip={300}>
                             Utilisez des mots clés en rapport avec cette collection.<br></br>
-                            <a href="http://127.0.0.1:8000"
+                            <a href="/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300">Mon lien</a>
@@ -175,7 +175,7 @@ const OptimisationProduct = () => {
                         <Label label="Méta-titre" css="shrink-0" />
                         <Tooltip id="titleOptimisationCollection3922" widthTip={300}>
                             Le méta-titre est important pour le référencement d'une page web. Sa longueur idéal se situe entre 30 et 60 caractères mais il peut être plus long pour donner plus d'informations sur le contenu de la page. <br></br>
-                            <a href="http://127.0.0.1:8000"
+                            <a href="/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300">Mon lien</a>
@@ -207,7 +207,7 @@ const OptimisationProduct = () => {
                         <Label label="Méta-déscription de cette collection" css="shrink-0" />
                         <Tooltip id="metadescriptiontitleOptimisationCollection3922" widthTip={300}>
                             Une méta-déscription est utilisée pour donner des informations plus précies sur le contenu d'une page. Les moteurs de recherche affichent à peu près les 130 premiers caractères. <br></br>
-                            <a href="http://127.0.0.1:8000"
+                            <a href="/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300">Mon lien</a>

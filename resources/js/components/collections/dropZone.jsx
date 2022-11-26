@@ -78,7 +78,7 @@ const DropZone = (props) => {
     useEffect(() => {
         if (is_Edit) { 
             try {
-                Axios.get(`http://127.0.0.1:8000/getCollectionById/${idCollection}`)
+                Axios.get(`/getCollectionById/${idCollection}`)
                     .then(res => {
                         if (res.data !== undefined && res.data != '' && res.data !== null) {
                             // get --> image path <-- for croppe

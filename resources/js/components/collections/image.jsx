@@ -39,7 +39,7 @@ const Image = ({ state }) => {
                             <Label label="Texte alternatif" />
                             <Tooltip id="altImgCollection2922" widthTip={300}>
                                 Ajouter une brève description de l'image de votre collection. Ceci optimise l'accessibilité et le référencement de votre page de collection. <br></br>
-                                <a href="http://127.0.0.1:8000"
+                                <a href="/"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300">Mon lien</a>
@@ -61,7 +61,7 @@ const Image = ({ state }) => {
                             <Label label="Modifier le nom de l'image" />
                             <Tooltip id="nameImgCollection2922" widthTip={300}>
                                 Donnez un nom en rapport avec le contenu de l'image. Ceci améliore le référencement de votre boutique dans les recherches par image. <br></br>
-                                <a href="http://127.0.0.1:8000"
+                                <a href="/"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300">Mon lien</a>

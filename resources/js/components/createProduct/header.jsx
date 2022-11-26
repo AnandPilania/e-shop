@@ -25,7 +25,7 @@ const Header = ({ initCreateProduct, isDirtyCreateProduct }) => {
         setIs_Edit(false);
         initCreateProduct();
         // nettoie images_products images temporaires
-        Axios.post(`http://127.0.0.1:8000/clean_Images_product_table`);
+        Axios.post(`/clean_Images_product_table`);
         setIsEditProduct(false);
         setImageVariantes([[]]);
         localStorage.removeItem('productForm');

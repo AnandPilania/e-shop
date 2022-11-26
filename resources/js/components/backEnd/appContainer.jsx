@@ -217,7 +217,7 @@ const Appcontainer = () => {
 
         // chargement des collections
         if (listCollections.length === 0) {
-            Axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
+            Axios.get(`/collections-list-back-end`)
                 .then(res => {
                     setListCollections(res.data[0]);
                     setListCategories(res.data[1]);
@@ -227,7 +227,7 @@ const Appcontainer = () => {
         }
 
         // chargement des configurations
-        Axios.get("http://127.0.0.1:8000/getConfigs")
+        Axios.get("/getConfigs")
             .then(res => {
                 for (let i = 0; i < res.data.length; i++) {
                     if (res.data[i].param == 'activation_calcul_tva') {
@@ -240,7 +240,7 @@ const Appcontainer = () => {
             });
 
         // delete all tmp products
-        Axios.get("http://127.0.0.1:8000/deleteTmpProducts")
+        Axios.get("/deleteTmpProducts")
             .then(res => {
                 // doit mettre à jour listProductsFiltered pour ne plus afficher le tmp_product dans list quand on rafraichi la page. ce qui est sensé le supprimer.
                 setProducts(res.data[0]);
@@ -252,7 +252,7 @@ const Appcontainer = () => {
             });
 
         // nettoie la table images_products des images temporaires
-        Axios.post(`http://127.0.0.1:8000/clean_Images_product_table`);
+        Axios.post(`/clean_Images_product_table`);
 
 
         // Listener screen size change
@@ -273,7 +273,7 @@ const Appcontainer = () => {
         for (var i = 0; i < keys_toDelete.length; i++) {
             toDelete.append('keys[]', keys_toDelete[i]);
         }
-        Axios.post(`http://127.0.0.1:8000/cleanTemporayStorage`, toDelete,
+        Axios.post(`/cleanTemporayStorage`, toDelete,
             {
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -696,7 +696,7 @@ const Appcontainer = () => {
                 } else {
                     idToDelete.append('id', tmp_parameter);
                 }
-                Axios.post(`http://127.0.0.1:8000/deleteCollection`, idToDelete)
+                Axios.post(`/deleteCollection`, idToDelete)
                     .then(res => {
                         setListCollections(res.data);
                         setIdCollection(null);
@@ -730,7 +730,7 @@ const Appcontainer = () => {
             case 'addNewConditions':
                 let newConditionsData = new FormData;
                 newConditionsData.append('conditions', JSON.stringify(tmp_parameter));
-                Axios.post(`http://127.0.0.1:8000/addCondtionsToGroup`, newConditionsData)
+                Axios.post(`/addCondtionsToGroup`, newConditionsData)
                     .then(res => {
                         if (res.data === 'ok') {
                             console.log('res.data  --->  ok');

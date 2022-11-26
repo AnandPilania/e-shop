@@ -54,7 +54,7 @@ const CreateProduct = () => {
 
     useEffect(() => {
         // charge la liste des fournisseurs
-        Axios.get(`http://127.0.0.1:8000/suppliers-list`)
+        Axios.get(`/suppliers-list`)
             .then(res => {
                 setListSuppliers(res.data);
             }).catch(function (error) {
@@ -62,7 +62,7 @@ const CreateProduct = () => {
             });
 
         // charge la liste des transporteurs
-        Axios.get(`http://127.0.0.1:8000/shipping-list`)
+        Axios.get(`/shipping-list`)
             .then(res => {
                 setListTransporters(res.data);
             }).catch(function (error) {
@@ -71,7 +71,7 @@ const CreateProduct = () => {
 
 
         // récup la tva default pour comparaison if dirty
-        Axios.get("http://127.0.0.1:8000/getTaxes")
+        Axios.get("/getTaxes")
             .then(res => {
                 let tmpTva = res.data.filter(x => x.is_default == 1);
                 setTvaComparation(tmpTva[0]);
@@ -99,7 +99,7 @@ const CreateProduct = () => {
             setIdProduct(productId);
             let idProd = new FormData;
             idProd.append('productId', productId);
-            Axios.post(`http://127.0.0.1:8000/getProduct`, idProd)
+            Axios.post(`/getProduct`, idProd)
                 .then(res => {
                     let data = res.data[0];
                     setProductData(data);
@@ -284,7 +284,7 @@ const CreateProduct = () => {
     // récupère la liste des tva et setTva avec la tva par défaut
     useEffect(() => {
         activeCalculTva == 1 &&
-            Axios.get("http://127.0.0.1:8000/getTaxes")
+            Axios.get("/getTaxes")
                 .then(res => {
                     setTvaRateList(res.data);
                 })
@@ -389,7 +389,7 @@ const CreateProduct = () => {
             formData.append('metaDescriptionProduct', productForm.metaDescriptionProduct);
 
 
-            Axios.post(`http://127.0.0.1:8000/storeProduct`, formData,
+            Axios.post(`/storeProduct`, formData,
                 { headers: { 'Content-Type': 'multipart/form-data' } })
                 .then(() => {
                     setIsEditProduct(false);

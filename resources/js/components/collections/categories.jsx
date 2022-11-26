@@ -38,7 +38,7 @@ const Categories = () => {
 
     useEffect(() => {
         // chargement des Categories
-        Axios.get(`http://127.0.0.1:8000/getCategories`)
+        Axios.get(`/getCategories`)
             .then(res => {
                 setCategoriesList(res.data);
             }).catch(function (error) {
@@ -113,7 +113,7 @@ const Categories = () => {
                 setMessageModal('Ce nom de catégorie existe déjà !');
                 setShowModalSimpleMessage(true); // show modalConfirm
             } else {
-                Axios.post(`http://127.0.0.1:8000/categories`, { name: newCategoryName })
+                Axios.post(`/categories`, { name: newCategoryName })
                     .then(res => {
                         setNewCategoryNameUseInMessage(newCategoryName + ' à été ajoutée'); // message affiché après création de la category
                         setShowCreateCategory(false) // hide input create new category
@@ -128,7 +128,7 @@ const Categories = () => {
                     });
 
                 // chargement des collections
-                Axios.get(`http://127.0.0.1:8000/getCategories`)
+                Axios.get(`/getCategories`)
                     .then(res => {
                         setCategoriesList(res.data);
                     }).catch(function (error) {
@@ -161,7 +161,7 @@ const Categories = () => {
 
     // delete one category
     const deleteCategory = (cat_id) => {
-        Axios.delete(`http://127.0.0.1:8000/categories/${cat_id}`)
+        Axios.delete(`/categories/${cat_id}`)
             .then(res => {
                 setShowCategorySelect(false);
                 setMessageModal('Suppression réussie')
@@ -169,7 +169,7 @@ const Categories = () => {
                 setImageModal('../images/icons/trash.png');
                 setShowModalSimpleMessage(true);
                 // chargement des collections
-                Axios.get(`http://127.0.0.1:8000/getCategories`)
+                Axios.get(`/getCategories`)
                     .then(res => {
                         setCategoriesList(res.data);
                     }).catch(function (error) {
@@ -185,7 +185,7 @@ const Categories = () => {
     // update one category
     const updateCategory = () => {
         if (inputTextModify != '' && inputTextModify.length >= 3) { // au cas où le nouveau nom est vide ou < 3
-            Axios.put(`http://127.0.0.1:8000/categories/${categoryId}`, { name: inputTextModify })
+            Axios.put(`/categories/${categoryId}`, { name: inputTextModify })
                 .then(res => {
                     setNewCategoryNameUseInMessage(inputTextModify + ' à été enregistrée'); // message affiché après modification de la category
                     setNewCategorySucces(true);
@@ -197,7 +197,7 @@ const Categories = () => {
                 });
 
             // rechargement des catégories
-            Axios.get(`http://127.0.0.1:8000/getCategories`)
+            Axios.get(`/getCategories`)
                 .then(res => {
                     setCategoriesList(res.data);
                 }).catch(function (error) {

@@ -30,7 +30,7 @@ const ListCollections = () => {
     useEffect(() => {
         if (listCollectionsFiltered.length === 0) {
             // chargement des collections
-            Axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
+            Axios.get(`/collections-list-back-end`)
                 .then(res => {
                     // listCollections permet de garder la liste complète des collections pour certaines fonctions qui ont besoin que toutes les collections soit parcourues ce qui n'est pas toujours le cas avec listCollectionsFiltered qui est principalement utilisé pour afficher les collections avec ou sans filtre
                     setListCollections(res.data[0]);
@@ -46,7 +46,7 @@ const ListCollections = () => {
 
     useEffect(() => {
         // re-chargement des collections quand on delete une collection
-        Axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
+        Axios.get(`/collections-list-back-end`)
             .then(res => {
                 setListCollections(res.data[0]);
                 setListCollectionsFiltered(res.data[0]);

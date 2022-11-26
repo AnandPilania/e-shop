@@ -41,6 +41,11 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\CartCookie::class,
         ],
 
+        'tenant' => [
+            \Spatie\Multitenancy\Http\Middleware\NeedsTenant::class,
+            \Spatie\Multitenancy\Http\Middleware\EnsureValidTenantSession::class,
+        ],
+
         'api' => [
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,

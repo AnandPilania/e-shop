@@ -142,7 +142,7 @@ const OptimisationProduct = () => {
                         <Label label="Url de la page de cet article" css="shrink-0" />
                         <Tooltip id="urlOptimisationProduct2922" widthTip={300}>
                             Utilisez des mots clés en rapport avec cet article <br></br>
-                            <a href="http://127.0.0.1:8000"
+                            <a href="/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300">Mon lien</a>
@@ -173,7 +173,7 @@ const OptimisationProduct = () => {
                         <Label label="Méta-titre de la page de cet article" css="shrink-0" />
                         <Tooltip id="metaTitleOptimisationProduct2922" widthTip={300}>
                             La longueur idéal pour un méta-titre se situe entre 30 et 60 caractères. <br></br>
-                            <a href="http://127.0.0.1:8000"
+                            <a href="/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300">Mon lien</a>
@@ -205,7 +205,7 @@ const OptimisationProduct = () => {
                         <Label label="Méta-déscription de cet article" css="shrink-0" />
                         <Tooltip id="metaDescrriptionOptimisationProduct2922" widthTip={300}>
                             La longueur idéal pour une méta-description se situe entre 120 et 130 caractères. <br></br>
-                            <a href="http://127.0.0.1:8000"
+                            <a href="/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300">Mon lien</a>

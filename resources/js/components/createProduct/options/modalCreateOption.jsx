@@ -26,7 +26,7 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
     }, []);
 
     const getOptionsNamesValuesList = () => {
-        Axios.get(`http://127.0.0.1:8000/getOptionsNamesValuesList`)
+        Axios.get(`/getOptionsNamesValuesList`)
             .then(res => {
                 if (res) {
                     setOptionsNamesValuesList(res.data);
@@ -80,7 +80,7 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
             form_Data.append('nameOptionValue', item);
             form_Data.append('idOptionName', optionNameId);
 
-            Axios.post(`http://127.0.0.1:8000/deleteOneOptionValue`, form_Data)
+            Axios.post(`/deleteOneOptionValue`, form_Data)
             .then(res => {
                 // setOptionsNamesValuesList(res.data[0]);
                 // setListType(res.data[1]);
@@ -129,7 +129,7 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
         form_Data.append('idOptionName', optionNameId);
         form_Data.append('values', JSON.stringify(lisNewOptionValue));
 
-        Axios.post(`http://127.0.0.1:8000/saveOptionVariante`, form_Data)
+        Axios.post(`/saveOptionVariante`, form_Data)
             .then(res => {
                 setListType(res.data);
             })
@@ -143,7 +143,7 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
 
 
     const updateOption = (idOptionName) => {
-        Axios.get(`http://127.0.0.1:8000/getOneOptionWithHerValues/${idOptionName}`)
+        Axios.get(`/getOneOptionWithHerValues/${idOptionName}`)
             .then(res => {
                 setInputOptionName(res.data.name);
                 setListNewOptionValue(res.data.options_values.map(x => x.name));
@@ -157,7 +157,7 @@ const ModalCreateOption = ({ show, handleModalConfirm, handleModalCancel, textBu
 
 
     const deleteOptionNameAndHerOptionValues = (idOptionName) => {
-        Axios.get(`http://127.0.0.1:8000/deleteOptionNameAndHerOptionValues/${idOptionName}`)
+        Axios.get(`/deleteOptionNameAndHerOptionValues/${idOptionName}`)
             .then(res => {
                 setOptionsNamesValuesList(res.data[0]);
                 setListType(res.data[1]);

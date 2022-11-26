@@ -74,7 +74,7 @@ const RowListProducts = ({ productsFiltered, collections, listProductsChecked, h
         let statusData = new FormData();
         statusData.append("id", id);
         statusData.append("status", status);
-        Axios.post(`http://127.0.0.1:8000/handleProductStatus`, statusData)
+        Axios.post(`/handleProductStatus`, statusData)
             .then(
                 (res) => {
                     if (

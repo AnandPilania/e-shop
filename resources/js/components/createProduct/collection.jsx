@@ -15,7 +15,7 @@ const Collection = () => {
 
     useEffect(() => {
         // récupére les collections
-        Axios.get(`http://127.0.0.1:8000/getCollections`)
+        Axios.get(`/getCollections`)
             .then(res => {
                 setCollectionsRelations(res.data.collections);
             }).catch(function (error) {

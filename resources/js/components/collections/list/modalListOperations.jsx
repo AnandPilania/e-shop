@@ -147,7 +147,7 @@ const ModalListOperations = ({ setShowModalListOperations, show, sender }) => {
         } else {
             let newConditionsData = new FormData;
             newConditionsData.append('conditions', JSON.stringify(blockConditionsToSave));
-            Axios.post(`http://127.0.0.1:8000/addCondtionsToGroup`, newConditionsData)
+            Axios.post(`/addCondtionsToGroup`, newConditionsData)
                 .then(res => {
                     if (res.data === 'ok') {
                         console.log('res.data  --->  ok');

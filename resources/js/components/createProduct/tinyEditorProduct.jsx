@@ -65,7 +65,7 @@ const TinyeditorProduct = () => {
                                 let videoFile = new FormData;
                                 videoFile.append('key', 'tmp_tinyMceVideos');
                                 videoFile.append('file', file);
-                                Axios.post(`http://127.0.0.1:8000/temporaryStoreImages`, videoFile,
+                                Axios.post(`/temporaryStoreImages`, videoFile,
                                     {
                                         headers: {
                                             'Content-Type': 'multipart/form-data'

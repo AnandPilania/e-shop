@@ -29,7 +29,7 @@ const Option = ({ option_obj, saveOption, deleteOption, optionsObj, index }) => 
     // fourni les valeurs pour une option donnée
     const getOptionValues = () => {
         // charge les données des types d'options et leurs valeurs ex. Couleurs, rouge, vert, ...
-        Axios.get(`http://127.0.0.1:8000/getOptionValues`)
+        Axios.get(`/getOptionValues`)
             .then((res) => {
                 let ndx = null;
                 const tmp_optionData = Object.values(res.data);

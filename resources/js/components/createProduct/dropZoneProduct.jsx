@@ -136,7 +136,7 @@ const DropZoneProduct = ({ productId }) => {
 
         form_Data.append('productId', productId);
         if (count_files.length > 0) {
-            Axios.post(`http://127.0.0.1:8000/storeTmpImages`, form_Data,
+            Axios.post(`/storeTmpImages`, form_Data,
                 { headers: { 'Content-Type': 'multipart/form-data' } })
                 .then((res) => {
                     if (res.data.length > 0) {
@@ -182,7 +182,7 @@ const DropZoneProduct = ({ productId }) => {
         let form_Data = new FormData;
         form_Data.append('id', id);
         form_Data.append('productId', productId);
-        Axios.post(`http://127.0.0.1:8000/deleteImageProduct`, form_Data)
+        Axios.post(`/deleteImageProduct`, form_Data)
             .then(res => {
                 if (res.data == 'empty') {
                     setImageVariantes([]);
@@ -220,7 +220,7 @@ const DropZoneProduct = ({ productId }) => {
         var imagesToReOrder = new FormData;
         imagesToReOrder.append('images', JSON.stringify(images_ReOrdered));
 
-        Axios.post(`http://127.0.0.1:8000/reOrderImagesProducts`, imagesToReOrder)
+        Axios.post(`/reOrderImagesProducts`, imagesToReOrder)
             .catch(error => {
                 console.log('Error Image upload failed : ' + error.status);
             });

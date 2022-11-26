@@ -74,7 +74,7 @@ Route::post('/cartUpdate', [CartController::class, 'update']);
 // use in create.jsx Collections
 Route::get('/getCategories', [CategoryController::class, 'getCategories']);
 
-Route::get('/', [FrontEndController::class, 'index']);
+
 Route::get('/creatFrontIndex', [FrontEndController::class, 'create']);
 
 // CONFIGS ----------------------------------------------------------
@@ -273,6 +273,11 @@ Route::any('{path}', function ($page) {
     return view('back-end.backend');
 });
 
+// TENANTS MIDDLEWARE
+Route::middleware('tenant')->group(function() {
+
+});
+    Route::get('/', [FrontEndController::class, 'index']);
 
 // website
 Route::get('/website', [BoutiqueController::class, 'index']);

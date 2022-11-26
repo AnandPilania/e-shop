@@ -19,7 +19,7 @@ const Options = () => {
 
     useEffect(() => {
         // get list of option types. Is required !!
-        Axios.get(`http://127.0.0.1:8000/getOptionsNames`)
+        Axios.get(`/getOptionsNames`)
             .then(res => {
                 setListType(res.data);
             }).catch(function (error) {

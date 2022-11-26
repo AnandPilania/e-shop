@@ -84,7 +84,7 @@ const CreateCollection = () => {
             setShowInitButton(true);
             localStorage.removeItem('collectionForm');
             setLocalStorageImage(null);
-            Axios.get(`http://127.0.0.1:8000/getCollectionById/${collectionId}`)
+            Axios.get(`/getCollectionById/${collectionId}`)
                 .then(res => {
                     setCollectionData(res.data);
                 }).catch(function (error) {
@@ -311,7 +311,7 @@ const CreateCollection = () => {
             formData.append("id", idCollection);
             imageFile !== null && formData.append("image", imageFile);
 
-            Axios.post(`http://127.0.0.1:8000/save-collection`, formData,
+            Axios.post(`/save-collection`, formData,
                 {
                     headers: {
                         'Content-Type': 'multipart/form-data'
@@ -322,7 +322,7 @@ const CreateCollection = () => {
                         initCollectionForm();
                         setIdCollection(null);
                         // refresh data after save new collection
-                        Axios.get(`http://127.0.0.1:8000/collections-list-back-end`)
+                        Axios.get(`/collections-list-back-end`)
                             .then(res => {
                                 // listCollections -> liste complète des collections pour handleSearch
                                 setListCollections(res.data[0]);

@@ -49,7 +49,7 @@ const RowListCollections = ({ collectionFiltered, category, listCollectionsCheck
         let statusData = new FormData();
         statusData.append("id", id);
         statusData.append("status", status);
-        Axios.post(`http://127.0.0.1:8000/handleStatus`, statusData).then(
+        Axios.post(`/handleStatus`, statusData).then(
             (res) => {
                 if (
                     res.data != "" &&

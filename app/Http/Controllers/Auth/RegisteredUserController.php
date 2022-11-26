@@ -33,8 +33,8 @@ class RegisteredUserController extends Controller
     public function create()
     {
         $countries = DB::table('countries')
-            ->select('name_fr')
-            ->orderBy('name_fr', 'asc')
+            ->select('name')
+            ->orderBy('name', 'asc')
             ->get();
 
         return view('auth.register', ['countries' => $countries]);
@@ -158,7 +158,7 @@ class RegisteredUserController extends Controller
         $user->createOrGetStripeCustomer();
 
         // stripe doit recevoir le prix en centimes
-        if ($total_price != null) {
+        if ($total_price != "Undefined" && $total_price != null) {
             $price = $total_price * 100;
             // stripe payment
             $user->charge($price, $request->payment_method, [

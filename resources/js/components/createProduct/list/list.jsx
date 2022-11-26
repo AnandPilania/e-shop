@@ -33,7 +33,7 @@ const List = () => {
 
 
     useEffect(() => {
-        Axios.get(`http://127.0.0.1:8000/getProducts`)
+        Axios.get(`/getProducts`)
             .then(res => {
                 console.log('res.data[0]  ', res.data[0])
                 // procuts permet de garder la liste complète des products pour certaines fonctions qui ont besoin que toutes les products soit parcourues ce qui n'est pas toujours le cas avec listProductsFiltered qui est principalement utilisé pour afficher les products avec ou sans filtre
@@ -81,7 +81,7 @@ const List = () => {
             idToDelete.append('id', productToDelete);
         }
 
-        Axios.post(`http://127.0.0.1:8000/deleteProducts`, idToDelete)
+        Axios.post(`/deleteProducts`, idToDelete)
             .then(res => {
                 setShowModalConfirm(false);
                 if (res.data[0].length > 0) {

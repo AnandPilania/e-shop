@@ -117,7 +117,7 @@ const Stock = () => {
                         <Tooltip id='SKUProduct3922' widthTip={300}>
                             Une SKU, (unité de gestion des stocks), est un code permettant d'identifier un article de manière unique. Si vous ne l'indiquez pas, un code sera généré automatiquement.
                             <br></br>
-                            <a href="http://127.0.0.1:8000"
+                            <a href="/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="mt-2 text-sm underline underline-offset-1 text-white font-semibold hover:text-blue-300">Mon lien</a>

@@ -30,7 +30,7 @@ const OptionVariantesList = ({ handleChangeSelectionVariantesList, isAllSelected
             try {
                 // the signal is passed into the request(s) we want to abort using this controller
                 const { data } = await Axios.get(
-                    'http://127.0.0.1:8000/getMaxIdValues_Names',
+                    '/getMaxIdValues_Names',
                     { signal: signal }
                 );
                 setMaxIdValues_Names(data + 1);
@@ -231,7 +231,7 @@ console.log('changedVariantes  ', productForm.changedVariantes)
     // click mini image variante
     const loadImagesVariantes = (item) => {
         setVariante(item);
-        Axios.get(`http://127.0.0.1:8000/getTemporaryImagesProduct/${IdProduct}`)
+        Axios.get(`/getTemporaryImagesProduct/${IdProduct}`)
             .then(res => {
                 if (res.data != "empty") {
                     setImageVariante(res.data);
@@ -260,7 +260,7 @@ console.log('changedVariantes  ', productForm.changedVariantes)
         setIdVariante(null);
 
         // refresh dropZoneProduct
-        Axios.get(`http://127.0.0.1:8000/getTemporaryImagesProduct/${selectedImage.product_id}`)
+        Axios.get(`/getTemporaryImagesProduct/${selectedImage.product_id}`)
             .then(res => {
                 let tmp_data = [[]];
                 let tmp = [];

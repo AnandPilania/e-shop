@@ -37,139 +37,141 @@
 <!-- Validation Errors -->
 <x-auth-validation-errors :errors="$errors" style="color:red;" />
 
-<form method="POST" action="{{ route('register') }}" class="auth auth_inscription" id="auth_inscription" autocomplete="on">
-    @csrf
+<div class="w-full flex flex-col justify-start items-center">
+    <form method="POST" action="{{ route('register') }}" class="w-[450px] mt-40 border-2 border-blue-700 bg-gray-50" id="auth_inscription" autocomplete="on">
+        @csrf
 
-    <h1>Coordonnées</h1>
+        <h1>Coordonnées</h1>
 
-    <div id="block_register_1">
-        <!-- Name -->
-        <div class="register_block_name">
-            <x-input id="last_name" class="auth_input" type="text" name="last_name" :value="old('last_name')" required autocomplete="on" placeholder="Votre nom*" />
+        <div id="block_register_1">
+            <!-- Name -->
+            <div class="w-full mt-5 border border-red-500">
+                <x-input id="last_name" class="auth_input" type="text" name="last_name" :value="old('last_name')" required autocomplete="on" placeholder="Votre nom*" />
 
-            <x-input id="first_name" class="auth_input" type="text" name="first_name" :value="old('first_name')" required autocomplete="on" placeholder="Votre prénom*" />
-        </div>
-
-        <!-- Civilité -->
-        <div class="register_block_civilite">
-            <div>
-                <input type="radio" id="madame" name="civilite" :value="old('civilite')" value="f">
-                <label for="madame" style="margin-right: 20px;">Madame</label>
+                <x-input id="first_name" class="auth_input" type="text" name="first_name" :value="old('first_name')" required autocomplete="on" placeholder="Votre prénom*" />
             </div>
 
-            <div>
-                <input type="radio" id="monsieur" name="civilite" :value="old('civilite')" value="m">
-                <label for="monsieur">Monsieur</label>
+            <!-- Civilité -->
+            <div class="w-full mt-5 border border-red-500">
+                <div>
+                    <input type="radio" id="madame" name="civilite" :value="old('civilite')" value="f">
+                    <label for="madame" style="margin-right: 20px;">Madame</label>
+                </div>
+
+                <div>
+                    <input type="radio" id="monsieur" name="civilite" :value="old('civilite')" value="m">
+                    <label for="monsieur">Monsieur</label>
+                </div>
             </div>
+
+            <!-- Adresse -->
+            <div class="w-full mt-5 border border-red-500">
+                <select name="country" id="country" :value="old('country')" class="auth_input classic" autocomplete="on" required>
+                    <option value="" disabled selected>Pays*</option>
+                    <option value="France">France</option>
+                    <option value="Belgique">Belgique</option>
+                    <option value="Suisse">Suisse</option>
+                    <option value="Canada">Canada</option>
+                    <option value="---" disabled>---</option>
+                    @foreach($countries as $country)
+                    <option value="{{ $country->name }}">{{ $country->name }}</option>
+                    @endforeach
+                </select>
+
+                <x-input id="address" class="auth_input" type="text" name="address" :value="old('address')" required autocomplete="on" placeholder="Adresse*" />
+
+                <x-input id="addressComment" class="auth_input" type="text" name="addressComment" :value="old('addressComment')" autocomplete="on" placeholder="Complément d'adresse (facultatif)" />
+            </div>
+
+            <!-- Cp & Ville -->
+            <div class="w-full mt-5 border border-red-500">
+                <x-input id="cp" class="auth_input" type="text" name="cp" :value="old('cp')" autocomplete="on" required placeholder="Code postal*" />
+
+                <x-input id="city" class="auth_input" type="text" name="city" :value="old('city')" autocomplete="on" required placeholder="Ville*" />
+            </div>
+
+            <!-- Email Address -->
+            <x-input id="email" class="w-full mt-5 border border-red-500" type="email" name="email" :value="old('email')" autocomplete="on" required placeholder="Email*" />
+
+            <!-- phone -->
+            <x-input id="phone" class="w-full mt-5 border border-red-500" type="phone" name="phone" :value="old('ciphoney')" autocomplete="on" required placeholder="Téléphone (facultatif)" />
+
+            <!-- Password -->
+            <x-input id="password" class="w-full mt-5 border border-red-500" type="password" name="password" required autocomplete="new-password" placeholder="Mot de passe* (min 8 caractères)" />
+
+            <!-- Confirm Password -->
+            <x-input id="password_confirmation" class="w-full mt-5 border border-red-500" type="password" name="password_confirmation" autocomplete="on" required placeholder="Confirmer mot de passe*" />
         </div>
 
-        <!-- Adresse -->
-        <div class="register_block_adresse">
-            <select name="country" id="country" :value="old('country')" class="auth_input classic" autocomplete="on" required>
-                <option value="" disabled selected>Pays*</option>
-                <option value="France">France</option>
-                <option value="Belgique">Belgique</option>
-                <option value="Suisse">Suisse</option>
-                <option value="Canada">Canada</option>
-                <option value="---" disabled>---</option>
-                @foreach($countries as $country)
-                <option value="{{ $country->name_fr }}">{{ $country->name_fr }}</option>
-                @endforeach
-            </select>
+        <div id="shippingAdresse">
+            <div id="toggleShipping" onclick="toggleShipping()">
+                <div id="onOffShipping"></div>
+            </div>
 
-            <x-input id="address" class="auth_input" type="text" name="address" :value="old('address')" required autocomplete="on" placeholder="Adresse*" />
-
-            <x-input id="addressComment" class="auth_input" type="text" name="addressComment" :value="old('addressComment')" autocomplete="on" placeholder="Complément d'adresse (facultatif)" />
+            <h4 onclick="toggleShipping()">Livrer à une adresse différente</h4>
         </div>
 
-        <!-- Cp & Ville -->
-        <div class="register_block_cp_city">
-            <x-input id="cp" class="auth_input" type="text" name="cp" :value="old('cp')" autocomplete="on" required placeholder="Code postal*" />
 
-            <x-input id="city" class="auth_input" type="text" name="city" :value="old('city')" autocomplete="on" required placeholder="Ville*" />
-        </div>
+        <script>
+            function toggleShipping() {
+                var onOffShipping = document.getElementById('onOffShipping');
+                var block_register_2 = document.getElementById('block_register_2');
 
-        <!-- Email Address -->
-        <x-input id="email" class="auth_input" type="email" name="email" :value="old('email')" autocomplete="on" required placeholder="Email*" />
-
-        <!-- phone -->
-        <x-input id="phone" class="auth_input" type="phone" name="phone" :value="old('ciphoney')" autocomplete="on" required placeholder="Téléphone (facultatif)" />
-
-        <!-- Password -->
-        <x-input id="password" class="auth_input" type="password" name="password" required autocomplete="new-password" placeholder="Mot de passe* (min 8 caractères)" />
-
-        <!-- Confirm Password -->
-        <x-input id="password_confirmation" class="auth_input" type="password" name="password_confirmation" autocomplete="on" required placeholder="Confirmer mot de passe*" />
-    </div>
-
-    <div id="shippingAdresse">
-        <div id="toggleShipping" onclick="toggleShipping()">
-            <div id="onOffShipping"></div>
-        </div>
-
-        <h4 onclick="toggleShipping()">Livrer à une adresse différente</h4>
-    </div>
-
-
-    <script>
-        function toggleShipping() {
-            var onOffShipping = document.getElementById('onOffShipping');
-            var block_register_2 = document.getElementById('block_register_2');
-
-            if (onOffShipping.style.marginLeft === '28px') {
-                onOffShipping.style.marginLeft = '2px';
-                block_register_2.style.display = 'none';
-            } else {
-                onOffShipping.style.marginLeft = '28px';
-                block_register_2.style.display = 'block';
+                if (onOffShipping.style.marginLeft === '28px') {
+                    onOffShipping.style.marginLeft = '2px';
+                    block_register_2.style.display = 'none';
+                } else {
+                    onOffShipping.style.marginLeft = '28px';
+                    block_register_2.style.display = 'block';
+                }
             }
-        }
-    </script>
+        </script>
 
-    <div id="block_register_2">
-        <!-- Adresse -->
-        <div class="register_block_adresse">
-            <select name="countryShip" id="countryShip" :value="old('countryShip')" class="auth_input classic" autocomplete="on">
-                <option value="" disabled selected>Pays*</option>
-                <option value="France">France</option>
-                <option value="Belgique">Belgique</option>
-                <option value="Suisse">Suisse</option>
-                <option value="Canada">Canada</option>
-                <option value="---" disabled>---</option>
-                @foreach($countries as $country)
-                <option value="{{ $country->name_fr }}">{{ $country->name_fr }}</option>
-                @endforeach
-            </select>
+        <div id="block_register_2">
+            <!-- Adresse -->
+            <div class="register_block_adresse w-full bg-red-50">
+                <select name="countryShip" id="countryShip" :value="old('countryShip')" class="auth_input classic" autocomplete="on">
+                    <option value="" disabled selected>Pays*</option>
+                    <option value="France">France</option>
+                    <option value="Belgique">Belgique</option>
+                    <option value="Suisse">Suisse</option>
+                    <option value="Canada">Canada</option>
+                    <option value="---" disabled>---</option>
+                    @foreach($countries as $country)
+                    <option value="{{ $country->name }}">{{ $country->name }}</option>
+                    @endforeach
+                </select>
 
-            <x-input id="addressShip" class="auth_input" type="text" name="addressShip" :value="old('addressShip')" autocomplete="on" placeholder="Adresse de livraison*" />
+                <x-input id="addressShip" class="auth_input" type="text" name="addressShip" :value="old('addressShip')" autocomplete="on" placeholder="Adresse de livraison*" />
 
-            <x-input id="addressCommentShip" class="auth_input" type="text" name="addressCommentShip" :value="old('addressCommentShip')" autocomplete="on" placeholder="Complément d'adresse de livraison (facultatif)" />
+                <x-input id="addressCommentShip" class="auth_input" type="text" name="addressCommentShip" :value="old('addressCommentShip')" autocomplete="on" placeholder="Complément d'adresse de livraison (facultatif)" />
+            </div>
+
+            <!-- Cp & Ville -->
+            <div class="register_block_cp_city">
+                <x-input id="cpShip" class="auth_input" type="text" name="cpShip" :value="old('cpShip')" autocomplete="on" placeholder="Code postal*" />
+
+                <x-input id="cityShip" class="auth_input" type="text" name="cityShip" :value="old('cityShip')" autocomplete="on" placeholder="Ville*" />
+            </div>
         </div>
 
-        <!-- Cp & Ville -->
-        <div class="register_block_cp_city">
-            <x-input id="cpShip" class="auth_input" type="text" name="cpShip" :value="old('cpShip')" autocomplete="on" placeholder="Code postal*" />
-
-            <x-input id="cityShip" class="auth_input" type="text" name="cityShip" :value="old('cityShip')" autocomplete="on" placeholder="Ville*" />
+        <div class="rgpd">
+            <input type="checkbox" id="rgpd" name="rgpd" :value="old('rgpd')" value="agreed">
+            <label for="rgpd" id="label_rgpd"> En créant mon compte, je certifie avoir 15 ans ou plus, et avoir pris connaissance de <a href="{{ route('cu') }}">notre Politique de données personnelles*</a></label>
         </div>
-    </div>
-
-    <div class="rgpd">
-        <input type="checkbox" id="rgpd" name="rgpd" :value="old('rgpd')" value="agreed">
-        <label for="rgpd" id="label_rgpd"> En créant mon compte, je certifie avoir 15 ans ou plus, et avoir pris connaissance de <a href="{{ route('cu') }}">notre Politique de données personnelles*</a></label>
-    </div>
 
 
-    <div class="auth_footer">
-        <a href="{{ route('login') }}">
-            Déjà inscrit
-        </a>
+        <div class="auth_footer">
+            <a href="{{ route('login') }}">
+                Déjà inscrit
+            </a>
 
 
-        <x-button data-action='submit' id="authRegisterSubmit">
-            M'inscrire
-        </x-button>
-    </div>
+            <x-button data-action='submit' id="authRegisterSubmit">
+                M'inscrire
+            </x-button>
+        </div>
 
-</form>
+    </form>
+</div>
 @endsection

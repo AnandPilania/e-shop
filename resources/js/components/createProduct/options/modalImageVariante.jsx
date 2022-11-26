@@ -84,7 +84,7 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
         var tmp_Data = new FormData;
         tmp_Data.append('files[]', file);
         tmp_Data.append('productId', IdProduct);
-        Axios.post(`http://127.0.0.1:8000/storeTmpImages`, tmp_Data,
+        Axios.post(`/storeTmpImages`, tmp_Data,
             { headers: { 'Content-Type': 'multipart/form-data' } })
             .then((res) => {
                 if (res.data.length > 0) {
@@ -105,7 +105,7 @@ const ModalImageVariante = ({ handleConfirm, handleModalCancel, show, imageVaria
         tmp_Data.append('key', 'tmp');
         tmp_Data.append('countFile', countFile);
 
-        Axios.post(`http://127.0.0.1:8000/deleteModalImageHasBeenCanceled`, tmp_Data)
+        Axios.post(`/deleteModalImageHasBeenCanceled`, tmp_Data)
             .then((res) => {
                 setCountFile(0);
                 if (res.data.length > 0) {
