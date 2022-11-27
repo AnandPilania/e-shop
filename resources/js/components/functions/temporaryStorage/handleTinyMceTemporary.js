@@ -22,7 +22,7 @@ export function handleTinyMceTemporary(htmlContent, id, sender) {
     tinySrcList.append('id', id);
     tinySrcList.append('sender', sender); // <-- pour savoir qui envoie collection ou product
 
-    Axios.post(`http://127.0.0.1:8000/handleTinyMceTemporaryElements`, tinySrcList,
+    Axios.post(`/handleTinyMceTemporaryElements`, tinySrcList,
         {
             headers: {
                 'Content-Type': 'multipart/form-data'

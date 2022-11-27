@@ -1,46 +1,49 @@
-<nav class="w-full h-auto">
-	<ul class="w-full h-28 px-32 flex flex-row justify-end items-center text-lg text-white bg-indigo-700" id="nav-frontend">
+<nav class="w-full h-auto flex flex-row justify-start items-center bg-indigo-700">
+
+	<ul class="w-full h-28 px-32 flex flex-row justify-center items-center text-lg text-gray-200 border-2 border-green-500" id="nav-frontend">
 		@foreach ($categories as $category)
-			<li class="menu-deroulant"><a class="font-Comfortaa" href="/{{$category->name}}">{{$category->name}}</a>
-			</li>
-
-			<ul class="sous-menu">
-				<div class="sous-menu-align">
-					@foreach ($category->collections as $collection)
-					<li><a class="font-Comfortaa" href="/{{$collection->name}}">{{$collection->name}}</a>
-					</li>
-					@endforeach
-				</div>
+		<li class="categoryNav27112022 w-auto px-3 flex flex-row justify-start items-start"
+		>
+			<a class="w-auto" href="/{{$category->name}}">
+				{{$category->name}}
+			</a>
+		</li>
+		<ul class="dropedMenu27112022 w-full invisible h-96 text-gray-600 text-lg  bg-red-200 border border-gray-200">
+				@foreach ($category->collections as $collection)
+				<li class="px-2 text-white">
+					<a href="/{{$collection->name}}">
+						{{$collection->name}}
+					</a>
+				</li>
+				@endforeach
 			</ul>
-			@endforeach
-
-		<a href="/" class='flex flex-row justify-start items-center mr-auto'>
-			<span class='text-[24px] text-teal-400 font-semibold font-Comfortaa'>
-				my
-			</span>
-			<span class='text-[24px] text-white font-semibold font-Comfortaa'>
-				easy
-			</span>
-			<span class='text-[24px] text-teal-400 font-semibold font-Comfortaa'>
-				boutique
-			</span>
+		@endforeach
+		<a href="/" class='text-lg text-white'>
+			H
 		</a>
-
-
-
-		<li class="mr-10 hover:scale-105 transition ease-in-out duration-75"><a class="font-Comfortaa" href="/">Accueil</a></li>
-		<li class="mr-10 hover:scale-105 transition ease-in-out duration-75"><a class="font-Comfortaa" href="/admin">Admin</a></li>
-		<li class="mr-10 hover:scale-105 transition ease-in-out duration-75"><a class="font-Comfortaa" href="/website">Siteeee</a></li>
-		@if (!auth()->user())
-		<li class="mr-10 hover:scale-105 transition ease-in-out duration-75"><a class="font-Comfortaa" href="/login">Login</a></li>
-		@endif
-		@if (auth()->user())
-		<li class="mr-10 hover:scale-105 transition ease-in-out duration-75"><a class="font-Comfortaa" href="/logout">Logout</a></li>
-		@endif
-		<li class="mr-10 hover:scale-105 transition ease-in-out duration-75"><a class="font-Comfortaa" href="/">Aide</a></li>
-		<li class="mr-10 hover:scale-105 transition ease-in-out duration-75"><a class="font-Comfortaa" href="/panier">Cart</a></li>
-		@if (auth()->user())
-		<li>{{ auth()->user()->first_name }}</li>
-		@endif
 	</ul>
 </nav>
+
+<script>
+  let itemsMenu = document.getElementsByClassName("categoryNav27112022");
+  let subMenu = document.getElementsByClassName("dropedMenu27112022");
+
+for (let i = 0; i < itemsMenu.length; i++) {
+	itemsMenu[i].addEventListener("mouseover", function() {
+	subMenu[i].classList.remove("invisible");
+	subMenu[i].classList.add("visible");
+  });
+}
+
+for (let i = 0; i < itemsMenu.length; i++) {
+	itemsMenu[i].addEventListener("mouseleave", function() {
+	subMenu[i].classList.remove("visible");
+	subMenu[i].classList.add("invisible");
+  });
+}
+ 
+
+ 
+
+
+</script>

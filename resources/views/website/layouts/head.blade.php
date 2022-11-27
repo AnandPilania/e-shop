@@ -18,9 +18,12 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/css/payment.css') }}" />
 
     <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}" />
+
+    <!-- @vite(['resources/view/website/js/dropMenunNav.js']) -->
 </head>
 
 <body class="goto-here">
 
     @include('website.layouts.nav')
     @yield('content')
+    @stack('page-scripts')

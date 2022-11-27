@@ -100,12 +100,14 @@ class CollectionController extends Controller
     public function storeAndAssign(Request $request)
     {
         // check si on edit ou crée une collection
-        if ($request->id !== null && $request->id !== 'undefined') {
+        if ($request->id !== "null" && $request->id !== 'undefined') {
             // if collection is edited
-            $collection = Collection::find($request->id);
-            // delete previous image collection and thumbnail - see above
-            $imageToDelete = public_path('/') . $collection->image;
-            $thumbNailToDelete = public_path('/') . $collection->thumbnail;
+            if (Collection::find($request->id)->exists()) {
+                $collection = Collection::find($request->id);
+                // delete previous image collection and thumbnail - see above
+                $imageToDelete = public_path('/') . $collection->image;
+                $thumbNailToDelete = public_path('/') . $collection->thumbnail;
+            }
         } else {
             $collection = new Collection;
         }

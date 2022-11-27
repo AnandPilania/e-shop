@@ -353,7 +353,7 @@ const List = () => {
                     {/* created at */}
                     {screenSize > 1149 &&
                         <div className='w-full h-12 flex flex-row justify-start items-center pl-2 xl:pl-0'>
-                            <span className='cursor-pointer shrink-0 font-medium' onClick={() => sortList('created_at')}>Crée le</span>
+                            <span className='cursor-pointer shrink-0 font-medium' onClick={() => sortList('created_at')}>Ajouté le</span>
                             <figure className='h-6 w-6 ml-1.5 cursor-pointer shrink-0' onClick={() => sortList('created_at')}>
                                 <img src={window.location.origin + '/images/icons/' + imgSort.imgDate} className="h-6 w-6" />
                             </figure>

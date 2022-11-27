@@ -13,7 +13,7 @@ export function saveInTemporaryStorage(key, value, blobImageName) {
     }
 
 
-    let response = Axios.post(`http://127.0.0.1:8000/temporaryStoreImages`, tmp_Data,
+    let response = Axios.post(`/temporaryStoreImages`, tmp_Data,
         {
             headers: {
                 'Content-Type': 'multipart/form-data'

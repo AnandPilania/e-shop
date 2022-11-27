@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('rgpd')->nullable();
-            $table->enum('role', ['admin', 'manager', 'guest'])->nullable();
+            $table->enum('role', ['admin', 'guest'])->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
