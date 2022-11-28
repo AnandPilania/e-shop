@@ -41,11 +41,6 @@ const MainNav = () => {
                 <span
                     className='text-[24px] text-teal-700 font-semibold'
                 >
-                    my
-                </span>
-                <span
-                    className='text-[24px] text-teal-700 font-semibold'
-                >
                     easy
                 </span>
                 <span

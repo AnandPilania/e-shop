@@ -27,6 +27,7 @@
     "dependencies": {
         "@tinymce/tinymce-react": "^3.13.0",
         "axios-progress-bar": "^1.2.0",
+        "grapesjs": "^0.20.1",
         "html-react-parser": "^1.4.10",
         "moment": "^2.29.4",
         "npm-check-updates": "^16.3.3",

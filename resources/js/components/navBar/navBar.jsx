@@ -60,7 +60,7 @@ const Navbar = () => {
           <div className="w-full py-1">
             <span className="block visited:text-white hover:text-white text-base text-white cursor-pointer" onClick={() => navigateTo("/listProduct")}>Tous les produits</span>
             <span className="block visited:text-white hover:text-white text-base text-white cursor-pointer" onClick={() => navigateTo("/addProduct")}>Ajouter un produit</span>
-            <span className="block visited:text-white hover:text-white text-base text-white cursor-pointer" onClick={() => navigateTo("/collections-list")}>Collections</span>
+            <span className="block visited:text-white hover:text-white text-base text-white cursor-pointer" onClick={() => navigateTo("/collections-list")}>Collections</span>            
           </div>}
         <div className="w-full py-1 text-base text-white cursor-pointer"
           onClick={() => handleMenu("parameters")}
@@ -72,6 +72,7 @@ const Navbar = () => {
             <span className="block visited:text-white hover:text-white text-base text-white cursor-pointer" onClick={() => navigateTo("/settings")}>Paramètres</span>
             <span className="block visited:text-white hover:text-white text-base text-white cursor-pointer" onClick={() => navigateTo("/cropImage")}>Crop</span>
           </div>}
+          <span className="block visited:text-white hover:text-white text-base text-white cursor-pointer" onClick={() => navigateTo("/pagesBuilder")}>PagesBuilder</span>
       </>
     </nav>
   );

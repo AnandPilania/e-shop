@@ -2,10 +2,7 @@
 	<ul class="w-full h-28 px-32 flex flex-row justify-end items-center text-lg text-white bg-indigo-700" id="nav-frontend">
 
 		<a href="/" class='flex flex-row justify-start items-center mr-auto'>
-			<span class='text-[24px] text-teal-400 font-semibold font-Comfortaa'>
-				my
-			</span>
-			<span class='text-[24px] text-white font-semibold font-Comfortaa'>
+		<span class='text-[24px] text-white font-semibold font-Comfortaa'>
 				easy
 			</span>
 			<span class='text-[24px] text-teal-400 font-semibold font-Comfortaa'>
