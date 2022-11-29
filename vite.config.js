@@ -5,6 +5,7 @@ export default defineConfig({
     plugins: [
         laravel([
             'resources/js/backEnd.js',
+            'resources/js/app.jsx',
         ]),
     ],
     optimizeDeps: {

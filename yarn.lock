@@ -2445,6 +2445,11 @@
   "resolved" "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.10.tgz"
   "version" "4.2.10"
 
+"grapesjs-preset-webpage@^1.0.2":
+  "integrity" "sha512-5sCBqYZ6zAXdE6Qbn0VxPkEGCrs32pZ7JP+okbxioo+7br1Yp/NMzlBs8+WB13vgVre3CCI+gjzpkJ4xIPcmXg=="
+  "resolved" "https://registry.npmjs.org/grapesjs-preset-webpage/-/grapesjs-preset-webpage-1.0.2.tgz"
+  "version" "1.0.2"
+
 "grapesjs@^0.20.1":
   "integrity" "sha512-uUMsgu6z7uUYHQdc9YEAvktTbfUc9WmxfhJHH54Qcwb3KheYsV/HUB6VhjeCU0mvY+gahTR5boS2iX5APHh0ng=="
   "resolved" "https://registry.npmjs.org/grapesjs/-/grapesjs-0.20.1.tgz"
