@@ -41,12 +41,12 @@ const MainNav = () => {
                 <span
                     className='text-[24px] text-teal-700 font-semibold'
                 >
-                    easy
+                    Ready
                 </span>
                 <span
                     className='text-[24px] text-indigo-700 font-semibold'
                 >
-                    boutique
+                    Shop.io
                 </span>
             </div>
 

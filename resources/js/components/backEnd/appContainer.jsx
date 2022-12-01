@@ -15,6 +15,7 @@ import Settings from '../settings/settings';
 import { getIsDocumentHidden } from '../functions/visibilityChange.js';
 import { v4 as uuidv4 } from 'uuid';
 import WebBuilder from '../grapesjs/WebBuilder';
+import PagesBuilder from '../grapesjs/pagesBuilder';
 
 
 const Appcontainer = () => {
@@ -900,7 +901,8 @@ const Appcontainer = () => {
                         <Route path="/collections-list" element={<ListCollections />} />
                         <Route path="/add-collection" element={<WrapperCreateCollectionCroppeImage />} />
                         <Route path="/settings" element={<Settings />} />
-                        <Route path="/pagesBuilder" element={<WebBuilder />} />
+                        <Route path="/pagesBuilder" element={<PagesBuilder />} />
+                        <Route path="/webBuilder" element={<WebBuilder />} />
                         {/* <Route path="/cropImage" element={<CroppeImage />} /> */}
                         <Route
                             path="*"

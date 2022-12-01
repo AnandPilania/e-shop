@@ -73,6 +73,7 @@ const Navbar = () => {
             <span className="block visited:text-white hover:text-white text-base text-white cursor-pointer" onClick={() => navigateTo("/cropImage")}>Crop</span>
           </div>}
           <span className="block visited:text-white hover:text-white text-base text-white cursor-pointer" onClick={() => navigateTo("/pagesBuilder")}>PagesBuilder</span>
+          <span className="block visited:text-white hover:text-white text-base text-white cursor-pointer" onClick={() => navigateTo("/webBuilder")}>WebBuilder</span>
       </>
     </nav>
   );
